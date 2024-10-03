@@ -16,34 +16,37 @@ def extract_dependencies(exclude_nodes=[]):
     dependencies = {}
     debug_print("Extracting dependencies from YAML files...")
 
-    # Get the directory of the current script
+    # Define a mapping of specific filenames to component names
+    component_name_mapping = {
+        'HIP.yml': 'clr',  # Remap HIP.yml to clr in graph
+    }
+
     script_directory = os.path.dirname(os.path.abspath(__file__))
-    yaml_directory = os.path.join(script_directory, '..', 'components')  # Adjust based on your structure
+    yaml_directory = os.path.join(script_directory, '..', 'components')
 
     for filename in os.listdir(yaml_directory):
         if filename.endswith(".yaml") or filename.endswith(".yml"):
             debug_print(f"Processing file: {filename}")
-            with open(os.path.join(yaml_directory, filename), 'r') as file:
-                data = yaml.safe_load(file)
-                parameters = data.get('parameters', [])
+            try:
+                with open(os.path.join(yaml_directory, filename), 'r') as file:
+                    data = yaml.safe_load(file) or {}
+                    parameters = data.get('parameters', [])
 
-                # Find rocmDependencies within parameters
-                rocm_dependencies = next((param['default'] for param in parameters if param['name'] == 'rocmDependencies'), [])
-                test_dependencies = next((param['default'] for param in parameters if param['name'] == 'rocmTestDependencies'), [])
+                    # Check for both 'rocmDependencies' and 'rocmDependenciesAMD'
+                    rocm_dependencies = next((param['default'] for param in parameters if param['name'] == 'rocmDependencies' or param['name'] == 'rocmDependenciesAMD'), [])
+                    test_dependencies = next((param['default'] for param in parameters if param['name'] == 'rocmTestDependencies'), [])
 
-                # Combine and remove duplicates using set
-                unique_dependencies = list(set(rocm_dependencies + test_dependencies))
+                    unique_dependencies = list(set(rocm_dependencies + test_dependencies))
+                    unique_dependencies = [dep for dep in unique_dependencies if dep not in exclude_nodes]
 
-                # Exclude specified nodes
-                unique_dependencies = [dep for dep in unique_dependencies if dep not in exclude_nodes]
-
-                # Store dependencies with filename without extension
-                name_without_ext = os.path.splitext(filename)[0]
-                dependencies[name_without_ext] = {
-                    'dependencies': unique_dependencies
-                }
-
-                debug_print(f"Found unique dependencies: {unique_dependencies}")
+                    # Use the mapped component name if it exists
+                    component_name = component_name_mapping.get(filename, os.path.splitext(filename)[0])
+                    dependencies[component_name] = {
+                        'dependencies': unique_dependencies
+                    }
+                    debug_print(f"Found unique dependencies for {component_name}: {unique_dependencies}")
+            except Exception as e:
+                print(f"Error processing {filename}: {e}")
 
     return dependencies
 
