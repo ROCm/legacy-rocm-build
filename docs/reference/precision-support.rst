@@ -55,7 +55,7 @@ The floating-point types supported by ROCm are listed in the following table.
 
 .. list-table::
     :header-rows: 1
-    :widths: 15,15,70
+    :widths: 15,25,60
 
     *
       - Type name
@@ -63,18 +63,19 @@ The floating-point types supported by ROCm are listed in the following table.
       - Description
     *
       - float8 (E4M3)
-      - ``__hip_fp8_e4m3_fnuz``
-      - An 8-bit floating-point number that mostly follows IEEE-754 conventions
-        and **S1E4M3** bit layout, as described in `8-bit Numerical Formats for Deep Neural Networks <https://arxiv.org/abs/2206.02915>`_,
-        with expanded range and no infinity or signed zero. NaN is represented
-        as negative zero.
+      - | ``__hip_fp8_e4m3_fnuz``,
+        | ``__hip_fp8_e4m3``
+      - An 8-bit floating-point number with **S1E4M3** bit layout, as described in :doc:`low precision floating point types page <hip:reference/low_fp_types>`.
+        The FNUZ variant has expanded range with no infinity or signed zero (NaN represented as negative zero),
+        while the OCP variant follows the Open Compute Project specification.
     *
       - float8 (E5M2)
-      - ``__hip_fp8_e5m2_fnuz``
-      - An 8-bit floating-point number mostly following IEEE-754 conventions and
-        **S1E5M2** bit layout, as described in `8-bit Numerical Formats for Deep Neural Networks <https://arxiv.org/abs/2206.02915>`_,
-        with expanded range and no infinity or signed zero. NaN is represented
-        as negative zero.
+      - | ``__hip_fp8_e5m2_fnuz``,
+        | ``__hip_fp8_e5m2``
+      - An 8-bit floating-point number with **S1E5M2** bit layout, as described in :doc:`low precision floating point types page <hip:reference/low_fp_types>`.
+        The FNUZ variant has expanded range with no infinity or signed zero (NaN represented as negative zero),
+        while the OCP variant follows the Open Compute Project specification.
+
     *
       - float16
       - ``half``
@@ -107,9 +108,8 @@ The floating-point types supported by ROCm are listed in the following table.
   * The float8 and tensorfloat32 types are internal types used in calculations
     in Matrix Cores and can be stored in any type of the same size.
 
-  * The encodings for FP8 (E5M2) and FP8 (E4M3) that the
-    MI300 series natively supports differ from the FP8 (E5M2) and FP8 (E4M3)
-    encodings used in NVIDIA H100
+  * CNDA3 natively supports FP8 FNUZ (E4M3 and E5M2), which differs from the customised
+    FP8 format used in NVIDIA's H100
     (`FP8 Formats for Deep Learning <https://arxiv.org/abs/2209.05433>`_).
 
   * In some AMD documents and articles, float8 (E5M2) is referred to as bfloat8.
@@ -128,7 +128,7 @@ pages.
     :header-rows: 1
 
     *
-      -  Icon
+      - Icon
       - Definition
 
     *
@@ -163,12 +163,137 @@ pages.
   * Any type can be emulated by software, but this page does not cover such
     cases.
 
-Data type support by Hardware Architecture
+Data type support by hardware architecture
 ==========================================
 
-The MI200 series GPUs, which include MI210, MI250, and MI250X, are based on the
-CDNA2 architecture. The MI300 series GPUs, consisting of MI300A, MI300X, and
-MI325X, are based on the CDNA3 architecture.
+AMD's GPU lineup spans multiple architecture generations:
+
+* CDNA1 architecture: includes models such as MI100
+* CDNA2 architecture: includes models such as MI210, MI250, and MI250X
+* CDNA3 architecture: includes models such as MI300A, MI300X, and MI325X
+* RDNA3 architecture: includes models such as RX 7900XT and RX 7900XTX
+* RDNA4 architecture: includes models such as RX 9070 and RX 9070XT
+
+HIP C++ type implementation support
+-----------------------------------
+
+The HIP C++ types available on different hardware platforms are listed in the
+following table.
+
+.. list-table::
+    :header-rows: 1
+
+    *
+      - HIP C++ Type
+      - CDNA1
+      - CDNA2
+      - CDNA3
+      - RDNA3
+      - RDNA4
+
+    *
+      - ``int8_t``, ``uint8_t``
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+
+    *
+      - ``int16_t``, ``uint16_t``
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+
+    *
+      - ``int32_t``, ``uint32_t``
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+
+    *
+      - ``int64_t``, ``uint64_t``
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+
+    *
+      - ``__hip_fp8_e4m3_fnuz``
+      - ❌
+      - ❌
+      - ✅
+      - ❌
+      - ❌
+
+    *
+      - ``__hip_fp8_e5m2_fnuz``
+      - ❌
+      - ❌
+      - ✅
+      - ❌
+      - ❌
+
+    *
+      - ``__hip_fp8_e4m3``
+      - ❌
+      - ❌
+      - ❌
+      - ❌
+      - ✅
+
+    *
+      - ``__hip_fp8_e5m2``
+      - ❌
+      - ❌
+      - ❌
+      - ❌
+      - ✅
+
+    *
+      - ``half``
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+
+    *
+      - ``bfloat16``
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+
+    *
+      - ``float``
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+
+    *
+      - ``double``
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+      - ✅
+
+.. note::
+
+  Library support for specific data types is contingent upon hardware support.
+  Even if a ROCm library indicates support for a particular data type, that type
+  will only be fully functional if the underlying hardware architecture (as shown
+  in the table above) also supports it. For example, fp8 types are only available
+  on architectures shown with a checkmark in the relevant rows.
 
 Compute units support
 ---------------------
@@ -190,19 +315,33 @@ The following table lists data type support for compute units.
         - int32
         - int64
       *
-        - MI100
+        - CDNA1
         - ✅
         - ✅
         - ✅
         - ✅
       *
-        - MI200 series
+        - CDNA2
         - ✅
         - ✅
         - ✅
         - ✅
       *
-        - MI300 series
+        - CDNA3
+        - ✅
+        - ✅
+        - ✅
+        - ✅
+
+      *
+        - RDNA3
+        - ✅
+        - ✅
+        - ✅
+        - ✅
+
+      *
+        - RDNA4
         - ✅
         - ✅
         - ✅
@@ -224,7 +363,7 @@ The following table lists data type support for compute units.
         - float32
         - float64
       *
-        - MI100
+        - CDNA1
         - ❌
         - ❌
         - ✅
@@ -233,7 +372,7 @@ The following table lists data type support for compute units.
         - ✅
         - ✅
       *
-        - MI200 series
+        - CDNA2
         - ❌
         - ❌
         - ✅
@@ -242,7 +381,27 @@ The following table lists data type support for compute units.
         - ✅
         - ✅
       *
-        - MI300 series
+        - CDNA3
+        - ❌
+        - ❌
+        - ✅
+        - ✅
+        - ❌
+        - ✅
+        - ✅
+
+      *
+        - RDNA3
+        - ❌
+        - ❌
+        - ✅
+        - ✅
+        - ❌
+        - ✅
+        - ✅
+
+      *
+        - RDNA4
         - ❌
         - ❌
         - ✅
@@ -271,19 +430,33 @@ The following table lists data type support for AMD GPU matrix cores.
         - int32
         - int64
       *
-        - MI100
+        - CDNA1
         - ✅
         - ❌
         - ❌
         - ❌
       *
-        - MI200 series
+        - CDNA2
         - ✅
         - ❌
         - ❌
         - ❌
       *
-        - MI300 series
+        - CDNA3
+        - ✅
+        - ❌
+        - ❌
+        - ❌
+
+      *
+        - RDNA3
+        - ✅
+        - ❌
+        - ❌
+        - ❌
+
+      *
+        - RDNA4
         - ✅
         - ❌
         - ❌
@@ -305,7 +478,7 @@ The following table lists data type support for AMD GPU matrix cores.
         - float32
         - float64
       *
-        - MI100
+        - CDNA1
         - ❌
         - ❌
         - ✅
@@ -314,7 +487,7 @@ The following table lists data type support for AMD GPU matrix cores.
         - ✅
         - ❌
       *
-        - MI200 series
+        - CDNA2
         - ❌
         - ❌
         - ✅
@@ -323,7 +496,7 @@ The following table lists data type support for AMD GPU matrix cores.
         - ✅
         - ✅
       *
-        - MI300 series
+        - CDNA3
         - ✅
         - ✅
         - ✅
@@ -331,6 +504,26 @@ The following table lists data type support for AMD GPU matrix cores.
         - ✅
         - ✅
         - ✅
+
+      *
+        - RDNA3
+        - ❌
+        - ❌
+        - ✅
+        - ✅
+        - ❌
+        - ❌
+        - ❌
+
+      *
+        - RDNA4
+        - ✅
+        - ✅
+        - ✅
+        - ✅
+        - ❌
+        - ❌
+        - ❌
 
 Atomic operations support
 -------------------------
@@ -357,19 +550,33 @@ page.
         - int32
         - int64
       *
-        - MI100
+        - CDNA1
         - ❌
         - ❌
         - ✅
         - ✅
       *
-        - MI200 series
+        - CDNA2
         - ❌
         - ❌
         - ✅
         - ✅
       *
-        - MI300 series
+        - CDNA3
+        - ❌
+        - ❌
+        - ✅
+        - ✅
+
+      *
+        - RDNA3
+        - ❌
+        - ❌
+        - ✅
+        - ✅
+
+      *
+        - RDNA4
         - ❌
         - ❌
         - ✅
@@ -391,7 +598,7 @@ page.
         - float32
         - float64
       *
-        - MI100
+        - CDNA1
         - ❌
         - ❌
         - ✅
@@ -400,7 +607,7 @@ page.
         - ✅
         - ❌
       *
-        - MI200 series
+        - CDNA2
         - ❌
         - ❌
         - ✅
@@ -409,7 +616,7 @@ page.
         - ✅
         - ✅
       *
-        - MI300 series
+        - CDNA3
         - ❌
         - ❌
         - ✅
@@ -417,6 +624,26 @@ page.
         - ❌
         - ✅
         - ✅
+
+      *
+        - RDNA3
+        - ❌
+        - ❌
+        - ❌
+        - ❌
+        - ❌
+        - ✅
+        - ❌
+
+      *
+        - RDNA4
+        - ❌
+        - ❌
+        - ✅
+        - ✅
+        - ❌
+        - ✅
+        - ❌
 
 .. note::
 
@@ -452,42 +679,112 @@ detailed description.
         - int16
         - int32
         - int64
+
       *
-        - :doc:`hipSPARSELt <hipsparselt:reference/data-type-support>`
+        - :doc:`Composable Kernel <composable_kernel:reference/Composable_Kernel_supported_scalar_types>`
         - ✅/✅
         - ❌/❌
+        - ✅/✅
         - ❌/❌
-        - ❌/❌
-      *
-        - :doc:`rocRAND <rocrand:api-reference/data-type-support>`
-        - NA/✅
-        - NA/✅
-        - NA/✅
-        - NA/✅
-      *
-        - :doc:`hipRAND <hiprand:api-reference/data-type-support>`
-        - NA/✅
-        - NA/✅
-        - NA/✅
-        - NA/✅
-      *
-        -  :doc:`rocPRIM <rocprim:reference/data-type-support>`
-        - ✅/✅
-        - ✅/✅
-        - ✅/✅
-        - ✅/✅
+
       *
         - :doc:`hipCUB <hipcub:api-reference/data-type-support>`
         - ✅/✅
         - ✅/✅
         - ✅/✅
         - ✅/✅
+
+      *
+        - :doc:`hipRAND <hiprand:api-reference/data-type-support>`
+        - NA/✅
+        - NA/✅
+        - NA/✅
+        - NA/✅
+
+      *
+        - :doc:`hipSOLVER <hipsolver:reference/precision>`
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+
+      *
+        - :doc:`hipSPARSELt <hipsparselt:reference/data-type-support>`
+        - ✅/✅
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+
+      *
+        - :doc:`hipTensor <hiptensor:api-reference/api-reference>`
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+
+      *
+        - :doc:`MIGraphX <amdmigraphx:reference/cpp>`
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+
+      *
+        - :doc:`MIOpen <miopen:reference/datatypes>`
+        - ⚠️/⚠️
+        - ❌/❌
+        - ⚠️/⚠️
+        - ❌/❌
+
+      *
+        - :doc:`RCCL <rccl:api-reference/library-specification>`
+        - ✅/✅
+        - ❌/❌
+        - ✅/✅
+        - ✅/✅
+
+      *
+        - :doc:`rocFFT <rocfft:reference/api>`
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+
+      *
+        -  :doc:`rocPRIM <rocprim:reference/data-type-support>`
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+
+      *
+        - :doc:`rocRAND <rocrand:api-reference/data-type-support>`
+        - NA/✅
+        - NA/✅
+        - NA/✅
+        - NA/✅
+
+      *
+        - :doc:`rocSOLVER <rocsolver:reference/precision>`
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+
       *
         - :doc:`rocThrust <rocthrust:data-type-support>`
         - ✅/✅
         - ✅/✅
         - ✅/✅
         - ✅/✅
+
+      *
+        - :doc:`rocWMMA <rocwmma:api-reference/api-reference-guide>`
+        - ✅/✅
+        - ❌/❌
+        - ❌/✅
+        - ❌/❌
+
 
   .. tab-item:: Floating-point types
     :sync: floating-point-type
@@ -504,42 +801,17 @@ detailed description.
         - tensorfloat32
         - float32
         - float64
+
       *
-        - :doc:`hipSPARSELt <hipsparselt:reference/data-type-support>`
-        - ❌/❌
-        - ❌/❌
+        - :doc:`Composable Kernel <composable_kernel:reference/Composable_Kernel_supported_scalar_types>`
         - ✅/✅
         - ✅/✅
-        - ❌/❌
-        - ❌/❌
-        - ❌/❌
-      *
-        - :doc:`rocRAND <rocrand:api-reference/data-type-support>`
-        - NA/❌
-        - NA/❌
-        - NA/✅
-        - NA/❌
-        - NA/❌
-        - NA/✅
-        - NA/✅
-      *
-        - :doc:`hipRAND <hiprand:api-reference/data-type-support>`
-        - NA/❌
-        - NA/❌
-        - NA/✅
-        - NA/❌
-        - NA/❌
-        - NA/✅
-        - NA/✅
-      *
-        - :doc:`rocPRIM <rocprim:reference/data-type-support>`
-        - ❌/❌
-        - ❌/❌
         - ✅/✅
         - ✅/✅
         - ❌/❌
         - ✅/✅
         - ✅/✅
+
       *
         - :doc:`hipCUB <hipcub:api-reference/data-type-support>`
         - ❌/❌
@@ -549,6 +821,117 @@ detailed description.
         - ❌/❌
         - ✅/✅
         - ✅/✅
+
+      *
+        - :doc:`hipRAND <hiprand:api-reference/data-type-support>`
+        - NA/❌
+        - NA/❌
+        - NA/✅
+        - NA/❌
+        - NA/❌
+        - NA/✅
+        - NA/✅
+
+      *
+        - :doc:`hipSOLVER <hipsolver:reference/precision>`
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+        - ✅/✅
+        - ✅/✅
+
+      *
+        - :doc:`hipSPARSELt <hipsparselt:reference/data-type-support>`
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+
+      *
+        - :doc:`hipTensor <hiptensor:api-reference/api-reference>`
+        - ❌/❌
+        - ❌/❌
+        - ✅/✅
+        - ✅/✅
+        - ❌/❌
+        - ✅/✅
+        - ✅/✅
+
+      *
+        - :doc:`MIGraphX <amdmigraphx:reference/cpp>`
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+
+      *
+        - :doc:`MIOpen <miopen:reference/datatypes>`
+        - ⚠️/⚠️
+        - ⚠️/⚠️
+        - ✅/✅
+        - ⚠️/⚠️
+        - ❌/❌
+        - ✅/✅
+        - ⚠️/⚠️
+
+      *
+        - :doc:`RCCL <rccl:api-reference/library-specification>`
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ❌/❌
+        - ✅/✅
+        - ✅/✅
+
+      *
+        - :doc:`rocFFT <rocfft:reference/api>`
+        - ❌/❌
+        - ❌/❌
+        - ✅/✅
+        - ❌/❌
+        - ❌/❌
+        - ✅/✅
+        - ✅/✅
+
+      *
+        - :doc:`rocPRIM <rocprim:reference/data-type-support>`
+        - ❌/❌
+        - ❌/❌
+        - ✅/✅
+        - ✅/✅
+        - ❌/❌
+        - ✅/✅
+        - ✅/✅
+
+      *
+        - :doc:`rocRAND <rocrand:api-reference/data-type-support>`
+        - NA/❌
+        - NA/❌
+        - NA/✅
+        - NA/❌
+        - NA/❌
+        - NA/✅
+        - NA/✅
+
+      *
+        - :doc:`rocSOLVER <rocsolver:reference/precision>`
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+        - ❌/❌
+        - ✅/✅
+        - ✅/✅
+
       *
         - :doc:`rocThrust <rocthrust:data-type-support>`
         - ❌/❌
@@ -559,62 +942,123 @@ detailed description.
         - ✅/✅
         - ✅/✅
 
+      *
+        - :doc:`rocWMMA <rocwmma:api-reference/api-reference-guide>`
+        - ✅/❌
+        - ✅/❌
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+        - ✅/✅
+
 .. note::
-   
+
   As random number generation libraries, rocRAND and hipRAND only specify output
   data types for the random values they generate, with no need for input data
   types.
 
-Libraries internal calculations type support
---------------------------------------------
+hipDataType enumeration
+-----------------------
 
-The following tables list ROCm library support for specific internal data types.
-Refer to the corresponding library data type support page for a detailed
-description.
+The ``hipDataType`` enumeration defines data precision types and is primarily
+used when the data reference itself does not include type information, such as
+in ``void*`` pointers. This enumeration is mainly utilized in BLAS libraries.
+The HIP type equivalents of the ``hipDataType`` enumeration are listed in the
+following table with descriptions and values.
 
-.. tab-set::
+.. list-table::
+    :header-rows: 1
+    :widths: 25,25,10,40
 
-  .. tab-item:: Integral types
-    :sync: integral-type
+    *
+      - hipDataType
+      - HIP type
+      - Value
+      - Description
 
-    .. list-table::
-      :header-rows: 1
+    *
+      - ``HIP_R_8I``
+      - ``int8_t``
+      - 3
+      - 8-bit real signed integer.
 
-      *
-        - Library internal data type name
-        - int8
-        - int16
-        - int32
-        - int64
-      *
-        - :doc:`hipSPARSELt <hipsparselt:reference/data-type-support>`
-        - ❌
-        - ❌
-        - ✅
-        - ❌
+    *
+      - ``HIP_R_8U``
+      - ``uint8_t``
+      - 8
+      - 8-bit real unsigned integer.
 
+    *
+      - ``HIP_R_16I``
+      - ``int16_t``
+      - 20
+      - 16-bit real signed integer.
 
-  .. tab-item:: Floating-point types
-    :sync: floating-point-type
+    *
+      - ``HIP_R_16U``
+      - ``uint16_t``
+      - 22
+      - 16-bit real unsigned integer.
 
-    .. list-table::
-      :header-rows: 1
+    *
+      - ``HIP_R_32I``
+      - ``int32_t``
+      - 10
+      - 32-bit real signed integer.
 
-      *
-        - Library internal data type name
-        - float8 (E4M3)
-        - float8 (E5M2)
-        - float16
-        - bfloat16
-        - tensorfloat32
-        - float32
-        - float64
-      *
-        - :doc:`hipSPARSELt <hipsparselt:reference/data-type-support>`
-        - ❌
-        - ❌
-        - ❌
-        - ❌
-        - ❌
-        - ✅
-        - ❌
+    *
+      - ``HIP_R_32U``
+      - ``uint32_t``
+      - 12
+      - 32-bit real unsigned integer.
+
+    *
+      - ``HIP_R_32F``
+      - ``float``
+      - 0
+      - 32-bit real single precision floating-point.
+
+    *
+      - ``HIP_R_64F``
+      - ``double``
+      - 1
+      - 64-bit real double precision floating-point.
+
+    *
+      - ``HIP_R_16F``
+      - ``half``
+      - 2
+      - 16-bit real half precision floating-point.
+
+    *
+      - ``HIP_R_16BF``
+      - ``bfloat16``
+      - 14
+      - 16-bit real bfloat16 precision floating-point.
+
+    *
+      - ``HIP_R_8F_E4M3``
+      - ``__hip_fp8_e4m3``
+      - 28
+      - 8-bit real float8 precision floating-point (OCP version).
+
+    *
+      - ``HIP_R_8F_E5M2``
+      - ``__hip_fp8_e5m2``
+      - 29
+      - 8-bit real bfloat8 precision floating-point (OCP version).
+
+    *
+      - ``HIP_R_8F_E4M3_FNUZ``
+      - ``__hip_fp8_e4m3_fnuz``
+      - 1000
+      - 8-bit real float8 precision floating-point (FNUZ version).
+
+    *
+      - ``HIP_R_8F_E5M2_FNUZ``
+      - ``__hip_fp8_e5m2_fnuz``
+      - 1001
+      - 8-bit real bfloat8 precision floating-point (FNUZ version).
+
+The full list of the ``hipDataType`` enumeration listed in `library_types.h <https://github.com/ROCm/hip/blob/amd-staging/include/hip/library_types.h>`_ .

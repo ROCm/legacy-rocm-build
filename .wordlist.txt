@@ -176,6 +176,7 @@ HBM
 HCA
 HGX
 HIPCC
+hipDataType
 HIPExtension
 HIPIFY
 HIPification
