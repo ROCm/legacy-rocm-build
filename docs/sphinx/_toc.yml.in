@@ -44,6 +44,8 @@ subtrees:
             title: Train a model with Megatron-LM
           - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training
             title: Train a model with PyTorch
+          - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext
+            title: Train a model with JAX MaxText
           - file: how-to/rocm-for-ai/training/scale-model-training.rst
             title: Scale model training
 

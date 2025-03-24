@@ -32,7 +32,7 @@ workloads:
 +--------------------------+--------------------------------+
 | Flash Attention          | 3.0.0                          |
 +--------------------------+--------------------------------+
-| hipBLASLt                | git258a2162                    |
+| hipBLASLt                | `git258a2162`                  |
 +--------------------------+--------------------------------+
 | Triton                   | 3.1                            |
 +--------------------------+--------------------------------+
@@ -179,23 +179,22 @@ Network interface
    .. tab-item:: Llama
       :sync: llama
 
-      To avoid connectivity issues in multi-node deployments, ensure the correct network interface
-      is set in your training scripts.
+      Update the network interface in the script to match your system's network interface. To
+      find your network interface, run the following (outside of any Docker container):
 
-      1. Run the following command (outside the container) to find the active network interface on your system.
+      .. code-block:: bash
 
-         .. code-block:: shell
+         ip a
 
-            ip a
+      Look for an active interface that has an IP address in the same subnet as
+      your other nodes. Then, update the following variables in the script, for
+      example:
 
-      2. Update the ``NCCL_SOCKET_IFNAME`` and ``GLOO_SOCKET_IFNAME`` variables with your system’s network interface. For
-         example:
+      .. code-block:: bash
 
-         .. code-block:: shell
+         export NCCL_SOCKET_IFNAME=ens50f0np0
 
-            export NCCL_SOCKET_IFNAME=ens50f0np0
-
-            export GLOO_SOCKET_IFNAME=ens50f0np0
+         export GLOO_SOCKET_IFNAME=ens50f0np0
 
 Dataset options
 ^^^^^^^^^^^^^^^
