@@ -35,6 +35,7 @@ parameters:
 - name: rocmDependencies
   type: object
   default:
+    - aomp
     - clr
     - llvm-project
     - rccl

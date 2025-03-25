@@ -323,7 +323,7 @@ parameters:
     roctracer:
       pipelineId: $(ROCTRACER_PIPELINE_ID)
       stagingBranch: amd-staging
-      mainlineBranch: amd-master
+      mainlineBranch: amd-mainline
       hasGpuTarget: true
     rocWMMA:
       pipelineId: $(ROCWMMA_PIPELINE_ID)

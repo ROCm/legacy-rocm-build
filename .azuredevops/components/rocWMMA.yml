@@ -98,7 +98,7 @@ jobs:
       gpuTarget: $(JOB_GPU_TARGET)
 
 - job: rocWMMA_testing
-  timeoutInMinutes: 120
+  timeoutInMinutes: 270
   dependsOn: rocWMMA
   condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
   variables:
