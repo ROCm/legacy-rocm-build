@@ -41,6 +41,10 @@ def extract_dependencies(exclude_nodes=[]):
 
                     # Use the mapped component name if it exists
                     component_name = component_name_mapping.get(filename, os.path.splitext(filename)[0])
+
+                    if component_name == 'MIOpen':
+                        unique_dependencies.append('composable_kernel')
+
                     dependencies[component_name] = {
                         'dependencies': unique_dependencies
                     }
