@@ -21,6 +21,7 @@ parameters:
 - name: rocmDependencies
   type: object
   default:
+    - amdsmi
     - clr
     - hipBLAS-common
     - hipBLASLt
@@ -36,6 +37,7 @@ parameters:
 - name: rocmTestDependencies
   type: object
   default:
+    - amdsmi
     - clr
     - hipBLAS-common
     - hipBLASLt
