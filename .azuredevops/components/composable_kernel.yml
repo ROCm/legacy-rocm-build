@@ -27,7 +27,6 @@ parameters:
   type: object
   default:
     - clr
-    - composable_kernel
     - llvm-project
     - rocminfo
     - rocprofiler-register
