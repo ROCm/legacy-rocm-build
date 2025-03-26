@@ -119,7 +119,8 @@ jobs:
         -DCMAKE_BUILD_TYPE=Release
         -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
         -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/rocm/lib
+        -DCMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/lib
         -DROCM_PATH=$(Agent.BuildDirectory)/rocm
         -DAMDGPU_TARGETS=$(JOB_GPU_TARGET)
         -DROCM_TEST_CHIPSET=$(JOB_GPU_TARGET)
