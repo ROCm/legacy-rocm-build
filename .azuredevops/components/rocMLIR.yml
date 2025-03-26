@@ -132,6 +132,7 @@ jobs:
       testDir: $(Build.SourcesDirectory)/build
       testExecutable: ninja
       testParameters: check-rocmlir
+      testPublishResults: false
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
     parameters:
       aptPackages: ${{ parameters.aptPackages }}
