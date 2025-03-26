@@ -101,14 +101,6 @@ subtrees:
     title: System optimization
     subtrees:
     - entries:
-      - file: how-to/system-optimization/mi300x.rst
-        title: AMD Instinct MI300X
-      - file: how-to/system-optimization/mi300a.rst
-        title: AMD Instinct MI300A
-      - file: how-to/system-optimization/mi200.md
-        title: AMD Instinct MI200
-      - file: how-to/system-optimization/mi100.md
-        title: AMD Instinct MI100
       - file: how-to/system-optimization/w6000-v620.md
         title: AMD RDNA 2
   - file: how-to/gpu-performance/mi300x.rst
@@ -164,20 +156,14 @@ subtrees:
             title: AMD Instinct MI100/CDNA1 ISA
           - url: https://www.amd.com/content/dam/amd/en/documents/instinct-business-docs/white-papers/amd-cdna-white-paper.pdf
             title: White paper
-  - file: conceptual/iommu.rst
-    title: Input-Output Memory Management Unit (IOMMU)
   - file: conceptual/file-reorg.md
     title: File structure (Linux FHS)
   - file: conceptual/gpu-isolation.md
     title: GPU isolation techniques
   - file: conceptual/cmake-packages.rst
     title: Using CMake
-  - file: conceptual/pcie-atomics.rst
-    title: PCIe atomics in ROCm
   - file: conceptual/ai-pytorch-inception.md
     title: Inception v3 with PyTorch
-  - file: conceptual/oversubscription.rst
-    title: Oversubscription of hardware resources
 
 - caption: Reference
   entries:
