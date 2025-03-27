@@ -148,12 +148,12 @@ parameters:
     MIOpen:
       pipelineId: $(MIOpen_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: amd-master
       hasGpuTarget: true
     MIVisionX:
       pipelineId: $(MIVISIONX_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: master
       hasGpuTarget: true
     omnitrace: # deprecated
       pipelineId: $(OMNITRACE_PIPELINE_ID)
@@ -173,7 +173,7 @@ parameters:
     rocAL:
       pipelineId: $(ROCAL_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: master
+      mainlineBranch: mainline
       hasGpuTarget: true
     rocALUTION:
       pipelineId: $(ROCALUTION_PIPELINE_ID)
@@ -238,7 +238,7 @@ parameters:
     ROCmValidationSuite:
       pipelineId: $(ROCMVALIDATIONSUITE_PIPELINE_ID)
       stagingBranch: master
-      mainlineBranch: mainline
+      mainlineBranch: master
       hasGpuTarget: true
     rocm_bandwidth_test:
       pipelineId: $(ROCM_BANDWIDTH_TEST_PIPELINE_ID)
