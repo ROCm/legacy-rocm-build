@@ -28,6 +28,7 @@ parameters:
     - hipSPARSE
     - llvm-project
     - rocBLAS
+    - rocm_smi_lib
     - rocminfo
     - rocprofiler-register
     - ROCR-Runtime
