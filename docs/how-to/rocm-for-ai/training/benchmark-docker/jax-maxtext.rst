@@ -12,7 +12,7 @@ ROCm is an optimized fork of the upstream
 `<https://github.com/AI-Hypercomputer/maxtext>`__ enabling efficient AI workloads
 on AMD MI300X series accelerators.
 
-The MaxText for ROCm training Docker (``rocm/jax-maxtext-training-private:20250317``) image
+The MaxText for ROCm training Docker (``rocm/jax-training:maxtext-v25.4``) image
 provides a prebuilt environment for training on AMD Instinct MI300X and MI325X accelerators,
 including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
 It includes the following software components:
@@ -180,13 +180,13 @@ Download the Docker image
 
    .. code-block:: shell
 
-      docker pull rocm/jax-maxtext-training-private:20250317
+      docker pull rocm/jax-training:maxtext-v25.4
 
 2. Run the Docker container.
 
    .. code-block:: shell
 
-      docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME/.ssh:/root/.ssh --shm-size 128G --name maxtext_training rocm/jax-maxtext-training-private:20250317
+      docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME/.ssh:/root/.ssh --shm-size 128G --name maxtext_training rocm/jax-training:maxtext-v25.4
 
 .. _amd-maxtext-get-started:
 
@@ -219,7 +219,7 @@ Single node training benchmarking examples
 
   Run the single node training benchmark:
 
-  IMAGE="rocm/jax-maxtext-training-private:20250317" bash ./llama2_7b.sh
+  IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama2_7b.sh
 
 * Example 2: Single node training with Llama 2 70B
 
@@ -233,7 +233,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-maxtext-training-private:20250317" bash ./llama2_70b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama2_70b.sh
 
 * Example 3: Single node training with Llama 3 8B
 
@@ -247,7 +247,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-maxtext-training-private:20250317" bash ./llama3_8b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama3_8b.sh
 
 * Example 4: Single node training with Llama 3 70B
 
@@ -261,7 +261,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-maxtext-training-private:20250317" bash ./llama3_70b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama3_70b.sh
 
 * Example 5: Single node training with DeepSeek V2 16B
 
@@ -275,7 +275,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-maxtext-training-private:20250317" bash ./deepseek_v2_16b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./deepseek_v2_16b.sh
 
   .. note::
 
