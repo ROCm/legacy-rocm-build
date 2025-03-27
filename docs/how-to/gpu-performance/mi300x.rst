@@ -14,7 +14,7 @@ instructions on system settings and application :doc:`workload tuning
 leverage the maximum capabilities of these accelerators and achieve superior
 performance.
 
-* :doc:`AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`
+* `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`__
   covers essential system settings and system management practices to configure
   your AMD Instinct MI300X system for performance.
 
