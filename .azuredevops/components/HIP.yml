@@ -11,6 +11,7 @@ parameters:
     - cmake
     - libnuma-dev
     - mesa-common-dev
+    - ninja-build
     - ocl-icd-libopencl1
     - ocl-icd-opencl-dev
     - opencl-headers
@@ -79,6 +80,7 @@ jobs:
         -DHIPCC_BIN_DIR=$(Agent.BuildDirectory)/rocm/bin
         -DCLR_BUILD_HIP=ON
         -DCLR_BUILD_OCL=ON
+        -GNinja
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
     parameters:
       artifactName: amd
@@ -137,6 +139,7 @@ jobs:
         -DCLR_BUILD_HIP=ON
         -DCLR_BUILD_OCL=OFF
         -DHIPNV_DIR=$(Build.SourcesDirectory)/hipother/hipnv
+        -GNinja
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
     parameters:
       artifactName: nvidia

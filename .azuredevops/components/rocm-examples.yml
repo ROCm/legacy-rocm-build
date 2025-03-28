@@ -11,6 +11,7 @@ parameters:
     - cmake
     - libglfw3-dev
     - libtbb-dev
+    - ninja-build
     - python3-pip
 - name: rocmDependencies
   type: object
@@ -100,6 +101,7 @@ jobs:
         -DAMDGPU_TARGETS=$(JOB_GPU_TARGET)
         -DCMAKE_HIP_ARCHITECTURES=$(JOB_GPU_TARGET)
         -DCMAKE_EXE_LINKER_FLAGS=-fgpu-rdc
+        -GNinja
   - task: Bash@3
     displayName: Move rocm-examples binaries to rocm/examples
     inputs:
@@ -162,6 +164,7 @@ jobs:
         -DAMDGPU_TARGETS=$(JOB_GPU_TARGET)
         -DCMAKE_HIP_ARCHITECTURES=$(JOB_GPU_TARGET)
         -DCMAKE_EXE_LINKER_FLAGS=-fgpu-rdc
+        -GNinja
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
     parameters:

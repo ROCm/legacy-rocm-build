@@ -10,6 +10,7 @@ parameters:
   default:
     - cmake
     - libdrm-dev
+    - ninja-build
     - python3-pip
     - pkg-config
 
@@ -34,6 +35,7 @@ jobs:
     parameters:
       extraBuildFlags: >-
         -DBUILD_TESTS=ON
+        -GNinja
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml

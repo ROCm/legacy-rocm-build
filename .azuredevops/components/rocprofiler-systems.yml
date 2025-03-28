@@ -24,6 +24,7 @@ parameters:
     - libavutil-dev
     - libdrm-amdgpu-dev
     - libdrm-dev
+    - libdw-dev
     - libfabric-dev
     - libiberty-dev
     - libpapi-dev
@@ -31,6 +32,7 @@ parameters:
     - libtool
     - libopenmpi-dev
     - m4
+    - ninja-build
     - openmpi-bin
     - pkg-config
     - python3-pip
@@ -114,7 +116,7 @@ jobs:
         -DROCPROFSYS_USE_PAPI=ON
         -DROCPROFSYS_USE_MPI=ON
         -DGPU_TARGETS=$(JOB_GPU_TARGET)
-      multithreadFlag: -- -j32
+        -GNinja
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
     parameters:
       gpuTarget: $(JOB_GPU_TARGET)
@@ -190,7 +192,7 @@ jobs:
         -DROCPROFSYS_USE_PAPI=ON
         -DROCPROFSYS_USE_MPI=ON
         -DGPU_TARGETS=$(JOB_GPU_TARGET)
-      multithreadFlag: -- -j32
+        -GNinja
   - task: Bash@3
     displayName: Set up rocprofiler-systems env
     inputs:
