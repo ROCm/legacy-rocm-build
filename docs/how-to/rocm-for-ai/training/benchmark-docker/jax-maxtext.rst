@@ -26,9 +26,9 @@ It includes the following software components:
 +--------------------------+--------------------------------+
 | Python                   | 3.10                           |
 +--------------------------+--------------------------------+
-| Transformer Engine       | `1.12.0.dev0+f81a3eb`          |
+| Transformer Engine       | 1.12.0.dev0+f81a3eb            |
 +--------------------------+--------------------------------+
-| hipBLASLt                | `git78ec8622`                  |
+| hipBLASLt                | git78ec8622                    |
 +--------------------------+--------------------------------+
 
 Supported features and models
