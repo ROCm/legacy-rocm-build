@@ -406,15 +406,15 @@ issues related to individual components, review the [Detailed component changes]
 
 ### Zero value is displayed in ROCTx aggregated statistics
 
-The ROCTx markers are standalone markers within the ROCProfiler-SDK library. Each marker reports only a single timestamp, which is recorded as the `start_timestamp` and `end_timestamp`. As a result, the value for aggregated statistics presented in `TotalDurationNs`, `maxNs`, and `minNs`, is zero. The zero value indicates that the actual execution time is not associated with the markers, which is an expected behavior. See [GitHub issue #4396](https://github.com/ROCm/ROCm/issues/4396).
+The ROCTx markers are standalone markers within the ROCprofiler-SDK library. Each marker reports only a single timestamp, which is recorded as the `start_timestamp` and `end_timestamp`. As a result, the value for aggregated statistics presented in `TotalDurationNs`, `maxNs`, and `minNs`, is zero. The zero value indicates that the actual execution time is not associated with the markers, which is an expected behavior. See [GitHub issue #4396](https://github.com/ROCm/ROCm/issues/4396).
 
 ## ROCm upcoming changes
 
 The following changes to the ROCm software stack are anticipated for future releases.
 
-### ROCTracer and ROCProfiler (rocprof and rocprofv2) deprecation
+### ROCTracer, ROCProfiler, rocprof, and rocprofv2 deprecation
 
-Development and support for ROCTracer and ROCProfiler (`rocprof` and `rocprofv2`) will phase out in favor of ROCprofiler-SDK (`rocprofv3`) in upcoming ROCm releases. Going forward, only critical defect fixes will be addressed for older versions of profiling tools and libraries. Upgrade to the latest version of ROCprofiler-SDK (`rocprofv3`) library to ensure continued support and access to new features.
+Development and support for ROCTracer, ROCProfiler, `rocprof`, and `rocprofv2` will phase out in favor of ROCprofiler-SDK (`rocprofv3`) in upcoming ROCm releases. Going forward, only critical defect fixes will be addressed for older versions of profiling tools and libraries. Upgrade to the latest version of ROCprofiler-SDK library, and `rocprofv3` tool to ensure continued support and access to new features.
 
 ### AMDGPU wavefront size compiler macro deprecation
 
