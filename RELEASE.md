@@ -414,7 +414,7 @@ The following changes to the ROCm software stack are anticipated for future rele
 
 ### ROCTracer, ROCProfiler, rocprof, and rocprofv2 deprecation
 
-Development and support for ROCTracer, ROCProfiler, `rocprof`, and `rocprofv2` will phase out in favor of ROCprofiler-SDK (`rocprofv3`) in upcoming ROCm releases. Going forward, only critical defect fixes will be addressed for older versions of profiling tools and libraries. Upgrade to the latest version of ROCprofiler-SDK library, and `rocprofv3` tool to ensure continued support and access to new features.
+Development and support for ROCTracer, ROCProfiler, `rocprof`, and `rocprofv2` will phase out in favor of ROCprofiler-SDK (`rocprofv3`) in upcoming ROCm releases. Going forward, only critical defect fixes will be addressed for older versions of profiling tools and libraries. Upgrade to the latest version of ROCprofiler-SDK library and `rocprofv3` tool to ensure continued support and access to new features.
 
 ### AMDGPU wavefront size compiler macro deprecation
 
