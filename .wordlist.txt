@@ -575,6 +575,7 @@ distro
 distros
 dkms
 dtype
+eb
 el
 embeddings
 enablement
