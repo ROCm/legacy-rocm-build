@@ -6,5 +6,5 @@ steps:
     targetType: inline
     script: |
       sudo apt purge cmake -y
-      sudo snap install cmake --classic
+      sudo snap install cmake --classic --channel=3.31/stable
       hash -r
