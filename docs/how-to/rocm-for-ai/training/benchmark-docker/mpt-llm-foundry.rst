@@ -74,6 +74,12 @@ Build the Docker image
       git clone https://github.com/ROCm/MAD
       cd MAD/scripts/pytorch_train
 
+To turn on PyTorch TunableOp, run:
+
+.. code-block:: shell
+
+   source run.sh --tunableop on
+
 Prepare training datasets and dependencies
 ------------------------------------------
 
