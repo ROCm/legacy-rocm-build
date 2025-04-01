@@ -12,9 +12,10 @@ MosaicML's research blog `MPT-30B: Raising the bar for open-source foundation
 models <https://www.databricks.com/blog/mpt-30b>`_.
 
 `<https://github.com/ROCm/MAD>`__ provides a complete Docker-based training
-environment for the MPT-30B model using the LLM Foundry framework. This
-Docker image packages the following software components to train on AMD
-Instinct MI300X series accelerators:
+environment for the MPT-30B model using the `LLM Foundry
+<https://github.com/mosaicml/llm-foundry>`_ framework. This Docker image
+packages the following software components to train on AMD Instinct MI300X
+series accelerators:
 
 +--------------------------+--------------------------------+
 | Software component       | Version                        |
@@ -50,8 +51,9 @@ document are not validated.
 
    .. tab-item:: MAD-integrated benchmarking
 
-      Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
-      directory and install the required packages on the host machine.
+      On your host machine, clone the ROCm Model Automation and Dashboarding
+      (`<https://github.com/ROCm/MAD>`__) repository to a local directory and
+      install the required packages.
 
       .. code-block:: shell
 
@@ -59,7 +61,7 @@ document are not validated.
          cd MAD
          pip install -r requirements.txt
 
-      Use this command to run the performance benchmark.
+      Use this command to initiate the MPT-30B training benchmark.
 
       .. code-block:: shell
 
@@ -87,9 +89,9 @@ document are not validated.
 
    .. tab-item:: Standalone benchmarking
 
-      To set up the appropriate training environment, clone the
-      `<https://github.com/ROCm/MAD>`__ repo and build the Docker image.
-      In this snippet, the image is named ``mosaic_mpt30_image``.
+      To set up the training environment, clone the
+      `<https://github.com/ROCm/MAD>`__ repo and build the Docker image. In
+      this snippet, the image is named ``mosaic_mpt30_image``.
 
       .. code-block:: shell
 
@@ -113,7 +115,7 @@ document are not validated.
          git clone https://github.com/ROCm/MAD
          cd MAD/scripts/pyt_mpt30b_training
 
-      To start the training, use the following command -- it uses the hyperparameters described in
+      To initiate the training process, use the following command. This script uses the hyperparameters defined in
       ``mpt-30b-instruct.yaml``.
 
       .. code-block:: shell
@@ -130,3 +132,36 @@ document are not validated.
             source run.sh --tunableop on
 
          Although this might increase the initial training time, it can result in a performance gain.
+
+Interpreting the output
+=======================
+
+The training output will be displayed in the terminal and simultaneously saved
+to the ``output.txt`` file in the current directory. Key performance metrics will
+also be extracted and appended to the ``perf_pyt_mpt30b_training.csv`` file.
+
+Key performance metrics include:
+
+- Training logs: Real-time display of loss metrics, accuracy, and training progress.
+
+- Model checkpoints: Periodically saved model snapshots for potential resume or evaluation.
+
+- Performance metrics: Detailed summaries of training speed and training loss metrics.
+
+  - Performance (throughput/samples_per_sec)
+
+    Overall throughput, measuring the total samples processed per second. Higher values indicate better hardware utilization.
+
+  - Performance per device (throughput/samples_per_sec)
+
+    Throughput on a per-device basis, showing how each GPU or CPU is performing.
+
+  - Language Cross Entropy (metrics/train/LanguageCrossEntropy)
+
+    Measures prediction accuracy. Lower cross entropy suggests the model’s output is closer to the expected distribution.
+
+  - Training loss (loss/train/total)
+
+    Overall training loss. A decreasing trend indicates the model is learning effectively.
+
+
