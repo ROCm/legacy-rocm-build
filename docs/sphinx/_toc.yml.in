@@ -101,10 +101,6 @@ subtrees:
     title: Use ROCm for HPC
   - file: how-to/system-optimization/index.rst
     title: System optimization
-    subtrees:
-    - entries:
-      - file: how-to/system-optimization/w6000-v620.md
-        title: AMD RDNA 2
   - file: how-to/gpu-performance/mi300x.rst
     title: AMD Instinct MI300X performance guides
   - file: how-to/system-debugging.md
