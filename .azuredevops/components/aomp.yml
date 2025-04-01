@@ -69,6 +69,15 @@ parameters:
     - ROCR-Runtime
     - roctracer
 
+- name: jobMatrix
+  type: object
+  default:
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+
 jobs:
 - job: aomp
   variables:
@@ -443,85 +452,82 @@ jobs:
       aptPackages: ${{ parameters.aptPackages }}
       optSymLink: true
 
-- job: aomp_testing
-  dependsOn: aomp
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-  - task: Bash@3
-    displayName: ROCm symbolic link
-    inputs:
-      targetType: inline
-      script: |
-        # Assuming that /opt is no longer persistent across runs, test environments are fully ephemeral
-        sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: aomp-extras_repo
-# these copy steps are from the aomp prototype script for test prep
-  - task: CopyFiles@2
-    displayName: 'Copy AOMP contents'
-    inputs:
-      CleanTargetFolder: false
-      SourceFolder: $(Build.SourcesDirectory)/aomp
-      Contents: |
-        **
-        !**/.git/**
-        !**/.github/**
-        !**/.gitignore
-      TargetFolder: $(Agent.BuildDirectory)/rocm/share/openmp-extras/tests
-      retryCount: 3
-  - task: CopyFiles@2
-    displayName: 'Copy FileCheck'
-    inputs:
-      CleanTargetFolder: false
-      SourceFolder: $(Agent.BuildDirectory)/rocm/llvm/bin
-      Contents: FileCheck
-      TargetFolder: $(Agent.BuildDirectory)/rocm/share/openmp-extras/tests/bin
-      retryCount: 3
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - task: Bash@3
-    displayName: Test AOMP
-    continueOnError: true
-    inputs:
-      targetType: inline
-      script: ./run_rocm_test.sh
-      workingDirectory: $(Build.SourcesDirectory)/aomp/bin
-    env:
-      AOMP: $(Agent.BuildDirectory)/rocm/llvm
-      AOMP_REPOS_TEST: $(Build.SourcesDirectory)/aomp-test
-      AOMP_TEST_DIR: $(Build.SourcesDirectory)/aomp-test
-      SKIP_TEST_PACKAGE: 1
-      MAINLINE_BUILD: 1
-      SUITE_LIST: smoke
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
-      optSymLink: true
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: aomp_test_${{ job.target }}
+    dependsOn: aomp
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+    - task: Bash@3
+      displayName: ROCm symbolic link
+      inputs:
+        targetType: inline
+        script: |
+          # Assuming that /opt is no longer persistent across runs, test environments are fully ephemeral
+          sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: aomp-extras_repo
+  # these copy steps are from the aomp prototype script for test prep
+    - task: CopyFiles@2
+      displayName: 'Copy AOMP contents'
+      inputs:
+        CleanTargetFolder: false
+        SourceFolder: $(Build.SourcesDirectory)/aomp
+        Contents: |
+          **
+          !**/.git/**
+          !**/.github/**
+          !**/.gitignore
+        TargetFolder: $(Agent.BuildDirectory)/rocm/share/openmp-extras/tests
+        retryCount: 3
+    - task: CopyFiles@2
+      displayName: 'Copy FileCheck'
+      inputs:
+        CleanTargetFolder: false
+        SourceFolder: $(Agent.BuildDirectory)/rocm/llvm/bin
+        Contents: FileCheck
+        TargetFolder: $(Agent.BuildDirectory)/rocm/share/openmp-extras/tests/bin
+        retryCount: 3
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - task: Bash@3
+      displayName: Test AOMP
+      continueOnError: true
+      inputs:
+        targetType: inline
+        script: ./run_rocm_test.sh
+        workingDirectory: $(Build.SourcesDirectory)/aomp/bin
+      env:
+        AOMP: $(Agent.BuildDirectory)/rocm/llvm
+        AOMP_REPOS_TEST: $(Build.SourcesDirectory)/aomp-test
+        AOMP_TEST_DIR: $(Build.SourcesDirectory)/aomp-test
+        SKIP_TEST_PACKAGE: 1
+        MAINLINE_BUILD: 1
+        SUITE_LIST: smoke
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        environment: test
+        gpuTarget: ${{ job.target }}
+        optSymLink: true

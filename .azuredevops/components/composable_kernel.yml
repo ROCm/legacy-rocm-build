@@ -32,121 +32,127 @@ parameters:
     - rocprofiler-register
     - ROCR-Runtime
 
-jobs:
-- job: composable_kernel
-  timeoutInMinutes: 240
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: DAY_STRING
-    value: $[format('{0:ddMMyyyy}', pipeline.startTime)]
-  pool: ${{ variables.ULTRA_BUILD_POOL }}
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - script: |
-      mkdir -p $(CCACHE_DIR)
-      echo "##vso[task.prependpath]/usr/lib/ccache"
-    displayName: Update path for ccache
-  - task: Cache@2
-    displayName: Ccache caching
-    inputs:
-      key: composable_kernel | $(Agent.OS) | $(JOB_GPU_TARGET) | $(DAY_STRING) | $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
-      path: $(CCACHE_DIR)
-      restoreKeys: |
-        composable_kernel | $(Agent.OS) | $(JOB_GPU_TARGET) | $(DAY_STRING)
-        composable_kernel | $(Agent.OS) | $(JOB_GPU_TARGET)
-        composable_kernel | $(Agent.OS)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
-        -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
-        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
-        -DCMAKE_C_COMPILER_LAUNCHER=ccache
-        -DCMAKE_HIP_FLAGS="-Wno-missing-include-dirs"
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
-        -DCK_BUILD_JIT_LIB=ON
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-        -DCMAKE_BUILD_TYPE=Release
-        -DGPU_TARGETS=$(JOB_GPU_TARGET)
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      gpuTarget: $(JOB_GPU_TARGET)
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
-- job: composable_kernel_testing
-  timeoutInMinutes: 180
-  dependsOn: composable_kernel
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: TEST_LOG_FILE
-    value: $(Pipeline.Workspace)/ckTestLog.log
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmTestDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - task: Bash@3
-    displayName: Iterate through test scripts
-    inputs:
-      targetType: inline
-      script: |
-        for file in ./test_*; do
-          ./$file | tee -a $(TEST_LOG_FILE)
-        done
-      workingDirectory: $(Agent.BuildDirectory)/rocm/bin
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: composable_kernel_build_${{ job.target }}
+    timeoutInMinutes: 240
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: DAY_STRING
+      value: $[format('{0:ddMMyyyy}', pipeline.startTime)]
+    pool: ${{ variables.ULTRA_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - script: |
+        mkdir -p $(CCACHE_DIR)
+        echo "##vso[task.prependpath]/usr/lib/ccache"
+      displayName: Update path for ccache
+    - task: Cache@2
+      displayName: Ccache caching
+      inputs:
+        key: composable_kernel | $(Agent.OS) | ${{ job.target }} | $(DAY_STRING) | $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+        path: $(CCACHE_DIR)
+        restoreKeys: |
+          composable_kernel | $(Agent.OS) | ${{ job.target }} | $(DAY_STRING)
+          composable_kernel | $(Agent.OS) | ${{ job.target }}
+          composable_kernel | $(Agent.OS)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache
+          -DCMAKE_HIP_FLAGS="-Wno-missing-include-dirs"
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+          -DCK_BUILD_JIT_LIB=ON
+          -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+          -DCMAKE_BUILD_TYPE=Release
+          -DGPU_TARGETS=${{ job.target }}
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        gpuTarget: ${{ job.target }}
+
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: composable_kernel_test_${{ job.target }}
+    timeoutInMinutes: 90
+    dependsOn: composable_kernel_build_${{ job.target }}
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: TEST_LOG_FILE
+      value: $(Pipeline.Workspace)/ckTestLog.log
+    pool: ${{ job.target }}
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmTestDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - task: Bash@3
+      displayName: Iterate through test scripts
+      inputs:
+        targetType: inline
+        script: |
+          for file in ./test_*; do
+            ./$file | tee -a $(TEST_LOG_FILE)
+          done
+        workingDirectory: $(Agent.BuildDirectory)/rocm/bin
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        environment: test
+        gpuTarget: ${{ job.target }}

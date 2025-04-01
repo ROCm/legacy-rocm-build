@@ -35,8 +35,17 @@ parameters:
     - rocprofiler-register
     - ROCR-Runtime
 
+- name: jobMatrix
+  type: object
+  default:
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+
 jobs:
-- job: rocr_debug_agent
+- job: rocr_debug_agent_build
   variables:
   - group: common
   - template: /.azuredevops/variables-global.yml
@@ -71,52 +80,49 @@ jobs:
   #   parameters:
   #     aptPackages: ${{ parameters.aptPackages }}
 
-- job: rocr_debug_agent_testing
-  dependsOn: rocr_debug_agent
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmTestDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      componentName: rocr_debug_agent-tests
-      extraBuildFlags: >-
-        -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake;$(Agent.BuildDirectory)/rocm/lib/cmake/hip
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
-        -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-      cmakeBuildDir: '$(Agent.BuildDirectory)/rocm/src/rocm-debug-agent-test'
-      cmakeSourceDir: '.'
-      installEnabled: false
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: rocr_debug_agent
-      testDir: '$(Agent.BuildDirectory)/rocm/src/rocm-debug-agent-test'
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: rocr_debug_agent_test_${{ job.target }}
+    dependsOn: rocr_debug_agent_build
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmTestDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        componentName: rocr_debug_agent-tests
+        extraBuildFlags: >-
+          -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake;$(Agent.BuildDirectory)/rocm/lib/cmake/hip
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
+        cmakeBuildDir: '$(Agent.BuildDirectory)/rocm/src/rocm-debug-agent-test'
+        cmakeSourceDir: '.'
+        installEnabled: false
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: rocr_debug_agent
+        testDir: '$(Agent.BuildDirectory)/rocm/src/rocm-debug-agent-test'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        environment: test
+        gpuTarget: ${{ job.target }}

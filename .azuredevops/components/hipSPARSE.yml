@@ -40,107 +40,113 @@ parameters:
     - rocSPARSE
     - roctracer
 
-jobs:
-- job: hipSPARSE
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: 
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
-        -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/rocm/share/rocm/cmake/
-        -DBUILD_CLIENTS_TESTS=ON
-        -DBUILD_CLIENTS_SAMPLES=OFF
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      artifactName: hipSPARSE
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      artifactName: hipSPARSE
-      gpuTarget: $(JOB_GPU_TARGET)
-      publish: false
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-prepare-package.yml
-    parameters:
-      sourceDir: $(Build.SourcesDirectory)/build/clients
-      contentsString: matrices/**
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      artifactName: testMatrices
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
-  #     environment: test
-  #     gpuTarget: $(JOB_GPU_TARGET)
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
-- job: hipSPARSE_testing
-  dependsOn: hipSPARSE
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmTestDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: hipSPARSE
-      testDir: '$(Agent.BuildDirectory)/rocm/bin'
-      testExecutable: './hipsparse-test'
-      testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes'
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: hipSPARSE_build_${{ job.target }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool:
+      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/rocm/share/rocm/cmake/
+          -DBUILD_CLIENTS_TESTS=ON
+          -DBUILD_CLIENTS_SAMPLES=OFF
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        artifactName: hipSPARSE
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        artifactName: hipSPARSE
+        gpuTarget: ${{ job.target }}
+        publish: false
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-prepare-package.yml
+      parameters:
+        sourceDir: $(Build.SourcesDirectory)/build/clients
+        contentsString: matrices/**
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        artifactName: testMatrices
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}
+    #     environment: test
+    #     gpuTarget: ${{ job.target }}
+
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: hipSPARSE_test_${{ job.target }}
+    dependsOn: hipSPARSE_build_${{ job.target }}
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmTestDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: hipSPARSE
+        testDir: '$(Agent.BuildDirectory)/rocm/bin'
+        testExecutable: './hipsparse-test'
+        testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        environment: test
+        gpuTarget: ${{ job.target }}

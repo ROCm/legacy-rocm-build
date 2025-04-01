@@ -28,8 +28,17 @@ parameters:
     - rocm_smi_lib
     - rocprofiler-register
 
+- name: jobMatrix
+  type: object
+  default:
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+
 jobs:
-- job: ROCR_Runtime
+- job: ROCR_Runtime_build
   variables:
   - group: common
   - template: /.azuredevops/variables-global.yml
@@ -63,92 +72,89 @@ jobs:
   #   parameters:
   #     aptPackages: ${{ parameters.aptPackages }}
 
-- job: ROCR_Runtime_testing
-  dependsOn: ROCR_Runtime
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - task: Bash@3
-    displayName: Install libhwloc5
-    inputs:
-      targetType: 'inline'
-      script: |
-        wget http://ftp.us.debian.org/debian/pool/main/h/hwloc/libhwloc5_1.11.12-3_amd64.deb
-        wget http://ftp.us.debian.org/debian/pool/main/h/hwloc/libhwloc-dev_1.11.12-3_amd64.deb
-        sudo apt install -y --allow-downgrades ./libhwloc5_1.11.12-3_amd64.deb ./libhwloc-dev_1.11.12-3_amd64.deb
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmTestDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-    parameters:
-      runRocminfo: false
-  - task: Bash@3
-    displayName: Build kfdtest
-    continueOnError: true
-    inputs:
-      targetType: 'inline'
-      workingDirectory: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest
-      script: |
-        mkdir build && cd build
-        cmake -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm ..
-        make
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: kfdtest
-      testExecutable: BIN_DIR=$(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/build ./run_kfdtest.sh
-      testParameters: '-p core --gtest_output=xml:./test_output.xml --gtest_color=yes'
-      testDir: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/scripts
-  - task: Bash@3
-    displayName: Build rocrtst
-    continueOnError: true
-    inputs:
-      targetType: 'inline'
-      workingDirectory: $(Build.SourcesDirectory)/rocrtst/suites/test_common
-      script: |
-        BASE_CLANG_DIR=$(Agent.BuildDirectory)/rocm/llvm/lib/clang
-        export NEWEST_CLANG_VER=$(ls -1 $BASE_CLANG_DIR | sort -V | tail -n 1)
-        mkdir build && cd build
-        cmake .. \
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm \
-          -DTARGET_DEVICES=$(JOB_GPU_TARGET) \
-          -DROCM_DIR=$(Agent.BuildDirectory)/rocm \
-          -DLLVM_DIR=$(Agent.BuildDirectory)/rocm/llvm/bin \
-          -DOPENCL_INC_DIR=$BASE_CLANG_DIR/$NEWEST_CLANG_VER/include
-        make
-        make rocrtst_kernels
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: rocrtst
-      testExecutable: ./rocrtst64
-      testParameters: '--gtest_filter="-rocrtstNeg.Memory_Negative_Tests:rocrtstFunc.Memory_Max_Mem" --gtest_output=xml:./test_output.xml --gtest_color=yes'
-      testDir: $(Build.SourcesDirectory)/rocrtst/suites/test_common/build/$(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
-# docker image will be missing libhwloc5
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: ROCR_Runtime_test_${{ job.target }}
+    dependsOn: ROCR_Runtime_build
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - task: Bash@3
+      displayName: Install libhwloc5
+      inputs:
+        targetType: 'inline'
+        script: |
+          wget http://ftp.us.debian.org/debian/pool/main/h/hwloc/libhwloc5_1.11.12-3_amd64.deb
+          wget http://ftp.us.debian.org/debian/pool/main/h/hwloc/libhwloc-dev_1.11.12-3_amd64.deb
+          sudo apt install -y --allow-downgrades ./libhwloc5_1.11.12-3_amd64.deb ./libhwloc-dev_1.11.12-3_amd64.deb
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmTestDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      parameters:
+        runRocminfo: false
+    - task: Bash@3
+      displayName: Build kfdtest
+      continueOnError: true
+      inputs:
+        targetType: 'inline'
+        workingDirectory: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest
+        script: |
+          mkdir build && cd build
+          cmake -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm ..
+          make
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: kfdtest
+        testExecutable: BIN_DIR=$(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/build ./run_kfdtest.sh
+        testParameters: '-p core --gtest_output=xml:./test_output.xml --gtest_color=yes'
+        testDir: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/scripts
+    - task: Bash@3
+      displayName: Build rocrtst
+      continueOnError: true
+      inputs:
+        targetType: 'inline'
+        workingDirectory: $(Build.SourcesDirectory)/rocrtst/suites/test_common
+        script: |
+          BASE_CLANG_DIR=$(Agent.BuildDirectory)/rocm/llvm/lib/clang
+          export NEWEST_CLANG_VER=$(ls -1 $BASE_CLANG_DIR | sort -V | tail -n 1)
+          mkdir build && cd build
+          cmake .. \
+            -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm \
+            -DTARGET_DEVICES=${{ job.target }} \
+            -DROCM_DIR=$(Agent.BuildDirectory)/rocm \
+            -DLLVM_DIR=$(Agent.BuildDirectory)/rocm/llvm/bin \
+            -DOPENCL_INC_DIR=$BASE_CLANG_DIR/$NEWEST_CLANG_VER/include
+          make
+          make rocrtst_kernels
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: rocrtst
+        testExecutable: ./rocrtst64
+        testParameters: '--gtest_filter="-rocrtstNeg.Memory_Negative_Tests:rocrtstFunc.Memory_Max_Mem" --gtest_output=xml:./test_output.xml --gtest_color=yes'
+        testDir: $(Build.SourcesDirectory)/rocrtst/suites/test_common/build/${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        environment: test
+        gpuTarget: ${{ job.target }}
+  # docker image will be missing libhwloc5

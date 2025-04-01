@@ -39,115 +39,121 @@ parameters:
     - rocSPARSE
     - roctracer
 
-jobs:
-- job: hipfort
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: ${{ variables.MEDIUM_BUILD_POOL }}
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-        -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/rocm/llvm
-        -DHIPFORT_INSTALL_DIR=$(Build.BinariesDirectory)
-        -DHIPFORT_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/flang
-        -DCMAKE_Fortran_FLAGS="-Mfree -fPIC"
-        -DCMAKE_Fortran_FLAGS_DEBUG=""
-        -DHIPFORT_COMPILER_FLAGS="-cpp"
-        -DHIPFORT_AR=$(Agent.BuildDirectory)/rocm/llvm/bin/llvm-ar
-        -DHIPFORT_RANLIB=$(Agent.BuildDirectory)/rocm/llvm/bin/llvm-ranlib
-        -DAMDGPU_TARGETS=$(JOB_GPU_TARGET)
-        -DBUILD_TESTING=ON
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      gpuTarget: $(JOB_GPU_TARGET)
-      installLatestCMake: true
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
-- job: hipfort_testing
-  dependsOn: hipfort
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - task: Bash@3
-    displayName: 'ROCm symbolic link'
-    inputs:
-      targetType: inline
-      script: |
-        # Assuming that /opt is no longer persistent across runs, test environments are fully ephemeral
-        sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
-      workingDirectory: $(Build.SourcesDirectory)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - task: Bash@3
-    displayName: 'Test hipfort'
-    inputs:
-      targetType: inline
-      script: PATH=$(Agent.BuildDirectory)/rocm/bin:$PATH make run_all
-      workingDirectory: $(Build.SourcesDirectory)/test
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
-      optSymLink: true
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: hipfort_build_${{ job.target }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/rocm/llvm
+          -DHIPFORT_INSTALL_DIR=$(Build.BinariesDirectory)
+          -DHIPFORT_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/flang
+          -DCMAKE_Fortran_FLAGS="-Mfree -fPIC"
+          -DCMAKE_Fortran_FLAGS_DEBUG=""
+          -DHIPFORT_COMPILER_FLAGS="-cpp"
+          -DHIPFORT_AR=$(Agent.BuildDirectory)/rocm/llvm/bin/llvm-ar
+          -DHIPFORT_RANLIB=$(Agent.BuildDirectory)/rocm/llvm/bin/llvm-ranlib
+          -DAMDGPU_TARGETS=${{ job.target }}
+          -DBUILD_TESTING=ON
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        gpuTarget: ${{ job.target }}
+        installLatestCMake: true
+
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: hipfort_test_${{ job.target }}
+    dependsOn: hipfort_build_${{ job.target }}
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - task: Bash@3
+      displayName: 'ROCm symbolic link'
+      inputs:
+        targetType: inline
+        script: |
+          # Assuming that /opt is no longer persistent across runs, test environments are fully ephemeral
+          sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
+        workingDirectory: $(Build.SourcesDirectory)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - task: Bash@3
+      displayName: 'Test hipfort'
+      inputs:
+        targetType: inline
+        script: PATH=$(Agent.BuildDirectory)/rocm/bin:$PATH make run_all
+        workingDirectory: $(Build.SourcesDirectory)/test
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        environment: test
+        gpuTarget: ${{ job.target }}
+        optSymLink: true

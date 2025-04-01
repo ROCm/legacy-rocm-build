@@ -14,12 +14,21 @@ parameters:
     - python3-pip
     - pkg-config
 
+- name: jobMatrix
+  type: object
+  default:
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+
 jobs:
-- job: amdsmi
+- job: amdsmi_build
   variables:
   - group: common
   - template: /.azuredevops/variables-global.yml
-  pool: 
+  pool:
     vmImage: ${{ variables.BASE_BUILD_POOL }}
   workspace:
     clean: all
@@ -43,40 +52,37 @@ jobs:
   #   parameters:
   #     aptPackages: ${{ parameters.aptPackages }}
 
-- job: amdsmi_testing
-  dependsOn: amdsmi
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-    parameters:
-      runRocminfo: false
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: amdsmi
-      testDir: '$(Agent.BuildDirectory)'
-      testExecutable: './rocm/share/amd_smi/tests/amdsmitst'
-      testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes'
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: amdsmi_test_${{ job.target }}
+    dependsOn: amdsmi_build
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      parameters:
+        runRocminfo: false
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: amdsmi
+        testDir: '$(Agent.BuildDirectory)'
+        testExecutable: './rocm/share/amd_smi/tests/amdsmitst'
+        testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        environment: test
+        gpuTarget: ${{ job.target }}

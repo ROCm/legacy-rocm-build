@@ -47,133 +47,140 @@ parameters:
     - ROCR-Runtime
     - roctracer
 
-jobs:
-- job: hipSPARSELt
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: HIP_ROCCLR_HOME
-    value: $(Build.BinariesDirectory)/rocm
-  - name: TENSILE_ROCM_ASSEMBLER_PATH
-    value: $(Agent.BuildDirectory)/rocm/llvm/bin/clang
-  - name: CMAKE_CXX_COMPILER
-    value: $(Agent.BuildDirectory)/rocm/llvm/bin/hipcc
-  - name: TENSILE_ROCM_OFFLOAD_BUNDLER_PATH
-    value: $(Agent.BuildDirectory)/rocm/llvm/bin/clang-offload-bundler
-  - name: PATH
-    value: $(Agent.BuildDirectory)/rocm/llvm/bin:$(Agent.BuildDirectory)/rocm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
-  pool: ${{ variables.MEDIUM_BUILD_POOL }}
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-# Build and install gtest and lapack
-# $(Pipeline.Workspace)/deps is a temporary folder for the build process
-# $(Pipeline.Workspace)/s/deps is part of the hipSPARSELt repo
-  - script: mkdir $(Pipeline.Workspace)/deps
-    displayName: Create temp folder for external dependencies
-# hipSPARSELt already has a CMake script for external deps, so we can just run that
-# https://github.com/ROCm/hipSPARSELt/blob/develop/deps/CMakeLists.txt
-  - script: cmake $(Pipeline.Workspace)/s/deps
-    displayName: Configure hipSPARSELt external dependencies
-    workingDirectory: $(Pipeline.Workspace)/deps
-  - script: make
-    displayName: Build hipSPARSELt external dependencies
-    workingDirectory: $(Pipeline.Workspace)/deps
-  - script: sudo make install
-    displayName: Install hipSPARSELt external dependencies
-    workingDirectory: $(Pipeline.Workspace)/deps
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
-        -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
-        -DCMAKE_Fortran_COMPILER=f95
-        -DAMDGPU_TARGETS=$(JOB_GPU_TARGET)
-        -DTensile_LOGIC=
-        -DTensile_CPU_THREADS=
-        -DTensile_LIBRARY_FORMAT=msgpack
-        -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm"
-        -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-        -DBUILD_CLIENTS_TESTS=ON
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      gpuTarget: $(JOB_GPU_TARGET)
-      extraCopyDirectories:
-        - deps
-      extraPaths: /home/user/workspace/rocm/llvm/bin:/home/user/workspace/rocm/bin
-      extraEnvVars:
-        - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
-        - TENSILE_ROCM_ASSEMBLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang
-        - CMAKE_CXX_COMPILER:::/home/user/workspace/rocm/llvm/bin/hipcc
-        - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
-      installLatestCMake: true
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - gfx942:
+        target: gfx942
+    testJobs:
+      - gfx942:
+        target: gfx942
 
-- job: hipSPARSELt_testing
-  dependsOn: hipSPARSELt
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmTestDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: hipSPARSELt
-      testDir: '$(Agent.BuildDirectory)/rocm/bin'
-      testExecutable: './hipsparselt-test'
-      testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes --gtest_filter=*pre_checkin*'
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: hipSPARSELt_build_${{ job.target }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: HIP_ROCCLR_HOME
+      value: $(Build.BinariesDirectory)/rocm
+    - name: TENSILE_ROCM_ASSEMBLER_PATH
+      value: $(Agent.BuildDirectory)/rocm/llvm/bin/clang
+    - name: CMAKE_CXX_COMPILER
+      value: $(Agent.BuildDirectory)/rocm/llvm/bin/hipcc
+    - name: TENSILE_ROCM_OFFLOAD_BUNDLER_PATH
+      value: $(Agent.BuildDirectory)/rocm/llvm/bin/clang-offload-bundler
+    - name: PATH
+      value: $(Agent.BuildDirectory)/rocm/llvm/bin:$(Agent.BuildDirectory)/rocm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+  # Build and install gtest and lapack
+  # $(Pipeline.Workspace)/deps is a temporary folder for the build process
+  # $(Pipeline.Workspace)/s/deps is part of the hipSPARSELt repo
+    - script: mkdir $(Pipeline.Workspace)/deps
+      displayName: Create temp folder for external dependencies
+  # hipSPARSELt already has a CMake script for external deps, so we can just run that
+  # https://github.com/ROCm/hipSPARSELt/blob/develop/deps/CMakeLists.txt
+    - script: cmake $(Pipeline.Workspace)/s/deps
+      displayName: Configure hipSPARSELt external dependencies
+      workingDirectory: $(Pipeline.Workspace)/deps
+    - script: make
+      displayName: Build hipSPARSELt external dependencies
+      workingDirectory: $(Pipeline.Workspace)/deps
+    - script: sudo make install
+      displayName: Install hipSPARSELt external dependencies
+      workingDirectory: $(Pipeline.Workspace)/deps
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+          -DCMAKE_Fortran_COMPILER=f95
+          -DAMDGPU_TARGETS=${{ job.target }}
+          -DTensile_LOGIC=
+          -DTensile_CPU_THREADS=
+          -DTensile_LIBRARY_FORMAT=msgpack
+          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm"
+          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
+          -DBUILD_CLIENTS_TESTS=ON
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        gpuTarget: ${{ job.target }}
+        extraCopyDirectories:
+          - deps
+        extraPaths: /home/user/workspace/rocm/llvm/bin:/home/user/workspace/rocm/bin
+        extraEnvVars:
+          - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
+          - TENSILE_ROCM_ASSEMBLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang
+          - CMAKE_CXX_COMPILER:::/home/user/workspace/rocm/llvm/bin/hipcc
+          - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
+        installLatestCMake: true
+
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: hipSPARSELt_test_${{ job.target }}
+    dependsOn: hipSPARSELt_build_${{ job.target }}
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmTestDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: hipSPARSELt
+        testDir: '$(Agent.BuildDirectory)/rocm/bin'
+        testExecutable: './hipsparselt-test'
+        testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes --gtest_filter=*pre_checkin*'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        environment: test
+        gpuTarget: ${{ job.target }}

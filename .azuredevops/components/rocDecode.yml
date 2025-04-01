@@ -40,8 +40,17 @@ parameters:
     - rocprofiler-register
     - ROCR-Runtime
 
+- name: jobMatrix
+  type: object
+  default:
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+
 jobs:
-- job: rocDecode
+- job: rocDecode_build
   variables:
   - group: common
   - template: /.azuredevops/variables-global.yml
@@ -77,56 +86,53 @@ jobs:
   #     aptPackages: ${{ parameters.aptPackages }}
   #     registerROCmPackages: true
 
-- job: rocDecode_testing
-  dependsOn: rocDecode
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: ROCM_PATH
-    value: $(Agent.BuildDirectory)/rocm
-  pool:
-    name: $(JOB_TEST_POOL)
-    demands: firstRenderDeviceAccess
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      registerROCmPackages: true
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmTestDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - task: Bash@3
-    displayName: Build rocDecode tests
-    inputs:
-      targetType: inline
-      script: |
-        mkdir rocDecode-tests
-        cd rocDecode-tests
-        cmake $(Agent.BuildDirectory)/rocm/share/rocdecode/test
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: rocDecode
-      testDir: 'rocDecode-tests'
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      registerROCmPackages: true
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: rocDecode_test_${{ job.target }}
+    dependsOn: rocDecode_build
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    pool:
+      name: ${{ job.target }}_test_pool
+      demands: firstRenderDeviceAccess
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        registerROCmPackages: true
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmTestDependencies }}
+        gpuTarget: ${{ job.target }}
+    - task: Bash@3
+      displayName: Build rocDecode tests
+      inputs:
+        targetType: inline
+        script: |
+          mkdir rocDecode-tests
+          cd rocDecode-tests
+          cmake $(Agent.BuildDirectory)/rocm/share/rocdecode/test
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: rocDecode
+        testDir: 'rocDecode-tests'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        registerROCmPackages: true
+        environment: test
+        gpuTarget: ${{ job.target }}

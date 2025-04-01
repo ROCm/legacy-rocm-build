@@ -32,8 +32,17 @@ parameters:
     - rocprofiler-register
     - ROCR-Runtime
 
+- name: jobMatrix
+  type: object
+  default:
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+
 jobs:
-- job: rocMLIR
+- job: rocMLIR_build
   variables:
   - group: common
   - template: /.azuredevops/variables-global.yml
@@ -71,71 +80,68 @@ jobs:
       aptPackages: ${{ parameters.aptPackages }}
       pipModules: ${{ parameters.pipModules }}
 
-# compiling and running test on the test system together
-- job: rocMLIR_testing
-  dependsOn: rocMLIR
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - task: Bash@3
-    displayName: Symlink rocm_agent_enumerator
-    inputs:
-      targetType: inline
-      script: |
-        # Assuming that /opt is no longer persistent across runs, test environments are fully ephemeral
-        sudo mkdir -p /opt/rocm/bin
-        sudo ln -s $(Agent.BuildDirectory)/rocm/bin/rocm_agent_enumerator /opt/rocm/bin/rocm_agent_enumerator
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      installEnabled: false
-      extraBuildFlags: >-
-        -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
-        -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/rocm/lib
-        -DCMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/lib
-        -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-        -DAMDGPU_TARGETS=$(JOB_GPU_TARGET)
-        -DROCM_TEST_CHIPSET=$(JOB_GPU_TARGET)
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: rocMLIR
-      testDir: $(Build.SourcesDirectory)/build
-      testExecutable: ninja
-      testParameters: check-rocmlir
-      testPublishResults: false
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  # compiling and running test on the test system together
+  - job: rocMLIR_test_${{ job.target }}
+    dependsOn: rocMLIR_build
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - task: Bash@3
+      displayName: Symlink rocm_agent_enumerator
+      inputs:
+        targetType: inline
+        script: |
+          # Assuming that /opt is no longer persistent across runs, test environments are fully ephemeral
+          sudo mkdir -p /opt/rocm/bin
+          sudo ln -s $(Agent.BuildDirectory)/rocm/bin/rocm_agent_enumerator /opt/rocm/bin/rocm_agent_enumerator
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        installEnabled: false
+        extraBuildFlags: >-
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/rocm/lib
+          -DCMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/lib
+          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
+          -DAMDGPU_TARGETS=${{ job.target }}
+          -DROCM_TEST_CHIPSET=${{ job.target }}
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: rocMLIR
+        testDir: $(Build.SourcesDirectory)/build
+        testExecutable: ninja
+        testParameters: check-rocmlir
+        testPublishResults: false
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        environment: test
+        gpuTarget: ${{ job.target }}

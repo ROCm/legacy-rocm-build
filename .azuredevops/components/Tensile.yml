@@ -30,8 +30,17 @@ parameters:
     - rocprofiler-register
     - ROCR-Runtime
 
+- name: jobMatrix
+  type: object
+  default:
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+
 jobs:
-- job: Tensile
+- job: Tensile_build
   variables:
   - group: common
   - template: /.azuredevops/variables-global.yml
@@ -78,7 +87,7 @@ jobs:
       workingDirectory: $(Pipeline.Workspace)
       targetType: inline
       script: |
-        echo "$(Build.DefinitionName)_$(Build.SourceBranchName)_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_drop_$(JOB_GPU_TARGET).tar.gz" >> pipelineArtifacts.txt
+        echo "$(Build.DefinitionName)_$(Build.SourceBranchName)_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_drop_${{ job.target }}.tar.gz" >> pipelineArtifacts.txt
         whlFile=$(find "$(Build.ArtifactStagingDirectory)" -type f -name "*.whl" | head -n 1)
         if [ -n "$whlFile" ]; then
           echo $(basename "$whlFile") >> pipelineArtifacts.txt
@@ -89,77 +98,73 @@ jobs:
   #     aptPackages: ${{ parameters.aptPackages }}
   #     pipModules: ${{ parameters.pipModules }}
 
-- job: Tensile_testing
-  timeoutInMinutes: 180
-  dependsOn: Tensile
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: ROCM_PATH
-    value: $(Agent.BuildDirectory)/rocm
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - task: DownloadPipelineArtifact@2
-    displayName: 'Download Pipeline Wheel Files'
-    inputs:
-      itemPattern: '**/*.whl'
-      targetPath: $(Agent.BuildDirectory)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - task: Bash@3
-    displayName: pip install
-    inputs:
-      targetType: inline
-      script: find -name *.whl -exec pip install {} \;
-      workingDirectory: $(Agent.BuildDirectory)
-  - task: Bash@3
-    displayName: Setup test environment
-    inputs:
-      targetType: inline
-      script: |
-        # Assuming that /opt is no longer persistent across runs, test environments are fully ephemeral
-        sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
-        USER_BASE=$(python3 -m site --user-base)
-        echo "##vso[task.prependpath]$USER_BASE/bin"
-        echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
-        echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - task: Bash@3
-    displayName: tox test
-    inputs:
-      targetType: inline
-      script: tox run -v -e ci -- -m pre_checkin
-      workingDirectory: $(Build.SourcesDirectory)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
-      optSymLink: true
-      pythonEnvVars: true
-      extraPaths: /home/user/workspace/rocm/llvm/bin:/home/user/workspace/rocm/bin
-# docker image will not have python site-packages in path, but the env vars will make it easier
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: Tensile_test_${{ job.target }}
+    timeoutInMinutes: 180
+    dependsOn: Tensile_build
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - task: DownloadPipelineArtifact@2
+      displayName: 'Download Pipeline Wheel Files'
+      inputs:
+        itemPattern: '**/*.whl'
+        targetPath: $(Agent.BuildDirectory)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - task: Bash@3
+      displayName: pip install
+      inputs:
+        targetType: inline
+        script: find -name *.whl -exec pip install {} \;
+        workingDirectory: $(Agent.BuildDirectory)
+    - task: Bash@3
+      displayName: Setup test environment
+      inputs:
+        targetType: inline
+        script: |
+          # Assuming that /opt is no longer persistent across runs, test environments are fully ephemeral
+          sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
+          USER_BASE=$(python3 -m site --user-base)
+          echo "##vso[task.prependpath]$USER_BASE/bin"
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - task: Bash@3
+      displayName: tox test
+      inputs:
+        targetType: inline
+        script: tox run -v -e ci -- -m pre_checkin
+        workingDirectory: $(Build.SourcesDirectory)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        environment: test
+        gpuTarget: ${{ job.target }}
+        pythonEnvVars: true
+        extraPaths: /home/user/workspace/rocm/llvm/bin:/home/user/workspace/rocm/bin
+  # docker image will not have python site-packages in path, but the env vars will make it easier

@@ -50,140 +50,146 @@ parameters:
     - rocprofiler-register
     - roctracer
 
-jobs:
-- job: rocprofiler_compute
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: 
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
-  #     pipModules: ${{ parameters.pipModules }}
-  #     gpuTarget: $(JOB_GPU_TARGET)
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
-- job: rocprofiler_compute_testing
-  timeoutInMinutes: 120
-  dependsOn: rocprofiler_compute
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: PYTHON_VERSION
-    value: 3.10
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - task: Bash@3
-    displayName: Add en_US.UTF-8 locale
-    inputs:
-      targetType: inline
-      script: |
-        sudo locale-gen en_US.UTF-8
-        sudo update-locale
-        locale -a
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - task: Bash@3
-    displayName: Add ROCm binaries to PATH
-    inputs:
-      targetType: inline
-      script: echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
-  - task: Bash@3
-    displayName: Add ROCm compilers to PATH
-    inputs:
-      targetType: inline
-      script: echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DCMAKE_HIP_ARCHITECTURES=$(JOB_GPU_TARGET)
-        -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
-        -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake/hip
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
-        -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-        -DCMAKE_BUILD_TYPE=Release
-        -DENABLE_TESTS=ON
-        -DINSTALL_TESTS=ON
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: rocprofiler-compute
-      testDir: $(Build.BinariesDirectory)/libexec/rocprofiler-compute
-      testExecutable: ROCM_PATH=$(Agent.BuildDirectory)/rocm ctest
-  - task: Bash@3
-    displayName: Remove ROCm binaries from PATH
-    condition: always()
-    inputs:
-      targetType: inline
-      script: echo "##vso[task.setvariable variable=PATH]$(echo $PATH | sed -e 's;:$(Agent.BuildDirectory)/rocm/bin;;' -e 's;^/;;' -e 's;/$;;')"
-  - task: Bash@3
-    displayName: Remove ROCm compilers from PATH
-    condition: always()
-    inputs:
-      targetType: inline
-      script: echo "##vso[task.setvariable variable=PATH]$(echo $PATH | sed -e 's;:$(Agent.BuildDirectory)/rocm/llvm/bin;;' -e 's;^/;;' -e 's;/$;;')"
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: rocprofiler_compute_build_${{ job.target }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool:
+      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}
+    #     pipModules: ${{ parameters.pipModules }}
+    #     gpuTarget: ${{ job.target }}
+
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: rocprofiler_compute_test_${{ job.target }}
+    timeoutInMinutes: 120
+    dependsOn: rocprofiler_compute_build_${{ job.target }}
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: PYTHON_VERSION
+      value: 3.10
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - task: Bash@3
+      displayName: Add en_US.UTF-8 locale
+      inputs:
+        targetType: inline
+        script: |
+          sudo locale-gen en_US.UTF-8
+          sudo update-locale
+          locale -a
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - task: Bash@3
+      displayName: Add ROCm binaries to PATH
+      inputs:
+        targetType: inline
+        script: echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
+    - task: Bash@3
+      displayName: Add ROCm compilers to PATH
+      inputs:
+        targetType: inline
+        script: echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -DCMAKE_HIP_ARCHITECTURES=${{ job.target }}
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+          -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake/hip
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
+          -DCMAKE_BUILD_TYPE=Release
+          -DENABLE_TESTS=ON
+          -DINSTALL_TESTS=ON
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: rocprofiler-compute
+        testDir: $(Build.BinariesDirectory)/libexec/rocprofiler-compute
+        testExecutable: ROCM_PATH=$(Agent.BuildDirectory)/rocm ctest
+    - task: Bash@3
+      displayName: Remove ROCm binaries from PATH
+      condition: always()
+      inputs:
+        targetType: inline
+        script: echo "##vso[task.setvariable variable=PATH]$(echo $PATH | sed -e 's;:$(Agent.BuildDirectory)/rocm/bin;;' -e 's;^/;;' -e 's;/$;;')"
+    - task: Bash@3
+      displayName: Remove ROCm compilers from PATH
+      condition: always()
+      inputs:
+        targetType: inline
+        script: echo "##vso[task.setvariable variable=PATH]$(echo $PATH | sed -e 's;:$(Agent.BuildDirectory)/rocm/llvm/bin;;' -e 's;^/;;' -e 's;/$;;')"
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        environment: test
+        gpuTarget: ${{ job.target }}

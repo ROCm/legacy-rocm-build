@@ -61,194 +61,200 @@ parameters:
     - ROCR-Runtime
     - rpp
 
-jobs:
-- job: rocAL
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: 
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-  steps:
-  - task: Bash@3
-    displayName: 'Register libjpeg-turbo packages'
-    inputs:
-      targetType: inline
-      script: |
-        sudo mkdir --parents --mode=0755 /etc/apt/keyrings
-        wget -q -O- https://packagecloud.io/dcommander/libjpeg-turbo/gpgkey | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/libjpeg-turbo.gpg > /dev/null
-        echo "deb [signed-by=/etc/apt/trusted.gpg.d/libjpeg-turbo.gpg] https://packagecloud.io/dcommander/libjpeg-turbo/any/ any main" | sudo tee /etc/apt/sources.list.d/libjpeg-turbo.list
-        sudo apt update
-        apt-cache show libjpeg-turbo-official | grep Version
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - task: Bash@3
-    displayName: 'Clone PyBind11'
-    inputs:
-      targetType: inline
-      script: git clone --depth 1 -b v2.11.1 https://github.com/pybind/pybind11
-      workingDirectory: '$(Build.SourcesDirectory)'
-  - task: Bash@3
-    displayName: 'Clone RapidJSON'
-    inputs:
-      targetType: inline
-      script: git clone --depth 1 https://github.com/Tencent/rapidjson.git
-      workingDirectory: '$(Build.SourcesDirectory)'
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      componentName: PyBind11
-      cmakeBuildDir: '$(Build.SourcesDirectory)/pybind11/build'
-      customInstallPath: false
-      installEnabled: false
-      extraBuildFlags: >-
-        -DDOWNLOAD_CATCH=ON
-        -DDOWNLOAD_EIGEN=ON
-        -GNinja
-  - task: Bash@3
-    displayName: 'Install PyBind11'
-    inputs:
-      targetType: inline
-      script: sudo cmake --build . --target install
-      workingDirectory: '$(Build.SourcesDirectory)/pybind11/build'
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      componentName: RapidJSON
-      cmakeBuildDir: '$(Build.SourcesDirectory)/rapidjson/build'
-      customInstallPath: false
-      installEnabled: false
-      extraBuildFlags: >-
-        -GNinja
-  - task: Bash@3
-    displayName: 'Install RapidJSON'
-    inputs:
-      targetType: inline
-      script: sudo cmake --build . --target install
-      workingDirectory: '$(Build.SourcesDirectory)/rapidjson/build'
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;/opt/libjpeg-turbo
-        -DCMAKE_INSTALL_PREFIX_PYTHON=$Python3_STDARCH
-        -DCMAKE_BUILD_TYPE=Release
-        -DGPU_TARGETS=$(JOB_GPU_TARGET)
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
-  #     pipModules: ${{ parameters.pipModules }}
-  #     registerJPEGPackages: true
-  #     gpuTarget: $(JOB_GPU_TARGET)
-  #     extraCopyDirectories:
-  #       - /opt/libjpeg-turbo
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
-- job: rocAL_testing
-  dependsOn: rocAL
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: ROCM_PATH
-    value: $(Agent.BuildDirectory)/rocm
-  - name: CMAKE_INCLUDE_PATH
-    value: $(Agent.BuildDirectory)/rocm/include/rocal
-  pool:
-    name: $(JOB_TEST_POOL)
-    demands: firstRenderDeviceAccess
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - task: Bash@3
-    displayName: 'Register libjpeg-turbo packages'
-    inputs:
-      targetType: inline
-      script: |
-        sudo mkdir --parents --mode=0755 /etc/apt/keyrings
-        wget -q -O- https://packagecloud.io/dcommander/libjpeg-turbo/gpgkey | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/libjpeg-turbo.gpg > /dev/null
-        echo "deb [signed-by=/etc/apt/trusted.gpg.d/libjpeg-turbo.gpg] https://packagecloud.io/dcommander/libjpeg-turbo/any/ any main" | sudo tee /etc/apt/sources.list.d/libjpeg-turbo.list
-        sudo apt update
-        apt-cache show libjpeg-turbo-official | grep Version
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmTestDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - task: Bash@3
-    displayName: Link libjpeg-turbo
-    inputs:
-      targetType: inline
-      script: |
-        echo /opt/libjpeg-turbo/lib64 | sudo tee /etc/ld.so.conf.d/libjpeg-turbo.conf
-        sudo ldconfig -v
-  - task: Bash@3
-    displayName: Build rocAL tests
-    inputs:
-      targetType: inline
-      script: |
-        mkdir rocAL-tests
-        cd rocAL-tests
-        cmake $(Agent.BuildDirectory)/rocm/share/rocal/test
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: rocAL
-      testDir: rocAL-tests
-  - task: Bash@3
-    displayName: Clean up libjpeg-turbo
-    condition: always()
-    inputs:
-      targetType: inline
-      script: |
-        sudo rm /etc/ld.so.conf.d/libjpeg-turbo.conf
-        sudo ldconfig -v
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      registerJPEGPackages: true
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
-      extraCopyDirectories:
-        - /opt/libjpeg-turbo
-# docker image will be missing the ldconfig to libjpeg-turbo
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: rocAL_build_${{ job.target }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool:
+      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - task: Bash@3
+      displayName: 'Register libjpeg-turbo packages'
+      inputs:
+        targetType: inline
+        script: |
+          sudo mkdir --parents --mode=0755 /etc/apt/keyrings
+          wget -q -O- https://packagecloud.io/dcommander/libjpeg-turbo/gpgkey | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/libjpeg-turbo.gpg > /dev/null
+          echo "deb [signed-by=/etc/apt/trusted.gpg.d/libjpeg-turbo.gpg] https://packagecloud.io/dcommander/libjpeg-turbo/any/ any main" | sudo tee /etc/apt/sources.list.d/libjpeg-turbo.list
+          sudo apt update
+          apt-cache show libjpeg-turbo-official | grep Version
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - task: Bash@3
+      displayName: 'Clone PyBind11'
+      inputs:
+        targetType: inline
+        script: git clone --depth 1 -b v2.11.1 https://github.com/pybind/pybind11
+        workingDirectory: '$(Build.SourcesDirectory)'
+    - task: Bash@3
+      displayName: 'Clone RapidJSON'
+      inputs:
+        targetType: inline
+        script: git clone --depth 1 https://github.com/Tencent/rapidjson.git
+        workingDirectory: '$(Build.SourcesDirectory)'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        componentName: PyBind11
+        cmakeBuildDir: '$(Build.SourcesDirectory)/pybind11/build'
+        customInstallPath: false
+        installEnabled: false
+        extraBuildFlags: >-
+          -DDOWNLOAD_CATCH=ON
+          -DDOWNLOAD_EIGEN=ON
+          -GNinja
+    - task: Bash@3
+      displayName: 'Install PyBind11'
+      inputs:
+        targetType: inline
+        script: sudo cmake --build . --target install
+        workingDirectory: '$(Build.SourcesDirectory)/pybind11/build'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        componentName: RapidJSON
+        cmakeBuildDir: '$(Build.SourcesDirectory)/rapidjson/build'
+        customInstallPath: false
+        installEnabled: false
+        extraBuildFlags: >-
+          -GNinja
+    - task: Bash@3
+      displayName: 'Install RapidJSON'
+      inputs:
+        targetType: inline
+        script: sudo cmake --build . --target install
+        workingDirectory: '$(Build.SourcesDirectory)/rapidjson/build'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;/opt/libjpeg-turbo
+          -DCMAKE_INSTALL_PREFIX_PYTHON=$Python3_STDARCH
+          -DCMAKE_BUILD_TYPE=Release
+          -DGPU_TARGETS=${{ job.target }}
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}
+    #     pipModules: ${{ parameters.pipModules }}
+    #     registerJPEGPackages: true
+    #     gpuTarget: ${{ job.target }}
+    #     extraCopyDirectories:
+    #       - /opt/libjpeg-turbo
+
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: rocAL_test_${{ job.target }}
+    dependsOn: rocAL_build_${{ job.target }}
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    - name: CMAKE_INCLUDE_PATH
+      value: $(Agent.BuildDirectory)/rocm/include/rocal
+    pool:
+      name: ${{ job.target }}_test_pool
+      demands: firstRenderDeviceAccess
+    workspace:
+      clean: all
+    steps:
+    - task: Bash@3
+      displayName: 'Register libjpeg-turbo packages'
+      inputs:
+        targetType: inline
+        script: |
+          sudo mkdir --parents --mode=0755 /etc/apt/keyrings
+          wget -q -O- https://packagecloud.io/dcommander/libjpeg-turbo/gpgkey | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/libjpeg-turbo.gpg > /dev/null
+          echo "deb [signed-by=/etc/apt/trusted.gpg.d/libjpeg-turbo.gpg] https://packagecloud.io/dcommander/libjpeg-turbo/any/ any main" | sudo tee /etc/apt/sources.list.d/libjpeg-turbo.list
+          sudo apt update
+          apt-cache show libjpeg-turbo-official | grep Version
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmTestDependencies }}
+        gpuTarget: ${{ job.target }}
+    - task: Bash@3
+      displayName: Link libjpeg-turbo
+      inputs:
+        targetType: inline
+        script: |
+          echo /opt/libjpeg-turbo/lib64 | sudo tee /etc/ld.so.conf.d/libjpeg-turbo.conf
+          sudo ldconfig -v
+    - task: Bash@3
+      displayName: Build rocAL tests
+      inputs:
+        targetType: inline
+        script: |
+          mkdir rocAL-tests
+          cd rocAL-tests
+          cmake $(Agent.BuildDirectory)/rocm/share/rocal/test
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: rocAL
+        testDir: rocAL-tests
+    - task: Bash@3
+      displayName: Clean up libjpeg-turbo
+      condition: always()
+      inputs:
+        targetType: inline
+        script: |
+          sudo rm /etc/ld.so.conf.d/libjpeg-turbo.conf
+          sudo ldconfig -v
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        registerJPEGPackages: true
+        environment: test
+        gpuTarget: ${{ job.target }}
+        extraCopyDirectories:
+          - /opt/libjpeg-turbo
+  # docker image will be missing the ldconfig to libjpeg-turbo

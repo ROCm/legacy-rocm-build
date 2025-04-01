@@ -72,129 +72,135 @@ parameters:
     - rocprofiler-register
     - roctracer
 
-jobs:
-- job: AMDMIGraphX
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: ${{ variables.MEDIUM_BUILD_POOL }}
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-# half version should be fixed to 5.6.0
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-    parameters:
-      buildType: specific
-      definitionId: ${{ variables.HALF560_PIPELINE_ID }}
-      buildId: ${{ variables.HALF560_BUILD_ID }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DCMAKE_BUILD_TYPE=Release
-        -DGPU_TARGETS=$(JOB_GPU_TARGET)
-        -DAMDGPU_TARGETS=$(JOB_GPU_TARGET)
-        -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake/hip
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm
-        -DHALF_INCLUDE_DIR=$(Agent.BuildDirectory)/rocm/include
-        -DBUILD_TESTING=ON
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      gpuTarget: $(JOB_GPU_TARGET)
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
-- job: AMDMIGraphX_testing
-  dependsOn: AMDMIGraphX
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: MIGRAPHX_TRACE_BENCHMARKING
-    value: 1
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-# half version should be fixed to 5.6.0
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-    parameters:
-      buildType: specific
-      definitionId: ${{ variables.HALF560_PIPELINE_ID }}
-      buildId: ${{ variables.HALF560_BUILD_ID }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmTestDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - task: CMake@1
-    displayName: MIGraphXTest CMake Flags
-    inputs:
-      cmakeArgs: >-
-        -DCMAKE_BUILD_TYPE=Release
-        -DGPU_TARGETS=$(JOB_GPU_TARGET)
-        -DAMDGPU_TARGETS=$(JOB_GPU_TARGET)
-        -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake/hip
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm
-        -DHALF_INCLUDE_DIR=$(Agent.BuildDirectory)/rocm/include
-        -DBUILD_TESTING=ON
-        -DMIGRAPHX_ENABLE_C_API_TEST=ON
-        ..
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: AMDMIGraphX
-      testExecutable: make
-      testParameters: -j$(nproc) check
-      testPublishResults: false
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
-      extraEnvVars:
-        - MIGRAPHX_TRACE_BENCHMARKING:::1
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: AMDMIGraphX_build_${{ job.target }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+  # half version should be fixed to 5.6.0
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        buildType: specific
+        definitionId: ${{ variables.HALF560_PIPELINE_ID }}
+        buildId: ${{ variables.HALF560_BUILD_ID }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -DCMAKE_BUILD_TYPE=Release
+          -DGPU_TARGETS=${{ job.target }}
+          -DAMDGPU_TARGETS=${{ job.target }}
+          -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake/hip
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm
+          -DHALF_INCLUDE_DIR=$(Agent.BuildDirectory)/rocm/include
+          -DBUILD_TESTING=ON
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        gpuTarget: ${{ job.target }}
+
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: AMDMIGraphX_test_${{ job.target }}
+    dependsOn: AMDMIGraphX_build_${{ job.target }}
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: MIGRAPHX_TRACE_BENCHMARKING
+      value: 1
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+  # half version should be fixed to 5.6.0
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        buildType: specific
+        definitionId: ${{ variables.HALF560_PIPELINE_ID }}
+        buildId: ${{ variables.HALF560_BUILD_ID }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmTestDependencies }}
+        gpuTarget: ${{ job.target }}
+    - task: CMake@1
+      displayName: MIGraphXTest CMake Flags
+      inputs:
+        cmakeArgs: >-
+          -DCMAKE_BUILD_TYPE=Release
+          -DGPU_TARGETS=${{ job.target }}
+          -DAMDGPU_TARGETS=${{ job.target }}
+          -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake/hip
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm
+          -DHALF_INCLUDE_DIR=$(Agent.BuildDirectory)/rocm/include
+          -DBUILD_TESTING=ON
+          -DMIGRAPHX_ENABLE_C_API_TEST=ON
+          ..
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: AMDMIGraphX
+        testExecutable: make
+        testParameters: -j$(nproc) check
+        testPublishResults: false
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        environment: test
+        gpuTarget: ${{ job.target }}
+        extraEnvVars:
+          - MIGRAPHX_TRACE_BENCHMARKING:::1

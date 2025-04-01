@@ -45,143 +45,149 @@ parameters:
     - rocprofiler-register
     - ROCR-Runtime
 
-jobs:
-- job: rpp
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: ROCM_PATH
-    value: $(Agent.BuildDirectory)/rocm
-  pool: 
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
-        -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
-        -DHALF_INCLUDE_DIRS=$(Agent.BuildDirectory)/rocm/include
-        -DCMAKE_BUILD_TYPE=Release
-        -DGPU_TARGETS=$(JOB_GPU_TARGET)
-        -DROCM_PLATFORM_VERSION=$(NEXT_RELEASE_VERSION)
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
-  #     pipModules: ${{ parameters.pipModules }}
-  #     gpuTarget: $(JOB_GPU_TARGET)
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
-- job: rpp_testing
-  dependsOn: rpp
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: ROCM_PATH
-    value: $(Agent.BuildDirectory)/rocm
-  pool: $(JOB_TEST_POOL)
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-        JOB_TEST_POOL: ${{ variables.GFX90A_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmTestDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  # Dependencies from: https://github.com/ROCm/rpp/blob/develop/utilities/test_suite/README.md
-  - task: Bash@3
-    displayName: Build and install Turbo JPEG
-    inputs:
-      targetType: 'inline'
-      script: |
-        sudo apt-get install nasm
-        sudo apt-get install wget
-        git clone -b 3.0.2 https://github.com/libjpeg-turbo/libjpeg-turbo.git
-        cd libjpeg-turbo
-        mkdir build
-        cd build
-        cmake -DCMAKE_INSTALL_PREFIX=/usr \
-              -DCMAKE_BUILD_TYPE=RELEASE  \
-              -DENABLE_STATIC=FALSE       \
-              -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib  \
-              -DWITH_JPEG8=TRUE           \
-              ..
-        make -j$nproc
-        sudo make install
-  - task: Bash@3
-    displayName: Build and install Nifti
-    inputs:
-      targetType: 'inline'
-      script: |
-        git clone -b v3.0.1 https://github.com/NIFTI-Imaging/nifti_clib.git
-        cd nifti_clib
-        mkdir build
-        cd build
-        cmake ..
-        sudo make -j$nproc install
-  - task: Bash@3
-    displayName: Build rpp tests
-    inputs:
-      targetType: 'inline'
-      script: |
-        mkdir rpp-tests
-        cd rpp-tests
-        cmake $(Agent.BuildDirectory)/rocm/share/rpp/test \
-          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++ \
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: rpp_build_${{ job.target }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    pool:
+      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: rpp
-      testExecutable: 'CMAKE_VERBOSE_MAKEFILE=ON VERBOSE=1 ctest'
-      testDir: 'rpp-tests'
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      environment: test
-      gpuTarget: $(JOB_GPU_TARGET)
+          -DHALF_INCLUDE_DIRS=$(Agent.BuildDirectory)/rocm/include
+          -DCMAKE_BUILD_TYPE=Release
+          -DGPU_TARGETS=${{ job.target }}
+          -DROCM_PLATFORM_VERSION=$(NEXT_RELEASE_VERSION)
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}
+    #     pipModules: ${{ parameters.pipModules }}
+    #     gpuTarget: ${{ job.target }}
+
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: rpp_test_${{ job.target }}
+    dependsOn: rpp_build_${{ job.target }}
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+      )
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    pool: ${{ job.target }}_test_pool
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmTestDependencies }}
+        gpuTarget: ${{ job.target }}
+    # Dependencies from: https://github.com/ROCm/rpp/blob/develop/utilities/test_suite/README.md
+    - task: Bash@3
+      displayName: Build and install Turbo JPEG
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo apt-get install nasm
+          sudo apt-get install wget
+          git clone -b 3.0.2 https://github.com/libjpeg-turbo/libjpeg-turbo.git
+          cd libjpeg-turbo
+          mkdir build
+          cd build
+          cmake -DCMAKE_INSTALL_PREFIX=/usr \
+                -DCMAKE_BUILD_TYPE=RELEASE  \
+                -DENABLE_STATIC=FALSE       \
+                -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib  \
+                -DWITH_JPEG8=TRUE           \
+                ..
+          make -j$nproc
+          sudo make install
+    - task: Bash@3
+      displayName: Build and install Nifti
+      inputs:
+        targetType: 'inline'
+        script: |
+          git clone -b v3.0.1 https://github.com/NIFTI-Imaging/nifti_clib.git
+          cd nifti_clib
+          mkdir build
+          cd build
+          cmake ..
+          sudo make -j$nproc install
+    - task: Bash@3
+      displayName: Build rpp tests
+      inputs:
+        targetType: 'inline'
+        script: |
+          mkdir rpp-tests
+          cd rpp-tests
+          cmake $(Agent.BuildDirectory)/rocm/share/rpp/test \
+            -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++ \
+            -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: rpp
+        testExecutable: 'CMAKE_VERBOSE_MAKEFILE=ON VERBOSE=1 ctest'
+        testDir: 'rpp-tests'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        environment: test
+        gpuTarget: ${{ job.target }}
