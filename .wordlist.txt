@@ -225,6 +225,7 @@ LM
 LSAN
 LSan
 LTS
+LanguageCrossEntropy
 LoRA
 MEM
 MERCHANTABILITY
@@ -242,6 +243,7 @@ MMIOH
 MMU
 MNIST
 MPI
+MPT
 MSVC
 MVAPICH
 MVFFR
@@ -257,6 +259,7 @@ Meta's
 Miniconda
 MirroredStrategy
 Mixtral
+MosaicML
 Multicore
 Multithreaded
 MyEnvironment
@@ -327,6 +330,7 @@ PipelineParallel
 PnP
 PowerEdge
 PowerShell
+Pretrained
 Pretraining
 Profiler's
 PyPi
