@@ -564,7 +564,7 @@ vLLM engine arguments
 ---------------------
 
 The following are configuration suggestions to potentially improve performance with vLLM. See
-`vLLM's engine arguments documentation <https://docs.vllm.ai/en/stable/models/engine_args.html>`_
+`vLLM's engine arguments documentation <https://docs.vllm.ai/en/latest/serving/engine_args.html>`_
 for a full list of configurable engine arguments.
 
 Configure the max-num-seqs parameter
