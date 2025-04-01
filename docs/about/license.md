@@ -77,7 +77,7 @@ additional licenses. Please review individual repositories for more information.
 | [rocPRIM](https://github.com/ROCm/rocPRIM/) | [MIT](https://github.com/ROCm/rocPRIM/blob/develop/LICENSE.txt) |
 | [ROCProfiler](https://github.com/ROCm/rocprofiler/) | [MIT](https://github.com/ROCm/rocprofiler/blob/amd-staging/LICENSE) |
 | [ROCprofiler-SDK](https://github.com/ROCm/rocprofiler-sdk) | [MIT](https://github.com/ROCm/rocprofiler-sdk/blob/amd-mainline/LICENSE) |
-| [rocPyDecode](https://github.com/ROCm/rocPyDecode) | [MIT](https://github.com/ROCm/rocPyDecode/blob/develop/LICENSE) |
+| [rocPyDecode](https://github.com/ROCm/rocPyDecode) | [MIT](https://github.com/ROCm/rocPyDecode/blob/develop/LICENSE.txt) |
 | [rocRAND](https://github.com/ROCm/rocRAND/) | [MIT](https://github.com/ROCm/rocRAND/blob/develop/LICENSE.txt) |
 | [ROCr Debug Agent](https://github.com/ROCm/rocr_debug_agent/) | [The University of Illinois/NCSA](https://github.com/ROCm/rocr_debug_agent/blob/amd-staging/LICENSE.txt) |
 | [ROCR-Runtime](https://github.com/ROCm/ROCR-Runtime/) | [The University of Illinois/NCSA](https://github.com/ROCm/ROCR-Runtime/blob/amd-staging/LICENSE.txt) |
