@@ -32,7 +32,7 @@ LLM inference performance testing on AMD Instinct MI300X
 
    .. _vllm-benchmark-available-models:
 
-   Available models
+   Supported models
    ================
 
    .. raw:: html
@@ -174,6 +174,20 @@ LLM inference performance testing on AMD Instinct MI300X
             Although the :ref:`available models <vllm-benchmark-available-models>` are preconfigured
             to collect latency and throughput performance data, you can also change the benchmarking
             parameters. See the standalone benchmarking tab for more information.
+
+            Optionally, to collect performance data using PyTorch TunableOp, include the ``--tunableop on`` command
+            in your run command. For example:
+
+            .. code-block:: shell
+
+               python3 tools/run_models.py --tags {{model.mad_tag}} --keep-model-dir --live-output --timeout 28800 --tunableop on
+
+            By default, the {{model.mad_tag}} model includes ``--tunableop off`` in its
+            configuration. To customize the default behavior, edit the ``models.json`` file; find the
+            configuration for {{model.mad_tag}} and modify the ``args`` field to specify ``--tunableop on``.
+
+            Enabling TunableOp triggers a two-pass run -- a warm-up followed by a performance-collection run,
+            generating a ``gemm_result_<dataset>.csv`` file for analysis. For example, to enable TunableOp in your run:
 
          .. tab-item:: Standalone benchmarking
 
