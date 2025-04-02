@@ -17,6 +17,7 @@ parameters:
     - libgmp-dev
     - liblzma-dev
     - libmpfr-dev
+    - pkg-config
     - ncurses-dev
     - texinfo
     - zlib1g-dev
