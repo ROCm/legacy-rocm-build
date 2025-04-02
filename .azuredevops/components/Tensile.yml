@@ -87,7 +87,6 @@ jobs:
       workingDirectory: $(Pipeline.Workspace)
       targetType: inline
       script: |
-        echo "$(Build.DefinitionName)_$(Build.SourceBranchName)_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_drop_${{ job.target }}.tar.gz" >> pipelineArtifacts.txt
         whlFile=$(find "$(Build.ArtifactStagingDirectory)" -type f -name "*.whl" | head -n 1)
         if [ -n "$whlFile" ]; then
           echo $(basename "$whlFile") >> pipelineArtifacts.txt
