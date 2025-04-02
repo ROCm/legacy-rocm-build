@@ -101,10 +101,10 @@ vllm_benchmark:
         model_repo: Qwen/Qwen2-72B-Instruct
         url: https://huggingface.co/Qwen/Qwen2-72B-Instruct
         precision: float16
-      - model: QwQ-32B-Preview
-        mad_tag: pyt_vllm_qwq-32b-preview
-        model_repo: Qwen/QwQ-32B-Preview
-        url: https://huggingface.co/Qwen/QwQ-32B-Preview
+      - model: QwQ-32B
+        mad_tag: pyt_vllm_qwq-32b
+        model_repo: Qwen/QwQ-32B
+        url: https://huggingface.co/Qwen/QwQ-32B
         precision: float16
     - group: JAIS
       tag: jais
