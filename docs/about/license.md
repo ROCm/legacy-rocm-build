@@ -25,7 +25,7 @@ additional licenses. Please review individual repositories for more information.
 <!-- spellcheck-disable -->
 | Component | License |
 |:---------------------|:-------------------------|
-| [AMD Compute Language Runtime (CLR)](https://github.com/ROCm/clr) | [MIT](https://github.com/ROCm/clr/blob/amd-staging/LICENCE.txt) |
+| [AMD Compute Language Runtime (CLR)](https://github.com/ROCm/clr) | [MIT](https://github.com/ROCm/clr/blob/amd-staging/LICENSE.txt) |
 | [AMD SMI](https://github.com/ROCm/amdsmi) | [MIT](https://github.com/ROCm/amdsmi/blob/amd-staging/LICENSE) |
 | [aomp](https://github.com/ROCm/aomp/) | [Apache 2.0](https://github.com/ROCm/aomp/blob/aomp-dev/LICENSE) |
 | [aomp-extras](https://github.com/ROCm/aomp-extras/) | [MIT](https://github.com/ROCm/aomp-extras/blob/aomp-dev/LICENSE) |
