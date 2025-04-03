@@ -124,7 +124,7 @@ jobs:
     - template: /.azuredevops/variables-global.yml
     - name: TEST_LOG_FILE
       value: $(Pipeline.Workspace)/ckTestLog.log
-    pool: ${{ job.target }}
+    pool: ${{ job.target }}_test_pool
     workspace:
       clean: all
     steps:
