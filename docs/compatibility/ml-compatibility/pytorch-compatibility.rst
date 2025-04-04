@@ -811,7 +811,7 @@ authoring, fine-tuning and experimenting with LLMs.
 torchserve
 --------------------------------------------------------------------------------
 
-The `torchserve <https://pytorch.org/torchserve/>`_ is a PyTorch domain library
+The `torchserve <https://pytorch.org/serve/>`_ is a PyTorch domain library
 for common sparsity and parallelism primitives needed for large-scale recommender
 systems.
 
