@@ -183,15 +183,12 @@ LLM inference performance testing on AMD Instinct MI300X
                TunableOp automatically explores different implementations and configurations of certain PyTorch
                operators to find the fastest one for your hardware.
 
-               By default,
-               ``{{model.mad_tag}}`` runs with TunableOp disabled (see
-               `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To enable it, run ``tools/run_models.py``
-               with the ``--tunableop on`` argument or edit the default run behavior in the ``models.json``
-               configuration before running training. For example:
-
-               .. code-block:: shell
-
-                  python3 tools/run_models.py --tags {{model.mad_tag}} --keep-model-dir --live-output --timeout 28800 --tunableop on
+               By default, ``{{model.mad_tag}}`` runs with TunableOp disabled
+               (see
+               `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To
+               enable it, edit the default run behavior in the ``models.json``
+               configuration before running training -- update the model's run
+               ``args`` by changing ``--tunableop off`` to ``--tunableop on``.
 
                Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run.
                Although this might increase the initial training time, it can result in a performance gain.
