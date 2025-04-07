@@ -175,6 +175,8 @@ LLM inference performance testing on AMD Instinct MI300X
             to collect latency and throughput performance data, you can also change the benchmarking
             parameters. See the standalone benchmarking tab for more information.
 
+            {% if model.tunableop %}
+
             Optionally, consider enabling :ref:`PyTorch TunableOp <mi300x-tunableop>` by including the
             ``--tunableop on`` argument in your run command.  TunableOp automatically explores different
             implementations and configurations of certain PyTorch operators to find the fastest one for your
@@ -191,6 +193,8 @@ LLM inference performance testing on AMD Instinct MI300X
 
             Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run,
             generating a ``gemm_result_<dataset>.csv`` file for analysis.
+
+            {% endif %}
 
          .. tab-item:: Standalone benchmarking
 

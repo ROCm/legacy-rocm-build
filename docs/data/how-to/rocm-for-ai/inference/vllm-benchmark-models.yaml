@@ -101,11 +101,13 @@ vllm_benchmark:
         model_repo: Qwen/Qwen1.5-MoE-A2.7B
         url: https://huggingface.co/Qwen/Qwen1.5-MoE-A2.7B
         precision: float16
+        tunableop: true
       - model: QwQ-32B
         mad_tag: pyt_vllm_qwq-32b
         model_repo: Qwen/QwQ-32B
         url: https://huggingface.co/Qwen/QwQ-32B
         precision: float16
+        tunableop: true
     - group: JAIS
       tag: jais
       models:
