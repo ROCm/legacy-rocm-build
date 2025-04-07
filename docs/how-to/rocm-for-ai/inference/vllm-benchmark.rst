@@ -177,22 +177,24 @@ LLM inference performance testing on AMD Instinct MI300X
 
             {% if model.tunableop %}
 
-            Optionally, consider enabling :ref:`PyTorch TunableOp <mi300x-tunableop>` by including the
-            ``--tunableop on`` argument in your run command.  TunableOp automatically explores different
-            implementations and configurations of certain PyTorch operators to find the fastest one for your
-            hardware. For example:
+            .. note::
 
-            .. code-block:: shell
+               For improved performance (training throughput), consider enabling :ref:`PyTorch TunableOp <mi300x-tunableop>`.
+               TunableOp automatically explores different implementations and configurations of certain PyTorch
+               operators to find the fastest one for your hardware.
 
-               python3 tools/run_models.py --tags {{model.mad_tag}} --keep-model-dir --live-output --timeout 28800 --tunableop on
+               By default,
+               ``{{model.mad_tag}}`` runs with TunableOp disabled (see
+               `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To enable it, run ``tools/run_models.py``
+               with the ``--tunableop on`` argument or edit the default run behavior in the ``models.json``
+               configuration before running training. For example:
 
-            By default, the ``{{model.mad_tag}}`` model includes ``--tunableop off`` in its configuration (see
-            `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To change the default run behavior,
-            edit the ``models.json`` file; find the configuration for {{model.mad_tag}} and modify the
-            ``args`` field to specify ``--tunableop on``.
+               .. code-block:: shell
 
-            Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run,
-            generating a ``gemm_result_<dataset>.csv`` file for analysis.
+                  python3 tools/run_models.py --tags {{model.mad_tag}} --keep-model-dir --live-output --timeout 28800 --tunableop on
+
+               Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run.
+               Although this might increase the initial training time, it can result in a performance gain.
 
             {% endif %}
 
