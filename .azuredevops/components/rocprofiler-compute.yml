@@ -54,19 +54,43 @@ parameters:
   type: object
   default:
     buildJobs:
-      - gfx942:
+      - gfx942-staging:
+        name: gfx942_staging
         target: gfx942
-      - gfx90a:
+        dependencySource: staging
+      - gfx942-mainline:
+        name: gfx942_mainline
+        target: gfx942
+        dependencySource: mainline
+      - gfx90a-staging:
+        name: gfx90a_staging
         target: gfx90a
+        dependencySource: staging
+      - gfx90a-mainline:
+        name: gfx90a_mainline
+        target: gfx90a
+        dependencySource: mainline
     testJobs:
-      - gfx942:
+      - gfx942-staging:
+        name: gfx942_staging
         target: gfx942
-      - gfx90a:
+        dependencySource: staging
+      - gfx942-mainline:
+        name: gfx942_mainline
+        target: gfx942
+        dependencySource: mainline
+      - gfx90a-staging:
+        name: gfx90a_staging
         target: gfx90a
+        dependencySource: staging
+      - gfx90a-mainline:
+        name: gfx90a_mainline
+        target: gfx90a
+        dependencySource: mainline
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocprofiler_compute_build_${{ job.target }}
+  - job: rocprofiler_compute_build_${{ job.name }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -88,6 +112,7 @@ jobs:
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
+        dependencySource: ${{ job.dependencySource }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
@@ -95,9 +120,11 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
+        artifactName: ${{ job.dependencySource }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
+        artifactName: ${{ job.dependencySource }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
@@ -107,9 +134,9 @@ jobs:
     #     gpuTarget: ${{ job.target }}
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocprofiler_compute_test_${{ job.target }}
+  - job: rocprofiler_compute_test_${{ job.name }}
     timeoutInMinutes: 120
-    dependsOn: rocprofiler_compute_build_${{ job.target }}
+    dependsOn: rocprofiler_compute_build_${{ job.name }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -141,11 +168,15 @@ jobs:
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        postTargetFilter: ${{ job.dependencySource }}
+        gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
+        dependencySource: ${{ job.dependencySource }}
         gpuTarget: ${{ job.target }}
     - task: Bash@3
       displayName: Add ROCm binaries to PATH
