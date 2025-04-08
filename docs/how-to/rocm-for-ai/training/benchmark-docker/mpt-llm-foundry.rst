@@ -24,7 +24,7 @@ series accelerators:
 +--------------------------+--------------------------------+
 | PyTorch                  | 2.7.0a0+git3a58512             |
 +--------------------------+--------------------------------+
-| Flash Attention          | 3.0.0                          |
+| Flash Attention          | 2.7.3                          |
 +--------------------------+--------------------------------+
 
 Using this image, you can build, run, and test the training process
