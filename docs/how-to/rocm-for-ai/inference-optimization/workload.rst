@@ -685,7 +685,7 @@ Two sample Llama scaling configuration files are in vLLM for ``llama2-70b`` and
 ``llama2-7b``.
 
 If building the vLLM using
-`Dockerfile.rocm <https://github.com/vllm-project/vllm/blob/main/Dockerfile.rocm>`_
+`Dockerfile.rocm <https://github.com/vllm-project/vllm/blob/main/docker/Dockerfile.rocm>`_
 for ``llama2-70b`` scale config, find the file at
 ``/vllm-workspace/tests/fp8_kv/llama2-70b-fp8-kv/kv_cache_scales.json`` at
 runtime.
