@@ -1,14 +1,14 @@
 parameters:
-- name: repo-name
+- name: repoName
   type: string
   default: ''
-- name: event-type
+- name: eventType
   type: string
   default: ''
-- name: azure-ci-job-number
+- name: azureBuildNumber
   type: string
   default: ''
-- name: github-actions-token
+- name:  githubActionsToken
   type: string
   default: ''
 
@@ -23,11 +23,11 @@ steps:
     script: |
       curl -X POST \
         -H "Accept: application/vnd.github.everest-preview+json" \
-        -H "Authorization: token ${{ parameters.github-actions-token }}" \
-        https://api.github.com/repos/${{ parameters.repo-name }}/dispatches \
+        -H "Authorization: token ${{ parameters.githubActionsToken }}" \
+        https://api.github.com/repos/${{ parameters.repoName }}/dispatches \
         -d '{
-          "event_type": "${{ parameters.event-type }}",
+          "event_type": "${{ parameters.eventType }}",
           "client_payload": {
-            "azure-job-id": "${{ parameters.azure-ci-job-number }}"
+            "azure-job-id": "${{ parameters.azureBuildNumber }}"
           }
         }'
