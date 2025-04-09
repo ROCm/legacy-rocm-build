@@ -1,0 +1,33 @@
+parameters:
+- name: repo-name
+  type: string
+  default: ''
+- name: event-type
+  type: string
+  default: ''
+- name: azure-ci-job-number
+  type: string
+  default: ''
+- name: github-actions-token
+  type: string
+  default: ''
+
+steps:
+- task: Bash@3
+  name: ghActionsPost
+  displayName: Post a request to a github repository with a repository_dispatch workflow
+  continueOnError: true
+  inputs:
+    targetType: inline
+    workingDirectory: $(Build.SourcesDirectory) 
+    script: |
+      curl -X POST \
+        -H "Accept: application/vnd.github.everest-preview+json" \
+        -H "Authorization: token ${{ parameters.github-actions-token }}" \
+        https://api.github.com/repos/${{ parameters.repo-name }}/dispatches \
+        -d '{
+          "event_type": "${{ parameters.event-type }}",
+          "client_payload": {
+            "azure-job-id": "${{ parameters.azure-ci-job-number }}"
+          }
+        }'
