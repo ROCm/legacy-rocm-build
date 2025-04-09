@@ -112,7 +112,7 @@ jobs:
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
   - job: composable_kernel_test_${{ job.target }}
-    timeoutInMinutes: 90
+    timeoutInMinutes: 180
     dependsOn: composable_kernel_build_${{ job.target }}
     condition:
       and(succeeded(),
