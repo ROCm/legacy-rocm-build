@@ -179,7 +179,7 @@ LLM inference performance testing on AMD Instinct MI300X
 
             .. note::
 
-               For improved performance (training throughput), consider enabling :ref:`PyTorch TunableOp <mi300x-tunableop>`.
+               For improved performance, consider enabling :ref:`PyTorch TunableOp <mi300x-tunableop>`.
                TunableOp automatically explores different implementations and configurations of certain PyTorch
                operators to find the fastest one for your hardware.
 
@@ -187,11 +187,10 @@ LLM inference performance testing on AMD Instinct MI300X
                (see
                `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To
                enable it, edit the default run behavior in the ``models.json``
-               configuration before running training -- update the model's run
+               configuration before running inference -- update the model's run
                ``args`` by changing ``--tunableop off`` to ``--tunableop on``.
 
                Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run.
-               Although this might increase the initial training time, it can result in a performance gain.
 
             {% endif %}
 
