@@ -70,6 +70,7 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/inference/hugging-face-models", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/llm-inference-frameworks", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/vllm-benchmark", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/pytorch-inference-benchmark", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/inference-optimization/index", "os": ["linux"]},
