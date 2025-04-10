@@ -57,7 +57,7 @@ PyTorch inference performance testing
       .. note::
 
          See the `{{ model.model }} model card on Hugging Face <{{ model.url }}>`_ to learn more about your selected model.
-         Some models require access authorization prior to use via an external license agreement through a third party.
+         Some models require access authorization before use via an external license agreement through a third party.
 
       {% endfor %}
    {% endfor %}
