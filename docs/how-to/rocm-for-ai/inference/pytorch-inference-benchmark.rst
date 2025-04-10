@@ -17,7 +17,7 @@ PyTorch inference performance testing
    The `ROCm PyTorch Docker <https://hub.docker.com/r/rocm/pytorch/tags>`_ image offers a prebuilt,
    optimized environment for testing model inference performance on AMD Instinct™ MI300X series
    accelerators. This guide demonstrates how to use the AMD Model Automation and Dashboarding (MAD)
-   tool with the ROCm PyTorch container to efficiently test inference performance on various models.
+   tool with the ROCm PyTorch container to test inference performance on various models efficiently.
 
    .. _pytorch-inference-benchmark-available-models:
 
