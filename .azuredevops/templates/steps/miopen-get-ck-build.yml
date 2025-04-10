@@ -17,7 +17,7 @@ steps:
     script: |
       AZ_API="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis"
       GH_API="https://api.github.com/repos/ROCm"
-      ARTIFACT_NAME="composablekernel.${{ parameters.gpuTarget }}"
+      ARTIFACT_NAME="composablekernelbuild${{ parameters.gpuTarget }}"
       EXIT_CODE=0
 
       # Try to find an Azure build for the specific CK commit called out in MIOpen's requirements.txt
