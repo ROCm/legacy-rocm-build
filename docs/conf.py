@@ -57,6 +57,7 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/training/prerequisite-system-validation", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/megatron-lm", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/pytorch-training", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/scale-model-training", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/fine-tuning/index", "os": ["linux"]},
