@@ -13,7 +13,7 @@ models <https://www.databricks.com/blog/mpt-30b>`_.
 
 `<https://github.com/ROCm/MAD>`__ provides a complete Docker-based training
 environment for the MPT-30B model using the `LLM Foundry
-<https://github.com/mosaicml/llm-foundry>`_ framework. This Docker image
+<https://github.com/mosaicml/llm-foundry>`_ framework. This environment
 packages the following software components to train on AMD Instinct MI300X
 series accelerators:
 
@@ -67,15 +67,6 @@ document are not validated.
 
          python3 tools/run_models.py --tags pyt_mpt30b_training --keep-model-dir --live-output --clean-docker-cache
 
-      .. note::
-
-         For improved performance (training throughput), consider enabling TunableOp.
-         By default, ``pyt_mpt30b_training`` runs with TunableOp disabled. To enable it,
-         run ``tools/run_models.py`` with the ``--tunableop on`` argument or edit the
-         ``models.json`` configuration before running training.
-
-         Although this might increase the initial training time, it can result in a performance gain.
-
       .. tip::
 
          If you experience any data download failures, set the
@@ -86,6 +77,15 @@ document are not validated.
          .. code-block:: shell
 
             export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
+
+      .. note::
+
+         For improved performance (training throughput), consider enabling TunableOp.
+         By default, ``pyt_mpt30b_training`` runs with TunableOp disabled. To enable it,
+         run ``tools/run_models.py`` with the ``--tunableop on`` argument or edit the
+         ``models.json`` configuration before running training.
+
+         Although this might increase the initial training time, it can result in a performance gain.
 
    .. tab-item:: Standalone benchmarking
 
