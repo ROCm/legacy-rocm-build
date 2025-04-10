@@ -137,18 +137,16 @@ PyTorch inference performance testing
       ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
       model are collected in ``perf.csv``.
 
-      .. container:: model-doc pyt_clip_inference
+      .. note::
 
-         .. note::
+         For improved performance, consider enabling TunableOp. By default,
+         ``{{model.mad_tag}}`` runs with TunableOp disabled (see
+         `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To enable
+         it, edit the default run behavior in the ``tools/run_models.py``-- update the model's
+         run ``args`` by changing ``--tunableop off`` to ``--tunableop on``.
 
-            For improved performance, consider enabling TunableOp. By default,
-            ``{{model.mad_tag}}`` runs with TunableOp disabled (see
-            `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To enable
-            it, edit the default run behavior in the ``tools/run_models.py``-- update the model's
-            run ``args`` by changing ``--tunableop off`` to ``--tunableop on``.
-
-            Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run.
-            Although this might increase the initial training time, it can result in a performance gain.
+         Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run.
+         Although this might increase the initial training time, it can result in a performance gain.
 
       {% endfor %}
    {% endfor %}
