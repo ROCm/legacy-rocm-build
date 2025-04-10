@@ -114,9 +114,9 @@ PyTorch inference performance testing
 
    .. container:: model-doc {{model.mad_tag}}
 
-      To simplify the benchmarking process, the ROCm Model Automation and Dashboarding
-      (`<https://github.com/ROCm/MAD>`__) project bootstraps the benchmarking process.
-      Clone the  MAD repository to a local directory and install the required packages on the
+      To simplify performance testing, the ROCm Model Automation and Dashboarding
+      (`<https://github.com/ROCm/MAD>`__) project provides ready-to-use scripts and configuration.
+      To start, clone the  MAD repository to a local directory and install the required packages on the
       host machine.
 
       .. code-block:: shell
