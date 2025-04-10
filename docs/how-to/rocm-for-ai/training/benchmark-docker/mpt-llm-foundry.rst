@@ -6,7 +6,7 @@
 Training MPT-30B with LLM Foundry and ROCm
 ******************************************
 
-MPT-30B is a 30 billion parameter decoder-style transformer-based model from
+MPT-30B is a 30-billion parameter decoder-style transformer-based model from
 the Mosaic Pretrained Transformer (MPT) family -- learn more about it in
 MosaicML's research blog `MPT-30B: Raising the bar for open-source foundation
 models <https://www.databricks.com/blog/mpt-30b>`_.
