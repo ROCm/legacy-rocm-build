@@ -43,7 +43,7 @@ Getting started
 
 The following procedures help you set up the training environment in a
 reproducible Docker container. This training environment is tailored for
-training MPT-30B using LLM Foundry and specific model configurations outlined.
+training MPT-30B using LLM Foundry and the specific model configurations outlined.
 Other configurations and run conditions outside those described in this
 document are not validated.
 
