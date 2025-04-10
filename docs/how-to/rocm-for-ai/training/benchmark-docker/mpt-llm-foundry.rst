@@ -69,7 +69,7 @@ document are not validated.
 
       .. tip::
 
-         If you experience any data download failures, set the
+         If you experience data download failures, set the
          ``MAD_SECRETS_HFTOKEN`` variable to your Hugging Face access token. See
          `User access tokens <https://huggingface.co/docs/hub/security-tokens>`_
          for details.
