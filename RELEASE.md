@@ -167,7 +167,7 @@ ROCm documentation continues to be updated to provide clearer and more comprehen
     - The [Math API](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/math_api.html) topic has been reorganized, and the ULP difference of maximum absolute error information has been added.
     - The new [Low precision floating point types](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/low_fp_types.html) topic includes information about FP8 (Quarter Precision) and FP16 (Half Precision).
 
-* In addition to these Release Notes, see the blog [Breaking Barriers in AI, HPC, and Modular GPU Software blog](https://rocm.blogs.amd.com/ecosystems-and-partners/rocm-6.4-blog/README.html) for a wide-ranging discussion of the key advancements and highlights of ROCm 6.4.
+* In addition to these Release Notes, see the blog [Breaking Barriers in AI, HPC, and Modular GPU Software](https://rocm.blogs.amd.com/ecosystems-and-partners/rocm-6.4-blog/README.html) for a wide-ranging discussion of the key advancements and highlights of ROCm 6.4.0.
 
 ## Operating system and hardware support changes
 
