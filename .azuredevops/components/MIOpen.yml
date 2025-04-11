@@ -5,6 +5,11 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
+# set to true if doing full build of ROCm stack
+# and dependencies are pulled from same pipeline
+- name: aggregatePipeline
+  type: boolean
+  default: false
 - name: aptPackages
   type: object
   default:
@@ -77,7 +82,7 @@ jobs:
     - template: /.azuredevops/variables-global.yml
     - name: ROCM_PATH
       value: $(Agent.BuildDirectory)/rocm
-    pool: ${{ variables.MEDIUM_BUILD_POOL }}
+    pool: ${{ variables.HIGH_BUILD_POOL }}
     workspace:
       clean: all
     steps:
@@ -97,6 +102,7 @@ jobs:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
     - task: Bash@3
       displayName: Build and install other dependencies
       inputs:
@@ -113,7 +119,7 @@ jobs:
         extraBuildFlags: >-
           -DMIOPEN_BACKEND=HIP
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/miopen-deps
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/miopen-deps --generator Ninja
           -DGPU_TARGETS=${{ job.target }}
           -DMIOPEN_ENABLE_AI_KERNEL_TUNING=OFF
           -DMIOPEN_ENABLE_AI_IMMED_MODE_FALLBACK=OFF
@@ -142,7 +148,8 @@ jobs:
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
+        eq(${{ parameters.aggregatePipeline }}, 'false')
       )
     variables:
     - group: common

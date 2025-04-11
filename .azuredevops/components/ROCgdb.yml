@@ -5,6 +5,11 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
+# set to true if doing full build of ROCm stack
+# and dependencies are pulled from same pipeline
+- name: aggregatePipeline
+  type: boolean
+  default: false
 # reference: https://github.com/ROCm/ROCgdb/blob/amd-staging/README-ROCM.md
 - name: aptPackages
   type: object
@@ -46,7 +51,8 @@ jobs:
     condition:
       and(
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName']))
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
+        eq(${{ parameters.aggregatePipeline }}, 'false')
       )
     variables:
     - group: common
@@ -69,6 +75,7 @@ jobs:
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-autotools.yml
       parameters:
         configureFlags: >-
