@@ -9,7 +9,7 @@ Training a model with PyTorch for ROCm
 PyTorch is an open-source machine learning framework that is widely used for
 model training with GPU-optimized components for transformer-based models.
 
-The PyTorch for ROCm training Docker (``rocm/pytorch-training:v25.4``) image
+The PyTorch for ROCm training Docker (``rocm/pytorch-training:v25.5``) image
 provides a prebuilt optimized environment for fine-tuning and pretraining a
 model on AMD Instinct MI325X and MI300X accelerators. It includes the following
 software components to accelerate training workloads:
@@ -17,19 +17,19 @@ software components to accelerate training workloads:
 +--------------------------+--------------------------------+
 | Software component       | Version                        |
 +==========================+================================+
-| ROCm                     | 6.3.0                          |
+| ROCm                     | 6.3.4                          |
 +--------------------------+--------------------------------+
 | PyTorch                  | 2.7.0a0+git637433              |
 +--------------------------+--------------------------------+
 | Python                   | 3.10                           |
 +--------------------------+--------------------------------+
-| Transformer Engine       | 1.11                           |
+| Transformer Engine       | 1.12.0.dev0+25a33da            |
 +--------------------------+--------------------------------+
 | Flash Attention          | 3.0.0                          |
 +--------------------------+--------------------------------+
-| hipBLASLt                | git258a2162                    |
+| hipBLASLt                | git53b53bf                     |
 +--------------------------+--------------------------------+
-| Triton                   | 3.1                            |
+| Triton                   | 3.2.0                          |
 +--------------------------+--------------------------------+
 
 .. _amd-pytorch-training-model-support:
@@ -93,7 +93,7 @@ Download the Docker image
 
    .. code-block:: shell
 
-      docker pull rocm/pytorch-training:v25.4
+      docker pull rocm/pytorch-training:v25.5
 
 2. Run the Docker container.
 
