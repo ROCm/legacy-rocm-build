@@ -38,7 +38,7 @@ parameters:
     AMDMIGraphX:
       pipelineId: $(AMDMIGRAPHX_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: master
       hasGpuTarget: true
     amdsmi:
       pipelineId: $(AMDSMI_PIPELINE_ID)
@@ -53,7 +53,7 @@ parameters:
     aomp:
       pipelineId: $(AOMP_PIPELINE_ID)
       stagingBranch: aomp-dev
-      mainlineBranch: amd-mainline-open
+      mainlineBranch: amd-mainline
       hasGpuTarget: false
     clr:
       pipelineId: $(CLR_PIPELINE_ID)
@@ -143,17 +143,17 @@ parameters:
     llvm-project:
       pipelineId: $(LLVM_PROJECT_PIPELINE_ID)
       stagingBranch: amd-staging
-      mainlineBranch: amd-mainline-open
+      mainlineBranch: amd-mainline
       hasGpuTarget: false
     MIOpen:
       pipelineId: $(MIOpen_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: amd-master
       hasGpuTarget: true
     MIVisionX:
       pipelineId: $(MIVISIONX_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: master
       hasGpuTarget: true
     omnitrace: # deprecated
       pipelineId: $(OMNITRACE_PIPELINE_ID)
@@ -173,7 +173,7 @@ parameters:
     rocAL:
       pipelineId: $(ROCAL_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: master
+      mainlineBranch: mainline
       hasGpuTarget: true
     rocALUTION:
       pipelineId: $(ROCALUTION_PIPELINE_ID)
@@ -222,13 +222,13 @@ parameters:
       hasGpuTarget: false
     rocm-examples:
       pipelineId: $(ROCM_EXAMPLES_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: develop
+      stagingBranch: amd-staging
+      mainlineBranch: amd-mainline
       hasGpuTarget: true
     rocminfo:
       pipelineId: $(ROCMINFO_PIPELINE_ID)
       stagingBranch: amd-staging
-      mainlineBranch: amd-master
+      mainlineBranch: amd-mainline
       hasGpuTarget: false
     rocMLIR:
       pipelineId: $(ROCMLIR_PIPELINE_ID)
@@ -238,7 +238,7 @@ parameters:
     ROCmValidationSuite:
       pipelineId: $(ROCMVALIDATIONSUITE_PIPELINE_ID)
       stagingBranch: master
-      mainlineBranch: mainline
+      mainlineBranch: master
       hasGpuTarget: true
     rocm_bandwidth_test:
       pipelineId: $(ROCM_BANDWIDTH_TEST_PIPELINE_ID)
@@ -262,7 +262,7 @@ parameters:
       hasGpuTarget: true
     rocprofiler-compute:
       pipelineId: $(ROCPROFILER_COMPUTE_PIPELINE_ID)
-      stagingBranch: amd-staging
+      stagingBranch: develop
       mainlineBranch: amd-mainline
       hasGpuTarget: true
     rocprofiler-register:
@@ -288,7 +288,7 @@ parameters:
     ROCR-Runtime:
       pipelineId: $(ROCR_RUNTIME_PIPELINE_ID)
       stagingBranch: amd-staging
-      mainlineBranch: amd-master
+      mainlineBranch: amd-mainline
       hasGpuTarget: false
     rocRAND:
       pipelineId: $(ROCRAND_PIPELINE_ID)
@@ -323,7 +323,7 @@ parameters:
     roctracer:
       pipelineId: $(ROCTRACER_PIPELINE_ID)
       stagingBranch: amd-staging
-      mainlineBranch: amd-master
+      mainlineBranch: amd-mainline
       hasGpuTarget: true
     rocWMMA:
       pipelineId: $(ROCWMMA_PIPELINE_ID)

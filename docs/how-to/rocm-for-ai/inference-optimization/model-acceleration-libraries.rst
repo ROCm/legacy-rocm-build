@@ -277,14 +277,14 @@ Installing FBGEMM_GPU
 Installing FBGEMM_GPU consists of the following steps:
 
 *  Set up an isolated Miniconda environment
-*  Install ROCm using Docker or the :doc:`package manager <rocm-install-on-linux:install/native-install/index>`
+*  Install ROCm using Docker or the :doc:`package manager <rocm-install-on-linux:install/install-methods/package-manager-index>`
 *  Install the nightly `PyTorch <https://pytorch.org/>`_ build
 *  Complete the pre-build and build tasks
   
 .. note::
 
    FBGEMM_GPU doesn't require the installation of FBGEMM. To optionally install
-   FBGEMM, see the `FBGEMM install instructions <https://pytorch.org/FBGEMM/fbgemm-development/BuildInstructions.html>`_.
+   FBGEMM, see the `FBGEMM install instructions <https://pytorch.org/FBGEMM/fbgemm/development/BuildInstructions.html>`_.
 
 Set up the Miniconda environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

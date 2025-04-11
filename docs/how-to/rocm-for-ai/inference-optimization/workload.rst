@@ -564,7 +564,7 @@ vLLM engine arguments
 ---------------------
 
 The following are configuration suggestions to potentially improve performance with vLLM. See
-`vLLM's engine arguments documentation <https://docs.vllm.ai/en/stable/models/engine_args.html>`_
+`vLLM's engine arguments documentation <https://docs.vllm.ai/en/latest/serving/engine_args.html>`_
 for a full list of configurable engine arguments.
 
 Configure the max-num-seqs parameter
@@ -945,9 +945,9 @@ for details.
 
   .. code-block:: shell
 
-     export HIP_FORCE_DEV_KERNARG=1  hipblaslt-bench --alpha 1 --beta 0 -r \
-     f16_r --a_type f16_r --b_type f8_r --compute_type f32_f16_r \
-     --initialization trig_float  --cold_iters 100 -i 1000 --rotating 256
+     HIP_FORCE_DEV_KERNARG=1  hipblaslt-bench --alpha 1 --beta 0 -r f16_r \
+     --a_type f16_r --b_type f8_r --compute_type f32_f16_r \
+     --initialization trig_float  --cold_iters 100 --iters 1000 --rotating 256
 
 * Example 2: Benchmark forward epilogues and backward epilogues
 
@@ -1705,12 +1705,12 @@ efficiency and throughput of various computational kernels.
 
    Occupancy related to VGPRs usage on an Instinct MI300X accelerator
 
-For example, according to the table, the available VGPR is 512 per Execution
-Unit (EU), and VGPU is allocated at the unit of 16. If the current VGPR usage
-is 170, the actual requested VGPR will be 176, so the occupancy is only 2
-waves per EU since :math:`176 \times 3 > 512`. So, if you set
-``waves_per_eu`` to 3, the LLVM backend tries to bring VGPR usage down so
-that it might fit 3 waves per EU.
+For example, according to the table, each Execution Unit (EU) has 512 available
+VGPRs, which are allocated in blocks of 16. If the current VGPR usage is 170,
+it will be rounded up to 176 due to the allocation granularity. In this case,
+the occupancy is limited to 2 waves per EU because :math:`176 \times 3 > 512`.
+So, if you set ``waves_per_eu`` to 3, the LLVM backend will attempt to reduce
+VGPR usage so that it might fit 3 waves per EU.
 
 ``BLOCK_M``, ``BLOCK_N``, ``BLOCK_K``
    Tile sizes to be tuned to balance the memory-to-computation ratio. The goal

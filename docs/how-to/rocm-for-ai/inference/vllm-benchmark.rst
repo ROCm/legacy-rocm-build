@@ -3,383 +3,296 @@
                  ROCm vLLM Docker image.
    :keywords: model, MAD, automation, dashboarding, validate
 
-***********************************************************
-LLM inference performance validation on AMD Instinct MI300X
-***********************************************************
+********************************************************
+LLM inference performance testing on AMD Instinct MI300X
+********************************************************
 
 .. _vllm-benchmark-unified-docker:
 
-The `ROCm vLLM Docker <https://hub.docker.com/r/rocm/vllm/tags>`_ image offers
-a prebuilt, optimized environment designed for validating large language model
-(LLM) inference performance on the AMD Instinct™ MI300X accelerator. This
-ROCm vLLM Docker image integrates vLLM and PyTorch tailored specifically for the
-MI300X accelerator and includes the following components:
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
-* `ROCm 6.2.1 <https://github.com/ROCm/ROCm>`_
+   {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
+   {% set model_groups = data.vllm_benchmark.model_groups %}
 
-* `vLLM 0.6.4 <https://docs.vllm.ai/en/latest>`_
+   The `ROCm vLLM Docker <{{ unified_docker.docker_hub_url }}>`_ image offers
+   a prebuilt, optimized environment for validating large language model (LLM)
+   inference performance on AMD Instinct™ MI300X series accelerator. This ROCm vLLM
+   Docker image integrates vLLM and PyTorch tailored specifically for MI300X series
+   accelerators and includes the following components:
 
-* `PyTorch 2.5.0 <https://github.com/pytorch/pytorch>`_
+   * `ROCm {{ unified_docker.rocm_version }} <https://github.com/ROCm/ROCm>`_
 
-* Tuning files (in CSV format)
+   * `vLLM {{ unified_docker.vllm_version }} <https://docs.vllm.ai/en/latest>`_
 
-With this Docker image, you can quickly validate the expected inference
-performance numbers on the MI300X accelerator. This topic also provides tips on
-optimizing performance with popular AI models.
+   * `PyTorch {{ unified_docker.pytorch_version }} <https://github.com/pytorch/pytorch>`_
 
-.. hlist::
-   :columns: 6
+   * `hipBLASLt {{ unified_docker.hipblaslt_version }} <https://github.com/ROCm/hipBLASLt>`_
 
-   * Llama 3.1 8B
+   With this Docker image, you can quickly test the :ref:`expected
+   inference performance numbers <vllm-benchmark-performance-measurements>` for
+   MI300X series accelerators.
 
-   * Llama 3.1 70B
+   .. _vllm-benchmark-available-models:
 
-   * Llama 3.1 405B
+   Available models
+   ================
 
-   * Llama 2 7B
+   .. raw:: html
 
-   * Llama 2 70B
+      <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
+        <div class="row">
+          <div class="col-2 me-2 model-param-head">Model</div>
+          <div class="row col-10">
+   {% for model_group in model_groups %}
+            <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+   {% endfor %}
+          </div>
+        </div>
 
-   * Mixtral 8x7B
+        <div class="row mt-1">
+          <div class="col-2 me-2 model-param-head">Model variant</div>
+          <div class="row col-10">
+   {% for model_group in model_groups %}
+      {% set models = model_group.models %}
+      {% for model in models %}
+         {% if models|length % 3 == 0 %}
+            <div class="col-4 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+         {% else %}
+            <div class="col-6 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+         {% endif %}
+      {% endfor %}
+   {% endfor %}
+          </div>
+        </div>
+      </div>
 
-   * Mixtral 8x22B
+   .. _vllm-benchmark-vllm:
 
-   * Mixtral 7B
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
 
-   * Qwen2 7B
+   .. container:: model-doc {{model.mad_tag}}
 
-   * Qwen2 72B
+      .. note::
 
-   * JAIS 13B
+         See the `{{ model.model }} model card on Hugging Face <{{ model.url }}>`_ to learn more about your selected model.
+         Some models require access authorization prior to use via an external license agreement through a third party.
 
-   * JAIS 30B
+      {% endfor %}
+   {% endfor %}
 
-.. _vllm-benchmark-vllm:
+   .. note::
 
-.. note::
+      vLLM is a toolkit and library for LLM inference and serving. AMD implements
+      high-performance custom kernels and modules in vLLM to enhance performance.
+      See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
+      more information.
 
-   vLLM is a toolkit and library for LLM inference and serving. AMD implements
-   high-performance custom kernels and modules in vLLM to enhance performance.
-   See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
-   more information.
+   .. _vllm-benchmark-performance-measurements:
 
-Getting started
-===============
+   Performance measurements
+   ========================
 
-Use the following procedures to reproduce the benchmark results on an
-MI300X accelerator with the prebuilt vLLM Docker image.
+   To evaluate performance, the
+   `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
+   page provides reference throughput and latency measurements for inferencing
+   popular AI models.
 
-.. _vllm-benchmark-get-started:
+   .. note::
 
-1. Disable NUMA auto-balancing.
+      The performance data presented in
+      `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
+      should not be interpreted as the peak performance achievable by AMD
+      Instinct MI325X and MI300X accelerators or ROCm software.
 
-   To optimize performance, disable automatic NUMA balancing. Otherwise, the GPU
-   might hang until the periodic balancing is finalized. For more information,
-   see :ref:`AMD Instinct MI300X system optimization <mi300x-disable-numa>`.
+   Advanced features and known issues
+   ==================================
 
-   .. code-block:: shell
+   For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
+   see the developer's guide at `<https://github.com/ROCm/vllm/blob/main/docs/dev-docker/README.md>`__.
 
-      # disable automatic NUMA balancing
-      sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'
-      # check if NUMA balancing is disabled (returns 0 if disabled)
-      cat /proc/sys/kernel/numa_balancing
-      0
+   Getting started
+   ===============
 
-2. Download the :ref:`ROCm vLLM Docker image <vllm-benchmark-unified-docker>`.
+   Use the following procedures to reproduce the benchmark results on an
+   MI300X accelerator with the prebuilt vLLM Docker image.
 
-   Use the following command to pull the Docker image from Docker Hub.
+   .. _vllm-benchmark-get-started:
 
-   .. code-block:: shell
+   1. Disable NUMA auto-balancing.
 
-      docker pull rocm/vllm:rocm6.2_mi300_ubuntu20.04_py3.9_vllm_0.6.4
+      To optimize performance, disable automatic NUMA balancing. Otherwise, the GPU
+      might hang until the periodic balancing is finalized. For more information,
+      see :ref:`AMD Instinct MI300X system optimization <mi300x-disable-numa>`.
 
-Once setup is complete, you can choose between two options to reproduce the
-benchmark results:
+      .. code-block:: shell
 
--  :ref:`MAD-integrated benchmarking <vllm-benchmark-mad>`
+         # disable automatic NUMA balancing
+         sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'
+         # check if NUMA balancing is disabled (returns 0 if disabled)
+         cat /proc/sys/kernel/numa_balancing
+         0
 
--  :ref:`Standalone benchmarking <vllm-benchmark-standalone>`
+   2. Download the `ROCm vLLM Docker image <{{ unified_docker.docker_hub_url }}>`_.
 
-.. _vllm-benchmark-mad:
+      Use the following command to pull the Docker image from Docker Hub.
 
-MAD-integrated benchmarking
-===========================
+      .. code-block:: shell
 
-Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
-directory and install the required packages on the host machine.
+         docker pull {{ unified_docker.pull_tag }}
 
-.. code-block:: shell
+   Benchmarking
+   ============
 
-   git clone https://github.com/ROCm/MAD
-   cd MAD
-   pip install -r requirements.txt
+   Once the setup is complete, choose between two options to reproduce the
+   benchmark results:
 
-Use this command to run a performance benchmark test of the Llama 3.1 8B model
-on one GPU with ``float16`` data type in the host machine.
+   .. _vllm-benchmark-mad:
 
-.. code-block:: shell
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
 
-   export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-   python3 tools/run_models.py --tags pyt_vllm_llama-3.1-8b --keep-model-dir --live-output --timeout 28800
+   .. container:: model-doc {{model.mad_tag}}
 
-ROCm MAD launches a Docker container with the name
-``container_ci-pyt_vllm_llama-3.1-8b``. The latency and throughput reports of the
-model are collected in the following path: ``~/MAD/reports_float16/``.
+      .. tab-set::
 
-Although the following models are preconfigured to collect latency and
-throughput performance data, you can also change the benchmarking parameters.
-Refer to the :ref:`Standalone benchmarking <vllm-benchmark-standalone>` section.
+         .. tab-item:: MAD-integrated benchmarking
 
-Available models
-----------------
+            Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
+            directory and install the required packages on the host machine.
 
-.. hlist::
-   :columns: 3
+            .. code-block:: shell
 
-   * ``pyt_vllm_llama-3.1-8b``
+               git clone https://github.com/ROCm/MAD
+               cd MAD
+               pip install -r requirements.txt
 
-   * ``pyt_vllm_llama-3.1-70b``
+            Use this command to run the performance benchmark test on the `{{model.model}} <{{ model.url }}>`_ model
+            using one GPU with the ``{{model.precision}}`` data type on the host machine.
 
-   * ``pyt_vllm_llama-3.1-405b``
+            .. code-block:: shell
 
-   * ``pyt_vllm_llama-2-7b``
+               export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
+               python3 tools/run_models.py --tags {{model.mad_tag}} --keep-model-dir --live-output --timeout 28800
 
-   * ``pyt_vllm_llama-2-70b``
+            MAD launches a Docker container with the name
+            ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
+            model are collected in the following path: ``~/MAD/reports_{{model.precision}}/``.
 
-   * ``pyt_vllm_mixtral-8x7b``
+            Although the :ref:`available models <vllm-benchmark-available-models>` are preconfigured
+            to collect latency and throughput performance data, you can also change the benchmarking
+            parameters. See the standalone benchmarking tab for more information.
 
-   * ``pyt_vllm_mixtral-8x22b``
+         .. tab-item:: Standalone benchmarking
 
-   * ``pyt_vllm_mistral-7b``
+            Run the vLLM benchmark tool independently by starting the
+            `Docker container <{{ unified_docker.docker_hub_url }}>`_
+            as shown in the following snippet.
 
-   * ``pyt_vllm_qwen2-7b``
+            .. code-block::
 
-   * ``pyt_vllm_qwen2-72b``
+               docker pull {{ unified_docker.pull_tag }}
+               docker run -it --device=/dev/kfd --device=/dev/dri --group-add video --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name test {{ unified_docker.pull_tag }}
 
-   * ``pyt_vllm_jais-13b``
+            In the Docker container, clone the ROCm MAD repository and navigate to the
+            benchmark scripts directory at ``~/MAD/scripts/vllm``.
 
-   * ``pyt_vllm_jais-30b``
+            .. code-block::
 
-   * ``pyt_vllm_llama-3.1-8b_fp8``
+               git clone https://github.com/ROCm/MAD
+               cd MAD/scripts/vllm
 
-   * ``pyt_vllm_llama-3.1-70b_fp8``
+            To start the benchmark, use the following command with the appropriate options.
 
-   * ``pyt_vllm_llama-3.1-405b_fp8``
+            .. code-block::
 
-   * ``pyt_vllm_mixtral-8x7b_fp8``
+               ./vllm_benchmark_report.sh -s $test_option -m {{model.model_repo}} -g $num_gpu -d {{model.precision}}
 
-   * ``pyt_vllm_mixtral-8x22b_fp8``
+            .. list-table::
+               :header-rows: 1
+               :align: center
 
-.. _vllm-benchmark-standalone:
+               * - Name
+                 - Options
+                 - Description
 
-Standalone benchmarking
-=======================
+               * - ``$test_option``
+                 - latency
+                 - Measure decoding token latency
 
-You can run the vLLM benchmark tool independently by starting the
-:ref:`Docker container <vllm-benchmark-get-started>` as shown in the following
-snippet.
+               * -
+                 - throughput
+                 - Measure token generation throughput
 
-.. code-block::
+               * -
+                 - all
+                 - Measure both throughput and latency
 
-   docker pull rocm/vllm:rocm6.2_mi300_ubuntu20.04_py3.9_vllm_0.6.4
-   docker run -it --device=/dev/kfd --device=/dev/dri --group-add video --shm-size 128G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name vllm_v0.6.4 rocm/vllm:rocm6.2_mi300_ubuntu20.04_py3.9_vllm_0.6.4
+               * - ``$num_gpu``
+                 - 1 or 8
+                 - Number of GPUs
 
-In the Docker container, clone the ROCm MAD repository and navigate to the
-benchmark scripts directory at ``~/MAD/scripts/vllm``.
+               * - ``$datatype``
+                 - ``float16`` or ``float8``
+                 - Data type
 
-.. code-block::
+            .. note::
 
-   git clone https://github.com/ROCm/MAD
-   cd MAD/scripts/vllm
+               The input sequence length, output sequence length, and tensor parallel (TP) are
+               already configured. You don't need to specify them with this script.
 
-Command
--------
+            .. note::
 
-To start the benchmark, use the following command with the appropriate options.
-See :ref:`Options <vllm-benchmark-standalone-options>` for the list of
-options and their descriptions.
+               If you encounter the following error, pass your access-authorized Hugging
+               Face token to the gated models.
 
-.. code-block:: shell
+               .. code-block::
 
-   ./vllm_benchmark_report.sh -s $test_option -m $model_repo -g $num_gpu -d $datatype
+                  OSError: You are trying to access a gated repo.
 
-See the :ref:`examples <vllm-benchmark-run-benchmark>` for more information.
+                  # pass your HF_TOKEN
+                  export HF_TOKEN=$your_personal_hf_token
 
-.. note::
+            Here are some examples of running the benchmark with various options.
 
-   The input sequence length, output sequence length, and tensor parallel (TP) are
-   already configured. You don't need to specify them with this script.
+            * Latency benchmark
 
-.. note::
+              Use this command to benchmark the latency of the {{model.model}} model on eight GPUs with the ``{{model.precision}}`` data type.
 
-   If you encounter the following error, pass your access-authorized Hugging
-   Face token to the gated models.
+              .. code-block::
 
-   .. code-block:: shell
+                 ./vllm_benchmark_report.sh -s latency -m {{model.model_repo}} -g 8 -d {{model.precision}}
 
-      OSError: You are trying to access a gated repo.
+              Find the latency report at ``./reports_{{model.precision}}_vllm_rocm{{unified_docker.rocm_version}}/summary/{{model.model_repo.split('/', 1)[1] if '/' in model.model_repo else model.model_repo}}_latency_report.csv``.
 
-      # pass your HF_TOKEN
-      export HF_TOKEN=$your_personal_hf_token
+            * Throughput benchmark
 
-.. _vllm-benchmark-standalone-options:
+              Use this command to throughput the latency of the {{model.model}} model on eight GPUs with the ``{{model.precision}}`` data type.
 
-Options
--------
+              .. code-block:: shell
 
-.. list-table::
-   :header-rows: 1
-   :align: center
+                 ./vllm_benchmark_report.sh -s latency -m {{model.model_repo}} -g 8 -d {{model.precision}}
 
-   * - Name
-     - Options
-     - Description
+              Find the throughput report at ``./reports_{{model.precision}}_vllm_rocm{{unified_docker.rocm_version}}/summary/{{model.model_repo.split('/', 1)[1] if '/' in model.model_repo else model.model_repo}}_throughput_report.csv``.
 
-   * - ``$test_option``
-     - latency
-     - Measure decoding token latency
+            .. raw:: html
 
-   * -
-     - throughput
-     - Measure token generation throughput
+               <style>
+               mjx-container[jax="CHTML"][display="true"] {
+                  text-align: left;
+                  margin: 0;
+               }
+               </style>
 
-   * -
-     - all
-     - Measure both throughput and latency
+            .. note::
 
-   * - ``$model_repo``
-     - ``meta-llama/Meta-Llama-3.1-8B-Instruct``
-     - Llama 3.1 8B
+               Throughput is calculated as:
 
-   * - (``float16``)
-     - ``meta-llama/Meta-Llama-3.1-70B-Instruct``
-     - Llama 3.1 70B
+               - .. math:: throughput\_tot = requests \times (\mathsf{\text{input lengths}} + \mathsf{\text{output lengths}}) / elapsed\_time
 
-   * -
-     - ``meta-llama/Meta-Llama-3.1-405B-Instruct``
-     - Llama 3.1 405B
-
-   * -
-     - ``meta-llama/Llama-2-7b-chat-hf``
-     - Llama 2 7B
-
-   * -
-     - ``meta-llama/Llama-2-70b-chat-hf``
-     - Llama 2 70B
-
-   * -
-     - ``mistralai/Mixtral-8x7B-Instruct-v0.1``
-     - Mixtral 8x7B
-
-   * -
-     - ``mistralai/Mixtral-8x22B-Instruct-v0.1``
-     - Mixtral 8x22B
-
-   * -
-     - ``mistralai/Mistral-7B-Instruct-v0.3``
-     - Mixtral 7B
-
-   * -
-     - ``Qwen/Qwen2-7B-Instruct``
-     - Qwen2 7B
-
-   * -
-     - ``Qwen/Qwen2-72B-Instruct``
-     - Qwen2 72B
-
-   * -
-     - ``core42/jais-13b-chat``
-     - JAIS 13B
-
-   * -
-     - ``core42/jais-30b-chat-v3``
-     - JAIS 30B
-
-   * - ``$model_repo``
-     - ``amd/Meta-Llama-3.1-8B-Instruct-FP8-KV``
-     - Llama 3.1 8B
-
-   * - (``float8``)
-     - ``amd/Meta-Llama-3.1-70B-Instruct-FP8-KV``
-     - Llama 3.1 70B
-
-   * -
-     - ``amd/Meta-Llama-3.1-405B-Instruct-FP8-KV``
-     - Llama 3.1 405B
-
-   * -
-     - ``amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV``
-     - Mixtral 8x7B
-
-   * -
-     - ``amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV``
-     - Mixtral 8x22B
-
-   * - ``$num_gpu``
-     - 1 or 8
-     - Number of GPUs
-
-   * - ``$datatype``
-     - ``float16`` or ``float8``
-     - Data type
-
-.. _vllm-benchmark-run-benchmark:
-
-Running the benchmark on the MI300X accelerator
------------------------------------------------
-
-Here are some examples of running the benchmark with various options.
-See :ref:`Options <vllm-benchmark-standalone-options>` for the list of
-options and their descriptions.
-
-Example 1: latency benchmark
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-Use this command to benchmark the latency of the Llama 3.1 8B model on one GPU with the ``float16`` and ``float8`` data types.
-
-.. code-block::
-
-   ./vllm_benchmark_report.sh -s latency -m meta-llama/Meta-Llama-3.1-8B-Instruct -g 1 -d float16
-   ./vllm_benchmark_report.sh -s latency -m amd/Meta-Llama-3.1-8B-Instruct-FP8-KV -g 1 -d float8
-
-Find the latency reports at:
-
-- ``./reports_float16/summary/Meta-Llama-3.1-8B-Instruct_latency_report.csv``
-
-- ``./reports_float8/summary/Meta-Llama-3.1-8B-Instruct-FP8-KV_latency_report.csv``
-
-Example 2: throughput benchmark
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Use this command to benchmark the throughput of the Llama 3.1 8B model on one GPU with the ``float16`` and ``float8`` data types.
-
-.. code-block:: shell
-
-   ./vllm_benchmark_report.sh -s throughput -m meta-llama/Meta-Llama-3.1-8B-Instruct -g 1 -d float16
-   ./vllm_benchmark_report.sh -s throughput -m amd/Meta-Llama-3.1-8B-Instruct-FP8-KV -g 1 -d float8
-
-Find the throughput reports at:
-
-- ``./reports_float16/summary/Meta-Llama-3.1-8B-Instruct_throughput_report.csv``
-
-- ``./reports_float8/summary/Meta-Llama-3.1-8B-Instruct-FP8-KV_throughput_report.csv``
-
-.. raw:: html
-
-   <style>
-   mjx-container[jax="CHTML"][display="true"] {
-       text-align: left;
-       margin: 0;
-   }
-   </style>
-
-.. note::
-
-   Throughput is calculated as:
-
-   - .. math:: throughput\_tot = requests \times (\mathsf{\text{input lengths}} + \mathsf{\text{output lengths}}) / elapsed\_time
-
-   - .. math:: throughput\_gen = requests \times \mathsf{\text{output lengths}} / elapsed\_time
+               - .. math:: throughput\_gen = requests \times \mathsf{\text{output lengths}} / elapsed\_time
+      {% endfor %}
+   {% endfor %}
 
 Further reading
 ===============
@@ -391,10 +304,10 @@ Further reading
   see `<https://github.com/ROCm/vllm/tree/main/benchmarks>`_.
 
 - To learn more about system settings and management practices to configure your system for
-  MI300X accelerators, see :doc:`../../system-optimization/mi300x`.
+  MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
 
 - To learn how to run LLM models from Hugging Face or your own model, see
-  :doc:`Using ROCm for AI <../index>`.
+  :doc:`Running models from Hugging Face <hugging-face-models>`.
 
 - To learn how to optimize inference on LLMs, see
   :doc:`Inference optimization <../inference-optimization/index>`.
@@ -402,6 +315,39 @@ Further reading
 - To learn how to fine-tune LLMs, see
   :doc:`Fine-tuning LLMs <../fine-tuning/index>`.
 
-- To compare with the previous version of the ROCm vLLM Docker image for performance validation, refer to
-  `LLM inference performance validation on AMD Instinct MI300X (ROCm 6.2.0) <https://rocm.docs.amd.com/en/docs-6.2.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_.
+Previous versions
+=================
 
+This table lists previous versions of the ROCm vLLM inference Docker image for
+inference performance testing. For detailed information about available models
+for benchmarking, see the version-specific documentation.
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+
+   * - ROCm version
+     - vLLM version
+     - PyTorch version
+     - Resources
+
+   * - 6.3.1
+     - 0.6.6
+     - 2.7.0
+     - 
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
+       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_mi300_ubuntu22.04_py3.12_vllm_0.6.6/images/sha256-9a12ef62bbbeb5a4c30a01f702c8e025061f575aa129f291a49fbd02d6b4d6c9>`_
+
+   * - 6.2.1
+     - 0.6.4
+     - 2.5.0
+     - 
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
+       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu20.04_py3.9_vllm_0.6.4/images/sha256-ccbb74cc9e7adecb8f7bdab9555f7ac6fc73adb580836c2a35ca96ff471890d8>`_
+
+   * - 6.2.0
+     - 0.4.3
+     - 2.4.0
+     - 
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.2.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
+       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu22.04_py3.9_vllm_7c5fd50/images/sha256-9e4dd4788a794c3d346d7d0ba452ae5e92d39b8dfac438b2af8efdc7f15d22c0>`_

@@ -6,6 +6,8 @@
 
 import os
 import shutil
+import sys
+from pathlib import Path
 
 shutil.copy2("../RELEASE.md", "./about/release-notes.md")
 
@@ -30,15 +32,15 @@ if os.environ.get("READTHEDOCS", "") == "True":
 project = "ROCm Documentation"
 author = "Advanced Micro Devices, Inc."
 copyright = "Copyright (c) 2025 Advanced Micro Devices, Inc. All rights reserved."
-version = "6.3.2"
-release = "6.3.2"
+version = "6.3.3"
+release = "6.3.3"
 setting_all_article_info = True
 all_article_info_os = ["linux", "windows"]
 all_article_info_author = ""
 
 # pages with specific settings
 article_pages = [
-    {"file": "about/release-notes", "os": ["linux"], "date": "2025-01-27"},
+    {"file": "about/release-notes", "os": ["linux"], "date": "2025-02-19"},
     {"file": "compatibility/compatibility-matrix", "os": ["linux"]},
     {"file": "compatibility/ml-compatibility/pytorch-compatibility", "os": ["linux"]},
     {"file": "compatibility/ml-compatibility/tensorflow-compatibility", "os": ["linux"]},
@@ -49,6 +51,9 @@ article_pages = [
 
     {"file": "how-to/rocm-for-ai/training/index", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/train-a-model", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/prerequisite-system-validation", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/benchmark-docker/megatron-lm", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/benchmark-docker/pytorch-training", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/scale-model-training", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/fine-tuning/index", "os": ["linux"]},
@@ -63,7 +68,7 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/inference/llm-inference-frameworks", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/vllm-benchmark", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
-    
+
     {"file": "how-to/rocm-for-ai/inference-optimization/index", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference-optimization/model-quantization", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference-optimization/model-acceleration-libraries", "os": ["linux"]},
@@ -86,11 +91,16 @@ article_pages = [
 
 external_toc_path = "./sphinx/_toc.yml"
 
-extensions = ["rocm_docs", "sphinx_reredirects", "sphinx_sitemap"]
+# Add the _extensions directory to Python's search path
+sys.path.append(str(Path(__file__).parent / 'extension'))
+
+extensions = ["rocm_docs", "sphinx_reredirects", "sphinx_sitemap", "sphinxcontrib.datatemplates", "version-ref"]
+
+compatibility_matrix_file = str(Path(__file__).parent / 'compatibility/compatibility-matrix-historical-6.0.csv')
 
 external_projects_current_project = "rocm"
 
-# Uncomment if facing rate limit exceed issue with local build 
+# Uncomment if facing rate limit exceed issue with local build
 # external_projects_remote_repository = ""
 
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "https://rocm-stg.amd.com/")
@@ -101,8 +111,9 @@ if os.environ.get("READTHEDOCS", "") == "True":
 html_theme = "rocm_docs_theme"
 html_theme_options = {"flavor": "rocm-docs-home"}
 
-html_static_path = ["sphinx/static/css"]
-html_css_files = ["rocm_custom.css", "rocm_rn.css"]
+html_static_path = ["sphinx/static/css", "extension/how-to/rocm-for-ai/inference"]
+html_css_files = ["rocm_custom.css", "rocm_rn.css", "vllm-benchmark.css"]
+html_js_files = ["vllm-benchmark.js"]
 
 html_title = "ROCm Documentation"
 

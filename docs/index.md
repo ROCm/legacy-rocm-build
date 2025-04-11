@@ -38,6 +38,7 @@ ROCm documentation is organized into the following categories:
 :class-body: rocm-card-banner rocm-hue-12
 
 * [Use ROCm for AI](./how-to/rocm-for-ai/index.rst)
+* [AI tutorials](https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/)
 * [Use ROCm for HPC](./how-to/rocm-for-hpc/index.rst)
 * [System optimization](./how-to/system-optimization/index.rst)
 * [AMD Instinct MI300X performance validation and tuning](./how-to/tuning-guides/mi300x/index.rst)
@@ -52,13 +53,10 @@ ROCm documentation is organized into the following categories:
 :class-body: rocm-card-banner rocm-hue-8
 
 * [GPU architecture overview](./conceptual/gpu-arch.md)
-* [Input-Output Memory Management Unit (IOMMU)](./conceptual/iommu.rst)
 * [File structure (Linux FHS)](./conceptual/file-reorg.md)
 * [GPU isolation techniques](./conceptual/gpu-isolation.md)
 * [Using CMake](./conceptual/cmake-packages.rst)
-* [PCIe atomics in ROCm](./conceptual/pcie-atomics.rst)
 * [Inception v3 with PyTorch](./conceptual/ai-pytorch-inception.md)
-* [Oversubscription of hardware resources](./conceptual/oversubscription.rst)
 :::
 
 :::{grid-item-card} Reference

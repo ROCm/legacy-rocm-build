@@ -11,6 +11,7 @@ parameters:
     - cmake
     - libnuma-dev
     - mesa-common-dev
+    - ninja-build
     - ocl-icd-libopencl1
     - ocl-icd-opencl-dev
     - opencl-headers
@@ -41,7 +42,8 @@ jobs:
   variables:
   - group: common
   - template: /.azuredevops/variables-global.yml
-  pool: ${{ variables.LOW_BUILD_POOL }}
+  pool: 
+    vmImage: ${{ variables.BASE_BUILD_POOL }}
   workspace:
     clean: all
   steps:
@@ -78,6 +80,7 @@ jobs:
         -DHIPCC_BIN_DIR=$(Agent.BuildDirectory)/rocm/bin
         -DCLR_BUILD_HIP=ON
         -DCLR_BUILD_OCL=ON
+        -GNinja
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
     parameters:
       artifactName: amd
@@ -85,18 +88,19 @@ jobs:
     parameters:
       artifactName: amd
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      environment: amd
+  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+  #   parameters:
+  #     aptPackages: ${{ parameters.aptPackages }}
+  #     pipModules: ${{ parameters.pipModules }}
+  #     environment: amd
 
 # HIP with Nvidia backend
 - job: hip_clr_combined_nvidia
   variables:
   - group: common
   - template: /.azuredevops/variables-global.yml
-  pool: ${{ variables.LOW_BUILD_POOL }}
+  pool: 
+    vmImage: ${{ variables.BASE_BUILD_POOL }}
   workspace:
     clean: all
   steps:
@@ -135,12 +139,13 @@ jobs:
         -DCLR_BUILD_HIP=ON
         -DCLR_BUILD_OCL=OFF
         -DHIPNV_DIR=$(Build.SourcesDirectory)/hipother/hipnv
+        -GNinja
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
     parameters:
       artifactName: nvidia
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      environment: nvidia
+  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+  #   parameters:
+  #     aptPackages: ${{ parameters.aptPackages }}
+  #     pipModules: ${{ parameters.pipModules }}
+  #     environment: nvidia
