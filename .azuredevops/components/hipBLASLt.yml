@@ -98,6 +98,13 @@ jobs:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
+    - task: Bash@3
+      displayName: Add ROCm binaries to PATH
+      inputs:
+        targetType: inline
+        script: |
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
   # Build and install gtest, lapack, hipBLAS-common
   # $(Pipeline.Workspace)/deps is a temporary folder for the build process
   # $(Pipeline.Workspace)/s/deps is part of the hipBLASLt repo
