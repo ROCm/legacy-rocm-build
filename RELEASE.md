@@ -64,7 +64,7 @@ ROCm 6.4.0 has been tested to allow you to choose a combination of AMD Kernel-mo
 
 ### Separation of user space and driver space components documentation
 
-As of ROCm 6.4.0, the driver space components documentation has moved from [AMD ROCm documentation](https://rocmdocs.amd.com/) to its own documentation site, [AMD Instinct Data Center GPU Driver](instinct.docs.amd.com). The goal is to make the software for AMD Instinct GPUs more modular. This helps in having a clear understanding of the options for installation combinations of Instinct driver and multiple supported ROCm user space versions.
+As of ROCm 6.4.0, the driver space components documentation has moved from [AMD ROCm documentation](https://rocmdocs.amd.com/) to its own documentation site, [AMD Instinct Data Center GPU Driver](https://instinct.docs.amd.com/latest/). The goal is to make the software for AMD Instinct GPUs more modular. This helps in having a clear understanding of the options for installation combinations of Instinct driver and multiple supported ROCm user space versions.
 
 Information about the variant of the `amdgpu` driver built for Instinct GPUs is available on [AMD Instinct Data Center GPU Driver](https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/). See [ROCm/ROCK-Kernel-Driver](https://github.com/ROCm/ROCK-Kernel-Driver) GitHub repository for source code, which is planned to be renamed to **instinct-driver** in a future ROCm release. For ROCm 6.4.0, the versioning scheme for the Instinct driver is parallel to the ROCm versioning; that is, 6.4.0. In future ROCm releases, the Instinct driver version is planned to be separate from the ROCm versioning.
 
@@ -164,9 +164,8 @@ ROCm documentation continues to be updated to provide clearer and more comprehen
     - The new [HIP complex math API](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/complex_math_api.html) topic describes HIP complex number types and usage of these types with example code.
     - The new [HIP error codes](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/error_codes.html) topic list notes all HIP runtime error codes and their descriptions. HIP API functions return these error codes to indicate various runtime conditions and errors.
     - The [Introduction to the HIP programming model](https://rocm.docs.amd.com/projects/HIP/en/latest/understand/programming_model.html) topic has been updated, providing a more robust introduction to HIP.
-    - The [Math API](https://rocm.docs.amd.com/projects/HIP/en/latest/understand/programming_model.html) topic has been reorganized, and the ULP difference of maximum absolute error information has been added.
-    - The new [Low precision floating point types](https://rocm.docs.amd.com/projects/HIP/en/latest/understand/programming_model.html) topic includes information about FP8 (Quarter Precision) and FP16 (Half Precision).
-
+    - The [Math API](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/math_api.html) topic has been reorganized, and the ULP difference of maximum absolute error information has been added.
+    - The new [Low precision floating point types](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/low_fp_types.html) topic includes information about FP8 (Quarter Precision) and FP16 (Half Precision).
 
 ## Operating system and hardware support changes
 
