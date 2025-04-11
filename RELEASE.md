@@ -164,10 +164,9 @@ ROCm documentation continues to be updated to provide clearer and more comprehen
     - The new [HIP complex math API](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/complex_math_api.html) topic describes HIP complex number types and usage of these types with example code.
     - The new [HIP error codes](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/error_codes.html) topic list notes all HIP runtime error codes and their descriptions. HIP API functions return these error codes to indicate various runtime conditions and errors.
     - The [Introduction to the HIP programming model](https://rocm.docs.amd.com/projects/HIP/en/latest/understand/programming_model.html) topic has been updated, providing a more robust introduction to HIP.
-    - The [Math API](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/math_api.html) topic has been reorganized, and the ULP difference of maximum absolute error information has been added.
-    - The new [Low precision floating point types](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/low_fp_types.html) topic includes information about FP8 (Quarter Precision) and FP16 (Half Precision).
+    - The [Math API](https://rocm.docs.amd.com/projects/HIP/en/latest/understand/programming_model.html) topic has been reorganized, and the ULP difference of maximum absolute error information has been added.
+    - The new [Low precision floating point types](https://rocm.docs.amd.com/projects/HIP/en/latest/understand/programming_model.html) topic includes information about FP8 (Quarter Precision) and FP16 (Half Precision).
 
-* In addition to these Release Notes, see the blog [Breaking Barriers in AI, HPC, and Modular GPU Software](https://rocm.blogs.amd.com/ecosystems-and-partners/rocm-6.4-blog/README.html) for a wide-ranging discussion of the key advancements and highlights of ROCm 6.4.0.
 
 ## Operating system and hardware support changes
 
