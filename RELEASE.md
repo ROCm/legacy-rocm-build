@@ -628,7 +628,7 @@ Some workaround options are as follows:
 - The `pasid` field in struct `amdsmi_process_info_t` will be deprecated in a future ROCm release.
 
 ```{note}
-See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/rocm-6.4.x/CHANGELOG.md) for details, examples,
+See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples,
 and in-depth descriptions.
 ```
 
@@ -1240,7 +1240,7 @@ The following lists the backward incompatible changes planned for upcoming major
 - Fixed `rsmi_dev_target_graphics_version_get`, `rocm-smi --showhw`, and `rocm-smi --showprod` not displaying graphics version correctly for Instinct MI200 series, MI100 series, and RDNA3-based GPUs. 
 
 ```{note}
-See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/rocm-6.4.x/CHANGELOG.md) for details, examples,
+See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples,
 and in-depth descriptions.
 ```
 
