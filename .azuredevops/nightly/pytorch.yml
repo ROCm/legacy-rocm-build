@@ -175,8 +175,8 @@ jobs:
     value: /opt/rocm
   - name: DESIRED_CUDA
     value: 6.5.0
-  - name: MKLROOT
-    value: /opt/intel
+  - name: MAGMA_ROCM
+    value: 6.3
   - name: DESIRED_PYTHON
     value: 3.10
   - name: PYTORCH_ROOT
@@ -265,7 +265,7 @@ jobs:
     inputs:
       targetType: inline
       script: |
-        sudo bash pytorch/.ci/docker/common/install_rocm_magma.sh $(ROCM_VERSION)
+        sudo bash pytorch/.ci/docker/common/install_rocm_magma.sh $(MAGMA_ROCM)
       workingDirectory: $(Build.SourcesDirectory)
   - task: Bash@3
     displayName: Run ROCm Build Script
