@@ -62,7 +62,7 @@ compatibility and system requirements.
       CUB,2.5.0,2.3.2,2.2.0
       ,,,
       KMD & USER SPACE [#kfd_support]_,.. _kfd-userspace-support-compatibility-matrix:,,
-      Tested user space versions,"6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.3.x, 6.2.x, 6.1.x, 6.0.x"
+      KMD versions,"6.4.x, 6.3.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x"
       ,,,
       ML & COMPUTER VISION,.. _mllibs-support-compatibility-matrix:,,
       :doc:`Composable Kernel <composable_kernel:index>`,1.1.0,1.1.0,1.1.0
