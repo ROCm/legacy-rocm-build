@@ -1576,34 +1576,35 @@ modprobe.blacklist=ast
 ```bash
 modprobe.blacklist=mgag200
 ```
+See [GitHub issue #4589](https://github.com/ROCm/ROCm/issues/4589).
 
 ### Failure when using a generic target with compression and vice versa
 
-In ROCm 6.4.0, compilation for generic target with compression will fail. As a result, you won't be able to compile for a generic target and use compression simultaneously. As a workaround, it's recommended not to use compression when using generic targets and vice versa. This issue will be addressed in a future ROCm release.
+In ROCm 6.4.0, compilation for generic target with compression will fail. As a result, you won't be able to compile for a generic target and use compression simultaneously. As a workaround, it's recommended not to use compression when using generic targets and vice versa. This issue will be addressed in a future ROCm release. See [GitHub issue #4602](https://github.com/ROCm/ROCm/issues/4602).
 
 ### GFX Freq information is unavailable in the rocm-smi when running in SRIOV mode enabled on MI210
 
-In ROCm 6.4.0, you cannot see the GFX Freq information in the guest VM. In SRIOV mode, the AMD Platform Management Firmware (PMFW) does not share the graphics frequency information with the guest VMs and is only available to Host systems. This issue will be addressed in a future ROCm release.
+In ROCm 6.4.0, you cannot see the GFX Freq information in the guest VM. In SRIOV mode, the AMD Platform Management Firmware (PMFW) does not share the graphics frequency information with the guest VMs and is only available to Host systems. This issue will be addressed in a future ROCm release. See [GitHub issue #4603](https://github.com/ROCm/ROCm/issues/4603).
 
 ### Failure to use --kokkos-trace option in ROCm Compute Profiler
 
-In ROCm 6.4.0, it’s not recommended to use the `--kokkos-trace` option. `--kokkos-trace` has been partially implemented in the `rocprofv3` tool, resulting in a difference between the output of `--kokkos-trace` and the `counter_collection.csv` output file. The program will exit with a warning message if the `-kokkos-trace` option is detected in the ROCm Compute Profiler. The issue will be addressed in a future ROCm release.
+In ROCm 6.4.0, it’s not recommended to use the `--kokkos-trace` option. `--kokkos-trace` has been partially implemented in the `rocprofv3` tool, resulting in a difference between the output of `--kokkos-trace` and the `counter_collection.csv` output file. The program will exit with a warning message if the `-kokkos-trace` option is detected in the ROCm Compute Profiler. The issue will be addressed in a future ROCm release. See [GitHub issue #4604](https://github.com/ROCm/ROCm/issues/4604).
 
 ### Compute partition modification is restricted with concurrent operations running in parallel
  
-Modification to compute partition in GPU is prohibited by design while concurrent operations run in parallel. You must ensure no concurrent operations on the device are running when attempting to modify the compute partitions. Additional checks and error messaging to inform users of correct operation for partition modification are planned for future ROCm releases.
+Modification to compute partition in GPU is prohibited by design while concurrent operations run in parallel. You must ensure no concurrent operations on the device are running when attempting to modify the compute partitions. Additional checks and error messaging to inform users of correct operation for partition modification are planned for future ROCm releases. See [GitHub issue #4605](https://github.com/ROCm/ROCm/issues/4605).
 
 ### MIOpen generates incorrect results for particular input with FP32 data type
 
-In ROCm 6.4.0, MIOpen generates incorrect results on the `conv2dbackward` function for a particular input with 32-bit floating point (FP32) data types. The issue is only specific to FP32 data types with 2 * 2 kernel size and dilation 2 * 1. As a workaround, change the data type from FP32 to FP16. The issue will be addressed in a future ROCm release.  
+In ROCm 6.4.0, MIOpen generates incorrect results on the `conv2dbackward` function for a particular input with 32-bit floating point (FP32) data types. The issue is only specific to FP32 data types with 2 * 2 kernel size and dilation 2 * 1. As a workaround, change the data type from FP32 to FP16. The issue will be addressed in a future ROCm release. See [GitHub issue #4606](https://github.com/ROCm/ROCm/issues/4606). 
 
 ### ROCm Debugger (ROCgdb) might not work correctly on the AMD Radeon PRO W6800 SR-IOV virtualization environment
 
-The ROCm Debugger (ROCgdb) component needs access to some registers to fetch debugging information. These registers are blocked in the AMD Radeon PRO W6800 SR-IOV virtualization environment, resulting in the ROCm Debugger (ROCgdb) being non-functional. The issue is due to the limitation in the virtualization environment and isn't specific to ROCm. Further investigation is in progress.
+The ROCm Debugger (ROCgdb) component needs access to some registers to fetch debugging information. These registers are blocked in the AMD Radeon PRO W6800 SR-IOV virtualization environment, resulting in the ROCm Debugger (ROCgdb) being non-functional. The issue is due to the limitation in the virtualization environment and isn't specific to ROCm. Further investigation is in progress. See [GitHub issue #4607](https://github.com/ROCm/ROCm/issues/4607).
 
 ### Limited support for Sparse API and Pallas functionality in JAX
 
-In ROCm 6.4.0, due to limited support for Sparse API in JAX, some of the functionality of the Pallas extension is restricted. This results in issues porting existing workloads. The issue will be addressed in a future ROCm release.
+In ROCm 6.4.0, due to limited support for Sparse API in JAX, some of the functionality of the Pallas extension is restricted. This results in issues porting existing workloads. The issue will be addressed in a future ROCm release. See [GitHub issue #4608](https://github.com/ROCm/ROCm/issues/4608).
 
 ### Inconsistent log probabilities when using the Mixtral 8x7B model in vLLM and SGLang framework
 
@@ -1611,7 +1612,7 @@ In ROCm 6.4.0, using a Mixtral 8X7B model with different tensor parallelism (TP)
 
 The inconsistency primarily impacts the applications that rely on consistent log probabilities, such as those involving uncertainty estimation or probabilistic decision-making. This known limitation results from how TP distributes computations across multiple GPUs, resulting in slight variations in floating-point arithmetic. Currently, there is no direct resolution as this is a framework-level characteristic rather than a defect.
 
-As a workaround, you can standardize the TP sizes across all the deployments to minimize the inconsistency in the log probabilities. For information on the resolution of this inconsistency in the future, see the [SGlang](https://github.com/sgl-project/sglang) and [vLLM](https://github.com/vllm-project/vllm) GitHub repositories. 
+As a workaround, you can standardize the TP sizes across all the deployments to minimize the inconsistency in the log probabilities. For information on the resolution of this inconsistency in the future, see the [SGlang](https://github.com/sgl-project/sglang) and [vLLM](https://github.com/vllm-project/vllm) GitHub repositories. See [GitHub issue #4609](https://github.com/ROCm/ROCm/issues/4609).
 
 ### No module named more_itertools warning on Azure Linux 3
 
@@ -1620,14 +1621,15 @@ During the driver installation process on Azure Linux 3, you might encounter the
 ```
 sudo python3 -m pip install more_itertools
 ```
+See [GitHub issue #4610](https://github.com/ROCm/ROCm/issues/4610).
 
 ### Rare occurrence of AMDGPU driver failing to load in a VM on Quanta system
 
-In a rare occurrence (1 in 500 reboots), the guest kernel might display the call trace due to the AMDGPU driver failing to load in a repeated power cycle virtual machine (VM) on a Quanta system. This issue will limit you from using the AMD GPUs in the guest kernel. As a workaround, reboot the VM to avoid the failure.
+In a rare occurrence (1 in 500 reboots), the guest kernel might display the call trace due to the AMDGPU driver failing to load in a repeated power cycle virtual machine (VM) on a Quanta system. This issue will limit you from using the AMD GPUs in the guest kernel. As a workaround, reboot the VM to avoid the failure. See [GitHub issue #4611](https://github.com/ROCm/ROCm/issues/4611).
 
 ### Clang compilation failure might occur due to incorrectly installed GNU C++ runtime
 
-Clang compilation failure with the error `fatal error: 'cmath' file not found` might occur if the GNU C++ runtime is not installed correctly. The error indicates that the `libstdc++-dev` package, compatible with the latest installed GNU Compiler Collection (GCC) version, is missing. This issue is a result of Clang being unable to find the newest GNU C++ runtimes it recognizes and the associated header files. As a workaround, install the `libstdc++-dev` package compatible with the installed GCC version.
+Clang compilation failure with the error `fatal error: 'cmath' file not found` might occur if the GNU C++ runtime is not installed correctly. The error indicates that the `libstdc++-dev` package, compatible with the latest installed GNU Compiler Collection (GCC) version, is missing. This issue is a result of Clang being unable to find the newest GNU C++ runtimes it recognizes and the associated header files. As a workaround, install the `libstdc++-dev` package compatible with the installed GCC version. See [GitHub issue #4612](https://github.com/ROCm/ROCm/issues/4612).
 
 ### ROCProfiler with rocprof might fail to initialize in some PyTorch applications
 
@@ -1643,18 +1645,19 @@ Alternatively, you can modify the `rocprof` script located at `/opt/rocm-6.x.x/b
 ```
 ROCPROFV1_LD_PRELOAD=$MY_HSA_TOOLS_LIB
 ```
+See [GitHub issue #4613](https://github.com/ROCm/ROCm/issues/4613).
 
 ### Applications using HIP runtime might stop the graph capture process
 
-Applications using the HIP runtime might stop the graph capture process if the HIP runtime detects an invalid stale state from a previous capture on the same HIP stream. Resetting the stale set for every new capture in the HIP runtime can resolve the issue. The issue will be fixed in a future ROCm release.
+Applications using the HIP runtime might stop the graph capture process if the HIP runtime detects an invalid stale state from a previous capture on the same HIP stream. Resetting the stale set for every new capture in the HIP runtime can resolve the issue. The issue will be fixed in a future ROCm release. See [GitHub issue #4614](https://github.com/ROCm/ROCm/issues/4614).
 
 ### Incorrect computation results in hipBLASLt for specific transpose configuration
 
-When running the hipBLASLt library using the transpose configuration (TT) with FP32 and XF32 data types, you might receive incorrect computation results. As a workaround, select alternative solutions from the list returned by `hipblasLtMatmulAlgoGetHeuristic()`. Verify the result to identify the correct alternative solution. The issue will be fixed in a future ROCm release.
+When running the hipBLASLt library using the transpose configuration (TT) with FP32 and XF32 data types, you might receive incorrect computation results. As a workaround, select alternative solutions from the list returned by `hipblasLtMatmulAlgoGetHeuristic()`. Verify the result to identify the correct alternative solution. The issue will be fixed in a future ROCm release. See [GitHub issue #4615](https://github.com/ROCm/ROCm/issues/4615).
 
 ### Incorrect result in RCCL when using LL protocol in graph mode with MSCCL++ enabled
 
-In RCCL library, you might receive incorrect results in All-Reduce collective API, when using Link Layer (LL) protocol in graph mode while MSCCL++ is enabled. This issue occurs when the protocal state information are updated in the host-side code instead of in a kernel, which is not supported in graph mode. As a workaround, you can disable MSCCL++ by setting the environment variable `RCCL_MSCCLPP_ENABLE=0`. However, consider that this might negatively impact the performance. The issue will be fixed in a future ROCm release. 
+In RCCL library, you might receive incorrect results in All-Reduce collective API, when using Link Layer (LL) protocol in graph mode while MSCCL++ is enabled. This issue occurs when the protocal state information are updated in the host-side code instead of in a kernel, which is not supported in graph mode. As a workaround, you can disable MSCCL++ by setting the environment variable `RCCL_MSCCLPP_ENABLE=0`. However, consider that this might negatively impact the performance. The issue will be fixed in a future ROCm release. See [GitHub issue #4616](https://github.com/ROCm/ROCm/issues/4616).
 
 ## ROCm resolved issues
 
