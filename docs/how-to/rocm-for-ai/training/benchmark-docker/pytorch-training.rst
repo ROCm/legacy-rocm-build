@@ -43,6 +43,8 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
 
 * Llama 3.1 70B
 
+* Llama 2 70B
+
 * FLUX.1-dev
 
 .. note::
@@ -97,7 +99,7 @@ Download the Docker image
 
    .. code-block:: shell
 
-      docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME:$HOME -v  $HOME/.ssh:/root/.ssh --shm-size 64G --name training_env rocm/pytorch-training:v25.5
+      docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME:$HOME -v  $HOME/.ssh:/root/.ssh --shm-size 64G --name training_env rocm/pytorch-training:v25.4
 
 3. Use these commands if you exit the ``training_env`` container and need to return to it.
 
@@ -235,6 +237,8 @@ Along with the following datasets:
 
 * `WikiText <https://huggingface.co/datasets/Salesforce/wikitext>`_
 
+* `UltraChat 200k <https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k>`_
+
 * `bghira/pseudo-camera-10k <https://huggingface.co/datasets/bghira/pseudo-camera-10k>`_
 
 Getting started
@@ -242,7 +246,7 @@ Getting started
 
 The prebuilt PyTorch with ROCm training environment allows users to quickly validate
 system performance, conduct training benchmarks, and achieve superior
-performance for models like Llama 3.1. This container should not be
+performance for models like Llama 3.1 and Llama 2. This container should not be
 expected to provide generalized performance across all training workloads. You
 can expect the container to perform in the model configurations described in
 the following section, but other configurations are not validated by AMD.
@@ -302,6 +306,10 @@ Options and available models
      - `Llama 3.1 70B <https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct>`_
 
    * - 
+     - ``Llama-2-70B``
+     - `Llama 2 70B <https://huggingface.co/meta-llama/Llama-2-70B>`_
+
+   * - 
      - ``Flux``
      - `FLUX.1 [dev] <https://huggingface.co/black-forest-labs/FLUX.1-dev>`_
 
@@ -326,6 +334,13 @@ with the WikiText dataset using the AMD fork of `torchtune <https://github.com/A
 .. code-block:: shell
 
    ./pytorch_benchmark_report.sh -t {finetune_fw, finetune_lora} -p BF16 -m Llama-3.1-70B
+
+Use the following command to run the benchmarking example of Llama 2 70B with the UltraChat 200k dataset using
+`Hugging Face PEFT <https://huggingface.co/docs/peft/en/index>`_.
+
+.. code-block:: shell
+
+   ./pytorch_benchmark_report.sh -t HF_finetune_lora -p BF16 -m Llama-2-70B
 
 Benchmarking examples
 ---------------------
@@ -361,6 +376,12 @@ Here are some examples of how to use the command.
   .. code-block:: shell
 
      ./pytorch_benchmark_report.sh -t finetune_lora -p BF16 -m Llama-3.1-70B
+
+* Example 6: Hugging Face PEFT LoRA fine-tuning with Llama 2 70B
+
+  .. code-block:: shell
+
+     ./pytorch_benchmark_report.sh -t HF_finetune_lora -p BF16 -m Llama-2-70B
 
 Previous versions
 =================
