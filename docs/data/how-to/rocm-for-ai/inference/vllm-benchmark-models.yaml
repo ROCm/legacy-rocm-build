@@ -1,10 +1,10 @@
 vllm_benchmark:
   unified_docker:
     latest:
-      pull_tag: rocm/vllm:instinct_main
-      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.7.3_20250311/images/sha256-de0a2649b735f45b7ecab8813eb7b19778ae1f40591ca1196b07bc29c42ed4a3
+      pull_tag: rocm/vllm:rocm6.3.1_instinct_vllm0.8.3_20250410
+      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.8.3_20250410/images/sha256-a0b55c6c0f3fa5d437fb54a66e32a108306c36d4776e570dfd0ae902719bd190
       rocm_version: 6.3.1
-      vllm_version: 0.7.3
+      vllm_version: 0.8.3
       pytorch_version: 2.7.0 (dev nightly)
       hipblaslt_version: 0.13
   model_groups:
