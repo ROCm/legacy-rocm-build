@@ -9,7 +9,8 @@ Training a model with PyTorch for ROCm
 PyTorch is an open-source machine learning framework that is widely used for
 model training with GPU-optimized components for transformer-based models.
 
-The PyTorch for ROCm training Docker (``rocm/pytorch-training:v25.5``) image
+The `PyTorch for ROCm training Docker <https://hub.docker.com/layers/rocm/pytorch-training/v25.5/images/sha256-d47850a9b25b4a7151f796a8d24d55ea17bba545573f0d50d54d3852f96ecde5>`_
+(``rocm/pytorch-training:v25.5``) image
 provides a prebuilt optimized environment for fine-tuning and pretraining a
 model on AMD Instinct MI325X and MI300X accelerators. It includes the following
 software components to accelerate training workloads:
