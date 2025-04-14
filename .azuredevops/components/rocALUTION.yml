@@ -124,7 +124,7 @@ jobs:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
         not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
-        eq(${{ parameters.aggregatePipeline }}, 'false')
+        eq(${{ parameters.aggregatePipeline }}, False)
       )
     variables:
     - group: common
