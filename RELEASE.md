@@ -92,11 +92,11 @@ The new bitstream reader feature has been added to [rocDecode](https://rocm.docs
 
 ### ROCm Compute Profiler updates
 
-* ROCm Compute Profiler now supports:
+ROCm Compute Profiler now supports:
 
-    * ROCprofiler-SDK (`rocprofv3`)
-    * Experimental multi-nodes profiling support.
-    * Roofline plot for 64-bit floating point (FP64) and 32-bit floating point (FP32) data types.
+* ROCprofiler-SDK (`rocprofv3`)
+* Experimental multi-nodes profiling support.
+* Roofline plot for 64-bit floating point (FP64) and 32-bit floating point (FP32) data types.
 
 ### ROCm Systems Profiler updates
 
