@@ -348,6 +348,6 @@ steps:
       workingDirectory: $(Pipeline.Workspace)
       targetType: inline
       ${{ if ne(parameters.gpuTarget, '') }}:
-        script: echo "rocmexternalcicd.azurecr.io/$(Build.DefinitionName)-${{ parameters.environment }}-${{ parameters.gpuTarget }}:$(Build.BuildId)"
+        script: echo "rocmexternalcicd.azurecr.io/$(Build.DefinitionName)-${{ parameters.environment }}-${{ parameters.gpuTarget }}:$(Build.BuildId)" | tr '[:upper:]' '[:lower:]'
       ${{ else }}:
-        script: echo "rocmexternalcicd.azurecr.io/$(Build.DefinitionName)-${{ parameters.environment }}:$(Build.BuildId)"
+        script: echo "rocmexternalcicd.azurecr.io/$(Build.DefinitionName)-${{ parameters.environment }}:$(Build.BuildId)" | tr '[:upper:]' '[:lower:]'
