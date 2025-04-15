@@ -152,12 +152,12 @@ benchmark scripts directory at ``~/MAD/scripts/vllm``.
    cd MAD/scripts/vllm
 
 Multiprocessing distributed executor
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------
 
 To optimize vLLM performance, add the multiprocessing API server argument ``--distributed-executor-backend mp``.
 
 Command
--------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To start the benchmark, use the following command with the appropriate options.
 See :ref:`Options <vllm-benchmark-standalone-options>` for the list of
@@ -189,7 +189,7 @@ See the :ref:`examples <vllm-benchmark-run-benchmark>` for more information.
 .. _vllm-benchmark-standalone-options:
 
 Options
--------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. list-table::
    :header-rows: 1
