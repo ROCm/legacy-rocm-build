@@ -80,15 +80,15 @@ for the complete list of PyTorch versions tested for compatibility with ROCm. Se
 
 ### VP9 support added to rocDecode and rocPyDecode
 
-VP9 support is added to [rocDecode](https://github.com/ROCm/rocDecode) and [rocPyDecode](https://github.com/ROCm/rocPyDecode), allowing enhanced codec support with VP9 encoding.
+VP9 support is added to [rocDecode](https://rocm.docs.amd.com/projects/rocDecode/en/latest/index.html) and [rocPyDecode](https://rocm.docs.amd.com/projects/rocPyDecode/en/latest/index.html), allowing enhanced codec support with VP9 encoding.
 
 ### Bitstream reader support added to rocDecode
 
-The new bitstream reader feature has been added to [rocDecode](https://github.com/ROCm/rocDecode). It contains built-in stream file parsers, including an elementary stream file parser and an IVF container file parser. It enables decoding without the requirement for FFmpeg demuxer. The reader can parse AVC, HEVC, and AV1 elementary stream files, and AV1 IVF container files. See [Using the rocDecode bitstream reader APIs](https://rocm.docs.amd.com/projects/rocDecode/en/latest/how-to/using-rocDecode-bitstream.html) for more information.
+The new bitstream reader feature has been added to [rocDecode](https://rocm.docs.amd.com/projects/rocDecode/en/latest/index.html). It contains built-in stream file parsers, including an elementary stream file parser and an IVF container file parser. It enables decoding without the requirement for FFmpeg demuxer. The reader can parse AVC, HEVC, and AV1 elementary stream files, and AV1 IVF container files. See [Using the rocDecode bitstream reader APIs](https://rocm.docs.amd.com/projects/rocDecode/en/latest/how-to/using-rocDecode-bitstream.html) for more information.
 
 ### DLPack support added to rocAL
 
-[rocAL](https://github.com/ROCm/rocAL) now supports DLPack, allowing rocAL GPU tensor to be exchanged with PyTorch. This allows faster data processing by leveraging DLPack tensors. It also improves the GPU based workload performance. For more details, see [DLpack github reference documentation](https://dmlc.github.io/dlpack/latest/).
+[rocAL](https://rocm.docs.amd.com/projects/rocAL/en/latest/index.htmlL) now supports DLPack, allowing rocAL GPU tensor to be exchanged with PyTorch. This allows faster data processing by leveraging DLPack tensors. It also improves the GPU based workload performance. For more details, see [DLpack github reference documentation](https://dmlc.github.io/dlpack/latest/).
 
 ### ROCm Compute Profiler updates
 
