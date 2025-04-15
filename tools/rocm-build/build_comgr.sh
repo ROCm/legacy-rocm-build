@@ -14,6 +14,7 @@ printUsage() {
         type referred to by pkg_type"
     echo "  -h,  --help               Prints this help"
     echo "  -s,  --static             Build static lib (.a).  build instead of dynamic/shared(.so) "
+    echo "  -w,  --wheel              Creates python wheel package of comgr. It needs to be used along with -r option"
     echo "  -l,  --link_llvm_static   Link to LLVM statically.  Default is to dynamically link to LLVM; requires that LLVM dylibs are created."
     echo
     echo "Possible values for <type>:"
@@ -24,6 +25,7 @@ printUsage() {
     return 0
 }
 
+## Build environment variables
 API_NAME=amd_comgr
 PROJ_NAME=$API_NAME
 LIB_NAME=lib${API_NAME}
@@ -33,8 +35,8 @@ PACKAGE_ROOT=$(getPackageRoot)
 PACKAGE_LIB=$(getLibPath)
 PACKAGE_INCLUDE=$(getIncludePath)
 BUILD_DIR=$(getBuildPath $API_NAME)
-PACKAGE_DEB=$(getPackageRoot)/deb/$API_NAME
-PACKAGE_RPM=$(getPackageRoot)/rpm/$API_NAME
+PACKAGE_DEB=$PACKAGE_ROOT/deb/$PROJ_NAME
+PACKAGE_RPM=$PACKAGE_ROOT/rpm/$PROJ_NAME
 PACKAGE_PREFIX=$ROCM_INSTALL_PATH
 BUILD_TYPE=Debug
 MAKE_OPTS="$DASH_JAY CTEST_OUTPUT_ON_FAILURE=1 -C $BUILD_DIR"
@@ -44,13 +46,17 @@ CLEAN_OR_OUT=0;
 PKGTYPE="deb"
 MAKETARGET="deb"
 
+# link to LLVM dynamicaly.  Default is to link to llvm dynamically.
+# temporarily set this default to OFF until we resolve Issues
 LINK_LLVM_DYLIB="OFF"
 
-VALID_STR=`getopt -o hcraslo:p: --long help,clean,release,address_sanitizer,static,link_llvm_static,outdir:,package: -- "$@"`
+#parse the arguments
+VALID_STR=`getopt -o hcraswlo:p: --long help,clean,release,address_sanitizer,static,wheel,link_llvm_static,outdir:,package: -- "$@"`
 eval set -- "$VALID_STR"
 
 while true ;
 do
+    #echo "parocessing $1"
     case "$1" in
         (-h | --help)
                 printUsage ; exit 0;;
@@ -63,6 +69,8 @@ do
                 set_address_sanitizer_on ; shift ;;
         (-s | --static)
                 SHARED_LIBS="OFF" ; shift ;;
+        (-w | --wheel)
+                WHEEL_PACKAGE=true ; shift ;;
         (-l | --link_llvm_static)
                 LINK_LLVM_DYLIB="OFF"; shift ;;
         (-o | --outdir)
@@ -105,6 +113,7 @@ build() {
        echo " Building Shared Object "
     fi
 
+# Remove CTEST var once SWDEV-381396 is fixed
     cmake \
         $(rocm_cmake_params) \
         -DBUILD_SHARED_LIBS=$SHARED_LIBS \
@@ -143,7 +152,7 @@ verifyEnvSetup
 
 case $TARGET in
     (clean) clean ;;
-    (build) build ;;
+    (build) build; build_wheel "$BUILD_DIR" "$PROJ_NAME" ;;
     (outdir) print_output_directory ;;
     (*) die "Invalid target $TARGET" ;;
 esac

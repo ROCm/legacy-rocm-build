@@ -336,6 +336,24 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 11
           - 0
         *
+          - Radeon PRO W7800 48GB
+          - RDNA3
+          - gfx1100
+          - 48
+          - 70
+          - 32
+          - 128
+          - 96
+          - 6
+          - 256
+          - 32
+          - 16
+          - 32
+          - 768
+          - 16
+          - 11
+          - 0
+        *
           - Radeon PRO W7800
           - RDNA3
           - gfx1100

@@ -2,7 +2,7 @@
 
 set -ex
 
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 build_release=true
 set_component_src rocThrust
@@ -19,14 +19,15 @@ build_rocthrust() {
     if [ "${ENABLE_ADDRESS_SANITIZER}" == "true" ]; then
          set_asan_env_vars
          set_address_sanitizer_on
+         # ASAN packaging is not required for rocThrust, since its header only package
+         # Setting the asan_cmake_params to false will disable ASAN packaging
          ASAN_CMAKE_PARAMS="false"
     fi
 
     mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR"
 
     init_rocm_common_cmake_params
-
-    CXX=$(set_build_variables CXX)\
+    CXX=$(set_build_variables __CXX__)\
     cmake \
         ${LAUNCHER_FLAGS} \
         "${rocm_math_common_cmake_params[@]}" \
@@ -40,8 +41,7 @@ build_rocthrust() {
     cmake --build "$BUILD_DIR" -- package
 
     rm -rf _CPack_Packages/ && find -name '*.o' -delete
-    mkdir -p $PACKAGE_DIR && cp ${BUILD_DIR}/*.${PKGTYPE} $PACKAGE_DIR
-
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
 
     show_build_cache_stats
 }
@@ -56,7 +56,7 @@ stage2_command_args "$@"
 
 case $TARGET in
     (clean) clean_rocthrust ;;
-    (build) build_rocthrust ;;
+    (build) build_rocthrust; build_wheel ;;
    (outdir) print_output_directory ;;
         (*) die "Invalid target $TARGET" ;;
 esac

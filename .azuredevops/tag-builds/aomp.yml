@@ -3,7 +3,16 @@ variables:
 - template: /.azuredevops/variables-global.yml
 
 parameters:
-- name: checkoutRef
+- name: aompRef
+  type: string
+  default: refs/tags/$(LATEST_RELEASE_TAG)
+- name: extrasRef
+  type: string
+  default: refs/tags/$(LATEST_RELEASE_TAG)
+- name: flangRef
+  type: string
+  default: refs/tags/$(LATEST_RELEASE_TAG)
+- name: llvmRef
   type: string
   default: refs/tags/$(LATEST_RELEASE_TAG)
 
@@ -13,22 +22,22 @@ resources:
     type: github
     endpoint: ROCm
     name: ROCm/aomp
-    ref: ${{ parameters.checkoutRef }}
+    ref: ${{ parameters.aompRef }}
   - repository: aomp-extras_repo
     type: github
     endpoint: ROCm
     name: ROCm/aomp-extras
-    ref: ${{ parameters.checkoutRef }}
+    ref: ${{ parameters.extrasRef }}
   - repository: flang_repo
     type: github
     endpoint: ROCm
     name: ROCm/flang
-    ref: ${{ parameters.checkoutRef }}
+    ref: ${{ parameters.flangRef }}
   - repository: llvm-project_repo
     type: github
     endpoint: ROCm
     name: ROCm/llvm-project
-    ref: amd-staging
+    ref: ${{ parameters.llvmRef }}
 
 trigger: none
 pr: none
@@ -37,4 +46,4 @@ jobs:
   - template: ${{ variables.CI_COMPONENT_PATH }}/aomp.yml
     parameters:
       checkoutRepo: aomp_repo
-      checkoutRef: ${{ parameters.checkoutRef }}
+      checkoutRef: ${{ parameters.aompRef }}

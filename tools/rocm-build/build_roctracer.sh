@@ -12,19 +12,22 @@ printUsage() {
     echo "  -o,  --outdir <pkg_type>  Print path of output directory containing packages of
     type referred to by pkg_type"
     echo "  -s,  --static             Component/Build does not support static builds just accepting this param & ignore. No effect of the param on this build"
+    echo "  -w,  --wheel              Creates python wheel package of roc-tracer.
+                                      It needs to be used along with -r option"
     echo "  -h,  --help               Prints this help"
     echo
 
     return 0
 }
 
+## Build environment variables
 API_NAME="roctracer"
 PROJ_NAME="$API_NAME"
 PACKAGE_ROOT="$(getPackageRoot)"
 PACKAGE_INCLUDE="$(getIncludePath)"
 BUILD_DIR="$(getBuildPath $API_NAME)"
-PACKAGE_DEB="$(getPackageRoot)/deb/$API_NAME"
-PACKAGE_RPM="$(getPackageRoot)/rpm/$API_NAME"
+PACKAGE_DEB="$PACKAGE_ROOT/deb/$PROJ_NAME"
+PACKAGE_RPM="$PACKAGE_ROOT/rpm/$PROJ_NAME"
 PACKAGE_PREFIX="$ROCM_INSTALL_PATH"
 
 export HIP_PATH="${ROCM_INSTALL_PATH}"
@@ -39,12 +42,15 @@ CLEAN_OR_OUT=0
 MAKETARGET="deb"
 PKGTYPE="deb"
 
+# Handling GPU Targets for HSACO and HIP Executables
 GPU_LIST="gfx900;gfx906;gfx908;gfx90a;gfx940;gfx941;gfx942;gfx1030;gfx1031;gfx1100;gfx1101;gfx1102;gfx1200;gfx1201"
 
-VALID_STR=$(getopt -o hcraso: --long help,clean,release,static,address_sanitizer,outdir: -- "$@")
+#parse the arguments
+VALID_STR=$(getopt -o hcraswo: --long help,clean,release,static,wheel,address_sanitizer,outdir: -- "$@")
 eval set -- "$VALID_STR"
 
 while true; do
+    #echo "parocessing $1"
     case "$1" in
     -h | --help)
         printUsage
@@ -66,6 +72,9 @@ while true; do
         ;;
     -s | --static)
         ack_and_skip_static
+        ;;
+    -w | --wheel)
+        WHEEL_PACKAGE=true
         shift
         ;;
     -o | --outdir)
@@ -78,7 +87,7 @@ while true; do
     --)
         shift
         break
-        ;;
+        ;; # end delimiter
     *)
         echo " This should never come but just incase : UNEXPECTED ERROR Parm : [$1] " >&2
         exit 20
@@ -103,15 +112,12 @@ clean() {
     rm -rf "$PACKAGE_ROOT/${PROJ_NAME}"
 }
 
-copy_libs_to_workspace() {
-    if [ "$ASAN_CMAKE_PARAMS" != "true" ]; then
-        cp -R "${ROCM_INSTALL_PATH}/lib/roctracer/" "${OUT_DIR}/lib/roctracer/"
-    fi
-}
-
 build() {
     echo "Building $PROJ_NAME"
+    # The cmake path is different for asan and non-asan builds.
+    # Fetch after getting build type. Default will be non-asan build
     PACKAGE_CMAKE="$(getCmakePath)"
+    # Find HIP in the build tree
     export ROCM_PATH="${ROCM_INSTALL_PATH}"
     export HIPCC_COMPILE_FLAGS_APPEND="--rocm-path=$ROCM_PATH"
 
@@ -174,7 +180,7 @@ verifyEnvSetup
 
 case $TARGET in
 clean) clean ;;
-build) build && copy_libs_to_workspace ;;
+build) build ; build_wheel "$BUILD_DIR" "$PROJ_NAME" ;;
 outdir) print_output_directory ;;
 *) die "$BASH_SOURCE Invalid target $TARGET - exiting" ;;
 esac

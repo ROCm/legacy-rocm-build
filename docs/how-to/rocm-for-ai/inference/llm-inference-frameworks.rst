@@ -36,7 +36,7 @@ Installing vLLM
 
       git clone https://github.com/vllm-project/vllm.git
       cd vllm
-      docker build -f Dockerfile.rocm -t vllm-rocm .
+      docker build -f docker/Dockerfile.rocm -t vllm-rocm .
 
 .. tab-set::
 
@@ -140,8 +140,8 @@ Installing vLLM
    See :ref:`mi300x-vllm-optimization` for performance optimization tips.
 
    ROCm provides a prebuilt optimized Docker image for validating the performance of LLM inference with vLLM
-   on the MI300X accelerator. The Docker image includes ROCm, vLLM, PyTorch, and tuning files in CSV
-   format. For more information, see :doc:`vllm-benchmark`.
+   on the MI300X accelerator. The Docker image includes ROCm, vLLM, and PyTorch.
+   For more information, see :doc:`vllm-benchmark`.
 
 .. _fine-tuning-llms-tgi:
 

@@ -18,12 +18,14 @@ APBDIS
 APIC
 APIs
 APU
+APUs
 ASIC
 ASICs
 ASan
 ASAN
 ASm
 ATI
+atomicRMW
 AddressSanitizer
 AlexNet
 Andrej
@@ -36,6 +38,7 @@ Blit
 Blockwise
 Bluefield
 Bootloader
+CAS
 CCD
 CDNA
 CHTML
@@ -78,6 +81,8 @@ DBRX
 DDR
 DF
 DGEMM
+dGPU
+dGPUs
 DIMM
 DKMS
 DL
@@ -98,6 +103,7 @@ DeepSpeed
 Dependabot
 Deprecations
 DevCap
+DirectX
 Dockerfile
 Doxygen
 ELMo
@@ -137,6 +143,7 @@ Gemma
 GiB
 GIM
 GL
+Glibc
 GLXT
 Gloo
 GMI
@@ -177,6 +184,7 @@ IDE
 IDEs
 IFWI
 IMDb
+IncDec
 IOMMU
 IOP
 IOPM
@@ -241,6 +249,7 @@ Makefile
 Makefiles
 Matplotlib
 Matrox
+MaxText
 Megatrends
 Megatron
 Mellanox
@@ -272,6 +281,7 @@ NaN
 Nano
 Navi
 Noncoherently
+NoReturn
 NousResearch's
 NumPy
 OAM
@@ -380,6 +390,7 @@ SIMDs
 SKU
 SKUs
 SLES
+SLURM
 SMEM
 SMI
 SMT
@@ -439,6 +450,7 @@ UMC
 USM
 UTCL
 UTIL
+UltraChat
 Uncached
 Unittests
 Unhandled
@@ -481,6 +493,7 @@ ZenDNN
 accuracies
 activations
 addr
+ai
 alloc
 allocatable
 allocator
@@ -501,15 +514,19 @@ bfloat
 bilinear
 bitcode
 bitsandbytes
+bitwise
+Bitwise
 blit
 bootloader
 boson
 bosons
 br
+BrainFloat
 buildable
 bursty
 bzip
 cacheable
+carveout
 cd
 centos
 centric
@@ -546,6 +563,7 @@ cTDP
 dataset
 datasets
 dataspace
+datatemplate
 datatype
 datatypes
 dbgapi
@@ -570,10 +588,12 @@ distro
 distros
 dkms
 dtype
+eb
 el
 embeddings
 enablement
 encodings
+endfor
 endpgm
 enqueue
 env
@@ -586,6 +606,7 @@ ffmpeg
 filesystem
 fortran
 fp
+framebuffer
 gRPC
 galb
 gcc
@@ -622,6 +643,7 @@ hipify
 hipsolver
 hipsparse
 hlist
+hostname
 hotspotting
 hpc
 hpp
@@ -668,6 +690,7 @@ macOS
 matchers
 microarchitecture
 migraphx
+migratable
 miopen
 miopengemm
 mivisionx
@@ -680,6 +703,9 @@ mvffr
 namespace
 namespaces
 nanoGPT
+NCS
+NOP
+NVLink
 num
 numref
 ocl
@@ -694,6 +720,7 @@ pageable
 pallas
 parallelization
 parallelizing
+param
 parameterization
 passthrough
 perfcounter
@@ -811,6 +838,7 @@ supercomputing
 symlink
 symlinks
 sys
+tabindex
 td
 tensorfloat
 th
@@ -829,6 +857,7 @@ tracebacks
 txt
 uarch
 uncached
+uncacheable
 uncorrectable
 underoptimized
 unhandled
@@ -856,6 +885,7 @@ vectorizes
 virtualize
 virtualized
 vjxb
+vllm
 voxel
 walkthrough
 walkthroughs
@@ -872,6 +902,7 @@ wrreq
 wzo
 xargs
 xGMI
+xPacked
 xz
 yaml
 ysvmadyb

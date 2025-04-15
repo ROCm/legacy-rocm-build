@@ -1,9 +1,13 @@
 #!/bin/bash
 set -ex
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 set_component_src rocJPEG
 BUILD_DEV=ON
 build_rocjpeg() {
+    if [ "$DISTRO_ID" = "centos-7" ] || [ "$DISTRO_ID" = "sles-15.4" ] || [ "$DISTRO_ID" = "azurelinux-3.0" ]  || [ "$DISTRO_ID" = "debian-10" ]; then
+     echo "Not building rocJPEG for ${DISTRO_ID}. Exiting..." 
+     return 0
+    fi
     echo "Start build"
 
     if [ "${ENABLE_STATIC_BUILDS}" == "true" ]; then
@@ -13,7 +17,7 @@ build_rocjpeg() {
     mkdir -p $BUILD_DIR && cd $BUILD_DIR
     # python3 ../rocJPEG-setup.py
 
-    cmake -DROCM_DEP_ROCMCORE=ON "$COMPONENT_SRC"
+    cmake -DROCM_DEP_ROCMCORE=ON -DROCJPEG_ENABLE_ROCPROFILER_REGISTER=ON "$COMPONENT_SRC"
     make -j8
     make install
     make package
@@ -21,8 +25,7 @@ build_rocjpeg() {
     cmake --build "$BUILD_DIR" -- -j${PROC}
     cpack -G ${PKGTYPE^^}
     rm -rf _CPack_Packages/ && find -name '*.o' -delete
-    mkdir -p $PACKAGE_DIR
-    cp ${BUILD_DIR}/*.${PKGTYPE} $PACKAGE_DIR
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
     show_build_cache_stats
 }
 clean_rocjpeg() {

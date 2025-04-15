@@ -284,7 +284,7 @@ Installing FBGEMM_GPU consists of the following steps:
 .. note::
 
    FBGEMM_GPU doesn't require the installation of FBGEMM. To optionally install
-   FBGEMM, see the `FBGEMM install instructions <https://pytorch.org/FBGEMM/fbgemm-development/BuildInstructions.html>`_.
+   FBGEMM, see the `FBGEMM install instructions <https://pytorch.org/FBGEMM/fbgemm/development/BuildInstructions.html>`_.
 
 Set up the Miniconda environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

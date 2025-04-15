@@ -2,14 +2,14 @@
 
 set -ex
 
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 set_component_src rpp
 DEPS_DIR="$RPP_DEPS_LOCATION"
 
 LLVM_LIBDIR="${ROCM_PATH}/llvm/lib"
 ROCM_LLVM_LIB_RPATH="\$ORIGIN/llvm/lib"
-
+# RPP specific exe linker parameters
 rpp_specific_cmake_params() {
     local rpp_cmake_params
     if [ "${ASAN_CMAKE_PARAMS}" == "true" ] ; then
@@ -27,21 +27,26 @@ build_rpp() {
         ack_and_skip_static
     fi
 
+    # To check if RPP source is present
     if [ ! -e $COMPONENT_SRC/CMakeLists.txt ]; then
         echo "Skipping RPP build as source is not available"
         mkdir -p $COMPONENT_SRC
         exit 0
     fi
 
+    CXX=$(set_build_variables __AMD_CLANG_++__)
+    # Enable ASAN
     if [ "${ENABLE_ADDRESS_SANITIZER}" == "true" ]; then
         set_asan_env_vars
         set_address_sanitizer_on
     fi
 
+    echo "C compiler: $CC"
+    echo "CXX compiler: $CXX"
     mkdir -p $BUILD_DIR && cd $BUILD_DIR
-
     init_rocm_common_cmake_params
-
+    # rocm_common_cmake_params provides the default rpath for rocm executables and libraries
+    # Override cmake shared linker flags to add RPATH for boost libraries
     cmake \
         "${rocm_math_common_cmake_params[@]}" \
         ${LAUNCHER_FLAGS} \
@@ -57,8 +62,7 @@ build_rpp() {
     cpack -G ${PKGTYPE^^}
 
     rm -rf _CPack_Packages/ && find -name '*.o' -delete
-    mkdir -p $PACKAGE_DIR
-    cp ${BUILD_DIR}/*.${PKGTYPE} $PACKAGE_DIR
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
     show_build_cache_stats
 }
 
@@ -71,7 +75,7 @@ clean_rpp() {
 stage2_command_args "$@"
 
 case $TARGET in
-    build) build_rpp ;;
+    build) build_rpp; build_wheel ;;
     outdir) print_output_directory ;;
     clean) clean_rpp ;;
     *) die "Invalid target $TARGET" ;;

@@ -6,6 +6,11 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
+# set to true if doing full build of ROCm stack
+# and dependencies are pulled from same pipeline
+- name: aggregatePipeline
+  type: boolean
+  default: false
 - name: aptPackages
   type: object
   default:
@@ -24,6 +29,7 @@ parameters:
     - libavutil-dev
     - libdrm-amdgpu-dev
     - libdrm-dev
+    - libdw-dev
     - libfabric-dev
     - libiberty-dev
     - libpapi-dev
@@ -31,6 +37,7 @@ parameters:
     - libtool
     - libopenmpi-dev
     - m4
+    - ninja-build
     - openmpi-bin
     - pkg-config
     - python3-pip
@@ -60,188 +67,165 @@ parameters:
     - rocprofiler-sdk
     - ROCR-Runtime
 
-jobs:
-- job: rocprofiler_systems
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool: ${{ variables.MEDIUM_BUILD_POOL }}
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-      gfx90a:
-        JOB_GPU_TARGET: gfx90a
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      registerROCmPackages: true
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - task: Bash@3
-    displayName: ROCm symbolic link
-    inputs:
-      targetType: inline
-      script: |
-        sudo rm -rf /opt/rocm
-        sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
-  - task: Bash@3
-    displayName: Add ROCm binaries to PATH
-    inputs:
-      targetType: inline
-      script: echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
-  - task: Bash@3
-    displayName: Add ROCm compilers to PATH
-    inputs:
-      targetType: inline
-      script: echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-# build flags reference: https://rocm.docs.amd.com/projects/omnitrace/en/latest/install/install.html
-      extraBuildFlags: >-
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
-        -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-        -DROCPROFSYS_BUILD_TESTING=ON
-        -DROCPROFSYS_BUILD_DYNINST=ON
-        -DROCPROFSYS_BUILD_LIBUNWIND=ON
-        -DROCPROFSYS_DISABLE_EXAMPLES="openmp-target"
-        -DDYNINST_BUILD_TBB=ON
-        -DDYNINST_BUILD_ELFUTILS=ON
-        -DDYNINST_BUILD_LIBIBERTY=ON
-        -DDYNINST_BUILD_BOOST=ON
-        -DROCPROFSYS_USE_PAPI=ON
-        -DROCPROFSYS_USE_MPI=ON
-        -DGPU_TARGETS=$(JOB_GPU_TARGET)
-      multithreadFlag: -- -j32
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      gpuTarget: $(JOB_GPU_TARGET)
-      registerROCmPackages: true
-      optSymLink: true
-      extraPaths: /home/user/workspace/rocm/bin:/home/user/workspace/rocm/llvm/bin
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
+    testJobs:
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
-- job: rocprofiler_systems_testing
-  dependsOn: rocprofiler_systems
-  condition: and(succeeded(), eq(variables.ENABLE_GFX942_TESTS, 'true'), not(containsValue(split(variables.DISABLED_GFX942_TESTS, ','), variables['Build.DefinitionName'])))
-  timeoutInMinutes: 180
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool:
-    name: $(JOB_TEST_POOL)
-    demands: firstRenderDeviceAccess
-  workspace:
-    clean: all
-  strategy:
-    matrix:
-      gfx942:
-        JOB_GPU_TARGET: gfx942
-        JOB_TEST_POOL: ${{ variables.GFX942_TEST_POOL }}
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      registerROCmPackages: true
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      gpuTarget: $(JOB_GPU_TARGET)
-  - task: Bash@3
-    displayName: ROCm symbolic link
-    inputs:
-      targetType: inline
-      script: |
-        sudo rm -rf /opt/rocm
-        sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
-  - task: Bash@3
-    displayName: Add ROCm binaries to PATH
-    inputs:
-      targetType: inline
-      script: echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
-  - task: Bash@3
-    displayName: Add ROCm compilers to PATH
-    inputs:
-      targetType: inline
-      script: echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-# build flags reference: https://rocm.docs.amd.com/projects/omnitrace/en/latest/install/install.html
-      extraBuildFlags: >-
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
-        -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-        -DROCPROFSYS_BUILD_TESTING=ON
-        -DROCPROFSYS_BUILD_DYNINST=ON
-        -DROCPROFSYS_BUILD_LIBUNWIND=ON
-        -DROCPROFSYS_DISABLE_EXAMPLES="openmp-target"
-        -DDYNINST_BUILD_TBB=ON
-        -DDYNINST_BUILD_ELFUTILS=ON
-        -DDYNINST_BUILD_LIBIBERTY=ON
-        -DDYNINST_BUILD_BOOST=ON
-        -DROCPROFSYS_USE_PAPI=ON
-        -DROCPROFSYS_USE_MPI=ON
-        -DGPU_TARGETS=$(JOB_GPU_TARGET)
-      multithreadFlag: -- -j32
-  - task: Bash@3
-    displayName: Set up rocprofiler-systems env
-    inputs:
-      targetType: inline
-      script: source share/rocprofiler-systems/setup-env.sh
-      workingDirectory: build
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: rocprofiler-systems
-  - task: Bash@3
-    displayName: Remove ROCm binaries from PATH
-    condition: always()
-    inputs:
-      targetType: inline
-      script: echo "##vso[task.setvariable variable=PATH]$(echo $PATH | sed -e 's;:$(Agent.BuildDirectory)/rocm/bin;;' -e 's;^/;;' -e 's;/$;;')"
-  - task: Bash@3
-    displayName: Remove ROCm compilers from PATH
-    condition: always()
-    inputs:
-      targetType: inline
-      script: echo "##vso[task.setvariable variable=PATH]$(echo $PATH | sed -e 's;:$(Agent.BuildDirectory)/rocm/llvm/bin;;' -e 's;^/;;' -e 's;/$;;')"
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      gpuTarget: $(JOB_GPU_TARGET)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-      environment: test
-      registerROCmPackages: true
-      gpuTarget: $(JOB_GPU_TARGET)
-      optSymLink: true
-      extraPaths: /home/user/workspace/rocm/bin:/home/user/workspace/rocm/llvm/bin
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: rocprofiler_systems_build_${{ job.target }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        registerROCmPackages: true
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
+    - task: Bash@3
+      displayName: Add ROCm binaries to PATH
+      inputs:
+        targetType: inline
+        script: |
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+  # build flags reference: https://rocm.docs.amd.com/projects/omnitrace/en/latest/install/install.html
+        extraBuildFlags: >-
+          -DROCPROFSYS_BUILD_TESTING=ON
+          -DROCPROFSYS_BUILD_DYNINST=ON
+          -DROCPROFSYS_BUILD_LIBUNWIND=ON
+          -DROCPROFSYS_DISABLE_EXAMPLES="openmp-target"
+          -DDYNINST_BUILD_TBB=ON
+          -DDYNINST_BUILD_ELFUTILS=ON
+          -DDYNINST_BUILD_LIBIBERTY=ON
+          -DDYNINST_BUILD_BOOST=ON
+          -DROCPROFSYS_USE_PAPI=ON
+          -DROCPROFSYS_USE_MPI=ON
+          -DGPU_TARGETS=${{ job.target }}
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        gpuTarget: ${{ job.target }}
+        registerROCmPackages: true
+        extraPaths: /home/user/workspace/rocm/bin:/home/user/workspace/rocm/llvm/bin
+
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: rocprofiler_systems_test_${{ job.target }}
+    dependsOn: rocprofiler_systems_build_${{ job.target }}
+    condition:
+      and(succeeded(),
+        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
+        eq(${{ parameters.aggregatePipeline }}, False)
+      )
+    timeoutInMinutes: 180
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    pool:
+      name: ${{ job.target }}_test_pool
+      demands: firstRenderDeviceAccess
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        registerROCmPackages: true
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        gpuTarget: ${{ job.target }}
+    - task: Bash@3
+      displayName: Add ROCm binaries to PATH
+      inputs:
+        targetType: inline
+        script: |
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+  # build flags reference: https://rocm.docs.amd.com/projects/omnitrace/en/latest/install/install.html
+        extraBuildFlags: >-
+          -DROCPROFSYS_BUILD_TESTING=ON
+          -DROCPROFSYS_BUILD_DYNINST=ON
+          -DROCPROFSYS_BUILD_LIBUNWIND=ON
+          -DROCPROFSYS_DISABLE_EXAMPLES="openmp-target"
+          -DDYNINST_BUILD_TBB=ON
+          -DDYNINST_BUILD_ELFUTILS=ON
+          -DDYNINST_BUILD_LIBIBERTY=ON
+          -DDYNINST_BUILD_BOOST=ON
+          -DROCPROFSYS_USE_PAPI=ON
+          -DROCPROFSYS_USE_MPI=ON
+          -DGPU_TARGETS=${{ job.target }}
+          -GNinja
+    - task: Bash@3
+      displayName: Set up rocprofiler-systems env
+      inputs:
+        targetType: inline
+        script: source share/rocprofiler-systems/setup-env.sh
+        workingDirectory: build
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: rocprofiler-systems
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        environment: test
+        registerROCmPackages: true
+        gpuTarget: ${{ job.target }}
+        extraPaths: /home/user/workspace/rocm/bin:/home/user/workspace/rocm/llvm/bin

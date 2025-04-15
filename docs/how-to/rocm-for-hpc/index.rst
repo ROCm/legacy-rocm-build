@@ -93,6 +93,13 @@ Ubuntu versions.
           Publications of work done using this code or derivatives of this code should
           acknowledge this use.
 
+      * - 
+        - `QUDA <https://github.com/amd/InfinityHub-CI/tree/main/quda>`_
+        - Library designed for efficient lattice QCD computations on
+          accelerators. It includes optimized Dirac operators and a variety of
+          fermion solvers and conjugate gradient (CG) implementations, enhancing
+          performance and accuracy in lattice QCD simulations.
+
       * -
         - `PIConGPU <https://github.com/amd/InfinityHub-CI/tree/main/picongpu>`_
         - PIConGPU (Particle-in-cell on Graphics Processing Units) is an Open Source
@@ -173,20 +180,6 @@ Ubuntu versions.
           simulation tool developed by Siemens Digital Industries Software. It is designed to
           help engineers and researchers analyze and optimize the performance of products and
           systems across various industries.
-
-      * - Computational chemistry
-        - `QUDA <https://github.com/amd/InfinityHub-CI/tree/main/quda>`_
-        - Library designed for efficient lattice QCD computations on
-          accelerators. It includes optimized Dirac operators and a variety of
-          fermion solvers and conjugate gradient (CG) implementations, enhancing
-          performance and accuracy in lattice QCD simulations.
-
-      * - Electronic structure
-        - `CP2K <https://github.com/amd/InfinityHub-CI/tree/main/cp2k>`_
-        - CP2K is a quantum chemistry and solid state physics software package that can
-          perform atomistic simulations of solid state, liquid, molecular, periodic, material,
-          crystal, and biological systems. This AMD container, based on a released version
-          of CP2K, is an AMD beta version with ongoing optimizations.
 
       * - Quantum Monte Carlo Simulation
         - `QMCPACK <https://github.com/amd/InfinityHub-CI/tree/main/qmcpack>`_

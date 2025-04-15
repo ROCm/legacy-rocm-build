@@ -2,7 +2,7 @@
 
 set -ex
 
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 set_component_src hipCUB
 
@@ -17,26 +17,21 @@ build_hipcub() {
     if [ "${ENABLE_ADDRESS_SANITIZER}" == "true" ]; then
          set_asan_env_vars
          set_address_sanitizer_on
+         # ASAN packaging is not required for HIPCUB, since its header only package
+         # Setting the asan_cmake_params to false will disable ASAN packaging
          ASAN_CMAKE_PARAMS="false"
     fi
 
     mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR"
     init_rocm_common_cmake_params
 
-    if [ -n "$GPU_ARCHS" ]; then
-        GPU_TARGETS="$GPU_ARCHS"
-    else
-        GPU_TARGETS="gfx908:xnack-;gfx90a:xnack-;gfx90a:xnack+;gfx940;gfx941;gfx942;gfx1030;gfx1100;gfx1101;gfx1102;gfx1200;gfx1201"
-    fi
-
-    CXX=$(set_build_variables CXX)\
+    CXX=$(set_build_variables __CXX__)\
     cmake \
         ${LAUNCHER_FLAGS} \
-        "${rocm_math_common_cmake_params[@]}" \
+	    "${rocm_math_common_cmake_params[@]}" \
         -DCMAKE_MODULE_PATH="${ROCM_PATH}/lib/cmake/hip;${ROCM_PATH}/hip/cmake" \
         -Drocprim_DIR="${ROCM_PATH}/rocprim"  \
         -DBUILD_TEST=ON \
-        -DAMDGPU_TARGETS=${GPU_TARGETS} \
         "$COMPONENT_SRC"
 
     cmake --build "$BUILD_DIR" -- -j${PROC}
@@ -44,7 +39,7 @@ build_hipcub() {
     cmake --build "$BUILD_DIR" -- package
 
     rm -rf _CPack_Packages/ && find -name '*.o' -delete
-    mkdir -p $PACKAGE_DIR && cp ${BUILD_DIR}/*.${PKGTYPE} $PACKAGE_DIR
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
 
     show_build_cache_stats
 }
@@ -58,7 +53,7 @@ clean_hipcub() {
 stage2_command_args "$@"
 
 case $TARGET in
-    build) build_hipcub ;;
+    build) build_hipcub; build_wheel ;;
     outdir) print_output_directory ;;
     clean) clean_hipcub ;;
     *) die "Invalid target $TARGET" ;;
