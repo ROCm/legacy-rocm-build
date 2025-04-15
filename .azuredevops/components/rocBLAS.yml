@@ -92,6 +92,7 @@ jobs:
     workspace:
       clean: all
     steps:
+    - script: exit 1
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
