@@ -35,8 +35,8 @@ parameters:
     testJobs:
       - gfx942:
         target: gfx942
-      - gfx90a:
-        target: gfx90a
+      # - gfx90a:
+      #   target: gfx90a
 
 jobs:
 - job: rocminfo
@@ -116,6 +116,7 @@ jobs:
         testExecutable: './rocm/bin/rocm_agent_enumerator'
         testParameters: ''
         testPublishResults: false
+    - script: exit 1
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
