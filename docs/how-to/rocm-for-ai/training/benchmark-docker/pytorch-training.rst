@@ -40,6 +40,8 @@ Supported models
 
 The following models are pre-optimized for performance on the AMD Instinct MI325X and MI300X accelerators.
 
+* Llama 3.3 70B
+
 * Llama 3.1 8B
 
 * Llama 3.1 70B
