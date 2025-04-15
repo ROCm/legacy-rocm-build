@@ -207,7 +207,7 @@ Expand for full historical view of:
 
    .. csv-table::
       :file: compatibility-matrix-historical-6.0.csv
-      :widths: 20,10,10,10,10,10,10,10
+      :widths: 20,10,10,10,10,10,10,10,10
       :header-rows: 1
       :stub-columns: 1
    
