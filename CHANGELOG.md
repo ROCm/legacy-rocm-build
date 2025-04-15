@@ -678,7 +678,6 @@ The following lists the backward incompatible changes planned for upcoming major
 
 * Roofline support for Ubuntu 24.04.
 * Experimental support `rocprofv3` (not enabled as default).
-* Experimental feature: Spatial multiplexing.
 
 #### Resolved issues
 
