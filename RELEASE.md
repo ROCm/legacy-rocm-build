@@ -88,7 +88,7 @@ The new bitstream reader feature has been added to [rocDecode](https://rocm.docs
 
 ### DLPack support added to rocAL
 
-[rocAL](https://rocm.docs.amd.com/projects/rocAL/en/latest/index.htmlL) now supports DLPack, allowing rocAL GPU tensor to be exchanged with PyTorch. This allows faster data processing by leveraging DLPack tensors. It also improves the GPU based workload performance. For more details, see [DLpack github reference documentation](https://dmlc.github.io/dlpack/latest/).
+[rocAL](https://rocm.docs.amd.com/projects/rocAL/en/latest/index.html) now supports DLPack, allowing rocAL GPU tensor to be exchanged with PyTorch. This allows faster data processing by leveraging DLPack tensors. It also improves the GPU based workload performance. For more details, see [DLpack github reference documentation](https://dmlc.github.io/dlpack/latest/).
 
 ### ROCm Compute Profiler updates
 
