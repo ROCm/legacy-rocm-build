@@ -334,7 +334,7 @@ steps:
   - task: Docker@2
     condition: or(and(failed(), ${{ not(containsValue(parameters.dockerSkipGfx, parameters.gpuTarget)) }}), ${{ eq(parameters.forceDockerCreation, true) }})
     inputs:
-      containerRegistry: 'ContainerService2'
+      containerRegistry: 'ContainerService3'
       ${{ if ne(parameters.gpuTarget, '') }}:
         repository: '$(Build.DefinitionName)-${{ parameters.environment }}-${{ parameters.gpuTarget }}'
       ${{ else }}:
