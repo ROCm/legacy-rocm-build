@@ -140,7 +140,7 @@ You can also refer to the :ref:`past versions of ROCm compatibility matrix<past-
 
 .. rubric:: Footnotes
 
-.. [#red-hat94] RHEL 9.4 is supported only on AMD Instinct MI300A.
+.. [#red-hat94] **For ROCm 6.1** - RHEL 9.4 is supported only on AMD Instinct MI300A.
 .. [#oracle89] Oracle Linux is supported only on AMD Instinct MI300X.
 .. [#mi300_621] **For ROCm 6.2.1** - MI300X (gfx942) is supported on listed operating systems *except* Ubuntu 22.04.5 [6.8 HWE] and Ubuntu 22.04.4 [6.5 HWE].
 .. [#mi300_620] **For ROCm 6.2.0** - MI300X (gfx942) is supported on listed operating systems *except* Ubuntu 22.04.5 [6.8 HWE] and Ubuntu 22.04.4 [6.5 HWE].
