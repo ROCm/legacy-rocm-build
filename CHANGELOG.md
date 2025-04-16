@@ -9,7 +9,6 @@ different versions of the ROCm software stack and its components.
 See the [ROCm 6.4.0 release notes](https://rocm-stg.amd.com/en/latest/about/release-notes.html)
 for a complete overview of this release.
 
-### **AMD SMI** (25.3.0)
 
 #### Added
 
@@ -125,7 +124,7 @@ Some workaround options are as follows:
 - The `pasid` field in struct `amdsmi_process_info_t` will be deprecated in a future ROCm release.
 
 ```{note}
-See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/rocm-6.4.x/CHANGELOG.md) for details, examples,
+See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples,
 and in-depth descriptions.
 ```
 
@@ -736,7 +735,7 @@ The following lists the backward incompatible changes planned for upcoming major
 - Fixed `rsmi_dev_target_graphics_version_get`, `rocm-smi --showhw`, and `rocm-smi --showprod` not displaying graphics version correctly for Instinct MI200 series, MI100 series, and RDNA3-based GPUs. 
 
 ```{note}
-See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/rocm-6.4.x/CHANGELOG.md) for details, examples,
+See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples,
 and in-depth descriptions.
 ```
 
@@ -4332,7 +4331,7 @@ for a complete overview of this release.
 * New multiple node and GPU support.
   Unsmoothed and smoothed aggregations and Ruge-Stueben AMG now work with multiple nodes
   and GPUs. For more information, refer to the 
-  [API documentation](https://rocm.docs.amd.com/projects/rocALUTION/en/latest/usermanual/solvers.html#unsmoothed-aggregation-amg).
+  [API documentation](https://rocm.docs.amd.com/projects/rocALUTION/en/docs-6.1.0/usermanual/solvers.html#unsmoothed-aggregation-amg).
 
 ### **rocDecode** (0.5.0)
 
