@@ -6,7 +6,7 @@ ROCm Version,6.3.1,6.3.0,6.2.4,6.2.2,6.2.1,6.2.0, 6.1.5, 6.1.2, 6.1.1, 6.1.0, 6.
       ,RHEL 8.10,RHEL 8.10,"RHEL 8.10, 8.9","RHEL 8.10, 8.9","RHEL 8.10, 8.9","RHEL 8.10, 8.9","RHEL 8.9, 8.8","RHEL 8.9, 8.8","RHEL 8.9, 8.8","RHEL 8.9, 8.8","RHEL 8.9, 8.8","RHEL 8.9, 8.8"
       ,"SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP5, SP4","SLES 15 SP5, SP4","SLES 15 SP5, SP4","SLES 15 SP5, SP4","SLES 15 SP5, SP4","SLES 15 SP5, SP4"
       ,,,,,,,,CentOS 7.9,CentOS 7.9,CentOS 7.9,CentOS 7.9,CentOS 7.9
-      ,Oracle Linux 8.10 [#mic300x-past-60]_,Oracle Linux 8.10 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#oracle89-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,,,
+      ,Oracle Linux 8.10 [#mic300x-past-60]_,Oracle Linux 8.10 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,Oracle Linux 8.9 [#mic300x-past-60]_,,,
 ,Debian 12 [#single-node-past-60]_,,,,,,,,,,,
 ,Azure Linux 3.0 [#mic300x-past-60]_,,,,,,,,,,,
       ,.. _architecture-support-compatibility-matrix-past-60:,,,,,,,,,,,
