@@ -193,8 +193,6 @@ jobs:
     - template: /.azuredevops/variables-global.yml
     - name: ROCM_PATH
       value: $(Agent.BuildDirectory)/rocm
-    - name: AMD_COMGR_CACHE
-      value: 0
     pool: ${{ job.target }}_test_pool
     workspace:
       clean: all
