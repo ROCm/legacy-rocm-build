@@ -63,7 +63,7 @@ steps:
     displayName: Build and upload Docker image
     condition: or(and(failed(), not(contains(variables['DOCKER_SKIP_GFX'], variables['JOB_GPU_TARGET']))), ${{ eq(parameters.forceDockerCreation, true) }})
     inputs:
-      containerRegistry: 'ContainerService'
+      containerRegistry: 'ContainerService3'
       ${{ if ne(parameters.gpuTarget, '') }}:
         repository: '$(Build.DefinitionName)-${{ parameters.environment }}-${{ parameters.gpuTarget }}'
       ${{ else }}:
