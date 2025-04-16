@@ -77,7 +77,7 @@ ROCm Version,6.2.2,6.2.1,6.2.0, 6.1.5, 6.1.2, 6.1.1, 6.1.0, 6.0.2, 6.0.0
       ,,,,,,,,,
       SUPPORT LIBS,,,,,,,,,
       `hipother <https://github.com/ROCm/hipother>`_,6.2.41134,6.2.41134,6.2.41133,6.1.40093,6.1.40093,6.1.40092,6.1.40091,6.1.32831,6.1.32830
-      `rocm-core <https://github.com/ROCm/rocm-core>`_,6.2.2,6.2.1,6.2.0,6.1.2,6.1.2,6.1.1,6.1.0,6.0.2,6.0.0
+      `rocm-core <https://github.com/ROCm/rocm-core>`_,6.2.2,6.2.1,6.2.0,6.1.5,6.1.2,6.1.1,6.1.0,6.0.2,6.0.0
       `ROCT-Thunk-Interface <https://github.com/ROCm/ROCT-Thunk-Interface>`_,20240607.4.05,20240607.4.05,20240607.1.4246,20240125.5.08,20240125.5.08,20240125.5.08,20240125.3.30,20231016.2.245,20231016.2.245
       ,,,,,,,,,
       SYSTEM MGMT TOOLS,.. _tools-support-compatibility-matrix-past-60:,,,,,,,,
