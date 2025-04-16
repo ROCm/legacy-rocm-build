@@ -134,8 +134,6 @@ jobs:
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
-    - name: AMD_COMGR_CACHE
-      value: 0
     pool: ${{ job.target }}_test_pool
     workspace:
       clean: all
