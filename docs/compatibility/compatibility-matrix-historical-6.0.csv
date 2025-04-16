@@ -38,7 +38,7 @@ ROCm Version,6.3.1,6.3.0,6.2.4,6.2.2,6.2.1,6.2.0, 6.1.5, 6.1.2, 6.1.1, 6.1.0, 6.
 ,,,,,,,,,,,,
       ,,,,,,,,,,,,
       KMD & USER SPACE [#kfd_support-past-60]_,.. _kfd-userspace-support-compatibility-matrix-past-60:,,,,,,,,,,,
-      Tested user space versions,"6.3.x, 6.2.x, 6.1.x","6.3.x, 6.2.x, 6.1.x","6.3.x, 6.2.x, 6.1.x, 6.0.x","6.3.x, 6.2.x, 6.1.x, 6.0.x","6.3.x, 6.2.x, 6.1.x, 6.0.x","6.3.x, 6.2.x, 6.1.x, 6.0.x","6.2.x, 6.0.x, 5.7.x","6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.2.x, 6.1.x, 6.0.x, 5.7.x, 5.6.x","6.2.x, 6.1.x, 6.0.x, 5.7.x, 5.6.x"
+      Tested user space versions,"6.3.x, 6.2.x, 6.1.x","6.3.x, 6.2.x, 6.1.x","6.3.x, 6.2.x, 6.1.x, 6.0.x","6.3.x, 6.2.x, 6.1.x, 6.0.x","6.3.x, 6.2.x, 6.1.x, 6.0.x","6.3.x, 6.2.x, 6.1.x, 6.0.x","6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.2.x, 6.1.x, 6.0.x, 5.7.x, 5.6.x","6.2.x, 6.1.x, 6.0.x, 5.7.x, 5.6.x"
       ,,,,,,,,,,,,
       ML & COMPUTER VISION,.. _mllibs-support-compatibility-matrix-past-60:,,,,,,,,,,,
       :doc:`Composable Kernel <composable_kernel:index>`,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0
@@ -94,9 +94,9 @@ ROCm Version,6.3.1,6.3.0,6.2.4,6.2.2,6.2.1,6.2.0, 6.1.5, 6.1.2, 6.1.1, 6.1.0, 6.
       :doc:`ROCm Validation Suite <rocmvalidationsuite:index>`,1.1.0,1.1.0,1.0.60204,1.0.60202,1.0.60201,1.0.60200,1.0.60105,1.0.60102,1.0.60101,1.0.60100,1.0.60002,1.0.60000
       ,,,,,,,,,,,,
       PERFORMANCE TOOLS,,,,,,,,,,,,
-      :doc:`ROCm Bandwidth Test <rocm_bandwidth_test:index>`,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0,N/A,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0
+      :doc:`ROCm Bandwidth Test <rocm_bandwidth_test:index>`,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0,1.4.0
       :doc:`ROCm Compute Profiler <rocprofiler-compute:index>`,3.0.0,3.0.0,2.0.1,2.0.1,2.0.1,2.0.1,N/A,N/A,N/A,N/A,N/A,N/A
-      :doc:`ROCm Systems Profiler <rocprofiler-systems:index>`,0.1.0,0.1.0,1.11.2,1.11.2,1.11.2,1.11.2,1.4.0,N/A,N/A,N/A,N/A,N/A
+      :doc:`ROCm Systems Profiler <rocprofiler-systems:index>`,0.1.0,0.1.0,1.11.2,1.11.2,1.11.2,1.11.2,N/A,N/A,N/A,N/A,N/A,N/A
       :doc:`ROCProfiler <rocprofiler:index>`,2.0.60301,2.0.60300,2.0.60204,2.0.60202,2.0.60201,2.0.60200,2.0.60105,2.0.60102,2.0.60101,2.0.60100,2.0.60002,2.0.60000
 ,,,,,,,,,,,,
       :doc:`ROCprofiler-SDK <rocprofiler-sdk:index>`,0.5.0,0.5.0,0.4.0,0.4.0,0.4.0,0.4.0,N/A,N/A,N/A,N/A,N/A,N/A
