@@ -21,6 +21,7 @@ parameters:
     - bzip2
     - clang
     - cmake
+    - chrpath
     - environment-modules
     - ffmpeg
     - g++-12
@@ -130,6 +131,7 @@ jobs:
           -DDYNINST_BUILD_BOOST=ON
           -DROCPROFSYS_USE_PAPI=ON
           -DROCPROFSYS_USE_MPI=ON
+          -DCMAKE_CXX_FLAGS=-I$(Agent.BuildDirectory)/rocm/include/rocjpeg
           -DGPU_TARGETS=${{ job.target }}
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
@@ -204,6 +206,7 @@ jobs:
           -DDYNINST_BUILD_BOOST=ON
           -DROCPROFSYS_USE_PAPI=ON
           -DROCPROFSYS_USE_MPI=ON
+          -DCMAKE_CXX_FLAGS=-I$(Agent.BuildDirectory)/rocm/include/rocjpeg
           -DGPU_TARGETS=${{ job.target }}
           -GNinja
     - task: Bash@3
