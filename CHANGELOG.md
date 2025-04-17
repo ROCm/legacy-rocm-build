@@ -126,7 +126,7 @@ Some workaround options are as follows:
 
 ```{note}
 See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples,
-and in-depth descriptions. 
+and in-depth descriptions.
 ```
 
 ### **AMDMIGraphX** (2.12.0)
