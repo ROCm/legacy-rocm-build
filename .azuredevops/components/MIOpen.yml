@@ -113,13 +113,13 @@ jobs:
           mkdir -p $(Agent.BuildDirectory)/miopen-deps
           export CXX=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           export CC=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
-          cmake -P install_deps.cmake --prefix $(Agent.BuildDirectory)/miopen-deps
+          cmake -P install_deps.cmake --prefix $(Agent.BuildDirectory)/miopen-deps --generator Ninja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         extraBuildFlags: >-
           -DMIOPEN_BACKEND=HIP
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/miopen-deps --generator Ninja
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/miopen-deps
           -DGPU_TARGETS=${{ job.target }}
           -DMIOPEN_ENABLE_AI_KERNEL_TUNING=OFF
           -DMIOPEN_ENABLE_AI_IMMED_MODE_FALLBACK=OFF
