@@ -32,12 +32,12 @@ parameters:
   type: object
   default:
     - https://github.com/RadeonOpenCompute/rbuild/archive/master.tar.gz
-    - onnx>=1.14.1
-    - numpy>=1.21.6
-    - typing>=3.7.4
-    - pytest>=6.0.1
-    - packaging>=23.0
-    - protobuf>=3.20.2
+    - "onnx>=1.14.1"
+    - "numpy>=1.21.6"
+    - "typing>=3.7.4"
+    - "pytest>=6.0.1"
+    - "packaging>=23.0"
+    - "protobuf>=3.20.2"
 - name: rocmDependencies
   type: object
   default:

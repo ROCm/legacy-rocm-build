@@ -68,7 +68,7 @@ parameters:
   default:
     - cmake
     - astunparse
-    - expecttest>=0.2.1
+    - "expecttest>=0.2.1"
     - hypothesis
     - numpy
     - psutil
@@ -76,8 +76,8 @@ parameters:
     - requests
     - setuptools==75.8.0
     - types-dataclasses
-    - typing-extensions>=4.8.0
-    - sympy>=1.13.0
+    - "typing-extensions>=4.8.0"
+    - "sympy>=1.13.0"
     - filelock
     - networkx
     - jinja2
@@ -85,8 +85,8 @@ parameters:
     - lintrunner
     - ninja
     - packaging
-    - optree>=0.13.0
-    - click>=8.0.3
+    - "optree>=0.13.0"
+    - "click>=8.0.3"
   # list for vision
     - auditwheel
     - future

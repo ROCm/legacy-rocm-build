@@ -36,7 +36,7 @@ parameters:
     - pandas
     - perfetto
     - pycobertura
-    - pytest>=6.2.5
+    - "pytest>=6.2.5"
     - pyyaml
 - name: rocmDependencies
   type: object
