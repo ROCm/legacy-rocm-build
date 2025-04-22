@@ -58,7 +58,7 @@ Docker image compatibility
 
 AMD validates and publishes ready-made `PyTorch images <https://hub.docker.com/r/rocm/pytorch>`_
 with ROCm backends on Docker Hub. The following Docker image tags and
-associated inventories are validated for `ROCm 6.3.3 <https://repo.radeon.com/rocm/apt/6.3.3/>`_.
+associated inventories are validated for `ROCm 6.4.0 <https://repo.radeon.com/rocm/apt/6.4/>`_.
 Click the |docker-icon| icon to view the image on Docker Hub.
 
 .. list-table:: PyTorch Docker image components
@@ -79,9 +79,84 @@ Click the |docker-icon| icon to view the image on Docker Hub.
 
     * - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.3.3_ubuntu24.04_py3.12_pytorch_release_2.4.0/images/sha256-6c798857b2c9526b44ba535710b93a1737546acea79b53a93c646195c272f1d5"><i class="fab fa-docker fa-lg"></i></a>
+           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4_ubuntu24.04_py3.12_pytorch_release_2.6.0/images/sha256-ab1d350b818b90123cfda31363019d11c0d41a8f12a19e3cb2cb40cf0261137d"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `2.4.0 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
+      - `2.6.0 <https://github.com/ROCm/pytorch/tree/release/2.6>`_
+      - 24.04
+      - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`_
+      - `1.6.0 <https://github.com/ROCm/apex/tree/release/1.6.0>`_
+      - `0.21.0 <https://github.com/pytorch/vision/tree/v0.21.0>`_
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
+      - `master <https://bitbucket.org/icl/magma/src/master/>`_
+      - `1.10.0 <https://github.com/openucx/ucx/tree/v1.10.0>`_
+      - `4.0.3 <https://github.com/open-mpi/ompi/tree/v4.0.3>`_
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4_ubuntu22.04_py3.10_pytorch_release_2.6.0/images/sha256-130536fdfceb374626a7bcb8d00b9d796ddfc3115677d51229e5b852d96b5ef4"><i class="fab fa-docker fa-lg"></i></a>
+
+      - `2.6.0 <https://github.com/ROCm/pytorch/tree/release/2.6>`_
+      - 22.04
+      - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`_
+      - `1.6.0 <https://github.com/ROCm/apex/tree/release/1.6.0>`_
+      - `0.21.0 <https://github.com/pytorch/vision/tree/v0.21.0>`_
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
+      - `master <https://bitbucket.org/icl/magma/src/master/>`_
+      - `1.10.0 <https://github.com/openucx/ucx/tree/v1.10.0>`_
+      - `4.0.7 <https://github.com/open-mpi/ompi/tree/v4.0.7>`_
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4_ubuntu24.04_py3.12_pytorch_release_2.5.1/images/sha256-20a2e24b4738dc1f1a44a04f23827918b56c99f7e697e6fccb90e9c4fae8ca9b"><i class="fab fa-docker fa-lg"></i></a>
+
+      - `2.5.1 <https://github.com/ROCm/pytorch/tree/release/2.5>`_
+      - 24.04
+      - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`_
+      - `1.5.0 <https://github.com/ROCm/apex/tree/release/1.5.0>`_
+      - `0.20.1 <https://github.com/pytorch/vision/tree/v0.20.1>`_
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
+      - `master <https://bitbucket.org/icl/magma/src/master/>`_
+      - `1.10.0 <https://github.com/openucx/ucx/tree/v1.10.0>`_
+      - `4.0.7 <https://github.com/open-mpi/ompi/tree/v4.0.7>`_
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4_ubuntu22.04_py3.11_pytorch_release_2.5.1/images/sha256-f09cb8ca39cc39222fb554060711f5c19130f7b4047aaf41fad4ba3ec470ca03"><i class="fab fa-docker fa-lg"></i></a>
+
+      - `2.5.1 <https://github.com/ROCm/pytorch/tree/release/2.5>`_
+      - 22.04
+      - `3.11.9 <https://www.python.org/downloads/release/python-3119/>`_
+      - `1.5.0 <https://github.com/ROCm/apex/tree/release/1.5.0>`_
+      - `0.20.1 <https://github.com/pytorch/vision/tree/v0.20.1>`_
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
+      - `master <https://bitbucket.org/icl/magma/src/master/>`_
+      - `1.14.1 <https://github.com/openucx/ucx/tree/v1.14.1>`_
+      - `4.1.5 <https://github.com/open-mpi/ompi/tree/v4.1.5>`_
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4_ubuntu22.04_py3.10_pytorch_release_2.5.1/images/sha256-a91c100d1fe608dae3eb7f60a751630363d4027ac3d077d428e92945204c338e"><i class="fab fa-docker fa-lg"></i></a>
+
+      - `2.5.1 <https://github.com/ROCm/pytorch/tree/release/2.5>`_
+      - 22.04
+      - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`_
+      - `1.5.0 <https://github.com/ROCm/apex/tree/release/1.5.0>`_
+      - `0.20.1 <https://github.com/pytorch/vision/tree/v0.20.1>`_
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
+      - `master <https://bitbucket.org/icl/magma/src/master/>`_
+      - `1.14.1 <https://github.com/openucx/ucx/tree/v1.14.1>`_
+      - `4.1.5 <https://github.com/open-mpi/ompi/tree/v4.1.5>`_
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4_ubuntu24.04_py3.12_pytorch_release_2.4.1/images/sha256-66a89ce6485bb887af74bb9bd76bb613ab9834a6b1374649ea7ae379883454a4"><i class="fab fa-docker fa-lg"></i></a>
+
+      - `2.4.1 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
       - 24.04
       - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`_
       - `1.4.0 <https://github.com/ROCm/apex/tree/release/1.4.0>`_
@@ -94,74 +169,29 @@ Click the |docker-icon| icon to view the image on Docker Hub.
 
     * - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.3.3_ubuntu22.04_py3.10_pytorch_release_2.4.0/images/sha256-a09b21248133876fc8912a5ff4e6ee2c8d62b14120313e426b3dadda5702713d"><i class="fab fa-docker fa-lg"></i></a>
+           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4_ubuntu22.04_py3.10_pytorch_release_2.4.1/images/sha256-c716cf167e6e49893f11de03606ed37044153aca089e74ca615065c06877f86b"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `2.4.0 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
+      - `2.4.1 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
       - 22.04
       - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`_
       - `1.4.0 <https://github.com/ROCm/apex/tree/release/1.4.0>`_
       - `0.19.0 <https://github.com/pytorch/vision/tree/v0.19.0>`_
       - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
       - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.10.0 <https://github.com/openucx/ucx/tree/v1.10.0>`_
-      - `4.0.7 <https://github.com/open-mpi/ompi/tree/v4.0.7>`_
+      - `1.14.1 <https://github.com/openucx/ucx/tree/v1.14.1>`_
+      - `4.1.5 <https://github.com/open-mpi/ompi/tree/v4.1.5>`_
       - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
 
     * - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.3.3_ubuntu22.04_py3.9_pytorch_release_2.4.0/images/sha256-963187534467f0f9da77996762fc1d112a6faa5372277c348a505533e7876ec8"><i class="fab fa-docker fa-lg"></i></a>
-
-      - `2.4.0 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
-      - 22.04
-      - `3.9.21 <https://www.python.org/downloads/release/python-3921/>`_
-      - `1.4.0 <https://github.com/ROCm/apex/tree/release/1.4.0>`_
-      - `0.19.0 <https://github.com/pytorch/vision/tree/v0.19.0>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.10.0 <https://github.com/openucx/ucx/tree/v1.10.0>`_
-      - `4.0.7 <https://github.com/open-mpi/ompi/tree/v4.0.7>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.3.3_ubuntu22.04_py3.10_pytorch_release_2.3.0/images/sha256-952f2621bd2bf3078bef19061e05b209105a82a7908e7e6cdf85014938a4d93a"><i class="fab fa-docker fa-lg"></i></a>
+           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4_ubuntu24.04_py3.12_pytorch_release_2.3.0/images/sha256-0434cbc9b07b2c26e39480d7447f676f9057a1054dcff00e0050c25a6eddbd3c"><i class="fab fa-docker fa-lg"></i></a>
 
       - `2.3.0 <https://github.com/ROCm/pytorch/tree/release/2.3>`_
-      - 22.04
-      - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`_
+      - 24.04
+      - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`_
       - `1.3.0 <https://github.com/ROCm/apex/tree/release/1.3.0>`_
       - `0.18.0 <https://github.com/pytorch/vision/tree/v0.18.0>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.14.1 <https://github.com/openucx/ucx/tree/v1.14.1>`_
-      - `4.1.5 <https://github.com/open-mpi/ompi/tree/v4.1.5>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.3.3_ubuntu22.04_py3.10_pytorch_release_2.2.1/images/sha256-a2fe20e170feb9e05da3e5728bb98e40d08567e137be8e6ba797962ed2852608"><i class="fab fa-docker fa-lg"></i></a>
-
-      - `2.2.1 <https://github.com/ROCm/pytorch/tree/release/2.2>`_
-      - 22.04
-      - `3.10 <https://www.python.org/downloads/release/python-31016/>`_
-      - `1.2.0 <https://github.com/ROCm/apex/tree/release/1.2.0>`_
-      - `0.17.1 <https://github.com/pytorch/vision/tree/v0.17.1>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.14.1 <https://github.com/openucx/ucx/tree/v1.14.1>`_
-      - `4.1.5 <https://github.com/open-mpi/ompi/tree/v4.1.5>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.3.3_ubuntu20.04_py3.9_pytorch_release_2.2.1/images/sha256-7f231937c897cca5f89e360be33c70a2017d60f62d1fbe81292be48c15fe345b"><i class="fab fa-docker fa-lg"></i></a>
-
-      - `2.2.1 <https://github.com/ROCm/pytorch/tree/release/2.2>`_
-      - 20.04
-      - `3.9.21 <https://www.python.org/downloads/release/python-3921/>`_
-      - `1.2.0 <https://github.com/ROCm/apex/tree/release/1.2.0>`_
-      - `0.17.1 <https://github.com/pytorch/vision/tree/v0.17.1>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13>`_
       - `master <https://bitbucket.org/icl/magma/src/master/>`_
       - `1.10.0 <https://github.com/openucx/ucx/tree/v1.10.0>`_
       - `4.0.3 <https://github.com/open-mpi/ompi/tree/v4.0.3>`_
@@ -169,29 +199,14 @@ Click the |docker-icon| icon to view the image on Docker Hub.
 
     * - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.3.3_ubuntu22.04_py3.9_pytorch_release_1.13.1/images/sha256-616a47758004f91951e2da6c1fe291f903de65a7b2318d4b18359b48fe3032f4"><i class="fab fa-docker fa-lg"></i></a>
+           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4_ubuntu22.04_py3.10_pytorch_release_2.3.0/images/sha256-688b1c0073092615fb98778d78b16191e506097ee116a2d3d2628b264d5d367b"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `1.13.1 <https://github.com/ROCm/pytorch/tree/release/1.13>`_
+      - `2.3.0 <https://github.com/ROCm/pytorch/tree/release/2.3>`_
       - 22.04
-      - `3.9.21 <https://www.python.org/downloads/release/python-3921/>`_
-      - `1.0.0 <https://github.com/ROCm/apex/tree/release/1.0.0>`_
-      - `0.14.0 <https://github.com/pytorch/vision/tree/v0.14.0>`_
-      - `2.19.0 <https://github.com/tensorflow/tensorboard/tree/2.19>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.14.1 <https://github.com/openucx/ucx/tree/v1.14.1>`_
-      - `4.1.5 <https://github.com/open-mpi/ompi/tree/v4.1.5>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.3.3_ubuntu20.04_py3.9_pytorch_release_1.13.1/images/sha256-a2cfb365aea58b84595e241ffdb0d5ef3e6566e98c10b5499f4aa29983a74ea2"><i class="fab fa-docker fa-lg"></i></a>
-
-      - `1.13.1 <https://github.com/ROCm/pytorch/tree/release/1.13>`_
-      - 20.04
-      - `3.9.21 <https://www.python.org/downloads/release/python-3921/>`_
-      - `1.0.0 <https://github.com/ROCm/apex/tree/release/1.0.0>`_
-      - `0.14.0 <https://github.com/pytorch/vision/tree/v0.14.0>`_
-      - `2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18>`_
+      - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`_
+      - `1.3.0 <https://github.com/ROCm/apex/tree/release/1.3.0>`_
+      - `0.18.0 <https://github.com/pytorch/vision/tree/v0.18.0>`_
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13>`_
       - `master <https://bitbucket.org/icl/magma/src/master/>`_
       - `1.10.0 <https://github.com/openucx/ucx/tree/v1.10.0>`_
       - `4.0.3 <https://github.com/open-mpi/ompi/tree/v4.0.3>`_
