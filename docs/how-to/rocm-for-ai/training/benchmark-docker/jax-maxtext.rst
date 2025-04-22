@@ -219,7 +219,9 @@ Single node training benchmarking examples
 
   Run the single node training benchmark:
 
-  IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama2_7b.sh
+  .. code-block:: shell
+
+     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama2_7b.sh
 
 * Example 2: Single node training with Llama 2 70B
 
