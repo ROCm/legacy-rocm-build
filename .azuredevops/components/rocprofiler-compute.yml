@@ -14,6 +14,8 @@ parameters:
   type: object
   default:
     - cmake
+    - libdw-dev
+    - libtbb-dev
     - locales
     - ninja-build
     - python3-pip
@@ -189,12 +191,9 @@ jobs:
       displayName: Add ROCm binaries to PATH
       inputs:
         targetType: inline
-        script: echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
-    - task: Bash@3
-      displayName: Add ROCm compilers to PATH
-      inputs:
-        targetType: inline
-        script: echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
+        script: |
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         extraBuildFlags: >-
@@ -213,18 +212,6 @@ jobs:
         componentName: rocprofiler-compute
         testDir: $(Build.BinariesDirectory)/libexec/rocprofiler-compute
         testExecutable: ROCM_PATH=$(Agent.BuildDirectory)/rocm ctest
-    - task: Bash@3
-      displayName: Remove ROCm binaries from PATH
-      condition: always()
-      inputs:
-        targetType: inline
-        script: echo "##vso[task.setvariable variable=PATH]$(echo $PATH | sed -e 's;:$(Agent.BuildDirectory)/rocm/bin;;' -e 's;^/;;' -e 's;/$;;')"
-    - task: Bash@3
-      displayName: Remove ROCm compilers from PATH
-      condition: always()
-      inputs:
-        targetType: inline
-        script: echo "##vso[task.setvariable variable=PATH]$(echo $PATH | sed -e 's;:$(Agent.BuildDirectory)/rocm/llvm/bin;;' -e 's;^/;;' -e 's;/$;;')"
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
