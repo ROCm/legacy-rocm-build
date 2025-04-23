@@ -38,19 +38,13 @@ jobs:
     parameters:
       componentName: rocprofiler-register
       extraBuildFlags: >-
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      componentName: rocprofiler-register-tests
-      extraBuildFlags: >-
         -DCMAKE_PREFIX_PATH=$(Build.BinariesDirectory)
+        -DROCPROFILER_REGISTER_BUILD_TESTS=ON
+        -DROCPROFILER_REGISTER_BUILD_SAMPLES=ON
         -GNinja
-      cmakeBuildDir: 'tests/build'
-      installEnabled: false
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
     parameters:
       componentName: rocprofiler-register
-      testDir: 'tests/build'
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
