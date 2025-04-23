@@ -225,7 +225,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama2_7b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama2_7b.sh
 
 * Example 2: Single node training with Llama 2 70B
 
@@ -239,7 +239,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama2_70b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama2_70b.sh
 
 * Example 3: Single node training with Llama 3 8B
 
@@ -253,7 +253,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama3_8b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama3_8b.sh
 
 * Example 4: Single node training with Llama 3 70B
 
@@ -267,7 +267,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama3_70b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama3_70b.sh
 
 * Example 5: Single node training with Llama 3.3 70B
 
@@ -295,7 +295,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./deepseek_v2_16b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./deepseek_v2_16b.sh
 
   .. note::
 
