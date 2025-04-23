@@ -90,7 +90,7 @@ PyTorch inference performance testing
 
          .. code-block:: shell
 
-            docker pull rocm/pytorch:rocm6.2.3_ubuntu22.04_py3.10_pytorch_release_2.3.0_triton_llvm_reg_issue:latest
+            docker pull rocm/pytorch:rocm6.2.3_ubuntu22.04_py3.10_pytorch_release_2.3.0_triton_llvm_reg_issue
 
    .. container:: model-doc pyt_clip_inference
 
