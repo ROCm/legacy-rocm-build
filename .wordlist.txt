@@ -18,12 +18,14 @@ APBDIS
 APIC
 APIs
 APU
+APUs
 ASIC
 ASICs
 ASan
 ASAN
 ASm
 ATI
+atomicRMW
 AddressSanitizer
 AlexNet
 Andrej
@@ -36,6 +38,7 @@ Blit
 Blockwise
 Bluefield
 Bootloader
+CAS
 CCD
 CDNA
 CHTML
@@ -73,11 +76,14 @@ Concretized
 Conda
 ConnectX
 CuPy
+da
 Dashboarding
 DBRX
 DDR
 DF
 DGEMM
+dGPU
+dGPUs
 DIMM
 DKMS
 DL
@@ -98,6 +104,7 @@ DeepSpeed
 Dependabot
 Deprecations
 DevCap
+DirectX
 Dockerfile
 Doxygen
 ELMo
@@ -137,6 +144,7 @@ Gemma
 GiB
 GIM
 GL
+Glibc
 GLXT
 Gloo
 GMI
@@ -177,6 +185,7 @@ IDE
 IDEs
 IFWI
 IMDb
+IncDec
 IOMMU
 IOP
 IOPM
@@ -241,6 +250,7 @@ Makefile
 Makefiles
 Matplotlib
 Matrox
+MaxText
 Megatrends
 Megatron
 Mellanox
@@ -272,6 +282,7 @@ NaN
 Nano
 Navi
 Noncoherently
+NoReturn
 NousResearch's
 NumPy
 OAM
@@ -380,6 +391,7 @@ SIMDs
 SKU
 SKUs
 SLES
+SLURM
 SMEM
 SMI
 SMT
@@ -439,6 +451,7 @@ UMC
 USM
 UTCL
 UTIL
+UltraChat
 Uncached
 Unittests
 Unhandled
@@ -502,15 +515,19 @@ bfloat
 bilinear
 bitcode
 bitsandbytes
+bitwise
+Bitwise
 blit
 bootloader
 boson
 bosons
 br
+BrainFloat
 buildable
 bursty
 bzip
 cacheable
+carveout
 cd
 centos
 centric
@@ -572,6 +589,7 @@ distro
 distros
 dkms
 dtype
+eb
 el
 embeddings
 enablement
@@ -589,6 +607,7 @@ ffmpeg
 filesystem
 fortran
 fp
+framebuffer
 gRPC
 galb
 gcc
@@ -625,6 +644,7 @@ hipify
 hipsolver
 hipsparse
 hlist
+hostname
 hotspotting
 hpc
 hpp
@@ -671,6 +691,7 @@ macOS
 matchers
 microarchitecture
 migraphx
+migratable
 miopen
 miopengemm
 mivisionx
@@ -683,6 +704,9 @@ mvffr
 namespace
 namespaces
 nanoGPT
+NCS
+NOP
+NVLink
 num
 numref
 ocl
@@ -728,6 +752,7 @@ profilers
 protobuf
 pseudorandom
 py
+pytorch
 recommender
 recommenders
 quantile
@@ -834,6 +859,7 @@ tracebacks
 txt
 uarch
 uncached
+uncacheable
 uncorrectable
 underoptimized
 unhandled
@@ -878,6 +904,7 @@ wrreq
 wzo
 xargs
 xGMI
+xPacked
 xz
 yaml
 ysvmadyb

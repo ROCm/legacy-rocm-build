@@ -10,6 +10,8 @@ printUsage() {
     echo "  -r,  --release              Make a release build instead of a debug build"
     echo "  -a,  --address_sanitizer    Enable address sanitizer"
     echo "  -s,  --static               Build static lib (.a).  build instead of dynamic/shared(.so) "
+    echo "  -w,  --wheel                Creates python wheel package of hip-on-rocclr.
+                                        It needs to be used along with -r option"
     echo "  -o,  --outdir <pkg_type>    Print path of output directory containing packages of type referred to by pkg_type"
     echo "  -t,  --offload-arch=<arch>  Specify arch for catch tests ex: --offload-arch=gfx1030 --offload-arch=gfx1100"
     echo "  -p,  --package <type>       Specify packaging format"
@@ -25,7 +27,6 @@ printUsage() {
 source "$(dirname "${BASH_SOURCE}")/compute_utils.sh"
 MAKEOPTS="$DASH_JAY"
 PROJ_NAME="hip-on-rocclr"
-
 BUILD_PATH="$(getBuildPath $PROJ_NAME)"
 
 TARGET="build"
@@ -53,9 +54,10 @@ MAKETARGET="deb"
 PKGTYPE="deb"
 OFFLOAD_ARCH=()
 
-DEFAULT_OFFLOAD_ARCH=(gfx900 gfx906 gfx908 gfx90a gfx940 gfx941 gfx942 gfx1030 gfx1031 gfx1033 gfx1034 gfx1035 gfx1100 gfx1101 gfx1102 gfx1200 gfx1201)
+DEFAULT_OFFLOAD_ARCH=(gfx900 gfx906 gfx908 gfx90a gfx940 gfx941 gfx942 gfx1030 gfx1031 gfx1033 gfx1034 gfx1035 gfx1100 gfx1101 gfx1102 gfx1103 gfx1150 gfx1151 gfx1200 gfx1201)
 
-VALID_STR=`getopt -o hcrast:o: --long help,clean,release,address_sanitizer,static,offload-arch=:,outdir: -- "$@"`
+#parse the arguments
+VALID_STR=`getopt -o hcraswt:o: --long help,clean,release,address_sanitizer,static,wheel,offload-arch=:,outdir: -- "$@"`
 eval set -- "$VALID_STR"
 
 while true ;
@@ -72,11 +74,13 @@ do
                 set_address_sanitizer_on ; shift ;;
         (-s | --static)
                 SHARED_LIBS="OFF" ; shift ;;
+        (-w | --wheel)
+                WHEEL_PACKAGE=true ; shift ;;
         (-t | --offload-arch=)
                 OFFLOAD_ARCH+=( "$2" ); ((CLEAN_OR_OUT|=2)); shift 2 ;;
         (-o | --outdir)
                 TARGET="outdir"; PKGTYPE=$2 ; OUT_DIR_SPECIFIED=1 ; ((CLEAN_OR_OUT|=2)) ; shift 2 ;;
-        --)     shift; break;;
+        --)     shift; break;; # end delimiter
 
         (*)
                 echo " This should never come but just incase : UNEXPECTED ERROR Parm : [$1] ">&2 ; exit 20;;
@@ -98,7 +102,10 @@ if [ $RET_CONFLICT -ge 30 ]; then
    exit $RET_CONFLICT
 fi
 
+
+
 clean_hip_on_rocclr() {
+    # Delete cmake output directory
     rm -rf "$BUILD_PATH"
     rm -rf "$PACKAGE_DEB"
     rm -rf "$PACKAGE_RPM"
@@ -106,17 +113,23 @@ clean_hip_on_rocclr() {
 }
 
 build_hip_on_rocclr() {
+    # TODO This if condition is a temporary workaround so that mainline builds dont error out
+    # until build migrated from hipamd to clr repo
     if [  -e "$CLR_ROOT/CMakeLists.txt" ]; then
+        # We are in a branch that has migrated to clr repo
         _HIP_CMAKELIST_DIR="$CLR_ROOT"
         _HIP_CMAKELIST_OPT="-DCLR_BUILD_HIP=ON -DCLR_BUILD_OCL=OFF"
         if [ -e "$HIPOTHER_ROOT/hipnv" ]; then
+            # We are in a branch that has hipnv headers migrated
             _HIP_CMAKELIST_OPT="$_HIP_CMAKELIST_OPT -DHIPNV_DIR=$HIPOTHER_ROOT/hipnv"
         fi
     elif [ ! -e "$HIPAMD_ROOT/CMakeLists.txt" ]; then
+        # We seem to have hit a branch in which both the old and the new repo don't exist
         echo "No $HIPAMD_ROOT/CMakeLists.txt file, skipping hip on rocclr" >&2
         echo "No $HIPAMD_ROOT/CMakeLists.txt file, skipping hip on rocclr"
-        exit 0
+        exit 0 # This is not an error
     else
+        # We are in a branch that has not yet migrated to clr repo yet
         _HIP_CMAKELIST_DIR="$HIPAMD_ROOT"
         _HIP_CMAKELIST_OPT=""
     fi
@@ -125,6 +138,7 @@ build_hip_on_rocclr() {
     mkdir -p "$BUILD_PATH"
     pushd "$BUILD_PATH"
 
+    # FIXME: Remove -DROCclr_DIR/LIBROCclr_STATIC_DIR
     if [ ! -e Makefile ]; then
         echo "Building HIP-On-ROCclr CMake environment"
         print_lib_type $SHARED_LIBS
@@ -165,8 +179,13 @@ build_catch_tests() {
    rm -rf "$CATCH_BUILD_DIR"
    mkdir -p "$CATCH_BUILD_DIR"
    pushd "$CATCH_BUILD_DIR"
+   # use the newly built hip as HIP for catch
    export HIP_PATH="$ROCM_INSTALL_PATH"
    export ROCM_PATH="$ROCM_INSTALL_PATH"
+   # Note: The rocm_common_cmake_params will provide CMAKE_EXE_LINKER_FLAGS_INIT
+   # for binaries located in /opt/rocm/bin
+   # hip-catch binaries are located in each test folder under /opt/rocm/share/hip/catch_test/
+   # Append the EXE LINKER flags with ROCm library path
    cmake \
          -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" \
          -DBUILD_SHARED_LIBS=$SHARED_LIBS \
@@ -177,6 +196,7 @@ build_catch_tests() {
          $(rocm_common_cmake_params) \
          -DCPACK_RPM_DEBUGINFO_PACKAGE=FALSE \
          -DCPACK_DEBIAN_DEBUGINFO_PACKAGE=FALSE \
+         -DCMAKE_EXE_LINKER_FLAGS_INIT=-Wl,--enable-new-dtags,--build-id=sha1,--rpath,$ROCM_EXE_RPATH:$ROCM_INSTALL_PATH/lib:/opt/rocm/lib \
          -DCPACK_INSTALL_PREFIX="$ROCM_INSTALL_PATH" \
          "$CATCH_SRC"
 
@@ -190,6 +210,7 @@ build_catch_tests() {
 }
 
 package_samples() {
+   # TODO: To be removed once the issue related to ASAN builds are fixed
    if [ "$ASAN_CMAKE_PARAMS" == "true" ] ; then
       echo "Disable the packaging of HIP samples" >&2
       return
@@ -198,13 +219,17 @@ package_samples() {
    if [ ! -e "$SAMPLES_SRC/CMakeLists.txt" ]; then
       echo "HIP samples source not found at: $SAMPLES_SRC" >&2
       echo "Using samples package from hip project: $BUILD_PATH" >&2
+      # TODO: change to return failure after hip-tests samples change is available in mainline
       return
    fi
-
+   # package samples
    rm -rf "$SAMPLES_BUILD_DIR"
    mkdir -p "$SAMPLES_BUILD_DIR"
    pushd "$SAMPLES_BUILD_DIR"
+   # The cmake path is different for asan and non-asan builds.
+   # Fetch after getting build type. Default will be non-asan build
    local CMAKE_PATH="$(getCmakePath)"
+   # use the newly built hip as HIP for samples
    export HIP_PATH="$ROCM_INSTALL_PATH"
    export ROCM_PATH="$ROCM_INSTALL_PATH"
    cmake \
@@ -291,10 +316,24 @@ print_output_directory() {
 }
 
 case $TARGET in
-    (clean) clean_hip_on_rocclr; clean_hip_tests ;;
-    (build) build_hip_on_rocclr; build_catch_tests; package_hip_on_rocclr; package_samples; copy_hip_tests;;
-   (outdir) print_output_directory ;;
-        (*) die "Invalid target $TARGET" ;;
+    (clean)
+        clean_hip_on_rocclr
+        clean_hip_tests
+        ;;
+    (build)
+        build_hip_on_rocclr
+        build_catch_tests
+        package_hip_on_rocclr
+        package_samples
+        build_wheel "$BUILD_PATH" "$PROJ_NAME"
+        copy_hip_tests
+        ;;
+    (outdir)
+        print_output_directory
+        ;;
+    (*)
+        die "Invalid target $TARGET"
+        ;;
 esac
 
 echo "Operation complete"

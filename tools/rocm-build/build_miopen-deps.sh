@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -ex
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 set_component_src MIOpen
 
@@ -19,18 +19,18 @@ build_miopen_mlir() {
     mkdir build && cd build
     cmake \
         -G Ninja \
-        -DCMAKE_C_COMPILER="${ROCM_PATH}/llvm/bin/clang" \
-        -DCMAKE_CXX_COMPILER="${ROCM_PATH}/llvm/bin/clang++" \
+        -DCMAKE_C_COMPILER="$(set_build_variables __CLANG__)" \
+        -DCMAKE_CXX_COMPILER="$(set_build_variables __CLANG++__)" \
         -DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_PREFIX_PATH="${ROCM_PATH};${HOME}/miopen-deps" \
+        -DCMAKE_PREFIX_PATH="${ROCM_PATH};${HOME}/miopen-deps" \
         -DCMAKE_INSTALL_PREFIX="$ROCM_PATH" \
         -DBUILD_FAT_LIBROCKCOMPILER=1 \
-       ..
+        ..
     cmake --build . -- librockCompiler -j${PROC}
     cmake --build . -- install
 
     rm -rf _CPack_Packages/ && find -name '*.o' -delete
-
+    
     echo "Finished building rocMLIR"
 }
 
@@ -43,12 +43,6 @@ build_miopen_deps() {
     echo "Start build"
     cd "$COMPONENT_SRC"
 
-    # Update rocm-recipes for boost link
-    # https://github.com/ROCm/MIOpen/pull/3457/files
-    sed -i 's/329203d79f9fe77ae5d0d742af0966bc57f4dfc8/92c6695449c85887962f45509b376f2eb0d284f7/g' \
-        rbuild.ini \
-        install_deps.cmake \
-        dev-requirements.txt
     # Commenting the rocMLIR & composable_kernel from requirements.txt
     sed -i '/ROCm\/rocMLIR@\|ROCm\/composable_kernel@/s/^/#/' requirements.txt
     # Extract MLIR commit from requirements.txt
@@ -56,7 +50,7 @@ build_miopen_deps() {
 
 
     pip3 install https://github.com/RadeonOpenCompute/rbuild/archive/master.tar.gz
-    PATH="${PATH}:${ROCM_PATH}:${HOME}/.local/bin" rbuild prepare -d "$HOME/miopen-deps" --cxx=${ROCM_PATH}/llvm/bin/clang++ --cc ${ROCM_PATH}/llvm/bin/clang
+    PATH="${PATH}:${ROCM_PATH}:${HOME}/.local/bin" rbuild prepare -d "$HOME/miopen-deps" --cxx="$(set_build_variables __CLANG++__)" --cc "$(set_build_variables __CLANG__)"
     build_miopen_mlir "$MLIR_COMMIT"
 
     show_build_cache_stats

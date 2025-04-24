@@ -52,6 +52,7 @@ architecture.
 :::{grid-item-card}
 **RDNA**
 
+* [AMD RDNA4 ISA](https://www.amd.com/content/dam/amd/en/documents/radeon-tech-docs/instruction-set-architectures/rdna4-instruction-set-architecture.pdf)
 * [AMD RDNA3 ISA](https://www.amd.com/system/files/TechDocs/rdna3-shader-instruction-set-architecture-feb-2023_0.pdf)
 * [AMD RDNA2 ISA](https://www.amd.com/system/files/TechDocs/rdna2-shader-instruction-set-architecture.pdf)
 * [AMD RDNA ISA](https://www.amd.com/system/files/TechDocs/rdna-shader-instruction-set-architecture.pdf)

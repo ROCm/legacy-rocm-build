@@ -5,10 +5,16 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
+# set to true if doing full build of ROCm stack
+# and dependencies are pulled from same pipeline
+- name: aggregatePipeline
+  type: boolean
+  default: false
 - name: aptPackages
   type: object
   default:
     - cmake
+    - ninja-build
     - python3-pip
 
 jobs:
@@ -16,7 +22,7 @@ jobs:
   variables:
   - group: common
   - template: /.azuredevops/variables-global.yml
-  pool: 
+  pool:
     vmImage: ${{ variables.BASE_BUILD_POOL }}
   workspace:
     clean: all
@@ -31,17 +37,14 @@ jobs:
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
     parameters:
       componentName: rocprofiler-register
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      componentName: rocprofiler-register-tests
       extraBuildFlags: >-
         -DCMAKE_PREFIX_PATH=$(Build.BinariesDirectory)
-      cmakeBuildDir: 'tests/build'
-      installEnabled: false
+        -DROCPROFILER_REGISTER_BUILD_TESTS=ON
+        -DROCPROFILER_REGISTER_BUILD_SAMPLES=ON
+        -GNinja
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
     parameters:
       componentName: rocprofiler-register
-      testDir: 'tests/build'
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml

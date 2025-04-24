@@ -6,7 +6,7 @@ set -x
 UNTAR_COMPONENT_NAME=$1
 
 # Static supported components
-STATIC_SUPPORTED_COMPONENTS="comgr devicelibs hip_on_rocclr hipblas hipblas-common hipcc hiprand hipsolver hipsparse lightning openmp_extras rocblas rocm rocm_smi_lib rocm-cmake rocm-core rocminfo rocprim rocprofiler_register rocr rocrand rocsolver rocsparse"
+STATIC_SUPPORTED_COMPONENTS="comgr devicelibs hip_on_rocclr hipblas hipblas-common hipcc hiprand hipsolver hipsparse lightning openmp_extras rocblas rocm rocm_smi_lib rocm-cmake rocm-core rocminfo rocprim rocprofiler-register rocr rocrand rocsolver rocsparse"
 if [ "${ENABLE_STATIC_BUILDS}" == "true" ] && ! echo "$STATIC_SUPPORTED_COMPONENTS" | grep -qE "(^| )$UNTAR_COMPONENT_NAME( |$)"; then
     echo "Static build is not enabled for $UNTAR_COMPONENT_NAME ..skipping!!"
     exit 0
@@ -42,7 +42,27 @@ get_os_name() {
 set_pkg_type() {
     local os_name
     os_name=$(grep -oP '^NAME="\K.*(?=")' < /etc/os-release)
-    [ "${os_name,,}" = ubuntu ] && echo "deb" || echo "rpm"
+    if [[ "${os_name,,}" == "ubuntu" || "${os_name,,}" == "debian gnu/linux" ]]; then
+        echo "deb"
+    else
+        echo "rpm"
+    fi
+}
+
+set_llvm_link() {
+    local comp_folder=$1
+    local comp_pkg_name=$2
+
+    cd "${OUT_DIR}/${PKGTYPE}/${comp_folder}"|| exit 2
+    if [ "${PKGTYPE}" = 'deb' ]; then
+        dpkg-deb -e ${comp_pkg_name}_*.deb post/
+        mkdir -p "${ROCM_PATH}/tmp_llvm"
+	cp 'post/postinst' "${ROCM_PATH}/tmp_llvm"
+	pushd "${ROCM_PATH}/tmp_llvm"
+	bash -x postinst
+	popd
+	rm -rf "${ROCM_PATH}/tmp_llvm" post/
+    fi
 }
 
 setup_rocm_compilers_hash_file() {
@@ -68,18 +88,35 @@ case $UNTAR_COMPONENT_NAME in
             sed -i '/-frtlib-add-rpath/d' ${ROCM_PATH}/llvm/bin/rocm.cfg
         fi
 
-        ln -s "${ROCM_PATH}/lib/llvm/bin/amdclang" "${ROCM_PATH}/bin/amdclang" || true
-        ln -s "${ROCM_PATH}/lib/llvm/bin/amdclang++" "${ROCM_PATH}/bin/amdclang++" || true
+	# set_llvm_link lightning rocm-llvm
+    ln -s "${ROCM_PATH}/lib/llvm/bin/amdclang" "${ROCM_PATH}/bin/amdclang" || true
+    ln -s "${ROCM_PATH}/lib/llvm/bin/amdclang++" "${ROCM_PATH}/bin/amdclang++" || true
         ;;
     (hipify_clang)
 	chmod +x ${ROCM_PATH}/bin/hipify-perl
         ;;
     (hip_on_rocclr)
         rm -f ${ROCM_PATH}/bin/hipcc.bat
+        # hack transferbench source code
+        sed -i 's/^set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ..)/#&/' "$WORK_ROOT/TransferBench/CMakeLists.txt"
         ;;
     (rocblas)
-        copy_pkg_files_to_rocm rocblas rocblas-dev
+        if [ $ENABLE_ADDRESS_SANITIZER != 'true' ]; then
+            pkgName=rocblas-dev
+            if [ "${ENABLE_STATIC_BUILDS}" == "true" ]; then
+                pkgName=rocblas-static-dev
+            fi
+            copy_pkg_files_to_rocm rocblas $pkgName
+        fi
         ;;
+    (composable_kernel)
+	cd "${OUT_DIR}/${PKGTYPE}/composable_kernel"
+        if [ "${PKGTYPE}" = 'deb' ]; then
+            dpkg-deb -c composablekernel-dev*.deb | awk '{sub(/^\./, "", $6); print $6}' | tee ../../ck.files
+        else
+            rpm -qlp composablekernel-dev*.rpm | tee ../../ck.files
+        fi
+	    ;;
     (*)
         echo "post processing is not required for ${UNTAR_COMPONENT_NAME}"
         ;;

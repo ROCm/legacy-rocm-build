@@ -3,9 +3,9 @@
                  ROCm vLLM Docker image.
    :keywords: model, MAD, automation, dashboarding, validate
 
-********************************************************
-LLM inference performance testing on AMD Instinct MI300X
-********************************************************
+**********************************
+vLLM inference performance testing
+**********************************
 
 .. _vllm-benchmark-unified-docker:
 
@@ -16,9 +16,9 @@ LLM inference performance testing on AMD Instinct MI300X
 
    The `ROCm vLLM Docker <{{ unified_docker.docker_hub_url }}>`_ image offers
    a prebuilt, optimized environment for validating large language model (LLM)
-   inference performance on the AMD Instinct™ MI300X accelerator. This ROCm vLLM
-   Docker image integrates vLLM and PyTorch tailored specifically for the MI300X
-   accelerator and includes the following components:
+   inference performance on AMD Instinct™ MI300X series accelerators. This ROCm vLLM
+   Docker image integrates vLLM and PyTorch tailored specifically for MI300X series
+   accelerators and includes the following components:
 
    * `ROCm {{ unified_docker.rocm_version }} <https://github.com/ROCm/ROCm>`_
 
@@ -26,9 +26,11 @@ LLM inference performance testing on AMD Instinct MI300X
 
    * `PyTorch {{ unified_docker.pytorch_version }} <https://github.com/pytorch/pytorch>`_
 
-   With this Docker image, you can quickly validate the :ref:`expected
+   * `hipBLASLt {{ unified_docker.hipblaslt_version }} <https://github.com/ROCm/hipBLASLt>`_
+
+   With this Docker image, you can quickly test the :ref:`expected
    inference performance numbers <vllm-benchmark-performance-measurements>` for
-   the MI300X accelerator.
+   MI300X series accelerators.
 
    .. _vllm-benchmark-available-models:
 
@@ -101,7 +103,13 @@ LLM inference performance testing on AMD Instinct MI300X
       The performance data presented in
       `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
       should not be interpreted as the peak performance achievable by AMD
-      Instinct MI300X series accelerators or ROCm software.
+      Instinct MI325X and MI300X accelerators or ROCm software.
+
+   Advanced features and known issues
+   ==================================
+
+   For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
+   see the developer's guide at `<https://github.com/ROCm/vllm/blob/main/docs/dev-docker/README.md>`__.
 
    Getting started
    ===============
@@ -197,13 +205,13 @@ LLM inference performance testing on AMD Instinct MI300X
          .. tab-item:: Standalone benchmarking
 
             Run the vLLM benchmark tool independently by starting the
-            `Docker container <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_mi300_ubuntu22.04_py3.12_vllm_0.6.6/images/sha256-9a12ef62bbbeb5a4c30a01f702c8e025061f575aa129f291a49fbd02d6b4d6c9>`_
+            `Docker container <{{ unified_docker.docker_hub_url }}>`_
             as shown in the following snippet.
 
             .. code-block::
 
-               docker pull rocm/vllm:rocm6.3.1_mi300_ubuntu22.04_py3.12_vllm_0.6.6
-               docker run -it --device=/dev/kfd --device=/dev/dri --group-add video --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name vllm_v0.6.6 rocm/vllm:rocm6.3.1_mi300_ubuntu22.04_py3.12_vllm_0.6.6
+               docker pull {{ unified_docker.pull_tag }}
+               docker run -it --device=/dev/kfd --device=/dev/dri --group-add video --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name test {{ unified_docker.pull_tag }}
 
             In the Docker container, clone the ROCm MAD repository and navigate to the
             benchmark scripts directory at ``~/MAD/scripts/vllm``.
@@ -315,7 +323,7 @@ Further reading
   see `<https://github.com/ROCm/vllm/tree/main/benchmarks>`_.
 
 - To learn more about system settings and management practices to configure your system for
-  MI300X accelerators, see :doc:`../../system-optimization/mi300x`.
+  MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
 
 - To learn how to run LLM models from Hugging Face or your own model, see
   :doc:`Running models from Hugging Face <hugging-face-models>`.
@@ -325,3 +333,40 @@ Further reading
 
 - To learn how to fine-tune LLMs, see
   :doc:`Fine-tuning LLMs <../fine-tuning/index>`.
+
+Previous versions
+=================
+
+This table lists previous versions of the ROCm vLLM inference Docker image for
+inference performance testing. For detailed information about available models
+for benchmarking, see the version-specific documentation.
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+
+   * - ROCm version
+     - vLLM version
+     - PyTorch version
+     - Resources
+
+   * - 6.3.1
+     - 0.6.6
+     - 2.7.0
+     - 
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
+       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_mi300_ubuntu22.04_py3.12_vllm_0.6.6/images/sha256-9a12ef62bbbeb5a4c30a01f702c8e025061f575aa129f291a49fbd02d6b4d6c9>`_
+
+   * - 6.2.1
+     - 0.6.4
+     - 2.5.0
+     - 
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
+       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu20.04_py3.9_vllm_0.6.4/images/sha256-ccbb74cc9e7adecb8f7bdab9555f7ac6fc73adb580836c2a35ca96ff471890d8>`_
+
+   * - 6.2.0
+     - 0.4.3
+     - 2.4.0
+     - 
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.2.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
+       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu22.04_py3.9_vllm_7c5fd50/images/sha256-9e4dd4788a794c3d346d7d0ba452ae5e92d39b8dfac438b2af8efdc7f15d22c0>`_

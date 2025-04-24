@@ -36,7 +36,7 @@ Installing vLLM
 
       git clone https://github.com/vllm-project/vllm.git
       cd vllm
-      docker build -f Dockerfile.rocm -t vllm-rocm .
+      docker build -f docker/Dockerfile.rocm -t vllm-rocm .
 
 .. tab-set::
 

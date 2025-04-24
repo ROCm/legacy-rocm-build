@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 shutil.copy2("../RELEASE.md", "./about/release-notes.md")
+shutil.copy2("../CHANGELOG.md", "./release/changelog.md")
 
 os.system("mkdir -p ../_readthedocs/html/downloads")
 os.system("cp compatibility/compatibility-matrix-historical-6.0.csv ../_readthedocs/html/downloads/compatibility-matrix-historical-6.0.csv")
@@ -30,17 +31,19 @@ if os.environ.get("READTHEDOCS", "") == "True":
 
 # configurations for PDF output by Read the Docs
 project = "ROCm Documentation"
+project_path = os.path.abspath(".").replace("\\", "/")
 author = "Advanced Micro Devices, Inc."
 copyright = "Copyright (c) 2025 Advanced Micro Devices, Inc. All rights reserved."
-version = "6.3.3"
-release = "6.3.3"
+version = "6.4.0"
+release = "6.4.0"
 setting_all_article_info = True
 all_article_info_os = ["linux", "windows"]
 all_article_info_author = ""
 
 # pages with specific settings
 article_pages = [
-    {"file": "about/release-notes", "os": ["linux"], "date": "2025-02-19"},
+    {"file": "about/release-notes", "os": ["linux"], "date": "2025-04-11"},
+    {"file": "release/changelog", "os": ["linux"],},
     {"file": "compatibility/compatibility-matrix", "os": ["linux"]},
     {"file": "compatibility/ml-compatibility/pytorch-compatibility", "os": ["linux"]},
     {"file": "compatibility/ml-compatibility/tensorflow-compatibility", "os": ["linux"]},
@@ -67,6 +70,7 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/inference/hugging-face-models", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/llm-inference-frameworks", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/vllm-benchmark", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/pytorch-inference-benchmark", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/inference-optimization/index", "os": ["linux"]},
@@ -94,7 +98,7 @@ external_toc_path = "./sphinx/_toc.yml"
 # Add the _extensions directory to Python's search path
 sys.path.append(str(Path(__file__).parent / 'extension'))
 
-extensions = ["rocm_docs", "sphinx_reredirects", "sphinx_sitemap", "sphinxcontrib.datatemplates", "version-ref"]
+extensions = ["rocm_docs", "sphinx_reredirects", "sphinx_sitemap", "sphinxcontrib.datatemplates", "version-ref", "csv-to-list-table"]
 
 compatibility_matrix_file = str(Path(__file__).parent / 'compatibility/compatibility-matrix-historical-6.0.csv')
 
@@ -122,3 +126,13 @@ html_theme_options = {"link_main_doc": False}
 redirects = {"reference/openmp/openmp": "../../about/compatibility/openmp.html"}
 
 numfig = False
+
+html_context = {
+    "project_path" : {project_path},
+    "gpu_type" : [('AMD Instinct accelerators', 'intrinsic'), ('AMD gfx families', 'gfx'), ('NVIDIA families', 'nvidia') ],
+    "atomics_type" : [('HW atomics', 'hw-atomics'), ('CAS emulation', 'cas-atomics')],
+    "pcie_type" : [('No PCIe atomics', 'nopcie'), ('PCIe atomics', 'pcie')],
+    "memory_type" : [('Device DRAM', 'device-dram'), ('Migratable Host DRAM', 'migratable-host-dram'), ('Pinned Host DRAM', 'pinned-host-dram')],
+    "granularity_type" : [('Coarse-grained', 'coarse-grained'), ('Fine-grained', 'fine-grained')],
+    "scope_type" : [('Device', 'device'), ('System', 'system')]
+}

@@ -68,16 +68,16 @@ parameters:
   default:
     - cmake
     - astunparse
-    - expecttest>=0.2.1
+    - "expecttest>=0.2.1"
     - hypothesis
     - numpy
     - psutil
     - pyyaml
     - requests
-    - setuptools
+    - setuptools==75.8.0
     - types-dataclasses
-    - typing-extensions>=4.8.0
-    - sympy>=1.13.0
+    - "typing-extensions>=4.8.0"
+    - "sympy>=1.13.0"
     - filelock
     - networkx
     - jinja2
@@ -85,8 +85,8 @@ parameters:
     - lintrunner
     - ninja
     - packaging
-    - optree>=0.13.0
-    - click>=8.0.3
+    - "optree>=0.13.0"
+    - "click>=8.0.3"
   # list for vision
     - auditwheel
     - future
@@ -170,13 +170,13 @@ jobs:
   - template: /.azuredevops/variables-global.yml
 # various flags/parameters expected by bash scripts in pytorch repo's .ci directory
   - name: ROCM_VERSION
-    value: 6.3.0
+    value: 6.5.0
   - name: ROCM_PATH
     value: /opt/rocm
   - name: DESIRED_CUDA
-    value: 6.3.0
-  - name: MKLROOT
-    value: /opt/intel
+    value: 6.5.0
+  - name: MAGMA_ROCM
+    value: 6.3
   - name: DESIRED_PYTHON
     value: 3.10
   - name: PYTORCH_ROOT
@@ -218,6 +218,7 @@ jobs:
       dependencyList: ${{ parameters.rocmDependencies }}
       dependencySource: staging
       gpuTarget: $(JOB_GPU_TARGET)
+      setupHIPLibrarySymlinks: true
   - task: Bash@3
     displayName: ROCm symbolic link
     inputs:
@@ -253,13 +254,6 @@ jobs:
         sudo bash pytorch/.ci/docker/common/install_patchelf.sh
       workingDirectory: $(Build.SourcesDirectory)
   - task: Bash@3
-    displayName: Install mkl dependency for magma
-    inputs:
-      targetType: inline
-      script: |
-        sudo bash pytorch/.ci/docker/common/install_mkl.sh
-      workingDirectory: $(Build.SourcesDirectory)
-  - task: Bash@3
     displayName: Install rocm drm
     inputs:
       targetType: inline
@@ -271,7 +265,7 @@ jobs:
     inputs:
       targetType: inline
       script: |
-        sudo PYTORCH_ROCM_ARCH=$(JOB_GPU_TARGET) MKLROOT=$(MKLROOT) bash pytorch/.ci/docker/common/install_rocm_magma.sh
+        sudo bash pytorch/.ci/docker/common/install_rocm_magma.sh $(MAGMA_ROCM)
       workingDirectory: $(Build.SourcesDirectory)
   - task: Bash@3
     displayName: Run ROCm Build Script
@@ -279,6 +273,7 @@ jobs:
       targetType: inline
       script: >-
         sudo
+        PYTHONPATH=/home/AzDevOps/.local/lib/python3.10/site-packages:/usr/lib/python3/dist-packages
         DESIRED_CUDA=$(DESIRED_CUDA)
         PYTORCH_ROCM_ARCH=$(JOB_GPU_TARGET)
         GPU_TARGET=$(JOB_GPU_TARGET)

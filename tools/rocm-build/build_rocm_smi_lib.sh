@@ -11,6 +11,8 @@ printUsage() {
     echo "  -r,  --release            Build non-debug version rocm_smi (default is debug)"
     echo "  -a,  --address_sanitizer  Enable address sanitizer"
     echo "  -s,  --static             Build static lib (.a).  build instead of dynamic/shared(.so) "
+    echo "  -w,  --wheel              Creates python wheel package of rocm-smi. 
+                                      It needs to be used along with -r option"
     echo "  -o,  --outdir <pkg_type>  Print path of output directory containing packages of type referred to by pkg_type"
     echo "  -p,  --package <type>     Specify packaging format"
     echo "  -32,                      Build 32b version (default is 64b)"
@@ -22,7 +24,10 @@ printUsage() {
 
     return 0
 }
+# RSMI ==> deb/rpm package target
+# ROCM_SMI ==> rocm_smi library target and header
 
+# ROCM_SMI
 PROJ_NAME="rsmi"
 PACKAGE_ROOT="$(getPackageRoot)"
 TARGET="build"
@@ -30,15 +35,18 @@ TARGET="build"
 PACKAGE_LIB=$(getLibPath)
 PACKAGE_INCLUDE="$(getIncludePath)"
 
+# RSMI
 RSMI_BUILD_DIR=$(getBuildPath rsmi)
 RSMI_PACKAGE_DEB_DIR="$(getPackageRoot)/deb/$PROJ_NAME"
 RSMI_PACKAGE_RPM_DIR="$(getPackageRoot)/rpm/$PROJ_NAME"
 RSMI_BUILD_TYPE="debug"
 BUILD_TYPE="Debug"
 
+# BUILD ARGUMENTS
 MAKETARGET="deb"
 MAKEARG="$DASH_JAY O=$RSMI_BUILD_DIR"
 RSMI_MAKE_OPTS="$DASH_JAY O=$RSMI_BUILD_DIR -C $RSMI_BUILD_DIR"
+# The following should be 64 (default) 32 for 32b
 ROCM_SMI_BLD_BITS=64
 RSMI_PKG_NAME_ROOT="rocm-smi-lib"
 RSMI_PKG_NAME="${RSMI_PKG_NAME_ROOT}${ROCM_SMI_BLD_BITS}"
@@ -46,11 +54,13 @@ SHARED_LIBS="ON"
 CLEAN_OR_OUT=0;
 PKGTYPE="deb"
 
-VALID_STR=`getopt -o hcraso:p: --long help,clean,release,static,address_sanitizer,outdir:,package: -- "$@"`
+#parse the arguments
+VALID_STR=`getopt -o hcraswo:p: --long help,clean,release,static,wheel,address_sanitizer,outdir:,package: -- "$@"`
 eval set -- "$VALID_STR"
 
 while true ;
 do
+    #echo "parocessing $1"
     case "$1" in
         (-h | --help)
                 printUsage ; exit 0;;
@@ -65,13 +75,15 @@ do
                 ADDRESS_SANITIZER=true ; shift ;;
         (-s | --static)
                 SHARED_LIBS="OFF" ; shift ;;
+        (-w | --wheel)
+                WHEEL_PACKAGE=true ; shift ;;
         (-o | --outdir)
                 TARGET="outdir"; PKGTYPE=$2 ; OUT_DIR_SPECIFIED=1 ; ((CLEAN_OR_OUT|=2)) ; shift 2 ;;
         (-p | --package)
                 MAKETARGET="$2" ; shift 2;;
         (-32)
                 ROCM_SMI_BLD_BITS="32"; shift ;;
-        --)     shift; break;;
+        --)     shift; break;; # end delimiter
         (*)
                 echo " This should never come but just incase : UNEXPECTED ERROR Parm : [$1] ">&2 ; exit 20;;
     esac
@@ -145,10 +157,11 @@ verifyEnvSetup
 
 case $TARGET in
     (clean) clean_rsmi ;;
-    (build) build_rsmi ;;
+    (build) build_rsmi; build_wheel "$RSMI_BUILD_DIR" "$PROJ_NAME" ;;
     (outdir) print_output_directory ;;
     (*) die "Invalid target $TARGET" ;;
 esac
 
 echo "Operation complete"
 exit 0
+

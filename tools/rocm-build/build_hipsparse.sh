@@ -2,7 +2,7 @@
 
 set -ex
 
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 PATH=${ROCM_PATH}/bin:$PATH
 set_component_src hipSPARSE
@@ -10,12 +10,12 @@ set_component_src hipSPARSE
 build_hipsparse() {
     echo "Start build"
 
-    CXX="g++"
+    CXX=$(set_build_variables __G_++__)
     CXX_FLAG=
 
     if [ "${ENABLE_STATIC_BUILDS}" == "true" ]; then
-        CXX="${ROCM_PATH}/llvm/bin/clang++"
-        CXX_FLAG="-DCMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++"
+        CXX=$(set_build_variables __CXX__)
+        CXX_FLAG=$(set_build_variables __CMAKE_CXX_PARAMS__)
     fi
 
     cd $COMPONENT_SRC
@@ -54,7 +54,7 @@ build_hipsparse() {
     cmake --build "$BUILD_DIR" -- package
 
     rm -rf _CPack_Packages/ && find -name '*.o' -delete
-    mkdir -p $PACKAGE_DIR && cp ${BUILD_DIR}/*.${PKGTYPE} $PACKAGE_DIR
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
 
     show_build_cache_stats
 }
@@ -68,7 +68,7 @@ clean_hipsparse() {
 stage2_command_args "$@"
 
 case $TARGET in
-    build) build_hipsparse ;;
+    build) build_hipsparse; build_wheel  ;;
     outdir) print_output_directory ;;
     clean) clean_hipsparse ;;
     *) die "Invalid target $TARGET" ;;

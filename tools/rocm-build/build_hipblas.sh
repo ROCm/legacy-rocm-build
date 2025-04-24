@@ -2,28 +2,32 @@
 
 set -ex
 
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 set_component_src hipBLAS
 
 build_hipblas() {
     echo "Start build"
 
-    CXX="g++"
+    CXX=$(set_build_variables __G_++__)
     CXX_FLAG=
     if [ "${ENABLE_STATIC_BUILDS}" == "true" ]; then
-        CXX="amdclang++"
-        CXX_FLAG="-DCMAKE_CXX_COMPILER=${ROCM_PATH}/llvm/bin/clang++"
+        CXX=$(set_build_variables __AMD_CLANG_++__)
+        CXX_FLAG=$(set_build_variables __CMAKE_CXX_PARAMS__)
     fi
 
     CLIENTS_SAMPLES="ON"
     if [ "${ENABLE_ADDRESS_SANITIZER}" == "true" ]; then
        set_asan_env_vars
        set_address_sanitizer_on
+       # fixme: remove CLIENTS_SAMPLES=OFF once SWDEV-417076 is fixed
        CLIENTS_SAMPLES="OFF"
     fi
 
     SHARED_LIBS="ON"
+    if [ "${ENABLE_STATIC_BUILDS}" == "true" ]; then
+        SHARED_LIBS="OFF"
+    fi
 
     echo "C compiler: $CC"
     echo "CXX compiler: $CXX"
@@ -39,10 +43,10 @@ build_hipblas() {
     init_rocm_common_cmake_params
     cmake \
         ${LAUNCHER_FLAGS} \
-        "${rocm_math_common_cmake_params[@]}" \
+	    "${rocm_math_common_cmake_params[@]}" \
         -DUSE_CUDA=OFF \
         -DBUILD_SHARED_LIBS=$SHARED_LIBS \
-        -DBUILD_CLIENTS_TESTS=ON \
+	    -DBUILD_CLIENTS_TESTS=ON \
         -DBUILD_CLIENTS_BENCHMARKS=ON \
         -DBUILD_CLIENTS_SAMPLES="${CLIENTS_SAMPLES}" \
         -DBUILD_ADDRESS_SANITIZER="${ADDRESS_SANITIZER}" \
@@ -54,7 +58,7 @@ build_hipblas() {
     cmake --build "$BUILD_DIR" -- package
 
     rm -rf _CPack_Packages/ && find -name '*.o' -delete
-    mkdir -p $PACKAGE_DIR && cp ${BUILD_DIR}/*.${PKGTYPE} $PACKAGE_DIR
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
 
     show_build_cache_stats
 }
@@ -68,7 +72,7 @@ clean_hipblas() {
 stage2_command_args "$@"
 
 case $TARGET in
-    build) build_hipblas ;;
+    build) build_hipblas; build_wheel ;;
     outdir) print_output_directory ;;
     clean) clean_hipblas ;;
     *) die "Invalid target $TARGET" ;;

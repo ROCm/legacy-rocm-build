@@ -5,6 +5,7 @@ build
 # documentation artifacts
 _build/
 _images/
+__pycache__/
 _static/
 _templates/
 _toc.yml
@@ -14,7 +15,6 @@ _readthedocs/
 __pycache__/
 
 # avoid duplicating contributing.md due to conf.py
-docs/CHANGELOG.md
 docs/contribute/index.md
 docs/about/release-notes.md
-docs/about/changelog.md
+docs/release/changelog.md

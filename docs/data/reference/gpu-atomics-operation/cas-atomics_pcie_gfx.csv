@@ -1,0 +1,325 @@
+﻿Atomic,gfx9 dGPU,gfx9 APU,gfx10 dGPU,gfx11 dGPU,gfx11 APU,gfx12 dGPU
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicSub,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicInc,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicDec,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 half2 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atoimcExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicExch,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicOr,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit atomicXor,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS

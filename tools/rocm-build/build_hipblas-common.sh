@@ -2,16 +2,19 @@
 
 set -ex
 
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 set_component_src hipBLAS-common
 
 build_hipblas-common() {
     echo "Start build"
 
+    CXX=$(set_build_variables __C_++__)
     cd $COMPONENT_SRC
     mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR"
 
+    echo "C compiler: $CC"
+    echo "CXX compiler: $CXX"
     init_rocm_common_cmake_params
     cmake \
         "${rocm_math_common_cmake_params[@]}" \
@@ -20,8 +23,7 @@ build_hipblas-common() {
     cmake --build "$BUILD_DIR" -- package
 
     rm -rf _CPack_Packages/ && find -name '*.o' -delete
-    mkdir -p $PACKAGE_DIR && cp ${BUILD_DIR}/*.${PKGTYPE} $PACKAGE_DIR
-
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
     show_build_cache_stats
 }
 
@@ -34,7 +36,7 @@ clean_hipblas-common() {
 stage2_command_args "$@"
 
 case $TARGET in
-    build) build_hipblas-common ;;
+    build) build_hipblas-common; build_wheel ;;
     outdir) print_output_directory ;;
     clean) clean_hipblas-common ;;
     *) die "Invalid target $TARGET" ;;

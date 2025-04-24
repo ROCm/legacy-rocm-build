@@ -335,7 +335,12 @@ The following table lists data type support for AMD GPU matrix cores.
 Atomic operations support
 -------------------------
 
-The following table lists data type support for atomic operations.
+The following table lists which data types are supported for atomic
+operations on AMD GPUs. The atomics operation type behavior is affected by the
+memory locations, memory granularity, or scope of operations. For detailed
+various support of atomic read-modify-write (atomicRMW) operations collected on
+the :ref:`Hardware atomics operation support <hw_atomics_operation_support>`
+page.
 
 .. tab-set::
 
@@ -356,7 +361,7 @@ The following table lists data type support for atomic operations.
         - ❌
         - ❌
         - ✅
-        - ❌
+        - ✅
       *
         - MI200 series
         - ❌
@@ -380,8 +385,8 @@ The following table lists data type support for atomic operations.
         - Type name
         - float8 (E4M3)
         - float8 (E5M2)
-        - float16
-        - bfloat16
+        - 2 x float16
+        - 2 x bfloat16
         - tensorfloat32
         - float32
         - float64
@@ -390,7 +395,7 @@ The following table lists data type support for atomic operations.
         - ❌
         - ❌
         - ✅
-        - ❌
+        - ✅
         - ❌
         - ✅
         - ❌
@@ -399,7 +404,7 @@ The following table lists data type support for atomic operations.
         - ❌
         - ❌
         - ✅
-        - ❌
+        - ✅
         - ❌
         - ✅
         - ✅
@@ -408,7 +413,7 @@ The following table lists data type support for atomic operations.
         - ❌
         - ❌
         - ✅
-        - ❌
+        - ✅
         - ❌
         - ✅
         - ✅

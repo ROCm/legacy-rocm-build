@@ -1,6 +1,6 @@
 #! /usr/bin/bash
 
-set -x
+set -ex
 
 apt-get -y update 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true apt-get install --no-install-recommends -y $(sed 's/#.*//' /tmp/packages)
@@ -9,9 +9,9 @@ rm -rf /var/cache/apt/ /var/lib/apt/lists/* /etc/apt/apt.conf.d/01proxy
 
 #Install  2.17.1 version of git as we are seeing issues with 2.25 , where it was not allowing to add git submodules if the user is different for parent git directory
 curl -o git.tar.gz https://cdn.kernel.org/pub/software/scm/git/git-2.17.1.tar.gz 
-tar -zxf git.tar.gz 
+tar -zxf git.tar.gz
 cd git-* 
-make prefix=/usr/local all    
+make prefix=/usr/local all
 make prefix=/usr/local install
 git --version
 
@@ -21,13 +21,23 @@ git --version
 # Looks like I need them as seperate commands
 # Sigh, install both python2 and python 3 version
 pip3 install --no-cache-dir setuptools wheel tox
-pip3 install --no-cache-dir CppHeaderParser argparse requests lxml barectf recommonmark jinja2==3.0.0 websockets matplotlib numpy scipy minimal msgpack pytest sphinx joblib PyYAML rocm-docs-core cmake==3.25.2 pandas myst-parser
+pip3 install --no-cache-dir CppHeaderParser argparse requests lxml barectf recommonmark jinja2==3.0.0 \
+    websockets matplotlib numpy==1.26.4 scipy minimal msgpack pytest sphinx joblib PyYAML rocm-docs-core cmake==3.25.2 pandas myst-parser lit
 
 # Allow sudo for everyone user
 echo 'ALL ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/everyone
 
+#Install libva-amdgpu-dev libdrm-amdgpu-dev 
+wget https://repo.radeon.com/amdgpu-install/6.3/ubuntu/jammy/amdgpu-install_6.3.60300-1_all.deb
+apt install -y ./amdgpu-install_6.3.60300-1_all.deb
+apt update
+apt install -y libva-amdgpu-dev libdrm-amdgpu-dev 
+rm -rf /etc/apt/sources.list.d/amdgpu.list /etc/apt/sources.list.d/amdgpu-proprietary.list ./amdgpu-install_6.3.60300-1_all.deb
+apt autoremove -y --purge amdgpu-install
+apt update
+
 # Install OCaml packages to build LLVM's OCaml bindings to be used in lightning compiler test pipeline
-wget -nv https://sourceforge.net/projects/opam.mirror/files/2.1.4/opam-2.1.4-x86_64-linux -O /usr/local/bin/opam 
+wget -nv https://sourceforge.net/projects/opam.mirror/files/2.1.6/opam-2.1.6-x86_64-linux/download -O /usr/local/bin/opam 
 chmod +x /usr/local/bin/opam
 opam init --yes --disable-sandboxing
 opam install ctypes --yes
@@ -36,17 +46,6 @@ opam install ctypes --yes
 curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo
 chmod a+x /usr/bin/repo
 
-# Build ccache from the source
-cd /tmp 
-git clone https://github.com/ccache/ccache -b v4.7.5 
-cd ccache 
-mkdir build 
-cd build 
-cmake -DCMAKE_BUILD_TYPE=Release .. 
-make 
-make install 
-cd /tmp 
-rm -rf ccache
 
 # Install sharp from MLNX_OFED_LINUX as dependency for rccl-rdma-sharp-plugins
 cd /var/tmp
@@ -62,7 +61,7 @@ rm -rf /var/cache/apt/ /var/lib/apt/lists/* mlnx /etc/apt/sources.list.d/sharp.l
 
 apt update
 apt -y install libunwind-dev
-apt -y install libgoogle-glog-dev
+apt -y install libgoogle-glog-dev;
 
 # Install python3.8 from source
 curl -LO https://www.python.org/ftp/python/3.8.13/Python-3.8.13.tar.xz
@@ -83,6 +82,7 @@ python3.8 --version
 # roctracer and rocprofiler needs this python3.8
 python3.8 -m pip install setuptools wheel
 python3.8 -m pip install CppHeaderParser argparse requests lxml PyYAML joblib
+
 
 #Install older version of hwloc-devel package for rocrtst
 curl -lO https://download.open-mpi.org/release/hwloc/v1.11/hwloc-1.11.13.tar.bz2
@@ -109,29 +109,27 @@ rm -rf /tmp/gtest
 
 ## Install gRPC from source
 ## RDC Pre-requisites
-GRPC_ARCHIVE=grpc-1.61.0.tar.gz
 mkdir /tmp/grpc
 mkdir /usr/grpc 
 cd /tmp 
-git clone --recurse-submodules -b v1.61.0 https://github.com/grpc/grpc
+git clone --recurse-submodules -b v1.67.1 https://github.com/grpc/grpc
 cd grpc
 mkdir -p build 
 cd build
-cmake  -DgRPC_INSTALL=ON -DBUILD_SHARED_LIBS=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr/grpc -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=14 -DCMAKE_SHARED_LINKER_FLAGS_INIT=-Wl,--enable-new-dtags,--build-id=sha1,--rpath,'$ORIGIN' .. 
+cmake -DgRPC_INSTALL=ON -DBUILD_SHARED_LIBS=ON -DgRPC_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr/grpc -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=14 -DCMAKE_SHARED_LINKER_FLAGS_INIT=-Wl,--enable-new-dtags,--build-id=sha1,--rpath,'$ORIGIN' .. 
 make -j $(nproc) install 
 rm -rf /tmp/grpc
 
-## rocBLAS Pre-requisites
 ## Download prebuilt AMD multithreaded blis (2.0)
 ## Reference : https://github.com/ROCmSoftwarePlatform/rocBLAS/blob/develop/install.sh#L403
-mkdir -p /tmp/blis 
-cd /tmp/blis
+mkdir -p /tmp/blis
+cd /tmp/blis 
 wget -O - https://github.com/amd/blis/releases/download/2.0/aocl-blis-mt-ubuntu-2.0.tar.gz | tar xfz - 
 mv amd-blis-mt /usr/blis 
 cd / 
 rm -rf /tmp/blis
 
-## rocBLAS Pre-requisites(SWDEV-404612)
+## rocBLAS Pre-requisites
 ## Download aocl-linux-gcc-4.2.0_1_amd64.deb
 mkdir -p /tmp/aocl 
 cd /tmp/aocl 
@@ -195,6 +193,9 @@ cp ninja /usr/local/bin/
 rm -rf /tmp/ninja
 
 # Install  FFmpeg and dependencies
+apt-get update
+apt-get install --no-install-recommends -y ffmpeg libavcodec-dev libavformat-dev libavutil-dev libswscale-dev
+
 # Build NASM
 mkdir -p /tmp/nasm-2.15.05 
 cd /tmp
@@ -242,15 +243,6 @@ autoreconf -fiv
 make -j$(nproc) install
 rm -rf /tmp/fdk-aac-2.0.2
 
-# Build FFmpeg
-cd /tmp
-git clone -b release/4.4 https://git.ffmpeg.org/ffmpeg.git ffmpeg
-cd ffmpeg
-PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
-./configure  --prefix="/usr/local" --extra-cflags="-I/usr/local/include"   --extra-ldflags="-L/usr/local/lib"  --extra-libs=-lpthread  --extra-libs=-lm  --enable-shared   --disable-static   --enable-libx264  --enable-libx265  --enable-libfdk-aac  --enable-gpl --enable-nonfree
-make -j$(nproc) install
-rm -rf /tmp/ffmpeg
-
 cp /tmp/local-pin-600 /etc/apt/preferences.d
 
 command -v lbzip2 
@@ -283,3 +275,50 @@ cd boost_1_85_0
 ./b2 stage -j$(nproc) threading=multi link=static cxxflags="-std=c++11 -fpic" cflags="-fpic"
 ./b2 install threading=multi link=static --with-system --with-filesystem 
 rm -rf /tmp/boost-1.85.0
+
+# Build ccache from the source
+cd /tmp
+git clone https://github.com/ccache/ccache -b v4.7.5 
+cd ccache 
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+make install 
+cd /tmp
+rm -rf ccache
+
+# symlinks for ccache
+ln -s /usr/local/bin/ccache /usr/local/bin/gcc 
+ln -s /usr/local/bin/ccache /usr/local/bin/g++ 
+ln -s /usr/local/bin/ccache /usr/local/bin/cc
+ln -s /usr/local/bin/ccache /usr/local/bin/c++
+ln -s /usr/local/bin/ccache /usr/local/bin/amdclang
+ln -s /usr/local/bin/ccache /usr/local/bin/amdclang++
+ln -s /usr/local/bin/ccache /usr/local/bin/hipcc
+
+# Installing MIOpen dependencies
+pip3 install https://github.com/RadeonOpenCompute/rbuild/archive/master.tar.gz
+mkdir -p /tmp/MIOpen
+git clone https://github.com/ROCm/MIOpen.git -b amd-master /tmp/MIOpen
+cd /tmp/MIOpen
+# Commenting rocMLIR and componsable kernel components to install thirt party dependences
+sed -i '/ROCm\/rocMLIR@\|ROCm\/composable_kernel@/s/^/#/'  requirements.txt
+mkdir -p /tmp/miopen-deps
+rbuild prepare -d /tmp/miopen-deps/ --cxx /usr/bin/g++ --cc /usr/bin/gcc
+# Installing rocMLIR which is a depency for MIOPEN. Please not we are not installing CK
+# explicitly its already build as part of rocm stack.
+export PROC=${PROC:-"$(nproc)"}
+MLIR_COMMIT="$(awk '/rocMLIR/ {split($1, s, "@"); print s[2]}' requirements.txt)"
+mkdir -p /tmp/rocMLIR
+cd /tmp/rocMLIR
+wget -nv "https://www.github.com/ROCmSoftwarePlatform/rocMLIR/archive/${MLIR_COMMIT}.tar.gz"
+tar -xzf "${MLIR_COMMIT}.tar.gz"
+cd "rocMLIR-${MLIR_COMMIT}"
+mkdir build
+cd build
+cmake -G Ninja -DCMAKE_C_COMPILER="/usr/bin/gcc" -DCMAKE_CXX_COMPILER="/usr/bin/g++" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/tmp/miopen-deps" -DBUILD_FAT_LIBROCKCOMPILER=1 ..
+cmake --build . -- librockCompiler
+cmake --build . -- install
+rm -rf _CPack_Packages/  /tmp/MIOpen /tmp/rocMLIR
+find -name '*.o' -delete

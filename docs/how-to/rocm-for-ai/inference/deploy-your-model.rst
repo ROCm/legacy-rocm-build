@@ -16,8 +16,7 @@ ROCm supports vLLM and Hugging Face TGI as major LLM-serving frameworks.
 Serving using vLLM
 ==================
 
-vLLM is a fast and easy-to-use library for LLM inference and serving. vLLM officially supports ROCm versions 5.7 and
-6.0. AMD is actively working with the vLLM team to improve performance and support later ROCm versions.
+vLLM is a fast and easy-to-use library for LLM inference and serving. AMD is actively working with the vLLM team to improve performance and support the latest ROCm versions.
 
 See the `GitHub repository <https://github.com/vllm-project/vllm>`_ and `official vLLM documentation
 <https://docs.vllm.ai/>`_ for more information.
@@ -31,9 +30,9 @@ vLLM installation
 vLLM supports two ROCm-capable installation methods. Refer to the official documentation use the following links.
 
 -  `Build from source with Docker
-   <https://docs.vllm.ai/en/latest/getting_started/amd-installation.html#build-from-source-docker-rocm>`_ (recommended)
+   <https://docs.vllm.ai/en/latest/getting_started/installation/gpu.html?device=rocm#build-image-from-source>`_ (recommended)
 
--  `Build from source <https://docs.vllm.ai/en/latest/getting_started/amd-installation.html#build-from-source-rocm>`_
+-  `Build from source <https://docs.vllm.ai/en/latest/getting_started/installation/gpu.html?device=rocm#build-wheel-from-source>`_
 
 vLLM walkthrough
 ----------------

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
     <remote name="rocm-org" fetch="https://github.com/ROCm/" />
-    <default revision="refs/tags/rocm-6.3.3"
+    <default revision="refs/tags/rocm-6.4.0"
      remote="rocm-org"
      sync-c="true"
      sync-j="4" />
@@ -30,6 +30,7 @@
 <!-- The following projects are all associated with the AMDGPU LLVM compiler -->
     <project name="half" />
     <project name="llvm-project" />
+    <project name="spirv-llvm-translator" />
 <!-- gdb projects -->
     <project name="ROCdbgapi" />
     <project name="ROCgdb" />
@@ -62,6 +63,7 @@
     <project groups="mathlibs" name="rocFFT" />
     <project groups="mathlibs" name="rocPRIM" />
     <project groups="mathlibs" name="rocRAND" />
+    <project groups="mathlibs" name="rocSHMEM" />
     <project groups="mathlibs" name="rocSOLVER" />
     <project groups="mathlibs" name="rocSPARSE" />
     <project groups="mathlibs" name="rocThrust" />

@@ -12,6 +12,5 @@ config:
   MD041: false
   MD051: false
 ignores:
-  - CHANGELOG.md
-  - "{,docs/}{RELEASE,release}.md"
+  - "{,docs/}{RELEASE,release,CHANGELOG,changelog}.md"
   - tools/autotag/templates/**/*.md

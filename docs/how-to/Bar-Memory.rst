@@ -23,7 +23,7 @@ There are two ways to handle this:
 
 * Ensure that the high MMIO aperture is within the physical addressing limits of the devices in the system. For example, if the devices have a 44-bit physical addressing limit, set the ``MMIO High Base`` and ``MMIO High size`` options in the BIOS such that the aperture is within the 44-bit address range, and ensure that the ``Above 4G Decoding`` option is Enabled.  
 
-* Enable the Input-Output Memory Management Unit (IOMMU). When the IOMMU is enabled in non-passthrough mode, it will create a virtual I/O address space for each device on the system. It also ensures that all virtual addresses created in that space are within the physical addressing limits of the device. For more information on IOMMU, see :doc:`../conceptual/iommu`. 
+* Enable the Input-Output Memory Management Unit (IOMMU). When the IOMMU is enabled in non-passthrough mode, it will create a virtual I/O address space for each device on the system. It also ensures that all virtual addresses created in that space are within the physical addressing limits of the device. For more information on IOMMU, see `Input-Output Memory Management Unit (IOMMU) <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/conceptual/iommu.html>`_. 
 
 .. _bar-configuration:
 

@@ -26,6 +26,7 @@ printUsage() {
     return 0
 }
 
+## Build environment variables
 API_NAME="rocprofiler-sdk"
 PROJ_NAME="$API_NAME"
 LIB_NAME="lib${API_NAME}"
@@ -35,8 +36,8 @@ PACKAGE_ROOT="$(getPackageRoot)"
 PACKAGE_LIB="$(getLibPath)"
 PACKAGE_INCLUDE="$(getIncludePath)"
 BUILD_DIR="$(getBuildPath $API_NAME)"
-PACKAGE_DEB="$(getPackageRoot)/deb/$API_NAME"
-PACKAGE_RPM="$(getPackageRoot)/rpm/$API_NAME"
+PACKAGE_DEB="$PACKAGE_ROOT/deb/$PROJ_NAME"
+PACKAGE_RPM="$PACKAGE_ROOT/rpm/$PROJ_NAME"
 PACKAGE_PREFIX="$ROCM_INSTALL_PATH"
 BUILD_TYPE="Debug"
 MAKE_OPTS="$DASH_JAY"
@@ -44,14 +45,16 @@ SHARED_LIBS="ON"
 CLEAN_OR_OUT=0
 MAKETARGET="deb"
 PKGTYPE="deb"
-
+# Handling GPU Targets for HSACO and HIP Executables
 GPU_LIST="gfx900;gfx906;gfx908;gfx90a;gfx940;gfx941;gfx942;gfx1030;gfx1031;gfx1100;gfx1101;gfx1102"
 ASAN=0
 
+#parse the arguments
 VALID_STR=$(getopt -o hcrawso:p: --long help,clean,release,static,address_sanitizer,wheel,outdir:,package: -- "$@")
 eval set -- "$VALID_STR"
 
 while true; do
+    #echo "parocessing $1"
     case "$1" in
         -h | --help)
             printUsage
@@ -194,7 +197,7 @@ verifyEnvSetup
 
 case "$TARGET" in
     clean) clean ;;
-    build) build_rocprofiler-sdk ;;
+    build) build_rocprofiler-sdk; build_wheel "$BUILD_DIR" "$PROJ_NAME" ;;
     outdir) print_output_directory ;;
     *) die "Invalid target $TARGET" ;;
 esac

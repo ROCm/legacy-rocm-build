@@ -26,6 +26,7 @@ printUsage() {
     return 0
 }
 
+## Build environment variables
 API_NAME="omniperf"
 PROJ_NAME="$API_NAME"
 LIB_NAME="lib${API_NAME}"
@@ -33,18 +34,16 @@ TARGET="build"
 MAKETARGET="deb"
 PACKAGE_ROOT="$(getPackageRoot)"
 PACKAGE_LIB="$(getLibPath)"
+# PACKAGE_INCLUDE="$(getIncludePath)"
 BUILD_DIR="$(getBuildPath $API_NAME)"
 PACKAGE_DEB="$(getPackageRoot)/deb/$API_NAME"
 PACKAGE_RPM="$(getPackageRoot)/rpm/$API_NAME"
-ROCM_WHEEL_DIR="${BUILD_DIR}/_wheel"
 BUILD_TYPE="Debug"
 MAKE_OPTS="$DASH_JAY -C $BUILD_DIR"
 SHARED_LIBS="ON"
 CLEAN_OR_OUT=0;
 MAKETARGET="deb"
 PKGTYPE="deb"
-WHEEL_PACKAGE=false
-
 
 #parse the arguments
 VALID_STR=$(getopt -o hcraso:p:w --long help,clean,release,static,address_sanitizer,outdir:,package:,wheel -- "$@")
@@ -52,6 +51,7 @@ eval set -- "$VALID_STR"
 
 while true ;
 do
+    #echo "parocessing $1"
     case "$1" in
         -h | --help)
                 printUsage ; exit 0;;
@@ -86,7 +86,6 @@ fi
 
 clean() {
     echo "Cleaning $PROJ_NAME"
-    rm -rf "$ROCM_WHEEL_DIR"
     rm -rf "$BUILD_DIR"
     rm -rf "$PACKAGE_DEB"
     rm -rf "$PACKAGE_RPM"
@@ -100,7 +99,6 @@ build() {
         echo "Skip make and uploading packages for Omniperf on Centos7 distro, due to python dependency"
         exit 0
     fi
-
     if [ ! -d "$BUILD_DIR" ]; then
         mkdir -p "$BUILD_DIR"
         pushd "$BUILD_DIR" || exit
@@ -108,6 +106,8 @@ build() {
         echo "ROCm CMake Params: $(rocm_cmake_params)"
         echo "ROCm Common CMake Params: $(rocm_common_cmake_params)"
 
+        #install python deps
+        #python3 -m pip install -t ${BUILD_DIR}/python-libs -r ${OMNIPERF_ROOT}/requirements.txt
         print_lib_type $SHARED_LIBS
         cmake \
             $(rocm_cmake_params) \
@@ -117,29 +117,12 @@ build() {
             -DMOD_INSTALL_PATH=${BUILD_DIR}/modulefiles \
             "$OMNIPERF_ROOT"
     fi
-
     make $MAKE_OPTS
     make $MAKE_OPTS install
     make $MAKE_OPTS package
 
     copy_if DEB "${CPACKGEN:-"DEB;RPM"}" "$PACKAGE_DEB" "$BUILD_DIR/${API_NAME}"*.deb
     copy_if RPM "${CPACKGEN:-"DEB;RPM"}" "$PACKAGE_RPM" "$BUILD_DIR/${API_NAME}"*.rpm
-}
-
-create_wheel_package() {
-    echo "Creating Omniperf wheel package"
-
-    # Copy the setup.py generator to build folder
-    mkdir -p "$ROCM_WHEEL_DIR"
-    cp -f "$SCRIPT_ROOT"/generate_setup_py.py "$ROCM_WHEEL_DIR"
-    cp -f "$SCRIPT_ROOT"/repackage_wheel.sh "$ROCM_WHEEL_DIR"
-    cd "$ROCM_WHEEL_DIR" || exit
-
-    # Currently only supports python3.6
-    ./repackage_wheel.sh "$BUILD_DIR"/*.rpm python3.6
-
-    # Copy the wheel created to RPM folder which will be uploaded to artifactory
-    copy_if WHL "WHL" "$PACKAGE_RPM" "$ROCM_WHEEL_DIR"/dist/*.whl
 }
 
 print_output_directory() {
@@ -158,14 +141,9 @@ verifyEnvSetup
 
 case "$TARGET" in
     (clean) clean ;;
-    (build) build ;;
+    (build) build; build_wheel "$BUILD_DIR" "$PROJ_NAME" ;;
     (outdir) print_output_directory ;;
     (*) die "Invalid target $TARGET" ;;
 esac
-
-if [[ $WHEEL_PACKAGE == true ]]; then
-    echo "Wheel Package build started !!!!"
-    create_wheel_package
-fi
 
 echo "Operation complete"

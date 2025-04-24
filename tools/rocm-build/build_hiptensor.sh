@@ -2,9 +2,10 @@
 
 set -ex
 
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 set_component_src hipTensor
+disable_debug_package_generation
 
 build_hiptensor() {
     echo "Start build hipTensor"
@@ -22,17 +23,11 @@ build_hiptensor() {
     mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR"
     init_rocm_common_cmake_params
 
-    if [ -n "$GPU_ARCHS" ]; then
-        GPU_TARGETS="$GPU_ARCHS"
-    else
-        GPU_TARGETS="gfx908:xnack-;gfx90a:xnack-;gfx90a:xnack+;gfx940;gfx941;gfx942"
-    fi
-
     cmake \
         -B "${BUILD_DIR}" \
         "${rocm_math_common_cmake_params[@]}" \
-        $(set_build_variables CMAKE_C_CXX) \
-        -DAMDGPU_TARGETS=${GPU_TARGETS} \
+        "$(set_build_variables __CMAKE_CC_PARAMS__)" \
+        "$(set_build_variables __CMAKE_CXX_PARAMS__)" \
         ${LAUNCHER_FLAGS} \
         "$COMPONENT_SRC"
 
@@ -41,7 +36,7 @@ build_hiptensor() {
     cmake --build "$BUILD_DIR" -- package
 
     rm -rf _CPack_Packages/ && find -name '*.o' -delete
-    mkdir -p "$PACKAGE_DIR" && cp ${BUILD_DIR}/*.${PKGTYPE} "$PACKAGE_DIR"
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
 
     show_build_cache_stats
 }
@@ -55,7 +50,7 @@ clean_hiptensor() {
 stage2_command_args "$@"
 
 case $TARGET in
-    build) build_hiptensor ;;
+    build) build_hiptensor; build_wheel ;;
     outdir) print_output_directory ;;
     clean) clean_hiptensor ;;
     *) die "Invalid target $TARGET" ;;

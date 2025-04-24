@@ -50,8 +50,8 @@ The following example shows how to use the repo tool to download the ROCm source
 ```bash
 mkdir -p ~/ROCm/
 cd ~/ROCm/
-export ROCM_VERSION=6.3.3
-~/bin/repo init -u http://github.com/ROCm/ROCm.git -b roc-6.3.x -m tools/rocm-build/rocm-${ROCM_VERSION}.xml
+export ROCM_VERSION=6.4.0
+~/bin/repo init -u http://github.com/ROCm/ROCm.git -b roc-6.4.x -m tools/rocm-build/rocm-${ROCM_VERSION}.xml
 ~/bin/repo sync
 ```
 
@@ -77,8 +77,8 @@ The Build time will reduce significantly if we limit the GPU Architecture/s agai
 
 mkdir -p ~/WORKSPACE/      # Or any folder name other than WORKSPACE
 cd ~/WORKSPACE/
-export ROCM_VERSION=6.3.3
-~/bin/repo init -u http://github.com/ROCm/ROCm.git -b roc-6.3.x -m tools/rocm-build/rocm-${ROCM_VERSION}.xml
+export ROCM_VERSION=6.4.0
+~/bin/repo init -u http://github.com/ROCm/ROCm.git -b roc-6.4.x -m tools/rocm-build/rocm-${ROCM_VERSION}.xml
 ~/bin/repo sync
 
 # --------------------------------------
@@ -87,12 +87,10 @@ export ROCM_VERSION=6.3.3
 
 # Option 1: Start a docker container
 # Pulling required base docker images:
-# Ubuntu20.04 built from ROCm/tools/rocm-build/docker/ubuntu20/Dockerfile
-docker pull rocm/rocm-build-ubuntu-20.04:6.3
 # Ubuntu22.04 built from ROCm/tools/rocm-build/docker/ubuntu22/Dockerfile
-docker pull rocm/rocm-build-ubuntu-22.04:6.3
+docker pull rocm/rocm-build-ubuntu-22.04:6.4
 # Ubuntu24.04 built from ROCm/tools/rocm-build/docker/ubuntu24/Dockerfile
-docker pull rocm/rocm-build-ubuntu-24.04:6.3
+docker pull rocm/rocm-build-ubuntu-24.04:6.4
 
 # Start docker container and mount the source code folder:
 docker run -ti \
@@ -109,10 +107,6 @@ docker run -ti \
     <replace_with_required_ubuntu_base_docker_image> bash
 
 # Option 2: Install required packages into the host machine
-# For ubuntu20.04 system
-cd ROCm/tools/rocm-build/docker/ubuntu20
-cp * /tmp && cd /tmp
-bash install-prerequisites.sh
 # For ubuntu22.04 system
 cd ROCm/tools/rocm-build/docker/ubuntu22
 cp * /tmp && cd /tmp
@@ -143,15 +137,11 @@ make -f ROCm/tools/rocm-build/ROCm.mk list_components
 # Build a single ROCm packages
 make -f ROCm/tools/rocm-build/ROCm.mk T_rocblas
 
-# Find built packages in ubuntu20.04:
-out/ubuntu-20.04/20.04/deb/
 # Find built packages in ubuntu22.04:
 out/ubuntu-22.04/22.04/deb/
 # Find built packages in ubuntu24.04:
 out/ubuntu-24.04/24.04/deb/
 
-# Find built logs in ubuntu20.04:
-out/ubuntu-20.04/20.04/logs/
 # Find built logs in ubuntu22.04:
 out/ubuntu-22.04/22.04/logs/
 # Find built logs in ubuntu24.04:
