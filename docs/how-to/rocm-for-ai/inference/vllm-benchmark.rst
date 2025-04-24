@@ -335,7 +335,7 @@ for benchmarking, see the version-specific documentation.
      - 0.7.3
      - 2.7.0
      - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.3/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.3/how-to/rocm-for-ai/inference/vllm-benchmark.html>`_
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.7.3_20250325/images/sha256-25245924f61750b19be6dcd8e787e46088a496c1fe17ee9b9e397f3d84d35640>`_
 
    * - 6.3.1
