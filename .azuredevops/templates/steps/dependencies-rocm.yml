@@ -463,7 +463,7 @@ steps:
   displayName: 'List downloaded ROCm files'
   inputs:
     targetType: inline
-    script: ls -1R $(Agent.BuildDirectory)/rocm
+    script: ls -la1R $(Agent.BuildDirectory)/rocm
 - ${{ if eq(parameters.skipLibraryLinking, false) }}:
   - task: Bash@3
     displayName: 'Link ROCm shared libraries'
