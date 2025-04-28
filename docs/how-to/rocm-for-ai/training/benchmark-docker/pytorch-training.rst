@@ -443,7 +443,7 @@ benchmarking, see the version-specific documentation.
      - 6.3.0
      - 2.7.0a0+git637433
      - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.4/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.3/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
        * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-training/v25.4/images/sha256-fa98a9aa69968e654466c06f05aaa12730db79b48b113c1ab4f7a5fe6920a20b>`_
 
    * - v25.3
