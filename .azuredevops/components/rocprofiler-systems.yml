@@ -67,6 +67,7 @@ parameters:
     - rocprofiler-register
     - rocprofiler-sdk
     - ROCR-Runtime
+    - roctracer
 
 - name: jobMatrix
   type: object
