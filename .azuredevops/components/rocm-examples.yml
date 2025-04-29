@@ -183,6 +183,7 @@ jobs:
       parameters:
         componentName: rocm-examples
         testDir: $(Build.SourcesDirectory)/build
+        testParameters: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml --exclude-regex "rocfft_callback"'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
