@@ -10,10 +10,10 @@ parameters:
   default: ''
 - name: cmakeBuildDir
   type: string
-  default: 'build'
+  default: $(Pipeline.Workspace)/s/build
 - name: cmakeSourceDir
   type: string
-  default: '..'
+  default: $(Pipeline.Workspace)/s
 - name: customBuildTarget
   type: string
   default: ''
@@ -46,7 +46,7 @@ steps:
     ${{ if eq(parameters.customInstallPath, true) }}:
       cmakeArgs: -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
     ${{ else }}:
-      cmakeArgs: ${{ parameters.extraBuildFlags }} ..
+      cmakeArgs: ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
 - ${{ if parameters.printDiskSpace }}:
   - script: df -h
     displayName: Disk space before build
