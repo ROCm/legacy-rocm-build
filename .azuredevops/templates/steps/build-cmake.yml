@@ -10,10 +10,10 @@ parameters:
   default: ''
 - name: cmakeBuildDir
   type: string
-  default: $(Pipeline.Workspace)/s/build
+  default: $(Agent.BuildDirectory)/s/build
 - name: cmakeSourceDir
   type: string
-  default: $(Pipeline.Workspace)/s
+  default: $(Agent.BuildDirectory)/s
 - name: customBuildTarget
   type: string
   default: ''

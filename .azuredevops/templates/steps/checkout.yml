@@ -29,4 +29,4 @@ steps:
       displayName: Symlink sparse checkout
       inputs:
         targetType: inline
-        script: ln -s $(Pipeline.Workspace)/sparse/${{ parameters.sparseCheckoutDir }} $(Pipeline.Workspace)/s
+        script: ln -s $(Agent.BuildDirectory)/sparse/${{ parameters.sparseCheckoutDir }} $(Agent.BuildDirectory)/s
