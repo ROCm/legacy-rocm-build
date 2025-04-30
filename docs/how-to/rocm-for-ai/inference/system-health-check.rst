@@ -1,91 +1,110 @@
 .. meta::
-   :description: 
-   :keywords: system, health,
+   :description: Use system health benchmarks like RVS, RCCL tests, BabelStream, and TransferBench to validate AMD hardware performance before running inference.
+   :keywords: gpu, accelerator, system, health, validation, bench, perf, performance, rvs, rccl, babel, mi300x, mi325x, flops, bandwidth, rbt
 
 ************************
 System health benchmarks
 ************************
 
-Before running inference, use the following system health benchmarks to validate the optimal performance
-of your AMD hardware.
+Before running inference workloads, it's crucial to validate that your AMD
+hardware is configured correctly and performing optimally. This guide outlines
+several system health benchmarks you can use to test key aspects like GPU
+compute capabilities (FLOPS), memory bandwidth, and interconnect performance.
+Many of these tests are part of the ROCm Validation Suite (RVS).
 
-Benchmark, stress, and qualification tests
-==========================================
+ROCm Validation Suite (RVS) tests
+=================================
 
-The GPU stress test runs various GEMM computations as workloads to stress the GPU FLOPS performance and check whether it
-meets the configured target GFLOPS.
+RVS provides a collection of tests, benchmarks, and qualification tools, each
+targeting a specific subsystem of the system under test. It includes tests for
+GPU stress and memory bandwidth.
 
 .. _inference-healthcheck-install-rvs:
 
-Install ROCm Validation Suite (RVS)
------------------------------------
+Install ROCm Validation Suite
+-----------------------------
 
-To get started, install the ROCm Validation Suite (RVS). For example, on an Ubuntu system with ROCm
+To get started, install RVS. For example, on an Ubuntu system with ROCm already
 installed, run the following command:
 
-.. code-block::
+.. code-block:: shell
 
+   sudo apt update
    sudo apt install rocm-validation-suite
 
 See the `ROCm Validation Suite installation instructions <https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/latest/install/installation.html>`_
 and `System validation tests <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/system-validation.html#system-validation-tests>`_
 in the Instinct documentation for more detailed instructions.
 
-Run the tests
--------------
+Benchmark, stress, and qualification tests
+------------------------------------------
 
-Run the benchmark, stress, and qualification tests included with RVS. See `Benchmark, stress, qualification
+The GPU stress test runs various GEMM computations as workloads to stress the GPU FLOPS performance and check whether it
+meets the configured target GFLOPS.
+
+Run the benchmark, stress, and qualification tests included with RVS. See the `Benchmark, stress, qualification
 <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/system-validation.html#benchmark-stress-qualification>`_
-for more information.
-
-For more information, see `System validation tests
-<https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/system-validation.html>`_ in the Instinct
-documentation.
-
-RCCL tests
-==========
-
-RCCL provides a test suite to test and benchmark performance -- these tests check both the performance and the correctness of RCCL operations.
-See `<https://github.com/ROCm/rccl-tests>`__ for more information.
-
-Build and run the tests.
-
-For installations, follow the RCCL tests instructions at `Performance benchmarking
-<https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/performance-bench.html#rccl-benchmarking-results>`_
-in the Instinct documentation.
+section of the Instinct documentation for usage instructions.
 
 BabelStream test
-================
+----------------
 
-BabelStream is a synthetic GPU benchmark based on the STREAM benchmark for CPUs, measuring memory
-transfer rates to and from global device memory.
+BabelStream is a synthetic GPU benchmark based on the STREAM benchmark for
+CPUs, measuring memory transfer rates to and from global device memory.
 
 BabelStream tests are included with the :ref:`RVS package <inference-healthcheck-install-rvs>` as part of the `BABEL module
 <https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/latest/conceptual/rvs-modules.html#babel-benchmark-test-babel-module>`_.
 
-For details, see `Performance benchmarking
+For more information, see `Performance benchmarking
 <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/performance-bench.html#babelstream-benchmarking-results>`_
 in the Instinct documentation.
+
+RCCL tests
+==========
+
+The ROCm Communication Collectives Library (RCCL) enables efficient multi-GPU
+communication. The `<https://github.com/ROCm/rccl-tests>`__ suite benchmarks
+the performance and verifies the correctness of these collective operations.
+
+This helps ensure optimal scaling for multi-accelerator inference tasks.
+
+1. To get started, build RCCL-tests using the official instructions in the README at
+   `<https://github.com/ROCm/rccl-tests?tab=readme-ov-file#build>`__ or use the
+   following commands:
+
+   .. code-block:: shell
+
+      git clone https://github.com/ROCm/rccl-tests.git
+      cd rccl-tests
+      make
+
+2. Run the suggested RCCL tests -- see `Performance benchmarking
+   <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/performance-bench.html#rccl-benchmarking-results>`_
+   in the Instinct documentation for instructions.
 
 TransferBench test
 ==================
 
-TransferBench is a utility to benchmark simultaneous transfers between user-specified devices (CPUs
-and GPUs).
+TransferBench is a standalone utility for benchmarking simultaneous data
+transfer performance between various devices in the system, including
+CPU-to-GPU and GPU-to-GPU (peer-to-peer).
+
+This helps identify potential bottlenecks in data movement between the host
+system and the GPUs, or between GPUs, which can impact end-to-end inference
+latency.
 
 .. _inference-healthcheck-install-transferbench:
 
-Install TransferBench
----------------------
+1. To get started, use the official instructions in the `TransferBench documentation
+   <https://rocm.docs.amd.com/projects/TransferBench/en/latest/install/install.html#install-transferbench>`_
+   or use the following commands:
 
-.. code:: shell
+   .. code:: shell
 
-   git clone https://github.com/ROCm/TransferBench.git
-   cd TransferBench
-   CC=hipcc make
+      git clone https://github.com/ROCm/TransferBench.git
+      cd TransferBench
+      CC=hipcc make
 
-For installation and usage instructions, see the `Performance benchmarking
-<https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/performance-bench.html#transferbench-benchmarking-results>`_
-section in the Instinct documentation.
-
-TransferBench tests are not part of RVS.
+2. Run the suggested TransferBench tests -- see `Performance benchmarking
+   <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/performance-bench.html#transferbench-benchmarking-results>`_
+   in the Instinct documentation for instructions.
