@@ -2,11 +2,7 @@
 System health benchmarks
 ************************
 
-Before running AI workloads, it's crucial to validate that your AMD
-hardware is configured correctly and performing optimally. This guide outlines
-several system health benchmarks you can use to test key aspects like GPU
-compute capabilities (FLOPS), memory bandwidth, and interconnect performance.
-Many of these tests are part of the ROCm Validation Suite (RVS).
+Before running inference workloads, it is important to validate that your AMD hardware is configured correctly and is performing optimally. This topic outlines several system health benchmarks you can use to test key aspects like GPU compute capabilities (FLOPS), memory bandwidth, and interconnect performance. Many of these tests are part of the ROCm Validation Suite (RVS).
 
 ROCm Validation Suite (RVS) tests
 =================================
