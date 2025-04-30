@@ -34,6 +34,7 @@ Autocast
 BARs
 BLAS
 BMC
+BabelStream
 Blit
 Blockwise
 Bluefield
@@ -138,6 +139,7 @@ GDR
 GDS
 GEMM
 GEMMs
+GFLOPS
 GFortran
 GFXIP
 Gemma
@@ -641,6 +643,7 @@ hipSPARSELt
 hipTensor
 hipamd
 hipblas
+hipcc
 hipcub
 hipfft
 hipfort
