@@ -53,6 +53,7 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/index", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/training/index", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/system-health-check", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/train-a-model", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/prerequisite-system-validation", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/megatron-lm", "os": ["linux"]},
@@ -68,6 +69,7 @@ article_pages = [
 
     {"file": "how-to/rocm-for-ai/inference/index", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/install", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/system-health-check", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/hugging-face-models", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/llm-inference-frameworks", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/vllm-benchmark", "os": ["linux"]},
