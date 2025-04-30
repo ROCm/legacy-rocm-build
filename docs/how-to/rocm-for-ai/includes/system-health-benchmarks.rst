@@ -83,7 +83,7 @@ GPUs, which can impact end-to-end latency.
 
 .. _healthcheck-install-transferbench:
 
-1. To get started, use the official instructions in the `TransferBench documentation
+1. To get started, use the instructions in the `TransferBench documentation
    <https://rocm.docs.amd.com/projects/TransferBench/en/latest/install/install.html#install-transferbench>`_
    or use the following commands:
 
