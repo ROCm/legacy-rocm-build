@@ -40,6 +40,8 @@ subtrees:
         title: Training
         subtrees:
         - entries:
+          - file: how-to/rocm-for-ai/training/system-health-check.rst
+            title: System health benchmarks
           - file: how-to/rocm-for-ai/training/benchmark-docker/megatron-lm
             title: Train a model with Megatron-LM
           - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training
