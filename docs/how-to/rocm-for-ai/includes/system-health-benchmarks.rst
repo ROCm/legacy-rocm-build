@@ -24,7 +24,7 @@ installed, run the following command:
    sudo apt update
    sudo apt install rocm-validation-suite
 
-See the `ROCm Validation Suite installation instructions <https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/latest/install/installation.html>`_
+See the `ROCm Validation Suite installation instructions <https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/latest/install/installation.html>`_,
 and `System validation tests <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/system-validation.html#system-validation-tests>`_
 in the Instinct documentation for more detailed instructions.
 
