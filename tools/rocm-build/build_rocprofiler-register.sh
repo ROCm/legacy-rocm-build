@@ -12,6 +12,7 @@ printUsage() {
     echo "  -p,  --package <type>     Specify packaging format"
     echo "  -r,  --release            Make a release build instead of a debug build"
     echo "  -a,  --address_sanitizer  Enable address sanitizer"
+    echo "  -w,  --wheel              Creates python wheel package of rocprofiler-register. It needs to be used along with -r option"
     echo "  -o,  --outdir <pkg_type>  Print path of output directory containing packages of
     type referred to by pkg_type"
     echo "  -h,  --help               Prints this help"
@@ -24,6 +25,7 @@ printUsage() {
     return 0
 }
 
+## Build environment variables
 API_NAME="rocprofiler-register"
 PROJ_NAME="$API_NAME"
 LIB_NAME="lib${API_NAME}"
@@ -44,11 +46,13 @@ MAKETARGET="deb"
 PKGTYPE="deb"
 
 
-VALID_STR=`getopt -o hcraso:p: --long help,clean,release,static,address_sanitizer,outdir:,package: -- "$@"`
+#parse the arguments
+VALID_STR=`getopt -o hcraswo:p: --long help,clean,release,static,address_sanitizer,wheeloutdir:,package: -- "$@"`
 eval set -- "$VALID_STR"
 
 while true ;
 do
+    #echo "parocessing $1"
     case "$1" in
         (-h | --help)
                 printUsage ; exit 0;;
@@ -61,11 +65,13 @@ do
                 set_address_sanitizer_on ; shift ;;
         (-s | --static)
                 SHARED_LIBS="OFF" ; shift ;;
+        (-w | --wheel)
+                WHEEL_PACKAGE=true ; shift ;;
         (-o | --outdir)
                 TARGET="outdir"; PKGTYPE=$2 ; OUT_DIR_SPECIFIED=1 ; ((CLEAN_OR_OUT|=2)) ; shift 2 ;;
         (-p | --package)
                 MAKETARGET="$2" ; shift 2;;
-        --)     shift; break;;
+        --)     shift; break;; # end delimiter
         (*)
                 echo " This should never come but just incase : UNEXPECTED ERROR Parm : [$1] ">&2 ; exit 20;;
     esac
@@ -107,9 +113,9 @@ build() {
             "$ROCPROFILER_REGISTER_ROOT"
         popd
     fi
-    make $MAKE_OPTS
-    make $MAKE_OPTS install
-    make $MAKE_OPTS package
+    cmake --build "$BUILD_DIR" -- $MAKE_OPTS
+    cmake --build "$BUILD_DIR" -- $MAKE_OPTS install
+    cmake --build "$BUILD_DIR" -- $MAKE_OPTS package
 
     copy_if DEB "${CPACKGEN:-"DEB;RPM"}" "$PACKAGE_DEB" "$BUILD_DIR/${API_NAME}"*.deb
     copy_if RPM "${CPACKGEN:-"DEB;RPM"}" "$PACKAGE_RPM" "$BUILD_DIR/${API_NAME}"*.rpm
@@ -131,7 +137,7 @@ verifyEnvSetup
 
 case "$TARGET" in
     (clean) clean ;;
-    (build) build ;;
+    (build) build; build_wheel "$BUILD_DIR" "$PROJ_NAME" ;;
     (outdir) print_output_directory ;;
     (*) die "Invalid target $TARGET" ;;
 esac

@@ -11,6 +11,8 @@ printUsage() {
     echo "  -p,  --package <type>     Specify packaging format"
     echo "  -r,  --release            Make a release build instead of a debug build"
     echo "  -a,  --address_sanitizer  Enable address sanitizer"
+    echo "  -w,  --wheel              Creates python wheel package of rocr-debug-agent. 
+                                      It needs to be used along with -r option"
     echo "  -o,  --outdir <pkg_type>  Print path of output directory containing packages of
     type referred to by pkg_type"
     echo "  -h,  --help             Prints this help"
@@ -23,6 +25,7 @@ printUsage() {
     return 0
 }
 
+## Build environment variables
 API_NAME=rocm-debug-agent
 PROJ_NAME=$API_NAME
 LIB_NAME=lib${API_NAME}.so
@@ -33,12 +36,13 @@ PACKAGE_BIN="$(getBinPath)"
 PACKAGE_LIB=$(getLibPath)
 PACKAGE_INCLUDE=$(getIncludePath)
 BUILD_DIR=$(getBuildPath $API_NAME)
-PACKAGE_DEB=$(getPackageRoot)/deb/$API_NAME
-PACKAGE_RPM=$(getPackageRoot)/rpm/$API_NAME
+PACKAGE_DEB=$PACKAGE_ROOT/deb/$PROJ_NAME
+PACKAGE_RPM=$PACKAGE_ROOT/rpm/$PROJ_NAME
 PACKAGE_PREFIX=$ROCM_INSTALL_PATH
 BUILD_TYPE=Debug
 MAKE_OPTS="$DASH_JAY -C"
 
+## Test variables
 TEST_PACKAGE_DIR="$(getBinPath)/rocm-debug-agent-test"
 PACKAGE_UTILS=$(getUtilsPath)
 
@@ -54,11 +58,13 @@ MAKETARGET="deb"
 PKGTYPE="deb"
 
 
-VALID_STR=`getopt -o hcraso:p: --long help,clean,release,static,address_sanitizer,outdir:,package: -- "$@"`
+#parse the arguments
+VALID_STR=`getopt -o hcraswo:p: --long help,clean,release,static,wheel,address_sanitizer,outdir:,package: -- "$@"`
 eval set -- "$VALID_STR"
 
 while true ;
 do
+    #echo "parocessing $1"
     case "$1" in
         (-h | --help)
                 printUsage ; exit 0;;
@@ -71,11 +77,13 @@ do
                 set_address_sanitizer_on ; shift ;;
         (-s | --static)
                 ack_and_skip_static ;;
+        (-w | --wheel)
+                WHEEL_PACKAGE=true ; shift ;;
         (-o | --outdir)
                 TARGET="outdir"; PKGTYPE=$2 ; OUT_DIR_SPECIFIED=1 ; ((CLEAN_OR_OUT|=2)) ; shift 2 ;;
         (-p | --package)
                 MAKETARGET="$2" ; shift 2;;
-        --)     shift; break;;
+        --)     shift; break;; # end delimiter
         (*)
                 echo " This should never come but just incase : UNEXPECTED ERROR Parm : [$1] ">&2 ; exit 20;;
     esac
@@ -102,8 +110,10 @@ clean() {
 
 build() {
     echo "Building $PROJ_NAME"
-
+    # The cmake path is different for asan and non-asan builds.
+    # Fetch after getting build type. Default will be non-asan build
     PACKAGE_CMAKE="$(getCmakePath)"
+    # If rocm is installed to an unconventional location, --rocm-path needs to be set.
     export HIPCC_COMPILE_FLAGS_APPEND="--rocm-path=$ROCM_PATH"
     if [ ! -d "$BUILD_DIR" ]; then
         mkdir -p "$BUILD_DIR"
@@ -127,6 +137,13 @@ build() {
 
     copy_if DEB "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DEB}" "$BUILD_DIR/${API_NAME}"*.deb
     copy_if RPM "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_RPM}" "$BUILD_DIR/${API_NAME}"*.rpm
+
+    mkdir -p "$PACKAGE_UTILS"
+    progressCopy "$SCRIPT_ROOT/run_rocr_debug_agent_test.sh" "$PACKAGE_UTILS"
+
+    ## Copy run test py script
+    echo "copying run-test.py to $PACKAGE_BIN"
+    progressCopy "$ROCR_DEBUG_AGENT_ROOT/test/run-test.py" "$PACKAGE_BIN"
 }
 
 print_output_directory() {
@@ -145,7 +162,7 @@ verifyEnvSetup
 
 case $TARGET in
     (clean) clean ;;
-    (build) build ;;
+    (build) build; build_wheel "$BUILD_DIR" "$PROJ_NAME" ;;
     (outdir) print_output_directory ;;
     (*) die "Invalid target $target" ;;
 esac

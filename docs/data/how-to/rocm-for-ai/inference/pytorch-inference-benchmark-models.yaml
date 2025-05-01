@@ -1,0 +1,25 @@
+pytorch_inference_benchmark:
+  unified_docker:
+    latest: &rocm-pytorch-docker-latest
+      pull_tag: rocm/pytorch:latest
+      docker_hub_url:
+      rocm_version:
+      pytorch_version:
+      hipblaslt_version:
+  model_groups:
+    - group: CLIP
+      tag: clip
+      models:
+      - model: CLIP
+        mad_tag: pyt_clip_inference
+        model_repo: laion/CLIP-ViT-B-32-laion2B-s34B-b79K
+        url: https://huggingface.co/laion/CLIP-ViT-B-32-laion2B-s34B-b79K
+        precision: float16
+    - group: Chai-1
+      tag: chai
+      models:
+      - model: Chai-1
+        mad_tag: pyt_chai1_inference
+        model_repo: meta-llama/Llama-3.1-8B-Instruct
+        url: https://huggingface.co/chaidiscovery/chai-1
+        precision: float16

@@ -10,7 +10,9 @@ printUsage() {
     echo "  -c,  --clean              Clean output and delete all intermediate work"
     echo "  -r,  --release            Build a release version of the package"
     echo "  -a,  --address_sanitizer  Enable address sanitizer"
-    echo "  -s,  --static             Supports static CI by accepting this param & not bailing out. No effect of the param though"
+    echo "  -s,  --static             Build static lib (.a).  build instead of dynamic/shared(.so) "
+    echo "  -w,  --wheel              Creates python wheel package of devicelibs.
+                                      It needs to be used along with -r option"
     echo "  -o,  --outdir <pkg_type>  Print path of output directory containing packages of
     type referred to by pkg_type"
     echo "  -h,  --help             Prints this help"
@@ -19,10 +21,11 @@ printUsage() {
 
     return 0
 }
+PROJ_NAME="devicelibs"
 PACKAGE_ROOT="$(getPackageRoot)"
 PACKAGE_BIN="$(getBinPath)"
 PACKAGE_LIB="$(getLibPath)"
-BUILD_PATH="$(getBuildPath devicelibs)"
+BUILD_PATH="$(getBuildPath $PROJ_NAME)"
 INSTALL_PATH="$(getPackageRoot)"
 LIGHTNING_BUILD_PATH="$(getBuildPath lightning)"
 DEB_PATH="$(getDebPath devicelibs)"
@@ -36,11 +39,13 @@ CLEAN_OR_OUT=0;
 PKGTYPE="deb"
 MAKETARGET="deb"
 
-VALID_STR=`getopt -o hcraso: --long help,clean,release,static,address_sanitizer,outdir: -- "$@"`
+#parse the arguments
+VALID_STR=`getopt -o hcraswo: --long help,clean,release,static,wheel,address_sanitizer,outdir: -- "$@"`
 eval set -- "$VALID_STR"
 
 while true ;
 do
+    #echo "parocessing $1"
     case "$1" in
         (-h | --help)
                 printUsage ; exit 0;;
@@ -53,6 +58,8 @@ do
                 ack_and_ignore_asan ; shift ;;
         (-s | --static)
                 SHARED_LIBS="OFF" ; shift ;;
+        (-w | --wheel)
+                WHEEL_PACKAGE=true ; shift ;;
         (-o | --outdir)
                 TARGET="outdir"; PKGTYPE=$2 ; OUT_DIR_SPECIFIED=1 ; ((CLEAN_OR_OUT|=2)) ; shift 2 ;;
         --)     shift; break;; # end delimiter
@@ -71,7 +78,9 @@ fi
 
 
 clean_devicelibs() {
+    # Delete cmake output directory
     rm -rf "$BUILD_PATH"
+    # Delete the *.bc files from the PACKAGE_LIB directory
     rm -f $PACKAGE_LIB/hc*.bc
     rm -f $PACKAGE_LIB/irif*.bc
     rm -f $PACKAGE_LIB/ockl*.bc
@@ -80,6 +89,7 @@ clean_devicelibs() {
     rm -f $PACKAGE_LIB/opencl*.bc
     rm -f $PACKAGE_LIB/openmp*.bc
     rm -rf $PACKAGE_ROOT/amdgcn
+    # Delete any packages generated
     rm -rf "$DEB_PATH"
     rm -rf "$RPM_PATH"
 }
@@ -96,6 +106,7 @@ build_devicelibs() {
     if [ ! -e Makefile ]; then
         cmake $(rocm_cmake_params) \
               $(rocm_common_cmake_params) \
+              ${GEN_NINJA} \
               -DBUILD_SHARED_LIBS=$SHARED_LIBS \
               -DROCM_DEVICE_LIBS_BITCODE_INSTALL_LOC_NEW="$bitcodeInstallLoc/amdgcn" \
               -DROCM_DEVICE_LIBS_BITCODE_INSTALL_LOC_OLD="amdgcn" \
@@ -133,7 +144,7 @@ print_output_directory() {
 }
 case $TARGET in
     (clean) clean_devicelibs ;;
-    (build) build_devicelibs; package_devicelibs ;;
+    (build) build_devicelibs; package_devicelibs; build_wheel "$BUILD_PATH" "$PROJ_NAME" ;;
     (outdir) print_output_directory ;;
     (*) die "Invalid target $TARGET" ;;
 esac

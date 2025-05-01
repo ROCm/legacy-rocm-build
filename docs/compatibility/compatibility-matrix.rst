@@ -48,21 +48,21 @@ compatibility and system requirements.
       ,gfx908,gfx908,gfx908
       ,,,
       FRAMEWORK SUPPORT,.. _framework-support-compatibility-matrix:,,
-      :doc:`PyTorch <../compatibility/ml-compatibility/pytorch-compatibility>`,"2.6 [#PyTorch-26]_, 2.5, 2.4, 2.3, 2.2, 1.13","2.4, 2.3, 2.2, 1.13","2.3, 2.2, 2.1, 2.0, 1.13"
-      :doc:`TensorFlow <../compatibility/ml-compatibility/tensorflow-compatibility>`,"2.17.0, 2.16.2, 2.15.1","2.17.0, 2.16.2, 2.15.1","2.16.1, 2.15.1, 2.14.1"
-      :doc:`JAX <../compatibility/ml-compatibility/jax-compatibility>`,0.4.31,0.4.31,0.4.26
-      `ONNX Runtime <https://onnxruntime.ai/docs/build/eps.html#amd-migraphx>`_,1.17.3,1.17.3,1.17.3
+      :doc:`PyTorch <../compatibility/ml-compatibility/pytorch-compatibility>`,"2.6, 2.5, 2.4, 2.3","2.4, 2.3, 2.2, 1.13","2.3, 2.2, 2.1, 2.0, 1.13"
+      :doc:`TensorFlow <../compatibility/ml-compatibility/tensorflow-compatibility>`,"2.18.1, 2.17.1, 2.16.2","2.17.0, 2.16.2, 2.15.1","2.16.1, 2.15.1, 2.14.1"
+      :doc:`JAX <../compatibility/ml-compatibility/jax-compatibility>`,0.4.35,0.4.31,0.4.26
+      `ONNX Runtime <https://onnxruntime.ai/docs/build/eps.html#amd-migraphx>`_,1.20,1.17.3,1.17.3
       ,,,
       THIRD PARTY COMMS,.. _thirdpartycomms-support-compatibility-matrix:,,
       `UCC <https://github.com/ROCm/ucc>`_,>=1.3.0,>=1.3.0,>=1.3.0
       `UCX <https://github.com/ROCm/ucx>`_,>=1.15.0,>=1.15.0,>=1.15.0
       ,,,
       THIRD PARTY ALGORITHM,.. _thirdpartyalgorithm-support-compatibility-matrix:,,
-      Thrust,2.3.2,2.3.2,2.2.0
-      CUB,2.3.2,2.3.2,2.2.0
+      Thrust,2.5.0,2.3.2,2.2.0
+      CUB,2.5.0,2.3.2,2.2.0
       ,,,
       KMD & USER SPACE [#kfd_support]_,.. _kfd-userspace-support-compatibility-matrix:,,
-      Tested user space versions,"6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.3.x, 6.2.x, 6.1.x, 6.0.x"
+      KMD versions,"6.4.x, 6.3.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x"
       ,,,
       ML & COMPUTER VISION,.. _mllibs-support-compatibility-matrix:,,
       :doc:`Composable Kernel <composable_kernel:index>`,1.1.0,1.1.0,1.1.0
@@ -72,7 +72,7 @@ compatibility and system requirements.
       :doc:`rocAL <rocal:index>`,2.2.0,2.1.0,1.0.0
       :doc:`rocDecode <rocdecode:index>`,0.10.0,0.8.0,0.6.0
       :doc:`rocJPEG <rocjpeg:index>`,0.8.0,0.6.0,N/A
-      :doc:`rocPyDecode <rocpydecode:index>`,0.2.0,0.2.0,0.1.0
+      :doc:`rocPyDecode <rocpydecode:index>`,0.3.1,0.2.0,0.1.0
       :doc:`RPP <rpp:index>`,1.9.10,1.9.1,1.8.0
       ,,,
       COMMUNICATION,.. _commlibs-support-compatibility-matrix:,,
@@ -104,12 +104,12 @@ compatibility and system requirements.
       :doc:`rocThrust <rocthrust:index>`,3.3.0,3.3.0,3.0.1
       ,,,
       SUPPORT LIBS,,,
-      `hipother <https://github.com/ROCm/hipother>`_,6.4.43481,6.3.42134,6.2.41133
+      `hipother <https://github.com/ROCm/hipother>`_,6.4.43482,6.3.42134,6.2.41133
       `rocm-core <https://github.com/ROCm/rocm-core>`_,6.4.0,6.3.3,6.2.0
       `ROCT-Thunk-Interface <https://github.com/ROCm/ROCT-Thunk-Interface>`_,N/A [#ROCT-rocr]_,N/A [#ROCT-rocr]_,20240607.1.4246
       ,,,
       SYSTEM MGMT TOOLS,.. _tools-support-compatibility-matrix:,,
-      :doc:`AMD SMI <amdsmi:index>`,25.2.0,24.7.1,24.6.2
+      :doc:`AMD SMI <amdsmi:index>`,25.3.0,24.7.1,24.6.2
       :doc:`ROCm Data Center Tool <rdc:index>`,0.3.0,0.3.0,0.3.0
       :doc:`rocminfo <rocminfo:index>`,1.0.0,1.0.0,1.0.0
       :doc:`ROCm SMI <rocm_smi_lib:index>`,7.5.0,7.4.0,7.3.0
@@ -124,7 +124,7 @@ compatibility and system requirements.
       :doc:`ROCTracer <roctracer:index>`,4.1.60400,4.1.60303,4.1.60200
       ,,,
       DEVELOPMENT TOOLS,,,
-      :doc:`HIPIFY <hipify:index>`,19.0.0.25081,18.0.0.25012,18.0.0.24232
+      :doc:`HIPIFY <hipify:index>`,19.0.0.25133,18.0.0.25012,18.0.0.24232
       :doc:`ROCm CMake <rocmcmakebuildtools:index>`,0.14.0,0.14.0,0.13.0
       :doc:`ROCdbgapi <rocdbgapi:index>`,0.77.2,0.77.0,0.76.0
       :doc:`ROCm Debugger (ROCgdb) <rocgdb:index>`,15.2.0,15.2.0,14.2.0
@@ -134,13 +134,13 @@ compatibility and system requirements.
       COMPILERS,.. _compilers-support-compatibility-matrix:,,
       `clang-ocl <https://github.com/ROCm/clang-ocl>`_,N/A,N/A,N/A
       :doc:`hipCC <hipcc:index>`,1.1.1,1.1.1,1.1.1
-      `Flang <https://github.com/ROCm/flang>`_,19.0.0.25081,18.0.0.25012,18.0.0.24232
-      :doc:`llvm-project <llvm-project:index>`,19.0.0.25081,18.0.0.25012,18.0.0.24232
-      `OpenMP <https://github.com/ROCm/llvm-project/tree/amd-staging/openmp>`_,19.0.0.25081,18.0.0.25012,18.0.0.24232
+      `Flang <https://github.com/ROCm/flang>`_,19.0.0.25133,18.0.0.25012,18.0.0.24232
+      :doc:`llvm-project <llvm-project:index>`,19.0.0.25133,18.0.0.25012,18.0.0.24232
+      `OpenMP <https://github.com/ROCm/llvm-project/tree/amd-staging/openmp>`_,19.0.0.25133,18.0.0.25012,18.0.0.24232
       ,,,
       RUNTIMES,.. _runtime-support-compatibility-matrix:,,
-      :doc:`AMD CLR <hip:understand/amd_clr>`,6.4.43481,6.3.42134,6.2.41133
-      :doc:`HIP <hip:index>`,6.4.43481,6.3.42134,6.2.41133
+      :doc:`AMD CLR <hip:understand/amd_clr>`,6.4.43482,6.3.42134,6.2.41133
+      :doc:`HIP <hip:index>`,6.4.43482,6.3.42134,6.2.41133
       `OpenCL Runtime <https://github.com/ROCm/clr/tree/develop/opencl>`_,2.0.0,2.0.0,2.0.0
       :doc:`ROCr Runtime <rocr-runtime:index>`,1.15.0,1.14.0,1.13.0
 
@@ -150,9 +150,8 @@ compatibility and system requirements.
 .. [#mi300x] Oracle Linux and Azure Linux are supported only on AMD Instinct MI300X.
 .. [#single-node] Debian 12 is supported only on AMD Instinct MI300X for single-node functionality. 
 .. [#mi300_620] **For ROCm 6.2.0** - MI300X (gfx942) is supported on listed operating systems *except* Ubuntu 22.04.5 [6.8 HWE] and Ubuntu 22.04.4 [6.5 HWE].
-.. [#kfd_support] Starting ROCm 6.4.0, forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software is provided up to a year apart (assuming hardware support is available in both). For earlier ROCm releases, the compatibility is provided for +/- 2 releases. These are the compatibility combinations that are currently supported.
+.. [#kfd_support] Starting from ROCm 6.4.0, forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software is provided up to a year apart (assuming hardware support is available in both). For earlier ROCm releases, the compatibility is provided for +/- 2 releases. These are the compatibility combinations that are currently supported.
 .. [#ROCT-rocr] Starting from ROCm 6.3.0, the ROCT Thunk Interface is included as part of the ROCr runtime package.
-.. [#PyTorch-26] PyTorch 2.6 has preview support (with limited testing) in ROCm 6.4.0.
 
 .. _OS-kernel-versions:
 
@@ -172,17 +171,16 @@ Use this lookup table to confirm which operating system and kernel versions are 
    ,,
    `Red Hat Enterprise Linux (RHEL 9) <https://access.redhat.com/articles/3078#RHEL9>`_, 9.5, 5.14+, 2.34
    ,9.4, 5.14+, 2.34
-   ,9.3, 5.14+, 
+   ,9.3, 5.14+, 2.34
    ,,
-   `Red Hat Enterprise Linux (RHEL 8) <https://access.redhat.com/articles/3078#RHEL8>`_, 8.10, 4.18.0+, 2.38
-   ,8.9, 4.18.0
+   `Red Hat Enterprise Linux (RHEL 8) <https://access.redhat.com/articles/3078#RHEL8>`_, 8.10, 4.18.0+, 2.28
+   ,8.9, 4.18.0, 2.28
    ,,
    `SUSE Linux Enterprise Server (SLES) <https://www.suse.com/support/kb/doc/?id=000019587#SLE15SP4>`_, 15 SP6, "6.5.0+, 6.4.0", 2.38
-   ,15 SP5, 5.14.21, 
+   ,15 SP5, 5.14.21, 2.31
    ,,
    `Oracle Linux <https://blogs.oracle.com/scoter/post/oracle-linux-and-unbreakable-enterprise-kernel-uek-releases>`_, 9, 5.15.0 (UEK), 2.35
-   ,8, 5.15.0 (UEK),
-   ,8.9, 5.15.0,
+   ,8, 5.15.0 (UEK), 2.28
    ,,
    `Debian <https://www.debian.org/download>`_,12, 6.1, 2.36
    ,,
@@ -230,5 +228,5 @@ Expand for full historical view of:
    .. [#mi300_610-past-60] **For ROCm 6.1.0** - MI300A (gfx942) is supported on Ubuntu 22.04.4, RHEL 9.4, RHEL 9.3, RHEL 8.9, and SLES 15 SP5. MI300X (gfx942) is only supported on Ubuntu 22.04.4.
    .. [#mi300_602-past-60] **For ROCm 6.0.2** - MI300A (gfx942) is supported on Ubuntu 22.04.3, RHEL 8.9, and SLES 15 SP5. MI300X (gfx942) is only supported on Ubuntu 22.04.3.
    .. [#mi300_600-past-60] **For ROCm 6.0.0** - MI300A (gfx942) is supported on Ubuntu 22.04.3, RHEL 8.9, and SLES 15 SP5. MI300X (gfx942) is only supported on Ubuntu 22.04.3.
-   .. [#kfd_support-past-60] Starting ROCm 6.4.0, forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software is provided up to a year apart (assuming hardware support is available in both). For earlier ROCm releases, the compatibility is provided for +/- 2 releases. These are the compatibility combinations that are currently supported.
+   .. [#kfd_support-past-60] Starting from ROCm 6.4.0, forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software is provided up to a year apart (assuming hardware support is available in both). For earlier ROCm releases, the compatibility is provided for +/- 2 releases. These are the compatibility combinations that are currently supported.
    .. [#ROCT-rocr-past-60] Starting from ROCm 6.3.0, the ROCT Thunk Interface is included as part of the ROCr runtime package.

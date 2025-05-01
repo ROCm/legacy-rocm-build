@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
     <remote name="rocm-org" fetch="https://github.com/ROCm/" />
-    <default revision="refs/tags/rocm-6.3.3"
+    <default revision="refs/tags/rocm-6.4.0"
      remote="rocm-org"
      sync-c="true"
      sync-j="4" />
@@ -27,6 +27,7 @@
     <project category="libs" group="math" name="rocBLAS" />
     <project category="libs" group="math" name="rocFFT" />
     <project category="libs" group="math" name="rocRAND" />
+    <project category="libs" group="math" name="rocSHMEM" />
     <project category="libs" group="math" name="rocSOLVER" />
     <project category="libs" group="math" name="rocSPARSE" />
     <project category="libs" group="math" name="rocWMMA" />
@@ -52,6 +53,7 @@
     <!-- transferbench -->
     <project category="compilers" name="llvm-project" />
     <project category="compilers" name="flang" path="openmp-extras/flang" />
+    <project category="tools" name="spirv-llvm-translator" path="llvm-project/llvm/projects/SPIRV-LLVM-Translator" />
     <project category="runtimes" name="clr" />
     <project category="runtimes" name="HIP" />
     <project category="runtimes" name="ROCR-Runtime" />

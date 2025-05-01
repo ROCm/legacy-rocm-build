@@ -13,8 +13,10 @@ printUsage() {
     echo "  -a,  --address_sanitizer  Enable address sanitizer"
     echo "  -o,  --outdir <pkg_type>  Print path of output directory containing packages of
                                       type referred to by pkg_type"
+    echo "  -s,  --static             Build static lib (.a).  build instead of dynamic/shared(.so) "
+    echo "  -w,  --wheel              Creates python wheel package of rocm-core. 
+                                      It needs to be used along with -r option"
     echo "  -h,  --help               Prints this help"
-    echo "  -s,  --static             Supports static CI by accepting this param & not bailing out. No effect of the param though"
     echo
     echo "Possible values for <type>:"
     echo "  deb -> Debian format (default)"
@@ -24,6 +26,7 @@ printUsage() {
     return 0
 }
 
+## ROCm build (using CMake) environment variables
 PROJ_NAME="rocm-core"
 PACKAGE_ROOT="$(getPackageRoot)"
 ROCM_CORE_BUILD_DIR="$(getBuildPath rocm_core)"
@@ -38,7 +41,8 @@ MAKETARGET="deb"
 PKGTYPE="deb"
 ADDRESS_SANITIZER=false
 
-VALID_STR=`getopt -o hcraso:p: --long help,clean,release,static,address_sanitizer,outdir:,package: -- "$@"`
+#parse the arguments
+VALID_STR=`getopt -o hcraswo:p: --long help,clean,release,static,address_sanitizer,outdir,wheel:,package: -- "$@"`
 eval set -- "$VALID_STR"
 
 while true ;
@@ -56,6 +60,8 @@ do
                 ADDRESS_SANITIZER=true ; shift ;;
         (-s | --static)
                 SHARED_LIBS="OFF" ; shift ;;
+        (-w | --wheel)
+                WHEEL_PACKAGE=true ; shift ;;
         (-o | --outdir)
                 TARGET="outdir"; PKGTYPE=$2 ; OUT_DIR_SPECIFIED=1 ; ((CLEAN_OR_OUT|=2)) ; shift 2 ;;
         (-p | --package )
@@ -87,14 +93,11 @@ build_rocm_core() {
     if [ ! -d "$ROCM_CORE_BUILD_DIR" ]; then
        mkdir -p "$ROCM_CORE_BUILD_DIR"
     fi
-
     pushd "$ROCM_CORE_BUILD_DIR"
     cmake \
-            -DCMAKE_VERBOSE_MAKEFILE=1 \
+            $(rocm_cmake_params) \
             $(rocm_common_cmake_params) \
-            -DCMAKE_INSTALL_PREFIX="$ROCM_INSTALL_PATH" \
-            -DCPACK_PACKAGING_INSTALL_PREFIX="$ROCM_INSTALL_PATH" \
-            -DCPACK_GENERATOR="${CPACKGEN:-"DEB;RPM"}" \
+            -DBUILD_SHARED_LIBS=$SHARED_LIBS \
             -DCPACK_DEBIAN_PACKAGE_RELEASE=$CPACK_DEBIAN_PACKAGE_RELEASE \
             -DCPACK_RPM_PACKAGE_RELEASE=$CPACK_RPM_PACKAGE_RELEASE \
             -DROCM_VERSION="$ROCM_VERSION" \
@@ -109,24 +112,33 @@ build_rocm_core() {
 }
 
 print_output_directory() {
-     case ${PKGTYPE} in
+    case ${PKGTYPE} in
          ("deb")
              echo ${ROCM_CORE_PACKAGE_DEB};;
          ("rpm")
              echo ${ROCM_CORE_PACKAGE_RPM};;
          (*)
              echo "Invalid package type \"${PKGTYPE}\" provided for -o" >&2; exit 1;;
-     esac
-     exit
+    esac
+    exit
 }
 
 verifyEnvSetup
 
 case $TARGET in
-    (clean) clean_rocm_core ;;
-    (build) build_rocm_core ;;
-    (outdir) print_output_directory ;;
-        (*) die "Invalid target $TARGET" ;;
+    (clean)
+        clean_rocm_core
+        ;;
+    (build)
+        build_rocm_core
+        build_wheel "$ROCM_CORE_BUILD_DIR" "$PROJ_NAME"
+        ;;
+    (outdir)
+        print_output_directory
+        ;;
+    (*)
+        die "Invalid target $TARGET"
+        ;;
 esac
 
 echo "Operation complete"

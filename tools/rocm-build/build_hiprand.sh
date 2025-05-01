@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 set_component_src hipRAND
 
@@ -41,17 +41,10 @@ build_hiprand() {
 
     init_rocm_common_cmake_params
 
-    if [ -n "$GPU_ARCHS" ]; then
-        GPU_TARGETS="$GPU_ARCHS"
-    else
-        GPU_TARGETS="gfx908:xnack-;gfx90a:xnack-;gfx90a:xnack+;gfx940;gfx941;gfx942;gfx1030;gfx1100;gfx1101;gfx1102;gfx1200;gfx1201"
-    fi
-
-    CXX=$(set_build_variables CXX)\
+    CXX=$(set_build_variables __CXX__)\
     cmake \
         ${LAUNCHER_FLAGS} \
 	    "${rocm_math_common_cmake_params[@]}" \
-        -DAMDGPU_TARGETS=${GPU_TARGETS} \
         -DBUILD_SHARED_LIBS=$SHARED_LIBS \
         -DBUILD_TEST=ON \
         -DBUILD_BENCHMARK=ON \
@@ -67,7 +60,7 @@ build_hiprand() {
     cmake --build "$BUILD_DIR" -- package
 
     rm -rf _CPack_Packages/  && find -name '*.o' -delete
-    mkdir -p $PACKAGE_DIR && cp ${BUILD_DIR}/*.${PKGTYPE} $PACKAGE_DIR
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
 }
 
 clean_hiprand() {
@@ -89,7 +82,7 @@ print_output_directory() {
 }
 
 case $TARGET in
-    build) build_hiprand ;;
+    build) build_hiprand; build_wheel ;;
     outdir) print_output_directory ;;
     clean) clean_hiprand ;;
     *) die "Invalid target $TARGET" ;;

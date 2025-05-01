@@ -1,10 +1,10 @@
 vllm_benchmark:
   unified_docker:
     latest:
-      pull_tag: rocm/vllm:instinct_main
-      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.7.3_20250311/images/sha256-de0a2649b735f45b7ecab8813eb7b19778ae1f40591ca1196b07bc29c42ed4a3
+      pull_tag: rocm/vllm:rocm6.3.1_instinct_vllm0.8.3_20250415
+      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.8.3_20250415/images/sha256-ad9062dea3483d59dedb17c67f7c49f30eebd6eb37c3fac0a171fb19696cc845
       rocm_version: 6.3.1
-      vllm_version: 0.7.3
+      vllm_version: 0.8.3
       pytorch_version: 2.7.0 (dev nightly)
       hipblaslt_version: 0.13
   model_groups:
@@ -102,19 +102,12 @@ vllm_benchmark:
         model_repo: Qwen/Qwen2-72B-Instruct
         url: https://huggingface.co/Qwen/Qwen2-72B-Instruct
         precision: float16
-    - group: JAIS
-      tag: jais
-      models:
-      - model: JAIS 13B
-        mad_tag: pyt_vllm_jais-13b
-        model_repo: core42/jais-13b-chat
-        url: https://huggingface.co/core42/jais-13b-chat
+      - model: QwQ-32B
+        mad_tag: pyt_vllm_qwq-32b
+        model_repo: Qwen/QwQ-32B
+        url: https://huggingface.co/Qwen/QwQ-32B
         precision: float16
-      - model: JAIS 30B
-        mad_tag: pyt_vllm_jais-30b
-        model_repo: core42/jais-30b-chat-v3
-        url: https://huggingface.co/core42/jais-30b-chat-v3
-        precision: float16
+        tunableop: true
     - group: DBRX
       tag: dbrx
       models:

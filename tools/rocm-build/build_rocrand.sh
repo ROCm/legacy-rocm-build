@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 set_component_src rocRAND
 
@@ -13,31 +13,37 @@ build_rocrand() {
         SHARED_LIBS="OFF"
     fi
 
+    #Removed GPU ARCHS from here as it will be part of compute_utils.sh ROCMOPS-7302 & ROCMOPS-8091
     if [ "${ENABLE_ADDRESS_SANITIZER}" == "true" ]; then
-         set_asan_env_vars
-         set_address_sanitizer_on
+        set_asan_env_vars
+        set_address_sanitizer_on
+        # updating GPU_ARCHS for ASAN build to supported gpu arch only SWDEV-479178
+        #GPU_ARCHS="gfx90a:xnack+;gfx942:xnack+"#This will be part of compute_utils.sh ROCMOPS-7302 & ROCMOPS-8091
     fi
-
     cd $COMPONENT_SRC && mkdir "$BUILD_DIR"
 
+    git config --global --add safe.directory "$COMPONENT_SRC"
+    # Rename the remote set by the repo tool to origin as
+    # git submodule update looks for the remote origin.
     remote_name=$(git remote show | head -n 1)
+    echo "remote name: $remote_name"
     [ "$remote_name" == "origin" ] || git remote rename "$remote_name" origin
+    git remote -v
     git submodule update --init --force
 
-    if [ -n "$GPU_ARCHS" ]; then
-        GPU_TARGETS="$GPU_ARCHS"
-    else
-        GPU_TARGETS="gfx908:xnack-;gfx90a:xnack-;gfx90a:xnack+;gfx940;gfx941;gfx942;gfx1030;gfx1100;gfx1101"
+    # if GPU_ENABLE_GPU_ARCHARCH is set in env by Job parameter ENABLE_GPU_ARCH, then set GFX_ARCH to that value. This will override any of the case values above
+    if [ -n "$ENABLE_GPU_ARCH" ]; then
+        #setting gfx arch as part of rocm_common_cmake_params
+        set_gpu_arch "${ENABLE_GPU_ARCH}"
     fi
 
     init_rocm_common_cmake_params
 
-    CXX=$(set_build_variables CXX)\
+    CXX=$(set_build_variables __CXX__)\
     cmake \
         ${LAUNCHER_FLAGS} \
         "${rocm_math_common_cmake_params[@]}" \
         -DBUILD_SHARED_LIBS=$SHARED_LIBS \
-        -DAMDGPU_TARGETS=${GPU_TARGETS} \
         -DBUILD_TEST=ON \
         -DBUILD_BENCHMARK=ON \
         -DBUILD_CRUSH_TEST=ON \
@@ -53,7 +59,7 @@ build_rocrand() {
     cmake --build "$BUILD_DIR" -- package
 
     rm -rf _CPack_Packages/  && find -name '*.o' -delete
-    mkdir -p $PACKAGE_DIR && cp ${BUILD_DIR}/*.${PKGTYPE} $PACKAGE_DIR
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
 
     show_build_cache_stats
 }
@@ -67,7 +73,7 @@ clean_rocrand() {
 stage2_command_args "$@"
 
 case $TARGET in
-    build) build_rocrand ;;
+    build) build_rocrand; build_wheel ;;
     outdir) print_output_directory ;;
     clean) clean_rocrand ;;
     *) die "Invalid target $TARGET" ;;

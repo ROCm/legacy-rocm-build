@@ -9,6 +9,8 @@ printUsage() {
     echo "Options:"
     echo "  -a,  --address_sanitizer  Enable address sanitizer"
     echo "  -c,  --clean              Clean output and delete all intermediate work"
+    echo "  -w,  --wheel              Creates python wheel package of hipcc. 
+                                      It needs to be used along with -r option"
     echo "  -o,  --outdir <pkg_type>  Print path of output directory containing packages of
                             type referred to by pkg_type"
     echo "  -r,  --release            Makes a release build"
@@ -21,6 +23,7 @@ printUsage() {
 }
 
 
+## Build environment variables
 API_NAME=hipcc
 PROJ_NAME=$API_NAME
 
@@ -29,10 +32,11 @@ MAKEOPTS="$DASH_JAY"
 BUILD_TYPE="Debug"
 SHARED_LIBS="ON"
 BUILD_DIR=$(getBuildPath $API_NAME)
-PACKAGE_DEB=$(getPackageRoot)/deb/$API_NAME
-PACKAGE_RPM=$(getPackageRoot)/rpm/$API_NAME
+PACKAGE_DEB=$(getPackageRoot)/deb/$PROJ_NAME
+PACKAGE_RPM=$(getPackageRoot)/rpm/$PROJ_NAME
 PACKAGE_SRC="$(getSrcPath)"
 
+#parse the arguments
 VALID_STR=`getopt -o hcraswo:p: --long help,clean,release,address_sanitizer,static,outdir,wheel:,package: -- "$@"`
 eval set -- "$VALID_STR"
 
@@ -45,13 +49,15 @@ do
             TARGET="clean" ;;
         (-o  | --outdir)
             TARGET="outdir"; PKGTYPE=$2 ; OUT_DIR_SPECIFIED=1 ; ((CLEAN_OR_OUT|=2)) ; shift 1 ;;
+        (-w  | --wheel)
+            WHEEL_PACKAGE=true ;;
         (-r  | --release)
             BUILD_TYPE="RelWithDebInfo" ;;
         (-s | --static)
             SHARED_LIBS="OFF" ;;
         (-h  | --help)
             printUsage ; exit 0 ;;
-        --)     shift; break;;
+        --)     shift; break;; # end delimiter
         (*)
             echo "Invalid option [$1]" >&2; printUsage; exit 1 ;;
     esac
@@ -91,7 +97,7 @@ build() {
         $(rocm_cmake_params) \
         $(rocm_common_cmake_params) \
         -DHIPCC_BACKWARD_COMPATIBILITY=OFF \
-        -DCMAKE_INSTALL_PREFIX="$OUT_DIR" \
+        -DCMAKE_INSTALL_PREFIX="$ROCM_PATH" \
         $HIPCC_ROOT
     popd
 
@@ -118,10 +124,20 @@ print_output_directory() {
 }
 
 case $TARGET in
-    (clean) clean ;;
-    (build) build ; copy_hipcc_sources ;;
-    (outdir) print_output_directory ;;
-    (*) die "Invalid target $TARGET" ;;
+    (clean)
+        clean
+        ;;
+    (build)
+        build
+        build_wheel "$BUILD_DIR" "$PROJ_NAME"
+        copy_hipcc_sources
+        ;;
+    (outdir)
+        print_output_directory
+        ;;
+    (*)
+        die "Invalid target $TARGET"
+        ;;
 esac
 
 echo "Operation complete"

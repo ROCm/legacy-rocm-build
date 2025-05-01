@@ -1,5 +1,14 @@
+# The default behaviour of this template is to download artifacts from previous jobs in the current pipeline
+# It can be overridden to download any artifact from any pipeline, given the appropriate build/pipeline IDs
+
 parameters:
   - name: gpuTarget
+    type: string
+    default: ''
+  - name: preTargetFilter
+    type: string
+    default: ''
+  - name: postTargetFilter
     type: string
     default: ''
   # Set buildType to specific to download artifacts from previous builds, useful for saving time when debugging
@@ -9,8 +18,8 @@ parameters:
     values:
       - current
       - specific
-  # Must be set if buildType == specific
-  # Set definitionId to the pipeline ID and buildId to the specific build ID
+  # One of the below params must be set if buildType == specific
+  # Set definitionId to the pipeline ID or buildId to the specific build ID
   - name: definitionId
     type: string
     default: 0
@@ -28,7 +37,7 @@ steps:
         project: ROCm-CI
         definition: ${{ parameters.definitionId }}
         buildId: ${{ parameters.buildId }}
-      itemPattern: '**/*${{ parameters.gpuTarget }}*'
+      itemPattern: '**/*${{ parameters.preTargetFilter }}*${{ parameters.gpuTarget }}*${{ parameters.postTargetFilter }}*'
       targetPath: $(Pipeline.Workspace)/d
   - task: ExtractFiles@1
     displayName: 'Extract Pipeline Build'

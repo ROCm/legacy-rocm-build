@@ -218,7 +218,7 @@ capability to perform an atomic Compare-and-Swap operation.
 
 PCIe atomics are a feature of the PCIe interface that enable
 atomic operations between devices and hosts across the PCIe bus. For further
-information, please check :doc:`../conceptual/pcie-atomics`.
+information, please check `How ROCm uses PCIe atomics <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/conceptual/pcie-atomics.html>`_.
 
 The tables that follow show the correctness of atomics operations on the
 hardware using the following notations:

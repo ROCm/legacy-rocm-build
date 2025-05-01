@@ -83,7 +83,7 @@ ipython==8.31.0
     #   myst-nb
 jedi==0.19.2
     # via ipython
-jinja2==3.1.5
+jinja2==3.1.6
     # via
     #   myst-parser
     #   sphinx
@@ -190,7 +190,7 @@ requests==2.32.3
     # via
     #   pygithub
     #   sphinx
-rocm-docs-core==1.18.1
+rocm-docs-core==1.18.2
     # via -r requirements.in
 rpds-py==0.22.3
     # via
@@ -230,7 +230,7 @@ sphinx-external-toc==1.0.1
     # via rocm-docs-core
 sphinx-notfound-page==1.0.4
     # via rocm-docs-core
-sphinx-reredirects==0.1.5
+sphinx-reredirects==0.1.6
     # via -r requirements.in
 sphinx-sitemap==2.6.0
     # via -r requirements.in

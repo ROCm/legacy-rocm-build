@@ -12,14 +12,14 @@ subtrees:
   - file: compatibility/compatibility-matrix.rst
     title: Compatibility matrix
     entries:
-    - url: https://rocm.docs.amd.com/projects/install-on-linux-internal/en/latest/reference/system-requirements.html
+    - url: https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html
       title: Linux system requirements
     - url: https://rocm.docs.amd.com/projects/install-on-windows/en/${branch}/reference/system-requirements.html
       title: Windows system requirements
 
 - caption: Install
   entries:
-  - url: https://rocm.docs.amd.com/projects/install-on-linux/en/${branch}/
+  - url: https://rocm.docs.amd.com/projects/install-on-linux/en/latest/
     title: ROCm on Linux
   - url: https://rocm.docs.amd.com/projects/install-on-windows/en/${branch}/
     title: HIP SDK on Windows
@@ -46,6 +46,8 @@ subtrees:
             title: Train a model with PyTorch
           - file: how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry
             title: Train a model with LLM Foundry
+          - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext
+            title: Train a model with JAX MaxText
           - file: how-to/rocm-for-ai/training/scale-model-training.rst
             title: Scale model training
 
@@ -75,7 +77,9 @@ subtrees:
           - file: how-to/rocm-for-ai/inference/llm-inference-frameworks.rst
             title: LLM inference frameworks
           - file: how-to/rocm-for-ai/inference/vllm-benchmark.rst
-            title: Performance testing
+            title: vLLM inference performance testing
+          - file: how-to/rocm-for-ai/inference/pytorch-inference-benchmark.rst
+            title: PyTorch inference performance testing
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model
 
@@ -92,7 +96,7 @@ subtrees:
           - file: how-to/rocm-for-ai/inference-optimization/profiling-and-debugging.rst
             title: Profile and debug
           - file: how-to/rocm-for-ai/inference-optimization/workload.rst
-            title: Workload tuning
+            title: Workload optimization
 
       - url: https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/
         title: AI tutorials
@@ -101,20 +105,8 @@ subtrees:
     title: Use ROCm for HPC
   - file: how-to/system-optimization/index.rst
     title: System optimization
-    subtrees:
-    - entries:
-      - file: how-to/system-optimization/mi300x.rst
-        title: AMD Instinct MI300X
-      - file: how-to/system-optimization/mi300a.rst
-        title: AMD Instinct MI300A
-      - file: how-to/system-optimization/mi200.md
-        title: AMD Instinct MI200
-      - file: how-to/system-optimization/mi100.md
-        title: AMD Instinct MI100
-      - file: how-to/system-optimization/w6000-v620.md
-        title: AMD RDNA 2
-  - file: how-to/tuning-guides/mi300x/index.rst
-    title: AMD MI300X performance validation and tuning
+  - file: how-to/gpu-performance/mi300x.rst
+    title: AMD Instinct MI300X performance guides
   - file: how-to/system-debugging.md
   - file: conceptual/compiler-topics.md
     title: Use advanced compiler features
@@ -166,20 +158,14 @@ subtrees:
             title: AMD Instinct MI100/CDNA1 ISA
           - url: https://www.amd.com/content/dam/amd/en/documents/instinct-business-docs/white-papers/amd-cdna-white-paper.pdf
             title: White paper
-  - file: conceptual/iommu.rst
-    title: Input-Output Memory Management Unit (IOMMU)
   - file: conceptual/file-reorg.md
     title: File structure (Linux FHS)
   - file: conceptual/gpu-isolation.md
     title: GPU isolation techniques
   - file: conceptual/cmake-packages.rst
     title: Using CMake
-  - file: conceptual/pcie-atomics.rst
-    title: PCIe atomics in ROCm
   - file: conceptual/ai-pytorch-inception.md
     title: Inception v3 with PyTorch
-  - file: conceptual/oversubscription.rst
-    title: Oversubscription of hardware resources
 
 - caption: Reference
   entries:

@@ -12,16 +12,35 @@ RELEASE_FLAG?=-r
 ASAN_DEP:=
 ifeq (${ENABLE_ADDRESS_SANITIZER},true)
 	ASAN_DEP=lightning
-	SANITIZER_FLAG=-a
+	SANITIZER_FLAG=--address_sanitizer
+endif
+
+# Set STATIC_FLAG for static builds
+ifeq (${ENABLE_STATIC_BUILDS},true)
+	STATIC_FLAG=-s
 endif
 
 export INFRA_REPO:=ROCm/tools/rocm-build
+
+# # commannds to be run at makefile read time
+# # should only output $$OUT_DIR to stdout
+# # In an ideal world this would be another target
+# define INITBUILD
+# source ${INFRA_REPO}/envsetup.sh >/dev/null 2>&1;
+# [ -w "$${ROCM_INSTALL_PATH}" ] || sudo mkdir -p -m 775 "$${ROCM_INSTALL_PATH}" ;
+# sudo chown "$$(id -u):$$(id -g)" "$${ROCM_INSTALL_PATH}" "/home/$$(id -un)" ;
+# mkdir -p ${HOME}/.ccache ;
+# echo $${OUT_DIR} ;
+# endef
 
 OUT_DIR:=$(shell . ${INFRA_REPO}/envsetup.sh >/dev/null 2>&1 ; echo $${OUT_DIR})
 ROCM_INSTALL_PATH:=$(shell . ${INFRA_REPO}/envsetup.sh >/dev/null 2>&1 ; echo $${ROCM_INSTALL_PATH})
 
 $(info OUT_DIR=${OUT_DIR})
 $(info ROCM_INSTALL_PATH=${ROCM_INSTALL_PATH})
+
+# define SILENT to be empty to see the runner invocation
+SILENT?= @
 
 # -------------------------------------------------------------------------
 # Internal stuff. Could be put in a different file to hide it.
@@ -47,7 +66,8 @@ endif
 # It should not be needed.
 define adddep =
 $(strip $(call peval,components+= $(1) $(2))
-$(foreach comp,$(strip $2),$(call peval,${OUT_DIR}/logs/${1}: ${OUT_DIR}/logs/${comp}))
+$(call peval,$(1)_DEPS += $(2))
+$(foreach comp,$(strip $2),$(call peval,${OUT_DIR}/logs/${1}.txt: ${OUT_DIR}/logs/${comp}.txt))
 )
 endef
 # End of internal stuff that is needed at the start of the file
@@ -67,6 +87,7 @@ endef
 
 $(call adddep,amd_smi_lib,${ASAN_DEP})
 $(call adddep,aqlprofile,${ASAN_DEP} rocr)
+$(call adddep,aqlprofiletest,lightning rocminfo aqlprofile opencl_on_rocclr hip_on_rocclr)
 $(call adddep,comgr,lightning devicelibs)
 $(call adddep,dbgapi,rocr comgr)
 $(call adddep,devicelibs,lightning)
@@ -83,27 +104,29 @@ $(call adddep,rocm-core,${ASAN_DEP})
 $(call adddep,rocm-gdb,dbgapi)
 $(call adddep,rocminfo,${ASAN_DEP} rocr)
 $(call adddep,rocprofiler-register,${ASAN_DEP})
-$(call adddep,rocprofiler-sdk,${ASAN_DEP} rocr aqlprofile opencl_on_rocclr hip_on_rocclr comgr)
+$(call adddep,rocprofiler-sdk,${ASAN_DEP} rocr aqlprofile opencl_on_rocclr hip_on_rocclr comgr rccl rocdecode)
 $(call adddep,rocprofiler-systems,${ASAN_DEP} hipcc rocr hip_on_rocclr rocm_smi_lib rocprofiler roctracer rocprofiler-sdk)
 $(call adddep,rocprofiler,${ASAN_DEP} rocr roctracer aqlprofile opencl_on_rocclr hip_on_rocclr comgr)
 $(call adddep,rocprofiler-compute,${ASAN_DEP})
 $(call adddep,rocr,${ASAN_DEP} lightning rocm_smi_lib devicelibs rocprofiler-register)
 $(call adddep,rocr_debug_agent,${ASAN_DEP} hip_on_rocclr rocr dbgapi)
+$(call adddep,rocrsamples,lightning devicelibs rocr )
 $(call adddep,roctracer,${ASAN_DEP} rocr hip_on_rocclr)
 
+
 # rocm-dev points to all possible last finish components of Stage1 build.
-rocm-dev-components :=amd_smi_lib aqlprofile comgr dbgapi devicelibs hip_on_rocclr hipcc hipify_clang \
+rocm-dev-components :=amd_smi_lib aqlprofile aqlprofiletest comgr dbgapi devicelibs hip_on_rocclr hipcc hipify_clang \
 	lightning rocprofiler-compute opencl_on_rocclr openmp_extras rocm_bandwidth_test rocm_smi_lib \
 	rocm-cmake rocm-core rocm-gdb rocminfo rocprofiler-register rocprofiler-sdk rocprofiler-systems \
-	rocprofiler rocr rocr_debug_agent roctracer
-$(call adddep,rocm-dev,$(filter-out ${NOBUILD} kernel_ubuntu,${rocm-dev-components}))
+	rocprofiler rocr rocr_debug_agent rocrsamples roctracer
+$(call adddep,rocm-dev,$(filter-out ${NOBUILD},${rocm-dev-components}))
 
 $(call adddep,amdmigraphx,hip_on_rocclr half rocblas miopen-hip lightning hipcc hiptensor)
 $(call adddep,composable_kernel,lightning hipcc hip_on_rocclr rocm-cmake)
 $(call adddep,half,rocm-cmake)
 $(call adddep,hipblas-common,lightning)
 $(call adddep,hipblas,hip_on_rocclr rocblas rocsolver lightning hipcc)
-$(call adddep,hipblaslt,hip_on_rocclr openmp_extras lightning hipcc hipblas-common rocm-dev)
+$(call adddep,hipblaslt,hip_on_rocclr openmp_extras lightning hipcc hipblas-common roctracer)
 $(call adddep,hipcub,hip_on_rocclr rocprim lightning hipcc)
 $(call adddep,hipfft,hip_on_rocclr openmp_extras rocfft rocrand hiprand lightning hipcc)
 $(call adddep,hipfort,rocblas hipblas rocsparse hipsparse rocfft hipfft rocrand hiprand rocsolver hipsolver lightning hipcc)
@@ -113,26 +136,34 @@ $(call adddep,hipsparse,hip_on_rocclr rocsparse lightning hipcc)
 $(call adddep,hipsparselt,hip_on_rocclr hipsparse lightning hipcc openmp_extras)
 $(call adddep,hiptensor,hip_on_rocclr composable_kernel lightning hipcc)
 $(call adddep,miopen-deps,lightning hipcc)
-$(call adddep,miopen-hip,composable_kernel half hip_on_rocclr miopen-deps hipblas hipblaslt rocrand roctracer lightning hipcc)
+$(call adddep,miopen-hip,rocm-core composable_kernel half hip_on_rocclr miopen-deps hipblas hipblaslt rocrand roctracer lightning hipcc)
 $(call adddep,mivisionx,amdmigraphx miopen-hip rpp lightning hipcc)
 $(call adddep,rccl,rocm-core hip_on_rocclr rocr lightning hipcc rocm_smi_lib hipify_clang)
-$(call adddep,rdc,rocm_smi_lib rocprofiler rocmvalidationsuite)
+$(call adddep,rdc,amd_smi_lib rocprofiler-sdk rocm_smi_lib rocprofiler  rocmvalidationsuite)
 $(call adddep,rocalution,rocblas rocsparse rocrand lightning hipcc)
-$(call adddep,rocblas,hip_on_rocclr openmp_extras lightning hipcc hipblaslt)
+$(call adddep,rocblas,rocminfo hip_on_rocclr openmp_extras lightning hipcc hipblaslt)
 $(call adddep,rocal,mivisionx)
-$(call adddep,rocdecode,hip_on_rocclr lightning hipcc amdmigraphx)
+$(call adddep,rocdecode,hip_on_rocclr lightning hipcc)
 $(call adddep,rocfft,hip_on_rocclr rocrand hiprand lightning hipcc openmp_extras)
-$(call adddep,rocjpeg,hip_on_rocclr lightning hipcc rocm-dev)
+$(call adddep,rocjpeg,hip_on_rocclr lightning hipcc)
 $(call adddep,rocmvalidationsuite,hip_on_rocclr rocr hipblas hiprand hipblaslt rocm-core lightning hipcc rocm_smi_lib)
 $(call adddep,rocprim,hip_on_rocclr lightning hipcc)
 $(call adddep,rocrand,hip_on_rocclr lightning hipcc)
+$(call adddep,rocshmem,rccl )
 $(call adddep,rocsolver,hip_on_rocclr rocblas rocsparse rocprim lightning hipcc)
 $(call adddep,rocsparse,hip_on_rocclr rocprim lightning hipcc)
 $(call adddep,rocthrust,hip_on_rocclr rocprim lightning hipcc)
 $(call adddep,rocwmma,hip_on_rocclr rocblas lightning hipcc rocm-cmake rocm_smi_lib)
 $(call adddep,rpp,half lightning hipcc openmp_extras)
 $(call adddep,transferbench,hip_on_rocclr lightning hipcc)
+ifneq ($(filter rocm-dev upload-rocm-dev, ${MAKECMDGOALS}),)
+	components = $(rocm-dev-components)
+endif
+$(call adddep,rocm,$(filter-out ${NOBUILD} rocm,${components}))
 
+ifeq ($(DISTRO_NAME),rhel)
+    WHL_GEN :=
+endif
 
 # -------------------------------------------------------------------------
 # The rest of the file is internal
@@ -165,7 +196,7 @@ ifeq (${toplevel},)
 define toplevel =
 
 # The "target" make, this builds the package if it is out of date
-T_$1: ${OUT_DIR}/logs/$1 FRC
+T_$1: ${OUT_DIR}/logs/$1.txt FRC
 	:              $1 built
 
 # The "upload" for $1, it uploads the packages for $1 to the central storage
@@ -176,25 +207,26 @@ U_$1: T_$1 FRC
 # The "clean" for $1, it just marks the target as not existing so it will be built
 # in the future.
 C_$1: FRC
-	rm -f ${OUT_DIR}/logs/$1 ${OUT_DIR}/logs/$1.repackaged
+	rm -f ${OUT_DIR}/logs/$1.txt ${OUT_DIR}/logs/$1.repackaged
 
-# parallel build {
-${OUT_DIR}/logs/$1: | ${OUT_DIR}/logs
-ifneq ($(wildcard ${OUT_DIR}/logs/$1.repackaged),)
+# parallel build
+${OUT_DIR}/logs/$1.txt: | ${OUT_DIR}/logs
+ifneq ($(wildcard ${OUT_DIR}/logs/$1.repackaged),) # {
 	@echo  Skipping build of $1 as it has already been repackaged
-	cat $$@.repackaged > $$@
-	rm -f $$@.repackaged
+	cat $${@:.txt=.repackaged} > $$@
+	rm -f $${@:.txt=.repackaged}
 else # } {
 	@echo  $1 started due to $$? | sed "s:${OUT_DIR}/logs/::g"
 # Build in a subshell so we get the time output
 # Pass in jobserver info using the RMAKE variable
-	${RMAKE}@( if set -x && source $${INFRA_REPO}/envsetup.sh && \
-	rm -f $$@.errors $$@ $$@.repackaged && \
-	$${INFRA_REPO}/build_$1.sh -c && \
-	time bash -x $${INFRA_REPO}/build_$1.sh $${RELEASE_FLAG} $${SANITIZER_FLAG} && $${INFRA_REPO}/post_inst_pkg.sh "$1" ; \
-	then mv $$@.inprogress $$@ ; \
-	else mv $$@.inprogress $$@.errors ; echo Error in $1 >&2 ; exit 1 ;\
-	fi ) > $$@.inprogress 2>&1
+# Allow project specific flags e..g. ROCMBUILD_lightning.
+	${RMAKE}${SILENT}( if set -x && source $${INFRA_REPO}/envsetup.sh && \
+	rm -f $${@:$1.txt=1.Errors.$1.txt} $$@ $${@:.txt=.repackaged} && \
+	$${INFRA_REPO}/runner $1 $${RELEASE_FLAG} $${SANITIZER_FLAG} $${STATIC_FLAG} ${ROCMBUILD_$1}; \
+	then mv $${@:$1.txt=2.Inprogress.$1.txt} $$@ ; \
+	else mv $${@:$1.txt=2.Inprogress.$1.txt} $${@:$1.txt=1.Errors.$1.txt} ;\
+		echo Error in $1 >&2 ; exit 1 ;\
+	fi ) > $${@:$1.txt=2.Inprogress.$1.txt} 2>&1
 endif # }
 
 # end of toplevel macro
@@ -227,21 +259,44 @@ upload-rocm-dev: $(addprefix U_,$(filter-out ${NOBUILD},${components}))
 rocm-dev: $(addprefix T_,$(filter-out ${NOBUILD},${components}))
 	@echo rocm-dev built
 
+ifeq ($(DISTRO_NAME),almalinux)
+	@sudo chmod -R 777 "/home/builder"
+endif
+
+# This code is broken. It stops us exiting a container and
+# starting a new one and continueing the build. The attempt
+# is to have run-once code.
 ${OUT_DIR}/logs:
 	sudo mkdir -p -m 775 "${ROCM_INSTALL_PATH}" && \
 	sudo chown -R "$(shell id -u):$(shell id -g)" "/opt"
-	sudo chown -R "$(shell id -u):$(shell id -g)" "/home/$(shell id -un)"
+	sudo chown "$(shell id -u):$(shell id -g)" "/home/$(shell id -un)"
 	mkdir -p "${@}"
 	mkdir -p ${HOME}/.ccache
 
 ##help clean: remove the output directory and recreate it
 clean:
 	[ -n "${OUT_DIR}" ] && rm -rf "${OUT_DIR}"
-	mkdir -p ${OUT_DIR}/logs
+#	mkdir -p ${OUT_DIR}/logs
 
 .SECONDARY: ${components:%=${OUT_DIR}/logs/%}
 
 .PHONY: all clean repack help list_components
+
+# get_all_deps: Recursively get all dependencies for a given component.
+# Usage: $(call get_all_deps,component_name,)
+# - component_name: The name of the component to get dependencies for.
+# - The second parameter is an internal parameter used to track already
+#   processed components to avoid circular dependencies.
+define get_all_deps
+$(if $(filter $(1),$(2)),,\
+	$(sort $(1) $(foreach d,$($(1)_DEPS),$(call get_all_deps,$d,$(1) $(2))))
+)
+endef
+
+##help deps_<component>: output the dependencies for <component>
+deps_%:
+	@echo "=== Dependencies for [$*] ==="
+	@echo "$(filter-out $*,$(call get_all_deps,$*,))"
 
 ##help list_components: output the list of components
 ##help : Hint make list_components | paste - - - | column -t

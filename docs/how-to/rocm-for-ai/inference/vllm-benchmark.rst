@@ -3,9 +3,9 @@
                  ROCm vLLM Docker image.
    :keywords: model, MAD, automation, dashboarding, validate
 
-********************************************************
-LLM inference performance testing on AMD Instinct MI300X
-********************************************************
+**********************************
+vLLM inference performance testing
+**********************************
 
 .. _vllm-benchmark-unified-docker:
 
@@ -16,7 +16,7 @@ LLM inference performance testing on AMD Instinct MI300X
 
    The `ROCm vLLM Docker <{{ unified_docker.docker_hub_url }}>`_ image offers
    a prebuilt, optimized environment for validating large language model (LLM)
-   inference performance on AMD Instinct™ MI300X series accelerator. This ROCm vLLM
+   inference performance on AMD Instinct™ MI300X series accelerators. This ROCm vLLM
    Docker image integrates vLLM and PyTorch tailored specifically for MI300X series
    accelerators and includes the following components:
 
@@ -34,7 +34,7 @@ LLM inference performance testing on AMD Instinct MI300X
 
    .. _vllm-benchmark-available-models:
 
-   Available models
+   Supported models
    ================
 
    .. raw:: html
@@ -183,6 +183,25 @@ LLM inference performance testing on AMD Instinct MI300X
             to collect latency and throughput performance data, you can also change the benchmarking
             parameters. See the standalone benchmarking tab for more information.
 
+            {% if model.tunableop %}
+
+            .. note::
+
+               For improved performance, consider enabling :ref:`PyTorch TunableOp <mi300x-tunableop>`.
+               TunableOp automatically explores different implementations and configurations of certain PyTorch
+               operators to find the fastest one for your hardware.
+
+               By default, ``{{model.mad_tag}}`` runs with TunableOp disabled
+               (see
+               `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To
+               enable it, edit the default run behavior in the ``models.json``
+               configuration before running inference -- update the model's run
+               ``args`` by changing ``--tunableop off`` to ``--tunableop on``.
+
+               Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run.
+
+            {% endif %}
+
          .. tab-item:: Standalone benchmarking
 
             Run the vLLM benchmark tool independently by starting the
@@ -304,7 +323,7 @@ Further reading
   see `<https://github.com/ROCm/vllm/tree/main/benchmarks>`_.
 
 - To learn more about system settings and management practices to configure your system for
-  MI300X accelerators, see :doc:`../../system-optimization/mi300x`.
+  MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
 
 - To learn how to run LLM models from Hugging Face or your own model, see
   :doc:`Running models from Hugging Face <hugging-face-models>`.
@@ -332,10 +351,17 @@ for benchmarking, see the version-specific documentation.
      - Resources
 
    * - 6.3.1
+     - 0.7.3
+     - 2.7.0
+     - 
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.3/how-to/rocm-for-ai/inference/vllm-benchmark.html>`_
+       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.7.3_20250325/images/sha256-25245924f61750b19be6dcd8e787e46088a496c1fe17ee9b9e397f3d84d35640>`_
+
+   * - 6.3.1
      - 0.6.6
      - 2.7.0
      - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/inference/vllm-benchmark.html>`_
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_mi300_ubuntu22.04_py3.12_vllm_0.6.6/images/sha256-9a12ef62bbbeb5a4c30a01f702c8e025061f575aa129f291a49fbd02d6b4d6c9>`_
 
    * - 6.2.1

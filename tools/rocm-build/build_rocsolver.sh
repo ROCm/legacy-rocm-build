@@ -2,7 +2,7 @@
 
 set -ex
 
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 set_component_src rocSOLVER
 
@@ -15,39 +15,38 @@ build_rocsolver() {
         SHARED_LIBS="OFF"
     fi
 
+    EXTRA_TESTS="ON"
     if [ "${ENABLE_ADDRESS_SANITIZER}" == "true" ]; then
-       set_asan_env_vars
-       set_address_sanitizer_on
+        set_asan_env_vars
+        set_address_sanitizer_on
+        rebuild_lapack
+        EXTRA_TESTS="OFF"
+        # updating GPU_ARCHS for ASAN build to supported gpu arch only SWDEV-479178
+        #GPU_ARCHS="gfx90a:xnack+;gfx942:xnack+"#This will be part of compute_utils.sh ROCMOPS-7302 & ROCMOPS-8091
     fi
-
     cd $COMPONENT_SRC
 
     mkdir -p "$BUILD_DIR" && cd "$BUILD_DIR"
 
-    if [ "${ENABLE_ADDRESS_SANITIZER}" == "true" ]; then
-       rebuild_lapack
-    fi
-
-    if [ -n "$GPU_ARCHS" ]; then
-        GPU_TARGETS="$GPU_ARCHS"
-    else
-        GPU_TARGETS="gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx940;gfx941;gfx942;gfx1030;gfx1100;gfx1101;gfx1102;gfx1200;gfx1201"
+    # if ENABLE_GPU_ARCH is set in env by Job parameter ENABLE_GPU_ARCH, then set GFX_ARCH to that value. This will override any of the case values above
+    if [ -n "$ENABLE_GPU_ARCH" ]; then
+        #setting gfx arch as part of rocm_common_cmake_params
+        set_gpu_arch "${ENABLE_GPU_ARCH}"
     fi
 
     init_rocm_common_cmake_params
-    CXX="${ROCM_PATH}/bin/hipcc" \
+    CXX=$(set_build_variables __HIP_CC__) \
     cmake \
         ${LAUNCHER_FLAGS} \
         "${rocm_math_common_cmake_params[@]}" \
         -DBUILD_SHARED_LIBS=$SHARED_LIBS \
         -Drocblas_DIR="${ROCM_PATH}/rocblas/lib/cmake/rocblas" \
-        -DAMDGPU_TARGETS="${GPU_TARGETS}" \
         -DBUILD_CLIENTS_TESTS=ON \
         -DBUILD_ADDRESS_SANITIZER="${ADDRESS_SANITIZER}" \
         -DBUILD_CLIENTS_BENCHMARKS=ON \
         -DBUILD_CLIENTS_SAMPLES=ON \
         -DBUILD_TESTING=ON \
-        -DBUILD_CLIENTS_EXTRA_TESTS=ON \
+        -DBUILD_CLIENTS_EXTRA_TESTS="${EXTRA_TESTS}" \
         "$COMPONENT_SRC"
 
     cmake --build "$BUILD_DIR" -- -j${PROC}
@@ -69,7 +68,7 @@ clean_rocsolver() {
 stage2_command_args "$@"
 
 case $TARGET in
-    build) build_rocsolver ;;
+    build) build_rocsolver; build_wheel ;;
     outdir) print_output_directory ;;
     clean) clean_rocsolver ;;
     *) die "Invalid target $TARGET" ;;

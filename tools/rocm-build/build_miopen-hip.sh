@@ -1,13 +1,15 @@
 #!/bin/bash
 
 set -ex
-source "$(dirname "${BASH_SOURCE[0]}")/compute_helper.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/compute_utils.sh"
 
 set_component_src MIOpen
 
 PACKAGE_DIR=${PACKAGE_DIR%\/*}/miopen-hip
 DEB_PATH=$PACKAGE_DIR
 RPM_PATH=$PACKAGE_DIR
+
+disable_debug_package_generation
 
 build_miopen_hip() {
     echo "Start build"
@@ -31,19 +33,19 @@ build_miopen_hip() {
         "${rocm_math_common_cmake_params[@]}" \
         -DMIOPEN_BACKEND=HIP \
         -DMIOPEN_OFFLINE_COMPILER_PATHS_V2=1 \
-        -DCMAKE_CXX_COMPILER="${ROCM_PATH}/llvm/bin/clang++" \
-        -DCMAKE_C_COMPILER="${ROCM_PATH}/llvm/bin/clang" \
+        -DCMAKE_CXX_COMPILER=$(set_build_variables __CLANG++__) \
+        -DCMAKE_C_COMPILER=$(set_build_variables __CLANG__) \
         -DCMAKE_PREFIX_PATH="${ROCM_PATH};${ROCM_PATH}/hip;${HOME}/miopen-deps" \
         -DHIP_OC_COMPILER="${ROCM_PATH}/bin/clang-ocl" \
         -DMIOPEN_TEST_DISCRETE=OFF \
-        "$COMPONENT_SRC"
+	"$COMPONENT_SRC"
 
     cmake --build "$BUILD_DIR" -- -j${PROC}
     cmake --build "$BUILD_DIR" -- install
     cmake --build "$BUILD_DIR" -- package
 
     rm -rf $BUILD_DIR/_CPack_Packages/ && find $BUILD_DIR -name '*.o' -delete
-    mkdir -p $PACKAGE_DIR && cp ${BUILD_DIR}/*.${PKGTYPE} $PACKAGE_DIR
+    copy_if "${PKGTYPE}" "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DIR}" "${BUILD_DIR}"/*."${PKGTYPE}"
 
     show_build_cache_stats
 }
@@ -62,7 +64,7 @@ checkout_lfs() {
 stage2_command_args "$@"
 
 case $TARGET in
-    build) build_miopen_hip ;;
+    build) build_miopen_hip; build_wheel ;;
     outdir) print_output_directory ;;
     clean) clean_miopen_hip ;;
     *) die "Invalid target $TARGET" ;;

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Build thunk, rocr runtime, rocrtst, and kfdtest.
+# This replaces the build scripts for those components.
 
 source "$(dirname "${BASH_SOURCE}")/compute_utils.sh"
 PROJ_NAME="rocr"
@@ -36,6 +38,8 @@ build_rocr_runtime() {
     echo "Build ROCr Runtime"
     echo "$ROCR_ROOT"
 
+    # Set pkg config path for Static builds
+    # so that static libraries of drm and libdrm_amdgpu will get linked
     if [ "$shared_libs" == "OFF" ]; then
       install_drmStatic_lib
     fi
@@ -73,7 +77,9 @@ build_rocrtst() {
     rocrtst_build_type="debug"
     mkdir -p "$rocrtst_build_dir"
     pushd "$rocrtst_build_dir"  || { echo "Failed to pushd into $rocrtst_build_dir"; exit 1; }
-
+    # BUILD_TYPE set to RelWithDebInfo causes rocm_common_cmake_params
+    # to set some CPACK_RPM and _DEBIAN variables to be set which causes
+    # problems for rocrtst at the packaging stage. Leave unset for now.
     BUILD_TYPE=
     if [[ $gpu_list ]]; then
         cmake -DTARGET_DEVICES="$gpu_list" \
@@ -92,7 +98,7 @@ build_rocrtst() {
         -DEMULATOR_BUILD="$emulator_build" \
         "$rocrtst_src_root"
     else
-        $ADDRESS_SANITIZER cmake -DROCRTST_BLD_TYPE="$rocrtst_build_type" \
+        cmake -DROCRTST_BLD_TYPE="$rocrtst_build_type" \
         -DCMAKE_VERBOSE_MAKEFILE=1 \
         -DBUILD_SHARED_LIBS="$shared_libs" \
         -DCMAKE_PREFIX_PATH="$ROCM_INSTALL_PATH;$ROCM_INSTALL_PATH/llvm" \
@@ -112,7 +118,7 @@ build_rocrtst() {
 
     cmake --build . -- $DASH_JAY
     cmake --build . -- rocrtst_kernels
-
+    # Packaging is not required, so || true
     cmake --build . -- package || true
     mkdir -p "$rocrtst_package"
 
@@ -138,6 +144,9 @@ build_rocrtst() {
 
 }
 
+# first define a function so I can use "set --" to overwrite the positional args.
+# Not needed in this case, but better to be safe...
+# Needed for wildcard globbing since we make 2 kfdtest RPMs now
 file_exists(){
       set -- $1
       [ -e "$1" ]
@@ -149,6 +158,7 @@ build_kfdtest() {
     mkdir -p "$kfdtest_build_dir"
     pushd "$kfdtest_build_dir" || { echo "Failed to pushd into $kfdtest_build_dir"; exit 1; }
 
+    # LDFLAGS will be set only for address sanitizer build
     cmake \
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DBUILD_SHARED_LIBS="$shared_libs" \
@@ -164,7 +174,8 @@ build_kfdtest() {
         -DCMAKE_EXE_LINKER_FLAGS="-Wl,--enable-new-dtags -Wl,--rpath,$ROCM_RPATH $LDFLAGS" \
         "$kfdtest_src_root"
     cmake --build . -- $DASH_JAY
-
+    # Putting || true to ensure backwards compatibility for branches
+    # without the CPACK change to KFDTest
     cmake --build . -- package || true
     popd
 
@@ -189,12 +200,13 @@ build_kfdtest() {
 
 clean_rocr_runtime() {
     echo "Cleaning ROCr Runtime"
-
+    # clean libhsakmt
     rm -f $package_lib/libhsakmt.so*
     rm -f $package_lib/libhsakmt.a
     rm -f $package_lib/libhsakmt-staticdrm.a
     rm -f $package_include/hsakmt*.h $package_include/linux/kfd_ioctl.h
 
+    # clean rocr
     rm -rf "${runtime_build_dir}"
     rm -f  "$package_root"/lib/libhsa-runtime*
     rm -rf "$package_root/lib/cmake/hsa-runtime64"
@@ -204,6 +216,7 @@ clean_rocr_runtime() {
     rm -f "$package_root_rpm"/hsa-rocr*.rpm
     rm -f "$package_root_rpm"/hsa_rocr*.whl
 
+    # Remove when switching to flat directory layout.
     rm -rf "$PACKAGE_ROOT/hsa"
 
     clean_rocrtst
@@ -239,6 +252,7 @@ print_output_directory() {
     exit
 }
 
+# Common variables
 target="build"
 
 kfdtest_target="yes"
@@ -249,37 +263,46 @@ package_root="$(getPackageRoot)"
 package_root_deb="${package_root}/deb/$PROJ_NAME"
 package_root_rpm="${package_root}/rpm/$PROJ_NAME"
 
+# NOT NEEDED?  PACKAGE_SRC="$(getSrcPath)"
 package_lib="$(getLibPath)"
-
+# package_bin="$(getBinPath)"
 package_include="$(getIncludePath)"
 runtime_build_dir="$(getBuildPath runtime)"
 
+# ROCR_DEV_BUILD_DIR="$(getBuildPath hsa-rocr-dev)"
+# PREFIX_PATH="$package_root"
 BUILD_TYPE="Debug"
 shared_libs="ON"
 clean_or_out=0;
 maketarget="deb"
 pkgtype="deb"
-WHEEL_PACKAGE=false
 
+# ROCt variables
 thunk_defines_string=
 roct_build_dir="${runtime_build_dir}/libhsakmt"
 
+# ROCr variables
 rocr_defines_string=
 rocr_build_dir="${runtime_build_dir}/$PROJ_NAME"
 
+# rocrtst variables
 rocrtst_package="$(getBinPath)/rocrtst_tests"
 rocrtst_build_dir="${runtime_build_dir}/rocrtst"
 rocrtst_src_root="$ROCRTST_ROOT/suites/test_common"
 emulator_build=0
 
+# kfdtest variables
+# kfdtest_defines_string=
 kfdtest_src_root="$ROCR_ROOT/libhsakmt/tests/kfdtest"
 kfdtest_bin="$(getBinPath)/kfdtest"
 package_utils="$(getUtilsPath)"
+# May need to handle putting different components in different build directories (below)
 kfdtest_build_dir=${runtime_build_dir}/kfdtest
 
 unset HIP_DEVICE_LIB_PATH
 unset ROCM_PATH
 
+#parse the arguments
 valid_str=$(getopt -o hcraswnkteg:o: --long help,clean,release,static,wheel,address_sanitizer,norocr,nokfdtest,norocrtst,emulator,gpu_list:,outdir: -- "$@")
 eval set -- "$valid_str"
 
@@ -339,22 +362,26 @@ checkchild(){
         die "$2 failed with exit code $?"
     fi
 }
-
-# if [ "$target" != "clean" ]; then
-#     if [ "$rocrtst_target" == "yes" ]; then
-#         build_rocrtst &
-#     else
-#         true & # Dummy build_rocrtst
-#     fi
-#     rocrtst_pid=$!
-#     if [ "$kfdtest_target" == "yes" ]; then
-#         build_kfdtest &
-#     else
-#        true & # Dummy build_kfdtest
-#     fi
-#     kfdtest_pid=$!
-#     checkchild $kfdtest_pid kfdtest
-#     checkchild $rocrtst_pid rocrtst
-# fi
+# Run the build for rocrtst and kfdtest in parallel
+if [ "$target" != "clean" ]; then
+    if [ "$rocrtst_target" == "yes" ]; then
+        build_rocrtst &
+    else
+        true & # Dummy build_rocrtst
+    fi
+    rocrtst_pid=$!
+    if [ "$kfdtest_target" == "yes" ]; then
+        build_kfdtest &
+    else
+       true & # Dummy build_kfdtest
+    fi
+    kfdtest_pid=$!
+    checkchild $kfdtest_pid kfdtest
+    checkchild $rocrtst_pid rocrtst
+fi
+# build wheel package
+if [[ "$target" == "build" ]]; then
+    build_wheel "$rocr_build_dir" "$PROJ_NAME"
+fi
 
 echo "Operation complete"

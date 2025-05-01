@@ -20,16 +20,16 @@
 * Run this for 5.6.0 (change for whatever version you require)
 * `GITHUB_ACCESS_TOKEN=my_token_here`
 
-To generate the changelog from 5.0.0 up to and including 6.2.0:
+To generate the changelog from 5.0.0 up to and including 6.4.0:
 
 ```sh
-python3 tag_script.py -t $GITHUB_ACCESS_TOKEN --no-release --no-pulls --starting-version=5.0.0 --compile_file ../../CHANGELOG.md --branch release/rocm-rel-6.2 6.2.0
+python3 tag_script.py -t $GITHUB_ACCESS_TOKEN --no-release --no-pulls --starting-version=5.0.0 --compile_file ../../CHANGELOG.md --branch release/rocm-rel-6.4 6.4.0
 ```
 
-To generate the release notes only for 6.2.0:
+To generate the release notes only for 6.4.0:
 
 ```sh
-python3 tag_script.py -t $GITHUB_ACCESS_TOKEN --no-release --no-pulls --compile_file ../../RELEASE.md --branch release/rocm-rel-6.2 6.2.0
+python3 tag_script.py -t $GITHUB_ACCESS_TOKEN --no-release --no-pulls --compile_file ../../RELEASE.md --branch release/rocm-rel-6.4 6.4.0
 ```
 
 ### Notes

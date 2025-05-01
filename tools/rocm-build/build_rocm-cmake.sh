@@ -23,16 +23,15 @@ printUsage() {
     return 0
 }
 
+## ROCm cmake build (using Makefile) environment variables
+PROJ_NAME="rocm-cmake"
 TARGET="build"
 PACKAGE_ROOT="$(getPackageRoot)"
-PACKAGE_DEB="$(getPackageRoot)/deb/rocm-cmake"
-PACKAGE_RPM="$(getPackageRoot)/rpm/rocm-cmake"
-ROCM_CMAKE_BUILD_DIR="$(getBuildPath rocm-cmake)"
 
-ROCM_CMAKE_BUILD_DIR="$(getBuildPath rocm-cmake)"
-ROCM_CMAKE_PACKAGE_DEB="$(getPackageRoot)/deb/rocm-cmake"
-ROCM_CMAKE_PACKAGE_RPM="$(getPackageRoot)/rpm/rocm-cmake"
-ROCM_WHEEL_DIR="${ROCM_CMAKE_BUILD_DIR}/_wheel"
+## ROCm cmake build (using CMake) environment variables
+ROCM_CMAKE_BUILD_DIR="$(getBuildPath $PROJ_NAME)"
+ROCM_CMAKE_PACKAGE_DEB="$PACKAGE_ROOT/deb/$PROJ_NAME"
+ROCM_CMAKE_PACKAGE_RPM="$PACKAGE_ROOT/rpm/$PROJ_NAME"
 ROCM_CMAKE_BUILD_TYPE="debug"
 BUILD_TYPE="Debug"
 SHARED_LIBS="ON"
@@ -40,11 +39,13 @@ CLEAN_OR_OUT=0;
 PKGTYPE="deb"
 MAKETARGET="deb"
 
+#parse the arguments
 VALID_STR=`getopt -o hcraswo:p: --long help,clean,release,static,wheel,address_sanitizer,outdir:,package: -- "$@"`
 eval set -- "$VALID_STR"
 
 while true ;
 do
+    #echo "parocessing $1"
     case "$1" in
         (-h | --help)
                 printUsage ; exit 0;;
@@ -57,12 +58,12 @@ do
         (-s | --static)
                 SHARED_LIBS="OFF" ; shift ;;
         (-w | --wheel)
-            WHEEL_PACKAGE=true ; shift ;;
+                WHEEL_PACKAGE=true ; shift ;;
         (-o | --outdir)
                 TARGET="outdir"; PKGTYPE=$2 ; OUT_DIR_SPECIFIED=1 ; ((CLEAN_OR_OUT|=2)) ; shift 2 ;;
         (-p | --package)
                 MAKETARGET="$2" ; shift 2;;
-        --)     shift; break;;
+        --)     shift; break;; # end delimiter
         (*)
                 echo " This should never come but just incase : UNEXPECTED ERROR Parm : [$1] ">&2 ; exit 20;;
     esac
@@ -78,7 +79,6 @@ fi
 
 
 clean_rocm_cmake() {
-    rm -rf "$ROCM_WHEEL_DIR"
     rm -rf $ROCM_CMAKE_BUILD_DIR
     rm -rf $ROCM_CMAKE_PACKAGE_DEB
     rm -rf $ROCM_CMAKE_PACKAGE_RPM
@@ -106,19 +106,6 @@ build_rocm_cmake() {
     copy_if RPM "${CPACKGEN:-"DEB;RPM"}" "$ROCM_CMAKE_PACKAGE_RPM" $ROCM_CMAKE_BUILD_DIR/rocm-cmake*.rpm
 }
 
-create_wheel_package() {
-    echo "Creating rocm-cmake wheel package"
-    # Copy the setup.py generator to build folder
-    mkdir -p $ROCM_WHEEL_DIR
-    cp -f $SCRIPT_ROOT/generate_setup_py.py $ROCM_WHEEL_DIR
-    cp -f $SCRIPT_ROOT/repackage_wheel.sh $ROCM_WHEEL_DIR
-    cd $ROCM_WHEEL_DIR
-    # Currently only supports python3.6
-    ./repackage_wheel.sh $ROCM_CMAKE_BUILD_DIR/rocm-cmake*.rpm python3.6
-    # Copy the wheel created to RPM folder which will be uploaded to artifactory
-    copy_if WHL "WHL" "$ROCM_CMAKE_PACKAGE_RPM" "$ROCM_WHEEL_DIR"/dist/*.whl
-}
-
 print_output_directory() {
     case ${PKGTYPE} in
         ("deb")
@@ -132,15 +119,19 @@ print_output_directory() {
 }
 
 case $TARGET in
-    (clean) clean_rocm_cmake ;;
-    (build) build_rocm_cmake ;;
-    (outdir) print_output_directory ;;
-    (*) die "Invalid target $TARGET" ;;
+    (clean)
+        clean_rocm_cmake
+        ;;
+    (build)
+        build_rocm_cmake
+        build_wheel "$ROCM_CMAKE_BUILD_DIR" "$PROJ_NAME"
+        ;;
+    (outdir)
+        print_output_directory
+        ;;
+    (*)
+        die "Invalid target $TARGET"
+        ;;
 esac
-
-if [[ $WHEEL_PACKAGE == true ]]; then
-    echo "Wheel Package build started !!!!"
-    create_wheel_package
-fi
 
 echo "Operation complete"
