@@ -114,7 +114,7 @@ $(call adddep,roctracer,${ASAN_DEP} rocr hip_on_rocclr)
 
 
 # rocm-dev points to all possible last finish components of Stage1 build.
-rocm-dev-components :=amd_smi_lib aqlprofile aqlprofiletest comgr dbgapi devicelibs hip_on_rocclr hipcc hipify_clang \
+rocm-dev-components :=amd_smi_lib aqlprofile comgr dbgapi devicelibs hip_on_rocclr hipcc hipify_clang \
 	lightning rocprofiler-compute opencl_on_rocclr openmp_extras rocm_bandwidth_test rocm_smi_lib \
 	rocm-cmake rocm-core rocm-gdb rocminfo rocprofiler-register rocprofiler-sdk rocprofiler-systems \
 	rocprofiler rocr rocr_debug_agent rocrsamples roctracer
