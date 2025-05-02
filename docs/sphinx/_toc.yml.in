@@ -78,9 +78,9 @@ subtrees:
             title: Run models from Hugging Face
           - file: how-to/rocm-for-ai/inference/llm-inference-frameworks.rst
             title: LLM inference frameworks
-          - file: how-to/rocm-for-ai/inference/vllm-benchmark.rst
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/vllm.rst
             title: vLLM inference performance testing
-          - file: how-to/rocm-for-ai/inference/pytorch-inference-benchmark.rst
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference.rst
             title: PyTorch inference performance testing
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model

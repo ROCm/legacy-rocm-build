@@ -22,19 +22,21 @@ workloads:
 +--------------------------+--------------------------------+
 | Software component       | Version                        |
 +==========================+================================+
-| ROCm                     | 6.3.0                          |
+| ROCm                     | 6.4.0                          |
 +--------------------------+--------------------------------+
-| PyTorch                  | 2.7.0a0+git637433              |
+| PyTorch                  | 2.8.0a0+git2f9759              |
 +--------------------------+--------------------------------+
-| Python                   | 3.10                           |
+| Python                   | 3.12 or 3.10                   |
 +--------------------------+--------------------------------+
-| Transformer Engine       | 1.11                           |
+| Transformer Engine       | 1.13.0+bb061ade                |
 +--------------------------+--------------------------------+
 | Flash Attention          | 3.0.0                          |
 +--------------------------+--------------------------------+
-| hipBLASLt                | git258a2162                    |
+| hipBLASLt                | 0.13.0-4f18bf6                 |
 +--------------------------+--------------------------------+
-| Triton                   | 3.1                            |
+| Triton                   | 3.3.0                          |
++--------------------------+--------------------------------+
+| RCCL                     | 2.22.3                         |
 +--------------------------+--------------------------------+
 
 Supported features and models
@@ -64,6 +66,8 @@ Megatron-LM provides the following key features to train large language models e
 
 The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
 
+* Llama 3.3 70B
+
 * Llama 3.1 8B
 
 * Llama 3.1 70B
@@ -76,7 +80,13 @@ The following models are pre-optimized for performance on AMD Instinct MI300X se
 
 * Llama 2 70B
 
+* DeepSeek-V3
+
 * DeepSeek-V2-Lite
+
+* Mixtral 8x7B
+
+* Mixtral 8x22B
 
 .. note::
 
