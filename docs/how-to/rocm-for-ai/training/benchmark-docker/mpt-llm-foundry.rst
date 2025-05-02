@@ -11,11 +11,12 @@ the Mosaic Pretrained Transformer (MPT) family -- learn more about it in
 MosaicML's research blog `MPT-30B: Raising the bar for open-source foundation
 models <https://www.databricks.com/blog/mpt-30b>`_.
 
-`<https://github.com/ROCm/MAD>`__ provides a complete Docker-based training
-environment for the MPT-30B model using the `LLM Foundry
-<https://github.com/mosaicml/llm-foundry>`_ framework. This environment
-packages the following software components to train on AMD Instinct MI300X
-series accelerators:
+ROCm and `<https://github.com/ROCm/MAD>`__ provide a pre-configured training
+environment for the MPT-30B model using the ``rocm/pytorch-training:v25.5``
+base `Docker image <https://hub.docker.com/layers/rocm/pytorch-training/v25.5/images/sha256-d47850a9b25b4a7151f796a8d24d55ea17bba545573f0d50d54d3852f96ecde5>`_
+and the `LLM Foundry <https://github.com/mosaicml/llm-foundry>`_ framework.
+This environment packages the following software components to train
+on AMD Instinct MI300X series accelerators:
 
 +--------------------------+--------------------------------+
 | Software component       | Version                        |
