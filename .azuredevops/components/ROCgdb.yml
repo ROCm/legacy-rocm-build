@@ -15,6 +15,7 @@ parameters:
   type: object
   default:
     - bison
+    - cmake
     - dejagnu
     - flex
     - libbabeltrace-dev
@@ -39,17 +40,69 @@ parameters:
 - name: jobMatrix
   type: object
   default:
-    buildTestJobs:
+    testJobs:
       - gfx942:
         target: gfx942
       - gfx90a:
         target: gfx90a
 
 jobs:
-- ${{ each job in parameters.jobMatrix.buildTestJobs }}:
-  - job: ROCgdb_build_test_${{ job.target }}
+- job: ROCgdb
+  variables:
+  - group: common
+  - template: /.azuredevops/variables-global.yml
+  - name: PKG_CONFIG_PATH
+    value: $(Agent.BuildDirectory)/rocm/share/pkgconfig
+  pool:
+    vmImage: ${{ variables.BASE_BUILD_POOL }}
+  workspace:
+    clean: all
+  steps:
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+    parameters:
+      aptPackages: ${{ parameters.aptPackages }}
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+    parameters:
+      checkoutRepo: ${{ parameters.checkoutRepo }}
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+    parameters:
+      checkoutRef: ${{ parameters.checkoutRef }}
+      dependencyList: ${{ parameters.rocmDependencies }}
+      aggregatePipeline: ${{ parameters.aggregatePipeline }}
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-autotools.yml
+    parameters:
+      configureFlags: >-
+        --program-prefix=roc
+        --enable-64-bit-bfd
+        --enable-targets="x86_64-linux-gnu,amdgcn-amd-amdhsa"
+        --disable-ld
+        --disable-gas
+        --disable-gdbserver
+        --disable-sim
+        --enable-tui
+        --disable-gdbtk
+        --disable-shared
+        --disable-gprofng
+        --with-expat
+        --with-system-zlib
+        --without-guile
+        --with-babeltrace
+        --with-lzma
+        --with-python=python3
+        --with-rocm-dbgapi=$(Agent.BuildDirectory)/rocm
+        LDFLAGS="-Wl,--enable-new-dtags,-rpath=$(Agent.BuildDirectory)/rocm/lib"
+      makeCallPrefix: LD_RUN_PATH='${ORIGIN}/../lib'
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+
+- ${{ each job in parameters.jobMatrix.testJobs }}:
+  - job: ROCgdb_test_${{ job.target }}
+    dependsOn: ROCgdb
     condition:
-      and(
+      and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
         not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
         eq(${{ parameters.aggregatePipeline }}, False)
@@ -99,8 +152,6 @@ jobs:
           --with-rocm-dbgapi=$(Agent.BuildDirectory)/rocm
           LDFLAGS="-Wl,--enable-new-dtags,-rpath=$(Agent.BuildDirectory)/rocm/lib"
         makeCallPrefix: LD_RUN_PATH='${ORIGIN}/../lib'
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
     - task: Bash@3
       displayName: Setup test environment
       inputs:
@@ -109,7 +160,6 @@ jobs:
           # Assuming that /opt is no longer persistent across runs, test environments are fully ephemeral
           sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
           echo "##vso[task.prependpath]/opt/rocm/bin"
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
     - task: Bash@3
       displayName: check-gdb
