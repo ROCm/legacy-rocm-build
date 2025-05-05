@@ -15,8 +15,10 @@ parameters:
   default:
     - git
     - libdrm-dev
+    - libfile-which-perl
     - libmsgpack-dev
     - libnuma-dev
+    - liburi-perl
     - ninja-build
     - python3-pip
     - python3-venv
