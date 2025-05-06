@@ -49,7 +49,7 @@ ROCm documentation is organized into the following categories:
 * [ROCm examples](https://github.com/amd/rocm-examples)
 :::
 
-:::{grid-item-card} Conceptual
+:::{grid-item-card} Concepts
 :class-body: rocm-card-banner rocm-hue-8
 
 * [GPU architecture overview](./conceptual/gpu-arch.md)
