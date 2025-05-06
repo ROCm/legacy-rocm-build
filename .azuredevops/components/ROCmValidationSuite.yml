@@ -27,6 +27,7 @@ parameters:
   type: object
   default:
     - amdsmi
+    - aomp
     - clr
     - hipBLAS-common
     - hipBLASLt
@@ -43,6 +44,7 @@ parameters:
   type: object
   default:
     - amdsmi
+    - aomp
     - clr
     - hipBLAS-common
     - hipBLASLt
@@ -108,6 +110,7 @@ jobs:
           -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+          -DCMAKE_CXX_FLAGS=-I$(Agent.BuildDirectory)/rocm/llvm/include
           -DCPACK_PACKAGING_INSTALL_PREFIX=$(Build.BinariesDirectory)
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
