@@ -144,15 +144,25 @@ Download the Docker image
 
 1. Use the following command to pull the Docker image from Docker Hub.
 
-   .. code-block:: shell
+   .. tab-set:: 
 
-      docker pull rocm/megatron-lm:v25.4
+      .. tab-item:: Ubuntu 24.04 + Python 3.12
+
+         .. code-block:: shell
+
+            docker pull rocm/megatron-lm:v25.5_py3.12
+
+      .. tab-item:: Ubuntu 22.04 + Python 3.10
+
+         .. code-block:: shell
+
+            docker pull rocm/megatron-lm:v25.5_py3.10
 
 2. Launch the Docker container.
 
    .. code-block:: shell
 
-      docker run -it --device /dev/dri --device /dev/kfd --device /dev/infiniband --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME:$HOME -v  $HOME/.ssh:/root/.ssh --shm-size 64G --name megatron_training_env rocm/megatron-lm:v25.4
+      docker run -it --device /dev/dri --device /dev/kfd --device /dev/infiniband --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME:$HOME -v  $HOME/.ssh:/root/.ssh --shm-size 64G --name megatron_training_env rocm/megatron-lm:v25.5
 
 3. Use these commands if you exit the ``megatron_training_env`` container and need to return to it.
 
