@@ -182,8 +182,8 @@ with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
 
 .. _amd-maxtext-download-docker:
 
-Download the Docker image
--------------------------
+Pull the Docker image
+---------------------
 
 1. Use the following command to pull the Docker image from Docker Hub.
 
