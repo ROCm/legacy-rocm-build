@@ -20,6 +20,8 @@ training, fine-tuning, and inference. It leverages popular machine learning fram
 
 - :doc:`LLM inference frameworks <llm-inference-frameworks>`
 
-- :doc:`Performance testing <vllm-benchmark>`
+- :doc:`vLLM inference performance testing <vllm-benchmark>`
+
+- :doc:`PyTorch inference performance testing <pytorch-inference-benchmark>`
 
 - :doc:`Deploying your model <deploy-your-model>`
