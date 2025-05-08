@@ -215,7 +215,7 @@ Configuration
    `<https://github.com/ROCm/Megatron-LM/tree/rocm_dev/examples/deepseek_v2>`__ to configure your training run.
    Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training>`.
 
-.. container:: model-doc pyt_megatron_lm_train_deepseek-v2-lite-16b
+.. container:: model-doc pyt_megatron_lm_train_mixtral-8x7b pyt_megatron_lm_train_mixtral-8x22b-proxy
 
    Update the ``train_mixtral_moe.sh`` configuration script in the ``examples/mixtral``
    directory of
@@ -380,75 +380,75 @@ Download the dataset
 
 .. container:: model-doc pyt_megatron_lm_train_deepseek-v3-proxy
 
-      If you don't already have the dataset, download the DeepSeek dataset using the following
-      commands:
+   If you don't already have the dataset, download the DeepSeek dataset using the following
+   commands:
 
-      .. code-block:: shell
+   .. code-block:: shell
 
-         mkdir deepseek-datasets
-         cd deepseek-datasets
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/SlimPajama.json
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-train.json
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-valid.json
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.bin
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.idx
+      mkdir deepseek-datasets
+      cd deepseek-datasets
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/SlimPajama.json
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-train.json
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-valid.json
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.bin
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.idx
 
-     To train on this data, update the ``DATA_DIR`` variable to point to the location of your dataset.
+   To train on this data, update the ``DATA_DIR`` variable to point to the location of your dataset.
 
-     .. code-block:: bash
+   .. code-block:: bash
 
-        MOCK_DATA=0 # Train on real data
+      MOCK_DATA=0 # Train on real data
 
-        DATA_DIR="<path-to>/deepseek-datasets"  # Change to where your dataset is stored
+      DATA_DIR="<path-to>/deepseek-datasets"  # Change to where your dataset is stored
 
-     Ensure that the files are accessible inside the Docker container.
+      Ensure that the files are accessible inside the Docker container.
 
 .. container:: model-doc pyt_megatron_lm_train_deepseek-v2-lite-16b
 
-      If you don't already have the dataset, download the DeepSeek dataset using the following
-      commands:
+   If you don't already have the dataset, download the DeepSeek dataset using the following
+   commands:
 
-      .. code-block:: shell
+   .. code-block:: shell
 
-         mkdir deepseek-datasets
-         cd deepseek-datasets
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/SlimPajama.json
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-train.json
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-valid.json
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.bin
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.idx
+      mkdir deepseek-datasets
+      cd deepseek-datasets
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/SlimPajama.json
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-train.json
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-valid.json
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.bin
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.idx
 
-     To train on this data, update the ``DATA_DIR`` variable to point to the location of your dataset.
+   To train on this data, update the ``DATA_DIR`` variable to point to the location of your dataset.
 
-     .. code-block:: bash
+   .. code-block:: bash
 
-        MOCK_DATA=0 # Train on real data
+      MOCK_DATA=0 # Train on real data
 
-        DATA_DIR="<path-to>/deepseek-datasets"  # Change to where your dataset is stored
+      DATA_DIR="<path-to>/deepseek-datasets"  # Change to where your dataset is stored
 
-     Ensure that the files are accessible inside the Docker container.
+      Ensure that the files are accessible inside the Docker container.
 
 .. container:: model-doc pyt_megatron_lm_train_mixtral-8x7b pyt_megatron_lm_train_mixtral-8x22b-proxy
 
-      If you don't already have the dataset, download the Mixtral dataset using the following
-      commands:
+   If you don't already have the dataset, download the Mixtral dataset using the following
+   commands:
 
-      .. code-block:: shell
+   .. code-block:: shell
 
-         mkdir mixtral-datasets
-         cd mixtral-datasets
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/mistral-datasets/wudao_mistralbpe_content_document.bin
-         wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/mistral-datasets/wudao_mistralbpe_content_document.idx
+      mkdir mixtral-datasets
+      cd mixtral-datasets
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/mistral-datasets/wudao_mistralbpe_content_document.bin
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/mistral-datasets/wudao_mistralbpe_content_document.idx
 
-     To train on this data, update the ``DATA_DIR`` variable to point to the location of your dataset.
+   To train on this data, update the ``DATA_DIR`` variable to point to the location of your dataset.
 
-     .. code-block:: bash
+   .. code-block:: bash
 
-        MOCK_DATA=0 # Train on real data
+      MOCK_DATA=0 # Train on real data
 
-        DATA_DIR="<path-to>/mixtral-datasets"  # Change to where your dataset is stored
+      DATA_DIR="<path-to>/mixtral-datasets"  # Change to where your dataset is stored
 
-     Ensure that the files are accessible inside the Docker container.
+   Ensure that the files are accessible inside the Docker container.
 
 Multi-node configuration
 ------------------------
@@ -519,7 +519,7 @@ Single node training
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 MBS=3 BS=24 TP=1 TE_FP8=0 FSDP=1 RECOMPUTE=1 SEQ_LENGTH=8192 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
+      TEE_OUTPUT=1 RECOMPUTE=1 SEQ_LENGTH=8192 MBS=2 BS=16 TE_FP8=0 TP=1 PP=1 FSDP=1 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh 
 
    .. note::
 
@@ -545,89 +545,134 @@ Single node training
 
       TEE_OUTPUT=1 MBS=2 BS=128 TP=1 TE_FP8=0 SEQ_LENGTH=8192 MODEL_SIZE=8 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
 
-.. tab-set::
+.. container:: model-doc pyt_megatron_lm_train_llama-3.1-70b
 
-   .. tab-item:: Llama
-      :sync: llama
+   To run the training on a single node for Llama 3.1 70B BF16 with FSDP-v2 enabled, add the ``FSDP=1`` argument.
+   For example, use the following command:
 
-      .. tab-set::
+   .. code-block:: shell
 
-         .. tab-item:: Single node training
-            :sync: single-node
+      TEE_OUTPUT=1 MBS=3 BS=24 TP=1 TE_FP8=0 FSDP=1 RECOMPUTE=1 SEQ_LENGTH=8192 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
 
-            To run training on a single node, navigate to the Megatron-LM folder and use one of the
-            following commands.
+   .. note::
 
-            - For Llama 3.1 8B FP8:
+      It is suggested to use ``TP=1`` when FSDP is enabled for higher
+      throughput. FSDP-v2 is not supported with pipeline parallelism, expert
+      parallelism, MCore's distributed optimizer, gradient accumulation fusion,
+      or FP16.
 
-              .. code-block:: shell
+      Currently, FSDP is only compatible with BF16 precision.
 
-                 TEE_OUTPUT=1 MBS=2 BS=128 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
+.. container:: model-doc pyt_megatron_lm_train_llama-2-7b
 
-            - For Llama 3.1 8B BF16:
+   To run training on a single node for Llama 2 7B FP8, navigate to the Megatron-LM folder and use the
+   following command.
 
-              .. code-block:: shell
+   .. code-block:: shell
 
-                 TEE_OUTPUT=1 MBS=2 BS=128 TP=1 TE_FP8=0 SEQ_LENGTH=8192 MODEL_SIZE=8 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
+      TEE_OUTPUT=1 MBS=4 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=4096 MODEL_SIZE=7 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
 
-            - For Llama 2 7B FP8:
+   For Llama 2 7B BF16, use the following command:
 
-              .. code-block:: shell
+   .. code-block:: shell
 
-                 TEE_OUTPUT=1 MBS=4 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=4096 MODEL_SIZE=7 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
+      TEE_OUTPUT=1 MBS=4 BS=256 TP=1 TE_FP8=0 SEQ_LENGTH=4096 MODEL_SIZE=7 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
 
-            - For Llama 2 7B BF16:
+.. container:: model-doc pyt_megatron_lm_train_llama-2-70b
 
-              .. code-block:: shell
+   To run the training on a single node for Llama 2 70B BF16 with FSDP-v2 enabled, add the ``FSDP=1`` argument.
+   For example, use the following command:
 
-                 TEE_OUTPUT=1 MBS=4 BS=256 TP=1 TE_FP8=0 SEQ_LENGTH=4096 MODEL_SIZE=7 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
+   .. code-block:: shell
 
-            To run training with FSDP2 enabled, add the ``FSDP=1`` argument. For example:
+      TEE_OUTPUT=1 MBS=7 BS=56 TP=1 TE_FP8=0 FSDP=1 RECOMPUTE=1 SEQ_LENGTH=4096 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
 
-            - For Llama 3 70B BF16:
+   .. note::
 
-              .. code-block:: shell
+      It is suggested to use ``TP=1`` when FSDP is enabled for higher
+      throughput. FSDP-v2 is not supported with pipeline parallelism, expert
+      parallelism, MCore's distributed optimizer, gradient accumulation fusion,
+      or FP16.
 
-                 TEE_OUTPUT=1 MBS=3 BS=24 TP=1 TE_FP8=0 FSDP=1 RECOMPUTE=1 SEQ_LENGTH=8192 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
+      Currently, FSDP is only compatible with BF16 precision.
 
-            - For Llama 2 70B BF16:
+.. container:: model-doc pyt_megatron_lm_train_deepseek-v3-proxy
 
-              .. code-block:: shell
+   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy, 
+   navigate to the Megatron-LM folder and use the following command.
 
-                 TEE_OUTPUT=1 MBS=3 BS=56 TP=1 TE_FP8=0 FSDP=1 RECOMPUTE=1 SEQ_LENGTH=4096 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
+   .. code-block:: shell
 
-            .. note::
+      FORCE_BANLANCE=true \
+      RUN_ENV=cluster \
+      MODEL_SIZE=671B \
+      TRAIN_ITERS=50 \
+      SEQ_LEN=4096 \
+      NUM_LAYERS=3 \
+      MICRO_BATCH_SIZE=1 GLOBAL_BATCH_SIZE=32 \
+      PR=bf16 \
+      TP=1 PP=1 ETP=1 EP=8 \
+      GEMM_TUNING=1 \
+      NVTE_CK_USES_BWD_V3=1 \
+      USE_GROUPED_GEMM=true MOE_USE_LEGACY_GROUPED_GEMM=true \
+      GPT_LAYER_IN_TE=true \
+      bash examples/deepseek_v3/train_deepseekv3.sh
 
-               It's suggested to use ``TP=1`` when FSDP is enabled for higher throughput. FSDP2 is not supported with pipeline parallelism,
-               expert parallelism, MCore's distributed optimizer, gradient accumulation fusion, and ``FP16`` precision.
+.. container:: model-doc pyt_megatron_lm_train_deepseek-v2-lite-16b
 
-         .. tab-item:: Multi-node training
-            :sync: multi-node
+   To run training on a single node for DeepSeek-V2-Lite (MoE with expert parallel),
+   navigate to the Megatron-LM folder and use the following command.
 
-            To run training on multiple nodes, launch the Docker container on each node. For example, for a two node setup (``NODE0`` as the master node), use these commands.
+   .. code-block:: shell
 
-            * On the master node ``NODE0``:
+      GEMM_TUNING=1 PR=bf16 MBS=4 AC=none SEQ_LEN=4096 PAD_LEN=4096 TRAIN_ITERS=50 bash examples/deepseek_v2/train_deepseekv2.sh
 
-              .. code-block:: shell
+.. container:: model-doc pyt_megatron_lm_train_mixtral-8x7b
 
-                 TEE_OUTPUT=1 MBS=2 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8 MASTER_ADDR=IP_NODE0 NNODES=2 NODE_RANK=0 bash examples/llama/train_llama3.sh
+   To run training on a single node for Mixtral 8x7B (MoE with expert parallel),
+   navigate to the Megatron-LM folder and use the following command.
 
-            * On the worker node ``NODE1``:
+   .. code-block:: shell
 
-              .. code-block:: shell
+      RECOMPUTE_NUM_LAYERS=0 TEE_OUTPUT=1 MBS=1 GBS=16 TP_SIZE=1 PP_SIZE=1 AC=none PR=bf16 EP_SIZE=8 ETP_SIZE=1 SEQLEN=4096 FORCE_BALANCE=true MOCK_DATA=1 RUN_ENV=cluster MODEL_SIZE=8x7B TRAIN_ITERS=50 bash examples/mixtral/train_mixtral_moe.sh
 
-                 TEE_OUTPUT=1 MBS=2 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8 MASTER_ADDR=IP_NODE0 NNODES=2 NODE_RANK=1 bash examples/llama/train_llama3.sh
+.. container:: model-doc pyt_megatron_lm_train_mixtral-8x22b-proxy
 
+   To run training on a single node for Mixtral 8x7B (MoE with expert parallel) with 4-layer proxy,
+   navigate to the Megatron-LM folder and use the following command.
 
-   .. tab-item:: DeepSeek V2
-      :sync: deepseek
+   .. code-block:: shell
 
-      To run the training on a single node, go to ``/Megatron-LM`` folder and use the following command:
+      RECOMPUTE_NUM_LAYERS=4 TEE_OUTPUT=1 MBS=1 GBS=16 TP_SIZE=1 PP_SIZE=1 AC=full NUM_LAYERS=4 PR=bf16 EP_SIZE=8 ETP_SIZE=1 SEQLEN=8192 FORCE_BALANCE=true MOCK_DATA=1 RUN_ENV=cluster MODEL_SIZE=8x22B TRAIN_ITERS=50 bash examples/mixtral/train_mixtral_moe.sh
 
-      .. code-block:: shell
+Multi-node training
+^^^^^^^^^^^^^^^^^^^
 
-         cd /workspace/Megatron-LM
-         GEMM_TUNING=1 PR=bf16 MBS=4 AC=none SEQ_LEN=4096 PAD_LEN=4096 TRAIN_ITERS=50 bash examples/deepseek_v2/train_deepseekv2.sh
+To run training on multiple nodes, launch the Docker container on each node.
+For example, for Llama 3 using a two node setup (``NODE0`` as the master node),
+use these commands.
+
+* On the master node ``NODE0``:
+
+  .. code-block:: shell
+
+     TEE_OUTPUT=1 MBS=2 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8  MASTER_ADDR=IP_NODE0 NNODES=2 NODE_RANK=0 bash examples/llama/train_llama3.sh
+
+* On the worker node ``NODE1``:
+
+  .. code-block:: shell
+
+     TEE_OUTPUT=1 MBS=2 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8  MASTER_ADDR=IP_NODE0 NNODES=2 NODE_RANK=1 bash examples/llama/train_llama3.sh
+
+Or, for DeepSeek-V3, an example script ``train_deepseek_v3_slurm.sh`` is
+provided in
+`<https://github.com/ROCm/Megatron-LM/tree/rocm_dev/examples/deepseek_v3>`__ to
+enable training at scale under a SLURM environment. For example, to run
+training on 16 nodes, try the following command:
+
+.. code-block:: shell
+
+   sbatch examples/deepseek_v3/train_deepseek_v3_slurm.sh
 
 .. _amd-megatron-lm-benchmark-test-vars:
 
