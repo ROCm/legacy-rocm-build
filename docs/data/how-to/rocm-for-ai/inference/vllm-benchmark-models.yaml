@@ -150,3 +150,11 @@ vllm_benchmark:
         model_repo: deepseek-ai/deepseek-moe-16b-chat
         url: https://huggingface.co/deepseek-ai/deepseek-moe-16b-chat
         precision: float16
+    - group: Falcon
+      tag: falcon
+      models:
+      - model: Falcon 180B
+        mad_tag: pyt_vllm_falcon-180b
+        model_repo: tiiuae/falcon-180B
+        url: https://huggingface.co/tiiuae/falcon-180B
+        precision: float16
