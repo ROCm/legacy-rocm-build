@@ -36,12 +36,14 @@ subtrees:
     title: Use ROCm for AI
     subtrees:
     - entries:
+      - file: how-to/rocm-for-ai/install.rst
+        title: Installation
+      - file: how-to/rocm-for-ai/system-health-check.rst
+        title: System health benchmarks
       - file: how-to/rocm-for-ai/training/index.rst
         title: Training
         subtrees:
         - entries:
-          - file: how-to/rocm-for-ai/training/system-health-check.rst
-            title: System health benchmarks
           - file: how-to/rocm-for-ai/training/benchmark-docker/megatron-lm
             title: Train a model with Megatron-LM
           - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training
@@ -72,10 +74,6 @@ subtrees:
         title: Inference
         subtrees:
         - entries:
-          - file: how-to/rocm-for-ai/inference/install.rst
-            title: Installation
-          - file: how-to/rocm-for-ai/inference/system-health-check.rst
-            title: System health benchmarks
           - file: how-to/rocm-for-ai/inference/hugging-face-models.rst
             title: Run models from Hugging Face
           - file: how-to/rocm-for-ai/inference/llm-inference-frameworks.rst
