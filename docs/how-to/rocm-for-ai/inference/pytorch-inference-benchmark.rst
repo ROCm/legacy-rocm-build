@@ -62,47 +62,48 @@ PyTorch inference performance testing
       {% endfor %}
    {% endfor %}
 
-   Getting started
-   ===============
+   System validation
+   =================
 
-   Use the following procedures to reproduce the benchmark results on an
-   MI300X series accelerator with the prebuilt PyTorch Docker image.
+   Before running AI workloads, it's important to validate that your AMD hardware is configured
+   correctly and performing optimally.
 
-   .. _pytorch-benchmark-get-started:
+   To optimize performance, disable automatic NUMA balancing. Otherwise, the GPU
+   might hang until the periodic balancing is finalized. For more information,
+   see :ref:`AMD Instinct MI300X system optimization <mi300x-disable-numa>`.
 
-   1. Disable NUMA auto-balancing.
+   .. code-block:: shell
 
-      To optimize performance, disable automatic NUMA balancing. Otherwise, the GPU
-      might hang until the periodic balancing is finalized. For more information,
-      see :ref:`AMD Instinct MI300X system optimization <mi300x-disable-numa>`.
+      # disable automatic NUMA balancing
+      sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'
+      # check if NUMA balancing is disabled (returns 0 if disabled)
+      cat /proc/sys/kernel/numa_balancing
+      0
 
-      .. code-block:: shell
-
-         # disable automatic NUMA balancing
-         sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'
-         # check if NUMA balancing is disabled (returns 0 if disabled)
-         cat /proc/sys/kernel/numa_balancing
-         0
+   Pull the Docker image
+   =====================
 
    .. container:: model-doc pyt_chai1_inference
 
-      2. Use the following command to pull the `ROCm PyTorch Docker image <https://hub.docker.com/layers/rocm/pytorch/rocm6.2.3_ubuntu22.04_py3.10_pytorch_release_2.3.0_triton_llvm_reg_issue/images/sha256-b736a4239ab38a9d0e448af6d4adca83b117debed00bfbe33846f99c4540f79b>`_ from Docker Hub.
+      Use the following command to pull the `ROCm PyTorch Docker image <https://hub.docker.com/layers/rocm/pytorch/rocm6.2.3_ubuntu22.04_py3.10_pytorch_release_2.3.0_triton_llvm_reg_issue/images/sha256-b736a4239ab38a9d0e448af6d4adca83b117debed00bfbe33846f99c4540f79b>`_ from Docker Hub.
 
-         .. code-block:: shell
+      .. code-block:: shell
 
-            docker pull rocm/pytorch:rocm6.2.3_ubuntu22.04_py3.10_pytorch_release_2.3.0_triton_llvm_reg_issue
+         docker pull rocm/pytorch:rocm6.2.3_ubuntu22.04_py3.10_pytorch_release_2.3.0_triton_llvm_reg_issue
 
-         .. note::
+      .. note::
 
-            The Chai-1 benchmark uses a specifically selected Docker image using ROCm 6.2.3 and PyTorch 2.3.0 to address an accuracy issue.
+         The Chai-1 benchmark uses a specifically selected Docker image using ROCm 6.2.3 and PyTorch 2.3.0 to address an accuracy issue.
 
    .. container:: model-doc pyt_clip_inference
 
-      2. Use the following command to pull the `ROCm PyTorch Docker image <https://hub.docker.com/layers/rocm/pytorch/latest/images/sha256-05b55983e5154f46e7441897d0908d79877370adca4d1fff4899d9539d6c4969>`_ from Docker Hub.
+      Use the following command to pull the `ROCm PyTorch Docker image <https://hub.docker.com/layers/rocm/pytorch/latest/images/sha256-05b55983e5154f46e7441897d0908d79877370adca4d1fff4899d9539d6c4969>`_ from Docker Hub.
 
-         .. code-block:: shell
+      .. code-block:: shell
 
-            docker pull rocm/pytorch:latest
+         docker pull rocm/pytorch:latest
+
+   .. _pytorch-benchmark-get-started:
 
    Benchmarking
    ============
