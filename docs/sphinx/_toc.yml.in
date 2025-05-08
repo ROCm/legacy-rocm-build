@@ -44,11 +44,11 @@ subtrees:
         title: Training
         subtrees:
         - entries:
-          - file: how-to/rocm-for-ai/training/benchmark-docker/megatron-lm
+          - file: how-to/rocm-for-ai/training/benchmark-docker/megatron-lm.rst
             title: Train a model with Megatron-LM
-          - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training
+          - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.rst
             title: Train a model with PyTorch
-          - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext
+          - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext.rst
             title: Train a model with JAX MaxText
           - file: how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry
             title: Train a model with LLM Foundry

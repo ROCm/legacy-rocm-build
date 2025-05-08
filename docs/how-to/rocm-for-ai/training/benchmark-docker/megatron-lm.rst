@@ -180,7 +180,10 @@ Download the Docker image
       docker start megatron_training_env
       docker exec -it megatron_training_env bash
 
-The Docker container includes a pre-installed, verified version of the ROCm Megatron-LM development branch `<https://github.com/ROCm/Megatron-LM/tree/rocm_dev>`__, including necessary training scripts.
+The Docker container includes a pre-installed, verified version of the ROCm
+Megatron-LM development branch
+`<https://github.com/ROCm/Megatron-LM/tree/rocm_dev>`__, including necessary
+training scripts.
 
 .. _amd-megatron-lm-environment-setup:
 
