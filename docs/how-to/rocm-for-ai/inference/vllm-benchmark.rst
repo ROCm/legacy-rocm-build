@@ -276,7 +276,7 @@ vLLM inference performance testing
 
             * Latency benchmark
 
-              Use this command to benchmark the latency of the {{model.model}} model on eight GPUs with the ``{{model.precision}}`` data type.
+              Use this command to benchmark the latency of the {{model.model}} model on eight GPUs with ``{{model.precision}}`` precision.
 
               .. code-block::
 
@@ -286,7 +286,7 @@ vLLM inference performance testing
 
             * Throughput benchmark
 
-              Use this command to benchmark the throughput of the {{model.model}} model on eight GPUs with the ``{{model.precision}}`` data type.
+              Use this command to benchmark the throughput of the {{model.model}} model on eight GPUs with ``{{model.precision}}`` precision.
 
               .. code-block:: shell
 
