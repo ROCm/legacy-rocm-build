@@ -5,6 +5,7 @@
    :keywords: ROCm, AI, LLM, train, megatron, Llama, tutorial, docker, torch, pytorch, jax
 
 .. _train-a-model-system-validation:
+.. _rocm-for-ai-system-optimization:
 
 **********************************************
 Prerequisite system validation before training
@@ -26,7 +27,8 @@ the output is ``1``, run the following command to disable NUMA auto-balancing.
 
    sudo sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'
 
-See :ref:`mi300x-disable-numa` for more information.
+See `Disable NUMA auto-balancing <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html#disable-numa-auto-balancing>`_
+in the Instinct documentation for more information.
 
 Hardware verification with ROCm
 -------------------------------
@@ -42,7 +44,8 @@ Run the command:
 
    rocm-smi --setperfdeterminism 1900
 
-See :ref:`mi300x-hardware-verification-with-rocm` for more information.
+See `Hardware verfication for ROCm <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html#hardware-verification-with-rocm>`_
+in the Instinct documentation for more information.
 
 RCCL Bandwidth Test for multi-node setups
 -----------------------------------------
