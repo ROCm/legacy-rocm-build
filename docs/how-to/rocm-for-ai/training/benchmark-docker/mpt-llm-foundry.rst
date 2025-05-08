@@ -42,7 +42,7 @@ can skip this step. Otherwise, complete the procedures in the :ref:`System valid
 optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
 before starting training.
 
-To further ensure optimal performance, consult the recommended :ref:`System health benchmarks
+To test for optimal performance, consult the recommended :ref:`System health benchmarks
 <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
 system's configuration.
 

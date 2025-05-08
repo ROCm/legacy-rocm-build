@@ -80,6 +80,10 @@ PyTorch inference performance testing
       cat /proc/sys/kernel/numa_balancing
       0
 
+   To test for optimal performance, consult the recommended :ref:`System health benchmarks
+   <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
+   system's configuration.
+
    Pull the Docker image
    =====================
 
