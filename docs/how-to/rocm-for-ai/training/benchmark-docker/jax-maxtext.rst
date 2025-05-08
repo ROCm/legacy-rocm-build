@@ -79,10 +79,17 @@ across different input sequences. Support for packed input format is planned for
 System validation
 =================
 
-If you have already validated your system settings, including NUMA
-auto-balancing, skip this step. Otherwise, complete the :ref:`system validation
-and optimization steps <train-a-model-system-validation>` to set up your system
+Before running AI workloads, it's important to validate that your AMD hardware is configured
+correctly and performing optimally.
+
+If you have already validated your system settings, including aspects like NUMA auto-balancing, you
+can skip this step. Otherwise, complete the procedures in the :ref:`System validation and
+optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
 before starting training.
+
+To further ensure optimal performance, consult the recommended :ref:`System health benchmarks
+<rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
+system's configuration.
 
 Environment setup
 =================
