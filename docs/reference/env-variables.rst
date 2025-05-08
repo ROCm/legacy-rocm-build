@@ -72,7 +72,7 @@ The following table lists the ROCR-Runtime environment variables:
    :tag_prefix: docs/
 
 HIPCC environment variables
-=========================
+===========================
 
 .. remote-content::
    :repo: ROCm/llvm-project
@@ -80,3 +80,87 @@ HIPCC environment variables
    :default_branch: amd-staging
    :start_line: 10
    :tag_prefix: docs/
+
+Additional component environment variables
+==========================================
+
+Many ROCm libraries and tools define environment variables for specific tuning, debugging, or
+behavioral control. The table below provides an overview and links to further documentation.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40, 60
+
+   * - Component
+     - Documentation Link
+
+   * - rocBLAS
+     - `Link <https://rocm.docs.amd.com/projects/rocBLAS/en/latest/docs/ENV_VARIABLES.html>`_
+
+   * - rocSPARSE
+     - `Link <https://rocm.docs.amd.com/projects/rocSPARSE/en/latest/docs/ENV_VARIABLES.html>`_
+
+   * - MIOpen
+     - `Link <https://rocm.docs.amd.com/projects/MIOpen/en/latest/docs/ENV_VARIABLES.html>`_
+
+   * - AMD SMI
+     - `Link <#amd-smi-vars-detail>`_
+
+   * - rocFFT
+     - `Link <#rocfft-vars-detail>`_
+
+   * - rocRAND
+     - `Link <https://rocm.docs.amd.com/projects/rocRAND/en/latest/docs/USER_GUIDE.html#environment-variables>`_
+
+   * - rocDecode
+     - N/A
+
+   * - rocTracer
+     - `Link <https://rocm.docs.amd.com/projects/rocTracer/en/latest/docs/ENV_VAR.html>`_
+
+   * - rocProfiler
+     - `Link <https://rocm.docs.amd.com/projects/rocProfiler/en/latest/docs/ENVIRONMENT_VARIABLES.html>`_
+
+Key single-variable details
+===========================
+
+This section provides detailed descriptions, in the standard format, for ROCm components
+that feature a single, key environment variable (or a very minimal set) which is documented
+directly on this page for convenience.
+
+.. _amd-smi-vars-detail:
+
+AMD SMI
+-------
+
+.. list-table::
+    :header-rows: 1
+    :widths: 70,30
+
+    * - Environment variable
+      - Value
+
+    * - | ``ROCM_SMI_JSON_OUTPUT``
+        | If set to ``1``, forces the ``rocm-smi`` command-line tool to produce output in JSON format,
+        | overriding any command-line flags for output format. Useful for scripting.
+      - | ``1`` (Enable JSON output)
+        | Default: Not set (Output format determined by CLI flags or defaults to text).
+
+.. _rocfft-vars-detail:
+
+rocFFT
+------
+
+.. list-table::
+    :header-rows: 1
+    :widths: 70,30
+
+    * - Environment variable
+      - Value
+
+    * - | ``ROCFFT_CACHE_PATH``
+        | Specifies the directory path where rocFFT should store and look for pre-compiled kernel
+        | caches (plans). Using a persistent cache can significantly reduce plan creation time
+        | for repeated FFT configurations.
+      - | *Path to a directory*
+        | Default: Not set (Caching might occur in a temporary or default system location, or be disabled).
