@@ -286,11 +286,11 @@ vLLM inference performance testing
 
             * Throughput benchmark
 
-              Use this command to throughput the latency of the {{model.model}} model on eight GPUs with the ``{{model.precision}}`` data type.
+              Use this command to benchmark the throughput of the {{model.model}} model on eight GPUs with the ``{{model.precision}}`` data type.
 
               .. code-block:: shell
 
-                 ./vllm_benchmark_report.sh -s latency -m {{model.model_repo}} -g 8 -d {{model.precision}}
+                 ./vllm_benchmark_report.sh -s throughput -m {{model.model_repo}} -g 8 -d {{model.precision}}
 
               Find the throughput report at ``./reports_{{model.precision}}_vllm_rocm{{unified_docker.rocm_version}}/summary/{{model.model_repo.split('/', 1)[1] if '/' in model.model_repo else model.model_repo}}_throughput_report.csv``.
 
