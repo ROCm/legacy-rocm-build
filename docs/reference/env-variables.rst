@@ -88,38 +88,38 @@ Many ROCm libraries and tools define environment variables for specific tuning, 
 behavioral control. The table below provides an overview and links to further documentation.
 
 .. list-table::
-   :header-rows: 1
-   :widths: 40, 60
+    :header-rows: 1
+    :widths: 30, 70
 
-   * - Component
-     - Documentation Link
+    * - Component
+      - Purpose of Environment Variables
 
-   * - rocBLAS
-     - `Link <https://rocm.docs.amd.com/projects/rocBLAS/en/latest/docs/ENV_VARIABLES.html>`_
+    * - `rocBLAS <https://rocm.docs.amd.com/projects/rocBLAS/en/latest/docs/ENV_VARIABLES.html>`_
+      - Performance tuning, kernel selection, logging, and debugging for BLAS operations.
 
-   * - rocSPARSE
-     - `Link <https://rocm.docs.amd.com/projects/rocSPARSE/en/latest/docs/ENV_VARIABLES.html>`_
+    * - `rocSPARSE <https://rocm.docs.amd.com/projects/rocSPARSE/en/latest/docs/ENV_VARIABLES.html>`_
+      - Algorithm control, debugging, and enabling/disabling specific features for sparse linear algebra.
 
-   * - MIOpen
-     - `Link <https://rocm.docs.amd.com/projects/MIOpen/en/latest/docs/ENV_VARIABLES.html>`_
+    * - `MIOpen <https://rocm.docs.amd.com/projects/MIOpen/en/latest/docs/ENV_VARIABLES.html>`_
+      - Extensive options for deep learning kernel tuning, find/enforce modes, solver selection, and verbose debugging.
 
-   * - AMD SMI
-     - `Link <#amd-smi-vars-detail>`_
+    * - `AMD SMI <#amd-smi-vars-detail>`_
+      - Control CLI output format (e.g., forcing JSON).
 
-   * - rocFFT
-     - `Link <#rocfft-vars-detail>`_
+    * - `rocFFT <#rocfft-vars-detail>`_
+      - Manage plan caching behavior and enable debugging for FFT operations.
 
-   * - rocRAND
-     - `Link <https://rocm.docs.amd.com/projects/rocRAND/en/latest/docs/USER_GUIDE.html#environment-variables>`_
+    * - `rocRAND <https://rocm.docs.amd.com/projects/rocRAND/en/latest/docs/USER_GUIDE.html#environment-variables>`_
+      - Control seeding behavior, select specific generators (if applicable), and assist in debugging random number generation.
 
-   * - rocDecode
-     - N/A
+    * - rocDecode
+      - N/A
 
-   * - rocTracer
-     - `Link <https://rocm.docs.amd.com/projects/rocTracer/en/latest/docs/ENV_VAR.html>`_
+    * - `rocTracer <https://rocm.docs.amd.com/projects/rocTracer/en/latest/docs/ENV_VAR.html>`_
+      - Configure API call interception, data collection parameters, and output for tracing and profiling.
 
-   * - rocProfiler
-     - `Link <https://rocm.docs.amd.com/projects/rocProfiler/en/latest/docs/ENVIRONMENT_VARIABLES.html>`_
+    * - `rocProfiler <https://rocm.docs.amd.com/projects/rocProfiler/en/latest/docs/ENVIRONMENT_VARIABLES.html>`_
+      - Control profiling activities, data collection, output formats, and tool behavior.
 
 Key single-variable details
 ===========================
