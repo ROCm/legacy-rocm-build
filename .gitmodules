@@ -1,0 +1,251 @@
+[submodule "submodule-srcs/ROCR-Runtime"]
+	path = submodule-srcs/ROCR-Runtime
+	url = https://github.com/rocm/ROCR-Runtime
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/amdsmi"]
+	path = submodule-srcs/amdsmi
+	url = https://github.com/rocm/amdsmi
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rdc"]
+	path = submodule-srcs/rdc
+	url = https://github.com/rocm/rdc
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocm_bandwidth_test"]
+	path = submodule-srcs/rocm_bandwidth_test
+	url = https://github.com/rocm/rocm_bandwidth_test
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocm_smi_lib"]
+	path = submodule-srcs/rocm_smi_lib
+	url = https://github.com/rocm/rocm_smi_lib
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocm-core"]
+	path = submodule-srcs/rocm-core
+	url = https://github.com/rocm/rocm-core
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocm-examples"]
+	path = submodule-srcs/rocm-examples
+	url = https://github.com/rocm/rocm-examples
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocminfo"]
+	path = submodule-srcs/rocminfo
+	url = https://github.com/rocm/rocminfo
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocprofiler"]
+	path = submodule-srcs/rocprofiler
+	url = https://github.com/rocm/rocprofiler
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocprofiler-register"]
+	path = submodule-srcs/rocprofiler-register
+	url = https://github.com/rocm/rocprofiler-register
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocprofiler-sdk"]
+	path = submodule-srcs/rocprofiler-sdk
+	url = https://github.com/rocm/rocprofiler-sdk
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocprofiler-compute"]
+	path = submodule-srcs/rocprofiler-compute
+	url = https://github.com/rocm/rocprofiler-compute
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocprofiler-systems"]
+	path = submodule-srcs/rocprofiler-systems
+	url = https://github.com/rocm/rocprofiler-systems
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/roctracer"]
+	path = submodule-srcs/roctracer
+	url = https://github.com/rocm/roctracer
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/HIP"]
+	path = submodule-srcs/HIP
+	url = https://github.com/rocm/HIP
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hip-tests"]
+	path = submodule-srcs/hip-tests
+	url = https://github.com/rocm/hip-tests
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/HIPIFY"]
+	path = submodule-srcs/HIPIFY
+	url = https://github.com/rocm/HIPIFY
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/clr"]
+	path = submodule-srcs/clr
+	url = https://github.com/rocm/clr
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipother"]
+	path = submodule-srcs/hipother
+	url = https://github.com/rocm/hipother
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/half"]
+	path = submodule-srcs/half
+	url = https://github.com/rocm/half
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/llvm-project"]
+	path = submodule-srcs/llvm-project
+	url = https://github.com/rocm/llvm-project
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/spirv-llvm-translator"]
+	path = submodule-srcs/spirv-llvm-translator
+	url = https://github.com/rocm/spirv-llvm-translator
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/ROCdbgapi"]
+	path = submodule-srcs/ROCdbgapi
+	url = https://github.com/rocm/ROCdbgapi
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/ROCgdb"]
+	path = submodule-srcs/ROCgdb
+	url = https://github.com/rocm/ROCgdb
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocr_debug_agent"]
+	path = submodule-srcs/rocr_debug_agent
+	url = https://github.com/rocm/rocr_debug_agent
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/AMDMIGraphX"]
+	path = submodule-srcs/AMDMIGraphX
+	url = https://github.com/rocm/AMDMIGraphX
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/MIOpen"]
+	path = submodule-srcs/MIOpen
+	url = https://github.com/rocm/MIOpen
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/MIVisionX"]
+	path = submodule-srcs/MIVisionX
+	url = https://github.com/rocm/MIVisionX
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/ROCmValidationSuite"]
+	path = submodule-srcs/ROCmValidationSuite
+	url = https://github.com/rocm/ROCmValidationSuite
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/Tensile"]
+	path = submodule-srcs/Tensile
+	url = https://github.com/rocm/Tensile
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/composable_kernel"]
+	path = submodule-srcs/composable_kernel
+	url = https://github.com/rocm/composable_kernel
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipBLAS-common"]
+	path = submodule-srcs/hipBLAS-common
+	url = https://github.com/rocm/hipBLAS-common
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipBLAS"]
+	path = submodule-srcs/hipBLAS
+	url = https://github.com/rocm/hipBLAS
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipBLASLt"]
+	path = submodule-srcs/hipBLASLt
+	url = https://github.com/rocm/hipBLASLt
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipCUB"]
+	path = submodule-srcs/hipCUB
+	url = https://github.com/rocm/hipCUB
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipFFT"]
+	path = submodule-srcs/hipFFT
+	url = https://github.com/rocm/hipFFT
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipRAND"]
+	path = submodule-srcs/hipRAND
+	url = https://github.com/rocm/hipRAND
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipSOLVER"]
+	path = submodule-srcs/hipSOLVER
+	url = https://github.com/rocm/hipSOLVER
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipSPARSE"]
+	path = submodule-srcs/hipSPARSE
+	url = https://github.com/rocm/hipSPARSE
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipSPARSELt"]
+	path = submodule-srcs/hipSPARSELt
+	url = https://github.com/rocm/hipSPARSELt
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipTensor"]
+	path = submodule-srcs/hipTensor
+	url = https://github.com/rocm/hipTensor
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/hipfort"]
+	path = submodule-srcs/hipfort
+	url = https://github.com/rocm/hipfort
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rccl"]
+	path = submodule-srcs/rccl
+	url = https://github.com/rocm/rccl
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocAL"]
+	path = submodule-srcs/rocAL
+	url = https://github.com/rocm/rocAL
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocALUTION"]
+	path = submodule-srcs/rocALUTION
+	url = https://github.com/rocm/rocALUTION
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocBLAS"]
+	path = submodule-srcs/rocBLAS
+	url = https://github.com/rocm/rocBLAS
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocDecode"]
+	path = submodule-srcs/rocDecode
+	url = https://github.com/rocm/rocDecode
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocJPEG"]
+	path = submodule-srcs/rocJPEG
+	url = https://github.com/rocm/rocJPEG
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocPyDecode"]
+	path = submodule-srcs/rocPyDecode
+	url = https://github.com/rocm/rocPyDecode
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocFFT"]
+	path = submodule-srcs/rocFFT
+	url = https://github.com/rocm/rocFFT
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocPRIM"]
+	path = submodule-srcs/rocPRIM
+	url = https://github.com/rocm/rocPRIM
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocRAND"]
+	path = submodule-srcs/rocRAND
+	url = https://github.com/rocm/rocRAND
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocSHMEM"]
+	path = submodule-srcs/rocSHMEM
+	url = https://github.com/rocm/rocSHMEM
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocSOLVER"]
+	path = submodule-srcs/rocSOLVER
+	url = https://github.com/rocm/rocSOLVER
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocSPARSE"]
+	path = submodule-srcs/rocSPARSE
+	url = https://github.com/rocm/rocSPARSE
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocThrust"]
+	path = submodule-srcs/rocThrust
+	url = https://github.com/rocm/rocThrust
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocWMMA"]
+	path = submodule-srcs/rocWMMA
+	url = https://github.com/rocm/rocWMMA
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rocm-cmake"]
+	path = submodule-srcs/rocm-cmake
+	url = https://github.com/rocm/rocm-cmake
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/rpp"]
+	path = submodule-srcs/rpp
+	url = https://github.com/rocm/rpp
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/TransferBench"]
+	path = submodule-srcs/TransferBench
+	url = https://github.com/rocm/TransferBench
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/openmp-extras/aomp"]
+	path = submodule-srcs/openmp-extras/aomp
+	url = https://github.com/rocm/aomp
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/openmp-extras/aomp-extras"]
+	path = submodule-srcs/openmp-extras/aomp-extras
+	url = https://github.com/rocm/aomp-extras
+	branch = release/rocm-rel-6.4
+[submodule "submodule-srcs/ROCK-Kernel-Driver"]
+	path = submodule-srcs/ROCK-Kernel-Driver
+	url = https://github.com/rocm/ROCK-Kernel-Driver

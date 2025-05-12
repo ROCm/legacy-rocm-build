@@ -20,12 +20,17 @@ source software compilers, debuggers, and libraries. ROCm is fully integrated in
 (ML) frameworks, such as PyTorch and TensorFlow.
 
 ## Getting the ROCm Source Code
+AMD ROCm is built from open source software. It is, therefore, possible to modify the various components of ROCm by downloading the source code and rebuilding the components. AMD ROCm is built from open source software. It is, therefore, possible to modify the various components of ROCm by downloading the source code and rebuilding the components. The source code for ROCm components can be cloned from each of the GitHub repositories using git.
 
-AMD ROCm is built from open source software. It is, therefore, possible to modify the various components of ROCm by downloading the source code and rebuilding the components. The source code for ROCm components can be cloned from each of the GitHub repositories using git.  For easy access to download the correct versions of each of these tools, the ROCm repository contains a repo manifest file called [default.xml](./default.xml). You can use this manifest file to download the source code for ROCm software.
+There are two methods to clone/sync the ROCm sources. you can use either of the methods to sync the ROCm Sources
+
+## [Method 1]
+
+For easy access to download the correct versions of each of these tools, the ROCm repository contains a repo manifest file called [default.xml](./default.xml). You can use this manifest file to download the source code for ROCm software.
 
 ### Installing the repo tool
 
-The repo tool from Google allows you to manage multiple git repositories simultaneously. Run the following commands to install the repo tool:
+We need the repo tool to work with the manifest file. The repo tool from Google allows you to manage multiple git repositories simultaneously. Run the following commands to install the repo tool:
 
 ```bash
 mkdir -p ~/bin/
@@ -43,11 +48,12 @@ Some ROCm projects use the Git Large File Storage (LFS) format that may require 
 sudo apt-get install git-lfs
 ```
 
-### Downloading the ROCm source code
-
 The following example shows how to use the repo tool to download the ROCm source code. If you choose a directory other than ~/bin/ to install the repo tool, you must use that chosen directory in the code as shown below:
 
 ```bash
+# --------------------------------------
+# Step1: clone source code
+# --------------------------------------
 mkdir -p ~/ROCm/
 cd ~/ROCm/
 export ROCM_VERSION=6.4.0
@@ -57,13 +63,28 @@ export ROCM_VERSION=6.4.0
 
 **Note:** Using this sample code will cause the repo tool to download the open source code associated with the specified ROCm release. Ensure that you have ssh-keys configured on your machine for your GitHub ID prior to the download as explained at [Connecting to GitHub with SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
 
-## Building the ROCm source code
+
+## [Method 2]
+  
+This repository contains the source code for ROCm. Below you will find instructions for cloning the repository using submodules as an alternative to using the `repo` tool.  
+  
+## Cloning with Git Submodules  
+  
+As an alternative method, you can clone this repository and its submodules using Git's submodule functionality. This approach may be preferred if you are familiar with Git and wish to avoid using the `repo` tool.  
+  
+To clone the repository along with all its submodules, use the following command:  
+  
+```bash
+# --------------------------------------
+# Step1: clone source code
+# --------------------------------------
+git clone --recurse-submodules --remote-submodules  https://github.com/ROCm/ROCm.git
+cd ROCm/submodule-srcs
+```
 
 Each ROCm component repository contains directions for building that component, such as the rocSPARSE documentation [Installation and Building for Linux](https://rocm.docs.amd.com/projects/rocSPARSE/en/latest/install/Linux_Install_Guide.html). Refer to the specific component documentation for instructions on building the repository.
 
 Each release of the ROCm software supports specific hardware and software configurations. Refer to [System requirements (Linux)](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html) for the current supported hardware and OS.
-
-## Build ROCm from source
 
 The Build will use as many processors as it can find to build in parallel. Some of the compiles can consume as much as 10GB of RAM, so make sure you have plenty of Swap Space !
 
@@ -71,15 +92,6 @@ By default the ROCm build will compile for all supported GPU architectures and w
 The Build time will reduce significantly if we limit the GPU Architecture/s against which we need to build by using the environment variable GPU_ARCHS as mentioned below.
 
 ```bash
-# --------------------------------------
-# Step1: clone source code
-# --------------------------------------
-
-mkdir -p ~/WORKSPACE/      # Or any folder name other than WORKSPACE
-cd ~/WORKSPACE/
-export ROCM_VERSION=6.4.0
-~/bin/repo init -u http://github.com/ROCm/ROCm.git -b roc-6.4.x -m tools/rocm-build/rocm-${ROCM_VERSION}.xml
-~/bin/repo sync
 
 # --------------------------------------
 # Step 2: Prepare build environment
