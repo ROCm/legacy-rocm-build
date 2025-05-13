@@ -70,7 +70,7 @@ PyTorch inference performance testing
 
    To optimize performance, disable automatic NUMA balancing. Otherwise, the GPU
    might hang until the periodic balancing is finalized. For more information,
-   see :ref:`AMD Instinct MI300X system optimization <mi300x-disable-numa>`.
+   see the :ref:`system validation steps <rocm-for-ai-system-optimization>`.
 
    .. code-block:: shell
 

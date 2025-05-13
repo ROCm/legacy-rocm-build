@@ -7,11 +7,11 @@
 .. _train-a-model-system-validation:
 .. _rocm-for-ai-system-optimization:
 
-**********************************************
-Prerequisite system validation before training
-**********************************************
+**********************************************************
+Prerequisite system validation before running AI workloads
+**********************************************************
 
-Complete the following system validation and optimization steps to set up your system before starting training.
+Complete the following system validation and optimization steps to set up your system before starting training and inference.
 
 Disable NUMA auto-balancing
 ---------------------------
