@@ -106,6 +106,7 @@ parameters:
   type: object
   default:
     - gfx90a
+    - gfx942
 
 steps:
 # these steps should only be run if there was a failure or warning
