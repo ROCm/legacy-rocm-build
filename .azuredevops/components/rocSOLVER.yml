@@ -105,6 +105,7 @@ jobs:
           -DLAPACKE=OFF
           -GNinja
         cmakeBuildDir: '$(Build.SourcesDirectory)/lapack/build'
+        cmakeSourceDir: '$(Build.SourcesDirectory)/lapack'
         installDir: '$(Pipeline.Workspace)/deps-install'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:

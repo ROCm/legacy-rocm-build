@@ -38,6 +38,7 @@ jobs:
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
     parameters:
       cmakeBuildDir: $(Agent.BuildDirectory)/grpc/build
+      cmakeSourceDir: $(Agent.BuildDirectory)/grpc
       extraBuildFlags: >-
         -DgRPC_INSTALL=ON
         -DgRPC_BUILD_TESTS=OFF

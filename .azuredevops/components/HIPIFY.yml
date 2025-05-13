@@ -73,6 +73,7 @@ jobs:
     parameters:
       componentName: upstream-llvm
       cmakeBuildDir: $(Pipeline.Workspace)/llvm-project/llvm/build
+      cmakeSourceDir: $(Pipeline.Workspace)/llvm-project/llvm
       installDir: $(Pipeline.Workspace)/llvm
       extraBuildFlags: >-
         -DCMAKE_BUILD_TYPE=Release

@@ -78,6 +78,7 @@ jobs:
     parameters:
       componentName: clr
       cmakeBuildDir: 'clr/build'
+      cmakeSourceDir: 'clr'
       extraBuildFlags: >-
         -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
         -DHIP_PLATFORM=amd
@@ -139,6 +140,7 @@ jobs:
     parameters:
       componentName: clr
       cmakeBuildDir: 'clr/build'
+      cmakeSourceDir: 'clr'
       extraBuildFlags: >-
         -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
         -DHIP_PLATFORM=nvidia

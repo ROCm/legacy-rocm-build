@@ -38,6 +38,7 @@ jobs:
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
     parameters:
       cmakeBuildDir: $(Agent.BuildDirectory)/googletest/build
+      cmakeSourceDir: $(Agent.BuildDirectory)/googletest
       extraBuildFlags: >-
         -DGTEST_FORCE_SHARED_CRT=ON
         -DCMAKE_DEBUG_POSTFIX=d

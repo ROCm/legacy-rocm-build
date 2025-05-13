@@ -118,6 +118,7 @@ jobs:
     parameters:
       componentName: extras
       cmakeBuildDir: '$(Build.SourcesDirectory)/aomp-extras/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/aomp-extras'
       installDir: '$(Build.BinariesDirectory)/llvm'
       extraBuildFlags: >-
         -DLLVM_DIR=$(Agent.BuildDirectory)/rocm/llvm
@@ -129,6 +130,7 @@ jobs:
     parameters:
       componentName: openmp
       cmakeBuildDir: '$(Build.SourcesDirectory)/llvm-project/openmp/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/llvm-project/openmp'
       installDir: '$(Build.BinariesDirectory)/llvm'
       extraBuildFlags: >-
         -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Build.BinariesDirectory)"
@@ -155,6 +157,7 @@ jobs:
     parameters:
       componentName: offload
       cmakeBuildDir: '$(Build.SourcesDirectory)/llvm-project/offload/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/llvm-project/offload'
       installDir: '$(Build.BinariesDirectory)/llvm'
       extraBuildFlags: >-
         -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Build.BinariesDirectory)"

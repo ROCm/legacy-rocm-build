@@ -125,6 +125,7 @@ jobs:
       parameters:
         componentName: PyBind11
         cmakeBuildDir: '$(Build.SourcesDirectory)/pybind11/build'
+        cmakeSourceDir: '$(Build.SourcesDirectory)/pybind11'
         customInstallPath: false
         installEnabled: false
         extraBuildFlags: >-
@@ -141,6 +142,7 @@ jobs:
       parameters:
         componentName: RapidJSON
         cmakeBuildDir: '$(Build.SourcesDirectory)/rapidjson/build'
+        cmakeSourceDir: '$(Build.SourcesDirectory)/rapidjson'
         customInstallPath: false
         installEnabled: false
         extraBuildFlags: >-

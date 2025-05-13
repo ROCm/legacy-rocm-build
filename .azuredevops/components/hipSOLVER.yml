@@ -93,6 +93,7 @@ jobs:
       parameters:
         componentName: external
         cmakeBuildDir: 'deps/build'
+        cmakeSourceDir: 'deps'
         installDir: '$(Pipeline.Workspace)/deps-install'
         extraBuildFlags: >-
           -DBUILD_BOOST=OFF

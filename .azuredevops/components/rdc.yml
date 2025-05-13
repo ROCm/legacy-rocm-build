@@ -105,6 +105,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         cmakeBuildDir: $(Build.SourcesDirectory)/grpc/build
+        cmakeSourceDir: $(Build.SourcesDirectory)/grpc
         installDir: $(Build.SourcesDirectory)/bin
         extraBuildFlags: >-
           -DgRPC_INSTALL=ON
