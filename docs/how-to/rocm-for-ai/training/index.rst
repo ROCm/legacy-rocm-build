@@ -21,8 +21,12 @@ In this guide, you'll learn about:
 
 - Training a model
 
-  - :doc:`Train a model with Megatron-LM <benchmark-docker/megatron-lm>`
+  - :doc:`With Megatron-LM <benchmark-docker/megatron-lm>`
 
-  - :doc:`Train a model with PyTorch <benchmark-docker/pytorch-training>`
+  - :doc:`With PyTorch <benchmark-docker/pytorch-training>`
+
+  - :doc:`With JAX MaxText <benchmark-docker/jax-maxtext>`
+
+  - :doc:`With LLM Foundry <benchmark-docker/mpt-llm-foundry>`
 
 - :doc:`Scaling model training <scale-model-training>`
