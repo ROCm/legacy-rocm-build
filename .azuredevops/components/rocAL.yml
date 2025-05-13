@@ -200,7 +200,6 @@ jobs:
       value: $(Agent.BuildDirectory)/rocm/include/rocal
     pool:
       name: ${{ job.target }}_test_pool
-      demands: firstRenderDeviceAccess
     workspace:
       clean: all
     steps:

@@ -168,7 +168,6 @@ jobs:
       value: $(Agent.BuildDirectory)/rocm
     pool:
       name: ${{ job.target }}_test_pool
-      demands: firstRenderDeviceAccess
     workspace:
       clean: all
     steps:
