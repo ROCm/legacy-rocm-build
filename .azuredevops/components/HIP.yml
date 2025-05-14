@@ -77,8 +77,8 @@ jobs:
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
     parameters:
       componentName: clr
-      cmakeBuildDir: 'clr/build'
-      cmakeSourceDir: 'clr'
+      cmakeBuildDir: '$(Build.SourcesDirectory)/clr/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/clr'
       extraBuildFlags: >-
         -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
         -DHIP_PLATFORM=amd
@@ -139,8 +139,8 @@ jobs:
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
     parameters:
       componentName: clr
-      cmakeBuildDir: 'clr/build'
-      cmakeSourceDir: 'clr'
+      cmakeBuildDir: '$(Build.SourcesDirectory)/clr/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/clr'
       extraBuildFlags: >-
         -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
         -DHIP_PLATFORM=nvidia

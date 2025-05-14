@@ -83,8 +83,8 @@ jobs:
         -DROCM_LLVM_BACKWARD_COMPAT_LINK=$(Build.BinariesDirectory)/llvm
         -DROCM_LLVM_BACKWARD_COMPAT_LINK_TARGET=./lib/llvm
         -GNinja
-      cmakeBuildDir: 'llvm/build'
-      cmakeSourceDir: 'llvm'
+      cmakeBuildDir: '$(Build.SourcesDirectory)/llvm/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/llvm'
       installDir: '$(Build.BinariesDirectory)/llvm'
 # use llvm-lit to run unit tests for llvm, clang, and lld
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
@@ -122,8 +122,8 @@ jobs:
       extraBuildFlags: >-
         -DCMAKE_PREFIX_PATH="$(Build.SourcesDirectory)/llvm/build"
         -DCMAKE_BUILD_TYPE=Release
-      cmakeBuildDir: 'amd/device-libs/build'
-      cmakeSourceDir: 'amd/device-libs'
+      cmakeBuildDir: '$(Build.SourcesDirectory)/amd/device-libs/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/amd/device-libs'
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
     parameters:
       componentName: comgr
@@ -131,8 +131,8 @@ jobs:
         -DCMAKE_PREFIX_PATH="$(Build.SourcesDirectory)/llvm/build;$(Build.SourcesDirectory)/amd/device-libs/build"
         -DCOMGR_DISABLE_SPIRV=1
         -DCMAKE_BUILD_TYPE=Release
-      cmakeBuildDir: 'amd/comgr/build'
-      cmakeSourceDir: 'amd/comgr'
+      cmakeBuildDir: '$(Build.SourcesDirectory)/amd/comgr/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/amd/comgr'
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
     parameters:
       componentName: comgr
@@ -145,8 +145,8 @@ jobs:
       extraBuildFlags: >-
         -DCMAKE_BUILD_TYPE=Release
         -DHIPCC_BACKWARD_COMPATIBILITY=OFF
-      cmakeBuildDir: 'amd/hipcc/build'
-      cmakeSourceDir: 'amd/hipcc'
+      cmakeBuildDir: '$(Build.SourcesDirectory)/amd/hipcc/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/amd/hipcc'
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml

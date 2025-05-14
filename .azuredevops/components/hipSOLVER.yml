@@ -92,8 +92,8 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: external
-        cmakeBuildDir: 'deps/build'
-        cmakeSourceDir: 'deps'
+        cmakeBuildDir: '$(Build.SourcesDirectory)/deps/build'
+        cmakeSourceDir: '$(Build.SourcesDirectory)/deps'
         installDir: '$(Pipeline.Workspace)/deps-install'
         extraBuildFlags: >-
           -DBUILD_BOOST=OFF
