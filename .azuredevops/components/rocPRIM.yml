@@ -5,6 +5,12 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
+- name: sparseCheckout
+  type: boolean
+  default: false
+- name: sparseCheckoutDir
+  type: string
+  default: ''
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -66,6 +72,8 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckout: ${{ parameters.sparseCheckout }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}

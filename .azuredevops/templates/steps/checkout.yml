@@ -21,6 +21,7 @@ steps:
     clean: true
     submodules: ${{ parameters.submoduleBehaviour }}
     retryCountOnTaskFailure: 3
+    fetchFilter: blob:none
     ${{ if eq(parameters.sparseCheckout, true) }}:
       sparseCheckoutDirectories: ${{ parameters.sparseCheckoutDir }}
       path: sparse
