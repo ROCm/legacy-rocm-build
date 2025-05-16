@@ -21,19 +21,7 @@ source software compilers, debuggers, and libraries. ROCm is fully integrated in
 
 ## Getting the ROCm Source Code
 
-AMD ROCm is built from open source software. It is, therefore, possible to modify the various components of ROCm by downloading the source code and rebuilding the components. The source code for ROCm components can be cloned from each of the GitHub repositories using git.  For easy access to download the correct versions of each of these tools, the ROCm repository contains a repo manifest file called [default.xml](./default.xml). You can use this manifest file to download the source code for ROCm software.
-
-### Installing the repo tool
-
-The repo tool from Google allows you to manage multiple git repositories simultaneously. Run the following commands to install the repo tool:
-
-```bash
-mkdir -p ~/bin/
-curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
-chmod a+x ~/bin/repo
-```
-
-**Note:** The ```~/bin/``` folder is used as an example. You can specify a different folder to install the repo tool into if you desire.
+AMD ROCm is built from open source software. It is, therefore, possible to modify the various components of ROCm by downloading the source code and rebuilding the components. The source code for ROCm components can be cloned from each of the GitHub repositories using git.  For easy access to download the correct versions of each of these tools, the ROCm repository contains submodules that point to the correct versions of each of the ROCm components. They can be found in the `/libs` directory of the ROCm repository.
 
 ### Installing git-lfs
 
@@ -45,17 +33,11 @@ sudo apt-get install git-lfs
 
 ### Downloading the ROCm source code
 
-The following example shows how to use the repo tool to download the ROCm source code. If you choose a directory other than ~/bin/ to install the repo tool, you must use that chosen directory in the code as shown below:
+The following example shows how to download the ROCm source from this repository.
 
 ```bash
-mkdir -p ~/ROCm/
-cd ~/ROCm/
-export ROCM_VERSION=6.4.0
-~/bin/repo init -u http://github.com/ROCm/ROCm.git -b roc-6.4.x -m tools/rocm-build/rocm-${ROCM_VERSION}.xml
-~/bin/repo sync
+git clone https://github.com/ROCm/ROCm -b submodules-6-4-0 --recurse-submodules
 ```
-
-**Note:** Using this sample code will cause the repo tool to download the open source code associated with the specified ROCm release. Ensure that you have ssh-keys configured on your machine for your GitHub ID prior to the download as explained at [Connecting to GitHub with SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
 
 ## Building the ROCm source code
 
@@ -77,9 +59,8 @@ The Build time will reduce significantly if we limit the GPU Architecture/s agai
 
 mkdir -p ~/WORKSPACE/      # Or any folder name other than WORKSPACE
 cd ~/WORKSPACE/
-export ROCM_VERSION=6.4.0
-~/bin/repo init -u http://github.com/ROCm/ROCm.git -b roc-6.4.x -m tools/rocm-build/rocm-${ROCM_VERSION}.xml
-~/bin/repo sync
+export ROCM_VERSION=6.4.0   # or 6.3.0, 6.2.0. 6.1.0
+git clone https://github.com/ROCm/ROCm -b submodules-${ROCM_VERSION} --recurse-submodules
 
 # --------------------------------------
 # Step 2: Prepare build environment
@@ -157,12 +138,6 @@ out/ubuntu-22.04/22.04/logs/rocblas             # Example
 Note: [Overview for ROCm.mk](tools/rocm-build/README.md)
 
 ## ROCm documentation
-
-This repository contains the [manifest file](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md)
-for ROCm releases, changelogs, and release information.
-
-The `default.xml` file contains information for all repositories and the associated commit used to build
-the current ROCm release; `default.xml` uses the [Manifest Format repository](https://gerrit.googlesource.com/git-repo/).
 
 Source code for our documentation is located in the `/docs` folder of most ROCm repositories. The
 `develop` branch of our repositories contains content for the next ROCm release.
