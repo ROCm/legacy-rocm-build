@@ -569,6 +569,21 @@ will be addressed in a future ROCm release.
 When splitting a communicator using `ncclCommSplit` in some GPU configurations, MSCCL initialization can cause a segmentation fault. The recommended workaround is to disable MSCCL with `export RCCL_MSCCL_ENABLE=0`.
 This issue will be fixed in a future ROCm release.
 
+### AMD SMI CPER entries not dumped continuously when using --follow
+
+* When using the `--follow` flag with `amd-smi ras --cper`, CPER entries are not streamed continuously as intended. This will be fixed in an upcoming ROCm release.
+
+### ROCm SMI uninstallation issue on RHEL and SLES
+
+`rocm-smi-lib` does not get uninstalled properly on RHEL and SLES systems when:
+
+* [Uninstalling ROCm using the AMDGPU installer](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/amdgpu-install.html#uninstalling-rocm) with `amdgpu-install --uninstall`
+
+* [Uninstalling via package manager](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/install-methods/package-manager/package-manager-rhel.html#uninstall-rocm-packages)
+  with `dnf remove rocm-core` on RHEL or `zypper remove rocm-core` on SLES.
+
+As a workaround, manually remove the `rocm-smi-lib` package using `sudo dnf remove rocm-smi-lib` or `sudo zypper remove rocm-smi-lib`.
+
 ## ROCm upcoming changes
 
 The following changes to the ROCm software stack are anticipated for future releases.
