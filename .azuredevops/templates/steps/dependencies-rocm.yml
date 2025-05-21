@@ -36,6 +36,10 @@ parameters:
 - name: aggregatePipeline
   type: boolean
   default: false
+# monorepo related parameters
+- name: downstreamAggregateNames
+  type: string
+  default: ''
 
 - name: componentVarList
   type: object
@@ -384,6 +388,13 @@ steps:
         ${{ else }}:
           branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].stagingBranch }}
 # no colon (:) found in this item in the list
+  - ${{ elseif containsValue(split(parameters.downstreamAggregateNames, '+'), dependency) }}:
+    - template: local-artifact-download.yml
+      parameters:
+        ${{ if parameters.componentVarList[dependency].hasGpuTarget }}:
+          gpuTarget: ${{ parameters.gpuTarget }}
+        preTargetFilter: ${{ dependency }}
+        buildType: current
   - ${{ else }}:
     - template: artifact-download.yml
       parameters:
