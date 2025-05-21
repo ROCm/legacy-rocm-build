@@ -155,6 +155,7 @@ jobs:
       parameters:
         componentName: ${{ parameters.componentName }}
         testDir: '$(Agent.BuildDirectory)/rocm/bin/rocthrust'
+        testParameters: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml --exclude-regex "scan.hip"'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
