@@ -3,15 +3,18 @@
 # publish can be toggled off for jobs that produce multiple tarballs
 # for those cases, only publish the last call which puts all the tarballs in one container folder
 parameters:
-- name: artifactName
+- name: componentName
   type: string
-  default: 'drop'
-- name: publish
-  type: boolean
-  default: true
+  default: $(Build.DefinitionName)
 - name: gpuTarget
   type: string
   default: ''
+- name: artifactName
+  type: string
+  default: drop
+- name: publish
+  type: boolean
+  default: true
 
 steps:
 - task: ArchiveFiles@2
@@ -20,7 +23,7 @@ steps:
     includeRootFolder: false
     archiveType: 'tar'
     tarCompression: 'gz'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.DefinitionName)_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.tar.gz'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.tar.gz'
 - task: DeleteFiles@1
   displayName: 'Cleanup Staging Area'
   inputs:
@@ -32,7 +35,7 @@ steps:
   inputs:
     workingDirectory: $(Pipeline.Workspace)
     targetType: inline
-    script: echo "$(Build.DefinitionName)_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.tar.gz" >> pipelineArtifacts.txt
+    script: echo "${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.tar.gz" >> pipelineArtifacts.txt
 # then publish it
 - ${{ if parameters.publish }}:
   - task: PublishPipelineArtifact@1

@@ -1,10 +1,13 @@
 parameters:
-- name: artifactName
+- name: componentName
   type: string
-  default: 'drop'
+  default: $(Build.DefinitionName)
 - name: gpuTarget
   type: string
   default: ''
+- name: artifactName
+  type: string
+  default: drop
 
 steps:
 - task: Bash@3
@@ -55,7 +58,7 @@ steps:
         )
       ' resources.repositories)
 
-      manifest_json=$(Build.ArtifactStagingDirectory)/manifest_$(Build.DefinitionName)_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.json
+      manifest_json=$(Build.ArtifactStagingDirectory)/manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.json
 
       dependencies=()
       for manifest_file in $(Pipeline.Workspace)/d/**/manifest_*.json; do
@@ -107,7 +110,7 @@ steps:
   inputs:
     targetType: inline
     script: |
-      manifest_html=$(Build.ArtifactStagingDirectory)/manifest_$(Build.DefinitionName)_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.html
+      manifest_html=$(Build.ArtifactStagingDirectory)/manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.html
       cat <<EOF > $manifest_html
       <html>
       <h1>Manifest</h1>
@@ -148,7 +151,7 @@ steps:
   continueOnError: true
   inputs:
     tabName: Manifest
-    reportDir: $(Build.ArtifactStagingDirectory)/manifest_$(Build.DefinitionName)_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.html
+    reportDir: $(Build.ArtifactStagingDirectory)/manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.html
 - task: Bash@3
   displayName: Save manifest artifact file name
   condition: always()
@@ -157,5 +160,5 @@ steps:
     workingDirectory: $(Pipeline.Workspace)
     targetType: inline
     script: |
-      echo "manifest_$(Build.DefinitionName)_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.html" >> pipelineArtifacts.txt
-      echo "manifest_$(Build.DefinitionName)_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.json" >> pipelineArtifacts.txt
+      echo "manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.html" >> pipelineArtifacts.txt
+      echo "manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_ubuntu2204_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.json" >> pipelineArtifacts.txt
