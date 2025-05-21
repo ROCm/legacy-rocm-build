@@ -24,8 +24,6 @@ The release notes provide a summary of notable changes since the previous ROCm r
 
 - [ROCm known issues](#rocm-known-issues)
 
-- [ROCm resolved issues](#rocm-resolved-issues)
-
 - [ROCm upcoming changes](#rocm-upcoming-changes)
 
 ```{note}
