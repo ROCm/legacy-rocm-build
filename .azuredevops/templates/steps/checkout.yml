@@ -4,9 +4,6 @@ parameters:
 - name: checkoutRepo
   type: string
   default: 'self'
-- name: sparseCheckout
-  type: boolean
-  default: false
 - name: sparseCheckoutDir
   type: string
   default: ''
@@ -22,10 +19,10 @@ steps:
     submodules: ${{ parameters.submoduleBehaviour }}
     retryCountOnTaskFailure: 3
     fetchFilter: blob:none
-    ${{ if eq(parameters.sparseCheckout, true) }}:
+    ${{ if ne(parameters.sparseCheckoutDir, '') }}:
       sparseCheckoutDirectories: ${{ parameters.sparseCheckoutDir }}
       path: sparse
-  - ${{ if eq(parameters.sparseCheckout, true) }}:
+  - ${{ if ne(parameters.sparseCheckoutDir, '') }}:
     - task: Bash@3
       displayName: Symlink sparse checkout
       inputs:
