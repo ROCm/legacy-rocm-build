@@ -568,6 +568,10 @@ will be addressed in a future ROCm release.
 When splitting a communicator using `ncclCommSplit` in some GPU configurations, MSCCL initialization can cause a segmentation fault. The recommended workaround is to disable MSCCL with `export RCCL_MSCCL_ENABLE=0`.
 This issue will be fixed in a future ROCm release.
 
+### AMD SMI CPER entries not dumped continuously when using --follow
+
+* When using the `--follow` flag with `amd-smi ras --cper`, CPER entries are not streamed continuously as intended. This will be fixed in an upcoming ROCm release.
+
 ## ROCm upcoming changes
 
 The following changes to the ROCm software stack are anticipated for future releases.
