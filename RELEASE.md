@@ -561,16 +561,17 @@ issues related to individual components, review the [Detailed component changes]
 Radeon AI PRO R9700 GPUs might hang when running [Stable Diffusion
 2.1](https://huggingface.co/stabilityai/stable-diffusion-2-1) with batch sizes
 greater than four. As a workaround, limit batch sizes to four or fewer. This issue
-will be addressed in a future ROCm release.
+will be addressed in a future ROCm release. See [issue #4770](https://github.com/ROCm/ROCm/issues/4770).
 
 ### RCCL MSCCL initialization failure
 
 When splitting a communicator using `ncclCommSplit` in some GPU configurations, MSCCL initialization can cause a segmentation fault. The recommended workaround is to disable MSCCL with `export RCCL_MSCCL_ENABLE=0`.
-This issue will be fixed in a future ROCm release.
+This issue will be fixed in a future ROCm release. See [issue #4769](https://github.com/ROCm/ROCm/issues/4769).
 
 ### AMD SMI CLI: CPER entries not dumped continuously when using follow flag
 
 * When using the `--follow` flag with `amd-smi ras --cper`, CPER entries are not streamed continuously as intended. This will be fixed in an upcoming ROCm release.
+See [issue #4768](https://github.com/ROCm/ROCm/issues/4768).
 
 ### ROCm SMI uninstallation issue on RHEL and SLES
 
@@ -582,6 +583,7 @@ This issue will be fixed in a future ROCm release.
   with `dnf remove rocm-core` on RHEL or `zypper remove rocm-core` on SLES.
 
 As a workaround, manually remove the `rocm-smi-lib` package using `sudo dnf remove rocm-smi-lib` or `sudo zypper remove rocm-smi-lib`.
+See [issue #4767](https://github.com/ROCm/ROCm/issues/4767).
 
 ## ROCm upcoming changes
 
