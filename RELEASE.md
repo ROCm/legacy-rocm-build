@@ -391,7 +391,7 @@ Click {fab}`github` to go to the component's source code on GitHub.
                 <th rowspan="2" colspan="2">Compilers</th>
                 <td><a href="https://rocm.docs.amd.com/projects/HIPCC/en/docs-6.4.1/index.html">HIPCC</a></td>
                 <td>1.1.1</td>
-                <td><a href="https://github.com/ROCm/llvm-project/"><i
+                <td><a href="https://github.com/ROCm/llvm-project/tree/amd-staging/amd/hipcc"><i
                             class="fab fa-github fa-lg"></i></a></td>
             </tr>
             <tr>
