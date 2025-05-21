@@ -24,8 +24,6 @@ The release notes provide a summary of notable changes since the previous ROCm r
 
 - [ROCm known issues](#rocm-known-issues)
 
-- [ROCm resolved issues](#rocm-resolved-issues)
-
 - [ROCm upcoming changes](#rocm-upcoming-changes)
 
 ```{note}
@@ -69,7 +67,7 @@ ROCm documentation continues to be updated to provide clearer and more comprehen
 * The [Training a model with LLM Foundry](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry.html) performance testing guide has been added. This guide describes how to use the preconfigured [ROCm/pytorch-training](https://hub.docker.com/layers/rocm/pytorch-training/v25.5/images/sha256-d47850a9b25b4a7151f796a8d24d55ea17bba545573f0d50d54d3852f96ecde5) training environment and [https://github.com/ROCm/MAD](https://github.com/ROCm/MAD) to test the training performance of the LLM Foundry framework on AMD Instinct MI325X and MI300X accelerators using the [MPT-30B](https://huggingface.co/mosaicml/mpt-30b) model.
 * The [Training a model with PyTorch](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html) performance testing guide has been updated to feature the latest [ROCm/pytorch-training](https://hub.docker.com/layers/rocm/pytorch-training/v25.5/images/sha256-d47850a9b25b4a7151f796a8d24d55ea17bba545573f0d50d54d3852f96ecde5) Docker image (a preconfigured training environment with ROCm and PyTorch). Support for [Llama 3.3 70B](https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct) has been added.
 * The [Training a model with JAX MaxText](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext.html) performance testing guide has been updated to feature the latest [ROCm/jax-training](https://hub.docker.com/layers/rocm/jax-training/maxtext-v25.5/images/sha256-4e0516358a227cae8f552fb866ec07e2edcf244756f02e7b40212abfbab5217b) Docker image (a preconfigured training environment with ROCm, JAX, and [MaxText](https://github.com/AI-Hypercomputer/maxtext)). Support for [Llama 3.3 70B](https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct) has been added.
-* The [vLLM inference performance testing](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference/vllm-benchmark.html?model=pyt_vllm_qwq-32b) guide has been updated to feature the latest [ROCm/vLLM](https://hub.docker.com/layers/rocm/vllm/instinct_main/images/sha256-ad9062dea3483d59dedb17c67f7c49f30eebd6eb37c3fac0a171fb19696cc845) Docker image (a preconfigured environment for inference with ROCm and [vLLM](https://docs.vllm.ai/en/latest/)). Support for the [QwQ-32B](https://huggingface.co/Qwen/QwQ-32B) model has been added.
+* The [vLLM inference performance testing](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference/vllm-benchmark.html?model=pyt_vllm_qwq-32b) guide has been updated to feature the latest [ROCm/vLLM](https://hub.docker.com/layers/rocm/vllm/latest/images/sha256-5c8b4436dd0464119d9df2b44c745fadf81512f18ffb2f4b5dc235c71ebe26b4) Docker image (a preconfigured environment for inference with ROCm and [vLLM](https://docs.vllm.ai/en/latest/)). Support for the [QwQ-32B](https://huggingface.co/Qwen/QwQ-32B) model has been added.
 * The [PyTorch inference performance testing](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference/pytorch-inference-benchmark.html?model=pyt_clip_inference) guide has been added, featuring the [ROCm/PyTorch](https://hub.docker.com/layers/rocm/pytorch/latest/images/sha256-ab1d350b818b90123cfda31363019d11c0d41a8f12a19e3cb2cb40cf0261137d) Docker image (a preconfigured inference environment with ROCm and PyTorch) with initial support for the [CLIP](https://huggingface.co/laion/CLIP-ViT-B-32-laion2B-s34B-b79K) and [Chai-1](https://huggingface.co/chaidiscovery/chai-1) models.
 
 ## Operating system and hardware support changes
@@ -78,7 +76,8 @@ ROCm 6.4.1 introduces support for the RDNA4 architecture-based [Radeon AI PRO
 R9700](https://www.amd.com/en/products/graphics/workstations/radeon-ai-pro/ai-9000-series/amd-radeon-ai-pro-r9700.html),
 [Radeon RX 9070 XT](https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070xt.html), and
 [Radeon RX 9060 XT](https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9060xt.html) GPUs
-for compute workloads. For details, see the full list of [Supported GPUs
+for compute workloads. Currently, these GPUs are only supported on Ubuntu 24.04.2, Ubuntu 22.04.5, RHEL 9.5, and RHEL 9.4.
+For details, see the full list of [Supported GPUs
 (Linux)](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-gpus).
 
 Operating system support remains unchanged in this release.
@@ -390,7 +389,7 @@ Click {fab}`github` to go to the component's source code on GitHub.
                 <th rowspan="2" colspan="2">Compilers</th>
                 <td><a href="https://rocm.docs.amd.com/projects/HIPCC/en/docs-6.4.1/index.html">HIPCC</a></td>
                 <td>1.1.1</td>
-                <td><a href="https://github.com/ROCm/llvm-project/"><i
+                <td><a href="https://github.com/ROCm/llvm-project/tree/amd-staging/amd/hipcc"><i
                             class="fab fa-github fa-lg"></i></a></td>
             </tr>
             <tr>
@@ -653,4 +652,4 @@ There are a number of upcoming changes planned for HIP runtime API in an upcomin
 that are not backward compatible with prior releases. Most of these changes increase 
 alignment between HIP and CUDA APIs or behavior. Some of the upcoming changes are to 
 clean up header files, remove namespace collision, and have a clear separation between 
-`hipRTC` and HIP runtime. For more information refer to [HIP Upcoming changes](https://rocm.docs.amd.com/en/latest/about/release-notes.html#id15).
+`hipRTC` and HIP runtime. For more information refer to [HIP Upcoming changes](https://rocm.docs.amd.com/en/docs-6.4.0/about/release-notes.html#id15).

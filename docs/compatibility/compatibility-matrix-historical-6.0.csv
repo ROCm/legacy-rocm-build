@@ -17,8 +17,8 @@ ROCm Version,6.4.1,6.4.0,6.3.3,6.3.2,6.3.1,6.3.0,6.2.4,6.2.2,6.2.1,6.2.0, 6.1.5,
       ,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3
       ,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2
       ,.. _gpu-support-compatibility-matrix-past-60:,,,,,,,,,,,,,,,
-      :doc:`GPU / LLVM target <rocm-install-on-linux:reference/system-requirements>`,gfx1201,,,,,,,,,,,,,,,
-      ,gfx1200,,,,,,,,,,,,,,,
+      :doc:`GPU / LLVM target <rocm-install-on-linux:reference/system-requirements>`,gfx1201 [#RDNA4-OS-past-60]_,,,,,,,,,,,,,,,
+      ,gfx1200 [#RDNA4-OS-past-60]_,,,,,,,,,,,,,,,
       ,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100
       ,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030
       ,gfx942,gfx942,gfx942,gfx942,gfx942,gfx942,gfx942 [#mi300_624-past-60]_,gfx942 [#mi300_622-past-60]_,gfx942 [#mi300_621-past-60]_,gfx942 [#mi300_620-past-60]_, gfx942 [#mi300_612-past-60]_, gfx942 [#mi300_612-past-60]_, gfx942 [#mi300_611-past-60]_, gfx942 [#mi300_610-past-60]_, gfx942 [#mi300_602-past-60]_, gfx942 [#mi300_600-past-60]_
