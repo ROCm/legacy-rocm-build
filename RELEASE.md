@@ -654,4 +654,4 @@ There are a number of upcoming changes planned for HIP runtime API in an upcomin
 that are not backward compatible with prior releases. Most of these changes increase 
 alignment between HIP and CUDA APIs or behavior. Some of the upcoming changes are to 
 clean up header files, remove namespace collision, and have a clear separation between 
-`hipRTC` and HIP runtime. For more information refer to [HIP Upcoming changes](https://rocm.docs.amd.com/en/docs-6.4.0/about/release-notes.html#id15).
+`hipRTC` and HIP runtime.
