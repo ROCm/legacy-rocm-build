@@ -574,7 +574,7 @@ This issue will be fixed in a future ROCm release.
 
 ### ROCm SMI uninstallation issue on RHEL and SLES
 
-`rocm-smi-lib` does not get uninstalled properly on RHEL and SLES systems when:
+`rocm-smi-lib` does not get uninstalled and remains orphaned on RHEL and SLES systems when:
 
 * [Uninstalling ROCm using the AMDGPU installer](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/amdgpu-install.html#uninstalling-rocm) with `amdgpu-install --uninstall`
 
