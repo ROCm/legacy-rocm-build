@@ -26,14 +26,12 @@ parameters:
   type: object
   default:
     - clr
-    - hipSPARSE
     - llvm-project
     - rocBLAS
     - rocm-cmake
     - rocminfo
     - rocPRIM
     - ROCR-Runtime
-    - rocSPARSE
 - name: rocmTestDependencies
   type: object
   default:
