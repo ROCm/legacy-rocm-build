@@ -606,6 +606,7 @@ embeddings
 enablement
 encodings
 endfor
+endif
 endpgm
 enqueue
 env

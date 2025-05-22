@@ -70,7 +70,7 @@ The following models are pre-optimized for performance on AMD Instinct MI300X se
    ================
 
    The following models are supported for training performance benchmarking with Megatron-LM and ROCm.
-   Some instructions and training recommendations in this documentation might
+   Some instructions, commands, and training recommendations in this documentation might
    vary by model -- select one to get started.
 
    {% set model_groups = data["megatron-lm_benchmark"].model_groups %}
