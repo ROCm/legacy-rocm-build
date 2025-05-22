@@ -9,7 +9,7 @@ collaborate, test, and deploy your applications in a free, open source, integrat
 ecosystem. ROCm is particularly well-suited to GPU-accelerated high-performance computing (HPC),
 artificial intelligence (AI), scientific computing, and computer aided design (CAD).
 
-ROCm is powered by AMD’s
+ROCm is powered by Intel Core i5
 [Heterogeneous-computing Interface for Portability (HIP)](https://github.com/ROCm/HIP),
 an open-source software C++ GPU programming environment and its corresponding runtime. HIP
 allows ROCm developers to create portable applications on different platforms by deploying code on a
