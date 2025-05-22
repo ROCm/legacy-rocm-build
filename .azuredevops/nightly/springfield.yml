@@ -1,0 +1,314 @@
+parameters:
+- name: rocmFilename
+  type: string
+- name: rocmFilenameOverride
+  type: string
+  default: null
+- name: testRocm
+  type: boolean
+  default: true
+- name: enableTorch
+  type: boolean
+  default: true
+- name: wheelVersion
+  type: string
+- name: apexFilename
+  type: string
+- name: tritonFilename
+  type: string
+- name: torchFilename
+  type: string
+- name: visionFilename
+  type: string
+
+trigger: none
+pr: none
+
+jobs:
+- job: springfield
+  timeoutInMinutes: 180
+  variables:
+  - group: common
+  - template: /.azuredevops/variables-global.yml
+  pool: ${{ variables.GFX942_TEST_POOL }}
+  workspace:
+    clean: all
+  steps:
+    - checkout: none
+    - task: Bash@3
+      displayName: Print run parameters
+      inputs:
+        targetType: inline
+        script: |
+          echo "rocmFilename: ${{ parameters.rocmFilename }}"
+          echo "rocmFilenameOverride: ${{ parameters.rocmFilenameOverride }}"
+          echo "enableTorch: ${{ parameters.enableTorch }}"
+          echo "wheelVersion: ${{ parameters.wheelVersion }}"
+          echo "apexFilename: ${{ parameters.apexFilename }}"
+          echo "tritonFilename: ${{ parameters.tritonFilename }}"
+          echo "torchFilename: ${{ parameters.torchFilename }}"
+          echo "visionFilename: ${{ parameters.visionFilename }}"
+    - task: Bash@3
+      displayName: Setup
+      inputs:
+        targetType: inline
+        script: |
+          sudo DEBIAN_FRONTEND=noninteractive apt update
+          sudo DEBIAN_FRONTEND=noninteractive apt install -y tzdata
+          sudo DEBIAN_FRONTEND=noninteractive apt install -y git ninja-build python3.11 python3.11-venv python3.11-dev
+
+          which python3.11 && python3.11 --version
+          python3.11 -m venv $(Agent.BuildDirectory)/venv
+          source $(Agent.BuildDirectory)/venv/bin/activate
+          which python3 && python3 --version
+          python3 -m pip install 'cmake<4'
+
+    - task: Bash@3
+      displayName: Download ROCm installer
+      env:
+        SPRINGFIELD_URL: $(SPRINGFIELD_URL)
+      inputs:
+        targetType: inline
+        ${{ if eq(parameters.rocmFilenameOverride, 'null') }}:
+          script: wget -nv "$SPRINGFIELD_URL/rocm/${{ parameters.rocmFilename }}" -O rocm-installer.run
+        ${{ if ne(parameters.rocmFilenameOverride, 'null') }}:
+          script: wget -nv "${{ parameters.rocmFilenameOverride }}" -O rocm-installer.run
+    - task: Bash@3
+      displayName: Install ROCm
+      retryCountOnTaskFailure: 3
+      inputs:
+        targetType: inline
+        script: chmod +x ./rocm-installer.run && ./rocm-installer.run target="$(Agent.BuildDirectory)" deps=install rocm postrocm
+    - task: Bash@3
+      displayName: Set env vars
+      inputs:
+        targetType: inline
+        script: |
+          export ROCM_PATH=$(Agent.BuildDirectory)/rocm
+          export PATH=$PATH:$ROCM_PATH/bin
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROCM_PATH/lib:$ROCM_PATH/llvm/lib
+          echo "##vso[task.setvariable variable=ROCM_PATH]$ROCM_PATH"
+          echo "##vso[task.prependpath]$ROCM_PATH/bin"
+          echo "##vso[task.setvariable variable=LD_LIBRARY_PATH]$LD_LIBRARY_PATH"
+
+    - ${{ if parameters.enableTorch }}:
+      - task: Bash@3
+        displayName: Install Python wheels
+        continueOnError: true
+        env:
+          SPRINGFIELD_URL: $(SPRINGFIELD_URL)
+        inputs:
+          targetType: inline
+          script: |
+            source $(Agent.BuildDirectory)/venv/bin/activate
+            python3 -m pip install $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/rocroller/${{ parameters.apexFilename }} \
+              $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/rocroller/${{ parameters.tritonFilename }} \
+              $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/rocroller/${{ parameters.torchFilename }} \
+              $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/rocroller/${{ parameters.visionFilename }}
+      - task: Bash@3
+        displayName: Install Flash Attention
+        continueOnError: true
+        env:
+          SPRINGFIELD_URL: $(SPRINGFIELD_URL)
+        inputs:
+          targetType: inline
+          script: |
+            source $(Agent.BuildDirectory)/venv/bin/activate
+            python3 -m pip install packaging wheel
+            python3 -m pip install --upgrade setuptools
+            python3 -m pip install git+https://github.com/rocm/flash-attention.git@ck_tile/fa3_fremont --no-build-isolation
+
+    - task: Bash@3
+      displayName: List files
+      condition: always()
+      inputs:
+        targetType: inline
+        script: ls -la1R $(Agent.BuildDirectory)
+
+    - ${{ if parameters.testRocm }}:
+      - script: rocminfo
+        displayName: 'Test: rocminfo'
+        continueOnError: true
+      - script: rocm_agent_enumerator
+        displayName: 'Test: rocm_agent_enumerator'
+        continueOnError: true
+      - script: amdclang++ --version
+        displayName: 'Test: amdclang++ --version'
+        continueOnError: true
+      - script: amdclang --version
+        displayName: 'Test: amdclang --version'
+        continueOnError: true
+      - script: rocm-smi
+        displayName: 'Test: rocm-smi'
+        continueOnError: true
+      - script: amd-smi version
+        displayName: 'Test: amd-smi version'
+        continueOnError: true
+      - script: amd-smi list
+        displayName: 'Test: amd-smi list'
+        continueOnError: true
+      - script: amd-smi static
+        displayName: 'Test: amd-smi static'
+        continueOnError: true
+      - script: amd-smi metric
+        displayName: 'Test: amd-smi metric'
+        continueOnError: true
+
+      - task: Bash@3
+        displayName: Build rocDecode
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: |
+            export CXX=$ROCM_PATH/bin/amdclang++
+            export CC=$ROCM_PATH/bin/amdclang
+            mkdir -p $(Agent.BuildDirectory)/rocdecode
+            cd $(Agent.BuildDirectory)/rocdecode
+            cmake $ROCM_PATH/share/rocdecode/test
+      - task: Bash@3
+        displayName: 'Test: rocDecode'
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: ctest --output-on-failure --output-junit rocdecode_results.xml --exclude-regex "video_decodePerf-HEVC|rocDecode_Negative_API_Tests"
+          workingDirectory: $(Agent.BuildDirectory)/rocdecode
+      - task: PublishTestResults@2
+        displayName: Publish rocDecode
+        continueOnError: true
+        inputs:
+          searchFolder: $(Agent.BuildDirectory)/rocdecode
+          testResultsFormat: JUnit
+          testResultsFiles: rocdecode_results.xml
+
+      - task: Bash@3
+        displayName: Build rocm-examples
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: |
+            export CXX=$ROCM_PATH/bin/amdclang++
+            export CC=$ROCM_PATH/bin/amdclang
+            cd $(Agent.BuildDirectory)
+            sudo DEBIAN_FRONTEND=noninteractive apt install -y libglfw3-dev
+            git clone https://github.com/ROCm/rocm-examples.git
+            cd rocm-examples
+            git checkout baae3b15bc300871b2d6830c4b170f2d7bb7c64b
+            mkdir build && cd build
+            cmake .. -DGPU_TARGETS=gfx942 -DROCM_ROOT=$ROCM_PATH
+            cmake --build . -- -j$(nproc)
+      - task: Bash@3
+        displayName: 'Test: rocm-examples'
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: ctest --output-on-failure --output-junit rocm-examples_results.xml
+          workingDirectory: $(Agent.BuildDirectory)/rocm-examples/build
+      - task: PublishTestResults@2
+        displayName: Publish rocm-examples
+        continueOnError: true
+        inputs:
+          searchFolder: $(Agent.BuildDirectory)/rocm-examples/build
+          testResultsFormat: JUnit
+          testResultsFiles: rocm-examples_results.xml
+
+      - task: Bash@3
+        displayName: Build rccl
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: |
+            source $(Agent.BuildDirectory)/venv/bin/activate
+            export CXX=$ROCM_PATH/bin/amdclang++
+            export CC=$ROCM_PATH/bin/amdclang
+            cd $(Agent.BuildDirectory)
+            git clone https://github.com/ROCm/rccl.git
+            cd rccl
+            mkdir build && cd build
+            cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DGPU_TARGETS=gfx942 -DROCM_PATH=$ROCM_PATH
+            cmake --build . -- -j$(nproc)
+      - task: Bash@3
+        displayName: 'Test: rccl'
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: ./rccl-UnitTests --gtest_color=yes --gtest_output=xml:./rccl_results.xml
+          workingDirectory: $(Agent.BuildDirectory)/rccl/build/test
+      - task: PublishTestResults@2
+        displayName: Publish rccl
+        continueOnError: true
+        inputs:
+          searchFolder: $(Agent.BuildDirectory)/rccl/build/test
+          testResultsFormat: JUnit
+          testResultsFiles: rccl_results.xml
+
+      - task: Bash@3
+        displayName: 'Test: ROCmValidationSuite'
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: |
+            cd $(Agent.BuildDirectory)/rocm/share/rocm-validation-suite/testscripts
+            sudo chmod +x *.sh
+            sudo ./rvsqa.new.sh
+      - task: Bash@3
+        displayName: Print RVS logs
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: |
+            for file in $(Agent.BuildDirectory)/rocm/share/rocm-validation-suite/testscripts/*.txt; do
+              echo "Viewing file: $file"
+              cat "$file"
+            done
+
+    - ${{ if parameters.enableTorch }}:
+      - task: Bash@3
+        displayName: 'Test: import torch'
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: |
+            source $(Agent.BuildDirectory)/venv/bin/activate
+            python3 -c 'import torch'
+      - task: Bash@3
+        displayName: 'Test: torch.cuda.is_available()'
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: |
+            source $(Agent.BuildDirectory)/venv/bin/activate
+            python3 -c 'import torch; print(torch.cuda.is_available())'
+      - task: Bash@3
+        displayName: 'Test: MNIST'
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: |
+            source $(Agent.BuildDirectory)/venv/bin/activate
+            cd $(Agent.BuildDirectory)
+            git clone https://github.com/pytorch/examples.git --depth=1
+            cd examples/mnist
+            python3 -m pip install -r requirements.txt
+            python3 main.py
+    - task: Bash@3
+      displayName: 'Test: PyTorch unit tests'
+      continueOnError: true
+      inputs:
+        targetType: inline
+        script: |
+          source $(Agent.BuildDirectory)/venv/bin/activate
+          cd $(Agent.BuildDirectory)
+          git clone https://github.com/pytorch/pytorch.git --depth=1
+          cd pytorch
+          python3 -m pip install -r requirements.txt
+          python3 -m pip install -r .ci/docker/requirements-ci.txt
+          PYTORCH_TEST_WITH_ROCM=1 python3 test/run_test.py --verbose --keep-going \
+            --include test_nn test_torch test_cuda test_ops \
+            test_unary_ufuncs test_binary_ufuncs test_autograd
+
+    - task: Bash@3
+      displayName: List files
+      condition: always()
+      inputs:
+        targetType: inline
+        script: ls -la1R $(Agent.BuildDirectory)
