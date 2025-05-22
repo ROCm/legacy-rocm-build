@@ -25,7 +25,7 @@ workloads:
 +==========================+================================+
 | ROCm                     | 6.4.0                          |
 +--------------------------+--------------------------------+
-| PyTorch                  | 2.8.0a0+git2f9759              |
+| PyTorch                  | 2.8.0a0+gite2f9759             |
 +--------------------------+--------------------------------+
 | Python                   | 3.12 or 3.10                   |
 +--------------------------+--------------------------------+
@@ -68,6 +68,10 @@ The following models are pre-optimized for performance on AMD Instinct MI300X se
 
    Supported models
    ================
+
+   The following models are supported for training performance benchmarking with Megatron-LM and ROCm.
+   Some instructions and training recommendations in this documentation might
+   vary by model -- select one to get started.
 
    {% set model_groups = data["megatron-lm_benchmark"].model_groups %}
 
