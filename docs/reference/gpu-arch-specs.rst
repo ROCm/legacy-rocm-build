@@ -525,7 +525,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
         *
           - Radeon RX 9070 XT
           - RDNA4
-          - gfx1200
+          - gfx1201
           - 16
           - 64
           - 32 or 64

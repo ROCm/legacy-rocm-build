@@ -894,6 +894,18 @@ See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/rele
 
 - Fixed an issue where sampling multi-GPU Python workloads caused the system to stop responding.
 
+### **ROCm Validation Suite** (1.1.0)
+
+#### Added
+
+* Configuration files for MI210.
+* Support for OCP fp8 data type.
+* GPU index-based CLI execution.
+
+#### Changed
+
+* JSON logging with updated schema.
+
 ### **rocPRIM** (3.4.0)
 
 #### Added
