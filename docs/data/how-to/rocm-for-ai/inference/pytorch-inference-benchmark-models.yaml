@@ -39,7 +39,7 @@ pytorch_inference_benchmark:
         model_repo: Wan-AI/Wan2.1-T2V-14B
         url: https://huggingface.co/Wan-AI/Wan2.1-T2V-14B
         precision: bfloat16
-    - group: Janus-Pro
+    - group: Janus Pro
       tag: janus-pro
       models:
       - model: Janus Pro 7B
@@ -47,3 +47,11 @@ pytorch_inference_benchmark:
         model_repo: deepseek-ai/Janus-Pro-7B
         url: https://huggingface.co/deepseek-ai/Janus-Pro-7B
         precision: bfloat16
+    - group: Hunyuan Video
+      tag: hunyuan
+      models:
+      - model: Hunyuan Video
+        mad_tag: pyt_hy_video
+        model_repo: tencent/HunyuanVideo
+        url: https://huggingface.co/tencent/HunyuanVideo
+        precision: float16

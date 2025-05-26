@@ -103,7 +103,7 @@ PyTorch inference performance testing
 
          The Chai-1 benchmark uses a specifically selected Docker image using ROCm 6.2.3 and PyTorch 2.3.0 to address an accuracy issue.
 
-   .. container:: model-doc pyt_clip_inference pyt_mochi_video_inference pyt_wan2.1_inference pyt_janus_pro_inference
+   .. container:: model-doc pyt_clip_inference pyt_mochi_video_inference pyt_wan2.1_inference pyt_janus_pro_inference pyt_hy_video
 
       Use the following command to pull the `ROCm PyTorch Docker image <https://hub.docker.com/layers/rocm/pytorch/latest/images/sha256-05b55983e5154f46e7441897d0908d79877370adca4d1fff4899d9539d6c4969>`__ from Docker Hub.
 
