@@ -24,11 +24,15 @@ PyTorch inference performance testing
    Supported models
    ================
 
+   The following models are supported for inference performance benchmarking
+   with PyTorch and ROCm. Some instructions, commands, and recommendations in this
+   documentation might vary by model -- select one to get started.
+
    .. raw:: html
 
       <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
         <div class="row">
-          <div class="col-2 me-2 model-param-head">Model</div>
+          <div class="col-2 me-2 model-param-head">Model group</div>
           <div class="row col-10">
    {% for model_group in model_groups %}
             <div class="col-6 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
@@ -37,7 +41,7 @@ PyTorch inference performance testing
         </div>
 
         <div class="row mt-1" style="display: none;">
-          <div class="col-2 me-2 model-param-head">Model variant</div>
+          <div class="col-2 me-2 model-param-head">Model</div>
           <div class="row col-10">
    {% for model_group in model_groups %}
       {% set models = model_group.models %}
