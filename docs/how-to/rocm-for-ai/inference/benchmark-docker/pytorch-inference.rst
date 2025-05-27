@@ -35,7 +35,7 @@ PyTorch inference performance testing
           <div class="col-2 me-2 model-param-head">Model group</div>
           <div class="row col-10">
    {% for model_group in model_groups %}
-            <div class="col-6 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+            <div class="col-4 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
    {% endfor %}
           </div>
         </div>
@@ -103,7 +103,7 @@ PyTorch inference performance testing
 
          The Chai-1 benchmark uses a specifically selected Docker image using ROCm 6.2.3 and PyTorch 2.3.0 to address an accuracy issue.
 
-   .. container:: model-doc pyt_clip_inference
+   .. container:: model-doc pyt_clip_inference pyt_mochi_video_inference
 
       Use the following command to pull the `ROCm PyTorch Docker image <https://hub.docker.com/layers/rocm/pytorch/latest/images/sha256-05b55983e5154f46e7441897d0908d79877370adca4d1fff4899d9539d6c4969>`_ from Docker Hub.
 
