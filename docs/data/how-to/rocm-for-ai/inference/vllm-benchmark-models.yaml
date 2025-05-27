@@ -8,7 +8,7 @@ vllm_benchmark:
       pytorch_version: 2.7.0+gitf717b2a
       hipblaslt_version: 0.15
   model_groups:
-    - group: Llama
+    - group: Meta Llama
       tag: llama
       models:
       - model: Llama 3.1 8B
@@ -56,7 +56,7 @@ vllm_benchmark:
         model_repo: amd/Llama-3.1-405B-Instruct-FP8-KV
         url: https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV
         precision: float8
-    - group: Mistral
+    - group: Mistral AI
       tag: mistral
       models:
       - model: Mixtral MoE 8x7B
@@ -108,7 +108,7 @@ vllm_benchmark:
         url: https://huggingface.co/Qwen/QwQ-32B
         precision: float16
         tunableop: true
-    - group: DBRX
+    - group: Databricks DBRX
       tag: dbrx
       models:
       - model: DBRX Instruct
@@ -121,7 +121,7 @@ vllm_benchmark:
         model_repo: amd/dbrx-instruct-FP8-KV
         url: https://huggingface.co/amd/dbrx-instruct-FP8-KV
         precision: float8
-    - group: Gemma
+    - group: Google Gemma
       tag: gemma
       models:
       - model: Gemma 2 27B

@@ -1,6 +1,6 @@
 megatron-lm_benchmark:
   model_groups:
-    - group: Llama
+    - group: Meta Llama
       tag: llama
       models:
       - model: Llama 3.3 70B
@@ -20,7 +20,7 @@ megatron-lm_benchmark:
         mad_tag: pyt_megatron_lm_train_deepseek-v3-proxy
       - model: DeepSeek-V2-Lite
         mad_tag: pyt_megatron_lm_train_deepseek-v2-lite-16b
-    - group: Mistral
+    - group: Mistral AI
       tag: mistral
       models:
       - model: Mixtral 8x7B
