@@ -52,7 +52,7 @@ Communication
   :header: "Component", "Description"
 
   ":doc:`RCCL <rccl:index>`", "Standalone library that provides multi-GPU and multi-node collective communication primitives"
-  ":doc:`rocSHMEM <rocSHMEM:index>`", "An intra-kernel networking library that provides GPU-centric networking through an OpenSHMEM-like interface"
+  ":doc:`rocSHMEM <rocshmem:index>`", "An intra-kernel networking library that provides GPU-centric networking through an OpenSHMEM-like interface"
 
 Math
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

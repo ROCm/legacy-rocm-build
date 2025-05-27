@@ -190,7 +190,7 @@ requests==2.32.3
     # via
     #   pygithub
     #   sphinx
-rocm-docs-core==1.18.2
+rocm-docs-core==1.19.0
     # via -r requirements.in
 rpds-py==0.22.3
     # via
@@ -258,7 +258,7 @@ tabulate==0.9.0
     # via jupyter-cache
 tomli==2.1.0
     # via sphinx
-tornado==6.4.2
+tornado==6.5.1
     # via
     #   ipykernel
     #   jupyter-client

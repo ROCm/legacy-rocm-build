@@ -80,7 +80,7 @@ compatibility and system requirements.
       ,,,
       COMMUNICATION,.. _commlibs-support-compatibility-matrix:,,
       :doc:`RCCL <rccl:index>`,2.22.3,2.22.3,2.21.5
-      :doc:`rocSHMEM <rocSHMEM:index>`,2.0.0,2.0.0,N/A
+      :doc:`rocSHMEM <rocshmem:index>`,2.0.0,2.0.0,N/A
       ,,,
       MATH LIBS,.. _mathlibs-support-compatibility-matrix:,,
       `half <https://github.com/ROCm/half>`_ ,1.12.0,1.12.0,1.12.0
