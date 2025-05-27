@@ -262,7 +262,7 @@ parameters:
     rocPRIM:
       pipelineId: $(ROCPRIM_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: develop
       hasGpuTarget: true
     rocprofiler:
       pipelineId: $(ROCPROFILER_PIPELINE_ID)
