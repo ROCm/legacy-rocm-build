@@ -318,14 +318,14 @@ vLLM inference performance testing
 Further reading
 ===============
 
-- For application performance optimization strategies for HPC and AI workloads,
-  including inference with vLLM, see :doc:`../inference-optimization/workload`.
-
 - To learn more about the options for latency and throughput benchmark scripts,
   see `<https://github.com/ROCm/vllm/tree/main/benchmarks>`_.
 
 - To learn more about system settings and management practices to configure your system for
   MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
+
+- For application performance optimization strategies for HPC and AI workloads,
+  including inference with vLLM, see :doc:`../../inference-optimization/workload`.
 
 - To learn how to run LLM models from Hugging Face or your own model, see
   :doc:`Running models from Hugging Face <../hugging-face-models>`.

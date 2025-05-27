@@ -162,6 +162,9 @@ Further reading
 - To learn more about system settings and management practices to configure your system for
   MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
+- For application performance optimization strategies for HPC and AI workloads,
+  including inference with vLLM, see :doc:`../../inference-optimization/workload`.
+
 - To learn how to run LLM models from Hugging Face or your model, see
   :doc:`Running models from Hugging Face <../hugging-face-models>`.
 
