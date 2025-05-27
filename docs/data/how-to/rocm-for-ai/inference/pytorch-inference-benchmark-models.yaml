@@ -23,7 +23,7 @@ pytorch_inference_benchmark:
         model_repo: meta-llama/Llama-3.1-8B-Instruct
         url: https://huggingface.co/chaidiscovery/chai-1
         precision: float16
-    - group: Wan AI
+    - group: Wan2.1
       tag: wan
       models:
       - model: Wan2.1
