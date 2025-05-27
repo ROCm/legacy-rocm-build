@@ -163,10 +163,10 @@ Further reading
   MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - To learn how to run LLM models from Hugging Face or your model, see
-  :doc:`Running models from Hugging Face <hugging-face-models>`.
+  :doc:`Running models from Hugging Face <../hugging-face-models>`.
 
 - To learn how to optimize inference on LLMs, see
-  :doc:`Inference optimization <../inference-optimization/index>`.
+  :doc:`Inference optimization <../../inference-optimization/index>`.
 
 - To learn how to fine-tune LLMs, see
-  :doc:`Fine-tuning LLMs <../fine-tuning/index>`.
+  :doc:`Fine-tuning LLMs <../../fine-tuning/index>`.
