@@ -76,7 +76,7 @@ steps:
       python3 --version
       python3 -m pip install --upgrade pip setuptools wheel
 - ${{ each pkg in parameters.aptPackages }}:
-  - ${{ if ne(variables['parameters.aptToDnfMap'][pkg], '') }}:
+  - ${{ if ne(parameters.aptToDnfMap[pkg], '') }}:
     - task: Bash@3
       displayName: 'dnf install ${{ pkg }}'
       inputs:
