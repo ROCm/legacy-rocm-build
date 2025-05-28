@@ -163,13 +163,13 @@ Download the Docker image
 
          .. code-block:: shell
 
-            docker pull rocm/megatron-lm:v25.5_py3.12
+            docker pull rocm/megatron-lm:v25.5_py312
 
       .. tab-item:: Ubuntu 22.04 + Python 3.10
 
          .. code-block:: shell
 
-            docker pull rocm/megatron-lm:v25.5_py3.10
+            docker pull rocm/megatron-lm:v25.5_py310
 
 2. Launch the Docker container.
 
