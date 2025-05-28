@@ -13,7 +13,6 @@ parameters:
     # note: doxygen-doc is not available in dnf
     libdrm-dev: libdrm-devel
     ninja-build: ninja-build
-    python3-pip: python3-pip
     pkg-config: pkgconf-pkg-config
 
 steps:
