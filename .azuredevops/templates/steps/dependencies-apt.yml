@@ -9,7 +9,7 @@ parameters:
 steps:
 - ${{ if eq(parameters.registerROCmPackages, true) }}:
   - task: Bash@3
-    displayName: 'Register AMDGPU & ROCm repos'
+    displayName: 'Register AMDGPU & ROCm repos (apt)'
     inputs:
       targetType: inline
       script: |

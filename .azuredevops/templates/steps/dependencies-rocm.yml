@@ -406,6 +406,8 @@ steps:
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.componentVarList[dependency].hasGpuTarget }}:
           fileFilter: ${{ parameters.os }}_${{ parameters.gpuTarget }}
+        ${{ else }}:
+          fileFilter: ${{ parameters.os }}
         # dependencySource = staging
         ${{ if eq(parameters.dependencySource, 'staging')}}:
           branchName: ${{ parameters.componentVarList[dependency].stagingBranch }}

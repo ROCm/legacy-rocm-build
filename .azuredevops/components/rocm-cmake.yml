@@ -79,6 +79,8 @@ jobs:
         componentName: rocm-cmake
         testParameters: '-E "pass-version-parent" --output-on-failure --force-new-ctest-process --output-junit test_output.xml'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         os: ${{ job.os }}

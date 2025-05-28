@@ -61,6 +61,8 @@ jobs:
           -DROCM_VERSION="$(NEXT_RELEASE_VERSION)"
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         os: ${{ job.os }}
