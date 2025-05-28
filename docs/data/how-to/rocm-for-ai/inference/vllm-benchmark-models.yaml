@@ -1,7 +1,7 @@
 vllm_benchmark:
   unified_docker:
     latest:
-      pull_tag: rocm/vllm:rocm6.3.1_vllm0.8.3_20250415
+      pull_tag: rocm/vllm:rocm6.3.1_vllm0.8.5_20250513
       docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_vllm_0.8.5_20250513/images/sha256-5c8b4436dd0464119d9df2b44c745fadf81512f18ffb2f4b5dc235c71ebe26b4
       rocm_version: 6.3.1
       vllm_version: 0.8.5
