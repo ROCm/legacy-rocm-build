@@ -75,7 +75,8 @@ ROCm documentation continues to be updated to provide clearer and more comprehen
 ROCm 6.4.1 introduces support for the RDNA4 architecture-based [Radeon AI PRO
 R9700](https://www.amd.com/en/products/graphics/workstations/radeon-ai-pro/ai-9000-series/amd-radeon-ai-pro-r9700.html),
 [Radeon RX 9070](https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070.html),
-[Radeon RX 9070 XT](https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070xt.html), and
+[Radeon RX 9070 XT](https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070xt.html),
+Radeon RX 9070 GRE, and
 [Radeon RX 9060 XT](https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9060xt.html) GPUs
 for compute workloads. Currently, these GPUs are only supported on Ubuntu 24.04.2, Ubuntu 22.04.5, RHEL 9.5, and RHEL 9.4.
 For details, see the full list of [Supported GPUs
