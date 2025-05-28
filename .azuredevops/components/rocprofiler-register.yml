@@ -16,13 +16,6 @@ parameters:
     - cmake
     - ninja-build
     - python3-pip
-- name: dnfPackages
-  type: object
-  default:
-    - cmake
-    - git
-    - ninja-build
-    - python3-pip
 
 - name: jobMatrix
   type: object
@@ -30,10 +23,10 @@ parameters:
     buildJobs:
       - ubuntu2204:
         os: ubuntu2204
-        package_manager: apt
+        packageManager: apt
       - almalinux8:
         os: almalinux8
-        package_manager: dnf
+        packageManager: dnf
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
@@ -49,14 +42,10 @@ jobs:
     workspace:
       clean: all
     steps:
-    - ${{ if eq(job.package_manager, 'dnf') }}:
-      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-        parameters:
-          dnfPackages: ${{ parameters.dnfPackages }}
-    - ${{ if eq(job.package_manager, 'apt') }}:
-      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-        parameters:
-          aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:

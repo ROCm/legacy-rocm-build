@@ -18,9 +18,6 @@ parameters:
 - name: os
   type: string
   default: 'ubuntu2204'
-- name: gpuTarget
-  type: string
-  default: ''
 
 steps:
 - task: ArchiveFiles@2

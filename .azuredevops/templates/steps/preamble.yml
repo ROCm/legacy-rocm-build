@@ -3,6 +3,11 @@
 # also display installed components and packages
 steps:
 - task: Bash@3
+  displayName: OS Version
+  inputs:
+    targetType: inline
+    script: cat /etc/os-release
+- task: Bash@3
   displayName: List installed packages (apt, dnf, or yum)
   inputs:
     targetType: inline

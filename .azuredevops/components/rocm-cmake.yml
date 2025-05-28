@@ -17,14 +17,6 @@ parameters:
     - doxygen-doc
     - ninja-build
     - python3-pip
-    - python3-sphinx
-- name: dnfPackages
-  type: object
-  default:
-    - doxygen
-    - git
-    - jq
-    - ninja-build
 - name: pipModules
   type: object
   default:
@@ -32,6 +24,7 @@ parameters:
     - cmake==3.20.5
     - ninja
     - rocm-docs-core
+    - sphinx
 
 - name: jobMatrix
   type: object
@@ -39,10 +32,10 @@ parameters:
     buildJobs:
       - ubuntu2204:
         os: ubuntu2204
-        package_manager: apt
+        packageManager: apt
       - almalinux8:
         os: almalinux8
-        package_manager: dnf
+        packageManager: dnf
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
@@ -58,16 +51,11 @@ jobs:
     workspace:
       clean: all
     steps:
-    - ${{ if eq(job.package_manager, 'dnf') }}:
-      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-        parameters:
-          dnfPackages: ${{ parameters.dnfPackages }}
-          pipModules: ${{ parameters.pipModules }}
-    - ${{ if eq(job.package_manager, 'apt') }}:
-      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-        parameters:
-          aptPackages: ${{ parameters.aptPackages }}
-          pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
     - task: Bash@3
       displayName: Add CMake to PATH
       inputs:
