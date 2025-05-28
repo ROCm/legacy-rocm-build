@@ -1,16 +1,26 @@
 parameters:
+- name: componentName
+  type: string
+  default: rocPRIM
 - name: checkoutRepo
   type: string
   default: 'self'
 - name: checkoutRef
   type: string
   default: ''
-- name: sparseCheckout
-  type: boolean
-  default: false
+# monorepo related parameters
 - name: sparseCheckoutDir
   type: string
   default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -54,10 +64,31 @@ parameters:
         target: gfx942
       - gfx90a:
         target: gfx90a
+- name: downstreamComponentMatrix
+  type: object
+  default:
+    - rocThrust:
+      name: rocThrust
+      sparseCheckoutDir: projects/rocthrust
+      buildDependsOn:
+        gfx942:
+          - rocPRIM_build_gfx942
+        gfx90a:
+          - rocPRIM_build_gfx90a
+    - hipCUB:
+      name: hipCUB
+      sparseCheckoutDir: projects/hipcub
+      buildDependsOn:
+        gfx942:
+          - rocPRIM_build_gfx942
+        gfx90a:
+          - rocPRIM_build_gfx90a
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocPRIM_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.target }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn: ${{ parameters.buildDependsOn[job.target] }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -72,7 +103,6 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
-        sparseCheckout: ${{ parameters.sparseCheckout }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
@@ -80,6 +110,8 @@ jobs:
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         extraBuildFlags: >-
@@ -91,9 +123,11 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
@@ -102,12 +136,12 @@ jobs:
         gpuTarget: ${{ job.target }}
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocPRIM_test_${{ job.target }}
-    dependsOn: rocPRIM_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_test_${{ job.target }}
+    dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
+        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
         eq(${{ parameters.aggregatePipeline }}, False)
       )
     variables:
@@ -117,12 +151,14 @@ jobs:
     workspace:
       clean: all
     steps:
+    - checkout: none
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
       parameters:
+        preTargetFilter: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
@@ -133,10 +169,19 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
-        componentName: rocPRIM
+        componentName: ${{ parameters.componentName }}
         testDir: '$(Agent.BuildDirectory)/rocm/bin/rocprim'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         environment: test
         gpuTarget: ${{ job.target }}
+
+- ${{ if parameters.triggerDownstreamJobs }}:
+  - ${{ each component in parameters.downstreamComponentMatrix }}:
+    - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+      parameters:
+        sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+        buildDependsOn: ${{ component.buildDependsOn }}
+        downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+        triggerDownstreamJobs: true

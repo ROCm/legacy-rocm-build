@@ -44,11 +44,11 @@ subtrees:
         title: Training
         subtrees:
         - entries:
-          - file: how-to/rocm-for-ai/training/benchmark-docker/megatron-lm
+          - file: how-to/rocm-for-ai/training/benchmark-docker/megatron-lm.rst
             title: Train a model with Megatron-LM
-          - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training
+          - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.rst
             title: Train a model with PyTorch
-          - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext
+          - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext.rst
             title: Train a model with JAX MaxText
           - file: how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry
             title: Train a model with LLM Foundry
@@ -78,9 +78,9 @@ subtrees:
             title: Run models from Hugging Face
           - file: how-to/rocm-for-ai/inference/llm-inference-frameworks.rst
             title: LLM inference frameworks
-          - file: how-to/rocm-for-ai/inference/vllm-benchmark.rst
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/vllm.rst
             title: vLLM inference performance testing
-          - file: how-to/rocm-for-ai/inference/pytorch-inference-benchmark.rst
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference.rst
             title: PyTorch inference performance testing
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model

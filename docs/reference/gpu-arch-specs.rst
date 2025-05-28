@@ -282,12 +282,30 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - GFXIP Major version
           - GFXIP Minor version
         *
+          - Radeon AI PRO R9700
+          - RDNA4
+          - gfx1201
+          - 16
+          - 64
+          - 32 or 64
+          - 128
+          - 64
+          - 8
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0
+        *
           - Radeon PRO V710
           - RDNA3
           - gfx1101
           - 28
           - 54
-          - 32
+          - 32 or 64
           - 128
           - 56
           - 4
@@ -296,7 +314,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -305,7 +323,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1100
           - 48
           - 96
-          - 32
+          - 32 or 64
           - 128
           - 96
           - 6
@@ -314,7 +332,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -323,7 +341,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1100
           - 48
           - 96
-          - 32
+          - 32 or 64
           - 128
           - 96
           - 6
@@ -332,7 +350,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -341,7 +359,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1100
           - 48
           - 70
-          - 32
+          - 32 or 64
           - 128
           - 96
           - 6
@@ -350,7 +368,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -359,7 +377,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1100
           - 32
           - 70
-          - 32
+          - 32 or 64
           - 128
           - 64
           - 6
@@ -368,7 +386,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -377,7 +395,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1101
           - 16
           - 48
-          - 32
+          - 32 or 64
           - 128
           - 64
           - 4
@@ -386,7 +404,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -395,7 +413,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1030
           - 32
           - 60
-          - 32
+          - 32 or 64
           - 128
           - 128
           - 4
@@ -404,7 +422,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -413,7 +431,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1032
           - 8
           - 28
-          - 32
+          - 32 or 64
           - 128
           - 32
           - 2
@@ -422,7 +440,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -431,7 +449,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1030
           - 32
           - 72
-          - 32
+          - 32 or 64
           - 128
           - 128
           - 4
@@ -440,7 +458,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -449,7 +467,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1012
           - 8
           - 22
-          - 32
+          - 32 or 64
           - 128
           -
           - 4
@@ -505,12 +523,66 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - GFXIP Major version
           - GFXIP Minor version
         *
+          - Radeon RX 9070 XT
+          - RDNA4
+          - gfx1201
+          - 16
+          - 64
+          - 32 or 64
+          - 128
+          - 64
+          - 8
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0
+        *
+          - Radeon RX 9070
+          - RDNA4
+          - gfx1201
+          - 16
+          - 56
+          - 32 or 64
+          - 128
+          - 64
+          - 8
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0
+        *
+          - Radeon RX 9060 XT
+          - RDNA4
+          - gfx1200
+          - 16
+          - 32
+          - 32 or 64
+          - 128
+          - 32
+          - 4
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0
+        *
           - Radeon RX 7900 XTX
           - RDNA3
           - gfx1100
           - 24
           - 96
-          - 32
+          - 32 or 64
           - 128
           - 96
           - 6
@@ -519,7 +591,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -528,7 +600,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1100
           - 20
           - 84
-          - 32
+          - 32 or 64
           - 128
           - 80
           - 6
@@ -537,7 +609,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -546,7 +618,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1100
           - 16
           - 80
-          - 32
+          - 32 or 64
           - 128
           - 64
           - 6
@@ -555,7 +627,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -564,7 +636,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1101
           - 16
           - 60
-          - 32
+          - 32 or 64
           - 128
           - 64
           - 4
@@ -573,7 +645,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -582,7 +654,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1101
           - 12
           - 54
-          - 32
+          - 32 or 64
           - 128
           - 48
           - 4
@@ -591,7 +663,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 768
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -600,7 +672,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1102
           - 8
           - 32
-          - 32
+          - 32 or 64
           - 128
           - 32
           - 2
@@ -609,7 +681,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 11
           - 0
         *
@@ -618,7 +690,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1030
           - 16
           - 80
-          - 32
+          - 32 or 64
           - 128
           - 128
           - 4
@@ -627,7 +699,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -636,7 +708,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1030
           - 16
           - 80
-          - 32
+          - 32 or 64
           - 128
           - 128
           - 4
@@ -645,7 +717,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -654,7 +726,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1030
           - 16
           - 72
-          - 32
+          - 32 or 64
           - 128
           - 128
           - 4
@@ -663,7 +735,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -672,7 +744,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1030
           - 16
           - 60
-          - 32
+          - 32 or 64
           - 128
           - 128
           - 4
@@ -681,7 +753,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -690,7 +762,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1031
           - 12
           - 40
-          - 32
+          - 32 or 64
           - 128
           - 96
           - 3
@@ -699,7 +771,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -708,7 +780,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1031
           - 12
           - 40
-          - 32
+          - 32 or 64
           - 128
           - 96
           - 3
@@ -717,7 +789,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -726,7 +798,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1031
           - 10
           - 36
-          - 32
+          - 32 or 64
           - 128
           - 80
           - 3
@@ -735,7 +807,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -744,7 +816,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1032
           - 8
           - 32
-          - 32
+          - 32 or 64
           - 128
           - 32
           - 2
@@ -753,7 +825,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -762,7 +834,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1032
           - 8
           - 32
-          - 32
+          - 32 or 64
           - 128
           - 32
           - 2
@@ -771,7 +843,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *
@@ -780,7 +852,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1032
           - 8
           - 28
-          - 32
+          - 32 or 64
           - 128
           - 32
           - 2
@@ -789,7 +861,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 16
           - 32
           - 512
-          - 16
+          - 32
           - 10
           - 3
         *

@@ -272,6 +272,7 @@ NBIO
 NBIOs
 NCCL
 NCF
+NFS
 NIC
 NICs
 NLI
@@ -500,6 +501,7 @@ ZenDNN
 accuracies
 activations
 addr
+ade
 ai
 alloc
 allocatable
@@ -515,6 +517,7 @@ avx
 awk
 backend
 backends
+bb
 benchmarked
 benchmarking
 bfloat
@@ -538,6 +541,7 @@ cd
 centos
 centric
 changelog
+checkpointing
 chiplet
 cmake
 cmd
@@ -578,6 +582,7 @@ de
 deallocation
 debuggability
 debian
+deepseek
 denoise
 denoised
 denoises
@@ -601,6 +606,7 @@ embeddings
 enablement
 encodings
 endfor
+endif
 endpgm
 enqueue
 env
@@ -702,6 +708,7 @@ migratable
 miopen
 miopengemm
 mivisionx
+mixtral
 mjx
 mkdir
 mlirmiopen
@@ -843,6 +850,7 @@ subfolder
 subfolders
 submodule
 submodules
+subnet
 supercomputing
 symlink
 symlinks

@@ -258,7 +258,7 @@ variables:
 - name: ROCPRIM_GFX942_TEST_PIPELINE_ID
   value: 180
 - name: ROCPRIM_PIPELINE_ID
-  value: 82
+  value: 273
 - name: ROCPRIM_TAGGED_PIPELINE_ID
   value: 20
 - name: ROCPROFILER_GFX942_TEST_PIPELINE_ID

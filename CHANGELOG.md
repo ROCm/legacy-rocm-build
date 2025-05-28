@@ -4,6 +4,139 @@ This page is a historical overview of changes made to ROCm components. This
 consolidated changelog documents key modifications and improvements across
 different versions of the ROCm software stack and its components.
 
+## ROCm 6.4.1
+
+See the [ROCm 6.4.1 release notes](https://rocm-stg.amd.com/en/latest/about/release-notes.html)
+for a complete overview of this release.
+
+### **AMD SMI** (25.4.2)
+
+#### Added
+
+* Dumping CPER entries from RAS tool `amdsmi_get_gpu_cper_entries()` to Python and C APIs.
+  - Dumping CPER entries consist of `amdsmi_cper_hdr_t`.
+  - Dumping CPER entries is also enabled in the CLI interface through `sudo amd-smi ras --cper`.
+* `amdsmi_get_gpu_busy_percent` to the C API.
+
+#### Changed
+
+* Modified VRAM display for `amd-smi monitor -v`. 
+
+#### Optimized
+
+* Improved load times for CLI commands when the GPU has multiple parititons.
+
+#### Resolved issues
+
+* Fixed partition enumeration in `amd-smi list -e`, `amdsmi_get_gpu_enumeration_info()`, `amdsmi_enumeration_info_t`, `drm_card`, and `drm_render` fields.
+
+#### Known issues
+
+* When using the `--follow` flag with `amd-smi ras --cper`, CPER entries are not streamed continuously as intended. This will be fixed in an upcoming ROCm release.
+
+```{note}
+See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples, and in-depth descriptions.
+```
+
+### **HIP** (6.4.1)
+
+#### Added
+
+* New log mask enumeration `LOG_COMGR` enables logging precise code object information.
+
+#### Changed
+
+* HIP runtime uses device bitcode before SPIRV.
+* The implementation of preventing `hipLaunchKernel` latency degradation with number of idle streams is reverted or disabled by default.
+
+#### Optimized
+
+* Improved kernel logging includes de-mangling shader names.
+* Refined implementation in HIP APIs `hipEventRecords` and `hipStreamWaitEvent` for performance improvement.
+
+#### Resolved issues
+
+* Stale state during the graph capture. The return error was fixed, HIP runtime now always uses the latest dependent nodes during `hipEventRecord` capture.
+* Segmentation fault during kernel execution. HIP runtime now allows maximum stack size as per ISA on the GPU device.
+
+### **hipBLASLt** (0.12.1)
+
+#### Resolved issues
+
+* Fixed an accuracy issue for some solutions using an `FP32` or `TF32` data type with a TT transpose.
+
+### **RCCL** (2.22.3)
+
+#### Changed
+
+* MSCCL++ is now disabled by default. To enable it, set `RCCL_MSCCLPP_ENABLE=1`.
+
+#### Resolved issues
+
+* Fixed an issue where early termination, in rare circumstances, could cause the application to stop responding by adding synchronization before destroying a proxy thread.
+* Fixed the accuracy issue for the MSCCLPP `allreduce7` kernel in graph mode.
+
+#### Known issues
+
+* When splitting a communicator using `ncclCommSplit` in some GPU configurations, MSCCL initialization can cause a segmentation fault. The recommended workaround is to disable MSCCL with `export RCCL_MSCCL_ENABLE=0`.
+  This issue will be fixed in a future ROCm release.
+
+* Within the RCCL-UnitTests test suite, failures occur in tests ending with the
+  `.ManagedMem` and `.ManagedMemGraph` suffixes. These failures only affect the
+  test results and do not affect the RCCL component itself. This issue will be
+  resolved in a future ROCm release.
+
+### **rocALUTION** (3.2.3)
+
+#### Added
+
+* The `-a` option has been added to the `rmake.py` build script. This option allows you to select specific architectures when building on Microsoft Windows.
+
+#### Resolved issues
+
+* Fixed an issue where the `HIP_PATH` environment variable was being ignored when compiling on Microsoft Windows.
+
+### **ROCm Data Center Tool** (0.3.0)
+
+#### Added
+
+- Support for GPU partitions.
+- `RDC_FI_GPU_BUSY_PERCENT` metric.
+
+#### Changed
+
+- Updated `rdc_field` to align with `rdc_bootstrap` for current metrics.
+
+#### Resolved issues
+
+- Fixed [ROCProfiler](https://rocm.docs.amd.com/projects/rocprofiler/en/docs-6.4.0/index.html) eval metrics and memory leaks.
+
+### **ROCm SMI** (7.5.0)
+
+#### Resolved issues
+
+- Fixed partition enumeration. It now refers to the correct DRM Render and Card paths.
+
+```{note}
+See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples, and in-depth descriptions.
+```
+
+### **ROCm Systems Profiler** (1.0.1)
+
+#### Added 
+
+* How-to document for [network performance profiling](https://rocm.docs.amd.com/projects/rocprofiler-systems/en/latest/how-to/nic-profiling.html) for standard Network Interface Cards (NICs).
+
+#### Resolved issues
+
+* Fixed a build issue with Dyninst on GCC 13.
+
+### **ROCr Runtime** (1.15.0)
+
+#### Resolved issues
+
+* Fixed a rare occurrence issue on AMD Instinct MI25, MI50, and MI100 GPUs, where the `SDMA` copies might start before the dependent Kernel finishes and could cause memory corruption.
+
 ## ROCm 6.4.0
 
 See the [ROCm 6.4.0 release notes](https://rocm.docs.amd.com/en/docs-6.4.0/about/release-notes.html)
@@ -760,6 +893,18 @@ See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/rele
 - Fixed an issue where running `rocprof-sys-causal` or using the `-I all` option with `rocprof-sys-sample` caused the system to become non-responsive.
 
 - Fixed an issue where sampling multi-GPU Python workloads caused the system to stop responding.
+
+### **ROCm Validation Suite** (1.1.0)
+
+#### Added
+
+* Configuration files for MI210.
+* Support for OCP fp8 data type.
+* GPU index-based CLI execution.
+
+#### Changed
+
+* JSON logging with updated schema.
 
 ### **rocPRIM** (3.4.0)
 

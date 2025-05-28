@@ -1,0 +1,29 @@
+megatron-lm_benchmark:
+  model_groups:
+    - group: Llama
+      tag: llama
+      models:
+      - model: Llama 3.3 70B
+        mad_tag: pyt_megatron_lm_train_llama-3.3-70b
+      - model: Llama 3.1 8B
+        mad_tag: pyt_megatron_lm_train_llama-3.1-8b
+      - model: Llama 3.1 70B
+        mad_tag: pyt_megatron_lm_train_llama-3.1-70b
+      - model: Llama 2 7B
+        mad_tag: pyt_megatron_lm_train_llama-2-7b
+      - model: Llama 2 70B
+        mad_tag: pyt_megatron_lm_train_llama-2-70b
+    - group: DeepSeek
+      tag: deepseek
+      models:
+      - model: DeepSeek-V3
+        mad_tag: pyt_megatron_lm_train_deepseek-v3-proxy
+      - model: DeepSeek-V2-Lite
+        mad_tag: pyt_megatron_lm_train_deepseek-v2-lite-16b
+    - group: Mistral
+      tag: mistral
+      models:
+      - model: Mixtral 8x7B
+        mad_tag: pyt_megatron_lm_train_mixtral-8x7b
+      - model: Mixtral 8x22B
+        mad_tag: pyt_megatron_lm_train_mixtral-8x22b-proxy

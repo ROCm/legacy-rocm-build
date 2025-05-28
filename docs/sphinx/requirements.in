@@ -1,4 +1,4 @@
-rocm-docs-core==1.18.2
+rocm-docs-core==1.19.0
 sphinx-reredirects
 sphinx-sitemap
 sphinxcontrib.datatemplates==0.11.0
