@@ -24,11 +24,15 @@ PyTorch inference performance testing
    Supported models
    ================
 
+   The following models are supported for inference performance benchmarking
+   with PyTorch and ROCm. Some instructions, commands, and recommendations in this
+   documentation might vary by model -- select one to get started.
+
    .. raw:: html
 
       <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
         <div class="row">
-          <div class="col-2 me-2 model-param-head">Model</div>
+          <div class="col-2 me-2 model-param-head">Model group</div>
           <div class="row col-10">
    {% for model_group in model_groups %}
             <div class="col-6 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
@@ -37,7 +41,7 @@ PyTorch inference performance testing
         </div>
 
         <div class="row mt-1" style="display: none;">
-          <div class="col-2 me-2 model-param-head">Model variant</div>
+          <div class="col-2 me-2 model-param-head">Model</div>
           <div class="row col-10">
    {% for model_group in model_groups %}
       {% set models = model_group.models %}
@@ -162,11 +166,14 @@ Further reading
 - To learn more about system settings and management practices to configure your system for
   MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
+- For application performance optimization strategies for HPC and AI workloads,
+  including inference with vLLM, see :doc:`../../inference-optimization/workload`.
+
 - To learn how to run LLM models from Hugging Face or your model, see
-  :doc:`Running models from Hugging Face <hugging-face-models>`.
+  :doc:`Running models from Hugging Face <../hugging-face-models>`.
 
 - To learn how to optimize inference on LLMs, see
-  :doc:`Inference optimization <../inference-optimization/index>`.
+  :doc:`Inference optimization <../../inference-optimization/index>`.
 
 - To learn how to fine-tune LLMs, see
-  :doc:`Fine-tuning LLMs <../fine-tuning/index>`.
+  :doc:`Fine-tuning LLMs <../../fine-tuning/index>`.
