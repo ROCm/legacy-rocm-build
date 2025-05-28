@@ -17,7 +17,6 @@ parameters:
     - libdrm-dev
     - ninja-build
     - pkg-config
-    - python3-pip
 
 - name: jobMatrix
   type: object

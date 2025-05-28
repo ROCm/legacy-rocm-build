@@ -32,7 +32,7 @@ parameters:
 
 steps:
   - task: DownloadPipelineArtifact@2
-    displayName: Download ${{ parameters.preTargetFilter}}*${{ parameters.gpuTarget}}*${{ parameters.postTargetFilter}}
+    displayName: Download ${{ parameters.preTargetFilter}}*${{ parameters.os }}_${{ parameters.gpuTarget}}*${{ parameters.postTargetFilter}}
     inputs:
       ${{ if eq(parameters.buildType, 'specific') }}:
         buildType: specific

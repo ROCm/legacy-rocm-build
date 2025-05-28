@@ -15,7 +15,6 @@ parameters:
   default:
     - cmake
     - ninja-build
-    - python3-pip
 
 - name: jobMatrix
   type: object

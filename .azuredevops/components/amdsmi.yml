@@ -16,7 +16,6 @@ parameters:
     - cmake
     - libdrm-dev
     - ninja-build
-    - python3-pip
     - pkg-config
 
 - name: jobMatrix

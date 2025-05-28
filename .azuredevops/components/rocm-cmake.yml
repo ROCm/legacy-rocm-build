@@ -16,7 +16,6 @@ parameters:
     - doxygen
     - doxygen-doc
     - ninja-build
-    - python3-pip
 - name: pipModules
   type: object
   default:
@@ -78,7 +77,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: rocm-cmake
-        testParameters: '-E "pass-version-parent" --output-on-failure --force-new-ctest-process --output-junit test_output.xml'
+        testParameters: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml -E "pass-version-parent"'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
