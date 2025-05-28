@@ -353,6 +353,13 @@ for benchmarking, see the version-specific documentation.
      - Resources
 
    * - 6.3.1
+     - 0.8.3
+     - 2.7.0
+     - 
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.4.0/how-to/rocm-for-ai/inference/vllm-benchmark.html>`_
+       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.8.3_20250415/images/sha256-ad9062dea3483d59dedb17c67f7c49f30eebd6eb37c3fac0a171fb19696cc845>`_
+
+   * - 6.3.1
      - 0.7.3
      - 2.7.0
      - 
