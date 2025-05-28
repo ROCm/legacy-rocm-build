@@ -30,4 +30,4 @@ pytorch_inference_benchmark:
         mad_tag: pyt_wan2.1_inference
         model_repo: Wan-AI/Wan2.1-T2V-14B
         url: https://huggingface.co/Wan-AI/Wan2.1-T2V-14B
-        precision: float16
+        precision: bfloat16
