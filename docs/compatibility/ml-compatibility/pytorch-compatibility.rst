@@ -372,24 +372,15 @@ feature set available to developers.
         involve matrix products, such as ``torch.matmul``, ``torch.bmm``, and
         more.
 
-Supported features
+Supported modules and data types
 ================================================================================
 
-This section maps GPU-accelerated PyTorch features to their supported ROCm and
-PyTorch versions.
+The following section outlines the supported data types, modules, and domain libraries available in PyTorch on ROCm.
 
-torch
+Supported data types
 --------------------------------------------------------------------------------
 
-`torch <https://pytorch.org/docs/stable/index.html>`_ is the central module of
-PyTorch, providing data structures for multi-dimensional tensors and
-implementing mathematical operations on them. It also includes utilities for
-efficient serialization of tensors and arbitrary data types and other tools.
-
-Tensor data types
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The tensor data type is specified using the ``dtype`` attribute or argument. 
+The tensor data type is specified using the ``dtype`` attribute or argument.
 PyTorch supports many data types for different use cases.
 
 The following table lists `torch.Tensor <https://pytorch.org/docs/stable/tensors.html>`_
@@ -400,539 +391,154 @@ single data types:
 
     * - Data type
       - Description
-      - As of PyTorch
-      - As of ROCm
     * - ``torch.float8_e4m3fn``
       - 8-bit floating point, e4m3
-      - 2.3
-      - 5.5
     * - ``torch.float8_e5m2``
       - 8-bit floating point, e5m2
-      - 2.3
-      - 5.5
     * - ``torch.float16`` or ``torch.half``
       - 16-bit floating point
-      - 0.1.6
-      - 2.0
     * - ``torch.bfloat16``
       - 16-bit floating point
-      - 1.6
-      - 2.6
     * - ``torch.float32`` or ``torch.float``
       - 32-bit floating point
-      - 0.1.12_2
-      - 2.0
     * - ``torch.float64`` or ``torch.double``
       - 64-bit floating point
-      - 0.1.12_2
-      - 2.0
     * - ``torch.complex32`` or ``torch.chalf``
-      - PyTorch provides native support for 32-bit complex numbers
-      - 1.6
-      - 2.0
+      - 32-bit complex numbers
     * - ``torch.complex64`` or ``torch.cfloat``
-      - PyTorch provides native support for 64-bit complex numbers
-      - 1.6
-      - 2.0
+      - 64-bit complex numbers
     * - ``torch.complex128`` or ``torch.cdouble``
-      - PyTorch provides native support for 128-bit complex numbers
-      - 1.6
-      - 2.0
+      - 128-bit complex numbers
     * - ``torch.uint8``
       - 8-bit integer (unsigned)
-      - 0.1.12_2
-      - 2.0
     * - ``torch.uint16``
-      - 16-bit integer (unsigned)
-      - 2.3
-      - Not natively supported
+      - 16-bit integer (unsigned);
+        Not natively supported in ROCm
     * - ``torch.uint32``
-      - 32-bit integer (unsigned)
-      - 2.3
-      - Not natively supported
+      - 32-bit integer (unsigned);
+        Not natively supported in ROCm
     * - ``torch.uint64``
-      - 32-bit integer (unsigned)
-      - 2.3
-      - Not natively supported
+      - 64-bit integer (unsigned);
+        Not natively supported in ROCm
     * - ``torch.int8``
       - 8-bit integer (signed)
-      - 1.12
-      - 5.0
     * - ``torch.int16`` or ``torch.short``
       - 16-bit integer (signed)
-      - 0.1.12_2
-      - 2.0
     * - ``torch.int32`` or ``torch.int``
       - 32-bit integer (signed)
-      - 0.1.12_2
-      - 2.0
     * - ``torch.int64`` or ``torch.long``
       - 64-bit integer (signed)
-      - 0.1.12_2
-      - 2.0
     * - ``torch.bool``
       - Boolean
-      - 1.2
-      - 2.0
     * - ``torch.quint8``
       - Quantized 8-bit integer (unsigned)
-      - 1.8
-      - 5.0
     * - ``torch.qint8``
       - Quantized 8-bit integer (signed)
-      - 1.8
-      - 5.0
     * - ``torch.qint32``
       - Quantized 32-bit integer (signed)
-      - 1.8
-      - 5.0
     * - ``torch.quint4x2``
       - Quantized 4-bit integer (unsigned)
-      - 1.8
-      - 5.0
 
 .. note::
 
-  Unsigned types except ``uint8`` have limited support in eager mode. They
+  Unsigned types, except ``uint8``, have limited support in eager mode. They
   primarily exist to assist usage with ``torch.compile``.
 
   See :doc:`ROCm precision support <rocm:reference/precision-support>` for the
   native hardware support of data types.
 
-torch.cuda
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``torch.cuda`` in PyTorch is a module that provides utilities and functions for
-managing and utilizing AMD and NVIDIA GPUs. It enables GPU-accelerated
-computations, memory management, and efficient execution of tensor operations,
-leveraging ROCm and CUDA as the underlying frameworks.
-
-.. list-table::
-    :header-rows: 1
-
-    * - Feature
-      - Description
-      - As of PyTorch
-      - As of ROCm
-    * - Device management
-      - Utilities for managing and interacting with GPUs.
-      - 0.4.0
-      - 3.8
-    * - Tensor operations on GPU
-      - Performs tensor operations such as addition and matrix multiplications on
-        the GPU.
-      - 0.4.0
-      - 3.8
-    * - Streams and events
-      - Streams allow overlapping computation and communication for optimized
-        performance. Events enable synchronization.
-      - 1.6.0
-      - 3.8
-    * - Memory management
-      - Functions to manage and inspect memory usage like
-        ``torch.cuda.memory_allocated()``, ``torch.cuda.max_memory_allocated()``,
-        ``torch.cuda.memory_reserved()`` and ``torch.cuda.empty_cache()``.
-      - 0.3.0
-      - 1.9.2
-    * - Running process lists of memory management
-      - Returns a human-readable printout of the running processes and their GPU
-        memory use for a given device with functions like
-        ``torch.cuda.memory_stats()`` and ``torch.cuda.memory_summary()``.
-      - 1.8.0
-      - 4.0
-    * - Communication collectives
-      - Set of APIs that enable efficient communication between multiple GPUs,
-        allowing for distributed computing and data parallelism.
-      - 1.9.0
-      - 5.0
-    * - ``torch.cuda.CUDAGraph``
-      - Graphs capture sequences of GPU operations to minimize kernel launch
-        overhead and improve performance.
-      - 1.10.0
-      - 5.3
-    * - TunableOp
-      - A mechanism that allows certain operations to be more flexible and
-        optimized for performance. It enables automatic tuning of kernel
-        configurations and other settings to achieve the best possible
-        performance based on the specific hardware (GPU) and workload.
-      - 2.0
-      - 5.4
-    * - NVIDIA Tools Extension (NVTX)
-      - Integration with NVTX for profiling and debugging GPU performance using
-        NVIDIA's Nsight tools.
-      - 1.8.0
-      - ❌
-    * - Lazy loading NVRTC
-      - Delays JIT compilation with NVRTC until the code is explicitly needed.
-      - 1.13.0
-      - ❌
-    * - Jiterator (beta)
-      - Jiterator allows asynchronous data streaming into computation streams
-        during training loops.
-      - 1.13.0
-      - 5.2
-
-.. Need to validate and extend.
-
-torch.backends.cuda
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``torch.backends.cuda`` is a PyTorch module that provides configuration options
-and flags to control the behavior of ROCm or CUDA operations. It is part of the
-PyTorch backend configuration system, which allows users to fine-tune how
-PyTorch interacts with the ROCm or CUDA environment.
-
-.. list-table::
-    :header-rows: 1
-
-    * - Feature
-      - Description
-      - As of PyTorch
-      - As of ROCm
-    * - ``cufft_plan_cache``
-      - Manages caching of GPU FFT plans to optimize repeated FFT computations.
-      - 1.7.0
-      - 5.0
-    * - ``matmul.allow_tf32``
-      - Enables or disables the use of TensorFloat-32 (TF32) precision for
-        faster matrix multiplications on GPUs with Tensor Cores.
-      - 1.10.0
-      - ❌
-    * - ``matmul.allow_fp16_reduced_precision_reduction``
-      - Reduced precision reductions (e.g., with fp16 accumulation type) are
-        allowed with fp16 GEMMs.
-      - 2.0
-      - ❌
-    * - ``matmul.allow_bf16_reduced_precision_reduction``
-      - Reduced precision reductions are allowed with bf16 GEMMs.
-      - 2.0
-      - ❌
-    * - ``enable_cudnn_sdp``
-      - Globally enables cuDNN SDPA's kernels within SDPA.
-      - 2.0
-      - ❌
-    * - ``enable_flash_sdp``
-      - Globally enables or disables FlashAttention for SDPA.
-      - 2.1
-      - ❌
-    * - ``enable_mem_efficient_sdp``
-      - Globally enables or disables Memory-Efficient Attention for SDPA.
-      - 2.1
-      - ❌
-    * - ``enable_math_sdp``
-      - Globally enables or disables the PyTorch C++ implementation within SDPA.
-      - 2.1
-      - ❌
-
-.. Need to validate and extend.
-
-torch.backends.cudnn
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Supported ``torch`` options include:
-
-.. list-table::
-    :header-rows: 1
-
-    * - Option
-      - Description
-      - As of PyTorch
-      - As of ROCm
-    * - ``allow_tf32``
-      - TensorFloat-32 tensor cores may be used in cuDNN convolutions on NVIDIA
-        Ampere or newer GPUs.
-      - 1.12.0
-      - ❌
-    * - ``deterministic``
-      - A bool that, if True, causes cuDNN to only use deterministic
-        convolution algorithms.
-      - 1.12.0
-      - 6.0
-
-Automatic mixed precision: torch.amp
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-PyTorch automates the process of using both 16-bit (half-precision, float16) and
-32-bit (single-precision, float32) floating-point types in model training and
-inference.
-
-.. list-table::
-    :header-rows: 1
-
-    * - Feature
-      - Description
-      - As of PyTorch
-      - As of ROCm
-    * - Autocasting
-      - Autocast instances serve as context managers or decorators that allow
-        regions of your script to run in mixed precision.
-      - 1.9
-      - 2.5
-    * - Gradient scaling
-      - To prevent underflow, “gradient scaling” multiplies the network’s
-        loss by a scale factor and invokes a backward pass on the scaled
-        loss. The same factor then scales gradients flowing backward through
-        the network. In other words, gradient values have a larger magnitude so
-        that they don’t flush to zero.
-      - 1.9
-      - 2.5
-    * - CUDA op-specific behavior
-      - These ops always go through autocasting whether they are invoked as part
-        of a ``torch.nn.Module``, as a function, or as a ``torch.Tensor`` method. If
-        functions are exposed in multiple namespaces, they go through
-        autocasting regardless of the namespace.
-      - 1.9
-      - 2.5
-
-Distributed library features
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-PyTorch distributed library includes a collective of parallelism modules, a
-communications layer, and infrastructure for launching and debugging large
-training jobs. See :ref:`rocm-for-ai-pytorch-distributed` for more information.
-
-The Distributed Library feature in PyTorch provides tools and APIs for building
-and running distributed machine learning workflows. It allows training models
-across multiple processes, GPUs, or nodes in a cluster, enabling efficient use
-of computational resources and scalability for large-scale tasks.
-
-.. list-table::
-    :header-rows: 1
-
-    * - Feature
-      - Description
-      - As of PyTorch
-      - As of ROCm
-    * - TensorPipe
-      - A point-to-point communication library integrated into
-        PyTorch for distributed training. It handles tensor data transfers
-        efficiently between different processes or devices, including those on
-        separate machines.
-      - 1.8
-      - 5.4
-    * - Gloo
-      - Designed for multi-machine and multi-GPU setups, enabling
-        efficient communication and synchronization between processes. Gloo is
-        one of the default backends for PyTorch's Distributed Data Parallel
-        (DDP) and RPC frameworks, alongside other backends like NCCL and MPI.
-      - 1.0
-      - 2.0
-
-torch.compiler
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. list-table::
-    :header-rows: 1
-
-    * - Feature
-      - Description
-      - As of PyTorch
-      - As of ROCm
-    * - ``torch.compiler`` (AOT Autograd)
-      - Autograd captures not only the user-level code, but also backpropagation,
-        which results in capturing the backwards pass “ahead-of-time”. This
-        enables acceleration of both forwards and backwards pass using
-        ``TorchInductor``.
-      - 2.0
-      - 5.3
-    * - ``torch.compiler`` (TorchInductor)
-      - The default ``torch.compile`` deep learning compiler that generates fast
-        code for multiple accelerators and backends. You need to use a backend
-        compiler to make speedups through ``torch.compile`` possible. For AMD,
-        NVIDIA, and Intel GPUs, it leverages OpenAI Triton as the key building block.
-      - 2.0
-      - 5.3
-
-torchaudio
+Supported modules
 --------------------------------------------------------------------------------
 
-The `torchaudio <https://pytorch.org/audio/stable/index.html>`_ library provides
-utilities for processing audio data in PyTorch, such as audio loading,
-transformations, and feature extraction.
+For a complete and up-to-date list of PyTorch core modules (for example., ``torch``,
+``torch.nn``, ``torch.cuda``, ``torch.backends.cuda`` and
+``torch.backends.cudnn``), their descriptions, and usage, please refer directly
+to the `official PyTorch documentation <https://pytorch.org/docs/stable/index.html>`_.
 
-To ensure GPU-acceleration with ``torchaudio.transforms``, you need to
-explicitly move audio data (waveform tensor) to GPU using ``.to('cuda')``.
+Core PyTorch functionality on ROCm includes tensor operations, neural network
+layers, automatic differentiation, distributed training, mixed-precision
+training, compilation features, and domain-specific libraries for audio, vision,
+text processing, and more.
 
-The following ``torchaudio`` features are GPU-accelerated.
+Supported domain libraries
+--------------------------------------------------------------------------------
+
+PyTorch offers specialized `domain libraries <https://pytorch.org/domains/>`_ with
+GPU acceleration that build on its core features to support specific application
+areas. The table below lists the PyTorch domain libraries that are compatible
+with ROCm.
 
 .. list-table::
     :header-rows: 1
 
-    * - Feature
+    * - Library
       - Description
-      - As of torchaudio version
-      - As of ROCm
-    * - ``torchaudio.transforms.Spectrogram``
-      - Generate a spectrogram of an input waveform using STFT.
-      - 0.6.0
-      - 4.5
-    * - ``torchaudio.transforms.MelSpectrogram``
-      - Generates the mel-scale spectrogram of raw audio signals.
-      - 0.9.0
-      - 4.5
-    * - ``torchaudio.transforms.MFCC``
-      - Extract of MFCC features.
-      - 0.9.0
-      - 4.5
-    * - ``torchaudio.transforms.Resample``
-      - Resamples a signal from one frequency to another.
-      - 0.9.0
-      - 4.5
 
-torchvision
---------------------------------------------------------------------------------
+    * - `torchaudio <https://docs.pytorch.org/audio/stable/index.html>`_ 
+      - Audio and signal processing library for PyTorch. Provides utilities for
+        audio I/O, signal and data processing functions, datasets, model
+        implementations, and application components for audio and speech
+        processing tasks.
 
-The `torchvision <https://pytorch.org/vision/stable/index.html>`_ library
-provides datasets, model architectures, and common image transformations for
-computer vision.
+        **Note:** To ensure GPU-acceleration with ``torchaudio.transforms``,
+        you need to explicitly move audio data (waveform tensor) to GPU using
+        ``.to('cuda')``.
 
-The following ``torchvision`` features are GPU-accelerated.
+    * - `torchtune <https://docs.pytorch.org/torchtune/stable/index.html>`_
+      - PyTorch-native library designed for fine-tuning large language models
+        (LLMs). Provides supports the full fine-tuning workflow and offers
+        compatibility with popular production inference systems.
 
-.. list-table::
-    :header-rows: 1
+        **Note:** Only official release exists.
 
-    * - Feature
-      - Description
-      - As of torchvision version
-      - As of ROCm
-    * - ``torchvision.transforms.functional``
-      - Provides GPU-compatible transformations for image preprocessing like
-        resize, normalize, rotate and crop.
-      - 0.2.0
-      - 4.0
-    * - ``torchvision.ops``
-      - GPU-accelerated operations for object detection and segmentation tasks.
-        ``torchvision.ops.roi_align``, ``torchvision.ops.nms`` and
-        ``box_convert``.
-      - 0.6.0
-      - 3.3
-    * - ``torchvision.models`` with ``.to('cuda')``
-      - ``torchvision`` provides several pre-trained models (ResNet, Faster
-        R-CNN, Mask R-CNN, ...) that can run on CUDA for faster inference and
-        training.
-      - 0.1.6
-      - 2.x
-    * - ``torchvision.io``
-      - Enables video decoding and frame extraction using GPU acceleration with NVIDIA’s
-        NVDEC and nvJPEG (rocJPEG) on CUDA-enabled GPUs.
-      - 0.4.0
-      - 6.3
+    * - `torchvision <https://docs.pytorch.org/vision/stable/index.html>`_
+      - Computer vision library that is part of the PyTorch project. Provides
+        popular datasets, model architectures, and common image transformations
+        for computer vision applications.
 
-torchtext
---------------------------------------------------------------------------------
+    * - `torchtext <https://docs.pytorch.org/text/stable/index.html>`_
+      - Text processing library for PyTorch. Provides data processing utilities
+        and popular datasets for natural language processing, including
+        tokenization, vocabulary management, and text embeddings.
 
-The `torchtext <https://pytorch.org/text/stable/index.html>`_ library provides
-utilities for processing and working with text data in PyTorch, including
-tokenization, vocabulary management, and text embeddings. torchtext supports
-preprocessing pipelines and integration with PyTorch models, simplifying the
-implementation of natural language processing (NLP) tasks.
+        **Note:** ``torchtext`` does not implement ROCm-specific kernels. 
+        ROCm acceleration is provided through the underlying PyTorch framework
+        and ROCm library integration. Only official release exists.
 
-To leverage GPU acceleration in torchtext, you need to move tensors
-explicitly to the GPU using ``.to('cuda')``.
+    * - `torchdata <https://docs.pytorch.org/data/beta/index.html>`_
+      - Beta library of common modular data loading primitives for easily
+        constructing flexible and performant data pipelines, with features still
+        in prototype stage.
 
-* torchtext does not implement its own kernels. ROCm support is enabled by linking against ROCm libraries.
+    * - `torchrec <https://docs.pytorch.org/torchrec/>`_
+      - PyTorch domain library for common sparsity and parallelism primitives
+        needed for large-scale recommender systems, enabling authors to train
+        models with large embedding tables shared across many GPUs.
 
-* Only official release exists.
+        **Note:** ``torchrec`` does not implement ROCm-specific kernels. ROCm
+        acceleration is provided through the underlying PyTorch framework and
+        ROCm library integration.
 
-torchtune
---------------------------------------------------------------------------------
+    * - `torchserve <https://docs.pytorch.org/serve/>`_
+      - Performant, flexible and easy-to-use tool for serving PyTorch models in
+        production, providing features for model management, batch processing,
+        and scalable deployment.
 
-The `torchtune <https://pytorch.org/torchtune/stable/index.html>`_ library for
-authoring, fine-tuning and experimenting with LLMs.
+        **Note:** `torchserve <https://docs.pytorch.org/serve/>`_ is no longer
+        actively maintained. Last official release is sent out with PyTorch 2.4.
 
-* Usage: Enabling developers to fine-tune ROCm PyTorch solutions.
+    * - `torchrl <https://docs.pytorch.org/rl/stable/index.html>`_
+      - Open-source, Python-first Reinforcement Learning library for PyTorch
+        with a focus on high modularity and good runtime performance, providing
+        low and high-level RL abstractions and reusable functionals for cost
+        functions, returns, and data processing.
 
-* Only official release exists.
+        **Note:** Only official release exists.
 
-torchserve
---------------------------------------------------------------------------------
+    * - `tensordict <https://docs.pytorch.org/tensordict/stable/index.html>`_
+      - Dictionary-like class that simplifies operations on batches of tensors,
+        enhancing code readability, compactness, and modularity by abstracting
+        tailored operations and reducing errors through automatic operation
+        dispatching.
 
-The `torchserve <https://pytorch.org/serve/>`_ is a PyTorch domain library
-for common sparsity and parallelism primitives needed for large-scale recommender
-systems.
-
-* torchtext does not implement its own kernels. ROCm support is enabled by
-  linking against ROCm libraries.
-
-* Only official release exists.
-
-torchrec
---------------------------------------------------------------------------------
-
-The `torchrec <https://pytorch.org/torchrec/>`_ is a PyTorch domain library for
-common sparsity and parallelism primitives needed for large-scale recommender
-systems.
-
-* torchrec does not implement its own kernels. ROCm support is enabled by
-  linking against ROCm libraries.
-
-* Only official release exists.
-
-Unsupported PyTorch features
-================================================================================
-
-The following GPU-accelerated PyTorch features are not supported by ROCm for
-the listed supported PyTorch versions.
-
-.. list-table::
-    :widths: 30, 60, 10
-    :header-rows: 1
-
-    * - Feature
-      - Description
-      - As of PyTorch
-    * - APEX batch norm
-      - Use APEX batch norm instead of PyTorch batch norm.
-      - 1.6.0
-    * - ``torch.backends.cuda`` / ``matmul.allow_tf32``
-      - A bool that controls whether TensorFloat-32 tensor cores may be used in
-        matrix multiplications.
-      - 1.7
-    * - ``torch.cuda`` / NVIDIA Tools Extension (NVTX)
-      - Integration with NVTX for profiling and debugging GPU performance using
-        NVIDIA's Nsight tools.
-      - 1.7.0
-    * - ``torch.cuda`` / Lazy loading NVRTC
-      - Delays JIT compilation with NVRTC until the code is explicitly needed.
-      - 1.8.0
-    * - ``torch-tensorrt``
-      - Integrate TensorRT library for optimizing and deploying PyTorch models.
-        ROCm does not have equialent library for TensorRT.
-      - 1.9.0
-    * - ``torch.backends`` / ``cudnn.allow_tf32``
-      - TensorFloat-32 tensor cores may be used in cuDNN convolutions.
-      - 1.10.0
-    * - ``torch.backends.cuda`` / ``matmul.allow_fp16_reduced_precision_reduction``
-      - Reduced precision reductions with fp16 accumulation type are
-        allowed with fp16 GEMMs.
-      - 2.0
-    * - ``torch.backends.cuda`` / ``matmul.allow_bf16_reduced_precision_reduction``
-      - Reduced precision reductions are allowed with bf16 GEMMs.
-      - 2.0
-    * - ``torch.nn.functional`` / ``scaled_dot_product_attention``
-      - Flash attention backend for SDPA to accelerate attention computation in
-        transformer-based models.
-      - 2.0
-    * - ``torch.backends.cuda`` / ``enable_cudnn_sdp``
-      - Globally enables cuDNN SDPA's kernels within SDPA.
-      - 2.0
-    * - ``torch.backends.cuda`` / ``enable_flash_sdp``
-      - Globally enables or disables FlashAttention for SDPA.
-      - 2.1
-    * - ``torch.backends.cuda`` / ``enable_mem_efficient_sdp``
-      - Globally enables or disables Memory-Efficient Attention for SDPA.
-      - 2.1
-    * - ``torch.backends.cuda`` / ``enable_math_sdp``
-      - Globally enables or disables the PyTorch C++ implementation within SDPA.
-      - 2.1
-    * - Dynamic parallelism
-      - PyTorch itself does not directly expose dynamic parallelism as a core
-        feature. Dynamic parallelism allow GPU threads to launch additional
-        threads which can be reached using custom operations via the
-        ``torch.utils.cpp_extension`` module.
-      - Not a core feature
-    * - Unified memory support in PyTorch
-      - Unified Memory is not directly exposed in PyTorch's core API, it can be
-        utilized effectively through custom CUDA extensions or advanced
-        workflows.
-      - Not a core feature
+        **Note:** Only official release exists.
