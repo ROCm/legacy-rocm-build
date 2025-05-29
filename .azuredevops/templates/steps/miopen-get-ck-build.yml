@@ -25,7 +25,7 @@ steps:
       echo "Fetching CK build ID for commit $CK_COMMIT"
       CK_CHECKS_URL="$GH_API/composable_kernel/commits/${CK_COMMIT}/check-runs"
       CK_BUILD_ID=$(curl -s $CK_CHECKS_URL | \
-        jq '.check_runs[] | select(.name == "composable_kernel" and .app.slug == "azure-pipelines") | .details_url' | \
+        jq '.check_runs[] | select(.name == "composable_kernel" and .app.slug == "azure-pipelines" and .conclusion == "success") | .details_url' | \
         tr -d '"' | grep -oP 'buildId=\K\d+')
 
       # If none found, use latest successful CK build instead
