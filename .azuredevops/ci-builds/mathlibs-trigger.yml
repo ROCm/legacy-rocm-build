@@ -23,8 +23,11 @@ resources:
     name: ROCm/rocm-libraries
     ref: ${{ parameters.librariesRepoRef }}
 
+trigger: none
+pr: none
+
 jobs:
-  - template: /.azuredevops/nightly/mathlibs.yml@pipelines_repo
+  - template: /.azuredevops/ci-builds/mathlibs.yml@pipelines_repo
     parameters:
       checkoutRepo: libraries_repo
       buildDependsOn: false
