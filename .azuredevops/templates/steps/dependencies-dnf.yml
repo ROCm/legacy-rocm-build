@@ -12,8 +12,12 @@ parameters:
     doxygen: doxygen
     # note: doxygen-doc is not available in dnf
     libdrm-dev: libdrm-devel
-    ninja-build: ninja-build
+    libnuma-dev: numactl-devel
+    # note: llvm needs ninja-build version newer than what dnf provides
     pkg-config: pkgconf-pkg-config
+    # note: python3 is the default python in AlmaLinux 8
+    # and python3-pip is already installed when updating to python 3.11
+    zlib1g-dev: zlib-devel
 
 steps:
 - ${{ if eq(parameters.registerROCmPackages, true) }}:
@@ -54,9 +58,9 @@ steps:
   inputs:
     targetType: inline
     script: |
-      scl enable gcc-toolset-14 -- gcc --version
       source /opt/rh/gcc-toolset-14/enable
       gcc --version
+      g++ --version
 - task: Bash@3
   displayName: 'Set CC/CXX env vars'
   inputs:
@@ -76,9 +80,22 @@ steps:
       python3 --version
       python3 -m pip install --upgrade pip setuptools wheel
 - ${{ each pkg in parameters.aptPackages }}:
+  # note: llvm needs ninja-build version newer than what dnf provides
+  - ${{ if eq(pkg, 'ninja-build') }}:
+    - task: Bash@3
+      displayName: 'Install ninja 1.11.1'
+      inputs:
+        targetType: inline
+        script: |
+          curl -LO https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip
+          sudo dnf -y install unzip
+          unzip ninja-linux.zip
+          sudo mv ninja /usr/local/bin/ninja
+          sudo chmod +x /usr/local/bin/ninja
+          echo "##vso[task.prependpath]/usr/local/bin"
   - ${{ if ne(parameters.aptToDnfMap[pkg], '') }}:
     - task: Bash@3
-      displayName: 'dnf install ${{ pkg }}'
+      displayName: 'dnf install ${{ parameters.aptToDnfMap[pkg] }}'
       inputs:
         targetType: inline
         script: |
