@@ -122,7 +122,7 @@ icon to view the image on Docker Hub.
 
       - `0.4.35 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.4.35>`_
       - Ubuntu 22.04
-      - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`_
+      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
 
 AMD publishes `Community ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax-community>`_
 with ROCm backends on Docker Hub. The following Docker image tags and
