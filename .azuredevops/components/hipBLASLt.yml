@@ -56,6 +56,7 @@ parameters:
     - hipBLAS-common
     - llvm-project
     - rocminfo
+    - rocm-cmake
     - rocm_smi_lib
     - rocprofiler-register
     - ROCR-Runtime
