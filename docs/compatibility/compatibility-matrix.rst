@@ -28,7 +28,7 @@ compatibility and system requirements.
 
       :ref:`Operating systems & kernels <OS-kernel-versions>`,Ubuntu 24.04.2,Ubuntu 24.04.2,Ubuntu 24.04.2
       ,Ubuntu 22.04.5,Ubuntu 22.04.5,Ubuntu 22.04.5
-      ,"RHEL 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.5, 9.4"
+      ,"RHEL 9.6, 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.5, 9.4"
       ,RHEL 8.10,RHEL 8.10,RHEL 8.10
       ,SLES 15 SP6,SLES 15 SP6,"SLES 15 SP6, SP5"
       ,"Oracle Linux 9, 8 [#mi300x]_","Oracle Linux 9, 8 [#mi300x]_",Oracle Linux 8.10 [#mi300x]_
@@ -174,7 +174,8 @@ Use this lookup table to confirm which operating system and kernel versions are 
    ,,
    `Ubuntu <https://ubuntu.com/about/release-cycle#ubuntu-kernel-release-cycle>`_, 22.04.5, "5.15 GA, 6.8 HWE", 2.35
    ,,
-   `Red Hat Enterprise Linux (RHEL 9) <https://access.redhat.com/articles/3078#RHEL9>`_, 9.5, 5.14+, 2.34
+   `Red Hat Enterprise Linux (RHEL 9) <https://access.redhat.com/articles/3078#RHEL9>`_, 9.6, 5.14+, 2.34
+   , 9.5, 5.14+, 2.34
    ,9.4, 5.14+, 2.34
    ,9.3, 5.14+, 2.34
    ,,
