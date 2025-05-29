@@ -1,10 +1,29 @@
 parameters:
+- name: componentName
+  type: string
+  default: rocFFT
 - name: checkoutRepo
   type: string
   default: 'self'
 - name: checkoutRef
   type: string
   default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -59,10 +78,24 @@ parameters:
         target: gfx942
       - gfx90a:
         target: gfx90a
+- name: downstreamComponentMatrix
+  type: object
+  default:
+    - hipFFT:
+      name: hipFFT
+      sparseCheckoutDir: projects/hipfft
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        gfx942:
+          - rocFFT_build_gfx942
+        gfx90a:
+          - rocFFT_build_gfx90a
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocFFT_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.target }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn: ${{ parameters.buildDependsOn[job.target] }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -79,12 +112,15 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         extraBuildFlags: >-
@@ -101,9 +137,11 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
@@ -114,8 +152,8 @@ jobs:
           - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocFFT_test_${{ job.target }}
-    dependsOn: rocFFT_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_test_${{ job.target }}
+    dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -135,6 +173,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
       parameters:
+        preTargetFilter: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
@@ -142,10 +181,12 @@ jobs:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmTestDependencies }}
         gpuTarget: ${{ job.target }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
-        componentName: rocFFT
+        componentName: ${{ parameters.componentName }}
         testDir: '$(Agent.BuildDirectory)/rocm/bin'
         testExecutable: './rocfft-test'
         testParameters: '--test_prob 0.004 --gtest_output=xml:./test_output.xml --gtest_color=yes'
@@ -154,3 +195,15 @@ jobs:
         aptPackages: ${{ parameters.aptPackages }}
         environment: test
         gpuTarget: ${{ job.target }}
+
+- ${{ if parameters.triggerDownstreamJobs }}:
+  - ${{ each component in parameters.downstreamComponentMatrix }}:
+    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+          buildDependsOn: ${{ component.buildDependsOn }}
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+          triggerDownstreamJobs: true
+          unifiedBuild: ${{ parameters.unifiedBuild }}
