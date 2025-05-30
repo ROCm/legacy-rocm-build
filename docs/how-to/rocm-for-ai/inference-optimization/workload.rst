@@ -678,7 +678,7 @@ To specify the quantization scaling config, use the
 ``--quantization-param-path`` parameter. If the parameter is not specified,
 the default scaling factor of ``1`` is used, which can lead to less accurate
 results. To generate ``kv-cache`` scaling JSON file, see `FP8 KV
-Cache <https://github.com/vllm-project/vllm/blob/main/examples/fp8/README.md>`__
+Cache <https://github.com/vllm-project/llm-compressor/blob/main/examples/quantization_kv_cache/README.md>`__
 in the vLLM GitHub repository.
 
 Two sample Llama scaling configuration files are in vLLM for ``llama2-70b`` and
