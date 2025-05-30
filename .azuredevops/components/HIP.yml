@@ -88,6 +88,7 @@ jobs:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
         packageManager: ${{ job.packageManager }}
+    - checkout: none
     - ${{ each repo in parameters.repos.cloneRepos }}:
       - task: Bash@3
         displayName: 'Clone ${{ repo.name }} @ ${{ repo.commit }}'
@@ -154,6 +155,7 @@ jobs:
         pipModules: ${{ parameters.pipModules }}
         packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - checkout: none
     - ${{ each repo in parameters.repos.cloneRepos }}:
       - task: Bash@3
         displayName: 'Clone ${{ repo.name }} @ ${{ repo.commit }}'
