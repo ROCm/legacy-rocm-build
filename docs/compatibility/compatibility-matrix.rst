@@ -156,7 +156,7 @@ compatibility and system requirements.
 .. [#mi300_620] **For ROCm 6.2.0** - MI300X (gfx942) is supported on listed operating systems *except* Ubuntu 22.04.5 [6.8 HWE] and Ubuntu 22.04.4 [6.5 HWE].
 .. [#kfd_support] Starting from ROCm 6.4.0, forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software is provided up to a year apart (assuming hardware support is available in both). For earlier ROCm releases, the compatibility is provided for +/- 2 releases. These are the compatibility combinations that are currently supported.
 .. [#ROCT-rocr] Starting from ROCm 6.3.0, the ROCT Thunk Interface is included as part of the ROCr runtime package.
-.. [#RDNA4-OS] Radeon AI PRO R9700, Radeon RX 9070 XT (gfx1201), and Radeon RX 9060 XT (gfx1200) are supported only on Ubuntu 24.04.2, Ubuntu 22.04.5, RHEL 9.6, RHEL 9.5, and RHEL 9.4.
+.. [#RDNA4-OS] Radeon AI PRO R9700, Radeon RX 9070 XT (gfx1201), Radeon RX 9070 (gfx1201), Radeon RX 9070 GRE (gfx1201), and Radeon RX 9060 XT (gfx1200) are supported only on Ubuntu 24.04.2, Ubuntu 22.04.5, RHEL 9.6, RHEL 9.5, and RHEL 9.4.
 
 .. _OS-kernel-versions:
 
