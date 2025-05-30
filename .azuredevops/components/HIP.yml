@@ -38,15 +38,19 @@ parameters:
 - name: repos
   type: object
   default:
-    - hip:
-      url: 'https://github.com/ROCm/HIP.git'
-      commit: 'efee830'
-    - clr:
-      url: 'https://github.com/ROCm/clr.git'
-      commit: '78f3cab'
-    - hipother:
-      url: 'https://github.com/ROCm/hipother.git'
-      commit: 'e0ff75f'
+    cloneRepos:
+      - hip:
+        name: 'HIP'
+        url: 'https://github.com/ROCm/HIP.git'
+        commit: 'efee830'
+      - clr:
+        name: 'clr'
+        url: 'https://github.com/ROCm/clr.git'
+        commit: '78f3cab'
+      - hipother:
+        name: 'hipother'
+        url: 'https://github.com/ROCm/hipother.git'
+        commit: 'e0ff75f'
 
 # hip and clr are tightly-coupled
 # run this same template for both repos
@@ -84,16 +88,16 @@ jobs:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
         packageManager: ${{ job.packageManager }}
-    - ${{ each repoName in parameters.repos }}:
+    - ${{ each repo in parameters.repos.cloneRepos }}:
       - task: Bash@3
-        displayName: 'Clone ${{ repoName }} @ ${{ parameters.repos[repoName].commit }}'
+        displayName: 'Clone ${{ repo.name }} @ ${{ repo.commit }}'
         inputs:
           targetType: inline
           script: |
-            echo "Cloning ${{ parameters.repos[repoName].url }}..."
-            git clone ${{ parameters.repos[repoName].url }} ${{ repoName }}
-            cd ${{ repoName }}
-            git checkout ${{ parameters.repos[repoName].commit }}
+            echo "Cloning ${{ repo.name }}..."
+            git clone ${{ repo.url }} ${{ repo.name }}
+            cd ${{ repo.name }}
+            git checkout ${{ repo.commit }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
@@ -150,16 +154,16 @@ jobs:
         pipModules: ${{ parameters.pipModules }}
         packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - ${{ each repoName in parameters.repos }}:
+    - ${{ each repo in parameters.repos.cloneRepos }}:
       - task: Bash@3
-        displayName: 'Clone ${{ repoName }} @ ${{ parameters.repos[repoName].commit }}'
+        displayName: 'Clone ${{ repo.name }} @ ${{ repo.commit }}'
         inputs:
           targetType: inline
           script: |
-            echo "Cloning ${{ parameters.repos[repoName].url }}..."
-            git clone ${{ parameters.repos[repoName].url }} ${{ repoName }}
-            cd ${{ repoName }}
-            git checkout ${{ parameters.repos[repoName].commit }}
+            echo "Cloning ${{ repo.name }}..."
+            git clone ${{ repo.url }} ${{ repo.name }}
+            cd ${{ repo.name }}
+            git checkout ${{ repo.commit }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
