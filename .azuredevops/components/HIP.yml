@@ -20,7 +20,7 @@ parameters:
     - ocl-icd-libopencl1
     - ocl-icd-opencl-dev
     - opencl-headers
-    - python3-pip
+    - zlib1g-dev
 - name: pipModules
   type: object
   default:
@@ -41,120 +41,147 @@ parameters:
 # any changes for clr should just trigger HIP pipeline
 # similarly for hipother repo, for Nvidia backend
 
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - ubuntu2204:
+        os: ubuntu2204
+        packageManager: apt
+      - almalinux8:
+        os: almalinux8
+        packageManager: dnf
+
 # HIP with AMD backend
 jobs:
-- job: hip_clr_combined_amd
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool:
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-# checkout triggering repo (either HIP or clr)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-# if this is triggered by HIP repo, matching repo is clr
-# if this is triggered by clr repo, matching repo is HIP
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: matching_repo
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: hipother_repo
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependenciesAMD }}
-      aggregatePipeline: ${{ parameters.aggregatePipeline }}
-# compile clr
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      componentName: clr
-      cmakeBuildDir: '$(Build.SourcesDirectory)/clr/build'
-      cmakeSourceDir: '$(Build.SourcesDirectory)/clr'
-      extraBuildFlags: >-
-        -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
-        -DHIP_PLATFORM=amd
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
-        -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-        -DHIPCC_BIN_DIR=$(Agent.BuildDirectory)/rocm/bin
-        -DCLR_BUILD_HIP=ON
-        -DCLR_BUILD_OCL=ON
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-    parameters:
-      artifactName: amd
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      artifactName: amd
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
-  #     pipModules: ${{ parameters.pipModules }}
-  #     environment: amd
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: hip_clr_combined_amd_${{ job.os }}
+    pool:
+      ${{ if eq(job.os, 'ubuntu2204') }}:
+        vmImage: 'ubuntu-22.04'
+      ${{ if eq(job.os, 'almalinux8') }}:
+        name: 'rocm-ci_low_build_pool_alma8'
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
+  # checkout triggering repo (either HIP or clr)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+  # if this is triggered by HIP repo, matching repo is clr
+  # if this is triggered by clr repo, matching repo is HIP
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: matching_repo
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: hipother_repo
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependenciesAMD }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        os: ${{ job.os }}
+  # compile clr
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        componentName: clr
+        cmakeBuildDir: '$(Build.SourcesDirectory)/clr/build'
+        cmakeSourceDir: '$(Build.SourcesDirectory)/clr'
+        extraBuildFlags: >-
+          -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
+          -DHIP_PLATFORM=amd
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
+          -DHIPCC_BIN_DIR=$(Agent.BuildDirectory)/rocm/bin
+          -DCLR_BUILD_HIP=ON
+          -DCLR_BUILD_OCL=ON
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        artifactName: amd
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        artifactName: amd
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}
+    #     pipModules: ${{ parameters.pipModules }}
+    #     environment: amd
 
 # HIP with Nvidia backend
-- job: hip_clr_combined_nvidia
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool:
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-# checkout triggering repo (either HIP or clr)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-# if this is triggered by HIP repo, matching repo is clr
-# if this is triggered by clr repo, matching repo is HIP
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: matching_repo
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: hipother_repo
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependenciesNvidia }}
-      aggregatePipeline: ${{ parameters.aggregatePipeline }}
-  - script: 'ls -1R $(Agent.BuildDirectory)/rocm'
-    displayName: 'Artifact listing'
-# compile clr
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      componentName: clr
-      cmakeBuildDir: '$(Build.SourcesDirectory)/clr/build'
-      cmakeSourceDir: '$(Build.SourcesDirectory)/clr'
-      extraBuildFlags: >-
-        -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
-        -DHIP_PLATFORM=nvidia
-        -DHIPCC_BIN_DIR=$(Agent.BuildDirectory)/rocm/bin
-        -DCLR_BUILD_HIP=ON
-        -DCLR_BUILD_OCL=OFF
-        -DHIPNV_DIR=$(Build.SourcesDirectory)/hipother/hipnv
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-    parameters:
-      artifactName: nvidia
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
-  #     pipModules: ${{ parameters.pipModules }}
-  #     environment: nvidia
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: hip_clr_combined_nvidia_${{ job.os }}
+    pool:
+      ${{ if eq(job.os, 'ubuntu2204') }}:
+        vmImage: 'ubuntu-22.04'
+      ${{ if eq(job.os, 'almalinux8') }}:
+        name: 'rocm-ci_low_build_pool_alma8'
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+  # checkout triggering repo (either HIP or clr)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+  # if this is triggered by HIP repo, matching repo is clr
+  # if this is triggered by clr repo, matching repo is HIP
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: matching_repo
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: hipother_repo
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependenciesNvidia }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        os: ${{ job.os }}
+        skipLlvmSymlink: true
+    - script: 'ls -1R $(Agent.BuildDirectory)/rocm'
+      displayName: 'Artifact listing'
+  # compile clr
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        componentName: clr
+        cmakeBuildDir: '$(Build.SourcesDirectory)/clr/build'
+        cmakeSourceDir: '$(Build.SourcesDirectory)/clr'
+        extraBuildFlags: >-
+          -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
+          -DHIP_PLATFORM=nvidia
+          -DHIPCC_BIN_DIR=$(Agent.BuildDirectory)/rocm/bin
+          -DCLR_BUILD_HIP=ON
+          -DCLR_BUILD_OCL=OFF
+          -DHIPNV_DIR=$(Build.SourcesDirectory)/hipother/hipnv
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        artifactName: nvidia
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}
+    #     pipModules: ${{ parameters.pipModules }}
+    #     environment: nvidia

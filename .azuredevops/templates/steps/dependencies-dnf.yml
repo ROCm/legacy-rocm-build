@@ -13,9 +13,14 @@ parameters:
     # note: doxygen-doc is not available in dnf
     # note: g++ is installed by default with gcc-toolset-14
     libdrm-dev: libdrm-devel
+    libdrm-amdgpu-dev: libdrm-amdgpu-devel
     libelf-dev: elfutils-libelf-devel
     libnuma-dev: numactl-devel
+    mesa-common-dev: mesa-libGL-devel
     # note: llvm needs ninja-build version newer than what dnf provides
+    ocl-icd-libopencl1: ocl-icd
+    ocl-icd-opencl-dev: ocl-icd-devel
+    opencl-headers: opencl-headers
     pkg-config: pkgconf-pkg-config
     # note: python3 is the default python in AlmaLinux 8
     # and python3-pip is already installed when updating to python 3.11
@@ -31,13 +36,13 @@ steps:
         sudo rpm --import https://repo.radeon.com/rocm/rocm.gpg.key
         echo '[amdgpu]' | sudo tee /etc/yum.repos.d/amdgpu.repo > /dev/null
         echo "name=amdgpu" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
-        echo "baseurl=https://repo.radeon.com/amdgpu/$(REPO_RADEON_VERSION)/rhel/8.10/" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo "baseurl=https://repo.radeon.com/amdgpu/$(REPO_RADEON_VERSION)/rhel/8.10/main/x86_64/" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
         echo "enabled=1" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
         echo "gpgcheck=1" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
         echo "gpgkey=https://repo.radeon.com/rocm/rocm.gpg.key" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
         echo '[rocm]' | sudo tee /etc/yum.repos.d/rocm.repo > /dev/null
         echo "name=ROCm$(REPO_RADEON_VERSION)" | sudo tee --append /etc/yum.repos.d/rocm.repo
-        echo "baseurl=https://repo.radeon.com/rocm/yum/$(REPO_RADEON_VERSION)/" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        echo "baseurl=https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/" | sudo tee --append /etc/yum.repos.d/rocm.repo
         echo "enabled=1" | sudo tee --append /etc/yum.repos.d/rocm.repo
         echo "gpgcheck=1" | sudo tee --append /etc/yum.repos.d/rocm.repo
         echo "gpgkey=https://repo.radeon.com/rocm/rocm.gpg.key" | sudo tee --append /etc/yum.repos.d/rocm.repo
@@ -49,7 +54,7 @@ steps:
     targetType: inline
     script: |
       sudo dnf config-manager --set-enabled powertools
-      sudo dnf -y install epel-release git jq vim-common
+      sudo dnf -y install epel-release git jq vim-common libstdc++-devel
 - task: Bash@3
   displayName: 'Install gcc-toolset-14'
   inputs:
