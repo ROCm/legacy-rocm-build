@@ -29,13 +29,8 @@ parameters:
   type: object
   default:
     buildJobs:
-      # skip flang for almalinux8
-      - ubuntu2204:
-        os: ubuntu2204
-        packageManager: apt
-      - almalinux8:
-        os: almalinux8
-        packageManager: dnf
+      - { os: ubuntu2204, packageManager: apt }
+      - { os: almalinux8, packageManager: dnf }
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:

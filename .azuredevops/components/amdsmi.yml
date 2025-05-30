@@ -22,12 +22,8 @@ parameters:
   type: object
   default:
     buildJobs:
-      - ubuntu2204:
-        os: ubuntu2204
-        packageManager: apt
-      - almalinux8:
-        os: almalinux8
-        packageManager: dnf
+      - { os: ubuntu2204, packageManager: apt }
+      - { os: almalinux8, packageManager: dnf }
     testJobs:
       - ubuntu2204_gfx942:
         os: ubuntu2204

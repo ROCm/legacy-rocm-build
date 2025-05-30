@@ -61,12 +61,8 @@ parameters:
   type: object
   default:
     buildJobs:
-      - ubuntu2204:
-        os: ubuntu2204
-        packageManager: apt
-      - almalinux8:
-        os: almalinux8
-        packageManager: dnf
+      - { os: ubuntu2204, packageManager: apt }
+      - { os: almalinux8, packageManager: dnf }
 
 # HIP with AMD backend
 jobs:
@@ -172,7 +168,6 @@ jobs:
         dependencyList: ${{ parameters.rocmDependenciesNvidia }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         os: ${{ job.os }}
-        skipLlvmSymlink: true
     - script: 'ls -1R $(Agent.BuildDirectory)/rocm'
       displayName: 'Artifact listing'
   # compile clr

@@ -435,7 +435,9 @@ steps:
     displayName: Symlink from rocm/llvm to rocm/lib/llvm
     inputs:
       targetType: inline
-      script: sudo ln -s $(Agent.BuildDirectory)/rocm/llvm $(Agent.BuildDirectory)/rocm/lib/llvm
+      script: |
+        sudo mkdir -p $(Agent.BuildDirectory)/rocm/lib
+        sudo ln -s $(Agent.BuildDirectory)/rocm/llvm $(Agent.BuildDirectory)/rocm/lib/llvm
   - task: Bash@3
     displayName: Symlink executables from rocm/llvm/bin to rocm/bin
     inputs:
@@ -487,8 +489,10 @@ steps:
       targetType: inline
 # OS ignores if the ROCm lib folder shows up more than once
       script: |
-        echo $(Agent.BuildDirectory)/rocm/lib | sudo tee /etc/ld.so.conf.d/rocm-ci.conf
+        echo $(Agent.BuildDirectory)/rocm/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
         echo $(Agent.BuildDirectory)/rocm/llvm/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+        echo $(Agent.BuildDirectory)/rocm/lib64 | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+        echo $(Agent.BuildDirectory)/rocm/llvm/lib64 | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
         sudo cat /etc/ld.so.conf.d/rocm-ci.conf
         sudo ldconfig -v
         ldconfig -p

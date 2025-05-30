@@ -12,6 +12,7 @@ parameters:
     doxygen: doxygen
     # note: doxygen-doc is not available in dnf
     # note: g++ is installed by default with gcc-toolset-14
+    graphviz: graphviz
     libdrm-dev: libdrm-devel
     libdrm-amdgpu-dev: libdrm-amdgpu-devel
     libelf-dev: elfutils-libelf-devel
@@ -59,15 +60,8 @@ steps:
   displayName: 'Install gcc-toolset-14'
   inputs:
     targetType: inline
-    script: sudo dnf -y install gcc-toolset-14
-- task: Bash@3
-  displayName: 'Enable GCC 14'
-  inputs:
-    targetType: inline
     script: |
-      source /opt/rh/gcc-toolset-14/enable
-      gcc --version
-      g++ --version
+      sudo dnf -y install gcc-toolset-14 gcc-toolset-14-libatomic-devel
 - task: Bash@3
   displayName: 'Set CC/CXX env vars'
   inputs:
