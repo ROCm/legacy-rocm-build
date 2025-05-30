@@ -150,6 +150,13 @@ vllm_benchmark:
         model_repo: deepseek-ai/deepseek-moe-16b-chat
         url: https://huggingface.co/deepseek-ai/deepseek-moe-16b-chat
         precision: float16
+    - group: Microsoft Phi
+      tag: phi
+      models:
+      - model: Phi-4
+        mad_tag: pyt_vllm_phi-4
+        model_repo: microsoft/phi-4
+        url: https://huggingface.co/microsoft/phi-4
     - group: TII Falcon
       tag: falcon
       models:
