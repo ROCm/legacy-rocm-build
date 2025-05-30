@@ -138,9 +138,6 @@ build() {
     copy_if DEB "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_DEB}" "$BUILD_DIR/${API_NAME}"*.deb
     copy_if RPM "${CPACKGEN:-"DEB;RPM"}" "${PACKAGE_RPM}" "$BUILD_DIR/${API_NAME}"*.rpm
 
-    mkdir -p "$PACKAGE_UTILS"
-    progressCopy "$SCRIPT_ROOT/run_rocr_debug_agent_test.sh" "$PACKAGE_UTILS"
-
     ## Copy run test py script
     echo "copying run-test.py to $PACKAGE_BIN"
     progressCopy "$ROCR_DEBUG_AGENT_ROOT/test/run-test.py" "$PACKAGE_BIN"
