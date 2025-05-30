@@ -1770,4 +1770,5 @@ There are a number of upcoming changes planned for HIP runtime API in an upcomin
 that are not backward compatible with prior releases. Most of these changes increase 
 alignment between HIP and CUDA APIs or behavior. Some of the upcoming changes are to 
 clean up header files, remove namespace collision, and have a clear separation between 
-`hipRTC` and HIP runtime. For more information refer to [HIP Upcoming changes](#hip-6-4-0).
+`hipRTC` and HIP runtime. For more information, see [HIP Upcoming changes](#hip-6-4-0)
+or [HIP 7.0 Is Coming: What You Need to Know to Stay Ahead](https://rocm.blogs.amd.com/ecosystems-and-partners/transition-to-hip-7.0:-guidance-on-upcoming-compatibility-changes/README.html).
