@@ -69,6 +69,7 @@ jobs:
         dependencyList: ${{ parameters.rocmDependencies }}
         skipLlvmSymlink: true
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: rocm-llvm

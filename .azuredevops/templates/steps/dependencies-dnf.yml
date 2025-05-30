@@ -11,7 +11,9 @@ parameters:
     cmake: cmake
     doxygen: doxygen
     # note: doxygen-doc is not available in dnf
+    # note: g++ is installed by default with gcc-toolset-14
     libdrm-dev: libdrm-devel
+    libelf-dev: elfutils-libelf-devel
     libnuma-dev: numactl-devel
     # note: llvm needs ninja-build version newer than what dnf provides
     pkg-config: pkgconf-pkg-config
@@ -47,7 +49,7 @@ steps:
     targetType: inline
     script: |
       sudo dnf config-manager --set-enabled powertools
-      sudo dnf -y install epel-release git jq
+      sudo dnf -y install epel-release git jq vim-common
 - task: Bash@3
   displayName: 'Install gcc-toolset-14'
   inputs:
