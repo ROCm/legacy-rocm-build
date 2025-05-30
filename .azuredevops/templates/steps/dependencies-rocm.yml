@@ -13,6 +13,9 @@ parameters:
 - name: dependencyList
   type: object
   default: []
+- name: os
+  type: string
+  default: 'ubuntu2204'
 - name: gpuTarget
   type: string
   default: ''
@@ -365,7 +368,7 @@ steps:
         pipelineId: ${{ parameters.componentVarList[split(dependency, ':')[0]].pipelineId }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.componentVarList[split(dependency, ':')[0]].hasGpuTarget }}:
-          fileFilter: "${{ split(dependency, ':')[1] }}*${{ parameters.gpuTarget }}"
+          fileFilter: "${{ split(dependency, ':')[1] }}*_${{ parameters.os }}_${{ parameters.gpuTarget }}"
         # dependencySource = staging
         ${{ if eq(parameters.dependencySource, 'staging')}}:
           branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].stagingBranch }}
@@ -402,7 +405,9 @@ steps:
         pipelineId: ${{ parameters.componentVarList[dependency].pipelineId }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.componentVarList[dependency].hasGpuTarget }}:
-          fileFilter: ${{ parameters.gpuTarget }}
+          fileFilter: ${{ parameters.os }}_${{ parameters.gpuTarget }}
+        ${{ else }}:
+          fileFilter: ${{ parameters.os }}
         # dependencySource = staging
         ${{ if eq(parameters.dependencySource, 'staging')}}:
           branchName: ${{ parameters.componentVarList[dependency].stagingBranch }}

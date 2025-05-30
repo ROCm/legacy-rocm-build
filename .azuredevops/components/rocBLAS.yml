@@ -1,10 +1,29 @@
 parameters:
+- name: componentName
+  type: string
+  default: rocBLAS
 - name: checkoutRepo
   type: string
   default: 'self'
 - name: checkoutRef
   type: string
   default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -73,10 +92,35 @@ parameters:
         target: gfx942
       - gfx90a:
         target: gfx90a
+- name: downstreamComponentMatrix
+  type: object
+  default:
+    # rocSOLVER depends on both rocBLAS and rocPRIM
+    # for a unified build, rocBLAS will be the one to call rocSOLVER
+    - rocSOLVER:
+      name: rocSOLVER
+      sparseCheckoutDir: projects/rocsolver
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        gfx942:
+          - rocBLAS_build_gfx942
+        gfx90a:
+          - rocBLAS_build_gfx90a
+      unifiedBuild:
+        downstreamAggregateNames: rocBLAS+rocPRIM
+        buildDependsOn:
+          gfx942:
+            - rocBLAS_build_gfx942
+            - rocPRIM_build_gfx942
+          gfx90a:
+            - rocBLAS_build_gfx90a
+            - rocPRIM_build_gfx90a
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocBLAS_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.target }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn: ${{ parameters.buildDependsOn[job.target] }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -96,10 +140,12 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aocl.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
@@ -107,6 +153,8 @@ jobs:
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         extraBuildFlags: >-
@@ -128,9 +176,11 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
@@ -145,46 +195,66 @@ jobs:
           - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
           - ROCM_PATH:::/home/user/workspace/rocm
 
-- ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocBLAS_test_${{ job.target }}
-    dependsOn: rocBLAS_build_${{ job.target }}
-    condition:
-      and(succeeded(),
-        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
-        eq(${{ parameters.aggregatePipeline }}, False)
-      )
-    variables:
-    - group: common
-    - template: /.azuredevops/variables-global.yml
-    pool: ${{ job.target }}_test_pool
-    workspace:
-      clean: all
-    steps:
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        pipModules: ${{ parameters.pipModules }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-      parameters:
-        gpuTarget: ${{ job.target }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-      parameters:
-        checkoutRef: ${{ parameters.checkoutRef }}
-        dependencyList: ${{ parameters.rocmTestDependencies }}
-        gpuTarget: ${{ job.target }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-      parameters:
-        componentName: rocBLAS
-        testDir: '$(Agent.BuildDirectory)/rocm/bin'
-        testExecutable: './rocblas-test'
-        testParameters: '--yaml rocblas_smoke.yaml --gtest_output=xml:./test_output.xml --gtest_color=yes'
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        pipModules: ${{ parameters.pipModules }}
-        environment: test
-        gpuTarget: ${{ job.target }}
+- ${{ if eq(parameters.unifiedBuild, False) }}:
+  - ${{ each job in parameters.jobMatrix.testJobs }}:
+    - job: ${{ parameters.componentName }}_test_${{ job.target }}
+      dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
+      condition:
+        and(succeeded(),
+          eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
+          eq(${{ parameters.aggregatePipeline }}, False)
+        )
+      variables:
+      - group: common
+      - template: /.azuredevops/variables-global.yml
+      pool: ${{ job.target }}_test_pool
+      workspace:
+        clean: all
+      steps:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          pipModules: ${{ parameters.pipModules }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+        parameters:
+          preTargetFilter: ${{ parameters.componentName }}
+          gpuTarget: ${{ job.target }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+        parameters:
+          checkoutRef: ${{ parameters.checkoutRef }}
+          dependencyList: ${{ parameters.rocmTestDependencies }}
+          gpuTarget: ${{ job.target }}
+          ${{ if parameters.triggerDownstreamJobs }}:
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+        parameters:
+          componentName: ${{ parameters.componentName }}
+          testDir: '$(Agent.BuildDirectory)/rocm/bin'
+          testExecutable: './rocblas-test'
+          testParameters: '--yaml rocblas_smoke.yaml --gtest_output=xml:./test_output.xml --gtest_color=yes'
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          pipModules: ${{ parameters.pipModules }}
+          environment: test
+          gpuTarget: ${{ job.target }}
+
+- ${{ if parameters.triggerDownstreamJobs }}:
+  - ${{ each component in parameters.downstreamComponentMatrix }}:
+    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+          ${{ if parameters.unifiedBuild }}:
+            buildDependsOn: ${{ component.unifiedBuild.buildDependsOn }}
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ component.unifiedBuild.downstreamAggregateNames }}
+          ${{ else }}:
+            buildDependsOn: ${{ component.buildDependsOn }}
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+          triggerDownstreamJobs: true
+          unifiedBuild: ${{ parameters.unifiedBuild }}

@@ -15,39 +15,58 @@ parameters:
   default:
     - cmake
     - ninja-build
-    - python3-pip
+
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - ubuntu2204:
+        os: ubuntu2204
+        packageManager: apt
+      - almalinux8:
+        os: almalinux8
+        packageManager: dnf
 
 jobs:
-- job: rocm_core
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool:
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DCMAKE_CURRENT_BINARY_DIR=$PWD
-        -DCMAKE_CURRENT_SOURCE_DIR=$PWD/../
-        -DCMAKE_VERBOSE_MAKEFILE=1
-        -DCPACK_GENERATOR=DEB
-        -DCPACK_DEBIAN_PACKAGE_RELEASE="local.9999~99.99"
-        -DCPACK_RPM_PACKAGE_RELEASE="local.9999"
-        -DROCM_VERSION="$(NEXT_RELEASE_VERSION)"
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: rocm_core_${{ job.os }}
+    pool:
+      ${{ if eq(job.os, 'ubuntu2204') }}:
+        vmImage: 'ubuntu-22.04'
+      ${{ if eq(job.os, 'almalinux8') }}:
+        name: 'rocm-ci_low_build_pool_alma8'
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -DCMAKE_CURRENT_BINARY_DIR=$PWD
+          -DCMAKE_CURRENT_SOURCE_DIR=$PWD/../
+          -DCMAKE_VERBOSE_MAKEFILE=1
+          -DCPACK_GENERATOR=DEB
+          -DCPACK_DEBIAN_PACKAGE_RELEASE="local.9999~99.99"
+          -DCPACK_RPM_PACKAGE_RELEASE="local.9999"
+          -DROCM_VERSION="$(NEXT_RELEASE_VERSION)"
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}

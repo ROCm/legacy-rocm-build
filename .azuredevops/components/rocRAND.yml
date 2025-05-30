@@ -21,6 +21,9 @@ parameters:
 - name: buildDependsOn
   type: object
   default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -71,6 +74,7 @@ parameters:
     - hipRAND:
       name: hipRAND
       sparseCheckoutDir: projects/hiprand
+      skipUnifiedBuild: 'false'
       buildDependsOn:
         gfx942:
           - rocRAND_build_gfx942
@@ -132,53 +136,59 @@ jobs:
     #     extraEnvVars:
     #       - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
 
-- ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: ${{ parameters.componentName }}_test_${{ job.target }}
-    dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
-    condition:
-      and(succeeded(),
-        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
-        eq(${{ parameters.aggregatePipeline }}, False)
-      )
-    variables:
-    - group: common
-    - template: /.azuredevops/variables-global.yml
-    pool: ${{ job.target }}_test_pool
-    workspace:
-      clean: all
-    steps:
-    - checkout: none
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-      parameters:
-        preTargetFilter: ${{ parameters.componentName }}
-        gpuTarget: ${{ job.target }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-      parameters:
-        checkoutRef: ${{ parameters.checkoutRef }}
-        dependencyList: ${{ parameters.rocmTestDependencies }}
-        gpuTarget: ${{ job.target }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-      parameters:
-        componentName: ${{ parameters.componentName }}
-        testDir: '$(Agent.BuildDirectory)/rocm/bin/rocRAND'
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        environment: test
-        gpuTarget: ${{ job.target }}
+- ${{ if eq(parameters.unifiedBuild, False) }}:
+  - ${{ each job in parameters.jobMatrix.testJobs }}:
+    - job: ${{ parameters.componentName }}_test_${{ job.target }}
+      dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
+      condition:
+        and(succeeded(),
+          eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
+          eq(${{ parameters.aggregatePipeline }}, False)
+        )
+      variables:
+      - group: common
+      - template: /.azuredevops/variables-global.yml
+      pool: ${{ job.target }}_test_pool
+      workspace:
+        clean: all
+      steps:
+      - checkout: none
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+        parameters:
+          preTargetFilter: ${{ parameters.componentName }}
+          gpuTarget: ${{ job.target }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+        parameters:
+          checkoutRef: ${{ parameters.checkoutRef }}
+          dependencyList: ${{ parameters.rocmTestDependencies }}
+          gpuTarget: ${{ job.target }}
+          ${{ if parameters.triggerDownstreamJobs }}:
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+        parameters:
+          componentName: ${{ parameters.componentName }}
+          testDir: '$(Agent.BuildDirectory)/rocm/bin/rocRAND'
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          environment: test
+          gpuTarget: ${{ job.target }}
 
 - ${{ if parameters.triggerDownstreamJobs }}:
   - ${{ each component in parameters.downstreamComponentMatrix }}:
-    - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
-      parameters:
-        sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
-        buildDependsOn: ${{ component.buildDependsOn }}
-        downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
-        triggerDownstreamJobs: true
+    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+          buildDependsOn: ${{ component.buildDependsOn }}
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+          triggerDownstreamJobs: true
+          unifiedBuild: ${{ parameters.unifiedBuild }}

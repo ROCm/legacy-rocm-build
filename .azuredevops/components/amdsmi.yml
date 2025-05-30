@@ -16,50 +16,69 @@ parameters:
     - cmake
     - libdrm-dev
     - ninja-build
-    - python3-pip
     - pkg-config
 
 - name: jobMatrix
   type: object
   default:
+    buildJobs:
+      - ubuntu2204:
+        os: ubuntu2204
+        packageManager: apt
+      - almalinux8:
+        os: almalinux8
+        packageManager: dnf
     testJobs:
-      - gfx942:
+      - ubuntu2204_gfx942:
+        os: ubuntu2204
+        packageManager: apt
         target: gfx942
-      - gfx90a:
+      - ubuntu2204_gfx90a:
+        os: ubuntu2204
+        packageManager: apt
         target: gfx90a
 
 jobs:
-- job: amdsmi_build
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool:
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DBUILD_TESTS=ON
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: amdsmi_build_${{ job.os }}
+    pool:
+      ${{ if eq(job.os, 'ubuntu2204') }}:
+        vmImage: 'ubuntu-22.04'
+      ${{ if eq(job.os, 'almalinux8') }}:
+        name: 'rocm-ci_low_build_pool_alma8'
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        extraBuildFlags: >-
+          -DBUILD_TESTS=ON
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: amdsmi_test_${{ job.target }}
-    dependsOn: amdsmi_build
+  - job: amdsmi_test_${{ job.os }}_${{ job.target }}
+    dependsOn: amdsmi_build_${{ job.os }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -76,8 +95,11 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       parameters:
         runRocminfo: false

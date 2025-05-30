@@ -1,0 +1,85 @@
+parameters:
+- name: aptPackages
+  type: object
+  default: []
+- name: registerROCmPackages
+  type: boolean
+  default: false
+- name: aptToDnfMap
+  type: object
+  default:
+    cmake: cmake
+    doxygen: doxygen
+    # note: doxygen-doc is not available in dnf
+    libdrm-dev: libdrm-devel
+    ninja-build: ninja-build
+    pkg-config: pkgconf-pkg-config
+
+steps:
+- ${{ if eq(parameters.registerROCmPackages, true) }}:
+  - task: Bash@3
+    displayName: 'Register AMDGPU & ROCm repos (dnf)'
+    inputs:
+      targetType: inline
+      script: |
+        sudo rpm --import https://repo.radeon.com/rocm/rocm.gpg.key
+        echo '[amdgpu]' | sudo tee /etc/yum.repos.d/amdgpu.repo > /dev/null
+        echo "name=amdgpu" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo "baseurl=https://repo.radeon.com/amdgpu/$(REPO_RADEON_VERSION)/rhel/8.10/" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo "enabled=1" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo "gpgcheck=1" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo "gpgkey=https://repo.radeon.com/rocm/rocm.gpg.key" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo '[rocm]' | sudo tee /etc/yum.repos.d/rocm.repo > /dev/null
+        echo "name=ROCm$(REPO_RADEON_VERSION)" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        echo "baseurl=https://repo.radeon.com/rocm/yum/$(REPO_RADEON_VERSION)/" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        echo "enabled=1" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        echo "gpgcheck=1" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        echo "gpgkey=https://repo.radeon.com/rocm/rocm.gpg.key" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        sudo dnf clean all
+        sudo dnf makecache
+- task: Bash@3
+  displayName: 'dnf powertools and repositories'
+  inputs:
+    targetType: inline
+    script: |
+      sudo dnf config-manager --set-enabled powertools
+      sudo dnf -y install epel-release git jq
+- task: Bash@3
+  displayName: 'Install gcc-toolset-14'
+  inputs:
+    targetType: inline
+    script: sudo dnf -y install gcc-toolset-14
+- task: Bash@3
+  displayName: 'Enable GCC 14'
+  inputs:
+    targetType: inline
+    script: |
+      scl enable gcc-toolset-14 -- gcc --version
+      source /opt/rh/gcc-toolset-14/enable
+      gcc --version
+- task: Bash@3
+  displayName: 'Set CC/CXX env vars'
+  inputs:
+    targetType: inline
+    script: |
+      echo "##vso[task.setvariable variable=CC]/opt/rh/gcc-toolset-14/root/usr/bin/gcc"
+      echo "##vso[task.setvariable variable=CXX]/opt/rh/gcc-toolset-14/root/usr/bin/g++"
+- task: Bash@3
+  displayName: 'Update to python 3.11'
+  inputs:
+    targetType: inline
+    script: |
+      sudo dnf -y module disable python36
+      sudo dnf -y install python3.11 python3.11-pip
+      sudo alternatives --set python /usr/bin/python3.11
+      sudo alternatives --set python3 /usr/bin/python3.11
+      python3 --version
+      python3 -m pip install --upgrade pip setuptools wheel
+- ${{ each pkg in parameters.aptPackages }}:
+  - ${{ if ne(parameters.aptToDnfMap[pkg], '') }}:
+    - task: Bash@3
+      displayName: 'dnf install ${{ pkg }}'
+      inputs:
+        targetType: inline
+        script: |
+          sudo dnf -y install ${{ parameters.aptToDnfMap[pkg] }}

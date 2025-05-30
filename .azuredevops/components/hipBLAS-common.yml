@@ -1,10 +1,29 @@
 parameters:
+- name: componentName
+  type: string
+  default: hipBLAS-common
 - name: checkoutRepo
   type: string
   default: 'self'
 - name: checkoutRef
   type: string
   default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -27,6 +46,19 @@ parameters:
     - clr
     - rocminfo
 
+- name: downstreamComponentMatrix
+  type: object
+  default:
+    - hipBLASLt:
+      name: hipBLASLt
+      sparseCheckoutDir: projects/hipblaslt
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        gfx942:
+          - hipBLAS_common
+        gfx90a:
+          - hipBLAS_common
+
 jobs:
 - job: hipBLAS_common
   variables:
@@ -46,11 +78,14 @@ jobs:
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
     parameters:
       checkoutRepo: ${{ parameters.checkoutRepo }}
+      sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
     parameters:
       checkoutRef: ${{ parameters.checkoutRef }}
       dependencyList: ${{ parameters.rocmDependencies }}
       aggregatePipeline: ${{ parameters.aggregatePipeline }}
+      ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
     parameters:
       extraBuildFlags: >-
@@ -58,10 +93,26 @@ jobs:
         -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
         -GNinja
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+    parameters:
+      componentName: ${{ parameters.componentName }}
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+    parameters:
+      componentName: ${{ parameters.componentName }}
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
   # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
   #   parameters:
   #     aptPackages: ${{ parameters.aptPackages }}
   #     extraEnvVars:
   #       - ROCM_PATH:::/home/user/workspace/rocm
+
+- ${{ if parameters.triggerDownstreamJobs }}:
+  - ${{ each component in parameters.downstreamComponentMatrix }}:
+    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+          buildDependsOn: ${{ component.buildDependsOn }}
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+          triggerDownstreamJobs: true
+          unifiedBuild: ${{ parameters.unifiedBuild }}

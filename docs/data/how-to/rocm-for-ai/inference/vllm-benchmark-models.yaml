@@ -157,4 +157,11 @@ vllm_benchmark:
         mad_tag: pyt_vllm_phi-4
         model_repo: microsoft/phi-4
         url: https://huggingface.co/microsoft/phi-4
+    - group: TII Falcon
+      tag: falcon
+      models:
+      - model: Falcon 180B
+        mad_tag: pyt_vllm_falcon-180b
+        model_repo: tiiuae/falcon-180B
+        url: https://huggingface.co/tiiuae/falcon-180B
         precision: float16

@@ -97,7 +97,7 @@ Docker image compatibility
 AMD validates and publishes ready-made `ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax>`_
 with ROCm backends on Docker Hub. The following Docker image tags and
 associated inventories represent the latest JAX version from the official Docker Hub and are validated for
-`ROCm 6.4.0 <https://repo.radeon.com/rocm/apt/6.4/>`_. Click the |docker-icon|
+`ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`_. Click the |docker-icon|
 icon to view the image on Docker Hub.
 
 .. list-table:: JAX Docker image components
@@ -110,19 +110,19 @@ icon to view the image on Docker Hub.
 
     * - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4-jax0.4.35-py3.12/images/sha256-4069398229078f3311128b6d276c6af377c7e97d3363d020b0bf7154fae619ca"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
+           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4.1-jax0.4.35-py3.12/images/sha256-7a0745a2a2758bdf86397750bac00e9086cbf67d170cfdbb08af73f7c7d18a6a"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
 
       - `0.4.35 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.4.35>`_
       - Ubuntu 24.04
-      - `3.12.7 <https://www.python.org/downloads/release/python-3127/>`_
+      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
 
     * - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4-jax0.4.35-py3.10/images/sha256-a137f901f91ce6c13b424c40a6cf535248d4d20fd36d5daf5eee0570190a4a11"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
+           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4.1-jax0.4.35-py3.10/images/sha256-5f9e8d6e6e69fdc9a1a3f2ba3b1234c3f46c53b7468538c07fd18b00899da54f"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
 
       - `0.4.35 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.4.35>`_
       - Ubuntu 22.04
-      - `3.10.14 <https://www.python.org/downloads/release/python-31014/>`_
+      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
 
 AMD publishes `Community ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax-community>`_
 with ROCm backends on Docker Hub. The following Docker image tags and

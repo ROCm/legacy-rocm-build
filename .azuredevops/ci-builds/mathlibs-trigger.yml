@@ -1,0 +1,30 @@
+variables:
+- group: common
+- template: /.azuredevops/variables-global.yml@pipelines_repo
+
+parameters:
+- name: pipelinesRepoRef
+  type: string
+  default: refs/heads/develop
+- name: librariesRepoRef
+  type: string
+  default: refs/heads/develop
+
+resources:
+  repositories:
+  - repository: pipelines_repo
+    type: github
+    endpoint: ROCm
+    name: ROCm/ROCm
+    ref: ${{ parameters.pipelinesRepoRef }}
+  - repository: libraries_repo
+    type: github
+    endpoint: ROCm
+    name: ROCm/rocm-libraries
+    ref: ${{ parameters.librariesRepoRef }}
+
+jobs:
+  - template: /.azuredevops/nightly/mathlibs.yml@pipelines_repo
+    parameters:
+      checkoutRepo: libraries_repo
+      buildDependsOn: false
