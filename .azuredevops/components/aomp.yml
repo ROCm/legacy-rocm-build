@@ -133,6 +133,42 @@ jobs:
           -DLLVM_MAIN_INCLUDE_DIR=$(Build.SourcesDirectory)/llvm-project/llvm/include
           -DLIBOMPTARGET_LLVM_INCLUDE_DIRS=$(Build.SourcesDirectory)/llvm-project/llvm/include
           -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        componentName: flang
+        cmakeBuildDir: '$(Build.SourcesDirectory)/flang/build'
+        cmakeSourceDir: '$(Build.SourcesDirectory)/flang'
+        installDir: '$(Build.BinariesDirectory)/llvm'
+        extraBuildFlags: >-
+          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Build.BinariesDirectory)"
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
+          -DCMAKE_Fortran_COMPILER=gfortran
+          -DLLVM_CONFIG=$(Agent.BuildDirectory)/rocm/llvm/bin/llvm-config
+          -DFLANG_OPENMP_GPU_AMD=ON
+          -DFLANG_OPENMP_GPU_NVIDIA=ON
+          -DLLVM_INSTALL_TOOLCHAIN_ONLY=ON
+          -DFLANG_INCLUDE_TESTS=OFF
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        componentName: flang-rt
+        cmakeBuildDir: '$(Build.SourcesDirectory)/flang/build'
+        cmakeSourceDir: '$(Build.SourcesDirectory)/flang'
+        installDir: '$(Build.BinariesDirectory)/llvm'
+        extraBuildFlags: >-
+          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Build.BinariesDirectory)"
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
+          -DCMAKE_Fortran_COMPILER=$(Build.BinariesDirectory)/llvm/bin/flang-classic
+          -DLLVM_CONFIG=$(Agent.BuildDirectory)/rocm/llvm/bin/llvm-config
+          -DLLVM_INSTALL_RUNTIME=ON
+          -DFLANG_BUILD_RUNTIME=ON
+          -DOPENMP_BUILD_DIR=$(Build.SourcesDirectory)/llvm-project/openmp/runtime/src
+          -DFLANG_INCLUDE_TESTS=OFF
+          -GNinja
     - task: Bash@3
       displayName: 'ROCm symbolic link'
       inputs:
