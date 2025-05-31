@@ -77,8 +77,12 @@ steps:
   inputs:
     targetType: inline
     script: |
-      sudo alternatives --set gcc /opt/rh/gcc-toolset-14/root/usr/bin/gcc
-      sudo alternatives --set g++ /opt/rh/gcc-toolset-14/root/usr/bin/g++
+      sudo update-alternatives --install /usr/bin/gcc gcc /opt/rh/gcc-toolset-14/root/usr/bin/gcc 100
+      sudo update-alternatives --install /usr/bin/g++ g++ /opt/rh/gcc-toolset-14/root/usr/bin/g++ 100
+      sudo update-alternatives --set gcc /opt/rh/gcc-toolset-14/root/usr/bin/gcc
+      sudo update-alternatives --set g++ /opt/rh/gcc-toolset-14/root/usr/bin/g++
+      gcc --version
+      g++ --version
 - task: Bash@3
   displayName: 'Set python 3.11 as default'
   inputs:
