@@ -33,8 +33,9 @@ parameters:
     doxygen: doxygen
     # note: doxygen-doc is not available in dnf
     flex: flex ###
-    # note: gawk is already installed
     # note: g++ is installed by default with gcc-toolset-14
+    # note: gawk is already installed
+    # note: gcc-toolset-14-gfortran is installed by default with gcc-toolset-14
     # note: git is in the base packages list
     graphviz: graphviz
     libbabeltrace-dev: libbabeltrace-devel

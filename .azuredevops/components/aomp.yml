@@ -21,6 +21,7 @@ parameters:
     - flex
     - gawk
     - git
+    - gfortran
     - libbabeltrace-dev
     - libbison-dev
     - libdrm-amdgpu1
