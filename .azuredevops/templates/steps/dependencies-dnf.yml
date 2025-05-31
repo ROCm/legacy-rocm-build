@@ -33,7 +33,9 @@ parameters:
     cudnn: libcudnn9-cuda-11
     doxygen: doxygen
     # note: doxygen-doc is not available in dnf
-    flex: flex ###
+    # libavcodec-dev, libavformat-dev, libavutil-dev come with ffmpeg-devel
+    ffmpeg: ffmpeg ffmpeg-devel
+    flex: flex
     # note: g++ is installed by default with gcc-toolset-14
     # note: gawk is already installed
     # note: gcc-toolset-14-gfortran is installed by default with gcc-toolset-14
@@ -60,6 +62,7 @@ parameters:
     libsystemd-dev: systemd-devel
     libtool: libtool
     # note: libudev-dev is part of systemd-devel
+    libva-amdgpu-dev: mesa-va-drivers-amdgpu
     mesa-common-dev: mesa-libGL-devel
     # note: llvm needs ninja-build version newer than what dnf provides
     ocl-icd-libopencl1: ocl-icd
@@ -104,6 +107,8 @@ steps:
     targetType: inline
     script: |
       sudo dnf config-manager --set-enabled powertools
+      # rpm fusion free repo for some dependencies
+      sudo dnf -y install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm
       sudo dnf -y install ${{ join(' ', parameters.basePackages) }}
 - task: Bash@3
   displayName: 'Set gcc and g++ to gcc-toolset-14'

@@ -13,19 +13,17 @@ parameters:
 - name: aptPackages
   type: object
   default:
-    - python3-pip
     - cmake
-    - ninja-build
-    - pkg-config
     - ffmpeg
     - libavcodec-dev
     - libavformat-dev
     - libavutil-dev
+    - libdrm-dev
     - libstdc++-12-dev
     - libva-amdgpu-dev
     - mesa-amdgpu-va-drivers
-    - libdrm-dev
-    - python3-pip
+    - ninja-build
+    - pkg-config
 - name: rocmDependencies
   type: object
   default:
