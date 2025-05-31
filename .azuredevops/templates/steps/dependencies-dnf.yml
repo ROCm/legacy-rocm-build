@@ -15,6 +15,7 @@ parameters:
     - gcc-toolset-14-libatomic-devel
     - git
     - jq
+    - libquadmath-devel
     - libstdc++-devel
     - python3.11
     - python3.11-pip
@@ -54,7 +55,6 @@ parameters:
     libnuma-dev: numactl-devel
     libopenmpi-dev: openmpi-devel
     libpci-dev: libpciaccess-devel
-    libquadmath-dev: libquadmath-devel
     libssl-dev: openssl-devel
     # note: libstdc++-devel is in the base packages list
     libsystemd-dev: systemd-devel

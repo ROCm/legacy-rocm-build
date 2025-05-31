@@ -36,7 +36,6 @@ parameters:
     - libnuma-dev
     - libopenmpi-dev
     - libpci-dev
-    - libquadmath-dev
     - libssl-dev
     - libstdc++-12-dev
     - libsystemd-dev
