@@ -19,6 +19,8 @@ parameters:
     - gcc-toolset-14-libatomic-devel
     - python3.11
     - python3.11-pip
+# Instead of defining multiple arrays of packages per component,
+# we define a map of apt package names to dnf package names.
 - name: aptToDnfMap
   type: object
   default:
