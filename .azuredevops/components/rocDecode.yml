@@ -104,8 +104,8 @@ jobs:
     #     registerROCmPackages: true
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocDecode_test_${{ job.target }}
-    dependsOn: rocDecode_build
+  - job: rocDecode_test_${{ job.os }}_${{ job.target }}
+    dependsOn: rocDecode_build_${{ job.os }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
