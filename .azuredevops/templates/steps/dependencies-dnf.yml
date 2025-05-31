@@ -72,7 +72,7 @@ parameters:
     texinfo: texinfo
     zlib1g-dev: zlib-devel
 
-pciutils-devel rpm-build gcc-gfortran ocl-icd-devel libquadmath-devel
+### pciutils-devel
 
 steps:
 - ${{ if eq(parameters.registerROCmPackages, true) }}:
