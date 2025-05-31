@@ -24,7 +24,10 @@ parameters:
 - name: aptToDnfMap
   type: object
   default:
+    ccache: ccache
     cmake: cmake
+    cuda-toolkit: cuda-toolkit
+    cudnn: libcudnn9
     doxygen: doxygen
     # note: doxygen-doc is not available in dnf
     # note: g++ is installed by default with gcc-toolset-14
@@ -40,6 +43,7 @@ parameters:
     opencl-headers: opencl-headers
     pkg-config: pkgconf-pkg-config
     # note: python3 is the default python in AlmaLinux 8
+    python3-dev: python3-devel
     # and python3-pip is already installed when updating to python 3.11
     zlib1g-dev: zlib-devel
 
