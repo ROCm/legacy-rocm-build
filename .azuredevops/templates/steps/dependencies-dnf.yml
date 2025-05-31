@@ -5,6 +5,20 @@ parameters:
 - name: registerROCmPackages
   type: boolean
   default: false
+# As par of installing gcc toolset and python,
+# the environment will install this base set of dnf packages.
+- name: basePackages
+  type: object
+  default:
+    - epel-release
+    - git
+    - jq
+    - vim-common
+    - libstdc++-devel
+    - gcc-toolset-14
+    - gcc-toolset-14-libatomic-devel
+    - python3.11
+    - python3.11-pip
 - name: aptToDnfMap
   type: object
   default:
@@ -50,32 +64,25 @@ steps:
         sudo dnf clean all
         sudo dnf makecache
 - task: Bash@3
-  displayName: 'dnf powertools and repositories'
+  displayName: 'Install base dnf packages'
   inputs:
     targetType: inline
     script: |
       sudo dnf config-manager --set-enabled powertools
-      sudo dnf -y install epel-release git jq vim-common libstdc++-devel
+      sudo dnf -y install ${{ join(' ', parameters.basePackages) }}
 - task: Bash@3
-  displayName: 'Install gcc-toolset-14'
+  displayName: 'Set gcc and g++ to gcc-toolset-14'
   inputs:
     targetType: inline
     script: |
-      sudo dnf -y install gcc-toolset-14 gcc-toolset-14-libatomic-devel
+      sudo alternatives --set gcc /opt/rh/gcc-toolset-14/root/usr/bin/gcc
+      sudo alternatives --set g++ /opt/rh/gcc-toolset-14/root/usr/bin/g++
 - task: Bash@3
-  displayName: 'Set CC/CXX env vars'
-  inputs:
-    targetType: inline
-    script: |
-      echo "##vso[task.setvariable variable=CC]/opt/rh/gcc-toolset-14/root/usr/bin/gcc"
-      echo "##vso[task.setvariable variable=CXX]/opt/rh/gcc-toolset-14/root/usr/bin/g++"
-- task: Bash@3
-  displayName: 'Update to python 3.11'
+  displayName: 'Set python 3.11 as default'
   inputs:
     targetType: inline
     script: |
       sudo dnf -y module disable python36
-      sudo dnf -y install python3.11 python3.11-pip
       sudo alternatives --set python /usr/bin/python3.11
       sudo alternatives --set python3 /usr/bin/python3.11
       python3 --version
