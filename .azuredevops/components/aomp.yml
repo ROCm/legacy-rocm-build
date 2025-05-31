@@ -15,47 +15,40 @@ parameters:
 - name: aptPackages
   type: object
   default:
+    - bison
+    - ccache
     - cmake
-    - python3-pip
-    - ninja-build
-    - pkg-config
-    - libpci-dev
-    - libnuma-dev
-    - libffi-dev
-    - git
-    - libopenmpi-dev
+    - flex
     - gawk
-    - mesa-common-dev
-    - libtool
+    - git
+    - libbabeltrace-dev
+    - libbison-dev
     - libdrm-amdgpu1
     - libdrm-dev
     - libdw-dev
+    - libgmp-dev
+    - libffi-dev
     - libgtest-dev
-    - libsystemd-dev
+    - liblzma-dev
+    - libmpfr-dev
+    - libncurses5-dev
+    - libnuma-dev
+    - libopenmpi-dev
+    - libpci-dev
     - libssl-dev
     - libstdc++-12-dev
-    - ccache
-    - libgmp-dev
-    - libmpfr-dev
-    - texinfo
-    - libbison-dev
-    - bison
-    - flex
-    - libbabeltrace-dev
-    - libncurses5-dev
-    - liblzma-dev
-    - python3-setuptools
-    - python3-dev
+    - libsystemd-dev
+    - libtool
     - libudev-dev
+    - mesa-common-dev
+    - ninja-build
+    - ocl-icd-opencl-dev
     - parallel
-  # Referencing comment snippet.
-  #
-  # snippet from https://github.com/ROCm/aomp/blob/aomp-dev/bin/build_aomp.sh#L131-L134
-  #
-  # For ROCM build (AOMP_STANDALONE_BUILD=0) the components roct, rocr,
-  # libdevice, project, comgr, rocminfo, hipamd, rocdbgapi, rocgdb,
-  # roctracer, rocprofiler, rocm_smi_lib, and amdsmi should be found
-  # in ROCM in /opt/rocm.  The ROCM build only needs these components:
+    - pkg-config
+    - python3-dev
+    - python3-pip
+    - python3-setuptools
+    - texinfo
 - name: rocmDependencies
   type: object
   default:
