@@ -62,7 +62,8 @@ parameters:
     libsystemd-dev: systemd-devel
     libtool: libtool
     # note: libudev-dev is part of systemd-devel
-    libva-amdgpu-dev: mesa-va-drivers-amdgpu
+    libva-amdgpu-dev: libva-amdgpu-devel
+    mesa-amdgpu-va-drivers: mesa-amdgpu-va-drivers
     mesa-common-dev: mesa-libGL-devel
     # note: llvm needs ninja-build version newer than what dnf provides
     ocl-icd-libopencl1: ocl-icd
