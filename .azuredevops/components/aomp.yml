@@ -20,7 +20,6 @@ parameters:
     - cmake
     - flex
     - gawk
-    - git
     - gfortran
     - libbabeltrace-dev
     - libbison-dev
@@ -145,12 +144,13 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
-          -DCMAKE_Fortran_COMPILER=gfortran
           -DLLVM_CONFIG=$(Agent.BuildDirectory)/rocm/llvm/bin/llvm-config
           -DFLANG_OPENMP_GPU_AMD=ON
           -DFLANG_OPENMP_GPU_NVIDIA=ON
           -DLLVM_INSTALL_TOOLCHAIN_ONLY=ON
           -DFLANG_INCLUDE_TESTS=OFF
+          -DCMAKE_C_FLAGS="-I/usr/lib/gcc/x86_64-linux-gnu/11/include"
+          -DCMAKE_EXE_LINKER_FLAGS="-lquadmath"
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
