@@ -63,7 +63,8 @@ jobs:
             sudo rm -f cuda-keyring_1.1-1_all.deb
             sudo apt update
         ${{ if eq(job.os, 'almalinux8') }}:
-          script: dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo
+          script: |
+            sudo dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
@@ -85,9 +86,9 @@ jobs:
     - task: Cache@2
       displayName: Ccache caching
       inputs:
-        key: HIPIFY | $(Agent.OS) | "$(UPSTREAM_LLVM_TAG)"
+        key: HIPIFY | ${{ job.os }} | "$(UPSTREAM_LLVM_TAG)"
         path: $(CCACHE_DIR)
-        restoreKeys: HIPIFY | $(Agent.OS)
+        restoreKeys: HIPIFY | ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: upstream-llvm
