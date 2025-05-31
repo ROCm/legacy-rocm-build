@@ -37,7 +37,7 @@ parameters:
     # note: g++ is installed by default with gcc-toolset-14
     # note: git is in the base packages list
     graphviz: graphviz
-    libbabeltrace-dev: babeltrace-devel
+    libbabeltrace-dev: libbabeltrace-devel
     libbison-dev: bison-devel
     libdrm-amdgpu1: libdrm-amdgpu
     libdrm-dev: libdrm-devel
@@ -53,6 +53,7 @@ parameters:
     libnuma-dev: numactl-devel
     libopenmpi-dev: openmpi-devel
     libpci-dev: libpciaccess-devel
+    libquadmath-dev: libquadmath-devel
     libssl-dev: openssl-devel
     # note: libstdc++-devel is in the base packages list
     libsystemd-dev: systemd-devel
