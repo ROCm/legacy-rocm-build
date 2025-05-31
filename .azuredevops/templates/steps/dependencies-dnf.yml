@@ -29,7 +29,7 @@ parameters:
     ccache: ccache
     cmake: cmake
     cuda-toolkit: cuda-toolkit
-    cudnn: libcudnn9
+    cudnn: libcudnn9-cuda-11
     doxygen: doxygen
     # note: doxygen-doc is not available in dnf
     flex: flex ###
@@ -72,7 +72,7 @@ parameters:
     texinfo: texinfo
     zlib1g-dev: zlib-devel
 
-### pciutils-devel
+### pciutils-devel expat-devel
 
 steps:
 - ${{ if eq(parameters.registerROCmPackages, true) }}:
