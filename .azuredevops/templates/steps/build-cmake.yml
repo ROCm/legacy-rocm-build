@@ -100,8 +100,9 @@ steps:
         mkdir -p "${{ parameters.cmakeBuildDir }}"
         pushd "${{ parameters.cmakeBuildDir }}"
 
-        # dump extra build flags to a temporary file
-        # temp file is needed when we cannot echo the entire string to stdout
+        # extra build flags parameter can be too long
+        # dump into a text file without using echo or printf
+        # then map the file into an array to consume with the cmake calls
         cat <<EOF > cmake-flags.txt
         ${{ parameters.extraBuildFlags }}
         EOF
@@ -109,13 +110,15 @@ steps:
         echo "cmake install prefix: ${{ parameters.installDir }}"
         echo "cmake extra flags:"
         cat cmake-flags.txt
+        # read from the file into an array safely
+        mapfile -t cmake_flags < cmake-flags.txt
 
         # Run cmake with args
         if [[ "${{ parameters.customInstallPath }}" == "True" ]]; then
           echo "cmake source dir: ${{ parameters.cmakeSourceDir }}"
-          cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} @cmake-flags.txt ${{ parameters.cmakeSourceDir }}
+          cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} "${cmake_flags[@]}" ${{ parameters.cmakeSourceDir }}
         else
-          cmake @cmake-flags.txt ${{ parameters.cmakeSourceDir }}
+          cmake "${cmake_flags[@]}" ${{ parameters.cmakeSourceDir }}
         fi
 
         rm -f cmake-flags.txt
