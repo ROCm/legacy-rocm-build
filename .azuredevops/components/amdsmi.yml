@@ -61,6 +61,7 @@ jobs:
         extraBuildFlags: >-
           -DBUILD_TESTS=ON
           -GNinja
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         os: ${{ job.os }}
@@ -105,6 +106,7 @@ jobs:
         testDir: '$(Agent.BuildDirectory)'
         testExecutable: './rocm/share/amd_smi/tests/amdsmitst'
         testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes'
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
