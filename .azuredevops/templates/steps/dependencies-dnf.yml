@@ -112,14 +112,13 @@ steps:
       sudo dnf -y install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm
       sudo dnf -y install ${{ join(' ', parameters.basePackages) }}
 - task: Bash@3
-  displayName: 'Set gcc and g++ to gcc-toolset-14'
+  displayName: 'Create gcc-toolset-14 profile script'
   inputs:
     targetType: inline
     script: |
-      sudo update-alternatives --set gcc /opt/rh/gcc-toolset-14/root/usr/bin/gcc
-      sudo update-alternatives --set g++ /opt/rh/gcc-toolset-14/root/usr/bin/g++
-      gcc --version
-      g++ --version
+      echo '#!/bin/bash' | sudo tee /etc/profile.d/gcc-toolset-14.sh
+      echo 'source /opt/rh/gcc-toolset-14/enable' | sudo tee -a /etc/profile.d/gcc-toolset-14.sh
+      sudo chmod +x /etc/profile.d/gcc-toolset-14.sh
 - task: Bash@3
   displayName: 'Show source script'
   inputs:
