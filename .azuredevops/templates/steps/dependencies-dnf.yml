@@ -121,6 +121,12 @@ steps:
       gcc --version
       g++ --version
 - task: Bash@3
+  displayName: 'Show source script'
+  inputs:
+    targetType: inline
+    script: |
+      cat /opt/rh/gcc-toolset-14/enable
+- task: Bash@3
   displayName: 'Set python 3.11 as default'
   inputs:
     targetType: inline
