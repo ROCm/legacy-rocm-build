@@ -103,7 +103,7 @@ steps:
         # dump extra build flags to a temporary file
         # temp file is needed when we cannot echo the entire string to stdout
         temp_flags_file="cmake-flags.txt"
-    cat <<EOF > "$temp_flags_file"
+        cat <<EOF > "$temp_flags_file"
 ${{ parameters.extraBuildFlags }}
 EOF
 
