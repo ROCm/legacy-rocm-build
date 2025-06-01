@@ -105,11 +105,11 @@ steps:
 
         # Run cmake with args
         if [[ "${{ parameters.customInstallPath }}" == "True" ]]; then
-          echo "cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}"
-          cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
+          echo "cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${flattened_flags} ${{ parameters.cmakeSourceDir }}"
+          cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${flattened_flags} ${{ parameters.cmakeSourceDir }}
         else
-          echo "cmake ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}"
-          cmake ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
+          echo "cmake ${flattened_flags} ${{ parameters.cmakeSourceDir }}"
+          cmake ${flattened_flags} ${{ parameters.cmakeSourceDir }}
         fi
 
         if [[ "${{ parameters.printDiskSpace }}" == "True" ]]; then
