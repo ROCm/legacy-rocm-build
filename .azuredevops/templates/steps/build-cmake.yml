@@ -1,7 +1,4 @@
 parameters:
-- name: os
-  type: string
-  default: 'ubuntu2204'
 - name: componentName
   type: string
   default: ''
@@ -40,117 +37,38 @@ parameters:
   default: true
 
 steps:
-# gcc-toolset-14 only persists in the shell session, so all steps need to be in the same task for that OS profile
-- ${{ if ne(parameters.os, 'almalinux8') }}:
-  # create workingDirectory if it does not exist and change into it
-  # call cmake from within that directory using $cmakeArgs as its parameters
+# create workingDirectory if it does not exist and change into it
+# call cmake from within that directory using $cmakeArgs as its parameters
+- task: CMake@1
+  displayName: '${{parameters.componentName }} CMake Flags'
+  inputs:
+    workingDirectory: ${{ parameters.cmakeBuildDir }}
+    ${{ if eq(parameters.customInstallPath, true) }}:
+      cmakeArgs: -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
+    ${{ else }}:
+      cmakeArgs: ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
+- ${{ if parameters.printDiskSpace }}:
+  - script: df -h
+    displayName: Disk space before build
+# equivalent to running make $cmakeTargetDir from $cmakeBuildDir
+# i.e., cd $cmakeBuildDir; make $cmakeTargetDir
+- task: CMake@1
+  displayName: '${{parameters.componentName }} Build'
+  inputs:
+    workingDirectory: ${{ parameters.cmakeBuildDir }}
+    ${{ if eq(parameters.customBuildTarget, '') }}:
+      cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} ${{ parameters.multithreadFlag }}'
+    ${{ else }}:
+      cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.customBuildTarget }} ${{ parameters.multithreadFlag }}'
+    retryCountOnTaskFailure: 10
+- ${{ if parameters.printDiskSpace }}:
+  - script: df -h
+    displayName: Disk space after build
+# equivalent to running make $cmakeTarget from $cmakeBuildDir
+# e.g., make install
+- ${{ if eq(parameters.installEnabled, true) }}:
   - task: CMake@1
-    displayName: '${{parameters.componentName }} CMake Flags'
+    displayName: '${{parameters.componentName }} ${{ parameters.cmakeTarget }}'
     inputs:
       workingDirectory: ${{ parameters.cmakeBuildDir }}
-      ${{ if eq(parameters.customInstallPath, true) }}:
-        cmakeArgs: -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
-      ${{ else }}:
-        cmakeArgs: ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
-  - ${{ if parameters.printDiskSpace }}:
-    - task: Bash@3
-      displayName: 'Disk space before build'
-      inputs:
-        targetType: inline
-        script: df -h
-  # equivalent to running make $cmakeTargetDir from $cmakeBuildDir
-  # i.e., cd $cmakeBuildDir; make $cmakeTargetDir
-  - task: CMake@1
-    displayName: '${{parameters.componentName }} Build'
-    inputs:
-      workingDirectory: ${{ parameters.cmakeBuildDir }}
-      ${{ if eq(parameters.customBuildTarget, '') }}:
-        cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} ${{ parameters.multithreadFlag }}'
-      ${{ else }}:
-        cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.customBuildTarget }} ${{ parameters.multithreadFlag }}'
-      retryCountOnTaskFailure: 10
-  - ${{ if parameters.printDiskSpace }}:
-    - task: Bash@3
-      displayName: 'Disk space after build'
-      inputs:
-        targetType: inline
-        script: df -h
-  # equivalent to running make $cmakeTarget from $cmakeBuildDir
-  # e.g., make install
-  - ${{ if eq(parameters.installEnabled, true) }}:
-    - task: CMake@1
-      displayName: '${{parameters.componentName }} ${{ parameters.cmakeTarget }}'
-      inputs:
-        workingDirectory: ${{ parameters.cmakeBuildDir }}
-        cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.cmakeTarget }}'
-- ${{ if eq(parameters.os, 'almalinux8') }}:
-  - task: Bash@3
-    displayName: '${{parameters.componentName }} CMake Steps'
-    inputs:
-      targetType: inline
-      script: |
-        set -e
-        echo "Using gcc-toolset-14 on almalinux8"
-        source /opt/rh/gcc-toolset-14/enable
-
-        echo "================================================================="
-        echo "${{parameters.componentName }} CMake Flags"
-        echo "================================================================="
-
-        mkdir -p "${{ parameters.cmakeBuildDir }}"
-        pushd "${{ parameters.cmakeBuildDir }}"
-
-        # extra build flags parameter can be too long
-        # dump into a text file without using echo or printf
-        cat <<EOF > cmake-flags.txt
-        ${{ parameters.extraBuildFlags }}
-        EOF
-
-        echo "cmake install prefix: ${{ parameters.installDir }}"
-        echo "cmake extra flags:"
-        cat cmake-flags.txt
-
-        # Run cmake with args
-        if [[ "${{ parameters.customInstallPath }}" == "True" ]]; then
-          echo "cmake source dir: ${{ parameters.cmakeSourceDir }}"
-          cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} $(<@cmake-flags.txt) ${{ parameters.cmakeSourceDir }}
-        else
-          cmake $(<@cmake-flags.txt) ${{ parameters.cmakeSourceDir }}
-        fi
-
-        rm -f cmake-flags.txt
-
-        if [[ "${{ parameters.printDiskSpace }}" == "True" ]]; then
-          echo "================================================================="
-          echo "Disk space before build"
-          echo "================================================================="
-          df -h
-        fi
-
-        echo "================================================================="
-        echo "${{parameters.componentName }} CMake Build"
-        echo "================================================================="
-
-        if [[ -z "${{ parameters.customBuildTarget }}" ]]; then
-          echo "cmake --build ${{ parameters.cmakeTargetDir }} ${{ parameters.multithreadFlag }}"
-          cmake --build ${{ parameters.cmakeTargetDir }} ${{ parameters.multithreadFlag }}
-        else
-          echo "cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.customBuildTarget }} ${{ parameters.multithreadFlag }}"
-          cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.customBuildTarget }} ${{ parameters.multithreadFlag }}
-        fi
-
-        if [[ "${{ parameters.printDiskSpace }}" == "True" ]]; then
-          echo "================================================================="
-          echo "Disk space after build"
-          echo "================================================================="
-          df -h
-        fi
-
-        if [[ "${{ parameters.installEnabled }}" == "True" ]]; then
-          echo "================================================================="
-          echo "${{ parameters.componentName }} ${{ parameters.cmakeTarget }}"
-          echo "================================================================="
-          echo "cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.cmakeTarget }}"
-          cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.cmakeTarget }}
-        fi
-        popd
+      cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.cmakeTarget }}'

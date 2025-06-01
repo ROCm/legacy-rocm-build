@@ -92,7 +92,6 @@ jobs:
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
-        os: ${{ job.os }}
         ${{ if eq(job.os, 'almalinux8') }}:
           extraBuildFlags: >-
             -DCMAKE_BUILD_TYPE=release
@@ -169,7 +168,6 @@ jobs:
         testParameters: ''
         testDir: $(Agent.BuildDirectory)
         testPublishResults: false
-        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
