@@ -36,9 +36,6 @@ parameters:
     - rocm_smi_lib
     - rocprofiler-sdk
     - roctracer
-- name: os
-  type: string
-  default: 'ubuntu2204'
 
 steps:
 # run test, continue on failure to publish results
@@ -48,12 +45,7 @@ steps:
   continueOnError: ${{ containsValue(parameters.allowPartiallySucceededBuilds, parameters.componentName) }}
   inputs:
     targetType: inline
-    ${{ if ne(parameters.os, 'almalinux8') }}:
-      script: ${{ parameters.testExecutable }} ${{ parameters.testParameters }}
-    ${{ if eq(parameters.os, 'almalinux8') }}:
-      script: |
-        source /opt/rh/gcc-toolset-14/enable
-        ${{ parameters.testExecutable }} ${{ parameters.testParameters }}
+    script: ${{ parameters.testExecutable }} ${{ parameters.testParameters }}
     workingDirectory: ${{ parameters.testDir }}
 - ${{ if parameters.testPublishResults }}:
   - task: PublishTestResults@2

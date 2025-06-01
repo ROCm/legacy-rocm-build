@@ -89,7 +89,6 @@ jobs:
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -GNinja
-        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         os: ${{ job.os }}

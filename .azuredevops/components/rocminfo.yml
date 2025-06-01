@@ -74,7 +74,6 @@ jobs:
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
           -DROCRTST_BLD_TYPE=release
           -GNinja
-        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         os: ${{ job.os }}
@@ -124,7 +123,6 @@ jobs:
         testExecutable: './rocm/bin/rocminfo'
         testParameters: ''
         testPublishResults: false
-        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: rocm_agent_enumerator
@@ -132,7 +130,6 @@ jobs:
         testExecutable: './rocm/bin/rocm_agent_enumerator'
         testParameters: ''
         testPublishResults: false
-        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
