@@ -57,6 +57,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: rocprofiler-register
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         os: ${{ job.os }}
