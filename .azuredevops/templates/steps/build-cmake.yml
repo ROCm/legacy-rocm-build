@@ -89,6 +89,7 @@ steps:
     inputs:
       targetType: inline
       script: |
+        set -e
         echo "Using gcc-toolset-14 on almalinux8"
         source /opt/rh/gcc-toolset-14/enable
 
