@@ -100,13 +100,13 @@ steps:
         pushd "${{ parameters.cmakeBuildDir }}"
 
         # Run cmake with args
-        if [ ${{ parameters.customInstallPath }} = true ]; then
+        if [[ "${{ parameters.customInstallPath }}" == "true" ]]; then
           cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
         else
           cmake ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
         fi
 
-        if [ ${{ parameters.printDiskSpace }} = true ]; then
+        if [[ "${{ parameters.printDiskSpace }}"= = "true" ]] then
           echo "================================================================="
           echo "Disk space before build"
           echo "================================================================="
@@ -117,20 +117,20 @@ steps:
         echo "${{parameters.componentName }} CMake Build"
         echo "================================================================="
 
-        if [ -z "${{ parameters.customBuildTarget }}" ]; then
+        if [[ -z "${{ parameters.customBuildTarget }}" ]]; then
           cmake --build ${{ parameters.cmakeTargetDir }} ${{ parameters.multithreadFlag }}
         else
           cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.customBuildTarget }} ${{ parameters.multithreadFlag }}
         fi
 
-        if [ ${{ parameters.printDiskSpace }} = true ]; then
+        if [[ "${{ parameters.printDiskSpace }}" == "true" ]]; then
           echo "================================================================="
           echo "Disk space after build"
           echo "================================================================="
           df -h
         fi
 
-        if [ ${{ parameters.installEnabled }} = true ]; then
+        if [[ "${{ parameters.installEnabled }}" == "true" ]]; then
           echo "================================================================="
           echo "${{parameters.componentName }} ${{ parameters.cmakeTarget }}"
           echo "================================================================="
