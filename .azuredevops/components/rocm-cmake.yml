@@ -61,6 +61,9 @@ jobs:
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        componentName: rocm-cmake
+        os: ${{ job.os }}
     - task: Bash@3
       displayName: CTest setup
       inputs:

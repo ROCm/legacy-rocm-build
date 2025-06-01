@@ -92,6 +92,7 @@ jobs:
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        os: ${{ job.os }}
         ${{ if eq(job.os, 'almalinux8') }}:
           extraBuildFlags: >-
             -DCMAKE_BUILD_TYPE=release

@@ -74,6 +74,7 @@ jobs:
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
           -DROCRTST_BLD_TYPE=release
           -GNinja
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         os: ${{ job.os }}

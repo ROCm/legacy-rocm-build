@@ -56,6 +56,7 @@ jobs:
           -DBUILD_TESTS=ON
           -DROCM_DEP_ROCMCORE=ON
           -GNinja
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         os: ${{ job.os }}

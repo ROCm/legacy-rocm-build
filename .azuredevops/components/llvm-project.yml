@@ -99,6 +99,7 @@ jobs:
         cmakeBuildDir: '$(Build.SourcesDirectory)/llvm/build'
         cmakeSourceDir: '$(Build.SourcesDirectory)/llvm'
         installDir: '$(Build.BinariesDirectory)/llvm'
+        os: ${{ job.os }}
     # use llvm-lit to run unit tests for llvm, clang, and lld
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
@@ -137,6 +138,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
         cmakeBuildDir: '$(Build.SourcesDirectory)/amd/device-libs/build'
         cmakeSourceDir: '$(Build.SourcesDirectory)/amd/device-libs'
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: comgr
@@ -146,12 +148,14 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
         cmakeBuildDir: '$(Build.SourcesDirectory)/amd/comgr/build'
         cmakeSourceDir: '$(Build.SourcesDirectory)/amd/comgr'
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: comgr
         testParameters: '--output-on-failure --force-new-ctest-process --output-junit comgr_test_output.xml'
         testDir: 'amd/comgr/build'
         testOutputFile: comgr_test_output.xml
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: hipcc
@@ -160,6 +164,7 @@ jobs:
           -DHIPCC_BACKWARD_COMPATIBILITY=OFF
         cmakeBuildDir: '$(Build.SourcesDirectory)/amd/hipcc/build'
         cmakeSourceDir: '$(Build.SourcesDirectory)/amd/hipcc'
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         os: ${{ job.os }}

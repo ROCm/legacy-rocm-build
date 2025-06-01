@@ -53,6 +53,7 @@ jobs:
           -DROCPROFILER_REGISTER_BUILD_TESTS=ON
           -DROCPROFILER_REGISTER_BUILD_SAMPLES=ON
           -GNinja
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: rocprofiler-register
