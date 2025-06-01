@@ -71,7 +71,7 @@ jobs:
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH="$(Build.BinariesDirectory)/llvm;$(Build.BinariesDirectory)"
           -DCMAKE_BUILD_TYPE=Release
-          -DLLVM_ENABLE_PROJECTS=clang;lld;clang-tools-extra;mlir
+          -DLLVM_ENABLE_PROJECTS=clang;lld;clang-tools-extra;mlir;flang
           -DLLVM_ENABLE_RUNTIMES=compiler-rt;libunwind;libcxx;libcxxabi
           -DCLANG_ENABLE_AMDCLANG=ON
           -DLLVM_TARGETS_TO_BUILD=AMDGPU;X86
@@ -92,6 +92,7 @@ jobs:
           -DCLANG_DEFAULT_UNWINDLIB=libgcc
           -DSANITIZER_AMDGPU=OFF
           -DPACKAGE_VENDOR=AMD
+          -DCLANG_LINK_FLANG_LEGACY=ON
           -DCMAKE_CXX_STANDARD=17
           -DROCM_LLVM_BACKWARD_COMPAT_LINK=$(Build.BinariesDirectory)/llvm
           -DROCM_LLVM_BACKWARD_COMPAT_LINK_TARGET=./lib/llvm
