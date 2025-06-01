@@ -103,9 +103,9 @@ steps:
         # dump extra build flags to a temporary file
         # temp file is needed when we cannot echo the entire string to stdout
         temp_flags_file="cmake-flags.txt"
-        cat <<EOF > "$temp_flags_file"
-${{ parameters.extraBuildFlags }}
-EOF
+        cat <<EOF > flags.txt
+        ${{ parameters.extraBuildFlags }}
+        EOF
 
         echo "cmake install prefix: ${{ parameters.installDir }}"
         echo "cmake extra flags:"
