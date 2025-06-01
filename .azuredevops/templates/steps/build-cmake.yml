@@ -106,7 +106,7 @@ steps:
           cmake ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
         fi
 
-        if [[ "${{ parameters.printDiskSpace }}"= = "true" ]] then
+        if [[ "${{ parameters.printDiskSpace }}" == "true" ]] then
           echo "================================================================="
           echo "Disk space before build"
           echo "================================================================="
