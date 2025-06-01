@@ -151,7 +151,7 @@ steps:
 
         if [[ "${{ parameters.installEnabled }}" == "True" ]]; then
           echo "================================================================="
-          echo "${{parameters.componentName }} ${{ parameters.cmakeTarget }}"
+          echo "${{ parameters.componentName }} ${{ parameters.cmakeTarget }}"
           echo "================================================================="
           echo "cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.cmakeTarget }}"
           cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.cmakeTarget }}
