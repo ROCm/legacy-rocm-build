@@ -169,6 +169,7 @@ jobs:
         testParameters: ''
         testDir: $(Agent.BuildDirectory)
         testPublishResults: false
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
