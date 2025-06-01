@@ -1,4 +1,7 @@
 parameters:
+- name: os
+  type: string
+  default: 'ubuntu2204'
 - name: componentName
   type: string
   default: ''
@@ -41,6 +44,14 @@ steps:
 # call cmake from within that directory using $cmakeArgs as its parameters
 - task: CMake@1
   displayName: '${{parameters.componentName }} CMake Flags'
+  ${{ if eq(parameters.os, 'almalinux8')}}:
+    env:
+      PATH: "/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)"
+      MANPATH: "/opt/rh/gcc-toolset-14/root/usr/share/man:$(MANPATH)"
+      INFOPATH: "/opt/rh/gcc-toolset-14/root/usr/share/info:$(INFOPATH)"
+      PCP_DIR: "/opt/rh/gcc-toolset-14/root"
+      LD_LIBRARY_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)"
+      PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
   inputs:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
     runInsideShell: true
@@ -55,9 +66,16 @@ steps:
 # i.e., cd $cmakeBuildDir; make $cmakeTargetDir
 - task: CMake@1
   displayName: '${{parameters.componentName }} Build'
+  ${{ if eq(parameters.os, 'almalinux8')}}:
+    env:
+      PATH: "/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)"
+      MANPATH: "/opt/rh/gcc-toolset-14/root/usr/share/man:$(MANPATH)"
+      INFOPATH: "/opt/rh/gcc-toolset-14/root/usr/share/info:$(INFOPATH)"
+      PCP_DIR: "/opt/rh/gcc-toolset-14/root"
+      LD_LIBRARY_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)"
+      PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
   inputs:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
-    runInsideShell: true
     ${{ if eq(parameters.customBuildTarget, '') }}:
       cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} ${{ parameters.multithreadFlag }}'
     ${{ else }}:
@@ -71,6 +89,14 @@ steps:
 - ${{ if eq(parameters.installEnabled, true) }}:
   - task: CMake@1
     displayName: '${{parameters.componentName }} ${{ parameters.cmakeTarget }}'
+    ${{ if eq(parameters.os, 'almalinux8')}}:
+      env:
+        PATH: "/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)"
+        MANPATH: "/opt/rh/gcc-toolset-14/root/usr/share/man:$(MANPATH)"
+        INFOPATH: "/opt/rh/gcc-toolset-14/root/usr/share/info:$(INFOPATH)"
+        PCP_DIR: "/opt/rh/gcc-toolset-14/root"
+        LD_LIBRARY_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)"
+        PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
     inputs:
       workingDirectory: ${{ parameters.cmakeBuildDir }}
       runInsideShell: true
