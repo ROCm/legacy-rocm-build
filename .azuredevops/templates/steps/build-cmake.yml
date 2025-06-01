@@ -100,6 +100,9 @@ steps:
         mkdir -p "${{ parameters.cmakeBuildDir }}"
         pushd "${{ parameters.cmakeBuildDir }}"
 
+        # remove new lines from extraBuildFlags
+        flattened_flags="$(echo "${{ parameters.extraBuildFlags }}" | tr '\n' ' ')"
+
         # Run cmake with args
         if [[ "${{ parameters.customInstallPath }}" == "True" ]]; then
           echo "cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}"
