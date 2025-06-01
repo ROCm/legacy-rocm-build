@@ -101,8 +101,10 @@ steps:
 
         # Run cmake with args
         if [[ "${{ parameters.customInstallPath }}" == "True" ]]; then
+          echo "cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}"
           cmake -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
         else
+          echo "cmake ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}"
           cmake ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
         fi
 
@@ -118,8 +120,10 @@ steps:
         echo "================================================================="
 
         if [[ -z "${{ parameters.customBuildTarget }}" ]]; then
+          echo "cmake --build ${{ parameters.cmakeTargetDir }} ${{ parameters.multithreadFlag }}"
           cmake --build ${{ parameters.cmakeTargetDir }} ${{ parameters.multithreadFlag }}
         else
+          echo "cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.customBuildTarget }} ${{ parameters.multithreadFlag }}"
           cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.customBuildTarget }} ${{ parameters.multithreadFlag }}
         fi
 
@@ -134,6 +138,7 @@ steps:
           echo "================================================================="
           echo "${{parameters.componentName }} ${{ parameters.cmakeTarget }}"
           echo "================================================================="
+          echo "cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.cmakeTarget }}"
           cmake --build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.cmakeTarget }}
         fi
         popd
