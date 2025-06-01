@@ -116,6 +116,7 @@ jobs:
           -DCLR_BUILD_HIP=ON
           -DCLR_BUILD_OCL=ON
           -GNinja
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         artifactName: amd
@@ -184,6 +185,7 @@ jobs:
           -DCLR_BUILD_OCL=OFF
           -DHIPNV_DIR=$(Build.SourcesDirectory)/hipother/hipnv
           -GNinja
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         artifactName: nvidia
