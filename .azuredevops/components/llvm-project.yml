@@ -69,33 +69,33 @@ jobs:
       parameters:
         componentName: rocm-llvm
         extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH="$(Build.BinariesDirectory)/llvm;$(Build.BinariesDirectory)" \
-          -DCMAKE_BUILD_TYPE=Release \
-          -DLLVM_ENABLE_PROJECTS=clang;lld;clang-tools-extra;mlir;flang \
-          -DLLVM_ENABLE_RUNTIMES=compiler-rt;libunwind;libcxx;libcxxabi \
-          -DCLANG_ENABLE_AMDCLANG=ON \
-          -DLLVM_TARGETS_TO_BUILD=AMDGPU;X86 \
-          -DLIBCXX_ENABLE_SHARED=OFF \
-          -DLIBCXX_ENABLE_STATIC=ON \
-          -DLIBCXX_INSTALL_LIBRARY=OFF \
-          -DLIBCXX_INSTALL_HEADERS=OFF \
-          -DLIBCXXABI_ENABLE_SHARED=OFF \
-          -DLIBCXXABI_ENABLE_STATIC=ON \
-          -DLIBCXXABI_INSTALL_STATIC_LIBRARY=OFF \
-          -DLLVM_BUILD_DOCS=OFF \
-          -DLLVM_ENABLE_SPHINX=OFF \
-          -DLLVM_ENABLE_ASSERTIONS=OFF \
-          -DLLVM_ENABLE_Z3_SOLVER=OFF \
-          -DLLVM_ENABLE_ZLIB=ON \
-          -DCLANG_DEFAULT_LINKER=lld \
-          -DCLANG_DEFAULT_RTLIB=compiler-rt \
-          -DCLANG_DEFAULT_UNWINDLIB=libgcc \
-          -DSANITIZER_AMDGPU=OFF \
-          -DPACKAGE_VENDOR=AMD \
-          -DCLANG_LINK_FLANG_LEGACY=ON \
-          -DCMAKE_CXX_STANDARD=17 \
-          -DROCM_LLVM_BACKWARD_COMPAT_LINK=$(Build.BinariesDirectory)/llvm \
-          -DROCM_LLVM_BACKWARD_COMPAT_LINK_TARGET=./lib/llvm \
+          -DCMAKE_PREFIX_PATH="$(Build.BinariesDirectory)/llvm;$(Build.BinariesDirectory)"
+          -DCMAKE_BUILD_TYPE=Release
+          -DLLVM_ENABLE_PROJECTS=clang;lld;clang-tools-extra;mlir;flang
+          -DLLVM_ENABLE_RUNTIMES=compiler-rt;libunwind;libcxx;libcxxabi
+          -DCLANG_ENABLE_AMDCLANG=ON
+          -DLLVM_TARGETS_TO_BUILD=AMDGPU;X86
+          -DLIBCXX_ENABLE_SHARED=OFF
+          -DLIBCXX_ENABLE_STATIC=ON
+          -DLIBCXX_INSTALL_LIBRARY=OFF
+          -DLIBCXX_INSTALL_HEADERS=OFF
+          -DLIBCXXABI_ENABLE_SHARED=OFF
+          -DLIBCXXABI_ENABLE_STATIC=ON
+          -DLIBCXXABI_INSTALL_STATIC_LIBRARY=OFF
+          -DLLVM_BUILD_DOCS=OFF
+          -DLLVM_ENABLE_SPHINX=OFF
+          -DLLVM_ENABLE_ASSERTIONS=OFF
+          -DLLVM_ENABLE_Z3_SOLVER=OFF
+          -DLLVM_ENABLE_ZLIB=ON
+          -DCLANG_DEFAULT_LINKER=lld
+          -DCLANG_DEFAULT_RTLIB=compiler-rt
+          -DCLANG_DEFAULT_UNWINDLIB=libgcc
+          -DSANITIZER_AMDGPU=OFF
+          -DPACKAGE_VENDOR=AMD
+          -DCLANG_LINK_FLANG_LEGACY=ON
+          -DCMAKE_CXX_STANDARD=17
+          -DROCM_LLVM_BACKWARD_COMPAT_LINK=$(Build.BinariesDirectory)/llvm
+          -DROCM_LLVM_BACKWARD_COMPAT_LINK_TARGET=./lib/llvm
           -GNinja
         cmakeBuildDir: '$(Build.SourcesDirectory)/llvm/build'
         cmakeSourceDir: '$(Build.SourcesDirectory)/llvm'
