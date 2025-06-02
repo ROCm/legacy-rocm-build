@@ -125,7 +125,7 @@ jobs:
           -DCUDA_DNN_ROOT_DIR=/usr/local/cuda/targets/x86_64-linux
           -DCMAKE_PREFIX_PATH=$(Pipeline.Workspace)/llvm;/usr/local/cuda/targets/x86_64-linux/lib
           -DLLVM_EXTERNAL_LIT=$(Pipeline.Workspace)/llvm-project/llvm/build/bin/llvm-lit
-          -DCMAKE_EXE_LINKER_FLAGS="-L/opt/rh/gcc-toolset-14/root/usr/lib64"
+          -DCMAKE_EXE_LINKER_FLAGS="-L/opt/rh/gcc-toolset-14/root/usr/lib64 -Wl,--copy-dt-needed-entries -lstdc++ -lgcc_s -ldl -lpthread"
         multithreadFlag: -- -j32
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
