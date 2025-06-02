@@ -11,36 +11,52 @@ parameters:
 - name: aptPackages
   type: object
   default:
-    - git
     - cmake
+    - git
     - ninja-build
 
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - { os: ubuntu2204, packageManager: apt }
+      - { os: almalinux8, packageManager: dnf }
+
 jobs:
-- job: gtest
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool:
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - task: Bash@3
-    displayName: 'git clone gtest'
-    inputs:
-      targetType: inline
-      script: git clone -b ${{ parameters.gtestVersion }} https://github.com/google/googletest --depth=1 --shallow-submodules --recurse-submodules
-      workingDirectory: $(Agent.BuildDirectory)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      cmakeBuildDir: $(Agent.BuildDirectory)/googletest/build
-      cmakeSourceDir: $(Agent.BuildDirectory)/googletest
-      extraBuildFlags: >-
-        -DGTEST_FORCE_SHARED_CRT=ON
-        -DCMAKE_DEBUG_POSTFIX=d
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: gtest_${{ job.os }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool:
+      ${{ if eq(job.os, 'ubuntu2204') }}:
+        vmImage: ${{ variables.BASE_BUILD_POOL }}
+      ${{ if eq(job.os, 'almalinux8') }}:
+        name: rocm-ci_low_build_pool_alma8
+    workspace:
+      clean: all
+    steps:
+    - checkout: none
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - task: Bash@3
+      displayName: Clone GTest ${{ parameters.gtestVersion }}
+      inputs:
+        targetType: inline
+        script: git clone https://github.com/google/googletest -b ${{ parameters.gtestVersion }} --depth=1 --shallow-submodules --recurse-submodules
+        workingDirectory: $(Agent.BuildDirectory)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        os: ${{ job.os }}
+        cmakeBuildDir: $(Agent.BuildDirectory)/googletest/build
+        cmakeSourceDir: $(Agent.BuildDirectory)/googletest
+        extraBuildFlags: >-
+          -DGTEST_FORCE_SHARED_CRT=ON
+          -DCMAKE_DEBUG_POSTFIX=d
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}

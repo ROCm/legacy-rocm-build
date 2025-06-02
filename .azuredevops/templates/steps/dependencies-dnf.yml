@@ -50,7 +50,7 @@ parameters:
     libelf-dev: elfutils-libelf-devel elfutils-devel
     libffi-dev: libffi-devellibtool
     libgmp-dev: gmp-devel
-    libgtest-dev: libgtest-devel
+    libgtest-dev: gtest-devel
     liblzma-dev: xz-devel
     libmpfr-dev: mpfr-devel
     libncurses5-dev: ncurses-devel

@@ -1,0 +1,53 @@
+parameters:
+- name: os
+  type: string
+  default: 'ubuntu2204'
+- name: dependencyList
+  type: object
+- name: pipelineIdList
+  type: object
+  default:
+    boost: 250
+    grpc: 72
+    gtest: 73
+    half560: 68
+    lapack: 69
+
+steps:
+- ${{ each dependency in parameters.dependencyList }}:
+  - task: DownloadPipelineArtifact@2
+    displayName: Download ${{ dependency }}
+    inputs:
+      project: ROCm-CI
+      buildType: specific
+      targetPath: $(Pipeline.Workspace)/d
+      definition: ${{ parameters.pipelineIdList[dependency] }}
+      itemPattern: '**/*${{ parameters.os }}*'
+  - task: ExtractFiles@1
+    displayName: Extract ${{ dependency }}
+    inputs:
+      archiveFilePatterns: '$(Pipeline.Workspace)/d/**/*.tar.gz'
+      destinationFolder: $(Agent.BuildDirectory)/vendor
+      cleanDestinationFolder: true
+      overwriteExistingFiles: true
+  - task: DeleteFiles@1
+    displayName: Clean up ${{ dependency }}
+    inputs:
+      SourceFolder: $(Pipeline.Workspace)/d
+      Contents: '**/*.tar.gz'
+      RemoveDotFiles: true
+- task: Bash@3
+  displayName: List vendored files
+  inputs:
+    targetType: inline
+    script: ls -la1R $(Agent.BuildDirectory)/vendor
+- task: Bash@3
+  displayName: Link vendored shared libraries
+  inputs:
+    targetType: inline
+    script: |
+      echo $(Agent.BuildDirectory)/vendor/lib | sudo tee -a /etc/ld.so.conf.d/vendor.conf
+      echo $(Agent.BuildDirectory)/vendor/lib64 | sudo tee -a /etc/ld.so.conf.d/vendor.conf
+      sudo cat /etc/ld.so.conf.d/vendor.conf
+      sudo ldconfig -v
+      ldconfig -p
