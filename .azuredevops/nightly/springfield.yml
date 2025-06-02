@@ -294,21 +294,21 @@ jobs:
             cd examples/mnist
             python3 -m pip install -r requirements.txt
             python3 main.py
-    - task: Bash@3
-      displayName: 'Test: PyTorch unit tests'
-      continueOnError: true
-      inputs:
-        targetType: inline
-        script: |
-          source $(Agent.BuildDirectory)/venv/bin/activate
-          cd $(Agent.BuildDirectory)
-          git clone https://github.com/ROCm/pytorch.git -b ${{ parameters.torchCloneBranch }} --depth=1
-          cd pytorch
-          python3 -m pip install -r requirements.txt
-          python3 -m pip install -r .ci/docker/requirements-ci.txt
-          PYTORCH_TEST_WITH_ROCM=1 python3 test/run_test.py --verbose --keep-going \
-            --include test_nn test_torch test_cuda test_ops \
-            test_unary_ufuncs test_binary_ufuncs test_autograd
+      - task: Bash@3
+        displayName: 'Test: PyTorch unit tests'
+        continueOnError: true
+        inputs:
+          targetType: inline
+          script: |
+            source $(Agent.BuildDirectory)/venv/bin/activate
+            cd $(Agent.BuildDirectory)
+            git clone https://github.com/ROCm/pytorch.git -b ${{ parameters.torchCloneBranch }} --depth=1
+            cd pytorch
+            python3 -m pip install -r requirements.txt
+            python3 -m pip install -r .ci/docker/requirements-ci.txt
+            PYTORCH_TEST_WITH_ROCM=1 python3 test/run_test.py --verbose --keep-going \
+              --include test_nn test_torch test_cuda test_ops \
+              test_unary_ufuncs test_binary_ufuncs test_autograd
 
     - task: Bash@3
       displayName: List files
