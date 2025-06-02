@@ -13,17 +13,19 @@ parameters:
 - name: aptPackages
   type: object
   default:
+    - python3-pip
     - cmake
+    - ninja-build
+    - pkg-config
     - ffmpeg
     - libavcodec-dev
     - libavformat-dev
     - libavutil-dev
-    - libdrm-dev
     - libstdc++-12-dev
     - libva-amdgpu-dev
     - mesa-amdgpu-va-drivers
-    - ninja-build
-    - pkg-config
+    - libdrm-dev
+    - python3-pip
 - name: rocmDependencies
   type: object
   default:
@@ -46,65 +48,53 @@ parameters:
 - name: jobMatrix
   type: object
   default:
-    buildJobs:
-      - { os: ubuntu2204, packageManager: apt }
-      - { os: almalinux8, packageManager: dnf }
     testJobs:
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
 jobs:
-- ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocDecode_build_${{ job.os }}
-    pool:
-      ${{ if eq(job.os, 'ubuntu2204') }}:
-        vmImage: 'ubuntu-22.04'
-      ${{ if eq(job.os, 'almalinux8') }}:
-        name: 'rocm-ci_low_build_pool_alma8'
-    variables:
-    - group: common
-    - template: /.azuredevops/variables-global.yml
-    - name: ROCM_PATH
-      value: $(Agent.BuildDirectory)/rocm
-    workspace:
-      clean: all
-    steps:
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        registerROCmPackages: true
-        packageManager: ${{ job.packageManager }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-      parameters:
-        checkoutRepo: ${{ parameters.checkoutRepo }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-      parameters:
-        checkoutRef: ${{ parameters.checkoutRef }}
-        dependencyList: ${{ parameters.rocmDependencies }}
-        aggregatePipeline: ${{ parameters.aggregatePipeline }}
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-      parameters:
-        os: ${{ job.os }}
-        extraBuildFlags: >-
-          -DCMAKE_BUILD_TYPE=Release
-          -GNinja
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-      parameters:
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-      parameters:
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    #   parameters:
-    #     aptPackages: ${{ parameters.aptPackages }}
-    #     registerROCmPackages: true
+- job: rocDecode_build
+  variables:
+  - group: common
+  - template: /.azuredevops/variables-global.yml
+  - name: ROCM_PATH
+    value: $(Agent.BuildDirectory)/rocm
+  pool:
+    vmImage: ${{ variables.BASE_BUILD_POOL }}
+  workspace:
+    clean: all
+  steps:
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+    parameters:
+      aptPackages: ${{ parameters.aptPackages }}
+      registerROCmPackages: true
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+    parameters:
+      checkoutRepo: ${{ parameters.checkoutRepo }}
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+    parameters:
+      checkoutRef: ${{ parameters.checkoutRef }}
+      dependencyList: ${{ parameters.rocmDependencies }}
+      aggregatePipeline: ${{ parameters.aggregatePipeline }}
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+    parameters:
+      extraBuildFlags: >-
+        -DCMAKE_BUILD_TYPE=Release
+        -GNinja
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+  #   parameters:
+  #     aptPackages: ${{ parameters.aptPackages }}
+  #     registerROCmPackages: true
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocDecode_test_${{ job.os }}_${{ job.target }}
-    dependsOn: rocDecode_build_${{ job.os }}
+  - job: rocDecode_test_${{ job.target }}
+    dependsOn: rocDecode_build
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -125,7 +115,6 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         registerROCmPackages: true
-        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
@@ -134,15 +123,11 @@ jobs:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmTestDependencies }}
         gpuTarget: ${{ job.target }}
-        os: ${{ job.os }}
     - task: Bash@3
       displayName: Build rocDecode tests
       inputs:
         targetType: inline
         script: |
-          if [ -e /opt/rh/gcc-toolset-14/enable ]; then
-            source /opt/rh/gcc-toolset-14/enable
-          fi
           mkdir rocDecode-tests
           cd rocDecode-tests
           cmake $(Agent.BuildDirectory)/rocm/share/rocdecode/test
@@ -151,7 +136,6 @@ jobs:
       parameters:
         componentName: rocDecode
         testDir: 'rocDecode-tests'
-        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
