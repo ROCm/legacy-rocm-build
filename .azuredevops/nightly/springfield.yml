@@ -45,12 +45,14 @@ jobs:
         script: |
           echo "rocmFilename: ${{ parameters.rocmFilename }}"
           echo "rocmFilenameOverride: ${{ parameters.rocmFilenameOverride }}"
+          echo "testRocm: ${{ parameters.testRocm }}"
           echo "enableTorch: ${{ parameters.enableTorch }}"
           echo "wheelVersion: ${{ parameters.wheelVersion }}"
           echo "apexFilename: ${{ parameters.apexFilename }}"
           echo "tritonFilename: ${{ parameters.tritonFilename }}"
           echo "torchFilename: ${{ parameters.torchFilename }}"
           echo "visionFilename: ${{ parameters.visionFilename }}"
+          echo "torchCloneBranch: ${{ parameters.torchCloneBranch }}"
     - task: Bash@3
       displayName: Setup
       inputs:
