@@ -95,6 +95,7 @@ jobs:
         cmakeBuildDir: $(Pipeline.Workspace)/llvm-project/llvm/build
         cmakeSourceDir: $(Pipeline.Workspace)/llvm-project/llvm
         installDir: $(Pipeline.Workspace)/llvm
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -DLLVM_ENABLE_PROJECTS=clang
@@ -115,6 +116,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: HIPIFY
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DHIPIFY_CLANG_TESTS=ON
           -DCMAKE_BUILD_TYPE=Release
@@ -136,6 +138,7 @@ jobs:
         testExecutable: make
         testParameters: test-hipify
         testPublishResults: false
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     - ${{ if eq(job.os, 'ubuntu2204') }}:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml

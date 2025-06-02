@@ -60,6 +60,7 @@ jobs:
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm

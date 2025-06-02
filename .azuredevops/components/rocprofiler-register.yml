@@ -48,6 +48,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: rocprofiler-register
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Build.BinariesDirectory)
           -DROCPROFILER_REGISTER_BUILD_TESTS=ON

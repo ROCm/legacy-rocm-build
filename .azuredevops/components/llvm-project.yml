@@ -68,6 +68,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: rocm-llvm
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH="$(Build.BinariesDirectory)/llvm;$(Build.BinariesDirectory)"
           -DCMAKE_BUILD_TYPE=Release
@@ -107,6 +108,7 @@ jobs:
         testExecutable: './bin/llvm-lit'
         testParameters: '-q --xunit-xml-output=llvm_test_output.xml --filter-out="live-debug-values-spill-tracking" ./test'
         testOutputFile: llvm_test_output.xml
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: check-clang
@@ -114,6 +116,7 @@ jobs:
         testExecutable: './bin/llvm-lit'
         testParameters: '-q --xunit-xml-output=clang_test_output.xml ./tools/clang/test'
         testOutputFile: clang_test_output.xml
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: check-lld
@@ -121,6 +124,7 @@ jobs:
         testExecutable: './bin/llvm-lit'
         testParameters: '-q --xunit-xml-output=lld_test_output.xml ./tools/lld/test'
         testOutputFile: lld_test_output.xml
+        os: ${{ job.os }}
     - task: CopyFiles@2
       displayName: Copy FileCheck for Publishing
       inputs:
@@ -132,6 +136,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: device-libs
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH="$(Build.SourcesDirectory)/llvm/build"
           -DCMAKE_BUILD_TYPE=Release
@@ -140,6 +145,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: comgr
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH="$(Build.SourcesDirectory)/llvm/build;$(Build.SourcesDirectory)/amd/device-libs/build"
           -DCOMGR_DISABLE_SPIRV=1
@@ -152,9 +158,11 @@ jobs:
         testParameters: '--output-on-failure --force-new-ctest-process --output-junit comgr_test_output.xml'
         testDir: 'amd/comgr/build'
         testOutputFile: comgr_test_output.xml
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: hipcc
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -DHIPCC_BACKWARD_COMPATIBILITY=OFF

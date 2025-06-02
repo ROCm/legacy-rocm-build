@@ -82,6 +82,7 @@ jobs:
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
           -DBUILD_SHARED_LIBS=ON
@@ -150,6 +151,9 @@ jobs:
         targetType: 'inline'
         workingDirectory: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest
         script: |
+          if [ -e /opt/rh/gcc-toolset-14/enable ]; then
+            source /opt/rh/gcc-toolset-14/enable
+          fi
           mkdir build && cd build
           cmake -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm ..
           make
@@ -159,6 +163,7 @@ jobs:
         testExecutable: BIN_DIR=$(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/build ./run_kfdtest.sh
         testParameters: '-p core --gtest_output=xml:./test_output.xml --gtest_color=yes'
         testDir: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/scripts
+        os: ${{ job.os }}
     - task: Bash@3
       displayName: Build rocrtst
       continueOnError: true
@@ -166,6 +171,9 @@ jobs:
         targetType: 'inline'
         workingDirectory: $(Build.SourcesDirectory)/rocrtst/suites/test_common
         script: |
+          if [ -e /opt/rh/gcc-toolset-14/enable ]; then
+            source /opt/rh/gcc-toolset-14/enable
+          fi
           BASE_CLANG_DIR=$(Agent.BuildDirectory)/rocm/llvm/lib/clang
           export NEWEST_CLANG_VER=$(ls -1 $BASE_CLANG_DIR | sort -V | tail -n 1)
           mkdir build && cd build
@@ -183,6 +191,7 @@ jobs:
         testExecutable: ./rocrtst64
         testParameters: '--gtest_filter="-rocrtstNeg.Memory_Negative_Tests:rocrtstFunc.Memory_Max_Mem" --gtest_output=xml:./test_output.xml --gtest_color=yes'
         testDir: $(Build.SourcesDirectory)/rocrtst/suites/test_common/build/${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}

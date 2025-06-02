@@ -39,6 +39,9 @@ parameters:
   type: boolean
   default: true
 
+# for cmake calls, set env variables for AlmaLinux 8
+# to simulate running source /opt/rh/gcc-toolset-14/enable for the session
+
 steps:
 # create workingDirectory if it does not exist and change into it
 # call cmake from within that directory using $cmakeArgs as its parameters

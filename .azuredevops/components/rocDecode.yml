@@ -86,6 +86,7 @@ jobs:
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -GNinja
@@ -139,6 +140,9 @@ jobs:
       inputs:
         targetType: inline
         script: |
+          if [ -e /opt/rh/gcc-toolset-14/enable ]; then
+            source /opt/rh/gcc-toolset-14/enable
+          fi
           mkdir rocDecode-tests
           cd rocDecode-tests
           cmake $(Agent.BuildDirectory)/rocm/share/rocdecode/test
@@ -147,6 +151,7 @@ jobs:
       parameters:
         componentName: rocDecode
         testDir: 'rocDecode-tests'
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
