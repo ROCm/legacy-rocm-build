@@ -1,4 +1,7 @@
 parameters:
+- name: os
+  type: string
+  default: 'ubuntu2204'
 - name: componentName
   type: string
   default: ''
@@ -45,7 +48,12 @@ steps:
   continueOnError: ${{ containsValue(parameters.allowPartiallySucceededBuilds, parameters.componentName) }}
   inputs:
     targetType: inline
-    script: ${{ parameters.testExecutable }} ${{ parameters.testParameters }}
+    ${{ if ne(parameters.os, 'almalinux8') }}:
+      script: ${{ parameters.testExecutable }} ${{ parameters.testParameters }}
+    ${{ else }}:
+      script: |
+        source /opt/rh/gcc-toolset-14/enable
+        ${{ parameters.testExecutable }} ${{ parameters.testParameters }}
     workingDirectory: ${{ parameters.testDir }}
 - ${{ if parameters.testPublishResults }}:
   - task: PublishTestResults@2
