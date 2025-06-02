@@ -195,7 +195,6 @@ jobs:
             sudo DEBIAN_FRONTEND=noninteractive apt install -y libglfw3-dev
             git clone https://github.com/ROCm/rocm-examples.git
             cd rocm-examples
-            git checkout baae3b15bc300871b2d6830c4b170f2d7bb7c64b
             mkdir build && cd build
             cmake .. -DGPU_TARGETS=gfx942 -DROCM_ROOT=$ROCM_PATH
             cmake --build . -- -j$(nproc)
