@@ -82,6 +82,8 @@ subtrees:
             title: vLLM inference performance testing
           - file: how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference.rst
             title: PyTorch inference performance testing
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang.rst
+            title: SGLang inference performance testing
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model
 

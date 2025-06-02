@@ -408,6 +408,7 @@ SDMA
 SDPA
 SDRAM
 SENDMSG
+SGLang
 SGPR
 SGPRs
 SHA
@@ -863,6 +864,7 @@ seealso
 sendmsg
 seqs
 serializers
+sglang
 shader
 sharding
 sigmoid
