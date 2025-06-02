@@ -34,8 +34,9 @@ steps:
 
       IS_TAG_BUILD=$(jq 'has("release_repo")' resources.repositories)
       IS_AOMP_BUILD=$(jq 'has("aomp_repo")' resources.repositories)
+      IS_MATHLIBS_BUILD=$(jq 'has("libraries_repo")' resources.repositories)
 
-      if [ "$IS_TAG_BUILD" = "true" ] || [ "$IS_AOMP_BUILD" = "true" ]; then
+      if [ "$IS_TAG_BUILD" = "true" ] || [ "$IS_AOMP_BUILD" = "true" ] || [ "$IS_MATHLIBS_BUILD" = "true" ]; then
         exclude_keys=("pipelines_repo" "self") # Triggered by a file under ROCm/ROCm
       else
         exclude_keys=("pipelines_repo") # Triggered by a file under a component repo
