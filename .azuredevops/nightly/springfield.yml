@@ -29,7 +29,7 @@ pr: none
 
 jobs:
 - job: springfield
-  timeoutInMinutes: 180
+  timeoutInMinutes: 240
   variables:
   - group: common
   - template: /.azuredevops/variables-global.yml
