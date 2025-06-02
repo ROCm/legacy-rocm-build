@@ -104,10 +104,10 @@ jobs:
           targetType: inline
           script: |
             source $(Agent.BuildDirectory)/venv/bin/activate
-            python3 -m pip install $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/rocroller/${{ parameters.apexFilename }} \
-              $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/rocroller/${{ parameters.tritonFilename }} \
-              $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/rocroller/${{ parameters.torchFilename }} \
-              $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/rocroller/${{ parameters.visionFilename }}
+            python3 -m pip install $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/${{ parameters.apexFilename }} \
+              $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/${{ parameters.tritonFilename }} \
+              $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/${{ parameters.torchFilename }} \
+              $(SPRINGFIELD_URL)/wheels/${{ parameters.wheelVersion }}/${{ parameters.visionFilename }}
       - task: Bash@3
         displayName: Install Flash Attention
         continueOnError: true
