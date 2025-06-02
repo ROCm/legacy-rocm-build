@@ -43,7 +43,7 @@ parameters:
     - clr
     - llvm-project
     - rocminfo
-    - rocPRIM
+    # - rocPRIM
     - ROCR-Runtime
 - name: rocmTestDependencies
   type: object
@@ -89,6 +89,12 @@ jobs:
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        preTargetFilter: ${{ parameters.componentName }}
+        gpuTarget: ${{ job.target }}
+        buildType: specific
+        buildId: 32325
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
