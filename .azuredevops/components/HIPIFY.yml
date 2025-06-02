@@ -39,9 +39,9 @@ jobs:
   - job: HIPIFY_build_${{ job.os }}
     pool:
       ${{ if eq(job.os, 'ubuntu2204') }}:
-        name: 'rocm-ci_medium_build_pool'
+        name: 'rocm-ci_ultra_build_pool'
       ${{ if eq(job.os, 'almalinux8') }}:
-        name: 'rocm-ci_medium_build_pool_alma8'
+        name: 'rocm-ci_ultra_build_pool_alma8'
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -113,6 +113,7 @@ jobs:
       inputs:
         targetType: inline
         script: cp $(Pipeline.Workspace)/llvm-project/llvm/build/bin/FileCheck $(Pipeline.Workspace)/llvm/bin
+    # the linker flags will not affect ubuntu2204 builds as the paths do not exist
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: HIPIFY
@@ -124,6 +125,7 @@ jobs:
           -DCUDA_DNN_ROOT_DIR=/usr/local/cuda/targets/x86_64-linux
           -DCMAKE_PREFIX_PATH=$(Pipeline.Workspace)/llvm;/usr/local/cuda/targets/x86_64-linux/lib
           -DLLVM_EXTERNAL_LIT=$(Pipeline.Workspace)/llvm-project/llvm/build/bin/llvm-lit
+          -DCMAKE_EXE_LINKER_FLAGS="-L/opt/rh/gcc-toolset-14/root/usr/lib64"
         multithreadFlag: -- -j32
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
