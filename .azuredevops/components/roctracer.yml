@@ -101,6 +101,7 @@ jobs:
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;
           -DGPU_TARGETS=${{ job.target }}
           -DCMAKE_EXE_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"
+          -DCMAKE_POSITION_INDEPENDENT_CODE=ON
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
