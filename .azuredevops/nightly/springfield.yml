@@ -20,6 +20,9 @@ parameters:
   type: string
 - name: visionFilename
   type: string
+- name: torchCloneBranch
+  type: string
+  default: main
 
 trigger: none
 pr: none
@@ -298,7 +301,7 @@ jobs:
         script: |
           source $(Agent.BuildDirectory)/venv/bin/activate
           cd $(Agent.BuildDirectory)
-          git clone https://github.com/pytorch/pytorch.git --depth=1
+          git clone https://github.com/ROCm/pytorch.git -b ${{ parameters.torchCloneBranch }} --depth=1
           cd pytorch
           python3 -m pip install -r requirements.txt
           python3 -m pip install -r .ci/docker/requirements-ci.txt
