@@ -95,6 +95,7 @@ jobs:
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
     parameters:
       componentName: ${{ parameters.componentName }}
+      sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
     parameters:
       componentName: ${{ parameters.componentName }}
