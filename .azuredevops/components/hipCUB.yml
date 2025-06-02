@@ -91,7 +91,6 @@ jobs:
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
       parameters:
-        preTargetFilter: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
         buildType: specific
         buildId: 32325
