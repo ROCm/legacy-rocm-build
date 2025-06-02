@@ -15,162 +15,173 @@ parameters:
 - name: aptPackages
   type: object
   default:
-    - bison
-    - ccache
     - cmake
-    - flex
+    - python3-pip
+    - ninja-build
+    - pkg-config
+    - libpci-dev
+    - libnuma-dev
+    - libffi-dev
+    - git
+    - libopenmpi-dev
     - gawk
-    - gfortran
-    - libbabeltrace-dev
-    - libbison-dev
+    - mesa-common-dev
+    - libtool
     - libdrm-amdgpu1
     - libdrm-dev
     - libdw-dev
-    - libgmp-dev
-    - libffi-dev
     - libgtest-dev
-    - liblzma-dev
-    - libmpfr-dev
-    - libncurses5-dev
-    - libnuma-dev
-    - libopenmpi-dev
-    - libpci-dev
+    - libsystemd-dev
     - libssl-dev
     - libstdc++-12-dev
-    - libsystemd-dev
-    - libtool
-    - libudev-dev
-    - mesa-common-dev
-    - ninja-build
-    - ocl-icd-opencl-dev
-    - parallel
-    - pkg-config
-    - python3-dev
-    - python3-pip
-    - python3-setuptools
+    - ccache
+    - libgmp-dev
+    - libmpfr-dev
     - texinfo
+    - libbison-dev
+    - bison
+    - flex
+    - libbabeltrace-dev
+    - libncurses5-dev
+    - liblzma-dev
+    - python3-setuptools
+    - python3-dev
+    - libudev-dev
+    - parallel
+  # Referencing comment snippet.
+  #
+  # snippet from https://github.com/ROCm/aomp/blob/aomp-dev/bin/build_aomp.sh#L131-L134
+  #
+  # For ROCM build (AOMP_STANDALONE_BUILD=0) the components roct, rocr,
+  # libdevice, project, comgr, rocminfo, hipamd, rocdbgapi, rocgdb,
+  # roctracer, rocprofiler, rocm_smi_lib, and amdsmi should be found
+  # in ROCM in /opt/rocm.  The ROCM build only needs these components:
 - name: rocmDependencies
   type: object
   default:
+    - amdsmi
+    - clr
     - llvm-project
+    - ROCdbgapi
+    - ROCgdb
+    - rocm-cmake
+    - rocm-core
+    - rocminfo
+    - rocm_smi_lib
+    - rocprofiler
+    - rocprofiler-register
+    - rocprofiler-sdk
     - ROCR-Runtime
+    - roctracer
 
 - name: jobMatrix
   type: object
   default:
-    buildJobs:
-      - { os: ubuntu2204, packageManager: apt }
-      - { os: almalinux8, packageManager: dnf }
     testJobs:
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
 jobs:
-- ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: aomp_build_${{ job.os }}
-    pool:
-      ${{ if eq(job.os, 'ubuntu2204') }}:
-        name: 'rocm-ci_medium_build_pool'
-      ${{ if eq(job.os, 'almalinux8') }}:
-        name: 'rocm-ci_medium_build_pool_alma8'
-    variables:
-    - group: common
-    - template: /.azuredevops/variables-global.yml
-    workspace:
-      clean: all
-    steps:
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        packageManager: ${{ job.packageManager }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    # checkout the repos tied to openmp-extras, plus llvm-project
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-      parameters:
-        checkoutRepo: ${{ parameters.checkoutRepo }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-      parameters:
-        checkoutRepo: aomp-extras_repo
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-      parameters:
-        checkoutRepo: flang_repo
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-      parameters:
-        checkoutRepo: llvm-project_repo
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-      parameters:
-        checkoutRef: ${{ parameters.checkoutRef }}
-        dependencyList: ${{ parameters.rocmDependencies }}
-        aggregatePipeline: ${{ parameters.aggregatePipeline }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-      parameters:
-        componentName: extras
-        cmakeBuildDir: '$(Build.SourcesDirectory)/aomp-extras/build'
-        cmakeSourceDir: '$(Build.SourcesDirectory)/aomp-extras'
-        installDir: '$(Build.BinariesDirectory)/llvm'
-        extraBuildFlags: >-
-          -DLLVM_DIR=$(Agent.BuildDirectory)/rocm/llvm
-          -DCMAKE_BUILD_TYPE=Release
-          -DAOMP_STANDALONE_BUILD=0
-          -DAOMP_VERSION_STRING=9.99.99
-          -GNinja
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-      parameters:
-        componentName: openmp
-        cmakeBuildDir: '$(Build.SourcesDirectory)/llvm-project/openmp/build'
-        cmakeSourceDir: '$(Build.SourcesDirectory)/llvm-project/openmp'
-        installDir: '$(Build.BinariesDirectory)/llvm'
-        extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Build.BinariesDirectory)"
-          -DCMAKE_BUILD_TYPE=Release
-          -DOPENMP_TEST_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
-          -DOPENMP_TEST_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
-          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
-          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
-          -DOPENMP_ENABLE_LIBOMPTARGET=1
-          -DLIBOMP_COPY_EXPORTS=OFF
-          -DCMAKE_SKIP_INSTALL_RPATH=TRUE
-          -DLLVM_MAIN_INCLUDE_DIR=$(Build.SourcesDirectory)/llvm-project/llvm/include
-          -DLIBOMPTARGET_LLVM_INCLUDE_DIRS=$(Build.SourcesDirectory)/llvm-project/llvm/include
-          -GNinja
-    - task: Bash@3
-      displayName: 'ROCm symbolic link'
-      inputs:
-        targetType: inline
-        script: sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-      parameters:
-        componentName: offload
-        cmakeBuildDir: '$(Build.SourcesDirectory)/llvm-project/offload/build'
-        cmakeSourceDir: '$(Build.SourcesDirectory)/llvm-project/offload'
-        installDir: '$(Build.BinariesDirectory)/llvm'
-        extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Build.BinariesDirectory)"
-          -DCMAKE_BUILD_TYPE=Release
-          -DOPENMP_TEST_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
-          -DOPENMP_TEST_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
-          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
-          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
-          -DCMAKE_SKIP_INSTALL_RPATH=TRUE
-          -DLLVM_MAIN_INCLUDE_DIR=$(Build.SourcesDirectory)/llvm-project/llvm/include
-          -DLIBOMPTARGET_LLVM_INCLUDE_DIRS=$(Build.SourcesDirectory)/llvm-project/llvm/include
-          -DCMAKE_EXE_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/llvm/lib"
-          -DCMAKE_SHARED_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/llvm/lib"
-          -GNinja
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-      parameters:
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-      parameters:
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
+- job: aomp
+  variables:
+  - group: common
+  - template: /.azuredevops/variables-global.yml
+  pool: ${{ variables.MEDIUM_BUILD_POOL }}
+  workspace:
+    clean: all
+  steps:
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+    parameters:
+      aptPackages: ${{ parameters.aptPackages }}
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+# checkout the repos tied to openmp-extras, plus llvm-project
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+    parameters:
+      checkoutRepo: ${{ parameters.checkoutRepo }}
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+    parameters:
+      checkoutRepo: aomp-extras_repo
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+    parameters:
+      checkoutRepo: flang_repo
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+    parameters:
+      checkoutRepo: llvm-project_repo
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+    parameters:
+      checkoutRef: ${{ parameters.checkoutRef }}
+      dependencyList: ${{ parameters.rocmDependencies }}
+      aggregatePipeline: ${{ parameters.aggregatePipeline }}
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+    parameters:
+      componentName: extras
+      cmakeBuildDir: '$(Build.SourcesDirectory)/aomp-extras/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/aomp-extras'
+      installDir: '$(Build.BinariesDirectory)/llvm'
+      extraBuildFlags: >-
+        -DLLVM_DIR=$(Agent.BuildDirectory)/rocm/llvm
+        -DCMAKE_BUILD_TYPE=Release
+        -DAOMP_STANDALONE_BUILD=0
+        -DAOMP_VERSION_STRING=9.99.99
+        -GNinja
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+    parameters:
+      componentName: openmp
+      cmakeBuildDir: '$(Build.SourcesDirectory)/llvm-project/openmp/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/llvm-project/openmp'
+      installDir: '$(Build.BinariesDirectory)/llvm'
+      extraBuildFlags: >-
+        -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Build.BinariesDirectory)"
+        -DCMAKE_BUILD_TYPE=Release
+        -DOPENMP_TEST_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
+        -DOPENMP_TEST_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
+        -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
+        -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
+        -DOPENMP_ENABLE_LIBOMPTARGET=1
+        -DLIBOMP_COPY_EXPORTS=OFF
+        -DLIBOMP_OMPT_SUPPORT=ON
+        -DLIBOMP_OMPD_SUPPORT=ON
+        -DCMAKE_SKIP_INSTALL_RPATH=TRUE
+        -DLLVM_MAIN_INCLUDE_DIR=$(Build.SourcesDirectory)/llvm-project/llvm/include
+        -DLIBOMP_FORTRAN_MODULES_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/flang
+        -DLIBOMP_MODULES_INSTALL_PATH=$(Build.BinariesDirectory)/llvm/include/flang/
+        -GNinja
+  - task: Bash@3
+    displayName: 'ROCm symbolic link'
+    inputs:
+      targetType: inline
+      script: sudo ln -s $(Agent.BuildDirectory)/rocm /opt/rocm
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+    parameters:
+      componentName: offload
+      cmakeBuildDir: '$(Build.SourcesDirectory)/llvm-project/offload/build'
+      cmakeSourceDir: '$(Build.SourcesDirectory)/llvm-project/offload'
+      installDir: '$(Build.BinariesDirectory)/llvm'
+      extraBuildFlags: >-
+        -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Build.BinariesDirectory)"
+        -DCMAKE_BUILD_TYPE=Release
+        -DOPENMP_TEST_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
+        -DOPENMP_TEST_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
+        -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
+        -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
+        -DCMAKE_SKIP_INSTALL_RPATH=TRUE
+        -DLLVM_MAIN_INCLUDE_DIR=$(Build.SourcesDirectory)/llvm-project/llvm/include
+        -DLIBOMPTARGET_LLVM_INCLUDE_DIRS=$(Build.SourcesDirectory)/llvm-project/llvm/include
+        -DCMAKE_EXE_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/llvm/lib"
+        -DCMAKE_SHARED_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/llvm/lib"
+        -GNinja
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    parameters:
+      aptPackages: ${{ parameters.aptPackages }}
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: aomp_test_${{ job.os }}_${{ job.target }}
-    dependsOn: aomp_build_${{ job.os }}
+  - job: aomp_test_${{ job.target }}
+    dependsOn: aomp
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -187,16 +198,12 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
-        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-      parameters:
-        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
-        os: ${{ job.os }}
     - task: Bash@3
       displayName: ROCm symbolic link
       inputs:
