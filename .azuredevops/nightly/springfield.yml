@@ -173,7 +173,7 @@ jobs:
         continueOnError: true
         inputs:
           targetType: inline
-          script: ctest --output-on-failure --output-junit rocdecode_results.xml"
+          script: ctest --output-on-failure --output-junit rocdecode_results.xml
           workingDirectory: $(Agent.BuildDirectory)/rocdecode
       - task: PublishTestResults@2
         displayName: Publish rocDecode
