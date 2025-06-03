@@ -111,6 +111,14 @@ PyTorch inference performance testing
 
          docker pull rocm/pytorch:latest
 
+   .. container:: model-doc pyt_janus_pro_inference
+
+      Use the following command to pull the `ROCm PyTorch Docker image <https://hub.docker.com/layers/rocm/pytorch/rocm6.2.3_ubuntu22.04_py3.10_pytorch_release_2.3.0_triton_llvm_reg_issue/images/sha256-b736a4239ab38a9d0e448af6d4adca83b117debed00bfbe33846f99c4540f79b>`_ from Docker Hub.
+
+      .. code-block:: shell
+
+         docker pull rocm/pytorch:rocm6.2.3_ubuntu22.04_py3.10_pytorch_release_2.3.0_triton_llvm_reg_issue
+
    .. _pytorch-benchmark-get-started:
 
    Benchmarking
