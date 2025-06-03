@@ -228,6 +228,7 @@ LM
 LSAN
 LSan
 LTS
+LSTMs
 LanguageCrossEntropy
 LoRA
 MEM
@@ -679,6 +680,7 @@ installable
 interop
 interprocedural
 intra
+intrinsics
 invariants
 invocating
 ipo
@@ -840,6 +842,7 @@ sm
 smi
 softmax
 spack
+spmm
 src
 stochastically
 strided
