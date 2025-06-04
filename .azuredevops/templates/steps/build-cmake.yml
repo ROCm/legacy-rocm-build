@@ -55,7 +55,7 @@ steps:
       PCP_DIR: "/opt/rh/gcc-toolset-14/root"
       LD_LIBRARY_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)"
       PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
-      CXX_FLAGS: '"-nostdinc++ -isystem /opt/rh/gcc-toolset-14/root/usr/include/c++/14 -isystem /opt/rh/gcc-toolset-14/root/usr/include/c++/14/x86_64-redhat-linux"'
+      CXX_FLAGS: '"-Wno-deprecated-declarations  -nostdinc++ -isystem /opt/rh/gcc-toolset-14/root/usr/include/c++/14 -isystem /opt/rh/gcc-toolset-14/root/usr/include/c++/14/x86_64-redhat-linux"'
       LINKER_FLAGS: '"-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"'
   ${{ else }}:
     env:
