@@ -24,7 +24,7 @@ vLLM inference performance testing
 
    * `vLLM {{ unified_docker.vllm_version }} <https://docs.vllm.ai/en/latest>`_
 
-   * `PyTorch {{ unified_docker.pytorch_version }} <https://github.com/pytorch/pytorch>`_
+   * `PyTorch {{ unified_docker.pytorch_version }} <https://github.com/ROCm/pytorch.git>`_
 
    * `hipBLASLt {{ unified_docker.hipblaslt_version }} <https://github.com/ROCm/hipBLASLt>`_
 
