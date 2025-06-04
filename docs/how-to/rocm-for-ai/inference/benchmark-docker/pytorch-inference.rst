@@ -146,6 +146,7 @@ PyTorch inference performance testing
       ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
       model are collected in ``perf.csv``.
 
+      {% if model.mad_tag != "pyt_janus_pro_inference" %}
       .. note::
 
          For improved performance, consider enabling TunableOp. By default,
@@ -156,6 +157,7 @@ PyTorch inference performance testing
 
          Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run.
          Although this might increase the initial training time, it can result in a performance gain.
+      {% endif %}
 
       {% endfor %}
    {% endfor %}
