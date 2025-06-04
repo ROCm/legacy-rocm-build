@@ -108,9 +108,6 @@ build_rocrsamples() {
 
     echo "Copying HSA Sample binaries to $ROCRTST_SAMPLES_PACKAGE"
     progressCopy "$ROCRTST_SAMPLES_BUILD_DIR" "$ROCRTST_SAMPLES_PACKAGE"
-
-    mkdir -p "$PACKAGE_UTILS"
-    progressCopy "$SCRIPT_ROOT/run_rocrsamples.sh" "$PACKAGE_UTILS"
     popd
 }
 
