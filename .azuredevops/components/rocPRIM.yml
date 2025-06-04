@@ -150,7 +150,7 @@ jobs:
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_EXE_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"
           -DCMAKE_SHARED_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"
-          -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"
+          -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations -nostdinc++ -isystem /opt/rh/gc-toolset-14/root/usr/include/c++/14 isystem /opt/rh/gcc-toolset-14/root/usr/include/c++/14/x86_64-redhat-linux"
           -DAMDGPU_TARGETS=${{ job.target }}
           -DBUILD_BENCHMARK=ON
           -DBUILD_TEST=ON
