@@ -144,7 +144,7 @@ PyTorch inference performance testing
 
       MAD launches a Docker container with the name
       ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
-      model are collected in ``perf.csv``.
+      model are collected in ``perf_{{model.mad_tag}}.csv``.
 
       {% if model.mad_tag != "pyt_janus_pro_inference" %}
       .. note::
