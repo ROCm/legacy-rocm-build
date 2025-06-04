@@ -38,7 +38,6 @@ parameters:
 - name: printDiskSpace
   type: boolean
   default: true
-
 # for cmake calls, set env variables for AlmaLinux 8
 # to simulate running source /opt/rh/gcc-toolset-14/enable for the session
 
@@ -55,19 +54,29 @@ steps:
       PCP_DIR: "/opt/rh/gcc-toolset-14/root"
       LD_LIBRARY_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)"
       PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
-      CXX_FLAGS: '"-Wno-deprecated-declarations  -nostdinc++ -isystem /opt/rh/gcc-toolset-14/root/usr/include/c++/14 -isystem /opt/rh/gcc-toolset-14/root/usr/include/c++/14/x86_64-redhat-linux"'
-      LINKER_FLAGS: '"-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"'
-  ${{ else }}:
-    env:
-      CXX_FLAGS: ''
-      LINKER_FLAGS: ''
   inputs:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
-    runInsideShell: true
     ${{ if eq(parameters.customInstallPath, true) }}:
-      cmakeArgs: -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} -DCMAKE_EXE_LINKER_FLAGS=$LINKER_FLAGS -DCMAKE_CXX_FLAGS=$CXX_FLAGS ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
+      ${{ if eq(parameters.os, 'almalinux8') }}:
+        cmakeArgs: >-
+          -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }}
+          -DCMAKE_SHARED_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"
+          -DCMAKE_EXE_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"
+          -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations --gcc-toolchain=/opt/rh/gcc-toolset-14/root"
+          ${{ parameters.extraBuildFlags }}
+          ${{ parameters.cmakeSourceDir }}
+      ${{ else }}:
+        cmakeArgs: -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
     ${{ else }}:
-      cmakeArgs: ${{ parameters.extraBuildFlags }} -DCMAKE_EXE_LINKER_FLAGS=$LINKER_FLAGS -DCMAKE_CXX_FLAGS=$CXX_FLAGS ${{ parameters.cmakeSourceDir }}
+      ${{ if eq(parameters.os, 'almalinux8') }}:
+        cmakeArgs: >-
+          -DCMAKE_SHARED_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"
+          -DCMAKE_EXE_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"
+          -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations --gcc-toolchain=/opt/rh/gcc-toolset-14/root"
+          ${{ parameters.extraBuildFlags }}
+          ${{ parameters.cmakeSourceDir }}
+      ${{ else }}:
+        cmakeArgs: -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
 - ${{ if parameters.printDiskSpace }}:
   - script: df -h
     displayName: Disk space before build
@@ -98,15 +107,6 @@ steps:
 - ${{ if eq(parameters.installEnabled, true) }}:
   - task: CMake@1
     displayName: '${{parameters.componentName }} ${{ parameters.cmakeTarget }}'
-    ${{ if eq(parameters.os, 'almalinux8')}}:
-      env:
-        PATH: "/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)"
-        MANPATH: "/opt/rh/gcc-toolset-14/root/usr/share/man:$(MANPATH)"
-        INFOPATH: "/opt/rh/gcc-toolset-14/root/usr/share/info:$(INFOPATH)"
-        PCP_DIR: "/opt/rh/gcc-toolset-14/root"
-        LD_LIBRARY_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)"
-        PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
     inputs:
       workingDirectory: ${{ parameters.cmakeBuildDir }}
-      runInsideShell: true
       cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.cmakeTarget }}'

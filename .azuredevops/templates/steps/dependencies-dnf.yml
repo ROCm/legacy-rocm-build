@@ -10,13 +10,8 @@ parameters:
 - name: basePackages
   type: object
   default:
-    - epel-release
-    - gcc-toolset-14
-    - gcc-toolset-14-libatomic-devel
     - git
     - jq
-    - libquadmath-devel
-    - libstdc++-devel
     - python3.11
     - python3.11-pip
     - vim-common
@@ -110,11 +105,15 @@ steps:
       sudo dnf -y install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm
       sudo dnf -y install ${{ join(' ', parameters.basePackages) }}
 - task: Bash@3
-  displayName: 'gcc-toolset-14 environment details'
+  displayName: 'Check gcc environment'
   inputs:
     targetType: inline
     script: |
-      cat /opt/rh/gcc-toolset-14/enable
+      echo "=== Versions and sanity checks ==="
+      gcc --version
+      g++ --version
+      gcc -print-file-name=libstdc++.so
+      g++ -print-file-name=libstdc++.so
 - task: Bash@3
   displayName: 'Set python 3.11 as default'
   inputs:
