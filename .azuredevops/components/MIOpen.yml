@@ -16,6 +16,7 @@ parameters:
     - cmake
     - jq
     - libdrm-dev
+    - libmsgpack-dev
     - libsqlite3-dev
     - libstdc++-12-dev
     - ninja-build
