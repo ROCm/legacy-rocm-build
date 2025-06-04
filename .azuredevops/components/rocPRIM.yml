@@ -68,8 +68,12 @@ parameters:
       # - { os: almalinux8, packageManager: dnf, target: gfx1100 }
       - { os: almalinux8, packageManager: dnf, target: gfx1030 }
     testJobs:
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, shard: 0, shardCount: 3 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, shard: 1, shardCount: 3 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, shard: 2, shardCount: 3 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a, shard: 0, shardCount: 3 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a, shard: 1, shardCount: 3 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a, shard: 2, shardCount: 3 }
 - name: downstreamComponentMatrix
   type: object
   default:
@@ -172,7 +176,7 @@ jobs:
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
-    - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}
+    - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}_${{ job.shard }}
       dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
       condition:
         and(succeeded(),
@@ -212,6 +216,7 @@ jobs:
         parameters:
           componentName: ${{ parameters.componentName }}
           testDir: '$(Agent.BuildDirectory)/rocm/bin/rocprim'
+          extraTestParameters: '-I ${{ job.shard }},,${{ job.shardCount }}'
           os: ${{ job.os }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:

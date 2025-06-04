@@ -14,6 +14,9 @@ parameters:
 - name: testParameters
   type: string
   default: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml'
+- name: extraTestParameters
+  type: string
+  default: ''
 - name: testOutputFile
   type: string
   default: test_output.xml
@@ -49,11 +52,11 @@ steps:
   inputs:
     targetType: inline
     ${{ if ne(parameters.os, 'almalinux8') }}:
-      script: ${{ parameters.testExecutable }} ${{ parameters.testParameters }}
+      script: ${{ parameters.testExecutable }} ${{ parameters.testParameters }} ${{ parameters.extraTestParameters }}
     ${{ else }}:
       script: |
         source /opt/rh/gcc-toolset-14/enable
-        ${{ parameters.testExecutable }} ${{ parameters.testParameters }}
+        ${{ parameters.testExecutable }} ${{ parameters.testParameters }} ${{ parameters.extraTestParameters }}
     workingDirectory: ${{ parameters.testDir }}
 - ${{ if parameters.testPublishResults }}:
   - task: PublishTestResults@2
