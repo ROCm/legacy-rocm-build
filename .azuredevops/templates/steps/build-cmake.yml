@@ -65,9 +65,9 @@ steps:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
     runInsideShell: true
     ${{ if eq(parameters.customInstallPath, true) }}:
-      cmakeArgs: -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} -DCMAKE_EXE_LINKER_FLAGS=$(LINKER_FLAGS) -DCMAKE_CXX_FLAGS=$(CXX_FLAGS) ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
+      cmakeArgs: -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} -DCMAKE_EXE_LINKER_FLAGS=$LINKER_FLAGS -DCMAKE_CXX_FLAGS=$CXX_FLAGS ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
     ${{ else }}:
-      cmakeArgs: ${{ parameters.extraBuildFlags }} -DCMAKE_EXE_LINKER_FLAGS=$(LINKER_FLAGS) -DCMAKE_CXX_FLAGS=$(CXX_FLAGS) ${{ parameters.cmakeSourceDir }}
+      cmakeArgs: ${{ parameters.extraBuildFlags }} -DCMAKE_EXE_LINKER_FLAGS=$LINKER_FLAGS -DCMAKE_CXX_FLAGS=$CXX_FLAGS ${{ parameters.cmakeSourceDir }}
 - ${{ if parameters.printDiskSpace }}:
   - script: df -h
     displayName: Disk space before build
