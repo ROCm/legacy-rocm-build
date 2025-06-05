@@ -110,7 +110,7 @@ parameters:
     hipCUB:
       pipelineId: $(HIPCUB_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: develop
       hasGpuTarget: true
     hipFFT:
       pipelineId: $(HIPFFT_PIPELINE_ID)
@@ -330,7 +330,7 @@ parameters:
     rocThrust:
       pipelineId: $(ROCTHRUST_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: develop
       hasGpuTarget: true
     roctracer:
       pipelineId: $(ROCTRACER_PIPELINE_ID)
