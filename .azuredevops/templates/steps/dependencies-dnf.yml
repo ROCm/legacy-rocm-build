@@ -10,6 +10,9 @@ parameters:
 - name: basePackages
   type: object
   default:
+    - epel-release
+    - gcc-toolset-14
+    - gcc-toolset-14-libatomic-devel
     - git
     - jq
     - python3.11
