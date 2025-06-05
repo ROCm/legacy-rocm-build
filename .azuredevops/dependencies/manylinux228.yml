@@ -1,0 +1,21 @@
+jobs:
+- job: BuildManylinuxWithSudo
+  pool:
+    vmImage: 'ubuntu-22.04'
+  steps:
+  - checkout: none
+  - script: |
+      echo "FROM quay.io/pypa/manylinux_2_28_x86_64" > Dockerfile
+      echo "RUN dnf -y install sudo && dnf clean all" >> Dockerfile
+      echo "RUN sudo --version" >> Dockerfile
+    displayName: 'Generate Dockerfile'
+
+  - task: Docker@2
+    displayName: 'Build and push Docker image'
+    inputs:
+      containerRegistry: 'ContainerService3'
+      repository: '$(Build.DefinitionName)'
+      Dockerfile: '$(Pipeline.Workspace)/Dockerfile'
+      buildContext: '$(Pipeline.Workspace)'
+      tags: |
+        latest
