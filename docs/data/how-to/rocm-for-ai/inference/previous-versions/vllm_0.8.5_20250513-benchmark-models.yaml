@@ -1,10 +1,10 @@
 vllm_benchmark:
   unified_docker:
     latest:
-      pull_tag: rocm/vllm:rocm6.3.1_vllm0.8.5_20250521
-      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_vllm_0.8.5_20250521/images/sha256-38410c51af7208897cd8b737c9bdfc126e9bc8952d4aa6b88c85482f03092a11
+      pull_tag: rocm/vllm:rocm6.3.1_vllm0.8.5_20250513
+      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_vllm_0.8.5_20250513/images/sha256-5c8b4436dd0464119d9df2b44c745fadf81512f18ffb2f4b5dc235c71ebe26b4
       rocm_version: 6.3.1
-      vllm_version: 0.8.5 (0.8.6.dev315+g91a560098.rocm631)
+      vllm_version: 0.8.5
       pytorch_version: 2.7.0+gitf717b2a
       hipblaslt_version: 0.15
   model_groups:
@@ -149,19 +149,4 @@ vllm_benchmark:
         mad_tag: pyt_vllm_deepseek-moe-16b-chat
         model_repo: deepseek-ai/deepseek-moe-16b-chat
         url: https://huggingface.co/deepseek-ai/deepseek-moe-16b-chat
-        precision: float16
-    - group: Microsoft Phi
-      tag: phi
-      models:
-      - model: Phi-4
-        mad_tag: pyt_vllm_phi-4
-        model_repo: microsoft/phi-4
-        url: https://huggingface.co/microsoft/phi-4
-    - group: TII Falcon
-      tag: falcon
-      models:
-      - model: Falcon 180B
-        mad_tag: pyt_vllm_falcon-180b
-        model_repo: tiiuae/falcon-180B
-        url: https://huggingface.co/tiiuae/falcon-180B
         precision: float16
