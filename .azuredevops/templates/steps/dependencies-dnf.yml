@@ -52,6 +52,7 @@ parameters:
     libexpat-dev: expat-devel
     libffi-dev: libffi-devel
     libfftw3-dev: fftw-devel
+    libfmt-dev: fmt-devel
     libgmp-dev: gmp-devel
     liblzma-dev: xz-devel
     libmpfr-dev: mpfr-devel

@@ -33,17 +33,16 @@ parameters:
   type: object
   default:
     - cmake
-    - ninja-build
-    - python3-venv
     - git
-    - libmsgpack-dev
     - gfortran
-    - libopenblas-dev
-    - googletest
-    - libgtest-dev
-    - wget
-    - python3-pip
     - libdrm-dev
+    - libgtest-dev
+    - libmsgpack-dev
+    - libopenblas-dev
+    - ninja-build
+    - python3-pip
+    - python3-venv
+    - wget
 - name: pipModules
   type: object
   default:
@@ -52,18 +51,17 @@ parameters:
 - name: rocmDependencies
   type: object
   default:
-    - rocm-cmake
-    - llvm-project
-    - ROCR-Runtime
-    - clr
-    - rocminfo
-    - rocprofiler-register
-    - rocm_smi_lib
-    - rocm-core
     - aomp
-    - aomp-extras
+    - clr
     - hipBLAS-common
     - hipBLASLt
+    - llvm-project
+    - rocm-cmake
+    - rocm-core
+    - rocm_smi_lib
+    - rocminfo
+    - rocprofiler-register
+    - ROCR-Runtime
     - roctracer
 - name: rocmTestDependencies
   type: object
@@ -86,13 +84,13 @@ parameters:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
       - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
-      # - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
       - { os: ubuntu2204, packageManager: apt, target: gfx1030 }
-      # - { os: almalinux8, packageManager: dnf, target: gfx942 }
-      # - { os: almalinux8, packageManager: dnf, target: gfx90a }
-      # - { os: almalinux8, packageManager: dnf, target: gfx1201 }
-      # - { os: almalinux8, packageManager: dnf, target: gfx1100 }
-      # - { os: almalinux8, packageManager: dnf, target: gfx1030 }
+      - { os: almalinux8, packageManager: dnf, target: gfx942 }
+      - { os: almalinux8, packageManager: dnf, target: gfx90a }
+      - { os: almalinux8, packageManager: dnf, target: gfx1201 }
+      - { os: almalinux8, packageManager: dnf, target: gfx1100 }
+      - { os: almalinux8, packageManager: dnf, target: gfx1030 }
     testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
@@ -151,6 +149,12 @@ jobs:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aocl.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
+      parameters:
+        dependencyList:
+          - gtest
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
@@ -164,21 +168,12 @@ jobs:
       parameters:
         os: ${{ job.os }}
         extraBuildFlags: >-
-          -DCMAKE_TOOLCHAIN_FILE=toolchain-linux.cmake
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/bin/amdclang++
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/bin/amdclang
           -DGPU_TARGETS=${{ job.target }}
-          -DTensile_CODE_OBJECT_VERSION=default
-          -DTensile_LOGIC=asm_full
-          -DTensile_SEPARATE_ARCHITECTURES=ON
-          -DTensile_LAZY_LIBRARY_LOADING=ON
-          -DTensile_LIBRARY_FORMAT=msgpack
           -DBUILD_CLIENTS_TESTS=ON
-          -DBUILD_CLIENTS_BENCHMARKS=OFF
-          -DBUILD_CLIENTS_SAMPLES=OFF
-          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
