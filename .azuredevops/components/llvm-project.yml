@@ -31,7 +31,7 @@ parameters:
     buildJobs:
       - { os: ubuntu2204, packageManager: apt }
       - { os: ubuntu2404, packageManager: apt }
-      - { os: almalinux8, packageManager: dnf }
+      - { os: almalinux8, packageManager: apt }
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
