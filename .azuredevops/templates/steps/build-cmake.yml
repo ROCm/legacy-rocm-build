@@ -95,13 +95,14 @@ steps:
     ${{ if eq(parameters.os, 'almalinux8') }}:
       cmakeArgs: >-
         --build ${{ parameters.cmakeTargetDir }}
-        ${{ if eq(parameters.consolidateBuildAndInstall , true) }}--target ${{ parameters.cmakeTarget }}
-        ${{ if and(ne(parameters.customBuildTarget, ''), ne(parameters.consolidateBuildAndInstall , true)) }}--target ${{ parameters.customBuildTarget }}
+        ${{ iif( parameters.consolidateBuildAndInstall, '--target ${{ parameters.cmakeTarget', '') }}
+        ${{ iif( and( ne ( parameters.customBuildTarget, ''), ne( parameters.consolidateBuildAndInstall , true ) ), '--target ${{ parameters.customBuildTarget', '') }}
+        ${{ iif( ne( parameters.customBuildTarget, ''), '--target ${{ parameters.customBuildTarget', '') }}
         ${{ parameters.multithreadFlag }}
     ${{ else }}:
       cmakeArgs: >-
         --build ${{ parameters.cmakeTargetDir }}
-        ${{ if ne(parameters.customBuildTarget, '') }}--target ${{ parameters.customBuildTarget }}
+        ${{ iif(ne(parameters.customBuildTarget, ''), '--target ${{ parameters.customBuildTarget', '') }}
         ${{ parameters.multithreadFlag }}
 - ${{ if parameters.printDiskSpace }}:
   - script: df -h
