@@ -183,6 +183,7 @@ jobs:
         cmakeBuildDir: '$(Build.SourcesDirectory)/clr/build'
         cmakeSourceDir: '$(Build.SourcesDirectory)/clr'
         os: ${{ job.os }}
+        useAmdclang: false
         extraBuildFlags: >-
           -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
           -DHIP_PLATFORM=nvidia
