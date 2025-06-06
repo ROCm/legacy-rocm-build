@@ -69,8 +69,7 @@ jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: hip_clr_combined_amd_${{ job.os }}
     pool:
-      ${{ if or(eq(job.os, 'ubuntu2204'), eq(job.os, 'almalinux8')) }}:
-        vmImage: 'ubuntu-22.04'
+      vmImage: 'ubuntu-22.04'
     ${{ if eq(job.os, 'almalinux8') }}:
       container:
         image: rocmexternalcicd.azurecr.io/manylinux228:latest
@@ -139,8 +138,7 @@ jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: hip_clr_combined_nvidia_${{ job.os }}
     pool:
-      ${{ if or(eq(job.os, 'ubuntu2204'), eq(job.os, 'almalinux8')) }}:
-        vmImage: 'ubuntu-22.04'
+      vmImage: 'ubuntu-22.04'
     ${{ if eq(job.os, 'almalinux8') }}:
       container:
         image: rocmexternalcicd.azurecr.io/manylinux228:latest

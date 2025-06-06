@@ -36,8 +36,7 @@ jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: llvm_project_${{ job.os }}
     pool:
-      ${{ if or(eq(job.os, 'ubuntu2204'), eq(job.os, 'almalinux8')) }}:
-        name: 'rocm-ci_ultra_build_pool'
+      name: 'rocm-ci_ultra_build_pool'
     ${{ if eq(job.os, 'almalinux8') }}:
       container:
         image: rocmexternalcicd.azurecr.io/manylinux228:latest
