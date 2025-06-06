@@ -78,8 +78,6 @@ parameters:
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: ${{ parameters.componentName }}_build_${{ job.os }}
-    ${{ if parameters.buildDependsOn }}:
-      dependsOn: ${{ parameters.buildDependsOn[job.target] }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml

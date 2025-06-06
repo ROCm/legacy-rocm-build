@@ -83,15 +83,19 @@ parameters:
   type: object
   default:
     buildJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
+      # - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1030 }
+      # - { os: almalinux8, packageManager: dnf, target: gfx942 }
+      # - { os: almalinux8, packageManager: dnf, target: gfx90a }
+      # - { os: almalinux8, packageManager: dnf, target: gfx1201 }
+      # - { os: almalinux8, packageManager: dnf, target: gfx1100 }
+      # - { os: almalinux8, packageManager: dnf, target: gfx1030 }
     testJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
 - name: downstreamComponentMatrix
   type: object
   default:
@@ -102,25 +106,20 @@ parameters:
       sparseCheckoutDir: projects/rocsolver
       skipUnifiedBuild: 'false'
       buildDependsOn:
-        gfx942:
-          - rocBLAS_build_gfx942
-        gfx90a:
-          - rocBLAS_build_gfx90a
+        - rocBLAS_build
       unifiedBuild:
         downstreamAggregateNames: rocBLAS+rocPRIM
         buildDependsOn:
-          gfx942:
-            - rocBLAS_build_gfx942
-            - rocPRIM_build_gfx942
-          gfx90a:
-            - rocBLAS_build_gfx90a
-            - rocPRIM_build_gfx90a
+          - rocBLAS_build
+          - rocPRIM_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: ${{ parameters.componentName }}_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
-      dependsOn: ${{ parameters.buildDependsOn[job.target] }}
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -133,6 +132,10 @@ jobs:
     - name: ROCM_PATH
       value: $(Agent.BuildDirectory)/rocm
     pool: ${{ variables.MEDIUM_BUILD_POOL }}
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
     workspace:
       clean: all
     steps:
@@ -140,6 +143,7 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
@@ -151,12 +155,14 @@ jobs:
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
+        os: ${{ job.os }}
         gpuTarget: ${{ job.target }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_TOOLCHAIN_FILE=toolchain-linux.cmake
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm
@@ -178,28 +184,31 @@ jobs:
       parameters:
         componentName: ${{ parameters.componentName }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+        os: ${{ job.os }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         componentName: ${{ parameters.componentName }}
+        os: ${{ job.os }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        pipModules: ${{ parameters.pipModules }}
-        installAOCL: true
-        gpuTarget: ${{ job.target }}
-        extraEnvVars:
-          - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
-          - TENSILE_ROCM_ASSEMBLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang
-          - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
-          - ROCM_PATH:::/home/user/workspace/rocm
+    - ${{ if eq(job.os, 'ubuntu2204') }}:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          pipModules: ${{ parameters.pipModules }}
+          installAOCL: true
+          gpuTarget: ${{ job.target }}
+          extraEnvVars:
+            - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
+            - TENSILE_ROCM_ASSEMBLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang
+            - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
+            - ROCM_PATH:::/home/user/workspace/rocm
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
-    - job: ${{ parameters.componentName }}_test_${{ job.target }}
-      dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
+    - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}
+      dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
       condition:
         and(succeeded(),
           eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -221,12 +230,16 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
         parameters:
           preTargetFilter: ${{ parameters.componentName }}
+          os: ${{ job.os }}
           gpuTarget: ${{ job.target }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+        parameters:
+          os: ${{ job.os }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
         parameters:
           checkoutRef: ${{ parameters.checkoutRef }}
           dependencyList: ${{ parameters.rocmTestDependencies }}
+          os: ${{ job.os }}
           gpuTarget: ${{ job.target }}
           ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
@@ -234,6 +247,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
+          os: ${{ job.os }}
           testDir: '$(Agent.BuildDirectory)/rocm/bin'
           testExecutable: './rocblas-test'
           testParameters: '--yaml rocblas_smoke.yaml --gtest_output=xml:./test_output.xml --gtest_color=yes'
@@ -251,11 +265,11 @@ jobs:
         parameters:
           checkoutRepo: ${{ parameters.checkoutRepo }}
           sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+          triggerDownstreamJobs: true
+          unifiedBuild: ${{ parameters.unifiedBuild }}
           ${{ if parameters.unifiedBuild }}:
             buildDependsOn: ${{ component.unifiedBuild.buildDependsOn }}
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ component.unifiedBuild.downstreamAggregateNames }}
           ${{ else }}:
             buildDependsOn: ${{ component.buildDependsOn }}
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
-          triggerDownstreamJobs: true
-          unifiedBuild: ${{ parameters.unifiedBuild }}

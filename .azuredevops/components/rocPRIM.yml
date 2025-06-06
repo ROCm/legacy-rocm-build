@@ -78,19 +78,13 @@ parameters:
       sparseCheckoutDir: projects/rocthrust
       skipUnifiedBuild: 'false'
       buildDependsOn:
-        gfx942:
-          - rocPRIM_build_gfx942
-        gfx90a:
-          - rocPRIM_build_gfx90a
+        - rocPRIM_build
     - hipCUB:
       name: hipCUB
       sparseCheckoutDir: projects/hipcub
       skipUnifiedBuild: 'false'
       buildDependsOn:
-        gfx942:
-          - rocPRIM_build_gfx942
-        gfx90a:
-          - rocPRIM_build_gfx90a
+        - rocPRIM_build
     # rocSOLVER depends on both rocBLAS and rocPRIM
     # for a unified build, rocBLAS will be the one to call rocSOLVER
     - rocSOLVER:
@@ -98,16 +92,15 @@ parameters:
       sparseCheckoutDir: projects/rocsolver
       skipUnifiedBuild: 'true'
       buildDependsOn:
-        gfx942:
-          - rocPRIM_build_gfx942
-        gfx90a:
-          - rocPRIM_build_gfx90a
+        - rocPRIM_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
-      dependsOn: ${{ parameters.buildDependsOn[job.target] }}
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml

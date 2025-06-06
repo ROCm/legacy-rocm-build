@@ -55,6 +55,7 @@ parameters:
     libgmp-dev: gmp-devel
     liblzma-dev: xz-devel
     libmpfr-dev: mpfr-devel
+    libmsgpack-dev: msgpack-devel
     libncurses5-dev: ncurses-devel
     libnuma-dev: numactl-devel
     libopenmpi-dev: openmpi-devel

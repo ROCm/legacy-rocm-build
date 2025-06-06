@@ -59,16 +59,15 @@ parameters:
       sparseCheckoutDir: projects/hipblaslt
       skipUnifiedBuild: 'false'
       buildDependsOn:
-        gfx942:
-          - hipBLAS_common
-        gfx90a:
-          - hipBLAS_common
+        - hipBLAS_common_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: hipBLAS_common_build_${{ job.os }}
     ${{ if parameters.buildDependsOn }}:
-      dependsOn: ${{ parameters.buildDependsOn[job.target] }}
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml

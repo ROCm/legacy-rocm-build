@@ -86,16 +86,15 @@ parameters:
       sparseCheckoutDir: projects/hipfft
       skipUnifiedBuild: 'false'
       buildDependsOn:
-        gfx942:
-          - rocFFT_build_gfx942
-        gfx90a:
-          - rocFFT_build_gfx90a
+        - rocFFT_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: ${{ parameters.componentName }}_build_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
-      dependsOn: ${{ parameters.buildDependsOn[job.target] }}
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_ubuntu2204_${{ job.target }} # todo: un-hardcode OS
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml

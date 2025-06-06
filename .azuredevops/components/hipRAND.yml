@@ -80,16 +80,15 @@ parameters:
       sparseCheckoutDir: projects/rocfft
       skipUnifiedBuild: 'false'
       buildDependsOn:
-        gfx942:
-          - hipRAND_build_gfx942
-        gfx90a:
-          - hipRAND_build_gfx90a
+        - hipRAND_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
-      dependsOn: ${{ parameters.buildDependsOn[job.target] }}
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
