@@ -15,6 +15,7 @@ parameters:
   default:
     - cmake
     - libglfw3-dev
+    - libmsgpack-dev
     - libtbb-dev
     - ninja-build
     - python3-pip

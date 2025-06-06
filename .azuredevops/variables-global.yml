@@ -108,7 +108,7 @@ variables:
 - name: HIPCUB_GFX942_TEST_PIPELINE_ID
   value: 186
 - name: HIPCUB_PIPELINE_ID
-  value: 97
+  value: 277
 - name: HIPCUB_TAGGED_PIPELINE_ID
   value: 46
 - name: HIPFFT_GFX942_TEST_PIPELINE_ID
@@ -320,7 +320,7 @@ variables:
 - name: ROCTHRUST_GFX942_TEST_PIPELINE_ID
   value: 194
 - name: ROCTHRUST_PIPELINE_ID
-  value: 94
+  value: 276
 - name: ROCTHRUST_TAGGED_PIPELINE_ID
   value: 26
 - name: ROCTRACER_GFX942_TEST_PIPELINE_ID

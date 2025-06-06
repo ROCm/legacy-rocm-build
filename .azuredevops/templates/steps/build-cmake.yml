@@ -8,6 +8,9 @@ parameters:
 - name: extraBuildFlags
   type: string
   default: ''
+- name: extraCxxFlags
+  type: string
+  default: ''
 - name: multithreadFlag
   type: string
   default: ''
@@ -57,11 +60,13 @@ steps:
       PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
   inputs:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
-    runInsideShell: true
-    ${{ if eq(parameters.customInstallPath, true) }}:
-      cmakeArgs: -DCMAKE_INSTALL_PREFIX=${{ parameters.installDir }} ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
-    ${{ else }}:
-      cmakeArgs: ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
+    cmakeArgs: >-
+      ${{ iif(parameters.customInstallPath, join('', format('-DCMAKE_INSTALL_PREFIX={0}', parameters.installDir)), '') }}
+      ${{ iif(eq(parameters.os, 'almalinux8'), '-DCMAKE_SHARED_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"', '') }}
+      ${{ iif(eq(parameters.os, 'almalinux8'), '-DCMAKE_EXE_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"', '') }}
+      -DCMAKE_CXX_FLAGS="${{ parameters.extraCxxFlags }} ${{ iif(eq(parameters.os, 'almalinux8'), '--gcc-toolchain=/opt/rh/gcc-toolset-14/root', '') }}"
+      ${{ parameters.extraBuildFlags }}
+      ${{ parameters.cmakeSourceDir }}
 - ${{ if parameters.printDiskSpace }}:
   - script: df -h
     displayName: Disk space before build
@@ -79,10 +84,10 @@ steps:
       PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
   inputs:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
-    ${{ if eq(parameters.customBuildTarget, '') }}:
-      cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} ${{ parameters.multithreadFlag }}'
-    ${{ else }}:
-      cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.customBuildTarget }} ${{ parameters.multithreadFlag }}'
+    cmakeArgs: >-
+      --build ${{ parameters.cmakeTargetDir }}
+      ${{ iif(ne(parameters.customBuildTarget, ''), '--target ${{ parameters.customBuildTarget', '') }}
+      ${{ parameters.multithreadFlag }}
     retryCountOnTaskFailure: 10
 - ${{ if parameters.printDiskSpace }}:
   - script: df -h
@@ -92,15 +97,6 @@ steps:
 - ${{ if eq(parameters.installEnabled, true) }}:
   - task: CMake@1
     displayName: '${{parameters.componentName }} ${{ parameters.cmakeTarget }}'
-    ${{ if eq(parameters.os, 'almalinux8')}}:
-      env:
-        PATH: "/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)"
-        MANPATH: "/opt/rh/gcc-toolset-14/root/usr/share/man:$(MANPATH)"
-        INFOPATH: "/opt/rh/gcc-toolset-14/root/usr/share/info:$(INFOPATH)"
-        PCP_DIR: "/opt/rh/gcc-toolset-14/root"
-        LD_LIBRARY_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)"
-        PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
     inputs:
       workingDirectory: ${{ parameters.cmakeBuildDir }}
-      runInsideShell: true
       cmakeArgs: '--build ${{ parameters.cmakeTargetDir }} --target ${{ parameters.cmakeTarget }}'

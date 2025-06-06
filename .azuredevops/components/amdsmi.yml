@@ -23,6 +23,7 @@ parameters:
   default:
     buildJobs:
       - { os: ubuntu2204, packageManager: apt }
+      - { os: ubuntu2404, packageManager: apt }
       - { os: almalinux8, packageManager: dnf }
     testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
@@ -34,6 +35,8 @@ jobs:
     pool:
       ${{ if eq(job.os, 'ubuntu2204') }}:
         vmImage: 'ubuntu-22.04'
+      ${{ if eq(job.os, 'ubuntu2404') }}:
+        vmImage: 'ubuntu-24.04'
       ${{ if eq(job.os, 'almalinux8') }}:
         name: 'rocm-ci_low_build_pool_alma8'
     variables:

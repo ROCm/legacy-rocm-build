@@ -23,7 +23,7 @@
     <project name="rocprofiler-systems" />
     <project name="roctracer" />
 <!--HIP Projects-->
-    <project name="HIP" />
+    <project name="hip" />
     <project name="hip-tests" />
     <project name="HIPIFY" />
     <project name="clr" />
