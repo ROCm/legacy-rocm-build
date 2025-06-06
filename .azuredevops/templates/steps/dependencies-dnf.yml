@@ -123,7 +123,7 @@ steps:
     targetType: inline
     script: |
       sudo dnf -y module disable python36
-      sudo rm /usr/local/bin/python3.12
+      sudo rm /usr/local/bin/python3.14 /usr/local/bin/python3.12
       sudo alternatives --set python /usr/bin/python3.11
       sudo alternatives --set python3 /usr/bin/python3.11
       python3 --version
