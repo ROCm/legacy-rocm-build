@@ -42,12 +42,14 @@ parameters:
     graphviz: graphviz
     libbabeltrace-dev: libbabeltrace-devel
     libbison-dev: bison-devel
+    libboost-program-options-dev: boost-devel
     # note: libdrm-amdgpu1 is not available in dnf
     libdrm-dev: libdrm-devel
     libdrm-amdgpu-dev: libdrm-amdgpu-devel
     libdw-dev: libdw-devel
     libelf-dev: elfutils-libelf-devel elfutils-devel
     libffi-dev: libffi-devellibtool
+    libfftw3-dev: fftw-devel
     libgmp-dev: gmp-devel
     liblzma-dev: xz-devel
     libmpfr-dev: mpfr-devel
