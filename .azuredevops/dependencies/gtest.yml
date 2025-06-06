@@ -29,10 +29,11 @@ jobs:
     - group: common
     - template: /.azuredevops/variables-global.yml
     pool:
-      ${{ if eq(job.os, 'ubuntu2204') }}:
-        vmImage: ${{ variables.BASE_BUILD_POOL }}
-      ${{ if eq(job.os, 'almalinux8') }}:
-        name: rocm-ci_low_build_pool_alma8
+      vmImage: 'ubuntu-22.04'
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
     workspace:
       clean: all
     steps:
@@ -53,6 +54,7 @@ jobs:
         os: ${{ job.os }}
         cmakeBuildDir: $(Agent.BuildDirectory)/googletest/build
         cmakeSourceDir: $(Agent.BuildDirectory)/googletest
+        useAmdclang: false
         extraBuildFlags: >-
           -DGTEST_FORCE_SHARED_CRT=ON
           -DCMAKE_DEBUG_POSTFIX=d

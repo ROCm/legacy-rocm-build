@@ -69,10 +69,11 @@ jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: hip_clr_combined_amd_${{ job.os }}
     pool:
-      ${{ if eq(job.os, 'ubuntu2204') }}:
-        vmImage: 'ubuntu-22.04'
-      ${{ if eq(job.os, 'almalinux8') }}:
-        name: 'rocm-ci_low_build_pool_alma8'
+      vmImage: 'ubuntu-22.04'
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -108,6 +109,7 @@ jobs:
         cmakeBuildDir: '$(Build.SourcesDirectory)/clr/build'
         cmakeSourceDir: '$(Build.SourcesDirectory)/clr'
         os: ${{ job.os }}
+        useAmdclang: false
         extraBuildFlags: >-
           -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
           -DHIP_PLATFORM=amd
@@ -136,10 +138,11 @@ jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: hip_clr_combined_nvidia_${{ job.os }}
     pool:
-      ${{ if eq(job.os, 'ubuntu2204') }}:
-        vmImage: 'ubuntu-22.04'
-      ${{ if eq(job.os, 'almalinux8') }}:
-        name: 'rocm-ci_low_build_pool_alma8'
+      vmImage: 'ubuntu-22.04'
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -178,6 +181,7 @@ jobs:
         cmakeBuildDir: '$(Build.SourcesDirectory)/clr/build'
         cmakeSourceDir: '$(Build.SourcesDirectory)/clr'
         os: ${{ job.os }}
+        useAmdclang: false
         extraBuildFlags: >-
           -DHIP_COMMON_DIR=$(Build.SourcesDirectory)/HIP
           -DHIP_PLATFORM=nvidia

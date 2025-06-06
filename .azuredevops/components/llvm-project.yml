@@ -74,6 +74,7 @@ jobs:
       parameters:
         componentName: rocm-llvm
         os: ${{ job.os }}
+        useAmdclang: false
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH="$(Build.BinariesDirectory)/llvm;$(Build.BinariesDirectory)"
           -DCMAKE_BUILD_TYPE=Release
@@ -143,6 +144,7 @@ jobs:
       parameters:
         componentName: device-libs
         os: ${{ job.os }}
+        useAmdclang: false
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH="$(Build.SourcesDirectory)/llvm/build"
           -DCMAKE_BUILD_TYPE=Release
@@ -152,6 +154,7 @@ jobs:
       parameters:
         componentName: comgr
         os: ${{ job.os }}
+        useAmdclang: false
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH="$(Build.SourcesDirectory)/llvm/build;$(Build.SourcesDirectory)/amd/device-libs/build"
           -DCOMGR_DISABLE_SPIRV=1
@@ -169,6 +172,7 @@ jobs:
       parameters:
         componentName: hipcc
         os: ${{ job.os }}
+        useAmdclang: false
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -DHIPCC_BACKWARD_COMPATIBILITY=OFF

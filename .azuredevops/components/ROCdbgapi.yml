@@ -34,10 +34,11 @@ jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: ROCdbgapi_build_${{ job.os }}
     pool:
-      ${{ if eq(job.os, 'ubuntu2204') }}:
-        vmImage: 'ubuntu-22.04'
-      ${{ if eq(job.os, 'almalinux8') }}:
-        name: 'rocm-ci_low_build_pool_alma8'
+      vmImage: 'ubuntu-22.04'
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -61,6 +62,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
+        useAmdclang: false
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm

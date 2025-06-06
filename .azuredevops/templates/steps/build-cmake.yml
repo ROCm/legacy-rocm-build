@@ -38,7 +38,16 @@ parameters:
 - name: installEnabled
   type: boolean
   default: true
+# for jobs that rebuild during install step and use ninja
+# set to true to save time, only applies for almalinux8
+- name: consolidateBuildAndInstall
+  type: boolean
+  default: false
 - name: printDiskSpace
+  type: boolean
+  default: true
+# todo: make this control cxx and c compiler flags
+- name: useAmdclang
   type: boolean
   default: true
 
@@ -64,7 +73,7 @@ steps:
       ${{ iif(parameters.customInstallPath, join('', format('-DCMAKE_INSTALL_PREFIX={0}', parameters.installDir)), '') }}
       ${{ iif(eq(parameters.os, 'almalinux8'), '-DCMAKE_SHARED_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"', '') }}
       ${{ iif(eq(parameters.os, 'almalinux8'), '-DCMAKE_EXE_LINKER_FLAGS="-L$(Agent.BuildDirectory)/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"', '') }}
-      -DCMAKE_CXX_FLAGS="${{ parameters.extraCxxFlags }} ${{ iif(eq(parameters.os, 'almalinux8'), '--gcc-toolchain=/opt/rh/gcc-toolset-14/root', '') }}"
+      -DCMAKE_CXX_FLAGS="${{ parameters.extraCxxFlags }} ${{ iif(and(eq(parameters.os, 'almalinux8'), parameters.useAmdclang), '--gcc-toolchain=/opt/rh/gcc-toolset-14/root', '') }}"
       ${{ parameters.extraBuildFlags }}
       ${{ parameters.cmakeSourceDir }}
 - ${{ if parameters.printDiskSpace }}:
@@ -73,7 +82,10 @@ steps:
 # equivalent to running make $cmakeTargetDir from $cmakeBuildDir
 # i.e., cd $cmakeBuildDir; make $cmakeTargetDir
 - task: CMake@1
-  displayName: '${{parameters.componentName }} Build'
+  ${{ if and( eq(parameters.os, 'almalinux8'), eq(parameters.consolidateBuildAndInstall , true)) }}:
+    displayName: '${{ parameters.componentName }} CMake Build and Install'
+  ${{ else }}:
+    displayName: '${{ parameters.componentName }} CMake Build'
   ${{ if eq(parameters.os, 'almalinux8')}}:
     env:
       PATH: "/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)"
@@ -84,17 +96,23 @@ steps:
       PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
   inputs:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
-    cmakeArgs: >-
-      --build ${{ parameters.cmakeTargetDir }}
-      ${{ iif(ne(parameters.customBuildTarget, ''), '--target ${{ parameters.customBuildTarget', '') }}
-      ${{ parameters.multithreadFlag }}
-    retryCountOnTaskFailure: 10
+    ${{ if eq(parameters.os, 'almalinux8') }}:
+      cmakeArgs: >-
+        --build ${{ parameters.cmakeTargetDir }}
+        ${{ iif(and(eq(parameters.consolidateBuildAndInstall, true), ne(parameters.cmakeTarget, '')), format('--target {0}', parameters.cmakeTarget), '') }}
+        ${{ iif(and(ne(parameters.customBuildTarget, ''), ne(parameters.consolidateBuildAndInstall, true)), format('--target {0}', parameters.customBuildTarget), '') }}
+        ${{ parameters.multithreadFlag }}
+    ${{ if ne(parameters.os, 'almalinux8') }}:
+      cmakeArgs: >-
+        --build ${{ parameters.cmakeTargetDir }}
+        ${{ iif(ne(parameters.customBuildTarget, ''), format('--target {0}', parameters.customBuildTarget), '') }}
+        ${{ parameters.multithreadFlag }}
 - ${{ if parameters.printDiskSpace }}:
   - script: df -h
     displayName: Disk space after build
 # equivalent to running make $cmakeTarget from $cmakeBuildDir
 # e.g., make install
-- ${{ if eq(parameters.installEnabled, true) }}:
+- ${{ if and(eq(parameters.installEnabled, true), or(ne(parameters.os, 'almalinux8'), eq(parameters.consolidateBuildAndInstall, false))) }}:
   - task: CMake@1
     displayName: '${{parameters.componentName }} ${{ parameters.cmakeTarget }}'
     inputs:

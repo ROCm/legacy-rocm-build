@@ -15,6 +15,7 @@ parameters:
     - gcc-toolset-14-libatomic-devel
     - git
     - jq
+    - numactl
     - python3.11
     - python3.11-pip
     - vim-common
@@ -122,6 +123,7 @@ steps:
     targetType: inline
     script: |
       sudo dnf -y module disable python36
+      sudo rm -f /usr/local/bin/python3.12 /usr/local/bin/python3.13 /usr/local/bin/python3.14
       sudo alternatives --set python /usr/bin/python3.11
       sudo alternatives --set python3 /usr/bin/python3.11
       python3 --version

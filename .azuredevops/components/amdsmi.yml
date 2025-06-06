@@ -33,12 +33,14 @@ jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: amdsmi_build_${{ job.os }}
     pool:
-      ${{ if eq(job.os, 'ubuntu2204') }}:
-        vmImage: 'ubuntu-22.04'
       ${{ if eq(job.os, 'ubuntu2404') }}:
         vmImage: 'ubuntu-24.04'
-      ${{ if eq(job.os, 'almalinux8') }}:
-        name: 'rocm-ci_low_build_pool_alma8'
+      ${{ else }}:
+        vmImage: 'ubuntu-22.04'
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -56,6 +58,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
+        useAmdclang: false
         extraBuildFlags: >-
           -DBUILD_TESTS=ON
           -GNinja
