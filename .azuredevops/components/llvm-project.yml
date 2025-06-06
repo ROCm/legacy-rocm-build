@@ -42,6 +42,7 @@ jobs:
       ${{ if eq(job.os, 'ubuntu2404') }}:
         name: 'rocm-ci_high_build_pool_2404' #temporarily using 'high' pool while 'ultra' is down
       ${{ if eq(job.os, 'almalinux8') }}:
+        name: 'rocm-ci_ultra_build_pool'
         container:
           image: rocmexternalcicd.azurecr.io/manylinux228:latest
           endpoint: ContainerService3
