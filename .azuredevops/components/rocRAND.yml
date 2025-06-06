@@ -34,17 +34,15 @@ parameters:
   default:
     - cmake
     - git
-    - googletest
-    - libgtest-dev
     - ninja-build
 - name: rocmDependencies
   type: object
   default:
-    - rocm-cmake
-    - llvm-project
-    - ROCR-Runtime
     - clr
+    - llvm-project
+    - rocm-cmake
     - rocminfo
+    - ROCR-Runtime
 - name: rocmTestDependencies
   type: object
   default:
@@ -60,17 +58,17 @@ parameters:
     buildJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
       - { os: ubuntu2204, packageManager: apt, target: gfx1030 }
       - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
       - { os: almalinux8, packageManager: dnf, target: gfx942 }
       - { os: almalinux8, packageManager: dnf, target: gfx90a }
+      - { os: almalinux8, packageManager: dnf, target: gfx1201 }
       - { os: almalinux8, packageManager: dnf, target: gfx1100 }
       - { os: almalinux8, packageManager: dnf, target: gfx1030 }
     testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
-
-
 - name: downstreamComponentMatrix
   type: object
   default:
@@ -80,25 +78,29 @@ parameters:
       skipUnifiedBuild: 'false'
       buildDependsOn:
         gfx942:
-          - rocRAND_build_ubuntu2204_gfx942
+          - rocRAND_build_gfx942
         gfx90a:
-          - rocRAND_build_ubuntu2204_gfx90a
+          - rocRAND_build_gfx90a
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
       dependsOn: ${{ parameters.buildDependsOn[job.target] }}
-    pool:
-      ${{ if eq(job.os, 'ubuntu2204') }}:
-        vmImage: 'ubuntu-22.04'
-      ${{ if eq(job.os, 'almalinux8') }}:
-        name: 'rocm-ci_low_build_pool_alma8'
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
     - name: HIP_ROCCLR_HOME
       value: $(Build.BinariesDirectory)/rocm
+    pool:
+      ${{ if eq(job.os, 'ubuntu2404') }}:
+        vmImage: 'ubuntu-24.04'
+      ${{ else }}:
+        name: ${{ variables.MEDIUM_BUILD_POOL }}
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
     workspace:
       clean: all
     steps:
@@ -111,6 +113,10 @@ jobs:
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
+      parameters:
+        dependencyList:
+          - gtest
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
@@ -124,10 +130,10 @@ jobs:
       parameters:
         os: ${{ job.os }}
         extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
-          -DBUILD_TEST=ON
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DAMDGPU_TARGETS=${{ job.target }}
+          -DBUILD_TEST=ON
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:

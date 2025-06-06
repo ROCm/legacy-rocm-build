@@ -38,6 +38,11 @@ parameters:
 - name: installEnabled
   type: boolean
   default: true
+# for jobs that rebuild during install step and use ninja
+# set to true to save time, only applies for almalinux8
+- name: consolidateBuildAndInstall
+  type: boolean
+  default: false
 - name: printDiskSpace
   type: boolean
   default: true
@@ -73,7 +78,10 @@ steps:
 # equivalent to running make $cmakeTargetDir from $cmakeBuildDir
 # i.e., cd $cmakeBuildDir; make $cmakeTargetDir
 - task: CMake@1
-  displayName: '${{parameters.componentName }} Build'
+  ${{ if and( eq(parameters.os, 'almalinux8'), eq(parameters.consolidateBuildAndInstall , true)) }}:
+    displayName: '${{ parameters.componentName }} CMake Build and Install'
+  ${{ else }}:
+    displayName: '${{ parameters.componentName }} CMake Build'
   ${{ if eq(parameters.os, 'almalinux8')}}:
     env:
       PATH: "/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)"
@@ -84,17 +92,23 @@ steps:
       PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
   inputs:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
-    cmakeArgs: >-
-      --build ${{ parameters.cmakeTargetDir }}
-      ${{ iif(ne(parameters.customBuildTarget, ''), '--target ${{ parameters.customBuildTarget', '') }}
-      ${{ parameters.multithreadFlag }}
-    retryCountOnTaskFailure: 10
+    ${{ if eq(parameters.os, 'almalinux8') }}:
+      cmakeArgs: >-
+        --build ${{ parameters.cmakeTargetDir }}
+        ${{ if eq(parameters.consolidateBuildAndInstall , true) }}--target ${{ parameters.cmakeTarget }}
+        ${{ if and(ne(parameters.customBuildTarget, ''), ne(parameters.consolidateBuildAndInstall , true)) }}--target ${{ parameters.customBuildTarget }}
+        ${{ parameters.multithreadFlag }}
+    ${{ else }}:
+      cmakeArgs: >-
+        --build ${{ parameters.cmakeTargetDir }}
+        ${{ if ne(parameters.customBuildTarget, '') }}--target ${{ parameters.customBuildTarget }}
+        ${{ parameters.multithreadFlag }}
 - ${{ if parameters.printDiskSpace }}:
   - script: df -h
     displayName: Disk space after build
 # equivalent to running make $cmakeTarget from $cmakeBuildDir
 # e.g., make install
-- ${{ if eq(parameters.installEnabled, true) }}:
+- ${{ if and(ne(parameters.os, 'almalinux8'), eq(parameters.installEnabled, true)) }}:
   - task: CMake@1
     displayName: '${{parameters.componentName }} ${{ parameters.cmakeTarget }}'
     inputs:
