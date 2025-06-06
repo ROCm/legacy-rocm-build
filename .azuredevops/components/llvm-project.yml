@@ -29,7 +29,7 @@ parameters:
   type: object
   default:
     buildJobs:
-      - { os: ubuntu2204, packageManager: apt }
+      # - { os: ubuntu2204, packageManager: apt }
       - { os: almalinux8, packageManager: dnf }
 
 jobs:
