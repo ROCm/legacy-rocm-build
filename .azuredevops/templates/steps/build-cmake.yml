@@ -95,21 +95,20 @@ steps:
     ${{ if eq(parameters.os, 'almalinux8') }}:
       cmakeArgs: >-
         --build ${{ parameters.cmakeTargetDir }}
-        ${{ iif( parameters.consolidateBuildAndInstall, '--target ${{ parameters.cmakeTarget', '') }}
-        ${{ iif( and( ne ( parameters.customBuildTarget, ''), ne( parameters.consolidateBuildAndInstall , true ) ), '--target ${{ parameters.customBuildTarget', '') }}
-        ${{ iif( ne( parameters.customBuildTarget, ''), '--target ${{ parameters.customBuildTarget', '') }}
+        ${{ iif(and(eq(parameters.consolidateBuildAndInstall, true), ne(parameters.cmakeTarget, '')), format('--target {0}', parameters.cmakeTarget), '') }}
+        ${{ iif(and(ne(parameters.customBuildTarget, ''), ne(parameters.consolidateBuildAndInstall, true)), format('--target {0}', parameters.customBuildTarget), '') }}
         ${{ parameters.multithreadFlag }}
-    ${{ else }}:
+    ${{ if ne(parameters.os, 'almalinux8') }}:
       cmakeArgs: >-
         --build ${{ parameters.cmakeTargetDir }}
-        ${{ iif(ne(parameters.customBuildTarget, ''), '--target ${{ parameters.customBuildTarget', '') }}
+        ${{ iif(ne(parameters.customBuildTarget, ''), format('--target {0}', parameters.customBuildTarget), '') }}
         ${{ parameters.multithreadFlag }}
 - ${{ if parameters.printDiskSpace }}:
   - script: df -h
     displayName: Disk space after build
 # equivalent to running make $cmakeTarget from $cmakeBuildDir
 # e.g., make install
-- ${{ if and(ne(parameters.os, 'almalinux8'), eq(parameters.installEnabled, true)) }}:
+- ${{ if and(eq(parameters.installEnabled, true), or(ne(parameters.os, 'almalinux8'), eq(parameters.consolidateBuildAndInstall, false))) }}:
   - task: CMake@1
     displayName: '${{parameters.componentName }} ${{ parameters.cmakeTarget }}'
     inputs:
