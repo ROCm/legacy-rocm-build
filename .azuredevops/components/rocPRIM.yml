@@ -79,18 +79,18 @@ parameters:
       skipUnifiedBuild: 'false'
       buildDependsOn:
         gfx942:
-          - rocPRIM_build_ubuntu2204_gfx942
+          - rocPRIM_build_gfx942
         gfx90a:
-          - rocPRIM_build_ubuntu2204_gfx90a
+          - rocPRIM_build_gfx90a
     - hipCUB:
       name: hipCUB
       sparseCheckoutDir: projects/hipcub
       skipUnifiedBuild: 'false'
       buildDependsOn:
         gfx942:
-          - rocPRIM_build_ubuntu2204_gfx942
+          - rocPRIM_build_gfx942
         gfx90a:
-          - rocPRIM_build_ubuntu2204_gfx90a
+          - rocPRIM_build_gfx90a
     # rocSOLVER depends on both rocBLAS and rocPRIM
     # for a unified build, rocBLAS will be the one to call rocSOLVER
     - rocSOLVER:
@@ -99,9 +99,9 @@ parameters:
       skipUnifiedBuild: 'true'
       buildDependsOn:
         gfx942:
-          - rocPRIM_build_ubuntu2204_gfx942
+          - rocPRIM_build_gfx942
         gfx90a:
-          - rocPRIM_build_ubuntu2204_gfx90a
+          - rocPRIM_build_gfx90a
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
