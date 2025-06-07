@@ -28,8 +28,9 @@ parameters:
     bison: bison
     ccache: ccache
     cmake: cmake
-    cuda-toolkit: cuda-toolkit
-    cudnn: libcudnn9-cuda-11
+    cuda-toolkit-12-9: cuda-compiler-12-9 cuda-toolkit-12-9
+    libcudnn9-dev-cuda-12: libcudnn9-cuda-12
+    dejagnu: dejagnu
     doxygen: doxygen
     # note: doxygen-doc is not available in dnf
     # libavcodec-dev, libavformat-dev, libavutil-dev come with ffmpeg-devel
@@ -45,9 +46,10 @@ parameters:
     # note: libdrm-amdgpu1 is not available in dnf
     libdrm-dev: libdrm-devel
     libdrm-amdgpu-dev: libdrm-amdgpu-devel
-    libdw-dev: libdw-devel
-    libelf-dev: elfutils-libelf-devel elfutils-devel
-    libffi-dev: libffi-devellibtool
+    libdw-dev: elfutils-devel
+    libelf-dev: elfutils-libelf-devel
+    libexpat-dev: expat-devel
+    libffi-dev: libffi-devel
     libgmp-dev: gmp-devel
     liblzma-dev: xz-devel
     libmpfr-dev: mpfr-devel
@@ -63,6 +65,7 @@ parameters:
     libva-amdgpu-dev: libva-amdgpu-devel
     mesa-amdgpu-va-drivers: mesa-amdgpu-va-drivers
     mesa-common-dev: mesa-libGL-devel
+    ncurses-dev: ncurses-devel
     # note: llvm needs ninja-build version newer than what dnf provides
     ocl-icd-libopencl1: ocl-icd
     ocl-icd-opencl-dev: ocl-icd-devel

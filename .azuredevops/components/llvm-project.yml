@@ -108,6 +108,12 @@ jobs:
         cmakeSourceDir: '$(Build.SourcesDirectory)/llvm'
         installDir: '$(Build.BinariesDirectory)/llvm'
     # use llvm-lit to run unit tests for llvm, clang, and lld
+    - task: Bash@3
+      displayName: 'Copy llvm-lit to install directory'
+      inputs:
+        targetType: inline
+        script: |
+          cp $(Build.SourcesDirectory)/llvm/build/bin/llvm-lit $(Build.BinariesDirectory)/llvm/bin/
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: check-llvm

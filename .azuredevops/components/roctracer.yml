@@ -1,4 +1,7 @@
 parameters:
+- name: componentName
+  type: string
+  default: roctracer
 - name: checkoutRepo
   type: string
   default: 'self'
@@ -47,10 +50,12 @@ parameters:
     buildJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
       - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
       - { os: ubuntu2204, packageManager: apt, target: gfx1030 }
       - { os: almalinux8, packageManager: dnf, target: gfx942 }
       - { os: almalinux8, packageManager: dnf, target: gfx90a }
+      - { os: almalinux8, packageManager: dnf, target: gfx1201 }
       - { os: almalinux8, packageManager: dnf, target: gfx1100 }
       - { os: almalinux8, packageManager: dnf, target: gfx1030 }
     testJobs:
@@ -59,18 +64,16 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: roctracer_build_${{ job.os }}_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
     pool:
-      vmImage: 'ubuntu-22.04'
+      vmImage: ${{ variables.BASE_BUILD_POOL }}
     ${{ if eq(job.os, 'almalinux8') }}:
       container:
         image: rocmexternalcicd.azurecr.io/manylinux228:latest
         endpoint: ContainerService3
-    variables:
-    - group: common
-    - template: /.azuredevops/variables-global.yml
-    - name: HIP_ROCCLR_HOME
-      value: $(Build.BinariesDirectory)/rocm
     workspace:
       clean: all
     steps:
@@ -121,8 +124,8 @@ jobs:
     #     registerROCmPackages: true
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: roctracer_test_${{ job.os }}_${{ job.target }}
-    dependsOn: roctracer_build_${{ job.os }}_${{ job.target }}
+  - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}
+    dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
