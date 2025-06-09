@@ -95,10 +95,6 @@ variables:
   value: 108
 - name: MIVISIONX_PIPELINE_ID
   value: 80
-- name: OMNIPERF_PIPELINE_ID
-  value: 241
-- name: OMNITRACE_PIPELINE_ID
-  value: 253
 - name: RCCL_PIPELINE_ID
   value: 107
 - name: RDC_PIPELINE_ID
@@ -159,8 +155,6 @@ variables:
   value: 81
 - name: ROCSPARSE_PIPELINE_ID
   value: 98
-- name: ROCT_THUNK_INTERFACE_PIPELINE_ID
-  value: 3
 - name: ROCTHRUST_PIPELINE_ID
   value: 276
 - name: ROCTRACER_PIPELINE_ID
