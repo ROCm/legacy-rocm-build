@@ -4,71 +4,71 @@ parameters:
 - name: aptPackages
   type: object
   default:
-    - build-essential
-    - git
-    - ninja-build
-    - openjdk-8-jdk
-    - ca-certificates
+    - autoconf
     - bc
     - bridge-utils
+    - build-essential
+    - ca-certificates
+    - ccache
     - devscripts
     - dkms
     - doxygen
+    - fakeroot
+    - ffmpeg
+    - gfortran
+    - git
+    - gnutls-bin
+    - libamd2
+    - libavformat-dev
+    - libblas3
+    - libcamd2
+    - libccolamd2
+    - libcholmod3
+    - libcolamd2
     - libdpkg-dev
     - libdpkg-perl
+    - libdrm-amdgpu1
+    - libdrm-dev
     - libelf-dev
+    - libfreetype-dev
+    - libgfortran5
+    - libgomp1
+    - libjpeg-dev
+    - libjpeg-turbo-official
+    - liblapack-dev
+    - liblapack3
+    - libmetis5
+    - libncurses-dev
+    - libnuma-dev
+    - libopenblas-dev
+    - libpth-dev
+    - libquadmath0
+    - libssh-dev
+    - libstdc++-12-dev
+    - libsuitesparseconfig5
+    - libswscale-dev
+    - libtinfo-dev
+    - libunwind-dev
+    - libwebp-dev
+    - llvm-dev
+    - ncurses-base
+    - ninja-build
+    - numactl
+    - openjdk-8-jdk
+    - python-is-python3
     - python3-dev
     - python3-pip
     - python3-venv
-    - wget
-    - ncurses-base
-    - libncurses-dev
-    - numactl
-    - libnuma-dev
-    - libssh-dev
-    - libunwind-dev
-    - llvm-dev
-    - libpth-dev
     - qemu-kvm
     - re2c
     - subversion
-    - fakeroot
-    - autoconf
-    - libgomp1
-    - libtinfo-dev
-    - libcholmod3
-    - libsuitesparseconfig5
-    - libstdc++-12-dev
-    - python-is-python3
-    - gfortran
-    - libgfortran5
-    - liblapack3
-    - libblas3
-    - libquadmath0
-    - libmetis5
-    - libamd2
-    - libcamd2
-    - libcolamd2
-    - libccolamd2
-    - libdrm-amdgpu1
-    - ccache
+    - wget
     - zip
-    - libjpeg-turbo-official
-    - libjpeg-dev
-    - libwebp-dev
-    - libfreetype-dev
-    - gnutls-bin
-    - ffmpeg
-    - libopenblas-dev
-    - liblapack-dev
-    - libswscale-dev
-    - libavformat-dev
 - name: pipModules
   type: object
   default:
-    - cmake
     - astunparse
-    - "expecttest>=0.2.1"
+    - "expecttest>=0.3.0"
     - hypothesis
     - numpy
     - psutil
@@ -76,8 +76,8 @@ parameters:
     - requests
     - setuptools==75.8.0
     - types-dataclasses
-    - "typing-extensions>=4.8.0"
-    - "sympy>=1.13.0"
+    - "typing-extensions>=4.10.0"
+    - "sympy>=1.13.3"
     - filelock
     - networkx
     - jinja2
@@ -97,36 +97,39 @@ parameters:
 - name: rocmDependencies
   type: object
   default:
-    - rocminfo
-    - MIOpen
     - clr
     - hipBLAS
+    - hipBLASLt
     - hipFFT
     - hipRAND
     - hipSOLVER
     - hipSPARSE
-    - ROCR-Runtime
+    - hipSPARSELt
     - llvm-project
+    - MIOpen
     - rccl
     - rocBLAS
     - rocFFT
+    - rocm-core
+    - rocminfo
     - rocm_smi_lib
+    - rocPRIM
+    - rocprofiler-register
     - rocRAND
+    - ROCR-Runtime
     - rocSOLVER
     - rocSPARSE
     - roctracer
-    - hipBLASLt
-    - rocprofiler-register
-    - rocm-core
-    - rocPRIM
     # below are additional dependencies not called out by build script, but throw errors during cmake
+    - composable_kernel
+    - hipBLAS-common
     - hipCUB
     - rocThrust
-    - hipBLAS-common
-    - composable_kernel
 - name: rocmTestDependencies
   type: object
   default:
+    # rocroller.so needed and is not included in the wheel
+    - hipBLASLt
     - rocminfo
 # Reference on what tests to run for torchvision found in private repo:
 # https://github.com/ROCm/rocAutomation/blob/jenkins-pipelines/pytorch/pytorch_ci/test_pytorch_test1.sh#L54
@@ -241,12 +244,6 @@ jobs:
         sudo ln -s $(Build.SourcesDirectory)/builder /builder
       workingDirectory: $(Build.SourcesDirectory)
   - task: Bash@3
-    displayName: Temporarily Patch CK Submodule
-    inputs:
-      targetType: inline
-      script: git pull origin develop
-      workingDirectory: $(Build.SourcesDirectory)/pytorch/third_party/composable_kernel
-  - task: Bash@3
     displayName: Install patchelf
     inputs:
       targetType: inline
@@ -268,6 +265,11 @@ jobs:
         sudo bash pytorch/.ci/docker/common/install_rocm_magma.sh $(MAGMA_ROCM)
       workingDirectory: $(Build.SourcesDirectory)
   - task: Bash@3
+    displayName: Install targeted typing_extensions for build
+    inputs:
+      targetType: inline
+      script: pip install --target=$(Build.SourcesDirectory)/pytorch/torch/.. typing_extensions
+  - task: Bash@3
     displayName: Run ROCm Build Script
     inputs:
       targetType: inline
@@ -281,7 +283,6 @@ jobs:
         PYTORCH_ROOT=$(PYTORCH_ROOT)
         CMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
         DESIRED_DEVTOOLSET=$(DESIRED_DEVTOOLSET)
-        TORCH_PACKAGE_NAME=torch.$(ROCM_BRANCH).$(JOB_GPU_TARGET)
         PYTORCH_BUILD_VERSION=$(cat $(Build.SourcesDirectory)/pytorch/version.txt | cut -da -f1)
         PYTORCH_BUILD_NUMBER=$(date -u +%Y%m%d)
         SKIP_ALL_TESTS=1
@@ -322,8 +323,6 @@ jobs:
       inputs:
         targetType: inline
         script: >-
-          TORCH_PACKAGE_NAME=torch.$(ROCM_BRANCH).$(JOB_GPU_TARGET)
-          TORCHVISION_PACKAGE_NAME=torchvision.$(ROCM_BRANCH).$(JOB_GPU_TARGET)
           PYTORCH_VERSION=$(cat $(Build.SourcesDirectory)/pytorch/version.txt | cut -da -f1)post$(date -u +%Y%m%d)
           BUILD_VERSION=$(cat $(Build.SourcesDirectory)/vision/version.txt | cut -da -f1)post$(date -u +%Y%m%d)
           python3 setup.py bdist_wheel
@@ -400,7 +399,7 @@ jobs:
   - task: DownloadPipelineArtifact@2
     displayName: 'Download Pipeline Wheel Files'
     inputs:
-      itemPattern: '**/*$(JOB_GPU_TARGET)*.whl'
+      itemPattern: '**/*.whl'
       targetPath: $(Agent.BuildDirectory)
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
     parameters:
