@@ -1,7 +1,7 @@
 parameters:
 - name: componentName
   type: string
-  default: rocdecode
+  default: rocDecode
 - name: checkoutRepo
   type: string
   default: 'self'

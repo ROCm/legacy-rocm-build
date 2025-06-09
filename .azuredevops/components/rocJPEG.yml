@@ -71,7 +71,7 @@ jobs:
       value: $(Agent.BuildDirectory)/rocm
     pool:
       ${{ if eq(job.os, 'ubuntu2404') }}:
-        vmImage: 'ubuntu-24.04'
+        name: rocm-ci_medium_build_pool_2404
       ${{ else }}:
         name: ${{ variables.MEDIUM_BUILD_POOL }}
     ${{ if eq(job.os, 'almalinux8') }}:
