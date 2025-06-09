@@ -24,7 +24,7 @@ vLLM inference performance testing
 
    * `vLLM {{ unified_docker.vllm_version }} <https://docs.vllm.ai/en/latest>`_
 
-   * `PyTorch {{ unified_docker.pytorch_version }} <https://github.com/ROCm/pytorch.git>`_
+   * `PyTorch {{ unified_docker.pytorch_version }} <https://github.com/pytorch/pytorch>`_
 
    * `hipBLASLt {{ unified_docker.hipblaslt_version }} <https://github.com/ROCm/hipBLASLt>`_
 
@@ -37,15 +37,11 @@ vLLM inference performance testing
    Supported models
    ================
 
-   The following models are supported for inference performance benchmarking
-   with vLLM and ROCm. Some instructions, commands, and recommendations in this
-   documentation might vary by model -- select one to get started.
-
    .. raw:: html
 
       <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
         <div class="row">
-          <div class="col-2 me-2 model-param-head">Model group</div>
+          <div class="col-2 me-2 model-param-head">Model</div>
           <div class="row col-10">
    {% for model_group in model_groups %}
             <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
@@ -54,7 +50,7 @@ vLLM inference performance testing
         </div>
 
         <div class="row mt-1">
-          <div class="col-2 me-2 model-param-head">Model</div>
+          <div class="col-2 me-2 model-param-head">Model variant</div>
           <div class="row col-10">
    {% for model_group in model_groups %}
       {% set models = model_group.models %}
@@ -322,23 +318,23 @@ vLLM inference performance testing
 Further reading
 ===============
 
+- For application performance optimization strategies for HPC and AI workloads,
+  including inference with vLLM, see :doc:`../inference-optimization/workload`.
+
 - To learn more about the options for latency and throughput benchmark scripts,
   see `<https://github.com/ROCm/vllm/tree/main/benchmarks>`_.
 
 - To learn more about system settings and management practices to configure your system for
   MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
 
-- For application performance optimization strategies for HPC and AI workloads,
-  including inference with vLLM, see :doc:`../../inference-optimization/workload`.
-
 - To learn how to run LLM models from Hugging Face or your own model, see
-  :doc:`Running models from Hugging Face <../hugging-face-models>`.
+  :doc:`Running models from Hugging Face <hugging-face-models>`.
 
 - To learn how to optimize inference on LLMs, see
-  :doc:`Inference optimization <../../inference-optimization/index>`.
+  :doc:`Inference optimization <../inference-optimization/index>`.
 
 - To learn how to fine-tune LLMs, see
-  :doc:`Fine-tuning LLMs <../../fine-tuning/index>`.
+  :doc:`Fine-tuning LLMs <../fine-tuning/index>`.
 
 Previous versions
 =================
@@ -355,20 +351,6 @@ for benchmarking, see the version-specific documentation.
      - vLLM version
      - PyTorch version
      - Resources
-
-   * - 6.3.1
-     - 0.8.5
-     - 2.7.0
-     - 
-       * :doc:`Documentation <previous-versions/vllm-0.8.5-20250513>`
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_vllm_0.8.5_20250513/images/sha256-5c8b4436dd0464119d9df2b44c745fadf81512f18ffb2f4b5dc235c71ebe26b4>`_
-
-   * - 6.3.1
-     - 0.8.3
-     - 2.7.0
-     - 
-       * :doc:`Documentation <previous-versions/vllm-0.8.3-20250415>`
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.8.3_20250415/images/sha256-ad9062dea3483d59dedb17c67f7c49f30eebd6eb37c3fac0a171fb19696cc845>`_
 
    * - 6.3.1
      - 0.7.3
