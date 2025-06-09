@@ -19,6 +19,14 @@ ROCm supports programming models, such as OpenMP and OpenCL, and includes all ne
 source software compilers, debuggers, and libraries. ROCm is fully integrated into machine learning
 (ML) frameworks, such as PyTorch and TensorFlow.
 
+> [!IMPORTANT]
+> A new open source build platform for ROCm is under development at
+> https://github.com/ROCm/TheRock, featuring a unified CMake build with bundled
+> dependencies, Windows support, and more.
+>
+> The instructions below describe the prior process for building from source
+> which will be replaced once TheRock is mature enough.
+
 ## Getting the ROCm Source Code
 
 AMD ROCm is built from open source software. It is, therefore, possible to modify the various components of ROCm by downloading the source code and rebuilding the components. The source code for ROCm components can be cloned from each of the GitHub repositories using git.  For easy access to download the correct versions of each of these tools, the ROCm repository contains a repo manifest file called [default.xml](./default.xml). You can use this manifest file to download the source code for ROCm software.
