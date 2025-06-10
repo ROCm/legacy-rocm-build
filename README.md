@@ -135,6 +135,7 @@ bash install-prerequisites.sh
 export GPU_ARCHS="gfx942"               # Example
 export GPU_ARCHS="gfx940;gfx941;gfx942" # Example
 
+cd ~/WORKSPACE/
 # Pick and run build commands in the docker container:
 # Build rocm-dev packages
 make -f ROCm/tools/rocm-build/ROCm.mk -j ${NPROC:-$(nproc)} rocm-dev
