@@ -35,22 +35,6 @@ parameters:
   type: object
   default:
     - llvm-project
-- name: repos
-  type: object
-  default:
-    cloneRepos:
-      - hip:
-        name: 'HIP'
-        url: 'https://github.com/ROCm/HIP.git'
-        commit: 'efee830'
-      - clr:
-        name: 'clr'
-        url: 'https://github.com/ROCm/clr.git'
-        commit: '78f3cab'
-      - hipother:
-        name: 'hipother'
-        url: 'https://github.com/ROCm/hipother.git'
-        commit: 'e0ff75f'
 
 # hip and clr are tightly-coupled
 # run this same template for both repos
@@ -85,17 +69,18 @@ jobs:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
         packageManager: ${{ job.packageManager }}
-    - checkout: none
-    - ${{ each repo in parameters.repos.cloneRepos }}:
-      - task: Bash@3
-        displayName: 'Clone ${{ repo.name }} @ ${{ repo.commit }}'
-        inputs:
-          targetType: inline
-          script: |
-            echo "Cloning ${{ repo.name }}..."
-            git clone ${{ repo.url }} ${{ repo.name }}
-            cd ${{ repo.name }}
-            git checkout ${{ repo.commit }}
+  # checkout triggering repo (either HIP or clr)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+  # if this is triggered by HIP repo, matching repo is clr
+  # if this is triggered by clr repo, matching repo is HIP
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: matching_repo
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: hipother_repo
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
@@ -155,17 +140,18 @@ jobs:
         pipModules: ${{ parameters.pipModules }}
         packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - checkout: none
-    - ${{ each repo in parameters.repos.cloneRepos }}:
-      - task: Bash@3
-        displayName: 'Clone ${{ repo.name }} @ ${{ repo.commit }}'
-        inputs:
-          targetType: inline
-          script: |
-            echo "Cloning ${{ repo.name }}..."
-            git clone ${{ repo.url }} ${{ repo.name }}
-            cd ${{ repo.name }}
-            git checkout ${{ repo.commit }}
+  # checkout triggering repo (either HIP or clr)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+  # if this is triggered by HIP repo, matching repo is clr
+  # if this is triggered by clr repo, matching repo is HIP
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: matching_repo
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: hipother_repo
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
