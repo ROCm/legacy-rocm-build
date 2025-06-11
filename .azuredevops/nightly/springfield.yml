@@ -92,6 +92,9 @@ jobs:
           export ROCM_PATH=$(Agent.BuildDirectory)/rocm
           export PATH=$PATH:$ROCM_PATH/bin
           export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROCM_PATH/lib:$ROCM_PATH/llvm/lib
+          echo "ROCM_PATH=$(Agent.BuildDirectory)/rocm"
+          echo "PATH=$PATH:$ROCM_PATH/bin"
+          echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROCM_PATH/lib:$ROCM_PATH/llvm/lib"
           echo "##vso[task.setvariable variable=ROCM_PATH]$ROCM_PATH"
           echo "##vso[task.prependpath]$ROCM_PATH/bin"
           echo "##vso[task.setvariable variable=LD_LIBRARY_PATH]$LD_LIBRARY_PATH"
