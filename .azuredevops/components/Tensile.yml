@@ -1,10 +1,29 @@
 parameters:
+- name: componentName
+  type: string
+  default: Tensile
 - name: checkoutRepo
   type: string
   default: 'self'
 - name: checkoutRef
   type: string
   default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -13,7 +32,6 @@ parameters:
 - name: aptPackages
   type: object
   default:
-    - python3-pip
     - cmake
     - libmsgpack-dev
     - libboost-program-options-dev
@@ -38,75 +56,97 @@ parameters:
 - name: jobMatrix
   type: object
   default:
+    buildJobs:
+      - { os: ubuntu2204, packageManager: apt }
+      - { os: almalinux8, packageManager: dnf }
     testJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
 
 jobs:
-- job: Tensile_build
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: ROCM_PATH
-    value: $(Agent.BuildDirectory)/rocm
-  pool:
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      pipModules: ${{ parameters.pipModules }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      aggregatePipeline: ${{ parameters.aggregatePipeline }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-  - task: Bash@3
-    displayName: Create wheel file
-    inputs:
-      targetType: inline
-      script: python3 setup.py bdist_wheel
-      workingDirectory: $(Build.SourcesDirectory)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-prepare-package.yml
-    parameters:
-      sourceDir: $(Build.SourcesDirectory)/dist
-      contentsString: '*.whl'
-      targetDir: $(Build.ArtifactStagingDirectory)
-      clean: false
-  - task: PublishPipelineArtifact@1
-    displayName: 'wheel file Publish'
-    retryCountOnTaskFailure: 3
-    inputs:
-      targetPath: $(Build.ArtifactStagingDirectory)
-  - task: Bash@3
-    displayName: Save pipeline artifact file names
-    inputs:
-      workingDirectory: $(Pipeline.Workspace)
-      targetType: inline
-      script: |
-        whlFile=$(find "$(Build.ArtifactStagingDirectory)" -type f -name "*.whl" | head -n 1)
-        if [ -n "$whlFile" ]; then
-          echo $(basename "$whlFile") >> pipelineArtifacts.txt
-        fi
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
-  #     pipModules: ${{ parameters.pipModules }}
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn: ${{ parameters.buildDependsOn[job.target] }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    pool:
+      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        os: ${{ job.os }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        os: ${{ job.os }}
+    - task: Bash@3
+      displayName: Create wheel file
+      inputs:
+        targetType: inline
+        script: python3 setup.py bdist_wheel
+        workingDirectory: $(Build.SourcesDirectory)
+    - task: Bash@3
+      displayName: Rename wheel file with job OS
+      inputs:
+        targetType: inline
+        workingDirectory: $(Build.SourcesDirectory)
+        script: |
+          wheelFile=$(find "$(Build.SourcesDirectory)/dist" -type f -name "*.whl" | head -n 1)
+          newWheelFile="$(basename "$wheelFile" .whl)-${{ job.os }}.whl"
+          mv "$wheelFile" "$(dirname "$wheelFile")/$newWheelFile"
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-prepare-package.yml
+      parameters:
+        sourceDir: $(Build.SourcesDirectory)/dist
+        contentsString: '*.whl'
+        targetDir: $(Build.ArtifactStagingDirectory)
+        clean: false
+    - task: PublishPipelineArtifact@1
+      displayName: 'wheel file Publish'
+      retryCountOnTaskFailure: 3
+      inputs:
+        targetPath: $(Build.ArtifactStagingDirectory)
+    - task: Bash@3
+      displayName: Save pipeline artifact file names
+      inputs:
+        workingDirectory: $(Pipeline.Workspace)
+        targetType: inline
+        script: |
+          whlFile=$(find "$(Build.ArtifactStagingDirectory)" -type f -name "*.whl" | head -n 1)
+          if [ -n "$whlFile" ]; then
+            echo $(basename "$whlFile") >> pipelineArtifacts.txt
+          fi
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}
+    #     pipModules: ${{ parameters.pipModules }}
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: Tensile_test_${{ job.target }}
+  - job: Tensile_test_${{ job.os }}_${{ job.target }}
     timeoutInMinutes: 180
-    dependsOn: Tensile_build
+    dependsOn: Tensile_build_${{ job.os }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -126,20 +166,23 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Pipeline Wheel Files'
       inputs:
-        itemPattern: '**/*.whl'
+        itemPattern: '**/*${{ job.os }}*.whl'
         targetPath: $(Agent.BuildDirectory)
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
+        os: ${{ job.os }}
         gpuTarget: ${{ job.target }}
     - task: Bash@3
       displayName: pip install
