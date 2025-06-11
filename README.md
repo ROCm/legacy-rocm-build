@@ -21,7 +21,7 @@ source software compilers, debuggers, and libraries. ROCm is fully integrated in
 
 ## Getting and Building ROCm from Source
 
-Please use [TheRock](https://github.com/ROCm/TheRock) build system to build ROCm from source. 
+Please use [TheRock](https://github.com/ROCm/TheRock) build system to build ROCm from source.
 
 ## ROCm documentation
 
