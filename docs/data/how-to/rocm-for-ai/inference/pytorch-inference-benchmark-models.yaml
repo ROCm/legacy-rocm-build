@@ -23,3 +23,11 @@ pytorch_inference_benchmark:
         model_repo: meta-llama/Llama-3.1-8B-Instruct
         url: https://huggingface.co/chaidiscovery/chai-1
         precision: float16
+    - group: Mochi Video
+      tag: mochi
+      models:
+      - model: Mochi 1
+        mad_tag: pyt_mochi_video_inference
+        model_repo: genmo/mochi-1-preview
+        url: https://huggingface.co/genmo/mochi-1-preview
+        precision: float16
