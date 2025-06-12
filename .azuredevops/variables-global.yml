@@ -80,7 +80,7 @@ variables:
 - name: HIPIFY_PIPELINE_ID
   value: 92
 - name: HIPRAND_PIPELINE_ID
-  value: 90
+  value: 275
 - name: HIPSOLVER_PIPELINE_ID
   value: 84
 - name: HIPSPARSE_PIPELINE_ID
@@ -150,7 +150,7 @@ variables:
 - name: ROCR_RUNTIME_PIPELINE_ID
   value: 10
 - name: ROCRAND_PIPELINE_ID
-  value: 95
+  value: 274
 - name: ROCSOLVER_PIPELINE_ID
   value: 81
 - name: ROCSPARSE_PIPELINE_ID

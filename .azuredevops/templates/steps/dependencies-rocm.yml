@@ -130,7 +130,7 @@ parameters:
     hipRAND:
       pipelineId: $(HIPRAND_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: develop
       hasGpuTarget: true
     hipSOLVER:
       pipelineId: $(HIPSOLVER_PIPELINE_ID)
@@ -305,7 +305,7 @@ parameters:
     rocRAND:
       pipelineId: $(ROCRAND_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: develop
       hasGpuTarget: true
     rocr_debug_agent:
       pipelineId: $(ROCR_DEBUG_AGENT_PIPELINE_ID)
