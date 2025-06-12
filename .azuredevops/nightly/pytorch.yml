@@ -402,8 +402,6 @@ jobs:
       itemPattern: '**/*.whl'
       targetPath: $(Agent.BuildDirectory)
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-    parameters:
-      dependencySource: staging
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
     parameters:
       dependencyList: ${{ parameters.rocmTestDependencies }}
