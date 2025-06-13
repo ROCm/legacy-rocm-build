@@ -264,7 +264,7 @@ parameters:
       hasGpuTarget: false
     rocPRIM:
       pipelineId: $(ROCPRIM_PIPELINE_ID)
-      stagingBranch: develop
+      stagingBranch: release-staging/rocm-rel-7.0
       mainlineBranch: develop
       hasGpuTarget: true
     rocprofiler:
