@@ -183,6 +183,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
         parameters:
           preTargetFilter: ${{ parameters.componentName }}
+          os: ${{ job.os }}
           gpuTarget: ${{ job.target }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
