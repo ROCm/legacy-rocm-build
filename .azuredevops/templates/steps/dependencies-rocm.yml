@@ -397,6 +397,7 @@ steps:
         ${{ if parameters.componentVarList[dependency].hasGpuTarget }}:
           gpuTarget: ${{ parameters.gpuTarget }}
         preTargetFilter: ${{ dependency }}
+        os: ${{ parameters.os }}
         buildType: current
   - ${{ else }}:
     - template: artifact-download.yml
