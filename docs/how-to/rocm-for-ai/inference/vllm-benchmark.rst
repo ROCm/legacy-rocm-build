@@ -109,7 +109,7 @@ LLM inference performance testing on AMD Instinct MI300X
    ==================================
 
    For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-   see the developer's guide at `<https://github.com/ROCm/vllm/blob/main/docs/dev-docker/README.md>`__.
+   see the developer's guide at `<https://github.com/ROCm/vllm/tree/8ad1c446b31c9a944d57215ec081ea781b18a0e5/docs/dev-docker>`__.
 
    Getting started
    ===============
