@@ -106,19 +106,19 @@ jobs:
       inputs:
         targetType: inline
         script: python3 setup.py bdist_wheel
-        workingDirectory: $(Build.SourcesDirectory)
+        workingDirectory: $(Agent.BuildDirectory)/s
     - task: Bash@3
       displayName: Rename wheel file with job OS
       inputs:
         targetType: inline
-        workingDirectory: $(Build.SourcesDirectory)
+        workingDirectory: $(Agent.BuildDirectory)/s
         script: |
-          wheelFile=$(find "$(Build.SourcesDirectory)/dist" -type f -name "*.whl" | head -n 1)
+          wheelFile=$(find "$(Agent.BuildDirectory)/s/dist" -type f -name "*.whl" | head -n 1)
           newWheelFile="$(basename "$wheelFile" .whl)-${{ job.os }}.whl"
           mv "$wheelFile" "$(dirname "$wheelFile")/$newWheelFile"
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-prepare-package.yml
       parameters:
-        sourceDir: $(Build.SourcesDirectory)/dist
+        sourceDir: $(Agent.BuildDirectory)/s/dist
         contentsString: '*.whl'
         targetDir: $(Build.ArtifactStagingDirectory)
         clean: false
@@ -207,7 +207,7 @@ jobs:
       inputs:
         targetType: inline
         script: tox run -v -e ci -- -m pre_checkin
-        workingDirectory: $(Build.SourcesDirectory)
+        workingDirectory: $(Agent.BuildDirectory)/s
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
