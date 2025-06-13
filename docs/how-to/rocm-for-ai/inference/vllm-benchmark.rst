@@ -109,7 +109,7 @@ LLM inference performance testing on AMD Instinct MI300X
    ==================================
 
    For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-   see the developer's guide at `<https://github.com/ROCm/vllm/blob/main/docs/dev-docker/README.md>`__.
+   see the developer's guide at `<https://github.com/ROCm/vllm/tree/8ad1c446b31c9a944d57215ec081ea781b18a0e5/docs/dev-docker>`__.
 
    Getting started
    ===============
@@ -335,7 +335,7 @@ for benchmarking, see the version-specific documentation.
      - 0.6.6
      - 2.7.0
      - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
+       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/inference/vllm-benchmark.html>`_
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_mi300_ubuntu22.04_py3.12_vllm_0.6.6/images/sha256-9a12ef62bbbeb5a4c30a01f702c8e025061f575aa129f291a49fbd02d6b4d6c9>`_
 
    * - 6.2.1
