@@ -26,7 +26,6 @@ parameters:
   default:
     - aomp
     - clr
-    - hipBLAS-common
     - hipBLASLt
     - llvm-project
     - rocBLAS
