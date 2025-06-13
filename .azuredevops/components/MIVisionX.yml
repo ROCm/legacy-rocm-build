@@ -43,18 +43,19 @@ parameters:
 - name: rocmDependencies
   type: object
   default:
-    - rocm-cmake
-    - llvm-project
-    - ROCR-Runtime
+    - AMDMIGraphX
     - clr
+    - half
+    - hipBLASLt
+    - llvm-project
+    - MIOpen
+    - rocBLAS
+    - rocDecode
+    - rocm-cmake
     - rocminfo
     - rocprofiler-register
-    - half
-    - rocBLAS
-    - MIOpen
-    - AMDMIGraphX
+    - ROCR-Runtime
     - rpp
-    - rocDecode
 - name: rocmTestDependencies
   type: object
   default:
@@ -90,8 +91,7 @@ jobs:
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
-    pool:
-      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
     workspace:
       clean: all
     steps:
