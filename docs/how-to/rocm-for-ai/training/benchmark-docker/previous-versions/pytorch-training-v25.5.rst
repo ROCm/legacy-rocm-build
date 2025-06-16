@@ -6,30 +6,36 @@
 Training a model with PyTorch for ROCm
 **************************************
 
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm vLLM
+   performance benchmark documentation. See :doc:`../pytorch-training` for the latest version.
+
 PyTorch is an open-source machine learning framework that is widely used for
 model training with GPU-optimized components for transformer-based models.
 
-The `PyTorch for ROCm training Docker <https://hub.docker.com/r/rocm/pytorch-training/tags>`_
-(``rocm/pytorch-training:v25.6``) image provides a prebuilt optimized environment for fine-tuning and pretraining a
-model on AMD Instinct MI325X and MI300X accelerators. It includes the following software components to accelerate
-training workloads:
+The `PyTorch for ROCm training Docker <https://hub.docker.com/layers/rocm/pytorch-training/v25.5/images/sha256-d47850a9b25b4a7151f796a8d24d55ea17bba545573f0d50d54d3852f96ecde5>`_
+(``rocm/pytorch-training:v25.5``) image
+provides a prebuilt optimized environment for fine-tuning and pretraining a
+model on AMD Instinct MI325X and MI300X accelerators. It includes the following
+software components to accelerate training workloads:
 
 +--------------------------+--------------------------------+
 | Software component       | Version                        |
 +==========================+================================+
-| ROCm                     | 6.4.1.60401-83~22.04           |
+| ROCm                     | 6.3.4                          |
 +--------------------------+--------------------------------+
-| PyTorch                  | 2.8.0a0+git7d205b2             |
+| PyTorch                  | 2.7.0a0+git637433              |
 +--------------------------+--------------------------------+
-| Python                   | 3.10.17                        |
+| Python                   | 3.10                           |
 +--------------------------+--------------------------------+
-| Transformer Engine       | 1.14.0+2f85f5f2                |
+| Transformer Engine       | 1.12.0.dev0+25a33da            |
 +--------------------------+--------------------------------+
-| Flash Attention          | 3.0.0.post1                    |
+| Flash Attention          | 3.0.0                          |
 +--------------------------+--------------------------------+
-| hipBLASLt                | 0.15.0-8c6919d                 |
+| hipBLASLt                | git53b53bf                     |
 +--------------------------+--------------------------------+
-| Triton                   | 3.3.0                          |
+| Triton                   | 3.2.0                          |
 +--------------------------+--------------------------------+
 
 .. _amd-pytorch-training-model-support:
@@ -39,57 +45,22 @@ Supported models
 
 The following models are pre-optimized for performance on the AMD Instinct MI325X and MI300X accelerators.
 
+* Llama 3.3 70B
+
+* Llama 3.1 8B
+
+* Llama 3.1 70B
+
+* Llama 2 70B
+
+* FLUX.1-dev
+
 .. note::
 
    Only these models are supported in the following steps.
 
    Some models, such as Llama 3, require an external license agreement through
    a third party (for example, Meta).
-
-For pre-training
------------------
-
-.. list-table::
-   :header-rows: 1
-
-   * - Model
-     - Variants
-
-   * - Llama 3.1
-     - 8B, 70B
-
-   * - FLUX.1-dev
-     - 
-
-For fine-tuning
----------------
-
-.. list-table::
-   :header-rows: 1
-
-   * - Model
-     - Variants
-
-   * - Llama 4
-     - 17B_16E
-
-   * - Llama 3.3
-     - 70B
-
-   * - Llama 3.2
-     - 1B, 3B
-
-   * - Llama 3.2 Vision
-     - 11B, 90B
-
-   * - Llama 3.1
-     - 8B, 70B, 405B
-
-   * - Llama 3
-     - 8B, 70B
-
-   * - Llama 2
-     - 7B, 13B, 70B
 
 .. _amd-pytorch-training-performance-measurements:
 
@@ -464,39 +435,3 @@ Once the setup is complete, choose between two options to start benchmarking:
 
            ./pytorch_benchmark_report.sh -t HF_finetune_lora -p BF16 -m Llama-2-70B
 
-Previous versions
-=================
-
-This table lists previous versions of the ROCm PyTorch training Docker image for training
-performance validation. For detailed information about available models for
-benchmarking, see the version-specific documentation.
-
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-
-   * - Image version
-     - ROCm version
-     - PyTorch version
-     - Resources
-
-   * - v25.5
-     - 6.3.4
-     - 2.7.0a0+git637433
-     - 
-       * :doc:`Documentation <previous-versions/pytorch-training-v25.5>`
-       * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-training/v25.5/images/sha256-d47850a9b25b4a7151f796a8d24d55ea17bba545573f0d50d54d3852f96ecde5>`_
-
-   * - v25.4
-     - 6.3.0
-     - 2.7.0a0+git637433
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.3/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-training/v25.4/images/sha256-fa98a9aa69968e654466c06f05aaa12730db79b48b113c1ab4f7a5fe6920a20b>`_
-
-   * - v25.3
-     - 6.3.0
-     - 2.7.0a0+git637433
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-training/v25.3/images/sha256-0ffdde1b590fd2787b1c7adf5686875b100980b0f314090901387c44253e709b>`_
