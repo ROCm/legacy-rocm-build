@@ -1,4 +1,4 @@
-vllm_benchmark:
+pytorch-training_benchmark:
   unified_docker:
     latest:
       pull_tag: rocm/vllm:rocm6.3.1_vllm0.8.5_20250521
