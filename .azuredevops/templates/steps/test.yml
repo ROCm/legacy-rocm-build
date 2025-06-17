@@ -1,19 +1,19 @@
 parameters:
-- name: os
-  type: string
-  default: 'ubuntu2204'
 - name: componentName
   type: string
   default: ''
+- name: os
+  type: string
+  default: ubuntu2204
 - name: testDir
   type: string
-  default: 'build'
+  default: build
 - name: testExecutable
   type: string
-  default: 'ctest'
+  default: ctest
 - name: testParameters
   type: string
-  default: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml'
+  default: --output-on-failure --force-new-ctest-process --output-junit test_output.xml
 - name: extraTestParameters
   type: string
   default: ''
@@ -22,7 +22,7 @@ parameters:
   default: test_output.xml
 - name: testOutputFormat
   type: string
-  default: 'JUnit'
+  default: JUnit
   values:
     - JUnit
     - NUnit
@@ -32,31 +32,28 @@ parameters:
 - name: testPublishResults
   type: boolean
   default: true
-- name: allowPartiallySucceededBuilds
+- name: allowComponentTestFailure
   type: object
   default:
     - amdsmi
-    - aomp
     - HIPIFY
-    - MIVisionX
     - rocm_smi_lib
-    - rocprofiler-sdk
     - roctracer
+    # the following do not use this template but allow test failures, included for completeness
+    - aomp
+    - ROCgdb
 
 steps:
 # run test, continue on failure to publish results
 # and to publish build artifacts
 - task: Bash@3
   displayName: '${{ parameters.componentName }} Test'
-  continueOnError: ${{ containsValue(parameters.allowPartiallySucceededBuilds, parameters.componentName) }}
+  continueOnError: ${{ containsValue(parameters.allowComponentTestFailure, parameters.componentName) }}
   inputs:
     targetType: inline
-    ${{ if ne(parameters.os, 'almalinux8') }}:
-      script: ${{ parameters.testExecutable }} ${{ parameters.testParameters }} ${{ parameters.extraTestParameters }}
-    ${{ else }}:
-      script: |
-        source /opt/rh/gcc-toolset-14/enable
-        ${{ parameters.testExecutable }} ${{ parameters.testParameters }} ${{ parameters.extraTestParameters }}
+    script: |
+      ${{ iif(eq(parameters.os, 'almalinux8'), 'source /opt/rh/gcc-toolset-14/enable', '') }}
+      ${{ parameters.testExecutable }} ${{ parameters.testParameters }} ${{ parameters.extraTestParameters }}
     workingDirectory: ${{ parameters.testDir }}
 - ${{ if parameters.testPublishResults }}:
   - task: PublishTestResults@2

@@ -105,7 +105,7 @@ jobs:
       parameters:
         componentName: rocm_smi_lib
         testDir: '$(Agent.BuildDirectory)'
-        testExecutable: './rocm/share/rocm_smi/rsmitst_tests/rsmitst'
+        testExecutable: 'sudo ./rocm/share/rocm_smi/rsmitst_tests/rsmitst'
         testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes'
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml

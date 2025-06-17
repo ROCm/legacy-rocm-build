@@ -104,7 +104,7 @@ jobs:
       parameters:
         componentName: amdsmi
         testDir: '$(Agent.BuildDirectory)'
-        testExecutable: './rocm/share/amd_smi/tests/amdsmitst'
+        testExecutable: 'sudo ./rocm/share/amd_smi/tests/amdsmitst'
         testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes'
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
