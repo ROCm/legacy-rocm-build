@@ -46,6 +46,40 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
    Some models, such as Llama 3, require an external license agreement through
    a third party (for example, Meta).
 
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
+
+   {% set unified_docker = data.pytorch-training_benchmark.unified_docker.latest %}
+   {% set model_groups = data.pytorch-training_benchmark.model_groups %}
+
+   .. raw:: html
+
+      <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
+        <div class="row">
+          <div class="col-2 me-2 model-param-head">Model group</div>
+          <div class="row col-10">
+   {% for model_group in model_groups %}
+            <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+   {% endfor %}
+          </div>
+        </div>
+
+        <div class="row mt-1">
+          <div class="col-2 me-2 model-param-head">Model</div>
+          <div class="row col-10">
+   {% for model_group in model_groups %}
+      {% set models = model_group.models %}
+      {% for model in models %}
+         {% if models|length % 3 == 0 %}
+            <div class="col-4 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+         {% else %}
+            <div class="col-6 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+         {% endif %}
+      {% endfor %}
+   {% endfor %}
+          </div>
+        </div>
+      </div>
+
 For pre-training
 -----------------
 
