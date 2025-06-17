@@ -18,6 +18,7 @@ parameters:
     - libdrm-dev
     - libdw-dev
     - libelf-dev
+    - libsqlite3-dev
     - libva-dev
     - ninja-build
     - pkg-config
