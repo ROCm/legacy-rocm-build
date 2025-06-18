@@ -38,5 +38,5 @@ The variable parsing stops when a syntax error occurs. The erroneous set and the
 
     These environment variables only affect ROCm software, not graphics applications.
 
-Not all CU configurations are valid on all devices. For example, on devices where two CUs can be combined into a WGP (for kernels running in WGP mode), it’s not valid to disable only a single CU in a WGP. For more information about what to expect when disabling CUs, see the `Exploring AMD GPU Scheduling Details by Experimenting With “Worst Practices” <https://www.cs.unc.edu/~otternes/papers/rtsj2022.pdf>`_ paper.
+Not all CU configurations are valid on all devices. For example, on devices where two CUs can be combined into a WGP (for kernels running in WGP mode), it’s not valid to disable only a single CU in a WGP.
 
