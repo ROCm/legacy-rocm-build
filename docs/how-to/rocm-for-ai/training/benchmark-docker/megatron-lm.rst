@@ -749,12 +749,5 @@ The benchmark tests support the following sets of variables.
 Previous versions
 =================
 
-This table lists previous versions of the ROCm Megatron-LM Docker image for training
-performance testing. For detailed information about available models for
-benchmarking, see the version-specific documentation.
-
-Previous versions
-=================
-
-See :doc:`previous-versions/vllm-history` to find documentation for previous releases
+See :doc:`previous-versions/megatron-lm-history` to find documentation for previous releases
 of the `ROCm/megatron-lm <https://hub.docker.com/r/rocm/megatron-lm/tags>`_ Docker image.

@@ -343,4 +343,5 @@ Further reading
 Previous versions
 =================
 
-:doc:`previous-versions/index`
+See :doc:`previous-versions/vllm-history` to find documentation for previous releases
+of the `ROCm/vllm <https://hub.docker.com/r/rocm/vllm/tags>`_ Docker image.
