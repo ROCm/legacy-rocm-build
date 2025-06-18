@@ -96,22 +96,22 @@ parameters:
     testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
-- name: downstreamComponentMatrix
-  type: object
-  default:
-    # rocSOLVER depends on both rocBLAS and rocPRIM
-    # for a unified build, rocBLAS will be the one to call rocSOLVER
-    - rocSOLVER:
-      name: rocSOLVER
-      sparseCheckoutDir: projects/rocsolver
-      skipUnifiedBuild: 'false'
-      buildDependsOn:
-        - rocBLAS_build
-      unifiedBuild:
-        downstreamAggregateNames: rocBLAS+rocPRIM
-        buildDependsOn:
-          - rocBLAS_build
-          - rocPRIM_build
+# - name: downstreamComponentMatrix
+#   type: object
+#   default:
+#     # rocSOLVER depends on both rocBLAS and rocPRIM
+#     # for a unified build, rocBLAS will be the one to call rocSOLVER
+#     - rocSOLVER:
+#       name: rocSOLVER
+#       sparseCheckoutDir: projects/rocsolver
+#       skipUnifiedBuild: 'false'
+#       buildDependsOn:
+#         - rocBLAS_build
+#       unifiedBuild:
+#         downstreamAggregateNames: rocBLAS+rocPRIM
+#         buildDependsOn:
+#           - rocBLAS_build
+#           - rocPRIM_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
@@ -258,18 +258,18 @@ jobs:
           environment: test
           gpuTarget: ${{ job.target }}
 
-- ${{ if parameters.triggerDownstreamJobs }}:
-  - ${{ each component in parameters.downstreamComponentMatrix }}:
-    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
-      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
-        parameters:
-          checkoutRepo: ${{ parameters.checkoutRepo }}
-          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
-          triggerDownstreamJobs: true
-          unifiedBuild: ${{ parameters.unifiedBuild }}
-          ${{ if parameters.unifiedBuild }}:
-            buildDependsOn: ${{ component.unifiedBuild.buildDependsOn }}
-            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ component.unifiedBuild.downstreamAggregateNames }}
-          ${{ else }}:
-            buildDependsOn: ${{ component.buildDependsOn }}
-            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+# - ${{ if parameters.triggerDownstreamJobs }}:
+#   - ${{ each component in parameters.downstreamComponentMatrix }}:
+#     - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+#       - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+#         parameters:
+#           checkoutRepo: ${{ parameters.checkoutRepo }}
+#           sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+#           triggerDownstreamJobs: true
+#           unifiedBuild: ${{ parameters.unifiedBuild }}
+#           ${{ if parameters.unifiedBuild }}:
+#             buildDependsOn: ${{ component.unifiedBuild.buildDependsOn }}
+#             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ component.unifiedBuild.downstreamAggregateNames }}
+#           ${{ else }}:
+#             buildDependsOn: ${{ component.buildDependsOn }}
+#             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
