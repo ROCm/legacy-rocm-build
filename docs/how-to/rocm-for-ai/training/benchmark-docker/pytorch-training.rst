@@ -48,8 +48,7 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
 
-   {% set unified_docker = data.pytorch-training_benchmark.unified_docker.latest %}
-   {% set model_groups = data.pytorch-training_benchmark.model_groups %}
+   {% set model_groups = data.model_groups %}
 
    .. raw:: html
 
@@ -79,51 +78,6 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
           </div>
         </div>
       </div>
-
-For pre-training
------------------
-
-.. list-table::
-   :header-rows: 1
-
-   * - Model
-     - Variants
-
-   * - Llama 3.1
-     - 8B, 70B
-
-   * - FLUX.1-dev
-     - 
-
-For fine-tuning
----------------
-
-.. list-table::
-   :header-rows: 1
-
-   * - Model
-     - Variants
-
-   * - Llama 4
-     - 17B_16E
-
-   * - Llama 3.3
-     - 70B
-
-   * - Llama 3.2
-     - 1B, 3B
-
-   * - Llama 3.2 Vision
-     - 11B, 90B
-
-   * - Llama 3.1
-     - 8B, 70B, 405B
-
-   * - Llama 3
-     - 8B, 70B
-
-   * - Llama 2
-     - 7B, 13B, 70B
 
 .. _amd-pytorch-training-performance-measurements:
 
