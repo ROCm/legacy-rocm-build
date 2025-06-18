@@ -199,12 +199,9 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
 
             ./pytorch_benchmark_setup.sh
 
-   {% for model_group in model_groups %}
-      {% for model in model_group.models %}
-
          .. container:: model-doc pyt_train_llama-3.1-8b
 
-            ``pytorch_benchmark_setup.sh`` installs the following libraries for the {{ model.model }} model:
+            ``pytorch_benchmark_setup.sh`` installs the following libraries for Llama 3.1 8B:
 
             .. list-table::
                :header-rows: 1
@@ -220,7 +217,7 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
 
          .. container:: model-doc pyt_train_llama-3.1-70b
 
-            ``pytorch_benchmark_setup.sh`` installs the following libraries for the {{ model.model }} model:
+            ``pytorch_benchmark_setup.sh`` installs the following libraries for Llama 3.1 70B:
 
             .. list-table::
                :header-rows: 1
@@ -257,7 +254,7 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
 
          .. container:: model-doc pyt_train_flux
 
-            ``pytorch_benchmark_setup.sh`` installs the following libraries for the {{ model.model }} model:
+            ``pytorch_benchmark_setup.sh`` installs the following libraries for FLUX:
 
             .. list-table::
                :header-rows: 1
@@ -310,17 +307,15 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
                * - ``transformers``
                  - `Transformers <https://huggingface.co/docs/transformers/en/index>`_ 4.47.0
 
-      {% endfor %}
-   {% endfor %}
-
          ``pytorch_benchmark_setup.sh`` downloads the following datasets from Hugging Face:
 
          * `bghira/pseudo-camera-10k <https://huggingface.co/datasets/bghira/pseudo-camera-10k>`_
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
+         {% if model_group.tag == "pre-training" and model.mad_tag in ["pyt_train_llama-3.1-8b", "pyt_train_llama-3.1-70b", "pyt_train_flux"] %}
 
-         .. container:: model-doc pyt_vllm_llama-3.1-8b pyt_vllm_llama-3.1-70b pyt_train_flux
+         .. container:: model-doc {{ model.mad_tag }}
 
             .. rubric:: Pretraining
 
@@ -329,7 +324,53 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
 
             .. code-block:: shell
 
-               ./pytorch_benchmark_report.sh -t $training_mode -m {{ model.model_repo }} -p $datatype -s $sequence_length
+               ./pytorch_benchmark_report.sh -t pretrain -m {{ model.model_repo }} -p $datatype -s $sequence_length
+
+            .. list-table::
+               :header-rows: 1
+
+               * - Name
+                 - Options
+                 - Description
+
+            {% if model.mad_tag == "pyt_train_llama-3.1-8b" %}
+               * - ``$datatype``
+                 - ``BF16`` or ``FP8``
+                 - Only Llama 3.1 8B supports FP8 precision.
+            {% else %}
+               * - ``$datatype``
+                 - ``BF16``
+                 - Only Llama 3.1 8B supports FP8 precision.
+            {% endif %}
+
+               * - ``$sequence_length``
+                 - Sequence length for the language model.
+                 - Between 2048 and 8192. 8192 by default.
+
+            {% if model.mad_tag == "pyt_train_flux" %}
+            .. container:: model-doc {{ model.mad_tag }}
+
+               .. note::
+
+                  Occasionally, downloading the Flux dataset might fail. In the event of this
+                  error, manually download it from Hugging Face at
+                  `black-forest-labs/FLUX.1-dev <https://huggingface.co/black-forest-labs/FLUX.1-dev>`_
+                  and save it to `/workspace/FluxBenchmark`. This ensures that the test script can access
+                  the required dataset.
+            {% endif %}
+         {% endif %}
+
+         {% if model_group.tag == "fine-tuning" %}
+         .. container:: model-doc {{ model.mad_tag }}
+
+            .. rubric:: Fine-tuning
+
+            To start the fine-tuning benchmark, use the following command with the
+            appropriate options. See the following list of options and their descriptions.
+
+            .. code-block:: shell
+
+               ./pytorch_benchmark_report.sh -t $training_mode -m {{ model.model_repo }} -p BF16 -s $sequence_length
 
             .. list-table::
                :header-rows: 1
@@ -339,117 +380,52 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
                  - Description
 
                * - ``$training_mode``
-                 - ``pretrain``
-                 - Benchmark pretraining
-
-               * -
                  - ``finetune_fw``
-                 - Benchmark full weight fine-tuning (Llama 3.1 70B with BF16)
+                 - Full weight fine-tuning (BF16 supported)
 
                * -
                  - ``finetune_lora``
-                 - Benchmark LoRA fine-tuning (Llama 3.1 70B with BF16)
+                 - LoRA fine-tuning (BF16 supported)
+
+               * -
+                 - ``finetune_qlora``
+                 - QLoRA fine-tuning (BF16 supported)
 
                * -
                  - ``HF_finetune_lora``
-                 - Benchmark LoRA fine-tuning with Hugging Face PEFT (Llama 2 70B with BF16)
+                 - LoRA fine-tuning with Hugging Face PEFT
 
                * - ``$datatype``
-                 - ``FP8`` or ``BF16``
-                 - Only Llama 3.1 8B supports FP8 precision.
+                 - ``BF16``
+                 - All models support BF16.
 
                * - ``$sequence_length``
+                 - Between 2048 and 16384.
                  - Sequence length for the language model.
-                 - Between 2048 and 8192. 8192 by default.
 
-            .. container:: model-doc pyt_train_flux
+            .. note::
 
-               .. note::
+               {{ model.model }} currently supports the following fine-tuning methods:
 
-                  Occasionally, downloading the Flux dataset might fail. In the event of this
-                  error, manually download it from Hugging Face at
-                  `black-forest-labs/FLUX.1-dev <https://huggingface.co/black-forest-labs/FLUX.1-dev>`_
-                  and save it to `/workspace/FluxBenchmark`. This ensures that the test script can access
-                  the required dataset.
+            {% for method in model.training_modes %}
+               * ``{{ method }}``
+            {% endfor %}
+            {% if model.training_modes|length < 3 %}
 
-         .. container:: model-doc pyt_vllm_llama-3.1-8b pyt_vllm_llama-3.1-70b pyt_train_flux
-
-            .. rubric:: Fine-tuning
-
-            To start the fine-tuning benchmark, use the following command. It will run the benchmarking example of Llama 3.1 70B
-            with the WikiText dataset using the AMD fork of `torchtune <https://github.com/AMD-AIG-AIMA/torchtune>`_.
-
-            .. code-block:: shell
-
-               ./pytorch_benchmark_report.sh -t {finetune_fw, finetune_lora} -p BF16 -m Llama-3.1-70B
-
-            Use the following command to run the benchmarking example of Llama 2 70B with the UltraChat 200k dataset using
-            `Hugging Face PEFT <https://huggingface.co/docs/peft/en/index>`_.
-
-            .. code-block:: shell
-
-               ./pytorch_benchmark_report.sh -t HF_finetune_lora -p BF16 -m Llama-2-70B
-
-            .. rubric:: Benchmarking examples
-
-            Here are some example commands to get started pretraining and fine-tuning with various model configurations.
-
-            * Example 1: Llama 3.1 70B with BF16 precision with `torchtitan <https://github.com/ROCm/torchtitan>`_.
-
-              .. code-block:: shell
-
-                 ./pytorch_benchmark_report.sh -t pretrain -p BF16 -m Llama-3.1-70B -s 8192
-
-            * Example 2: Llama 3.1 8B with FP8 precision using Transformer Engine (TE) and Hugging Face Accelerator.
-
-              .. code-block:: shell
-
-                 ./pytorch_benchmark_report.sh -t pretrain -p FP8 -m Llama-3.1-70B -s 8192
-
-            * Example 3: FLUX.1-dev with BF16 precision with FluxBenchmark.
-
-              .. code-block:: shell
-
-                 ./pytorch_benchmark_report.sh -t pretrain -p BF16 -m Flux
-
-            * Example 4: Torchtune full weight fine-tuning with Llama 3.1 70B
-
-              .. code-block:: shell
-
-                 ./pytorch_benchmark_report.sh -t finetune_fw -p BF16 -m Llama-3.1-70B
-
-            * Example 5: Torchtune LoRA fine-tuning with Llama 3.1 70B
-
-              .. code-block:: shell
-
-                 ./pytorch_benchmark_report.sh -t finetune_lora -p BF16 -m Llama-3.1-70B
-
-            * Example 6: Torchtune full weight fine-tuning with Llama-3.3-70B
-
-              .. code-block:: shell
-
-                 ./pytorch_benchmark_report.sh -t finetune_fw -p BF16 -m Llama-3.3-70B
-
-            * Example 7: Torchtune LoRA fine-tuning with Llama-3.3-70B
-
-              .. code-block:: shell
-
-                 ./pytorch_benchmark_report.sh -t finetune_lora -p BF16 -m Llama-3.3-70B
-
-            * Example 8: Torchtune QLoRA fine-tuning with Llama-3.3-70B
-
-              .. code-block:: shell
-
-                 ./pytorch_benchmark_report.sh -t finetune_qlora -p BF16 -m Llama-3.3-70B
-
-            * Example 9: Hugging Face PEFT LoRA fine-tuning with Llama 2 70B
-
-              .. code-block:: shell
-
-                 ./pytorch_benchmark_report.sh -t HF_finetune_lora -p BF16 -m Llama-2-70B
-
+               The upstream `torchtune <https://github.com/pytorch/torchtune>`_ repository
+               does not currently provide YAML configuration files for other combinations of
+               model to fine-tuning method
+               However, you can still configure your own YAML files to enable support for
+               fine-tuning methods not listed here by following existing patterns in the
+               ``/workspace/torchtune/recipes/configs`` directory.
+            {% endif %}
+         {% endif %}
       {% endfor %}
    {% endfor %}
+
+               .. rubric:: Benchmarking examples
+
+               For examples of benchmarking commands, see `<https://github.com/ROCm/MAD/tree/develop/benchmark/pytorch_train#benchmarking-examples>`__.
 
 Previous versions
 =================
