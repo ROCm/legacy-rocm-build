@@ -410,7 +410,7 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
             {% for method in model.training_modes %}
                * ``{{ method }}``
             {% endfor %}
-            {% if model.training_modes|length < 3 %}
+            {% if model.training_modes|length < 4 %}
 
                The upstream `torchtune <https://github.com/pytorch/torchtune>`_ repository
                does not currently provide YAML configuration files for other combinations of
