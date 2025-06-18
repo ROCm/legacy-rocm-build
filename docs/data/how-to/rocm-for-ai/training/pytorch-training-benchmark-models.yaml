@@ -10,94 +10,94 @@ unified_docker:
     hipblaslt_version: 0.15.0-8c6919d
     triton_version: 3.3.0
 model_groups:
-  - group: pre-training
+  - group: Pre-training
     tag: pre-training
     models:
     - model: Llama 3.1 8B
-      mad_tag: pyt_vllm_llama-3.1-8b
-      model_repo: meta-llama/Llama-3.1-8B-Instruct
-      url: https://huggingface.co/meta-llama/Llama-3.1-8B
-      precision: bf16
-    - model: Llama 3.1 70B
-      mad_tag: pyt_vllm_llama-3.1-70b
-      model_repo: meta-llama/Llama-3.1-70B-Instruct
-      url: https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
-      precision: bf16
-    - model: FLUX.1-dev
-      mad_tag: pyt_train_flux
-      model_repo: 
-      url: 
-      precision: bf16
-  - group: fine-tuning
-    tag: fine-tuning
-    models:
-    - model: Llama 4 17B_16E
-      mad_tag: pyt_train_llama-4-scout-17b-16e
-      model_repo: 
-      url: 
-      precision: bf16
-    - model: Llama 3.3 70B
-      mad_tag: pyt_train_llama-3.3-70b
-      model_repo: 
-      url: 
-      precision: bf16
-    - model: Llama 3.2 1B
-      mad_tag: pyt_train_llama-3.2-1b
-      model_repo: 
-      url: 
-      precision: bf16
-    - model: Llama 3.2 3B
-      mad_tag: pyt_train_llama-3.2-3b
-      model_repo: 
-      url: 
-      precision: bf16
-    - model: Llama 3.2 Vision 11B
-      mad_tag: pyt_train_llama-3.2-vision-11b
-      model_repo: 
-      url: 
-      precision: bf16
-    - model: Llama 3.2 Vision 90B
-      mad_tag: pyt_train_llama-3.2-vision-90b
-      model_repo: 
-      url: 
-      precision: bf16
-    - model: Llama 3.1 8B
       mad_tag: pyt_train_llama-3.1-8b
-      model_repo: 
-      url: 
-      precision: bf16
+      model_repo: Llama-3.1-8B
+      url: https://huggingface.co/meta-llama/Llama-3.1-8B
+      precision: BF16
     - model: Llama 3.1 70B
       mad_tag: pyt_train_llama-3.1-70b
-      model_repo: 
-      url: 
-      precision: bf16
+      model_repo: Llama-3.1-70B
+      url: https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
+      precision: BF16
+    - model: FLUX.1-dev
+      mad_tag: pyt_train_flux
+      model_repo: Flux
+      url: https://huggingface.co/black-forest-labs/FLUX.1-dev
+      precision: BF16
+  - group: Fine-tuning
+    tag: fine-tuning
+    models:
+    - model: Llama 4 Scout 17B-16E
+      mad_tag: pyt_train_llama-4-scout-17b-16e
+      model_repo: Llama-4-17B_16E
+      url: https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E
+      precision: BF16
+    - model: Llama 3.3 70B
+      mad_tag: pyt_train_llama-3.3-70b
+      model_repo: Llama-3.3-70B
+      url: https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
+      precision: BF16
+    - model: Llama 3.2 1B
+      mad_tag: pyt_train_llama-3.2-1b
+      model_repo: Llama-3.2-1B
+      url: https://huggingface.co/meta-llama/Llama-3.2-1B
+      precision: BF16
+    - model: Llama 3.2 3B
+      mad_tag: pyt_train_llama-3.2-3b
+      model_repo: Llama-3.2-3B
+      url: https://huggingface.co/meta-llama/Llama-3.2-3B
+      precision: BF16
+    - model: Llama 3.2 Vision 11B
+      mad_tag: pyt_train_llama-3.2-vision-11b
+      model_repo: Llama-3.2-Vision-11B
+      url: https://huggingface.co/meta-llama/Llama-3.2-11B-Vision
+      precision: BF16
+    - model: Llama 3.2 Vision 90B
+      mad_tag: pyt_train_llama-3.2-vision-90b
+      model_repo: Llama-3.2-Vision-90B
+      url: https://huggingface.co/meta-llama/Llama-3.2-90B-Vision
+      precision: BF16
+    - model: Llama 3.1 8B
+      mad_tag: pyt_train_llama-3.1-8b
+      model_repo: Llama-3.1-8B
+      url: https://huggingface.co/meta-llama/Llama-3.1-8B
+      precision: BF16
+    - model: Llama 3.1 70B
+      mad_tag: pyt_train_llama-3.1-70b
+      model_repo: Llama-3.1-70B
+      url: https://huggingface.co/meta-llama/Llama-3.1-70B
+      precision: BF16
     - model: Llama 3.1 405B
       mad_tag: pyt_train_llama-3.1-405b
-      model_repo: 
-      url: 
-      precision: bf16
+      model_repo: Llama-3.1-405B
+      url: https://huggingface.co/meta-llama/Llama-3.1-405B
+      precision: BF16
     - model: Llama 3 8B
       mad_tag: pyt_train_llama-3-8b
-      model_repo: 
-      url: 
-      precision: bf16
+      model_repo: Llama-3-8B
+      url: https://huggingface.co/meta-llama/Meta-Llama-3-8B
+      precision: BF16
     - model: Llama 3 70B
       mad_tag: pyt_train_llama-3-70b
-      model_repo: 
-      url: 
-      precision: bf16
+      model_repo: Llama-3-70B
+      url: https://huggingface.co/meta-llama/Meta-Llama-3-70B
+      precision: BF16
     - model: Llama 2 7B
       mad_tag: pyt_train_llama-2-7b
-      model_repo: 
-      url: 
-      precision: bf16
+      model_repo: Llama-2-7B
+      url: https://github.com/meta-llama/llama-models/tree/main/models/llama2
+      precision: BF16
     - model: Llama 2 13B
       mad_tag: pyt_train_llama-2-13b
-      model_repo: 
-      url: 
-      precision: bf16
+      model_repo: Llama-2-13B
+      url: https://github.com/meta-llama/llama-models/tree/main/models/llama2
+      precision: BF16
     - model: Llama 2 70B
       mad_tag: pyt_train_llama-2-70b
-      model_repo: 
-      url: 
-      precision: bf16
+      model_repo: Llama-2-70B
+      url: https://github.com/meta-llama/llama-models/tree/main/models/llama2
+      precision: BF16
