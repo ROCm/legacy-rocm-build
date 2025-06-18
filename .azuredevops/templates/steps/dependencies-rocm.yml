@@ -438,14 +438,14 @@ steps:
       targetType: inline
       script: |
         sudo mkdir -p $(Agent.BuildDirectory)/rocm/lib
-        sudo ln -s $(Agent.BuildDirectory)/rocm/llvm $(Agent.BuildDirectory)/rocm/lib/llvm
+        sudo ln -sr $(Agent.BuildDirectory)/rocm/llvm $(Agent.BuildDirectory)/rocm/lib/llvm
   - task: Bash@3
     displayName: Symlink executables from rocm/llvm/bin to rocm/bin
     inputs:
       targetType: inline
       script: |
         for file in amdclang amdclang++ amdclang-cl amdclang-cpp amdflang amdlld aompcc mygpu mycpu offload-arch; do
-          sudo ln -s $(Agent.BuildDirectory)/rocm/llvm/bin/$file $(Agent.BuildDirectory)/rocm/bin/$file
+          sudo ln -sr $(Agent.BuildDirectory)/rocm/llvm/bin/$file $(Agent.BuildDirectory)/rocm/bin/$file
         done
 # dlopen calls within a ctest or pytest sequence runs into issues when shared library symlink convention is not followed
 # the convention is as follows:

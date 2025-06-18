@@ -3,12 +3,21 @@ parameters:
 - name: jobList
   type: object
   default:
-    - gfx942-staging:
-      target: gfx942
-      source: staging
-    - gfx90a-staging:
-      target: gfx90a
-      source: staging
+    - { os: ubuntu2204, target: gfx942, source: staging }
+    - { os: ubuntu2204, target: gfx90a, source: staging }
+    - { os: ubuntu2204, target: gfx1201, source: staging }
+    - { os: ubuntu2204, target: gfx1100, source: staging }
+    - { os: ubuntu2204, target: gfx1030, source: staging }
+    - { os: ubuntu2404, target: gfx942, source: staging }
+    - { os: ubuntu2404, target: gfx90a, source: staging }
+    - { os: ubuntu2404, target: gfx1201, source: staging }
+    - { os: ubuntu2404, target: gfx1100, source: staging }
+    - { os: ubuntu2404, target: gfx1030, source: staging }
+    - { os: almalinux8, target: gfx942, source: staging }
+    - { os: almalinux8, target: gfx90a, source: staging }
+    - { os: almalinux8, target: gfx1201, source: staging }
+    - { os: almalinux8, target: gfx1100, source: staging }
+    - { os: almalinux8, target: gfx1030, source: staging }
 - name: rocmDependencies
   type: object
   default:
@@ -16,9 +25,9 @@ parameters:
     - amdsmi
     - aomp-extras
     - aomp
+    - clr
     - composable_kernel
     - half
-    - HIP
     - hip-tests
     - hipBLAS
     - hipBLAS-common
@@ -83,7 +92,7 @@ schedules:
 
 jobs:
 - ${{ each job in parameters.jobList }}:
-  - job: rocm_nightly_${{ job.target }}_${{ job.source }}
+  - job: rocm_nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -108,9 +117,9 @@ jobs:
       parameters:
         dependencySource: ${{ job.source }}
         dependencyList: ${{ parameters.rocmDependencies }}
+        os: ${{ job.os }}
         gpuTarget: ${{ job.target }}
         skipLibraryLinking: true
-        skipLlvmSymlink: true
     - script: df -h
       displayName: System disk space after ROCm
     - script: du -sh $(Agent.BuildDirectory)/rocm
