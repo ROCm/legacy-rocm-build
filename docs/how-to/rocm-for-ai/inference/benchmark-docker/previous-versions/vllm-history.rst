@@ -22,14 +22,14 @@ previous releases of the ``ROCm/vllm`` Docker image on `Docker Hub <https://hub.
      - 0.8.5
      - 2.7.0
      - 
-       * :doc:`Documentation <previous-versions/vllm-0.8.5-20250513>`
+       * :doc:`Documentation <vllm-0.8.5-20250513>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_vllm_0.8.5_20250513/images/sha256-5c8b4436dd0464119d9df2b44c745fadf81512f18ffb2f4b5dc235c71ebe26b4>`_
 
    * - 6.3.1
      - 0.8.3
      - 2.7.0
      - 
-       * :doc:`Documentation <previous-versions/vllm-0.8.3-20250415>`
+       * :doc:`Documentation <vllm-0.8.3-20250415>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.8.3_20250415/images/sha256-ad9062dea3483d59dedb17c67f7c49f30eebd6eb37c3fac0a171fb19696cc845>`_
 
    * - 6.3.1
@@ -50,12 +50,12 @@ previous releases of the ``ROCm/vllm`` Docker image on `Docker Hub <https://hub.
      - 0.6.4
      - 2.5.0
      - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
+       * :doc:`Documentation <vllm-0.4.3>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu20.04_py3.9_vllm_0.6.4/images/sha256-ccbb74cc9e7adecb8f7bdab9555f7ac6fc73adb580836c2a35ca96ff471890d8>`_
 
    * - 6.2.0
      - 0.4.3
      - 2.4.0
      - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.2.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
+       * :doc:`Documentation <vllm-0.4.3>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu22.04_py3.9_vllm_7c5fd50/images/sha256-9e4dd4788a794c3d346d7d0ba452ae5e92d39b8dfac438b2af8efdc7f15d22c0>`_
