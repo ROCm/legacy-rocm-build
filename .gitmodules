@@ -1,0 +1,3 @@
+[submodule "composable_kernel"]
+	path = composable_kernel
+	url = https://github.com/ROCm/composable_kernel.git
