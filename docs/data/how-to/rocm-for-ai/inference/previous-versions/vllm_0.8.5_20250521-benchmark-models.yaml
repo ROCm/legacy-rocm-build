@@ -1,10 +1,10 @@
 vllm_benchmark:
   unified_docker:
     latest:
-      pull_tag: rocm/vllm:rocm6.4.1_vllm_0.9.0.1_20250605
-      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.9.0.1_20250605/images/sha256-f48beeb3d72663a93c77211eb45273d564451447c097e060befa713d565fa36c
-      rocm_version: 6.4.1
-      vllm_version: 0.9.0.1 (0.9.0.2.dev108+g71faa1880.rocm641)
+      pull_tag: rocm/vllm:rocm6.3.1_vllm0.8.5_20250521
+      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_vllm_0.8.5_20250521/images/sha256-38410c51af7208897cd8b737c9bdfc126e9bc8952d4aa6b88c85482f03092a11
+      rocm_version: 6.3.1
+      vllm_version: 0.8.5 (0.8.6.dev315+g91a560098.rocm631)
       pytorch_version: 2.7.0+gitf717b2a
       hipblaslt_version: 0.15
   model_groups:
@@ -25,6 +25,11 @@ vllm_benchmark:
         mad_tag: pyt_vllm_llama-3.1-405b
         model_repo: meta-llama/Llama-3.1-405B-Instruct
         url: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct
+        precision: float16
+      - model: Llama 3.2 11B Vision
+        mad_tag: pyt_vllm_llama-3.2-11b-vision-instruct
+        model_repo: meta-llama/Llama-3.2-11B-Vision-Instruct
+        url: https://huggingface.co/meta-llama/Llama-3.2-11B-Vision-Instruct
         precision: float16
       - model: Llama 2 7B
         mad_tag: pyt_vllm_llama-2-7b
