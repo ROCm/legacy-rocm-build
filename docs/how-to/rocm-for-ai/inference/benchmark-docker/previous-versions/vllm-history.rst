@@ -36,14 +36,14 @@ previous releases of the ``ROCm/vllm`` Docker image on `Docker Hub <https://hub.
      - 0.7.3
      - 2.7.0
      - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.3/how-to/rocm-for-ai/inference/vllm-benchmark.html>`_
+       * :doc:`Documentation <vllm-0.7.3-20250325>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.7.3_20250325/images/sha256-25245924f61750b19be6dcd8e787e46088a496c1fe17ee9b9e397f3d84d35640>`_
 
    * - 6.3.1
      - 0.6.6
      - 2.7.0
      - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/inference/vllm-benchmark.html>`_
+       * :doc:`Documentation <vllm-0.6.6>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_mi300_ubuntu22.04_py3.12_vllm_0.6.6/images/sha256-9a12ef62bbbeb5a4c30a01f702c8e025061f575aa129f291a49fbd02d6b4d6c9>`_
 
    * - 6.2.1
