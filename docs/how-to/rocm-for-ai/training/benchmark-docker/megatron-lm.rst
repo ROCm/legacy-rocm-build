@@ -750,4 +750,4 @@ Previous versions
 =================
 
 See :doc:`previous-versions/megatron-lm-history` to find documentation for previous releases
-of the `ROCm/megatron-lm <https://hub.docker.com/r/rocm/megatron-lm/tags>`_ Docker image.
+of the ``ROCm/megatron-lm`` Docker image.
