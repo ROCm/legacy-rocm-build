@@ -1,15 +1,22 @@
+:orphan:
+
 .. meta::
    :description: Learn how to validate LLM inference performance on MI300X accelerators using AMD MAD and the
                  ROCm vLLM Docker image.
    :keywords: model, MAD, automation, dashboarding, validate
 
-********************************************************
-LLM inference performance testing on AMD Instinct MI300X
-********************************************************
+**********************************
+vLLM inference performance testing
+**********************************
+
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm vLLM
+   inference performance documentation. See :doc:`../vllm` for the latest version.
 
 .. _vllm-benchmark-unified-docker:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.7.3_20250325-benchmark-models.yaml
 
    {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
    {% set model_groups = data.vllm_benchmark.model_groups %}
@@ -109,7 +116,7 @@ LLM inference performance testing on AMD Instinct MI300X
    ==================================
 
    For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-   see the developer's guide at `<https://github.com/ROCm/vllm/blob/main/docs/dev-docker/README.md>`__.
+   see the developer's guide at `<https://github.com/ROCm/vllm/tree/8ad1c446b31c9a944d57215ec081ea781b18a0e5/docs/dev-docker>`__.
 
    Getting started
    ===============
@@ -318,36 +325,5 @@ Further reading
 Previous versions
 =================
 
-This table lists previous versions of the ROCm vLLM inference Docker image for
-inference performance testing. For detailed information about available models
-for benchmarking, see the version-specific documentation.
-
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-
-   * - ROCm version
-     - vLLM version
-     - PyTorch version
-     - Resources
-
-   * - 6.3.1
-     - 0.6.6
-     - 2.7.0
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_mi300_ubuntu22.04_py3.12_vllm_0.6.6/images/sha256-9a12ef62bbbeb5a4c30a01f702c8e025061f575aa129f291a49fbd02d6b4d6c9>`_
-
-   * - 6.2.1
-     - 0.6.4
-     - 2.5.0
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu20.04_py3.9_vllm_0.6.4/images/sha256-ccbb74cc9e7adecb8f7bdab9555f7ac6fc73adb580836c2a35ca96ff471890d8>`_
-
-   * - 6.2.0
-     - 0.4.3
-     - 2.4.0
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.2.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu22.04_py3.9_vllm_7c5fd50/images/sha256-9e4dd4788a794c3d346d7d0ba452ae5e92d39b8dfac438b2af8efdc7f15d22c0>`_
+See :doc:`vllm-history` to find documentation for previous releases
+of the `ROCm/vllm <https://hub.docker.com/r/rocm/vllm/tags>`_ Docker image.
