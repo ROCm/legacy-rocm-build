@@ -1,11 +1,4 @@
 parameters:
-- name: checkoutRepo
-  type: string
-  default: 'self'
-- name: checkoutRef
-  type: string
-  default: ''
-
 - name: jobMatrix
   type: object
   default:
