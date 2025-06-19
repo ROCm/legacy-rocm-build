@@ -2,7 +2,7 @@ parameters:
 - name: jobMatrix
   type: object
   default:
-    buildJobs:
+    copyJobs:
       - { os: ubuntu2204, backend: amd }
       - { os: almalinux8, backend: amd }
       - { os: ubuntu2204, backend: nvidia }
@@ -12,8 +12,8 @@ parameters:
 # run this same template for both repos
 # any changes for clr should just trigger HIP pipeline
 jobs:
-- ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: hip_clr_combined_${{ job.os }}
+- ${{ each job in parameters.jobMatrix.copyJobs }}:
+  - job: hip_clr_combined_${{ job.os }}_${{ job.backend }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
