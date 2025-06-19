@@ -10,8 +10,10 @@ parameters:
   type: object
   default:
     buildJobs:
-      - { os: ubuntu2204 }
-      - { os: almalinux8 }
+      - { os: ubuntu2204, backend: amd }
+      - { os: almalinux8, backend: amd }
+      - { os: ubuntu2204, backend: nvidia }
+      - { os: almalinux8, backend: nvidia }
 
 # hip and clr are tightly-coupled
 # run this same template for both repos
@@ -34,7 +36,7 @@ jobs:
       parameters:
         componentName: HIP
         pipelineId: $(HIP_PIPELINE_ID)
-        fileFilter: ${{ job.os }}
+        fileFilter: ${{ job.os }}*${{ job.backend }}
     - task: Bash@3
       displayName: Copy HIP artifacts
       inputs:
