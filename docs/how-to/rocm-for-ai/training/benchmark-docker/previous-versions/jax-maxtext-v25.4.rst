@@ -350,3 +350,9 @@ own cluster setup.
   .. code-block:: shell
 
      sbatch -N <num_nodes> llama3_70b_multinode.sh
+
+Previous versions
+=================
+
+See :doc:`jax-maxtext-history` to find documentation for previous releases
+of the ``ROCm/jax-training`` Docker image.
