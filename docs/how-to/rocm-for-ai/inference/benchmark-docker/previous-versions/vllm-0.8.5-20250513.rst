@@ -12,7 +12,7 @@ vLLM inference performance testing
 .. caution::
 
    This documentation does not reflect the latest version of ROCm vLLM
-   performance benchmark documentation. See :doc:`../vllm` for the latest version.
+   inference performance documentation. See :doc:`../vllm` for the latest version.
 
 .. _vllm-benchmark-unified-docker:
 
