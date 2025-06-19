@@ -116,7 +116,7 @@ vLLM inference performance testing
    ==================================
 
    For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-   see the developer's guide at `<https://github.com/ROCm/vllm/tree/8ad1c446b31c9a944d57215ec081ea781b18a0e5/docs/dev-docker>`__.
+   see the developer's guide at `<https://github.com/ROCm/vllm/tree/25070a1841df0dca585b7ddcb967c42aaec4b7c5/docs/dev-docker>`__.
 
    Getting started
    ===============
