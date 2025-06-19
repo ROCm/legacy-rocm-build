@@ -31,18 +31,10 @@ resources:
   pipelines:
   - pipeline: hip_pipeline
     source: \experimental\HIP
-    trigger:
-      branches:
-        include:
-        - amd-staging
-        - amd-mainline
+    trigger: true
   - pipeline: hipother_pipeline
     source: \experimental\hipother
-    trigger:
-      branches:
-        include:
-        - amd-staging
-        - amd-mainline
+    trigger: true
 
 trigger: none
 pr: none
