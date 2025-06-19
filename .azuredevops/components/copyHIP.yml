@@ -32,11 +32,13 @@ jobs:
   # checkout nothing, just copy artifacts from triggering HIP job
   # and then publish for this clr job or for this hipother job to maintain latest
     - checkout: none
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-download.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
       parameters:
-        componentName: HIP
-        pipelineId: $(HIP_PIPELINE_ID)
-        fileFilter: ${{ job.os }}*${{ job.backend }}
+        buildType: specific
+        buildId: 35129
+        preTargetFilter: HIP
+        os: ${{ job.os }}
+        postTargetFilter: ${{ job.backend }}
     - task: Bash@3
       displayName: Copy HIP artifacts
       inputs:
