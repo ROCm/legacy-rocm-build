@@ -462,6 +462,8 @@ See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/release/roc
 
 * HIP runtime uses device bitcode before SPIRV.
 * The implementation of preventing `hipLaunchKernel` latency degradation with number of idle streams is reverted/disabled by default.
+* Stop using `__AMDGCN_WAVEFRONT_SIZE` and `warpSize` as compile-time constants. The `warpSize` variable is no longer `constexpr`, in order to match the CUDA specification.
+  See more details of the `warpSize` change within the [ROCm upcoming changes](#rocm-upcoming-changes).
 
 #### Optimized
 
