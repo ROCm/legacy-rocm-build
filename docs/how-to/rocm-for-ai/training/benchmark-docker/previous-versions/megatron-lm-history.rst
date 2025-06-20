@@ -18,28 +18,28 @@ previous releases of the ``ROCm/megatron-lm`` Docker image on `Docker Hub <https
      - PyTorch version
      - Resources
 
-   * - 25.5
+   * - v25.5
      - 6.3.4
      - 2.8.0a0+gite2f9759
      - 
        * `Documentation <../megatron-lm>`_
        * `Docker Hub <https://hub.docker.com/layers/rocm/megatron-lm/v25.5_py312/images/sha256-4506f18ba188d24189c6b1f95130b425f52c528a543bb3f420351824edceadc2>`_
 
-   * - 25.4
+   * - v25.4
      - 6.3.0
      - 2.7.0a0+git637433 
      - 
        * :doc:`Documentation <megatron-lm-v25.4>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/megatron-lm/v25.4/images/sha256-941aa5387918ea91c376c13083aa1e6c9cab40bb1875abbbb73bbb65d8736b3f>`_
 
-   * - 25.3
+   * - v25.3
      - 6.3.0
      - 2.7.0a0+git637433 
      - 
        * :doc:`Documentation <megatron-lm-v25.3>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/megatron-lm/v25.3/images/sha256-1e6ed9bdc3f4ca397300d5a9907e084ab5e8ad1519815ee1f868faf2af1e04e2>`_
 
-   * - 24.12-dev
+   * - v24.12-dev
      - 6.1.0
      - 2.4.0
      - 

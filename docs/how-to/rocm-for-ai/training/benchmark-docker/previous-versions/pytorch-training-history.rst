@@ -18,7 +18,7 @@ previous releases of the ``ROCm/pytorch-training`` Docker image on `Docker Hub <
      - PyTorch version
      - Resources
 
-   * - 25.5
+   * - v25.5
      - 6.3.4
      - 0.4.35
      - 

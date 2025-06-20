@@ -434,4 +434,4 @@ Previous versions
 =================
 
 See :doc:`previous-versions/pytorch-training-history` to find documentation for previous releases
-of the `ROCm/pytorch-training <https://hub.docker.com/r/rocm/pytorch-training/tags>`_ Docker image.
+of the ``ROCm/pytorch-training`` Docker image.
