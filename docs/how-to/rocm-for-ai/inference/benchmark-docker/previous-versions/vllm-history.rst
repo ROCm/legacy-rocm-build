@@ -57,7 +57,7 @@ previous releases of the ``ROCm/vllm`` Docker image on `Docker Hub <https://hub.
      - 0.6.4
      - 2.5.0
      - 
-       * :doc:`Documentation <vllm-0.4.3>`
+       * :doc:`Documentation <vllm-0.6.4>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu20.04_py3.9_vllm_0.6.4/images/sha256-ccbb74cc9e7adecb8f7bdab9555f7ac6fc73adb580836c2a35ca96ff471890d8>`_
 
    * - 6.2.0
