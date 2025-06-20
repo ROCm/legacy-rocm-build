@@ -457,29 +457,5 @@ Further reading
 Previous versions
 =================
 
-This table lists previous versions of the ROCm vLLM Docker image for inference
-performance validation. For detailed information about available models for
-benchmarking, see the version-specific documentation.
-
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-
-   * - ROCm version
-     - vLLM version
-     - PyTorch version
-     - Resources
-
-   * - 6.2.1
-     - 0.6.4
-     - 2.5.0
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu20.04_py3.9_vllm_0.6.4/images/sha256-ccbb74cc9e7adecb8f7bdab9555f7ac6fc73adb580836c2a35ca96ff471890d8>`_
-
-   * - 6.2.0
-     - 0.4.3
-     - 2.4.0
-     -
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.2.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu22.04_py3.9_vllm_7c5fd50/images/sha256-9e4dd4788a794c3d346d7d0ba452ae5e92d39b8dfac438b2af8efdc7f15d22c0>`_
+See :doc:`vllm-history` to find documentation for previous releases
+of the ``ROCm/vllm`` Docker image.
