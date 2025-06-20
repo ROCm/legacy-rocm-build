@@ -99,15 +99,14 @@ vLLM inference performance testing
 
    To evaluate performance, the
    `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
-   page provides reference throughput and latency measurements for inferencing
-   popular AI models.
+   page provides reference throughput and latency measurements for inferencing popular AI models.
 
-   .. note::
+   .. important::
 
       The performance data presented in
       `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
-      should not be interpreted as the peak performance achievable by AMD
-      Instinct MI325X and MI300X accelerators or ROCm software.
+      only reflects the latest version of this inference benchmarking environment.
+      The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
 
    Advanced features and known issues
    ==================================

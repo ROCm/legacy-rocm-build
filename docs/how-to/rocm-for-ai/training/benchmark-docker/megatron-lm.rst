@@ -119,12 +119,12 @@ To evaluate performance, the
 page provides reference throughput and latency measurements for training
 popular AI models.
 
-.. note::
+.. important::
 
    The performance data presented in
-   `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`_
-   should not be interpreted as the peak performance achievable by AMD
-   Instinct MI325X and MI300X accelerators or ROCm software.
+   `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
+   only reflects the latest version of this training benchmarking environment.
+   The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
 
 System validation
 =================
