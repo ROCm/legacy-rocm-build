@@ -1,5 +1,3 @@
-:orphan:
-
 .. meta::
    :description: Learn how to validate LLM inference performance on MI300X accelerators using AMD MAD and the
                  ROCm vLLM Docker image.
@@ -9,14 +7,9 @@
 vLLM inference performance testing
 **********************************
 
-.. caution::
-
-   This documentation does not reflect the latest version of ROCm vLLM
-   inference performance documentation. See :doc:`../vllm` for the latest version.
-
 .. _vllm-benchmark-unified-docker:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.8.5_20250513-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.8.3_20250415-benchmark-models.yaml
 
    {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
    {% set model_groups = data.vllm_benchmark.model_groups %}
@@ -44,15 +37,11 @@ vLLM inference performance testing
    Supported models
    ================
 
-   The following models are supported for inference performance benchmarking
-   with vLLM and ROCm. Some instructions, commands, and recommendations in this
-   documentation might vary by model -- select one to get started.
-
    .. raw:: html
 
       <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
         <div class="row">
-          <div class="col-2 me-2 model-param-head">Model group</div>
+          <div class="col-2 me-2 model-param-head">Model</div>
           <div class="row col-10">
    {% for model_group in model_groups %}
             <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
@@ -61,7 +50,7 @@ vLLM inference performance testing
         </div>
 
         <div class="row mt-1">
-          <div class="col-2 me-2 model-param-head">Model</div>
+          <div class="col-2 me-2 model-param-head">Model variant</div>
           <div class="row col-10">
    {% for model_group in model_groups %}
       {% set models = model_group.models %}
@@ -120,7 +109,7 @@ vLLM inference performance testing
    ==================================
 
    For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-   see the developer's guide at `<https://github.com/ROCm/vllm/tree/16d2b92ebcf90fe55cf73fa0b9329a6c9d3dede8/docs/dev-docker>`__.
+   see the developer's guide at `<https://github.com/ROCm/vllm/tree/7a9f58aae0e7215a5f3dccde60e35072c41656c2/docs/dev-docker>`__.
 
    System validation
    =================
@@ -329,23 +318,23 @@ vLLM inference performance testing
 Further reading
 ===============
 
+- For application performance optimization strategies for HPC and AI workloads,
+  including inference with vLLM, see :doc:`../inference-optimization/workload`.
+
 - To learn more about the options for latency and throughput benchmark scripts,
   see `<https://github.com/ROCm/vllm/tree/main/benchmarks>`_.
 
 - To learn more about system settings and management practices to configure your system for
   MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
 
-- For application performance optimization strategies for HPC and AI workloads,
-  including inference with vLLM, see :doc:`../../../inference-optimization/workload`.
-
 - To learn how to run LLM models from Hugging Face or your own model, see
-  :doc:`Running models from Hugging Face <../../hugging-face-models>`.
+  :doc:`Running models from Hugging Face <hugging-face-models>`.
 
 - To learn how to optimize inference on LLMs, see
-  :doc:`Inference optimization <../../../inference-optimization/index>`.
+  :doc:`Inference optimization <../inference-optimization/index>`.
 
 - To learn how to fine-tune LLMs, see
-  :doc:`Fine-tuning LLMs <../../../fine-tuning/index>`.
+  :doc:`Fine-tuning LLMs <../fine-tuning/index>`.
 
 Previous versions
 =================

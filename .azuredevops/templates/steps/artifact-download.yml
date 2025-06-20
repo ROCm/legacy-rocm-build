@@ -19,36 +19,27 @@ parameters:
   default: false
 
 steps:
-- task: Bash@3
-  displayName: Set allowPartiallySucceededBuilds
-  inputs:
-    targetType: inline
-    script: |
-      if [[ ",$ALLOWED_PARTIAL_SUCCEED_BUILDS," == *",${{ parameters.componentName }},"* ]]; then
-        echo "##vso[task.setvariable variable=allowPartiallySucceededBuilds;]true"
-      else
-        echo "##vso[task.setvariable variable=allowPartiallySucceededBuilds;]false"
-      fi
 - task: DownloadPipelineArtifact@2
   displayName: Download ${{ parameters.componentName }}
   inputs:
-    ${{ if eq(parameters.aggregatePipeline, false) }}:
-      buildType: 'specific'
-      project: ROCm-CI
-      definition: ${{ parameters.pipelineId }}
-      specificBuildWithTriggering: true
-      itemPattern: '**/*${{ parameters.fileFilter }}*'
-      # aomp is a special case, since the trigger file is under ROCm/ROCm instead of the component repo
-      ${{ if notIn(parameters.componentName, 'aomp') }}:
-        buildVersionToDownload: latestFromBranch # default is 'latest'
-      branchName: refs/heads/${{ parameters.branchName }}
-      allowPartiallySucceededBuilds: $(allowPartiallySucceededBuilds)
-      targetPath: '$(Pipeline.Workspace)/d'
-    ${{ else }}:
+    ${{ if parameters.aggregatePipeline }}:
       buildType: 'current'
       itemPattern: '**/${{ parameters.componentName }}*${{ parameters.fileFilter }}*'
-      allowPartiallySucceededBuilds: $(allowPartiallySucceededBuilds)
+      allowPartiallySucceededBuilds: true
       targetPath: '$(Pipeline.Workspace)/d'
+    ${{ else }}:
+      buildType: 'specific'
+      project: ROCm-CI
+      specificBuildWithTriggering: true
+      allowPartiallySucceededBuilds: true
+      definition: ${{ parameters.pipelineId }}
+      itemPattern: '**/*${{ parameters.fileFilter }}*'
+      targetPath: '$(Pipeline.Workspace)/d'
+      branchName: refs/heads/${{ parameters.branchName }}
+      ${{ if eq(parameters.componentName, 'aomp') }}:
+        buildVersionToDownload: latest # aomp trigger lives in ROCm/ROCm, so cannot use ROCm/aomp branch names
+      ${{ else }}:
+        buildVersionToDownload: latestFromBranch
 - task: ExtractFiles@1
   displayName: Extract ${{ parameters.componentName }}
   inputs:

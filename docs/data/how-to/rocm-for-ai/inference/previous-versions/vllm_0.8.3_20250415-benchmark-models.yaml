@@ -1,14 +1,14 @@
 vllm_benchmark:
   unified_docker:
     latest:
-      pull_tag: rocm/vllm:rocm6.4.1_vllm_0.9.0.1_20250605
-      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.9.0.1_20250605/images/sha256-f48beeb3d72663a93c77211eb45273d564451447c097e060befa713d565fa36c
-      rocm_version: 6.4.1
-      vllm_version: 0.9.0.1 (0.9.0.2.dev108+g71faa1880.rocm641)
-      pytorch_version: 2.7.0+gitf717b2a
-      hipblaslt_version: 0.15
+      pull_tag: rocm/vllm:rocm6.3.1_instinct_vllm0.8.3_20250415
+      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.8.3_20250415/images/sha256-ad9062dea3483d59dedb17c67f7c49f30eebd6eb37c3fac0a171fb19696cc845
+      rocm_version: 6.3.1
+      vllm_version: 0.8.3
+      pytorch_version: 2.7.0 (dev nightly)
+      hipblaslt_version: 0.13
   model_groups:
-    - group: Meta Llama
+    - group: Llama
       tag: llama
       models:
       - model: Llama 3.1 8B
@@ -25,6 +25,11 @@ vllm_benchmark:
         mad_tag: pyt_vllm_llama-3.1-405b
         model_repo: meta-llama/Llama-3.1-405B-Instruct
         url: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct
+        precision: float16
+      - model: Llama 3.2 11B Vision
+        mad_tag: pyt_vllm_llama-3.2-11b-vision-instruct
+        model_repo: meta-llama/Llama-3.2-11B-Vision-Instruct
+        url: https://huggingface.co/meta-llama/Llama-3.2-11B-Vision-Instruct
         precision: float16
       - model: Llama 2 7B
         mad_tag: pyt_vllm_llama-2-7b
@@ -51,7 +56,7 @@ vllm_benchmark:
         model_repo: amd/Llama-3.1-405B-Instruct-FP8-KV
         url: https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV
         precision: float8
-    - group: Mistral AI
+    - group: Mistral
       tag: mistral
       models:
       - model: Mixtral MoE 8x7B
@@ -103,7 +108,7 @@ vllm_benchmark:
         url: https://huggingface.co/Qwen/QwQ-32B
         precision: float16
         tunableop: true
-    - group: Databricks DBRX
+    - group: DBRX
       tag: dbrx
       models:
       - model: DBRX Instruct
@@ -116,7 +121,7 @@ vllm_benchmark:
         model_repo: amd/dbrx-instruct-FP8-KV
         url: https://huggingface.co/amd/dbrx-instruct-FP8-KV
         precision: float8
-    - group: Google Gemma
+    - group: Gemma
       tag: gemma
       models:
       - model: Gemma 2 27B
@@ -144,19 +149,4 @@ vllm_benchmark:
         mad_tag: pyt_vllm_deepseek-moe-16b-chat
         model_repo: deepseek-ai/deepseek-moe-16b-chat
         url: https://huggingface.co/deepseek-ai/deepseek-moe-16b-chat
-        precision: float16
-    - group: Microsoft Phi
-      tag: phi
-      models:
-      - model: Phi-4
-        mad_tag: pyt_vllm_phi-4
-        model_repo: microsoft/phi-4
-        url: https://huggingface.co/microsoft/phi-4
-    - group: TII Falcon
-      tag: falcon
-      models:
-      - model: Falcon 180B
-        mad_tag: pyt_vllm_falcon-180b
-        model_repo: tiiuae/falcon-180B
-        url: https://huggingface.co/tiiuae/falcon-180B
         precision: float16

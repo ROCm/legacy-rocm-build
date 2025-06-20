@@ -16,7 +16,7 @@ vLLM inference performance testing
 
 .. _vllm-benchmark-unified-docker:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.8.5_20250513-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.8.5_20250521-benchmark-models.yaml
 
    {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
    {% set model_groups = data.vllm_benchmark.model_groups %}
@@ -31,7 +31,7 @@ vLLM inference performance testing
 
    * `vLLM {{ unified_docker.vllm_version }} <https://docs.vllm.ai/en/latest>`_
 
-   * `PyTorch {{ unified_docker.pytorch_version }} <https://github.com/pytorch/pytorch>`_
+   * `PyTorch {{ unified_docker.pytorch_version }} <https://github.com/ROCm/pytorch.git>`_
 
    * `hipBLASLt {{ unified_docker.hipblaslt_version }} <https://github.com/ROCm/hipBLASLt>`_
 
@@ -109,18 +109,18 @@ vLLM inference performance testing
    page provides reference throughput and latency measurements for inferencing
    popular AI models.
 
-   .. important::
+   .. note::
 
       The performance data presented in
       `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
-      only reflects the :doc:`latest version of this inference benchmarking environment <../vllm>`_.
-      The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
+      should not be interpreted as the peak performance achievable by AMD
+      Instinct MI325X and MI300X accelerators or ROCm software.
 
    Advanced features and known issues
    ==================================
 
    For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-   see the developer's guide at `<https://github.com/ROCm/vllm/tree/16d2b92ebcf90fe55cf73fa0b9329a6c9d3dede8/docs/dev-docker>`__.
+   see the developer's guide at `<https://github.com/ROCm/vllm/blob/main/docs/dev-docker/README.md>`__.
 
    System validation
    =================
@@ -336,16 +336,16 @@ Further reading
   MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
 
 - For application performance optimization strategies for HPC and AI workloads,
-  including inference with vLLM, see :doc:`../../../inference-optimization/workload`.
+  including inference with vLLM, see :doc:`../../inference-optimization/workload`.
 
 - To learn how to run LLM models from Hugging Face or your own model, see
-  :doc:`Running models from Hugging Face <../../hugging-face-models>`.
+  :doc:`Running models from Hugging Face <../hugging-face-models>`.
 
 - To learn how to optimize inference on LLMs, see
-  :doc:`Inference optimization <../../../inference-optimization/index>`.
+  :doc:`Inference optimization <../../inference-optimization/index>`.
 
 - To learn how to fine-tune LLMs, see
-  :doc:`Fine-tuning LLMs <../../../fine-tuning/index>`.
+  :doc:`Fine-tuning LLMs <../../fine-tuning/index>`.
 
 Previous versions
 =================

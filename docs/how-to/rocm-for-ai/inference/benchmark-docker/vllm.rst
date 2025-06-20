@@ -99,21 +99,20 @@ vLLM inference performance testing
 
    To evaluate performance, the
    `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
-   page provides reference throughput and latency measurements for inferencing
-   popular AI models.
+   page provides reference throughput and latency measurements for inferencing popular AI models.
 
-   .. note::
+   .. important::
 
       The performance data presented in
       `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
-      should not be interpreted as the peak performance achievable by AMD
-      Instinct MI325X and MI300X accelerators or ROCm software.
+      only reflects the latest version of this inference benchmarking environment.
+      The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
 
    Advanced features and known issues
    ==================================
 
    For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-   see the developer's guide at `<https://github.com/ROCm/vllm/blob/main/docs/dev-docker/README.md>`__.
+   see the developer's guide at `<https://github.com/ROCm/vllm/tree/7bb0618b1fe725b7d4fad9e525aa44da12c94a8b/docs/dev-docker>`__.
 
    System validation
    =================
@@ -343,57 +342,5 @@ Further reading
 Previous versions
 =================
 
-This table lists previous versions of the ROCm vLLM inference Docker image for
-inference performance testing. For detailed information about available models
-for benchmarking, see the version-specific documentation.
-
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-
-   * - ROCm version
-     - vLLM version
-     - PyTorch version
-     - Resources
-
-   * - 6.3.1
-     - 0.8.5
-     - 2.7.0
-     - 
-       * :doc:`Documentation <previous-versions/vllm-0.8.5-20250513>`
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_vllm_0.8.5_20250513/images/sha256-5c8b4436dd0464119d9df2b44c745fadf81512f18ffb2f4b5dc235c71ebe26b4>`_
-
-   * - 6.3.1
-     - 0.8.3
-     - 2.7.0
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.4.0/how-to/rocm-for-ai/inference/vllm-benchmark.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.8.3_20250415/images/sha256-ad9062dea3483d59dedb17c67f7c49f30eebd6eb37c3fac0a171fb19696cc845>`_
-
-   * - 6.3.1
-     - 0.7.3
-     - 2.7.0
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.3/how-to/rocm-for-ai/inference/vllm-benchmark.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_instinct_vllm0.7.3_20250325/images/sha256-25245924f61750b19be6dcd8e787e46088a496c1fe17ee9b9e397f3d84d35640>`_
-
-   * - 6.3.1
-     - 0.6.6
-     - 2.7.0
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/inference/vllm-benchmark.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.3.1_mi300_ubuntu22.04_py3.12_vllm_0.6.6/images/sha256-9a12ef62bbbeb5a4c30a01f702c8e025061f575aa129f291a49fbd02d6b4d6c9>`_
-
-   * - 6.2.1
-     - 0.6.4
-     - 2.5.0
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu20.04_py3.9_vllm_0.6.4/images/sha256-ccbb74cc9e7adecb8f7bdab9555f7ac6fc73adb580836c2a35ca96ff471890d8>`_
-
-   * - 6.2.0
-     - 0.4.3
-     - 2.4.0
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.2.0/how-to/performance-validation/mi300x/vllm-benchmark.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.2_mi300_ubuntu22.04_py3.9_vllm_7c5fd50/images/sha256-9e4dd4788a794c3d346d7d0ba452ae5e92d39b8dfac438b2af8efdc7f15d22c0>`_
+See :doc:`previous-versions/vllm-history` to find documentation for previous releases
+of the ``ROCm/vllm`` Docker image.

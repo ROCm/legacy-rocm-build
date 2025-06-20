@@ -119,12 +119,12 @@ To evaluate performance, the
 page provides reference throughput and latency measurements for training
 popular AI models.
 
-.. note::
+.. important::
 
    The performance data presented in
-   `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`_
-   should not be interpreted as the peak performance achievable by AMD
-   Instinct MI325X and MI300X accelerators or ROCm software.
+   `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
+   only reflects the latest version of this training benchmarking environment.
+   The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
 
 System validation
 =================
@@ -749,36 +749,5 @@ The benchmark tests support the following sets of variables.
 Previous versions
 =================
 
-This table lists previous versions of the ROCm Megatron-LM Docker image for training
-performance testing. For detailed information about available models for
-benchmarking, see the version-specific documentation.
-
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-
-   * - Image version
-     - ROCm version
-     - PyTorch version
-     - Resources
-
-   * - 25.4
-     - 6.3.0
-     - 2.7.0a0+git637433 
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.3/how-to/rocm-for-ai/training/benchmark-docker/megatron-lm.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/megatron-lm/v25.4/images/sha256-941aa5387918ea91c376c13083aa1e6c9cab40bb1875abbbb73bbb65d8736b3f>`_
-
-   * - 25.3
-     - 6.3.0
-     - 2.7.0a0+git637433 
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/training/benchmark-docker/megatron-lm.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/megatron-lm/v25.3/images/sha256-1e6ed9bdc3f4ca397300d5a9907e084ab5e8ad1519815ee1f868faf2af1e04e2>`_
-
-   * - 24.12-dev
-     - 6.1.0
-     - 2.4.0
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.0/how-to/rocm-for-ai/train-a-model.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/megatron-lm/24.12-dev/images/sha256-5818c50334ce3d69deeeb8f589d83ec29003817da34158ebc9e2d112b929bf2e>`_
+See :doc:`previous-versions/megatron-lm-history` to find documentation for previous releases
+of the ``ROCm/megatron-lm`` Docker image.

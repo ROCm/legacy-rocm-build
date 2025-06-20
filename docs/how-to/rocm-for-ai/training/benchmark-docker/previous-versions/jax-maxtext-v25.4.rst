@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: How to train a model using JAX MaxText for ROCm.
    :keywords: ROCm, AI, LLM, train, jax, torch, Llama, flux, tutorial, docker
@@ -6,13 +8,18 @@
 Training a model with MaxText for ROCm
 **************************************
 
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm JAX MaxText
+   training performance documentation. See :doc:`../jax-maxtext` for the latest version.
+
 MaxText is a high-performance, open-source framework built on the Google JAX
 machine learning library to train LLMs at scale. The MaxText framework for
 ROCm is an optimized fork of the upstream
 `<https://github.com/AI-Hypercomputer/maxtext>`__ enabling efficient AI workloads
 on AMD MI300X series accelerators.
 
-The MaxText for ROCm training Docker (``rocm/jax-training:maxtext-v25.5``) image
+The MaxText for ROCm training Docker (``rocm/jax-training:maxtext-v25.4``) image
 provides a prebuilt environment for training on AMD Instinct MI300X and MI325X accelerators,
 including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
 It includes the following software components:
@@ -20,15 +27,15 @@ It includes the following software components:
 +--------------------------+--------------------------------+
 | Software component       | Version                        |
 +==========================+================================+
-| ROCm                     | 6.3.4                          |
+| ROCm                     | 6.3.0                          |
 +--------------------------+--------------------------------+
-| JAX                      | 0.4.35                         |
+| JAX                      | 0.4.31                         |
 +--------------------------+--------------------------------+
-| Python                   | 3.10.12                        |
+| Python                   | 3.10                           |
 +--------------------------+--------------------------------+
-| Transformer Engine       | 1.12.0.dev0+b8b92dc            |
+| Transformer Engine       | 1.12.0.dev0+f81a3eb            |
 +--------------------------+--------------------------------+
-| hipBLASLt                | 0.13.0-ae9c477a                |
+| hipBLASLt                | git78ec8622                    |
 +--------------------------+--------------------------------+
 
 Supported features and models
@@ -47,8 +54,6 @@ MaxText provides the following key features to train large language models effic
 .. _amd-maxtext-model-support:
 
 The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
-
-* Llama 3.3 70B
 
 * Llama 3.1 8B
 
@@ -79,17 +84,10 @@ across different input sequences. Support for packed input format is planned for
 System validation
 =================
 
-Before running AI workloads, it's important to validate that your AMD hardware is configured
-correctly and performing optimally.
-
-If you have already validated your system settings, including aspects like NUMA auto-balancing, you
-can skip this step. Otherwise, complete the procedures in the :ref:`System validation and
-optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
+If you have already validated your system settings, including NUMA
+auto-balancing, skip this step. Otherwise, complete the :ref:`system validation
+and optimization steps <train-a-model-system-validation>` to set up your system
 before starting training.
-
-To test for optimal performance, consult the recommended :ref:`System health benchmarks
-<rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
-system's configuration.
 
 Environment setup
 =================
@@ -124,7 +122,7 @@ with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
 
    a. Master address
 
-      Change ``localhost`` to the master node's resolvable hostname or IP address:
+      Change `localhost` to the master node's resolvable hostname or IP address:
 
       .. code-block:: bash
 
@@ -182,22 +180,20 @@ with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
 
 .. _amd-maxtext-download-docker:
 
-Pull the Docker image
----------------------
+Download the Docker image
+-------------------------
 
 1. Use the following command to pull the Docker image from Docker Hub.
 
    .. code-block:: shell
 
-      docker pull rocm/jax-training:maxtext-v25.5
+      docker pull rocm/jax-training:maxtext-v25.4
 
-2. Use the following command to launch the Docker container. Note that the benchmarking scripts
-   used in the :ref:`following section <amd-maxtext-get-started>` automatically launch the Docker container
-   and execute the benchmark.
+2. Run the Docker container.
 
    .. code-block:: shell
 
-      docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME/.ssh:/root/.ssh --shm-size 128G --name maxtext_training rocm/jax-training:maxtext-v25.5
+      docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME/.ssh:/root/.ssh --shm-size 128G --name maxtext_training rocm/jax-training:maxtext-v25.4
 
 .. _amd-maxtext-get-started:
 
@@ -230,9 +226,7 @@ Single node training benchmarking examples
 
   Run the single node training benchmark:
 
-  .. code-block:: shell
-
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama2_7b.sh
+  IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama2_7b.sh
 
 * Example 2: Single node training with Llama 2 70B
 
@@ -246,7 +240,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama2_70b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama2_70b.sh
 
 * Example 3: Single node training with Llama 3 8B
 
@@ -260,7 +254,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama3_8b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama3_8b.sh
 
 * Example 4: Single node training with Llama 3 70B
 
@@ -274,23 +268,9 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama3_70b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./llama3_70b.sh
 
-* Example 5: Single node training with Llama 3.3 70B
-
-  Download the benchmarking script:
-
-  .. code-block:: shell
-
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama3.3_70b.sh
-
-  Run the single node training benchmark:
-
-  .. code-block:: shell
-
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama3.3_70b.sh
-
-* Example 6: Single node training with DeepSeek V2 16B
+* Example 5: Single node training with DeepSeek V2 16B
 
   Download the benchmarking script:
 
@@ -302,7 +282,7 @@ Single node training benchmarking examples
 
   .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./deepseek_v2_16b.sh
+     IMAGE="rocm/jax-training:maxtext-v25.4" bash ./deepseek_v2_16b.sh
 
   .. note::
 
@@ -374,5 +354,5 @@ own cluster setup.
 Previous versions
 =================
 
-See :doc:`previous-versions/jax-maxtext-history` to find documentation for previous releases
+See :doc:`jax-maxtext-history` to find documentation for previous releases
 of the ``ROCm/jax-training`` Docker image.

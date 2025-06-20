@@ -51,15 +51,15 @@ parameters:
     buildJobs:
       - { os: ubuntu2204, packageManager: apt }
       - { os: almalinux8, packageManager: dnf }
-- name: downstreamComponentMatrix
-  type: object
-  default:
-    - hipBLASLt:
-      name: hipBLASLt
-      sparseCheckoutDir: projects/hipblaslt
-      skipUnifiedBuild: 'false'
-      buildDependsOn:
-        - hipBLAS_common_build
+# - name: downstreamComponentMatrix
+#   type: object
+#   default:
+#     - hipBLASLt:
+#       name: hipBLASLt
+#       sparseCheckoutDir: projects/hipblaslt
+#       skipUnifiedBuild: 'false'
+#       buildDependsOn:
+#         - hipBLAS_common_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
@@ -122,14 +122,14 @@ jobs:
     #     extraEnvVars:
     #       - ROCM_PATH:::/home/user/workspace/rocm
 
-- ${{ if parameters.triggerDownstreamJobs }}:
-  - ${{ each component in parameters.downstreamComponentMatrix }}:
-    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
-      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
-        parameters:
-          checkoutRepo: ${{ parameters.checkoutRepo }}
-          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
-          buildDependsOn: ${{ component.buildDependsOn }}
-          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
-          triggerDownstreamJobs: true
-          unifiedBuild: ${{ parameters.unifiedBuild }}
+# - ${{ if parameters.triggerDownstreamJobs }}:
+#   - ${{ each component in parameters.downstreamComponentMatrix }}:
+#     - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+#       - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+#         parameters:
+#           checkoutRepo: ${{ parameters.checkoutRepo }}
+#           sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+#           buildDependsOn: ${{ component.buildDependsOn }}
+#           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+#           triggerDownstreamJobs: true
+#           unifiedBuild: ${{ parameters.unifiedBuild }}
