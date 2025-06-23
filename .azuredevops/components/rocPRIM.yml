@@ -60,12 +60,12 @@ parameters:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
       - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
-      # - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
       - { os: ubuntu2204, packageManager: apt, target: gfx1030 }
       - { os: almalinux8, packageManager: dnf, target: gfx942 }
       - { os: almalinux8, packageManager: dnf, target: gfx90a }
       - { os: almalinux8, packageManager: dnf, target: gfx1201 }
-      # - { os: almalinux8, packageManager: dnf, target: gfx1100 }
+      - { os: almalinux8, packageManager: dnf, target: gfx1100 }
       - { os: almalinux8, packageManager: dnf, target: gfx1030 }
     testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942, shard: 1, shardCount: 3 }
@@ -170,7 +170,7 @@ jobs:
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
-    - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}_${{ job.shard }}
+    - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}_shard_${{ job.shard }}
       dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
       condition:
         and(succeeded(),
