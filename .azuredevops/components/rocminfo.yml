@@ -67,7 +67,6 @@ jobs:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
-        skipLlvmSymlink: true
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:

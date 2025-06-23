@@ -19,16 +19,6 @@ parameters:
 - name: gpuTarget
   type: string
   default: ''
-# set to true if you're calling this template file multiple files in same pipeline
-# only leave last call false to optimize sequence
-- name: skipLibraryLinking
-  type: boolean
-  default: false
-# set to true if llvm-project is not downloaded in a particular call
-# or if you just don't want the symlink
-- name: skipLlvmSymlink
-  type: boolean
-  default: false
 # set to true if dlopen calls for HIP libraries are causing failures
 # because they do not follow shared library symlink convention
 - name: setupHIPLibrarySymlinks

@@ -407,7 +407,6 @@ jobs:
       dependencyList: ${{ parameters.rocmTestDependencies }}
       gpuTarget: $(JOB_GPU_TARGET)
       dependencySource: staging
-      skipLlvmSymlink: true
 # get sources to run test scripts
   - task: Bash@3
     displayName: git clone upstream pytorch
