@@ -43,16 +43,17 @@ steps:
         buildVersionToDownload: latest # aomp trigger lives in ROCm/ROCm, so cannot use ROCm/aomp branch names
       ${{ else }}:
         buildVersionToDownload: latestFromBranch
-- task: ExtractFiles@1
-  displayName: Extract ${{ parameters.componentName }}
-  inputs:
-    archiveFilePatterns: '$(Pipeline.Workspace)/d/**/*.tar.gz'
-    destinationFolder: '$(Agent.BuildDirectory)/rocm'
-    cleanDestinationFolder: false
-    overwriteExistingFiles: true
-- task: DeleteFiles@1
-  displayName: Cleanup Compressed ${{ parameters.componentName }}
-  inputs:
-    SourceFolder: '$(Pipeline.Workspace)/d'
-    Contents: '**/*.tar.gz'
-    RemoveDotFiles: true
+- ${{ if eq(parameters.extractAndDeleteFiles, true) }}:
+  - task: ExtractFiles@1
+    displayName: Extract ${{ parameters.componentName }}
+    inputs:
+      archiveFilePatterns: '$(Pipeline.Workspace)/d/**/*.tar.gz'
+      destinationFolder: '$(Agent.BuildDirectory)/rocm'
+      cleanDestinationFolder: false
+      overwriteExistingFiles: true
+  - task: DeleteFiles@1
+    displayName: Cleanup Compressed ${{ parameters.componentName }}
+    inputs:
+      SourceFolder: '$(Pipeline.Workspace)/d'
+      Contents: '**/*.tar.gz'
+      RemoveDotFiles: true

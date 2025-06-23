@@ -440,7 +440,7 @@ steps:
     cleanDestinationFolder: false
     overwriteExistingFiles: true
 - task: DeleteFiles@1
-  displayName: Extract ROCm artifacts
+  displayName: Clean up ROCm artifacts
   inputs:
     SourceFolder: $(Pipeline.Workspace)/d
     Contents: '**/*.tar.gz'
