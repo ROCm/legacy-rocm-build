@@ -52,7 +52,7 @@ steps:
       cleanDestinationFolder: false
       overwriteExistingFiles: true
   - task: DeleteFiles@1
-    displayName: Cleanup Compressed ${{ parameters.componentName }}
+    displayName: Clean up Compressed ${{ parameters.componentName }}
     inputs:
       SourceFolder: '$(Pipeline.Workspace)/d'
       Contents: '**/*.tar.gz'

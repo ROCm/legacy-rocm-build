@@ -465,7 +465,7 @@ steps:
         done
 - ${{ if containsValue(parameters.dependencyList, 'rocm-core') }}:
   - task: Bash@3
-    displayName:
+    displayName: Print rocm/.info/version
     inputs:
       targetType: inline
       script: cat $(Agent.BuildDirectory)/rocm/.info/version
