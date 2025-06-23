@@ -1,0 +1,195 @@
+[submodule "AMDMIGraphX"]
+	path = AMDMIGraphX
+	url = https://github.com/ROCm/AMDMIGraphX.git
+[submodule "MIOpen"]
+	path = MIOpen
+	url = https://github.com/ROCm/MIOpen.git
+[submodule "MIVisionX"]
+	path = MIVisionX
+	url = https://github.com/ROCm/MIVisionX.git
+[submodule "ROCR-Runtime"]
+	path = ROCR-Runtime
+	url = https://github.com/ROCm/ROCR-Runtime.git
+[submodule "ROCdbgapi"]
+	path = ROCdbgapi
+	url = https://github.com/ROCm/ROCdbgapi.git
+[submodule "ROCgdb"]
+	path = ROCgdb
+	url = https://github.com/ROCm/ROCgdb.git
+[submodule "ROCmValidationSuite"]
+	path = ROCmValidationSuite
+	url = https://github.com/ROCm/ROCmValidationSuite.git
+[submodule "Tensile"]
+	path = Tensile
+	url = https://github.com/ROCm/Tensile.git
+[submodule "TransferBench"]
+	path = TransferBench
+	url = https://github.com/ROCm/TransferBench.git
+[submodule "amdsmi"]
+	path = amdsmi
+	url = https://github.com/ROCm/amdsmi.git
+[submodule "openmp-extras/aomp"]
+	path = openmp-extras/aomp
+	url = https://github.com/ROCm/aomp.git
+[submodule "openmp-extras/aomp-extras"]
+	path = openmp-extras/aomp-extras
+	url = https://github.com/ROCm/aomp-extras.git
+[submodule "ROCm"]
+	path = ROCm
+	url = https://github.com/ROCm/ROCm.git
+[submodule "clr"]
+	path = clr
+	url = https://github.com/ROCm/clr.git
+[submodule "composable_kernel"]
+	path = composable_kernel
+	url = https://github.com/ROCm/composable_kernel.git
+[submodule "rocm_bandwidth_test"]
+	path = rocm_bandwidth_test
+	url = https://github.com/ROCm/rocm_bandwidth_test.git
+[submodule "openmp-extras/flang"]
+	path = openmp-extras/flang
+	url = https://github.com/ROCm/flang.git
+[submodule "half"]
+	path = half
+	url = https://github.com/ROCm/half.git
+[submodule "hip"]
+	path = hip
+	url = https://github.com/ROCm/hip.git
+[submodule "hip-tests"]
+	path = hip-tests
+	url = https://github.com/ROCm/hip-tests.git
+[submodule "hipBLAS"]
+	path = hipBLAS
+	url = https://github.com/ROCm/hipBLAS.git
+[submodule "hipBLAS-common"]
+	path = hipBLAS-common
+	url = https://github.com/ROCm/hipBLAS-common.git
+[submodule "hipBLASLt"]
+	path = hipBLASLt
+	url = https://github.com/ROCm/hipBLASLt.git
+[submodule "hipCUB"]
+	path = hipCUB
+	url = https://github.com/ROCm/hipCUB.git
+[submodule "hipFFT"]
+	path = hipFFT
+	url = https://github.com/ROCm/hipFFT.git
+[submodule "hipRAND"]
+	path = hipRAND
+	url = https://github.com/ROCm/hipRAND.git
+[submodule "hipSOLVER"]
+	path = hipSOLVER
+	url = https://github.com/ROCm/hipSOLVER.git
+[submodule "hipSPARSE"]
+	path = hipSPARSE
+	url = https://github.com/ROCm/hipSPARSE.git
+[submodule "hipSPARSELt"]
+	path = hipSPARSELt
+	url = https://github.com/ROCm/hipSPARSELt.git
+[submodule "hipTensor"]
+	path = hipTensor
+	url = https://github.com/ROCm/hipTensor.git
+[submodule "hipfort"]
+	path = hipfort
+	url = https://github.com/ROCm/hipfort.git
+[submodule "HIPIFY"]
+	path = HIPIFY
+	url = https://github.com/ROCm/hipify.git
+[submodule "hipother"]
+	path = hipother
+	url = https://github.com/ROCm/hipother.git
+[submodule "llvm-project"]
+	path = llvm-project
+	url = https://github.com/ROCm/llvm-project.git
+[submodule "rccl"]
+	path = rccl
+	url = https://github.com/ROCm/rccl.git
+[submodule "rdc"]
+	path = rdc
+	url = https://github.com/ROCm/rdc.git
+[submodule "rocAL"]
+	path = rocAL
+	url = https://github.com/ROCm/rocAL.git
+[submodule "rocALUTION"]
+	path = rocALUTION
+	url = https://github.com/ROCm/rocALUTION.git
+[submodule "rocBLAS"]
+	path = rocBLAS
+	url = https://github.com/ROCm/rocBLAS.git
+[submodule "rocDecode"]
+	path = rocDecode
+	url = https://github.com/ROCm/rocDecode.git
+[submodule "rocFFT"]
+	path = rocFFT
+	url = https://github.com/ROCm/rocFFT.git
+[submodule "rocJPEG"]
+	path = rocJPEG
+	url = https://github.com/ROCm/rocJPEG.git
+[submodule "rocPRIM"]
+	path = rocPRIM
+	url = https://github.com/ROCm/rocPRIM.git
+[submodule "rocPyDecode"]
+	path = rocPyDecode
+	url = https://github.com/ROCm/rocPyDecode.git
+[submodule "rocRAND"]
+	path = rocRAND
+	url = https://github.com/ROCm/rocRAND.git
+[submodule "rocSHMEM"]
+	path = rocSHMEM
+	url = https://github.com/ROCm/rocSHMEM.git
+[submodule "rocSOLVER"]
+	path = rocSOLVER
+	url = https://github.com/ROCm/rocSOLVER.git
+[submodule "rocSPARSE"]
+	path = rocSPARSE
+	url = https://github.com/ROCm/rocSPARSE.git
+[submodule "rocThrust"]
+	path = rocThrust
+	url = https://github.com/ROCm/rocThrust.git
+[submodule "rocWMMA"]
+	path = rocWMMA
+	url = https://github.com/ROCm/rocWMMA.git
+[submodule "rocm-cmake"]
+	path = rocm-cmake
+	url = https://github.com/ROCm/rocm-cmake.git
+[submodule "rocm-core"]
+	path = rocm-core
+	url = https://github.com/ROCm/rocm-core.git
+[submodule "rocm-examples"]
+	path = rocm-examples
+	url = https://github.com/ROCm/rocm-examples.git
+[submodule "rocm_smi_lib"]
+	path = rocm_smi_lib
+	url = https://github.com/ROCm/rocm_smi_lib.git
+[submodule "rocminfo"]
+	path = rocminfo
+	url = https://github.com/ROCm/rocminfo.git
+[submodule "rocprofiler"]
+	path = rocprofiler
+	url = https://github.com/ROCm/rocprofiler.git
+[submodule "rocprofiler-compute"]
+	path = rocprofiler-compute
+	url = https://github.com/ROCm/rocprofiler-compute.git
+[submodule "rocprofiler-register"]
+	path = rocprofiler-register
+	url = https://github.com/ROCm/rocprofiler-register.git
+[submodule "ROCK-Kernel-Driver"]
+	path = ROCK-Kernel-Driver
+	url = https://github.com/ROCm/ROCK-Kernel-Driver.git
+[submodule "rocprofiler-sdk"]
+	path = rocprofiler-sdk
+	url = https://github.com/ROCm/rocprofiler-sdk.git
+[submodule "rocprofiler-systems"]
+	path = rocprofiler-systems
+	url = https://github.com/ROCm/rocprofiler-systems.git
+[submodule "rocr_debug_agent"]
+	path = rocr_debug_agent
+	url = https://github.com/ROCm/rocr_debug_agent.git
+[submodule "roctracer"]
+	path = roctracer
+	url = https://github.com/ROCm/roctracer.git
+[submodule "rpp"]
+	path = rpp
+	url = https://github.com/ROCm/rpp.git
+[submodule "spirv-llvm-translator"]
+	path = spirv-llvm-translator
+	url = https://github.com/ROCm/spirv-llvm-translator.git
