@@ -12,6 +12,9 @@ parameters:
 - name: fileFilter
   type: string
   default: ''
+- name: extractAndDeleteFiles
+  type: boolean
+  default: true
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline

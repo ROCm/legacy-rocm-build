@@ -367,6 +367,7 @@ steps:
         componentName: ${{ split(dependency, ':')[0] }}
         pipelineId: ${{ parameters.componentVarList[split(dependency, ':')[0]].pipelineId }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        extractAndDeleteFiles: false
         ${{ if parameters.componentVarList[split(dependency, ':')[0]].hasGpuTarget }}:
           fileFilter: "${{ split(dependency, ':')[1] }}*_${{ parameters.os }}_${{ parameters.gpuTarget }}"
         # dependencySource = staging
@@ -405,6 +406,7 @@ steps:
         componentName: ${{ dependency }}
         pipelineId: ${{ parameters.componentVarList[dependency].pipelineId }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        extractAndDeleteFiles: false
         ${{ if parameters.componentVarList[dependency].hasGpuTarget }}:
           fileFilter: ${{ parameters.os }}_${{ parameters.gpuTarget }}
         ${{ else }}:
@@ -430,8 +432,20 @@ steps:
         # default = staging
         ${{ else }}:
           branchName: ${{ parameters.componentVarList[dependency].stagingBranch }}
-# Set link to redirect llvm folder
-- ${{ if eq(parameters.skipLlvmSymlink, false) }}:
+- task: ExtractFiles@1
+  displayName: Extract ROCm artifacts
+  inputs:
+    archiveFilePatterns: $(Pipeline.Workspace)/d/**/*.tar.gz
+    destinationFolder: $(Agent.BuildDirectory)/rocm
+    cleanDestinationFolder: false
+    overwriteExistingFiles: true
+- task: DeleteFiles@1
+  displayName: Extract ROCm artifacts
+  inputs:
+    SourceFolder: $(Pipeline.Workspace)/d
+    Contents: '**/*.tar.gz'
+    RemoveDotFiles: true
+- ${{ if containsValue(parameters.dependencyList, 'llvm-project') }}:
   - task: Bash@3
     displayName: Symlink from rocm/llvm to rocm/lib/llvm
     inputs:
@@ -439,6 +453,7 @@ steps:
       script: |
         sudo mkdir -p $(Agent.BuildDirectory)/rocm/lib
         sudo ln -sr $(Agent.BuildDirectory)/rocm/llvm $(Agent.BuildDirectory)/rocm/lib/llvm
+        echo "Created symlink from rocm/llvm to rocm/lib/llvm"
   - task: Bash@3
     displayName: Symlink executables from rocm/llvm/bin to rocm/bin
     inputs:
@@ -446,7 +461,14 @@ steps:
       script: |
         for file in amdclang amdclang++ amdclang-cl amdclang-cpp amdflang amdlld aompcc mygpu mycpu offload-arch; do
           sudo ln -sr $(Agent.BuildDirectory)/rocm/llvm/bin/$file $(Agent.BuildDirectory)/rocm/bin/$file
+          echo "Created symlink from rocm/llvm/bin/$file to rocm/bin/$file"
         done
+- ${{ if containsValue(parameters.dependencyList, 'rocm-core') }}:
+  - task: Bash@3
+    displayName:
+    inputs:
+      targetType: inline
+      script: cat $(Agent.BuildDirectory)/rocm/.info/version
 # dlopen calls within a ctest or pytest sequence runs into issues when shared library symlink convention is not followed
 # the convention is as follows:
 # unversioned .so is a symlink to major version .so
@@ -483,17 +505,16 @@ steps:
   inputs:
     targetType: inline
     script: ls -la1R $(Agent.BuildDirectory)/rocm
-- ${{ if eq(parameters.skipLibraryLinking, false) }}:
-  - task: Bash@3
-    displayName: 'Link ROCm shared libraries'
-    inputs:
-      targetType: inline
-# OS ignores if the ROCm lib folder shows up more than once
-      script: |
-        echo $(Agent.BuildDirectory)/rocm/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
-        echo $(Agent.BuildDirectory)/rocm/llvm/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
-        echo $(Agent.BuildDirectory)/rocm/lib64 | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
-        echo $(Agent.BuildDirectory)/rocm/llvm/lib64 | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
-        sudo cat /etc/ld.so.conf.d/rocm-ci.conf
-        sudo ldconfig -v
-        ldconfig -p
+- task: Bash@3
+  displayName: 'Link ROCm shared libraries'
+  inputs:
+    targetType: inline
+    # OS ignores if the ROCm lib folder shows up more than once
+    script: |
+      echo $(Agent.BuildDirectory)/rocm/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+      echo $(Agent.BuildDirectory)/rocm/llvm/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+      echo $(Agent.BuildDirectory)/rocm/lib64 | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+      echo $(Agent.BuildDirectory)/rocm/llvm/lib64 | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+      sudo cat /etc/ld.so.conf.d/rocm-ci.conf
+      sudo ldconfig -v
+      ldconfig -p

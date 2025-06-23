@@ -119,7 +119,6 @@ jobs:
         dependencyList: ${{ parameters.rocmDependencies }}
         os: ${{ job.os }}
         gpuTarget: ${{ job.target }}
-        skipLibraryLinking: true
     - script: df -h
       displayName: System disk space after ROCm
     - script: du -sh $(Agent.BuildDirectory)/rocm
