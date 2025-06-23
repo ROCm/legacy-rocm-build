@@ -109,7 +109,7 @@ parameters:
       hasGpuTarget: false
     hipCUB:
       pipelineId: $(HIPCUB_PIPELINE_ID)
-      stagingBranch: release-staging/rocm-rel-7.0
+      stagingBranch: develop
       mainlineBranch: develop
       hasGpuTarget: true
     hipFFT:
@@ -129,7 +129,7 @@ parameters:
       hasGpuTarget: false
     hipRAND:
       pipelineId: $(HIPRAND_PIPELINE_ID)
-      stagingBranch: release-staging/rocm-rel-7.0
+      stagingBranch: develop
       mainlineBranch: develop
       hasGpuTarget: true
     hipSOLVER:
@@ -264,7 +264,7 @@ parameters:
       hasGpuTarget: false
     rocPRIM:
       pipelineId: $(ROCPRIM_PIPELINE_ID)
-      stagingBranch: release-staging/rocm-rel-7.0
+      stagingBranch: develop
       mainlineBranch: develop
       hasGpuTarget: true
     rocprofiler:
@@ -304,7 +304,7 @@ parameters:
       hasGpuTarget: false
     rocRAND:
       pipelineId: $(ROCRAND_PIPELINE_ID)
-      stagingBranch: release-staging/rocm-rel-7.0
+      stagingBranch: develop
       mainlineBranch: develop
       hasGpuTarget: true
     rocr_debug_agent:
@@ -329,7 +329,7 @@ parameters:
       hasGpuTarget: false
     rocThrust:
       pipelineId: $(ROCTHRUST_PIPELINE_ID)
-      stagingBranch: release-staging/rocm-rel-7.0
+      stagingBranch: develop
       mainlineBranch: develop
       hasGpuTarget: true
     roctracer:
