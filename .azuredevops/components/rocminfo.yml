@@ -84,7 +84,6 @@ jobs:
       parameters:
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-    - script: exit 1
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
   - job: rocminfo_test_${{ job.target }}
