@@ -1,5 +1,5 @@
 .. meta::
-   :description: How to install ROCm and popular machine learning frameworks.
+   :description: How to install the ROCm 7.0 preview
    :keywords: ROCm, AI, LLM, train, fine-tune, FSDP, DeepSpeed, LLaMA, tutorial
 
 .. _rocm-for-ai-install:
