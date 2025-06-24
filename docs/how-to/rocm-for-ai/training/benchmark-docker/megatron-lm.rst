@@ -281,25 +281,11 @@ Configuration
 
    See :ref:`Key options <amd-megatron-lm-benchmark-test-vars>` for more information on configuration options.
 
-Network interface
------------------
+Multi-node configuration
+------------------------
 
-Update the network interface in the script to match your system's network interface. To
-find your network interface, run the following (outside of any Docker container):
-
-.. code-block:: bash
-
-   ip a
-
-Look for an active interface that has an IP address in the same subnet as
-your other nodes. Then, update the following variables in the script, for
-example:
-
-.. code-block:: bash
-
-   export NCCL_SOCKET_IFNAME=ens50f0np0
-
-   export GLOO_SOCKET_IFNAME=ens50f0np0
+Refer to :doc:`/how-to/rocm-for-ai/multi-node-setup` to configure your environment for multi-node
+training. See :ref:`amd-megatron-lm-multi-node-examples` for example run commands.
 
 .. _amd-megatron-lm-tokenizer:
 
@@ -539,46 +525,6 @@ Download the dataset
       DATA_DIR="<path-to>/qwen-datasets"  # Change to where your dataset is stored
 
    Ensure that the files are accessible inside the Docker container.
-
-Multi-node configuration
-------------------------
-
-If you're running multi-node training, update the following environment variables. They can
-also be passed as command line arguments. Refer to the following example configurations.
-
-* Change ``localhost`` to the master node's hostname:
-
-  .. code-block:: shell
-
-     MASTER_ADDR="${MASTER_ADDR:-localhost}"
-
-* Set the number of nodes you want to train on (for instance, ``2``, ``4``, ``8``):
-
-  .. code-block:: shell
-
-     NNODES="${NNODES:-1}"
-
-* Set the rank of each node (0 for master, 1 for the first worker node, and so on):
-
-  .. code-block:: shell
-
-     NODE_RANK="${NODE_RANK:-0}"
-
-* Set ``DATA_CACHE_PATH`` to a common directory accessible by all the nodes (for example, an
-  NFS directory) for multi-node runs:
-
-  .. code-block:: shell
-
-     DATA_CACHE_PATH=/root/cache # Set to a common directory for multi-node runs
-
-* For multi-node runs, make sure the correct network drivers are installed on the nodes. If
-  inside a Docker container, either install the drivers inside the Docker container or pass the network
-  drivers from the host while creating the Docker container.
-
-  .. code-block:: shell
-
-     # Specify which RDMA interfaces to use for communication
-     export NCCL_IB_HCA=rdma0,rdma1,rdma2,rdma3,rdma4,rdma5,rdma6,rdma7
 
 .. _amd-megatron-lm-run-training:
 
@@ -924,6 +870,8 @@ Single node training
           TOKENIZER_MODEL=Qwen/Qwen2.5-72B \
           RECOMPUTE_ACTIVATIONS=full \
           CKPT_FORMAT=torch_dist
+
+.. _amd-megatron-lm-multi-node-examples:
 
 Multi-node training examples
 ----------------------------

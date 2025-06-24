@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: System health checks with RVS, RCCL tests, BabelStream, and TransferBench to validate AMD hardware performance running AI workloads.
    :keywords: gpu, accelerator, system, health, validation, bench, perf, performance, rvs, rccl, babel, mi300x, mi325x, flops, bandwidth, rbt, training, inference

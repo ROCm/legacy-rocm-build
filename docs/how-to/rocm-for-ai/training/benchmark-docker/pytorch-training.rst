@@ -565,6 +565,12 @@ To launch the training job on a SLURM cluster for Llama 3.3 70B, run the followi
 
 Once the run is finished, you can find the log files in the ``result_torchtune/`` directory.
 
+Multi-node training
+-------------------
+
+Refer to :doc:`/how-to/rocm-for-ai/multi-node-setup` to configure your environment for multi-node
+training. See :ref:`rocm-for-ai-multi-node-setup-pyt-train-example` for example Slurm run commands.
+
 Further reading
 ===============
 

@@ -134,12 +134,16 @@ doesn’t validate configurations and run conditions outside those described.
 
 .. _amd-maxtext-multi-node-setup-v257:
 
-Multi-node setup
-----------------
+Multi-node configuration
+------------------------
 
 For multi-node environments, ensure you have all the necessary packages for
 your network device, such as, RDMA. If you're not using a multi-node setup
 with RDMA, skip ahead to :ref:`amd-maxtext-get-started-v257`.
+
+.. seealso::
+
+   See :doc:`/how-to/rocm-for-ai/multi-node-setup` for in-container configuration.
 
 1. Install the following packages to build and install the RDMA driver.
 

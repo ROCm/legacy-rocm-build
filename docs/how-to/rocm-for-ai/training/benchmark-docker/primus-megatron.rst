@@ -445,8 +445,13 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
       EXP=examples/megatron/configs/qwen2.5_72B-pretrain.yaml \
       bash examples/run_pretrain.sh --train_iters 50
 
+.. _amd-primus-megatron-multi-node-examples:
+
 Multi-node training examples
 ----------------------------
+
+Refer to :doc:`/how-to/rocm-for-ai/multi-node-setup` to configure your environment for multi-node
+training.
 
 To run training on multiple nodes, you can use the
 `run_slurm_pretrain.sh <https://github.com/AMD-AGI/Primus/blob/927a71702784347a311ca48fd45f0f308c6ef6dd/examples/run_slurm_pretrain.sh>`__
