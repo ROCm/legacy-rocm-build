@@ -151,7 +151,7 @@ compatibility and system requirements.
 .. [#mi300x] Oracle Linux and Azure Linux are supported only on AMD Instinct MI300X.
 .. [#single-node] Debian 12 is supported only on AMD Instinct MI300X for single-node functionality. 
 .. [#mi300_620] **For ROCm 6.2.0** - MI300X (gfx942) is supported on listed operating systems *except* Ubuntu 22.04.5 [6.8 HWE] and Ubuntu 22.04.4 [6.5 HWE].
-.. [#kfd_support] ROCm provides forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software for +/- 2 releases. These are the compatibility combinations that are currently supported.
+.. [#kfd_support] ROCm provides forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software for +/- 2 releases. These are the compatibility combinations that are currently supported. The tested user space versions on this page were accurate as of the time of initial ROCm release. For the most up-to-date information, see the latest version of this information at `User and kernel-space support matrix <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/user-kernel-space-compat-matrix.html>`_.
 .. [#ROCT-rocr] Starting from ROCm 6.3.0, the ROCT Thunk Interface is included as part of the ROCr runtime package.
 
 .. _OS-kernel-versions:
@@ -227,5 +227,5 @@ Expand for full historical view of:
    .. [#mi300_610-past-60] **For ROCm 6.1.0** - MI300A (gfx942) is supported on Ubuntu 22.04.4, RHEL 9.4, RHEL 9.3, RHEL 8.9, and SLES 15 SP5. MI300X (gfx942) is only supported on Ubuntu 22.04.4.
    .. [#mi300_602-past-60] **For ROCm 6.0.2** - MI300A (gfx942) is supported on Ubuntu 22.04.3, RHEL 8.9, and SLES 15 SP5. MI300X (gfx942) is only supported on Ubuntu 22.04.3.
    .. [#mi300_600-past-60] **For ROCm 6.0.0** - MI300A (gfx942) is supported on Ubuntu 22.04.3, RHEL 8.9, and SLES 15 SP5. MI300X (gfx942) is only supported on Ubuntu 22.04.3.
-   .. [#kfd_support-past-60] ROCm provides forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software for +/- 2 releases. These are the compatibility combinations that are currently supported.
+   .. [#kfd_support-past-60] ROCm provides forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software for +/- 2 releases. The tested user space versions on this page were accurate as of the time of initial ROCm release. For the most up-to-date information, see the latest version of this information at `User and kernel-space support matrix <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/user-kernel-space-compat-matrix.html>`_.
    .. [#ROCT-rocr-past-60] Starting from ROCm 6.3.0, the ROCT Thunk Interface is included as part of the ROCr runtime package.
