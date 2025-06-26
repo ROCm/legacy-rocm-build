@@ -33,8 +33,9 @@ parameters:
   type: object
   default:
     - cmake
-    - libmsgpack-dev
+    - libboost-filesystem-dev
     - libboost-program-options-dev
+    - libmsgpack-dev
 - name: pipModules
   type: object
   default:
