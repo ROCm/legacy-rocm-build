@@ -17,7 +17,6 @@ steps:
     script: |
       AZ_API="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis"
       GH_API="https://api.github.com/repos/ROCm"
-      ARTIFACT_NAME="composablekernelbuild${{ parameters.gpuTarget }}"
       EXIT_CODE=0
 
       # Try to find an Azure build for the specific CK commit called out in MIOpen's requirements.txt
@@ -39,8 +38,15 @@ steps:
         echo "Found specific CK build ID: $CK_BUILD_ID"
       fi
 
-      AZURE_URL="$AZ_API/build/builds/$CK_BUILD_ID/artifacts?artifactName=$ARTIFACT_NAME&api-version=7.1"
-      ARTIFACT_URL=$(curl -s $AZURE_URL | jq '.resource.downloadUrl' | tr -d '"')
+      AZURE_URL="$AZ_API/build/builds/$CK_BUILD_ID/artifacts?api-version=7.1"
+      ARTIFACT_URL=$(curl -s $AZURE_URL | \
+        jq --arg os "ubuntu2204" --arg gfx "gfx942" '
+          .value
+          | map(select(.name | test($os) and test($gfx)))
+          | max_by(.name | capture("drop_(?<dropNumber>\\d+)").dropNumber | tonumber)
+          | .resource.downloadUrl
+        ' | \
+        tr -d '"')
 
       # If using the specific CK commit and it doesn't have any valid artifacts, use latest successful CK build instead
       if { [[ -z "$ARTIFACT_URL" ]] || [[ "$ARTIFACT_URL" == "null" ]]; } && [[ $EXIT_CODE -eq 0 ]]; then
@@ -48,8 +54,15 @@ steps:
         LATEST_BUILD_URL="$AZ_API/build/builds?definitions=$(COMPOSABLE_KERNEL_PIPELINE_ID)&statusFilter=completed&resultFilter=succeeded&\$top=1&api-version=7.1"
         CK_BUILD_ID=$(curl -s $LATEST_BUILD_URL | jq '.value[0].id')
         echo "Found latest CK build ID: $CK_BUILD_ID"
-        AZURE_URL="$AZ_API/build/builds/$CK_BUILD_ID/artifacts?artifactName=$ARTIFACT_NAME&api-version=7.1"
-        ARTIFACT_URL=$(curl -s $AZURE_URL | jq '.resource.downloadUrl' | tr -d '"')
+        AZURE_URL="$AZ_API/build/builds/$CK_BUILD_ID/artifacts?api-version=7.1"
+        ARTIFACT_URL=$(curl -s $AZURE_URL | \
+          jq --arg os "ubuntu2204" --arg gfx "gfx942" '
+            .value
+            | map(select(.name | test($os) and test($gfx)))
+            | max_by(.name | capture("drop_(?<dropNumber>\\d+)").dropNumber | tonumber)
+            | .resource.downloadUrl
+          ' | \
+          tr -d '"')
         EXIT_CODE=2
       fi
 
@@ -57,8 +70,8 @@ steps:
       wget --tries=5 --waitretry=10 --retry-connrefused -nv $ARTIFACT_URL -O $(System.ArtifactsDirectory)/ck.zip
       unzip $(System.ArtifactsDirectory)/ck.zip -d $(System.ArtifactsDirectory)
       mkdir -p $(Agent.BuildDirectory)/rocm
-      tar -zxvf $(System.ArtifactsDirectory)/$ARTIFACT_NAME/*.tar.gz -C $(Agent.BuildDirectory)/rocm
-      rm -r $(System.ArtifactsDirectory)/ck.zip $(System.ArtifactsDirectory)/$ARTIFACT_NAME
+      tar -zxvf $(System.ArtifactsDirectory)/composable_kernel*/*.tar.gz -C $(Agent.BuildDirectory)/rocm
+      rm -r $(System.ArtifactsDirectory)/ck.zip $(System.ArtifactsDirectory)/composable_kernel*
 
       if [[ $EXIT_CODE -ne 0 ]]; then
         BUILD_COMMIT=$(curl -s $AZ_API/build/builds/$CK_BUILD_ID | jq '.sourceVersion' | tr -d '"')
