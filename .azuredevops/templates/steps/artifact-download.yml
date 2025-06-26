@@ -22,19 +22,16 @@ steps:
 - task: DownloadPipelineArtifact@2
   displayName: Download ${{ parameters.componentName }}
   inputs:
+    itemPattern: '**/${{ parameters.componentName }}*${{ parameters.fileFilter }}*'
+    targetPath: '$(Pipeline.Workspace)/d'
+    allowPartiallySucceededBuilds: true
     ${{ if parameters.aggregatePipeline }}:
       buildType: 'current'
-      itemPattern: '**/${{ parameters.componentName }}*${{ parameters.fileFilter }}*'
-      allowPartiallySucceededBuilds: true
-      targetPath: '$(Pipeline.Workspace)/d'
     ${{ else }}:
       buildType: 'specific'
       project: ROCm-CI
       specificBuildWithTriggering: true
-      allowPartiallySucceededBuilds: true
       definition: ${{ parameters.pipelineId }}
-      itemPattern: '**/*${{ parameters.fileFilter }}*'
-      targetPath: '$(Pipeline.Workspace)/d'
       branchName: refs/heads/${{ parameters.branchName }}
       ${{ if eq(parameters.componentName, 'aomp') }}:
         buildVersionToDownload: latest # aomp trigger lives in ROCm/ROCm, so cannot use ROCm/aomp branch names
