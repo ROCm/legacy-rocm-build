@@ -149,7 +149,7 @@ jobs:
       parameters:
         os: ${{ job.os }}
         extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Pipeline.Workspace)/deps-install
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Pipeline.Workspace)/deps-install;$(Agent.BuildDirectory)/vendor
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
           -DAMDGPU_TARGETS=${{ job.target }}
