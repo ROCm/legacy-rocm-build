@@ -33,13 +33,11 @@ parameters:
   type: object
   default:
     - cmake
-    - ninja-build
-    - libsuitesparse-dev
     - gfortran
-    - libfmt-dev
     - git
-    - googletest
-    - libgtest-dev
+    - libfmt-dev
+    - libsuitesparse-dev
+    - ninja-build
     - python3-pip
 - name: rocmDependencies
   type: object
@@ -119,6 +117,10 @@ jobs:
         targetType: inline
         script: git clone --depth 1 --branch v3.9.1 https://github.com/Reference-LAPACK/lapack
         workingDirectory: '$(Build.SourcesDirectory)'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
+      parameters:
+        dependencyList:
+          - gtest
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
@@ -134,6 +136,7 @@ jobs:
         os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_POSITION_INDEPENDENT_CODE=ON
           -DCMAKE_Fortran_FLAGS=-fno-optimize-sibling-calls
           -DBUILD_TESTING=OFF
           -DCBLAS=ON
