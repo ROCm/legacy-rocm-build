@@ -22,7 +22,7 @@ steps:
 - task: DownloadPipelineArtifact@2
   displayName: Download ${{ parameters.componentName }}
   inputs:
-    itemPattern: '**/${{ parameters.componentName }}*${{ parameters.fileFilter }}*'
+    itemPattern: '**/*${{ parameters.componentName }}*${{ parameters.fileFilter }}*'
     targetPath: '$(Pipeline.Workspace)/d'
     allowPartiallySucceededBuilds: true
     ${{ if parameters.aggregatePipeline }}:
