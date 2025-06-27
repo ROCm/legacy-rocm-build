@@ -13,6 +13,9 @@ parameters:
 - name: dependencyList
   type: object
   default: []
+- name: os
+  type: string
+  default: 'ubuntu2204'
 - name: gpuTarget
   type: string
   default: ''
@@ -66,7 +69,7 @@ parameters:
       hasGpuTarget: false
     clr:
       pipelineId: $(CLR_PIPELINE_ID)
-      stagingBranch: amd-mainline
+      stagingBranch: amd-staging
       mainlineBranch: amd-mainline
       hasGpuTarget: false
     composable_kernel:
@@ -81,7 +84,7 @@ parameters:
       hasGpuTarget: false
     HIP:
       pipelineId: $(HIP_PIPELINE_ID)
-      stagingBranch: amd-mainline
+      stagingBranch: amd-staging
       mainlineBranch: amd-mainline
       hasGpuTarget: false
     hip-tests:
@@ -107,7 +110,7 @@ parameters:
     hipCUB:
       pipelineId: $(HIPCUB_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: develop
       hasGpuTarget: true
     hipFFT:
       pipelineId: $(HIPFFT_PIPELINE_ID)
@@ -127,7 +130,7 @@ parameters:
     hipRAND:
       pipelineId: $(HIPRAND_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: develop
       hasGpuTarget: true
     hipSOLVER:
       pipelineId: $(HIPSOLVER_PIPELINE_ID)
@@ -262,7 +265,7 @@ parameters:
     rocPRIM:
       pipelineId: $(ROCPRIM_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: develop
       hasGpuTarget: true
     rocprofiler:
       pipelineId: $(ROCPROFILER_PIPELINE_ID)
@@ -302,7 +305,7 @@ parameters:
     rocRAND:
       pipelineId: $(ROCRAND_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: develop
       hasGpuTarget: true
     rocr_debug_agent:
       pipelineId: $(ROCR_DEBUG_AGENT_PIPELINE_ID)
@@ -327,7 +330,7 @@ parameters:
     rocThrust:
       pipelineId: $(ROCTHRUST_PIPELINE_ID)
       stagingBranch: develop
-      mainlineBranch: mainline
+      mainlineBranch: develop
       hasGpuTarget: true
     roctracer:
       pipelineId: $(ROCTRACER_PIPELINE_ID)
@@ -365,7 +368,7 @@ steps:
         pipelineId: ${{ parameters.componentVarList[split(dependency, ':')[0]].pipelineId }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.componentVarList[split(dependency, ':')[0]].hasGpuTarget }}:
-          fileFilter: "${{ split(dependency, ':')[1] }}*${{ parameters.gpuTarget }}"
+          fileFilter: "${{ split(dependency, ':')[1] }}*_${{ parameters.os }}_${{ parameters.gpuTarget }}"
         # dependencySource = staging
         ${{ if eq(parameters.dependencySource, 'staging')}}:
           branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].stagingBranch }}
@@ -394,6 +397,7 @@ steps:
         ${{ if parameters.componentVarList[dependency].hasGpuTarget }}:
           gpuTarget: ${{ parameters.gpuTarget }}
         preTargetFilter: ${{ dependency }}
+        os: ${{ parameters.os }}
         buildType: current
   - ${{ else }}:
     - template: artifact-download.yml
@@ -402,7 +406,9 @@ steps:
         pipelineId: ${{ parameters.componentVarList[dependency].pipelineId }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.componentVarList[dependency].hasGpuTarget }}:
-          fileFilter: ${{ parameters.gpuTarget }}
+          fileFilter: ${{ parameters.os }}_${{ parameters.gpuTarget }}
+        ${{ else }}:
+          fileFilter: ${{ parameters.os }}
         # dependencySource = staging
         ${{ if eq(parameters.dependencySource, 'staging')}}:
           branchName: ${{ parameters.componentVarList[dependency].stagingBranch }}
@@ -430,14 +436,16 @@ steps:
     displayName: Symlink from rocm/llvm to rocm/lib/llvm
     inputs:
       targetType: inline
-      script: sudo ln -s $(Agent.BuildDirectory)/rocm/llvm $(Agent.BuildDirectory)/rocm/lib/llvm
+      script: |
+        sudo mkdir -p $(Agent.BuildDirectory)/rocm/lib
+        sudo ln -sr $(Agent.BuildDirectory)/rocm/llvm $(Agent.BuildDirectory)/rocm/lib/llvm
   - task: Bash@3
     displayName: Symlink executables from rocm/llvm/bin to rocm/bin
     inputs:
       targetType: inline
       script: |
         for file in amdclang amdclang++ amdclang-cl amdclang-cpp amdflang amdlld aompcc mygpu mycpu offload-arch; do
-          sudo ln -s $(Agent.BuildDirectory)/rocm/llvm/bin/$file $(Agent.BuildDirectory)/rocm/bin/$file
+          sudo ln -sr $(Agent.BuildDirectory)/rocm/llvm/bin/$file $(Agent.BuildDirectory)/rocm/bin/$file
         done
 # dlopen calls within a ctest or pytest sequence runs into issues when shared library symlink convention is not followed
 # the convention is as follows:
@@ -482,8 +490,10 @@ steps:
       targetType: inline
 # OS ignores if the ROCm lib folder shows up more than once
       script: |
-        echo $(Agent.BuildDirectory)/rocm/lib | sudo tee /etc/ld.so.conf.d/rocm-ci.conf
+        echo $(Agent.BuildDirectory)/rocm/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
         echo $(Agent.BuildDirectory)/rocm/llvm/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+        echo $(Agent.BuildDirectory)/rocm/lib64 | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+        echo $(Agent.BuildDirectory)/rocm/llvm/lib64 | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
         sudo cat /etc/ld.so.conf.d/rocm-ci.conf
         sudo ldconfig -v
         ldconfig -p

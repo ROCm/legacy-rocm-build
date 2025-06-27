@@ -137,9 +137,6 @@ build_rocrtst() {
         mkdir -p "$package_root_rpm"
         progressCopy "${RPM_FILE[@]}" "$package_root_rpm"
     fi
-
-    mkdir -p "$package_utils"
-    progressCopy "$SCRIPT_ROOT/run_rocrtst.sh" "$package_utils"
     popd
 
 }
@@ -182,10 +179,6 @@ build_kfdtest() {
     mkdir -p "$kfdtest_bin"
     progressCopy "$kfdtest_build_dir" "$kfdtest_bin"
     progressCopy "$kfdtest_build_dir/kfdtest.exclude" "$kfdtest_bin"
-    progressCopy "$kfdtest_build_dir/run_kfdtest.sh" "$kfdtest_bin"
-
-    mkdir -p "$package_utils"
-    progressCopy "$SCRIPT_ROOT/run_kfdtest.sh" "$package_utils"
 
     if file_exists $kfdtest_build_dir/kfdtest*.deb ; then
         mkdir -p "$package_root_deb"

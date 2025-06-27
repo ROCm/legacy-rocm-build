@@ -20,7 +20,6 @@ parameters:
     - libnuma-dev
     - ninja-build
     - pkg-config
-    - python3-pip
 - name: rocmDependencies
   type: object
   default:
@@ -36,51 +35,65 @@ parameters:
 - name: jobMatrix
   type: object
   default:
+    buildJobs:
+      - { os: ubuntu2204, packageManager: apt }
+      - { os: almalinux8, packageManager: dnf }
     testJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
 
 jobs:
-- job: ROCR_Runtime_build
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool:
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      aggregatePipeline: ${{ parameters.aggregatePipeline }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
-        -DBUILD_SHARED_LIBS=ON
-        -DCMAKE_BUILD_TYPE=Release
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: ROCR_Runtime_build_${{ job.os }}
+    pool:
+      vmImage: 'ubuntu-22.04'
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        os: ${{ job.os }}
+        useAmdclang: false
+        extraBuildFlags: >-
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+          -DBUILD_SHARED_LIBS=ON
+          -DCMAKE_BUILD_TYPE=Release
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: ROCR_Runtime_test_${{ job.target }}
-    dependsOn: ROCR_Runtime_build
+  - job: ROCR_Runtime_test_${{ job.os }}_${{ job.target }}
+    dependsOn: ROCR_Runtime_build_${{ job.os }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -97,6 +110,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
     - task: Bash@3
       displayName: Install libhwloc5
       inputs:
@@ -107,12 +121,15 @@ jobs:
           sudo apt install -y --allow-downgrades ./libhwloc5_1.11.12-3_amd64.deb ./libhwloc-dev_1.11.12-3_amd64.deb
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmTestDependencies }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
@@ -121,11 +138,13 @@ jobs:
         runRocminfo: false
     - task: Bash@3
       displayName: Build kfdtest
-      continueOnError: true
       inputs:
         targetType: 'inline'
         workingDirectory: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest
         script: |
+          if [ -e /opt/rh/gcc-toolset-14/enable ]; then
+            source /opt/rh/gcc-toolset-14/enable
+          fi
           mkdir build && cd build
           cmake -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm ..
           make
@@ -135,13 +154,16 @@ jobs:
         testExecutable: BIN_DIR=$(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/build ./run_kfdtest.sh
         testParameters: '-p core --gtest_output=xml:./test_output.xml --gtest_color=yes'
         testDir: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/scripts
+        os: ${{ job.os }}
     - task: Bash@3
       displayName: Build rocrtst
-      continueOnError: true
       inputs:
         targetType: 'inline'
         workingDirectory: $(Build.SourcesDirectory)/rocrtst/suites/test_common
         script: |
+          if [ -e /opt/rh/gcc-toolset-14/enable ]; then
+            source /opt/rh/gcc-toolset-14/enable
+          fi
           BASE_CLANG_DIR=$(Agent.BuildDirectory)/rocm/llvm/lib/clang
           export NEWEST_CLANG_VER=$(ls -1 $BASE_CLANG_DIR | sort -V | tail -n 1)
           mkdir build && cd build
@@ -159,6 +181,7 @@ jobs:
         testExecutable: ./rocrtst64
         testParameters: '--gtest_filter="-rocrtstNeg.Memory_Negative_Tests:rocrtstFunc.Memory_Max_Mem" --gtest_output=xml:./test_output.xml --gtest_color=yes'
         testDir: $(Build.SourcesDirectory)/rocrtst/suites/test_common/build/${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}

@@ -1,0 +1,120 @@
+unified_docker:
+  latest:
+    pull_tag: rocm/pytorch-training:v25.6
+    docker_hub_url: https://hub.docker.com/r/rocm/pytorch-training/tags
+    rocm_version: 6.4.1
+    pytorch_version: 2.8.0a0+git7d205b2
+    python_version: 3.10.17
+    transformer_engine_version: 1.14.0+2f85f5f2
+    flash_attention_version: 3.0.0.post1
+    hipblaslt_version: 0.15.0-8c6919d
+    triton_version: 3.3.0
+model_groups:
+  - group: Pre-training
+    tag: pre-training
+    models:
+    - model: Llama 3.1 8B
+      mad_tag: pyt_train_llama-3.1-8b
+      model_repo: Llama-3.1-8B
+      url: https://huggingface.co/meta-llama/Llama-3.1-8B
+      precision: BF16
+      training_modes: [pretrain]
+    - model: Llama 3.1 70B
+      mad_tag: pyt_train_llama-3.1-70b
+      model_repo: Llama-3.1-70B
+      url: https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
+      precision: BF16
+      training_modes: [pretrain]
+    - model: FLUX.1-dev
+      mad_tag: pyt_train_flux
+      model_repo: Flux
+      url: https://huggingface.co/black-forest-labs/FLUX.1-dev
+      precision: BF16
+      training_modes: [pretrain]
+  - group: Fine-tuning
+    tag: fine-tuning
+    models:
+    - model: Llama 4 Scout 17B-16E
+      mad_tag: pyt_train_llama-4-scout-17b-16e
+      model_repo: Llama-4-17B_16E
+      url: https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora]
+    - model: Llama 3.3 70B
+      mad_tag: pyt_train_llama-3.3-70b
+      model_repo: Llama-3.3-70B
+      url: https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora, finetune_qlora]
+    - model: Llama 3.2 1B
+      mad_tag: pyt_train_llama-3.2-1b
+      model_repo: Llama-3.2-1B
+      url: https://huggingface.co/meta-llama/Llama-3.2-1B
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora]
+    - model: Llama 3.2 3B
+      mad_tag: pyt_train_llama-3.2-3b
+      model_repo: Llama-3.2-3B
+      url: https://huggingface.co/meta-llama/Llama-3.2-3B
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora]
+    - model: Llama 3.2 Vision 11B
+      mad_tag: pyt_train_llama-3.2-vision-11b
+      model_repo: Llama-3.2-Vision-11B
+      url: https://huggingface.co/meta-llama/Llama-3.2-11B-Vision
+      precision: BF16
+      training_modes: [finetune_fw]
+    - model: Llama 3.2 Vision 90B
+      mad_tag: pyt_train_llama-3.2-vision-90b
+      model_repo: Llama-3.2-Vision-90B
+      url: https://huggingface.co/meta-llama/Llama-3.2-90B-Vision
+      precision: BF16
+      training_modes: [finetune_fw]
+    - model: Llama 3.1 8B
+      mad_tag: pyt_train_llama-3.1-8b
+      model_repo: Llama-3.1-8B
+      url: https://huggingface.co/meta-llama/Llama-3.1-8B
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora]
+    - model: Llama 3.1 70B
+      mad_tag: pyt_train_llama-3.1-70b
+      model_repo: Llama-3.1-70B
+      url: https://huggingface.co/meta-llama/Llama-3.1-70B
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora, finetune_qlora]
+    - model: Llama 3.1 405B
+      mad_tag: pyt_train_llama-3.1-405b
+      model_repo: Llama-3.1-405B
+      url: https://huggingface.co/meta-llama/Llama-3.1-405B
+      precision: BF16
+      training_modes: [finetune_qlora, HF_finetune_lora]
+    - model: Llama 3 8B
+      mad_tag: pyt_train_llama-3-8b
+      model_repo: Llama-3-8B
+      url: https://huggingface.co/meta-llama/Meta-Llama-3-8B
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora]
+    - model: Llama 3 70B
+      mad_tag: pyt_train_llama-3-70b
+      model_repo: Llama-3-70B
+      url: https://huggingface.co/meta-llama/Meta-Llama-3-70B
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora]
+    - model: Llama 2 7B
+      mad_tag: pyt_train_llama-2-7b
+      model_repo: Llama-2-7B
+      url: https://github.com/meta-llama/llama-models/tree/main/models/llama2
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora, finetune_qlora]
+    - model: Llama 2 13B
+      mad_tag: pyt_train_llama-2-13b
+      model_repo: Llama-2-13B
+      url: https://github.com/meta-llama/llama-models/tree/main/models/llama2
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora]
+    - model: Llama 2 70B
+      mad_tag: pyt_train_llama-2-70b
+      model_repo: Llama-2-70B
+      url: https://github.com/meta-llama/llama-models/tree/main/models/llama2
+      precision: BF16
+      training_modes: [finetune_lora, finetune_qlora, HF_finetune_lora]

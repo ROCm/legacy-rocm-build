@@ -117,6 +117,11 @@ Performance
   ":doc:`ROCprofiler-SDK <rocprofiler-sdk:index>`", "Toolkit for developing analysis tools for profiling and tracing GPU compute applications. This toolkit is in beta and subject to change"
   ":doc:`ROCTracer <roctracer:index>`", "Intercepts runtime API calls and traces asynchronous activity"
 
+.. note::
+
+  `ROCprof Compute Viewer <https://rocm.docs.amd.com/projects/rocprof-compute-viewer/en/amd-mainline/>`_ is a tool for visualizing and analyzing GPU thread trace data collected using :doc:`rocprofv3 <rocprofiler-sdk:index>`.
+  Note that `ROCprof Compute Viewer <https://rocm.docs.amd.com/projects/rocprof-compute-viewer/en/amd-mainline/>`_ is in an early access state. Running production workloads is not recommended.
+
 Development
 ^^^^^^^^^^^
 

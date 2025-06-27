@@ -15,7 +15,6 @@ parameters:
   default:
     - cmake
     - git
-    - googletest
     - libboost-program-options-dev
     - libdrm-dev
     - libfftw3-dev
@@ -90,6 +89,10 @@ jobs:
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         submoduleBehaviour: recursive
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
+      parameters:
+        dependencyList:
+          - gtest
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
@@ -101,12 +104,11 @@ jobs:
         extraBuildFlags: >-
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/bin/hipcc
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/bin/hipcc
-          -DHALF_INCLUDE_DIR=$(Agent.BuildDirectory)/rocm/include
           -DCMAKE_BUILD_TYPE=Release
           -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -DBUILD_TESTS=ON
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/rocm/share/rocm/cmake;$(Agent.BuildDirectory)/rocm/libexec/hipify
-          -DAMDGPU_TARGETS=${{ job.target }}
+          -DGPU_TARGETS=${{ job.target }}
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:

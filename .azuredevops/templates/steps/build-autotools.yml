@@ -1,4 +1,7 @@
 parameters:
+- name: os
+  type: string
+  default: 'ubuntu2204'
 - name: componentName
   type: string
   default: ''
@@ -20,17 +23,23 @@ steps:
   displayName: '${{ parameters.componentName }} configure flags'
   inputs:
     targetType: inline
-    script: ./configure --prefix=${{ parameters.installDir }} ${{ parameters.configureFlags }}
     workingDirectory: ${{ parameters.buildDir }}
+    script: |
+      ${{ iif(eq(parameters.os, 'almalinux8'), 'source /opt/rh/gcc-toolset-14/enable', '') }}
+      ./configure --prefix=${{ parameters.installDir }} ${{ parameters.configureFlags }}
 - task: Bash@3
   displayName: '${{ parameters.componentName }} make'
   inputs:
     targetType: inline
-    script: ${{ parameters.makeCallPrefix }} make -j$(nproc)
     workingDirectory: ${{ parameters.buildDir }}
+    script: |
+      ${{ iif(eq(parameters.os, 'almalinux8'), 'source /opt/rh/gcc-toolset-14/enable', '') }}
+      ${{ parameters.makeCallPrefix }} make -j$(nproc)
 - task: Bash@3
   displayName: '${{ parameters.componentName }} make install'
   inputs:
     targetType: inline
-    script: make install
     workingDirectory: ${{ parameters.buildDir }}
+    script: |
+      ${{ iif(eq(parameters.os, 'almalinux8'), 'source /opt/rh/gcc-toolset-14/enable', '') }}
+      make install

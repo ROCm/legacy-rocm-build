@@ -1,0 +1,38 @@
+# entrypoint for kicking off a unified build of the mathlibs
+# this template is designed to be called by another pipeline (llvm, clr, etc.)
+# `buildDependsOn` will need to be set when calling this template
+# passes a `unifiedBuild` param to downstream pipelines, which will prevent duplicate jobs
+# logic needs to be added in individual mathlib pipelines for handling `unifiedBuild`
+
+parameters:
+- name: checkoutRepo
+  type: string
+  default: monorepo
+- name: buildDependsOn
+  type: object
+  default: false
+- name: downstreamComponentMatrix
+  type: object
+  default:
+    - rocRAND:
+      name: rocRAND
+      sparseCheckoutDir: projects/rocrand
+    - rocPRIM:
+      name: rocPRIM
+      sparseCheckoutDir: projects/rocprim
+    - hipBLAS-common:
+      name: hipBLAS-common
+      sparseCheckoutDir: projects/hipblas-common
+    # - composable_kernel:
+    #   name: composable_kernel
+    #   sparseCheckoutDir: projects/composablekernel
+
+jobs:
+- ${{ each component in parameters.downstreamComponentMatrix }}:
+  - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+    parameters:
+      checkoutRepo: ${{ parameters.checkoutRepo }}
+      sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+      buildDependsOn: ${{ parameters.buildDependsOn }}
+      triggerDownstreamJobs: true
+      unifiedBuild: true

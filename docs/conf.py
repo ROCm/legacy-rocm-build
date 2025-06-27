@@ -71,8 +71,9 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/inference/index", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/hugging-face-models", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/llm-inference-frameworks", "os": ["linux"]},
-    {"file": "how-to/rocm-for-ai/inference/vllm-benchmark", "os": ["linux"]},
-    {"file": "how-to/rocm-for-ai/inference/pytorch-inference-benchmark", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/vllm", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.8.5-20250513", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/inference-optimization/index", "os": ["linux"]},

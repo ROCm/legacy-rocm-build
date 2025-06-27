@@ -14,10 +14,12 @@ parameters:
   type: object
   default:
     - build-essential
+    - cmake
     - libdrm-amdgpu-dev
     - libdrm-dev
     - libdw-dev
     - libelf-dev
+    - libsqlite3-dev
     - libva-dev
     - ninja-build
     - pkg-config
@@ -74,8 +76,7 @@ jobs:
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
-    pool:
-      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
     workspace:
       clean: all
     steps:

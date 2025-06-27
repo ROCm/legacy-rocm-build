@@ -24,24 +24,28 @@ parameters:
   default:
     - astunparse==1.6.2
     - colorlover
-    - "dash>=1.12.0"
+    - dash-bootstrap-components
+    - dash-svg
+    - "dash>=3.0.0"
+    - kaleido==0.2.1
     - matplotlib
     - "numpy>=1.17.5"
     - "pandas>=1.4.3"
+    - plotext
+    - plotille
     - pymongo
     - pyyaml
-    - tabulate
-    - tqdm
-    - dash-svg
-    - dash-bootstrap-components
-    - kaleido
     - setuptools
-    - plotille
+    - tabulate
+    - textual
+    - textual_plotext
+    - textual-fspicker
+    - tqdm
     - mock
     - pytest
     - pytest-cov
     - pytest-xdist
-- name: rocmDependencies
+- name: rocmTestDependencies
   type: object
   default:
     - amdsmi
@@ -114,14 +118,6 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-      parameters:
-        checkoutRef: ${{ parameters.checkoutRef }}
-        dependencyList: ${{ parameters.rocmDependencies }}
-        dependencySource: ${{ job.dependencySource }}
-        gpuTarget: ${{ job.target }}
-        aggregatePipeline: ${{ parameters.aggregatePipeline }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         extraBuildFlags: >-
@@ -165,14 +161,6 @@ jobs:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - task: Bash@3
-      displayName: Add en_US.UTF-8 locale
-      inputs:
-        targetType: inline
-        script: |
-          sudo locale-gen en_US.UTF-8
-          sudo update-locale
-          locale -a
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
@@ -184,9 +172,17 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
-        dependencyList: ${{ parameters.rocmDependencies }}
+        dependencyList: ${{ parameters.rocmTestDependencies }}
         dependencySource: ${{ job.dependencySource }}
         gpuTarget: ${{ job.target }}
+    - task: Bash@3
+      displayName: Add en_US.UTF-8 locale
+      inputs:
+        targetType: inline
+        script: |
+          sudo locale-gen en_US.UTF-8
+          sudo update-locale
+          locale -a
     - task: Bash@3
       displayName: Add ROCm binaries to PATH
       inputs:

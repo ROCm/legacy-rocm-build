@@ -1,4 +1,7 @@
 parameters:
+- name: componentName
+  type: string
+  default: rocprofiler
 - name: checkoutRepo
   type: string
   default: 'self'
@@ -15,7 +18,6 @@ parameters:
   type: object
   default:
     - cmake
-    - libgtest-dev
     - libdrm-dev
     - libdw-dev
     - libsystemd-dev
@@ -26,13 +28,13 @@ parameters:
 - name: pipModules
   type: object
   default:
-    - pyyaml==5.3.1
-    - Cppheaderparser
-    - websockets
-    - matplotlib
-    - lxml
     - barectf
+    - Cppheaderparser
+    - lxml
+    - matplotlib
     - pandas
+    - pyyaml==5.3.1
+    - websockets
 - name: rocmDependencies
   type: object
   default:
@@ -41,29 +43,33 @@ parameters:
     - ROCdbgapi
     - rocm-cmake
     - rocm-core
-    - rocm_smi_lib
     - rocminfo
-    - ROCR-Runtime
+    - rocm_smi_lib
     - rocprofiler-register
+    - ROCR-Runtime
     - roctracer
 
 - name: jobMatrix
   type: object
   default:
     buildJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1030 }
+      - { os: almalinux8, packageManager: dnf, target: gfx942 }
+      - { os: almalinux8, packageManager: dnf, target: gfx90a }
+      - { os: almalinux8, packageManager: dnf, target: gfx1201 }
+      - { os: almalinux8, packageManager: dnf, target: gfx1100 }
+      - { os: almalinux8, packageManager: dnf, target: gfx1030 }
     testJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocprofiler_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -72,6 +78,10 @@ jobs:
     - name: ROCM_PATH
       value: $(Agent.BuildDirectory)/rocm
     pool: ${{ variables.MEDIUM_BUILD_POOL }}
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
     workspace:
       clean: all
     steps:
@@ -79,46 +89,59 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
+      parameters:
+        dependencyList:
+          - gtest
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+      parameters:
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        os: ${{ job.os }}
+        useAmdclang: false
         extraBuildFlags: >-
-          -DCMAKE_MODULE_PATH=$(Build.SourcesDirectory)/cmake_modules;$(Agent.BuildDirectory)/rocm/lib/cmake;$(Agent.BuildDirectory)/rocm/lib/cmake/hip
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+          -DCMAKE_MODULE_PATH=$(Build.SourcesDirectory)/cmake_modules;$(Agent.BuildDirectory)/rocm/lib/cmake;$(Agent.BuildDirectory)/rocm/lib/cmake/hip;$(Agent.BuildDirectory)/rocm/lib64/cmake;$(Agent.BuildDirectory)/rocm/lib64/cmake/hip
+          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor"
+          -DCMAKE_POSITION_INDEPENDENT_CODE=ON
           -DENABLE_LDCONFIG=OFF
           -DUSE_PROF_API=1
           -DGPU_TARGETS=${{ job.target }}
-          -DAMDGPU_TARGETS=${{ job.target }}
         multithreadFlag: -- -j32
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        pipModules: ${{ parameters.pipModules }}
-        gpuTarget: ${{ job.target }}
-        extraEnvVars:
-          - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
-          - ROCM_PATH:::/home/user/workspace/rocm
+    - ${{ if eq(job.os, 'ubuntu2204') }}:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          pipModules: ${{ parameters.pipModules }}
+          gpuTarget: ${{ job.target }}
+          extraEnvVars:
+            - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
+            - ROCM_PATH:::/home/user/workspace/rocm
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocprofiler_test_${{ job.target }}
-    dependsOn: rocprofiler_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}
+    dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -139,16 +162,21 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
       parameters:
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+      parameters:
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
@@ -157,12 +185,14 @@ jobs:
         testExecutable:  ./run.sh
         testParameters: ''
         testPublishResults: false
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: rocprofilerV2
         testDir: $(Agent.BuildDirectory)/rocm
         testExecutable:  share/rocprofiler/tests/runUnitTests
         testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes'
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}

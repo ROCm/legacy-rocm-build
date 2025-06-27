@@ -1,4 +1,7 @@
 parameters:
+- name: componentName
+  type: string
+  default: rocJPEG
 - name: checkoutRepo
   type: string
   default: 'self'
@@ -44,32 +47,44 @@ parameters:
   type: object
   default:
     buildJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1030 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
+      - { os: almalinux8, packageManager: dnf, target: gfx942 }
+      - { os: almalinux8, packageManager: dnf, target: gfx90a }
+      - { os: almalinux8, packageManager: dnf, target: gfx1201 }
+      - { os: almalinux8, packageManager: dnf, target: gfx1100 }
+      - { os: almalinux8, packageManager: dnf, target: gfx1030 }
     testJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocJPEG_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
     - name: ROCM_PATH
       value: $(Agent.BuildDirectory)/rocm
     pool:
-      vmImage: ${{ variables.BASE_BUILD_POOL }}
+      ${{ if eq(job.os, 'ubuntu2404') }}:
+        name: rocm-ci_medium_build_pool_2404
+      ${{ else }}:
+        name: ${{ variables.MEDIUM_BUILD_POOL }}
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
     workspace:
       clean: all
     steps:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
         registerROCmPackages: true
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
@@ -80,17 +95,26 @@ jobs:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        os: ${{ job.os }}
+        consolidateBuildAndInstall: true
         extraBuildFlags: >-
+          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm"
           -DCMAKE_BUILD_TYPE=Release
           -DGPU_TARGETS=${{ job.target }}
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        componentName: ${{ parameters.componentName }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
     #   parameters:
@@ -99,8 +123,8 @@ jobs:
     #     registerROCmPackages: true
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocJPEG_test_${{ job.target }}
-    dependsOn: rocJPEG_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}
+    dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -120,22 +144,28 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
         registerROCmPackages: true
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
       parameters:
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+      parameters:
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmTestDependencies }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
     - task: Bash@3
       displayName: Build rocJPEG tests
       inputs:
         targetType: inline
         script: |
+          ${{ iif(eq(job.os, 'almalinux8'), 'source /opt/rh/gcc-toolset-14/enable', '') }}
           mkdir rocJPEG-tests
           cd rocJPEG-tests
           cmake $(Agent.BuildDirectory)/rocm/share/rocjpeg/test
@@ -144,6 +174,7 @@ jobs:
       parameters:
         componentName: rocJPEG
         testDir: 'rocJPEG-tests'
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}

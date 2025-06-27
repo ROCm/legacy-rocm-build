@@ -2,7 +2,7 @@ ROCm Version,6.4.1,6.4.0,6.3.3,6.3.2,6.3.1,6.3.0,6.2.4,6.2.2,6.2.1,6.2.0, 6.1.5,
       :ref:`Operating systems & kernels <OS-kernel-versions>`,Ubuntu 24.04.2,Ubuntu 24.04.2,Ubuntu 24.04.2,Ubuntu 24.04.2,Ubuntu 24.04.2,Ubuntu 24.04.2,"Ubuntu 24.04.1, 24.04","Ubuntu 24.04.1, 24.04","Ubuntu 24.04.1, 24.04",Ubuntu 24.04,,,,,,
       ,Ubuntu 22.04.5,Ubuntu 22.04.5,Ubuntu 22.04.5,Ubuntu 22.04.5,Ubuntu 22.04.5,Ubuntu 22.04.5,"Ubuntu 22.04.5, 22.04.4","Ubuntu 22.04.5, 22.04.4","Ubuntu 22.04.5, 22.04.4","Ubuntu 22.04.5, 22.04.4","Ubuntu 22.04.5, 22.04.4, 22.04.3","Ubuntu 22.04.4, 22.04.3","Ubuntu 22.04.4, 22.04.3","Ubuntu 22.04.4, 22.04.3","Ubuntu 22.04.4, 22.04.3, 22.04.2","Ubuntu 22.04.4, 22.04.3, 22.04.2"
       ,,,,,,,,,,,"Ubuntu 20.04.6, 20.04.5","Ubuntu 20.04.6, 20.04.5","Ubuntu 20.04.6, 20.04.5","Ubuntu 20.04.6, 20.04.5","Ubuntu 20.04.6, 20.04.5","Ubuntu 20.04.6, 20.04.5"
-      ,"RHEL 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.4, 9.3","RHEL 9.4, 9.3","RHEL 9.4, 9.3","RHEL 9.4, 9.3","RHEL 9.4, 9.3, 9.2","RHEL 9.4, 9.3, 9.2","RHEL 9.4, 9.3, 9.2","RHEL 9.4, 9.3, 9.2","RHEL 9.3, 9.2","RHEL 9.3, 9.2"
+      ,"RHEL 9.6, 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.5, 9.4","RHEL 9.4, 9.3","RHEL 9.4, 9.3","RHEL 9.4, 9.3","RHEL 9.4, 9.3","RHEL 9.4, 9.3, 9.2","RHEL 9.4, 9.3, 9.2","RHEL 9.4, 9.3, 9.2","RHEL 9.4, 9.3, 9.2","RHEL 9.3, 9.2","RHEL 9.3, 9.2"
       ,RHEL 8.10,RHEL 8.10,RHEL 8.10,RHEL 8.10,RHEL 8.10,RHEL 8.10,"RHEL 8.10, 8.9","RHEL 8.10, 8.9","RHEL 8.10, 8.9","RHEL 8.10, 8.9","RHEL 8.9, 8.8","RHEL 8.9, 8.8","RHEL 8.9, 8.8","RHEL 8.9, 8.8","RHEL 8.9, 8.8","RHEL 8.9, 8.8"
       ,SLES 15 SP6,SLES 15 SP6,"SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP6, SP5","SLES 15 SP5, SP4","SLES 15 SP5, SP4","SLES 15 SP5, SP4","SLES 15 SP5, SP4","SLES 15 SP5, SP4","SLES 15 SP5, SP4"
       ,,,,,,,,,,,,CentOS 7.9,CentOS 7.9,CentOS 7.9,CentOS 7.9,CentOS 7.9
@@ -17,8 +17,9 @@ ROCm Version,6.4.1,6.4.0,6.3.3,6.3.2,6.3.1,6.3.0,6.2.4,6.2.2,6.2.1,6.2.0, 6.1.5,
       ,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3,RDNA3
       ,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2,RDNA2
       ,.. _gpu-support-compatibility-matrix-past-60:,,,,,,,,,,,,,,,
-      :doc:`GPU / LLVM target <rocm-install-on-linux:reference/system-requirements>`,gfx1201 [#RDNA4-OS-past-60]_,,,,,,,,,,,,,,,
-      ,gfx1200 [#RDNA4-OS-past-60]_,,,,,,,,,,,,,,,
+      :doc:`GPU / LLVM target <rocm-install-on-linux:reference/system-requirements>`,gfx1201 [#RDNA-OS-past-60]_,,,,,,,,,,,,,,,
+      ,gfx1200 [#RDNA-OS-past-60]_,,,,,,,,,,,,,,,
+,gfx1101 [#RDNA-OS-past-60]_,,,,,,,,,,,,,,,
       ,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100,gfx1100
       ,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030,gfx1030
       ,gfx942,gfx942,gfx942,gfx942,gfx942,gfx942,gfx942 [#mi300_624-past-60]_,gfx942 [#mi300_622-past-60]_,gfx942 [#mi300_621-past-60]_,gfx942 [#mi300_620-past-60]_, gfx942 [#mi300_612-past-60]_, gfx942 [#mi300_612-past-60]_, gfx942 [#mi300_611-past-60]_, gfx942 [#mi300_610-past-60]_, gfx942 [#mi300_602-past-60]_, gfx942 [#mi300_600-past-60]_
@@ -41,7 +42,7 @@ ROCm Version,6.4.1,6.4.0,6.3.3,6.3.2,6.3.1,6.3.0,6.2.4,6.2.2,6.2.1,6.2.0, 6.1.5,
       CUB,2.5.0,2.5.0,2.3.2,2.3.2,2.3.2,2.3.2,2.2.0,2.2.0,2.2.0,2.2.0,2.1.0,2.1.0,2.1.0,2.1.0,2.0.1,2.0.1
 ,,,,,,,,,,,,,,,,
       KMD & USER SPACE [#kfd_support-past-60]_,.. _kfd-userspace-support-compatibility-matrix-past-60:,,,,,,,,,,,,,,,
-      KMD versions,"6.4.x, 6.3.x","6.4.x, 6.3.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.2.x, 6.1.x, 6.0.x, 5.7.x, 5.6.x","6.2.x, 6.1.x, 6.0.x, 5.7.x, 5.6.x"
+      :doc:`KMD versions <rocm-install-on-linux:reference/user-kernel-space-compat-matrix>`,"6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.4.x, 6.3.x, 6.2.x, 6.1.x, 6.0.x, 5.7.x","6.2.x, 6.1.x, 6.0.x, 5.7.x, 5.6.x","6.2.x, 6.1.x, 6.0.x, 5.7.x, 5.6.x"
       ,,,,,,,,,,,,,,,,
       ML & COMPUTER VISION,.. _mllibs-support-compatibility-matrix-past-60:,,,,,,,,,,,,,,,
       :doc:`Composable Kernel <composable_kernel:index>`,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0,1.1.0

@@ -15,7 +15,6 @@ parameters:
   default:
     - cmake
     - ninja-build
-    - python3-pip
 - name: rocmDependencies
   type: object
   default:
@@ -24,37 +23,57 @@ parameters:
     - rocminfo
     - ROCR-Runtime
 
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - { os: ubuntu2204, packageManager: apt }
+      - { os: almalinux8, packageManager: dnf }
+
 jobs:
-- job: ROCdbgapi
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool:
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  steps:
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-    parameters:
-      checkoutRef: ${{ parameters.checkoutRef }}
-      dependencyList: ${{ parameters.rocmDependencies }}
-      aggregatePipeline: ${{ parameters.aggregatePipeline }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      extraBuildFlags: >-
-        -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
-        -GNinja
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-  #   parameters:
-  #     aptPackages: ${{ parameters.aptPackages }}
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: ROCdbgapi_build_${{ job.os }}
+    pool:
+      vmImage: 'ubuntu-22.04'
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        os: ${{ job.os }}
+        useAmdclang: false
+        extraBuildFlags: >-
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+    #   parameters:
+    #     aptPackages: ${{ parameters.aptPackages }}

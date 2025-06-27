@@ -1,0 +1,158 @@
+parameters:
+- name: aptPackages
+  type: object
+  default: []
+- name: registerROCmPackages
+  type: boolean
+  default: false
+# As par of installing gcc toolset and python,
+# the environment will install this base set of dnf packages.
+- name: basePackages
+  type: object
+  default:
+    - epel-release
+    - gcc-toolset-14
+    - gcc-toolset-14-libatomic-devel
+    - git
+    - jq
+    - numactl
+    - python3.11
+    - python3.11-pip
+    - vim-common
+    - wget
+# Instead of defining multiple arrays of packages per component,
+# we define a map of apt package names to dnf package names.
+- name: aptToDnfMap
+  type: object
+  default:
+    bison: bison
+    ccache: ccache
+    cmake: cmake
+    cuda-toolkit-12-9: cuda-compiler-12-9 cuda-toolkit-12-9
+    libcudnn9-dev-cuda-12: libcudnn9-cuda-12
+    dejagnu: dejagnu
+    doxygen: doxygen
+    # note: doxygen-doc is not available in dnf
+    # libavcodec-dev, libavformat-dev, libavutil-dev come with ffmpeg-devel
+    ffmpeg: ffmpeg ffmpeg-devel
+    flex: flex
+    # note: g++ is installed by default with gcc-toolset-14
+    # note: gawk is already installed
+    # note: gcc-toolset-14-gfortran is installed by default with gcc-toolset-14
+    # note: git is in the base packages list
+    graphviz: graphviz
+    libbabeltrace-dev: libbabeltrace-devel
+    libbison-dev: bison-devel
+    libboost-program-options-dev: boost-devel
+    # note: libdrm-amdgpu1 is not available in dnf
+    libdrm-dev: libdrm-devel
+    libdrm-amdgpu-dev: libdrm-amdgpu-devel
+    libdw-dev: elfutils-devel
+    libelf-dev: elfutils-libelf-devel
+    libexpat-dev: expat-devel
+    libffi-dev: libffi-devel
+    libfftw3-dev: fftw-devel
+    libfmt-dev: fmt-devel
+    libgmp-dev: gmp-devel
+    liblzma-dev: xz-devel
+    libmpfr-dev: mpfr-devel
+    libmsgpack-dev: msgpack-devel
+    libncurses5-dev: ncurses-devel
+    libnuma-dev: numactl-devel
+    libopenmpi-dev: openmpi-devel
+    libpci-dev: libpciaccess-devel
+    libssl-dev: openssl-devel
+    # note: libstdc++-devel is in the base packages list
+    libsystemd-dev: systemd-devel
+    libtool: libtool
+    # note: libudev-dev is part of systemd-devel
+    libva-amdgpu-dev: libva-amdgpu-devel
+    mesa-amdgpu-va-drivers: mesa-amdgpu-va-drivers
+    mesa-common-dev: mesa-libGL-devel
+    ncurses-dev: ncurses-devel
+    # note: llvm needs ninja-build version newer than what dnf provides
+    ocl-icd-libopencl1: ocl-icd
+    ocl-icd-opencl-dev: ocl-icd-devel
+    opencl-headers: opencl-headers
+    parallel: parallel
+    pkg-config: pkgconf-pkg-config
+    # note: python3 is the default python in AlmaLinux 8
+    python3-dev: python3.11-devel
+    # note: python3.11-pip is already installed when updating to python 3.11
+    # note: python3.11-setuptools is already installed when updating to python 3.11
+    texinfo: texinfo
+    zlib1g-dev: zlib-devel
+
+steps:
+- ${{ if eq(parameters.registerROCmPackages, true) }}:
+  - task: Bash@3
+    displayName: 'Register AMDGPU & ROCm repos (dnf)'
+    inputs:
+      targetType: inline
+      script: |
+        sudo rpm --import https://repo.radeon.com/rocm/rocm.gpg.key
+        echo '[amdgpu]' | sudo tee /etc/yum.repos.d/amdgpu.repo > /dev/null
+        echo "name=amdgpu" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo "baseurl=https://repo.radeon.com/amdgpu/$(REPO_RADEON_VERSION)/rhel/8.10/main/x86_64/" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo "enabled=1" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo "gpgcheck=1" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo "gpgkey=https://repo.radeon.com/rocm/rocm.gpg.key" | sudo tee --append /etc/yum.repos.d/amdgpu.repo
+        echo '[rocm]' | sudo tee /etc/yum.repos.d/rocm.repo > /dev/null
+        echo "name=ROCm$(REPO_RADEON_VERSION)" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        echo "baseurl=https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        echo "enabled=1" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        echo "gpgcheck=1" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        echo "gpgkey=https://repo.radeon.com/rocm/rocm.gpg.key" | sudo tee --append /etc/yum.repos.d/rocm.repo
+        sudo dnf clean all
+        sudo dnf makecache
+- task: Bash@3
+  displayName: 'Install base dnf packages'
+  inputs:
+    targetType: inline
+    script: |
+      sudo dnf config-manager --set-enabled powertools
+      # rpm fusion free repo for some dependencies
+      sudo dnf -y install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm
+      sudo dnf -y install ${{ join(' ', parameters.basePackages) }}
+- task: Bash@3
+  displayName: 'Check gcc environment'
+  inputs:
+    targetType: inline
+    script: |
+      echo "=== Versions and sanity checks ==="
+      gcc --version
+      g++ --version
+      gcc -print-file-name=libstdc++.so
+      g++ -print-file-name=libstdc++.so
+- task: Bash@3
+  displayName: 'Set python 3.11 as default'
+  inputs:
+    targetType: inline
+    script: |
+      sudo dnf -y module disable python36
+      sudo rm -f /usr/local/bin/python3.12 /usr/local/bin/python3.13 /usr/local/bin/python3.14
+      sudo alternatives --set python /usr/bin/python3.11
+      sudo alternatives --set python3 /usr/bin/python3.11
+      python3 --version
+      python3 -m pip install --upgrade pip setuptools wheel
+- ${{ each pkg in parameters.aptPackages }}:
+  # note: llvm needs ninja-build version newer than what dnf provides
+  - ${{ if eq(pkg, 'ninja-build') }}:
+    - task: Bash@3
+      displayName: 'Install ninja 1.11.1'
+      inputs:
+        targetType: inline
+        script: |
+          curl -LO https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip
+          sudo dnf -y install unzip
+          unzip ninja-linux.zip
+          sudo mv ninja /usr/local/bin/ninja
+          sudo chmod +x /usr/local/bin/ninja
+          echo "##vso[task.prependpath]/usr/local/bin"
+  - ${{ if ne(parameters.aptToDnfMap[pkg], '') }}:
+    - task: Bash@3
+      displayName: 'dnf install ${{ parameters.aptToDnfMap[pkg] }}'
+      inputs:
+        targetType: inline
+        script: |
+          sudo dnf -y install ${{ parameters.aptToDnfMap[pkg] }}

@@ -1,4 +1,7 @@
 parameters:
+- name: componentName
+  type: string
+  default: HIPIFY
 - name: checkoutRepo
   type: string
   default: 'self'
@@ -13,113 +16,140 @@ parameters:
 - name: aptPackages
   type: object
   default:
-    - cmake
-    - ninja-build
+    - cuda-toolkit-12-9
+    - libcudnn9-dev-cuda-12
     - libnuma-dev
+    - mesa-common-dev
+    - ninja-build
+    - python-is-python3
     - python3-dev
     - python3-pip
-    - python-is-python3
-    - mesa-common-dev
-    - ccache
-    - cuda-toolkit
-    - cudnn
+- name: pipModules
+  type: object
+  default:
+    - lit
+- name: rocmDependencies
+  type: object
+  default:
+    - llvm-project
+
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - { os: ubuntu2204, packageManager: apt }
+      - { os: almalinux8, packageManager: dnf }
+    testJobs:
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
 
 jobs:
-- job: HIPIFY
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  - name: UPSTREAM_LLVM_GIT_URL
-    value: https://github.com/llvm/llvm-project.git
-  - name: UPSTREAM_LLVM_TAG
-    value: llvmorg-18.1.2
-  pool: ${{ variables.MEDIUM_BUILD_POOL }}
-  workspace:
-    clean: all
-  steps:
-  - task: Bash@3
-    displayName: 'Register CUDA packages'
-    inputs:
-      targetType: inline
-      script: |
-        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
-        sudo dpkg -i cuda-keyring_1.1-1_all.deb
-        sudo rm -f cuda-keyring_1.1-1_all.deb
-        sudo apt update
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-  - task: Bash@3
-    displayName: git clone upstream llvm-project
-    inputs:
-      targetType: inline
-      script: git clone $(UPSTREAM_LLVM_GIT_URL) --depth=1 --branch $(UPSTREAM_LLVM_TAG) --recurse-submodules
-      workingDirectory: $(Pipeline.Workspace)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-    parameters:
-      checkoutRepo: ${{ parameters.checkoutRepo }}
-  - script: |
-      mkdir -p $(CCACHE_DIR)
-      echo "##vso[task.prependpath]/usr/lib/ccache:/usr/local/cuda/bin"
-    displayName: Update path for cuda and ccache
-  - task: Cache@2
-    displayName: Ccache caching
-    inputs:
-      key: HIPIFY | $(Agent.OS) | "$(UPSTREAM_LLVM_TAG)"
-      path: $(CCACHE_DIR)
-      restoreKeys: HIPIFY | $(Agent.OS)
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      componentName: upstream-llvm
-      cmakeBuildDir: $(Pipeline.Workspace)/llvm-project/llvm/build
-      cmakeSourceDir: $(Pipeline.Workspace)/llvm-project/llvm
-      installDir: $(Pipeline.Workspace)/llvm
-      extraBuildFlags: >-
-        -DCMAKE_BUILD_TYPE=Release
-        -DLLVM_ENABLE_PROJECTS=clang
-        -DLLVM_INCLUDE_TESTS=OFF
-        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
-        -DCMAKE_C_COMPILER_LAUNCHER=ccache
-        -GNinja
-  - task: Bash@3
-    displayName: python install lit
-    inputs:
-      targetType: inline
-      script: sudo python3 $(Pipeline.Workspace)/llvm-project/llvm/utils/lit/setup.py install
-  - task: Bash@3
-    displayName: install FileCheck
-    inputs:
-      targetType: inline
-      script: cp $(Pipeline.Workspace)/llvm-project/llvm/build/bin/FileCheck $(Pipeline.Workspace)/llvm/bin
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
-    parameters:
-      componentName: HIPIFY
-      extraBuildFlags: >-
-        -DHIPIFY_CLANG_TESTS=ON
-        -DCMAKE_BUILD_TYPE=Release
-        -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda/targets/x86_64-linux
-        -DCUDA_DNN_ROOT_DIR=/usr/local/cuda/targets/x86_64-linux
-        -DCMAKE_PREFIX_PATH=$(Pipeline.Workspace)/llvm;/usr/local/cuda/targets/x86_64-linux/lib
-        -DLLVM_EXTERNAL_LIT=$(Pipeline.Workspace)/llvm-project/llvm/build/bin/llvm-lit
-      multithreadFlag: -- -j32
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-    parameters:
-      componentName: HIPIFY
-      testDir: $(Build.SourcesDirectory)/build
-      testExecutable: make
-      testParameters: test-hipify
-      testPublishResults: false
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    parameters:
-      aptPackages: ${{ parameters.aptPackages }}
-      environment: combined
-      registerCUDAPackages: true
-      extraCopyDirectories:
-        - llvm-project
-      extraEnvVars:
-        - UPSTREAM_LLVM_GIT_URL:::https://github.com/llvm/llvm-project.git
-        - UPSTREAM_LLVM_TAG:::llvmorg-18.1.2
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool:
+      ${{ if eq(job.os, 'ubuntu2404') }}:
+        name: rocm-ci_medium_build_pool_2404
+      ${{ else }}:
+        name: ${{ variables.MEDIUM_BUILD_POOL }}
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
+    workspace:
+      clean: all
+    steps:
+    - task: Bash@3
+      displayName: 'Register CUDA packages'
+      inputs:
+        targetType: inline
+        ${{ if eq(job.os, 'ubuntu2204') }}:
+          script: |
+            wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+            sudo dpkg -i cuda-keyring_1.1-1_all.deb
+            sudo rm -f cuda-keyring_1.1-1_all.deb
+            sudo apt update
+        ${{ if eq(job.os, 'almalinux8') }}:
+          script: |
+            sudo dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
+    - task: Bash@3
+      displayName: Add lit to PATH
+      inputs:
+        targetType: inline
+        script: |
+          site_packages=$(python3 -m site --user-base)/bin
+          sudo ln -sf $site_packages/bin/lit $(Pipeline.Workspace)/llvm-lit
+          echo "##vso[task.prependpath]$site_packages"
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        os: ${{ job.os }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
+    # cutensor is not available from apt or dnf
+    - task: Bash@3
+      displayName: 'Download and install cutensor'
+      inputs:
+        targetType: inline
+        script: |
+          wget -q --show-progress https://developer.download.nvidia.com/compute/cutensor/redist/libcutensor/linux-x86_64/libcutensor-linux-x86_64-2.2.0.0-archive.tar.xz
+          tar -xvJf libcutensor-linux-x86_64-*.tar.xz
+          mkdir -p $(Pipeline.Workspace)/cutensor
+          cp -r libcutensor-linux-x86_64-*/* $(Pipeline.Workspace)/cutensor/
+    - task: Bash@3
+      displayName: 'List downloaded CUDA files'
+      inputs:
+        targetType: inline
+        script: ls -la1R /usr/local/cuda-12.9
+    # script: cp $(Pipeline.Workspace)/llvm-project/llvm/build/bin/FileCheck $(Pipeline.Workspace)/llvm/bin
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        componentName: ${{ parameters.componentName }}
+        os: ${{ job.os }}
+        consolidateBuildAndInstall: true
+        extraBuildFlags: >-
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;/usr/local/cuda/targets/x86_64-linux/lib
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/clang
+          -DHIPIFY_CLANG_TESTS=ON
+          -DCMAKE_BUILD_TYPE=Release
+          -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12.9
+          -DCUDA_DNN_ROOT_DIR=/usr/local/cuda-12.9
+          -DCUDA_CUB_ROOT_DIR=/usr/local/cuda-12.9/targets/x86_64-linux/include/cub
+          -DCUDA_TENSOR_ROOT_DIR=$(Pipeline.Workspace)/cutensor/
+        multithreadFlag: -- -j32
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}
+    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+    #  parameters:
+    #    componentName: HIPIFY
+    #    testDir: $(Build.SourcesDirectory)/build
+    #    testExecutable: make
+    #    testParameters: -j 32 test-hipify
+    #    testPublishResults: false
+    #    os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    - ${{ if eq(job.os, 'ubuntu2204') }}:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          environment: combined
+          registerCUDAPackages: true
+          extraCopyDirectories:
+            - llvm-project

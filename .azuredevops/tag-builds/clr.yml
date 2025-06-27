@@ -28,12 +28,22 @@ resources:
     endpoint: ROCm
     name: ROCm/hipother
     ref: ${{ parameters.checkoutRef }}
+  pipelines:
+  - pipeline: hip_pipeline
+    source: \experimental\HIP
+    trigger: true
+  - pipeline: hipother_pipeline
+    source: \experimental\hipother
+    trigger: true
 
 trigger: none
 pr: none
 
 jobs:
-  - template: ${{ variables.CI_COMPONENT_PATH }}/HIP.yml
-    parameters:
-      checkoutRepo: release_repo
-      checkoutRef: ${{ parameters.checkoutRef }}
+  - ${{ if eq(variables['Build.Reason'], 'ResourceTrigger') }}:
+    - template: ${{ variables.CI_COMPONENT_PATH }}/copyHIP.yml@pipelines_repo
+  - ${{ if ne(variables['Build.Reason'], 'ResourceTrigger') }}:
+    - template: ${{ variables.CI_COMPONENT_PATH }}/HIP.yml@pipelines_repo
+      parameters:
+        checkoutRepo: release_repo
+        checkoutRef: ${{ parameters.checkoutRef }}

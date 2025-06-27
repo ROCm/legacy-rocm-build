@@ -17,7 +17,7 @@ git --version
 
 # venv for python to be able to run pip3 without --break-system-packages
 python3 -m venv /opt/venv
-
+source /opt/venv/bin/activate
 pip3 install CppHeaderParser argparse lxml recommonmark jinja2==3.0.0 \
     websockets matplotlib numpy scipy minimal msgpack pytest sphinx joblib PyYAML rocm-docs-core cmake==3.25.2 pandas \
     myst-parser setuptools lit

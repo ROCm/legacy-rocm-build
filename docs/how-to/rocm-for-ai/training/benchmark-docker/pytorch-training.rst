@@ -9,28 +9,27 @@ Training a model with PyTorch for ROCm
 PyTorch is an open-source machine learning framework that is widely used for
 model training with GPU-optimized components for transformer-based models.
 
-The `PyTorch for ROCm training Docker <https://hub.docker.com/layers/rocm/pytorch-training/v25.5/images/sha256-d47850a9b25b4a7151f796a8d24d55ea17bba545573f0d50d54d3852f96ecde5>`_
-(``rocm/pytorch-training:v25.5``) image
-provides a prebuilt optimized environment for fine-tuning and pretraining a
-model on AMD Instinct MI325X and MI300X accelerators. It includes the following
-software components to accelerate training workloads:
+The `PyTorch for ROCm training Docker <https://hub.docker.com/r/rocm/pytorch-training/tags>`_
+(``rocm/pytorch-training:v25.6``) image provides a prebuilt optimized environment for fine-tuning and pretraining a
+model on AMD Instinct MI325X and MI300X accelerators. It includes the following software components to accelerate
+training workloads:
 
 +--------------------------+--------------------------------+
 | Software component       | Version                        |
 +==========================+================================+
 | ROCm                     | 6.3.4                          |
 +--------------------------+--------------------------------+
-| PyTorch                  | 2.7.0a0+git637433              |
+| PyTorch                  | 2.8.0a0+git7d205b2             |
 +--------------------------+--------------------------------+
-| Python                   | 3.10                           |
+| Python                   | 3.10.17                        |
 +--------------------------+--------------------------------+
-| Transformer Engine       | 1.12.0.dev0+25a33da            |
+| Transformer Engine       | 1.14.0+2f85f5f2                |
 +--------------------------+--------------------------------+
-| Flash Attention          | 3.0.0                          |
+| Flash Attention          | 3.0.0.post1                    |
 +--------------------------+--------------------------------+
-| hipBLASLt                | git53b53bf                     |
+| hipBLASLt                | 0.15.0-8c6919d                 |
 +--------------------------+--------------------------------+
-| Triton                   | 3.2.0                          |
+| Triton                   | 3.3.0                          |
 +--------------------------+--------------------------------+
 
 .. _amd-pytorch-training-model-support:
@@ -40,422 +39,396 @@ Supported models
 
 The following models are pre-optimized for performance on the AMD Instinct MI325X and MI300X accelerators.
 
-* Llama 3.3 70B
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
 
-* Llama 3.1 8B
+   {% set unified_docker = data.unified_docker.latest %}
+   {% set model_groups = data.model_groups %}
 
-* Llama 3.1 70B
+   .. raw:: html
 
-* Llama 2 70B
+      <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
+        <div class="row">
+          <div class="col-2 me-2 model-param-head">Workload</div>
+          <div class="row col-10">
+   {% for model_group in model_groups %}
+            <div class="col-6 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+   {% endfor %}
+          </div>
+        </div>
 
-* FLUX.1-dev
+        <div class="row mt-1">
+          <div class="col-2 me-2 model-param-head">Model</div>
+          <div class="row col-10">
+   {% for model_group in model_groups %}
+      {% set models = model_group.models %}
+      {% for model in models %}
+         {% if models|length % 3 == 0 %}
+            <div class="col-4 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+         {% else %}
+            <div class="col-6 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+         {% endif %}
+      {% endfor %}
+   {% endfor %}
+          </div>
+        </div>
+      </div>
 
-.. note::
+   .. note::
 
-   Only these models are supported in the following steps.
+      Some models require an external license agreement through a third party (for example, Meta).
 
-   Some models, such as Llama 3, require an external license agreement through
-   a third party (for example, Meta).
+   .. _amd-pytorch-training-performance-measurements:
 
-.. _amd-pytorch-training-performance-measurements:
+   Performance measurements
+   ========================
 
-Performance measurements
-========================
-
-To evaluate performance, the
-`Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`_
-page provides reference throughput and latency measurements for training
-popular AI models.
-
-.. note::
-
-   The performance data presented in
+   To evaluate performance, the
    `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`_
-   should not be interpreted as the peak performance achievable by AMD
-   Instinct MI325X and MI300X accelerators or ROCm software.
+   page provides reference throughput and latency measurements for training
+   popular AI models.
 
-System validation
-=================
+   .. note::
 
-Before running AI workloads, it's important to validate that your AMD hardware is configured
-correctly and performing optimally.
+      The performance data presented in
+      `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`_
+      should not be interpreted as the peak performance achievable by AMD
+      Instinct MI325X and MI300X accelerators or ROCm software.
 
-If you have already validated your system settings, including aspects like NUMA auto-balancing, you
-can skip this step. Otherwise, complete the procedures in the :ref:`System validation and
-optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
-before starting training.
+   System validation
+   =================
 
-To test for optimal performance, consult the recommended :ref:`System health benchmarks
-<rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
-system's configuration.
+   Before running AI workloads, it's important to validate that your AMD hardware is configured
+   correctly and performing optimally.
 
-This Docker image is optimized for specific model configurations outlined
-below. Performance can vary for other training workloads, as AMD 
-doesn’t validate configurations and run conditions outside those described.
+   If you have already validated your system settings, including aspects like NUMA auto-balancing, you
+   can skip this step. Otherwise, complete the procedures in the :ref:`System validation and
+   optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
+   before starting training.
 
-Benchmarking
-============
+   To test for optimal performance, consult the recommended :ref:`System health benchmarks
+   <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
+   system's configuration.
 
-Once the setup is complete, choose between two options to start benchmarking:
+   This Docker image is optimized for specific model configurations outlined
+   below. Performance can vary for other training workloads, as AMD
+   doesn’t validate configurations and run conditions outside those described.
 
-.. tab-set::
+   Benchmarking
+   ============
 
-   .. tab-item:: MAD-integrated benchmarking
+   Once the setup is complete, choose between two options to start benchmarking:
 
-      Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
-      directory and install the required packages on the host machine.
+   .. tab-set::
 
-      .. code-block:: shell
+      .. tab-item:: MAD-integrated benchmarking
 
-         git clone https://github.com/ROCm/MAD
-         cd MAD
-         pip install -r requirements.txt
+         Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
+         directory and install the required packages on the host machine.
 
-      For example, use this command to run the performance benchmark test on the Llama 3.1 8B model
-      using one GPU with the float16 data type on the host machine.
+         .. code-block:: shell
 
-      .. code-block:: shell
+            git clone https://github.com/ROCm/MAD
+            cd MAD
+            pip install -r requirements.txt
 
-         export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-         python3 tools/run_models.py --tags pyt_train_llama-3.1-8b --keep-model-dir --live-output --timeout 28800
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
 
-      The available models for MAD-integrated benchmarking are:
+         .. container:: model-doc {{ model.mad_tag }}
 
-      * ``pyt_train_llama-3.3-70b``
+            For example, use this command to run the performance benchmark test on the {{ model.model }} model
+            using one GPU with the {{ model.precision }} data type on the host machine.
 
-      * ``pyt_train_llama-3.1-8b``
+            .. code-block:: shell
 
-      * ``pyt_train_llama-3.1-70b``
+               export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
+               python3 tools/run_models.py --tags {{ model.mad_tag }} --keep-model-dir --live-output --timeout 28800
 
-      * ``pyt_train_flux``
+            MAD launches a Docker container with the name
+            ``container_ci-{{ model.mad_tag }}``, for example. The latency and throughput reports of the
+            model are collected in the following path: ``~/MAD/perf.csv``.
 
-      MAD launches a Docker container with the name
-      ``container_ci-pyt_train_llama-3.1-8b``, for example. The latency and throughput reports of the
-      model are collected in the following path: ``~/MAD/perf.csv``.
+      {% endfor %}
+   {% endfor %}
 
-   .. tab-item:: Standalone benchmarking
+      .. tab-item:: Standalone benchmarking
 
-      .. rubric:: Download the Docker image and required packages
+         .. rubric:: Download the Docker image and required packages
 
-      Use the following command to pull the Docker image from Docker Hub.
+         Use the following command to pull the Docker image from Docker Hub.
 
-      .. code-block:: shell
+         .. code-block:: shell
 
-         docker pull rocm/pytorch-training:v25.5
+            docker pull {{ unified_docker.pull_tag }}
 
-      Run the Docker container.
+         Run the Docker container.
 
-      .. code-block:: shell
+         .. code-block:: shell
 
-         docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME:$HOME -v  $HOME/.ssh:/root/.ssh --shm-size 64G --name training_env rocm/pytorch-training:v25.5
+            docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME:$HOME -v  $HOME/.ssh:/root/.ssh --shm-size 64G --name training_env {{ unified_docker.pull_tag }}
 
-      Use these commands if you exit the ``training_env`` container and need to return to it.
+         Use these commands if you exit the ``training_env`` container and need to return to it.
 
-      .. code-block:: shell
+         .. code-block:: shell
 
-         docker start training_env
-         docker exec -it training_env bash
+            docker start training_env
+            docker exec -it training_env bash
 
-      In the Docker container, clone the `<https://github.com/ROCm/MAD>`__
-      repository and navigate to the benchmark scripts directory
-      ``/workspace/MAD/scripts/pytorch_train``.
+         In the Docker container, clone the `<https://github.com/ROCm/MAD>`__
+         repository and navigate to the benchmark scripts directory
+         ``/workspace/MAD/scripts/pytorch_train``.
 
-      .. code-block:: shell
+         .. code-block:: shell
 
-         git clone https://github.com/ROCm/MAD
-         cd MAD/scripts/pytorch_train
+            git clone https://github.com/ROCm/MAD
+            cd MAD/scripts/pytorch_train
 
-      .. rubric:: Prepare training datasets and dependencies
+         .. rubric:: Prepare training datasets and dependencies
 
-      The following benchmarking examples require downloading models and datasets
-      from Hugging Face. To ensure successful access to gated repos, set your
-      ``HF_TOKEN``.
+         The following benchmarking examples require downloading models and datasets
+         from Hugging Face. To ensure successful access to gated repos, set your
+         ``HF_TOKEN``.
 
-      .. code-block:: shell
+         .. code-block:: shell
 
-         export HF_TOKEN=$your_personal_hugging_face_access_token
+            export HF_TOKEN=$your_personal_hugging_face_access_token
 
-      Run the setup script to install libraries and datasets needed for benchmarking.
+         Run the setup script to install libraries and datasets needed for benchmarking.
 
-      .. code-block:: shell
+         .. code-block:: shell
 
-         ./pytorch_benchmark_setup.sh
+            ./pytorch_benchmark_setup.sh
 
-      ``pytorch_benchmark_setup.sh`` installs the following libraries:
+         .. container:: model-doc pyt_train_llama-3.1-8b
 
-      .. list-table::
-         :header-rows: 1
+            ``pytorch_benchmark_setup.sh`` installs the following libraries for Llama 3.1 8B:
 
-         * - Library
-           - Benchmark model
-           - Reference
+            .. list-table::
+               :header-rows: 1
 
-         * - ``accelerate``
-           - Llama 3.1 8B, FLUX
-           - `Hugging Face Accelerate <https://huggingface.co/docs/accelerate/en/index>`_
+               * - Library
+                 - Reference
 
-         * - ``datasets``
-           - Llama 3.1 8B, 70B, FLUX
-           - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`_ 3.2.0
+               * - ``accelerate``
+                 - `Hugging Face Accelerate <https://huggingface.co/docs/accelerate/en/index>`_
 
-         * - ``torchdata``
-           - Llama 3.1 70B
-           - `TorchData <https://pytorch.org/data/beta/index.html>`_
+               * - ``datasets``
+                 - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`_ 3.2.0
 
-         * - ``tomli``
-           - Llama 3.1 70B
-           - `Tomli <https://pypi.org/project/tomli/>`_
+         .. container:: model-doc pyt_train_llama-3.1-70b
 
-         * - ``tiktoken``
-           - Llama 3.1 70B
-           - `tiktoken <https://github.com/openai/tiktoken>`_
+            ``pytorch_benchmark_setup.sh`` installs the following libraries for Llama 3.1 70B:
 
-         * - ``blobfile``
-           - Llama 3.1 70B
-           - `blobfile <https://pypi.org/project/blobfile/>`_
+            .. list-table::
+               :header-rows: 1
 
-         * - ``tabulate``
-           - Llama 3.1 70B
-           - `tabulate <https://pypi.org/project/tabulate/>`_
+               * - Library
+                 - Reference
 
-         * - ``wandb``
-           - Llama 3.1 70B
-           - `Weights & Biases <https://github.com/wandb/wandb>`_
+               * - ``datasets``
+                 - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`_ 3.2.0
 
-         * - ``sentencepiece``
-           - Llama 3.1 70B, FLUX
-           - `SentencePiece <https://github.com/google/sentencepiece>`_ 0.2.0
+               * - ``torchdata``
+                 - `TorchData <https://pytorch.org/data/beta/index.html>`_
 
-         * - ``tensorboard``
-           - Llama 3.1 70 B, FLUX
-           - `TensorBoard <https://www.tensorflow.org/tensorboard>`_ 2.18.0
+               * - ``tomli``
+                 - `Tomli <https://pypi.org/project/tomli/>`_
 
-         * - ``csvkit``
-           - FLUX
-           - `csvkit <https://csvkit.readthedocs.io/en/latest/>`_ 2.0.1
+               * - ``tiktoken``
+                 - `tiktoken <https://github.com/openai/tiktoken>`_
 
-         * - ``deepspeed``
-           - FLUX
-           - `DeepSpeed <https://github.com/deepspeedai/DeepSpeed>`_ 0.16.2
+               * - ``blobfile``
+                 - `blobfile <https://pypi.org/project/blobfile/>`_
 
-         * - ``diffusers``
-           - FLUX
-           - `Hugging Face Diffusers <https://huggingface.co/docs/diffusers/en/index>`_ 0.31.0
+               * - ``tabulate``
+                 - `tabulate <https://pypi.org/project/tabulate/>`_
 
-         * - ``GitPython``
-           - FLUX
-           - `GitPython <https://github.com/gitpython-developers/GitPython>`_ 3.1.44
+               * - ``wandb``
+                 - `Weights & Biases <https://github.com/wandb/wandb>`_
 
-         * - ``opencv-python-headless``
-           - FLUX
-           - `opencv-python-headless <https://pypi.org/project/opencv-python-headless/>`_ 4.10.0.84
+               * - ``sentencepiece``
+                 - `SentencePiece <https://github.com/google/sentencepiece>`_ 0.2.0
 
-         * - ``peft``
-           - FLUX
-           - `PEFT <https://huggingface.co/docs/peft/en/index>`_ 0.14.0
+               * - ``tensorboard``
+                 - `TensorBoard <https://www.tensorflow.org/tensorboard>`_ 2.18.0
 
-         * - ``protobuf``
-           - FLUX
-           - `Protocol Buffers <https://github.com/protocolbuffers/protobuf>`_ 5.29.2
+         .. container:: model-doc pyt_train_flux
 
-         * - ``pytest``
-           - FLUX
-           - `PyTest <https://docs.pytest.org/en/stable/>`_ 8.3.4
+            ``pytorch_benchmark_setup.sh`` installs the following libraries for FLUX:
 
-         * - ``python-dotenv``
-           - FLUX
-           - `python-dotenv <https://pypi.org/project/python-dotenv/>`_ 1.0.1
+            .. list-table::
+               :header-rows: 1
 
-         * - ``seaborn``
-           - FLUX
-           - `Seaborn <https://seaborn.pydata.org/>`_ 0.13.2
+               * - Library
+                 - Reference
 
-         * - ``transformers``
-           - FLUX
-           - `Transformers <https://huggingface.co/docs/transformers/en/index>`_ 4.47.0
+               * - ``accelerate``
+                 - `Hugging Face Accelerate <https://huggingface.co/docs/accelerate/en/index>`_
 
-      ``pytorch_benchmark_setup.sh`` downloads the following models from Hugging Face:
+               * - ``datasets``
+                 - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`_ 3.2.0
 
-      * `meta-llama/Llama-3.1-70B-Instruct <https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct>`_
+               * - ``sentencepiece``
+                 - `SentencePiece <https://github.com/google/sentencepiece>`_ 0.2.0
 
-      * `black-forest-labs/FLUX.1-dev <https://huggingface.co/black-forest-labs/FLUX.1-dev>`_
+               * - ``tensorboard``
+                 - `TensorBoard <https://www.tensorflow.org/tensorboard>`_ 2.18.0
 
-      Along with the following datasets:
+               * - ``csvkit``
+                 - `csvkit <https://csvkit.readthedocs.io/en/latest/>`_ 2.0.1
 
-      * `WikiText <https://huggingface.co/datasets/Salesforce/wikitext>`_
+               * - ``deepspeed``
+                 - `DeepSpeed <https://github.com/deepspeedai/DeepSpeed>`_ 0.16.2
 
-      * `UltraChat 200k <https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k>`_
+               * - ``diffusers``
+                 - `Hugging Face Diffusers <https://huggingface.co/docs/diffusers/en/index>`_ 0.31.0
 
-      * `bghira/pseudo-camera-10k <https://huggingface.co/datasets/bghira/pseudo-camera-10k>`_
+               * - ``GitPython``
+                 - `GitPython <https://github.com/gitpython-developers/GitPython>`_ 3.1.44
 
-      .. rubric:: Pretraining
+               * - ``opencv-python-headless``
+                 - `opencv-python-headless <https://pypi.org/project/opencv-python-headless/>`_ 4.10.0.84
 
-      To start the pretraining benchmark, use the following command with the
-      appropriate options. See the following list of options and their descriptions.
+               * - ``peft``
+                 - `PEFT <https://huggingface.co/docs/peft/en/index>`_ 0.14.0
 
-      .. code-block:: shell
+               * - ``protobuf``
+                 - `Protocol Buffers <https://github.com/protocolbuffers/protobuf>`_ 5.29.2
 
-         ./pytorch_benchmark_report.sh -t $training_mode -m $model_repo -p $datatype -s $sequence_length
+               * - ``pytest``
+                 - `PyTest <https://docs.pytest.org/en/stable/>`_ 8.3.4
 
-      .. list-table::
-         :header-rows: 1
+               * - ``python-dotenv``
+                 - `python-dotenv <https://pypi.org/project/python-dotenv/>`_ 1.0.1
 
-         * - Name
-           - Options
-           - Description
+               * - ``seaborn``
+                 - `Seaborn <https://seaborn.pydata.org/>`_ 0.13.2
 
-         * - ``$training_mode``
-           - ``pretrain``
-           - Benchmark pretraining
+               * - ``transformers``
+                 - `Transformers <https://huggingface.co/docs/transformers/en/index>`_ 4.47.0
 
-         * -
-           - ``finetune_fw``
-           - Benchmark full weight fine-tuning (Llama 3.1 70B with BF16)
+         ``pytorch_benchmark_setup.sh`` downloads the following datasets from Hugging Face:
 
-         * -
-           - ``finetune_lora``
-           - Benchmark LoRA fine-tuning (Llama 3.1 70B with BF16)
+         * `bghira/pseudo-camera-10k <https://huggingface.co/datasets/bghira/pseudo-camera-10k>`_
 
-         * -
-           - ``HF_finetune_lora``
-           - Benchmark LoRA fine-tuning with Hugging Face PEFT (Llama 2 70B with BF16)
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
+         {% if model_group.tag == "pre-training" and model.mad_tag in ["pyt_train_llama-3.1-8b", "pyt_train_llama-3.1-70b", "pyt_train_flux"] %}
 
-         * - ``$datatype``
-           - ``FP8`` or ``BF16``
-           - Only Llama 3.1 8B supports FP8 precision.
+         .. container:: model-doc {{ model.mad_tag }}
 
-         * - ``$model_repo``
-           - ``Llama-3.3-70B``
-           - `Llama 3.3 70B <https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct>`_
+            .. rubric:: Pretraining
 
-         * - 
-           - ``Llama-3.1-8B``
-           - `Llama 3.1 8B <https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct>`_
+            To start the pre-training benchmark, use the following command with the
+            appropriate options. See the following list of options and their descriptions.
 
-         * - 
-           - ``Llama-3.1-70B``
-           - `Llama 3.1 70B <https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct>`_
+            .. code-block:: shell
 
-         * - 
-           - ``Llama-2-70B``
-           - `Llama 2 70B <https://huggingface.co/meta-llama/Llama-2-70B>`_
+               ./pytorch_benchmark_report.sh -t pretrain -m {{ model.model_repo }} -p $datatype -s $sequence_length
 
-         * - 
-           - ``Flux``
-           - `FLUX.1 [dev] <https://huggingface.co/black-forest-labs/FLUX.1-dev>`_
+            .. list-table::
+               :header-rows: 1
 
-         * - ``$sequence_length``
-           - Sequence length for the language model.
-           - Between 2048 and 8192. 8192 by default.
+               * - Name
+                 - Options
+                 - Description
 
-      .. note::
+            {% if model.mad_tag == "pyt_train_llama-3.1-8b" %}
+               * - ``$datatype``
+                 - ``BF16`` or ``FP8``
+                 - Only Llama 3.1 8B supports FP8 precision.
+            {% else %}
+               * - ``$datatype``
+                 - ``BF16``
+                 - Only Llama 3.1 8B supports FP8 precision.
+            {% endif %}
 
-         Occasionally, downloading the Flux dataset might fail. In the event of this
-         error, manually download it from Hugging Face at
-         `black-forest-labs/FLUX.1-dev <https://huggingface.co/black-forest-labs/FLUX.1-dev>`_
-         and save it to `/workspace/FluxBenchmark`. This ensures that the test script can access
-         the required dataset.
+               * - ``$sequence_length``
+                 - Sequence length for the language model.
+                 - Between 2048 and 8192. 8192 by default.
 
-      .. rubric:: Fine-tuning
+            {% if model.mad_tag == "pyt_train_flux" %}
+            .. container:: model-doc {{ model.mad_tag }}
 
-      To start the fine-tuning benchmark, use the following command. It will run the benchmarking example of Llama 3.1 70B
-      with the WikiText dataset using the AMD fork of `torchtune <https://github.com/AMD-AIG-AIMA/torchtune>`_.
+               .. note::
 
-      .. code-block:: shell
+                  Occasionally, downloading the Flux dataset might fail. In the event of this
+                  error, manually download it from Hugging Face at
+                  `black-forest-labs/FLUX.1-dev <https://huggingface.co/black-forest-labs/FLUX.1-dev>`_
+                  and save it to `/workspace/FluxBenchmark`. This ensures that the test script can access
+                  the required dataset.
+            {% endif %}
+         {% endif %}
 
-         ./pytorch_benchmark_report.sh -t {finetune_fw, finetune_lora} -p BF16 -m Llama-3.1-70B
+         {% if model_group.tag == "fine-tuning" %}
+         .. container:: model-doc {{ model.mad_tag }}
 
-      Use the following command to run the benchmarking example of Llama 2 70B with the UltraChat 200k dataset using
-      `Hugging Face PEFT <https://huggingface.co/docs/peft/en/index>`_.
+            .. rubric:: Fine-tuning
 
-      .. code-block:: shell
+            To start the fine-tuning benchmark, use the following command with the
+            appropriate options. See the following list of options and their descriptions.
 
-         ./pytorch_benchmark_report.sh -t HF_finetune_lora -p BF16 -m Llama-2-70B
+            .. code-block:: shell
 
-      .. rubric:: Benchmarking examples
+               ./pytorch_benchmark_report.sh -t $training_mode -m {{ model.model_repo }} -p BF16 -s $sequence_length
 
-      Here are some example commands to get started pretraining and fine-tuning with various model configurations.
+            .. list-table::
+               :header-rows: 1
 
-      * Example 1: Llama 3.1 70B with BF16 precision with `torchtitan <https://github.com/ROCm/torchtitan>`_.
+               * - Name
+                 - Options
+                 - Description
 
-        .. code-block:: shell
+               * - ``$training_mode``
+                 - ``finetune_fw``
+                 - Full weight fine-tuning (BF16 supported)
 
-           ./pytorch_benchmark_report.sh -t pretrain -p BF16 -m Llama-3.1-70B -s 8192
+               * -
+                 - ``finetune_lora``
+                 - LoRA fine-tuning (BF16 supported)
 
-      * Example 2: Llama 3.1 8B with FP8 precision using Transformer Engine (TE) and Hugging Face Accelerator.
+               * -
+                 - ``finetune_qlora``
+                 - QLoRA fine-tuning (BF16 supported)
 
-        .. code-block:: shell
+               * -
+                 - ``HF_finetune_lora``
+                 - LoRA fine-tuning with Hugging Face PEFT
 
-           ./pytorch_benchmark_report.sh -t pretrain -p FP8 -m Llama-3.1-70B -s 8192
+               * - ``$datatype``
+                 - ``BF16``
+                 - All models support BF16.
 
-      * Example 3: FLUX.1-dev with BF16 precision with FluxBenchmark.
+               * - ``$sequence_length``
+                 - Between 2048 and 16384.
+                 - Sequence length for the language model.
 
-        .. code-block:: shell
+            .. note::
 
-           ./pytorch_benchmark_report.sh -t pretrain -p BF16 -m Flux
+               {{ model.model }} currently supports the following fine-tuning methods:
 
-      * Example 4: Torchtune full weight fine-tuning with Llama 3.1 70B
+            {% for method in model.training_modes %}
+               * ``{{ method }}``
+            {% endfor %}
+            {% if model.training_modes|length < 4 %}
 
-        .. code-block:: shell
+               The upstream `torchtune <https://github.com/pytorch/torchtune>`_ repository
+               does not currently provide YAML configuration files for other combinations of
+               model to fine-tuning method
+               However, you can still configure your own YAML files to enable support for
+               fine-tuning methods not listed here by following existing patterns in the
+               ``/workspace/torchtune/recipes/configs`` directory.
+            {% endif %}
+         {% endif %}
+      {% endfor %}
+   {% endfor %}
 
-           ./pytorch_benchmark_report.sh -t finetune_fw -p BF16 -m Llama-3.1-70B
+               .. rubric:: Benchmarking examples
 
-      * Example 5: Torchtune LoRA fine-tuning with Llama 3.1 70B
-
-        .. code-block:: shell
-
-           ./pytorch_benchmark_report.sh -t finetune_lora -p BF16 -m Llama-3.1-70B
-
-      * Example 6: Torchtune full weight fine-tuning with Llama-3.3-70B
-
-        .. code-block:: shell
-
-           ./pytorch_benchmark_report.sh -t finetune_fw -p BF16 -m Llama-3.3-70B
-
-      * Example 7: Torchtune LoRA fine-tuning with Llama-3.3-70B
-
-        .. code-block:: shell
-
-           ./pytorch_benchmark_report.sh -t finetune_lora -p BF16 -m Llama-3.3-70B
-
-      * Example 8: Torchtune QLoRA fine-tuning with Llama-3.3-70B
-
-        .. code-block:: shell
-
-           ./pytorch_benchmark_report.sh -t finetune_qlora -p BF16 -m Llama-3.3-70B
-
-      * Example 9: Hugging Face PEFT LoRA fine-tuning with Llama 2 70B
-
-        .. code-block:: shell
-
-           ./pytorch_benchmark_report.sh -t HF_finetune_lora -p BF16 -m Llama-2-70B
+               For examples of benchmarking commands, see `<https://github.com/ROCm/MAD/tree/develop/benchmark/pytorch_train#benchmarking-examples>`__.
 
 Previous versions
 =================
 
-This table lists previous versions of the ROCm PyTorch training Docker image for training
-performance validation. For detailed information about available models for
-benchmarking, see the version-specific documentation.
-
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-
-   * - Image version
-     - ROCm version
-     - PyTorch version
-     - Resources
-
-   * - v25.4
-     - 6.3.0
-     - 2.7.0a0+git637433
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.3/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-training/v25.4/images/sha256-fa98a9aa69968e654466c06f05aaa12730db79b48b113c1ab4f7a5fe6920a20b>`_
-
-   * - v25.3
-     - 6.3.0
-     - 2.7.0a0+git637433
-     - 
-       * `Documentation <https://rocm.docs.amd.com/en/docs-6.3.2/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html>`_
-       * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-training/v25.3/images/sha256-0ffdde1b590fd2787b1c7adf5686875b100980b0f314090901387c44253e709b>`_
+See :doc:`previous-versions/pytorch-training-history` to find documentation for previous releases
+of the ``ROCm/pytorch-training`` Docker image.

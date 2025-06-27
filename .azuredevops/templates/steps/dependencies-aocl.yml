@@ -1,10 +1,15 @@
 parameters:
+- name: os
+  type: string
+  default: ubuntu2204
 - name: repositoryUrl
   type: string
   default: https://download.amd.com/developer/eula/aocl/aocl-4-2
 - name: packageName
-  type: string
-  default: aocl-linux-gcc-4.2.0_1_amd64.deb
+  type: object
+  default:
+    ubuntu2204: aocl-linux-gcc-4.2.0_1_amd64.deb
+    almalinux8: aocl-linux-gcc-4.2.0-1.x86_64.rpm
 
 steps:
 - task: Bash@3
@@ -12,16 +17,19 @@ steps:
   inputs:
     targetType: inline
     workingDirectory: $(Pipeline.Workspace)
-    script: wget -nv ${{ parameters.repositoryUrl }}/${{ parameters.packageName }}
+    script: wget -nv ${{ parameters.repositoryUrl }}/${{ parameters.packageName[parameters.os] }}
 - task: Bash@3
   displayName: Install AOCL
   inputs:
     targetType: inline
     workingDirectory: $(Pipeline.Workspace)
-    script: sudo apt install -y ./${{ parameters.packageName }}
+    ${{ if eq(parameters.os, 'ubuntu2204') }}:
+      script: sudo apt install -y ./${{ parameters.packageName[parameters.os] }}
+    ${{ elseif eq(parameters.os, 'almalinux8') }}:
+      script: sudo dnf install -y ./${{ parameters.packageName[parameters.os] }}
 - task: Bash@3
   displayName: Clean up AOCL
   inputs:
     targetType: inline
     workingDirectory: $(Pipeline.Workspace)
-    script: rm -f ${{ parameters.packageName }}
+    script: rm -f ${{ parameters.packageName[parameters.os] }}

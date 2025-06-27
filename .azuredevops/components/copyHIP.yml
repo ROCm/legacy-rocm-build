@@ -1,36 +1,42 @@
 parameters:
-- name: checkoutRepo
-  type: string
-  default: 'self'
-- name: checkoutRef
-  type: string
-  default: ''
+- name: jobMatrix
+  type: object
+  default:
+    copyJobs:
+      - { os: ubuntu2204, backend: amd }
+      - { os: almalinux8, backend: amd }
+      - { os: ubuntu2204, backend: nvidia }
+      - { os: almalinux8, backend: nvidia }
 
 # hip and clr are tightly-coupled
 # run this same template for both repos
 # any changes for clr should just trigger HIP pipeline
 jobs:
-- job: hip_clr_combined
-  variables:
-  - group: common
-  - template: /.azuredevops/variables-global.yml
-  pool:
-    vmImage: ${{ variables.BASE_BUILD_POOL }}
-  workspace:
-    clean: all
-  steps:
-# checkout nothing, just copy artifacts from triggering HIP job
-# and then publish for this clr job or for this hipother job to maintain latest
-  - checkout: none
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-download.yml
-    parameters:
-      componentName: HIP
-      pipelineId: $(HIP_PIPELINE_ID)
-  - task: Bash@3
-    displayName: Copy HIP artifacts
-    inputs:
-      targetType: inline
-      script: cp -a $(Agent.BuildDirectory)/rocm/* $(Build.BinariesDirectory)/
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
-  - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+- ${{ each job in parameters.jobMatrix.copyJobs }}:
+  - job: hip_clr_combined_${{ job.os }}_${{ job.backend }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool:
+      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+  # checkout nothing, just copy artifacts from triggering HIP job
+  # and then publish for this clr job or for this hipother job to maintain latest
+    - checkout: none
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-download.yml
+      parameters:
+        componentName: HIP
+        pipelineId: $(HIP_PIPELINE_ID)
+        fileFilter: ${{ job.os }}*${{ job.backend }}
+    - task: Bash@3
+      displayName: Copy HIP artifacts
+      inputs:
+        targetType: inline
+        script: cp -a $(Agent.BuildDirectory)/rocm/* $(Build.BinariesDirectory)/
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
