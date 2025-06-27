@@ -86,8 +86,7 @@ jobs:
       value: $(Agent.BuildDirectory)/rocm
     - name: HIP_INC_DIR
       value: $(Agent.BuildDirectory)/rocm
-    pool:
-      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
     workspace:
       clean: all
     steps:
