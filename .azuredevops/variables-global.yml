@@ -66,11 +66,11 @@ variables:
 - name: HIP_TESTS_PIPELINE_ID
   value: 233
 - name: HIPBLAS_COMMON_PIPELINE_ID
-  value: 223
+  value: 300
 - name: HIPBLAS_PIPELINE_ID
   value: 87
 - name: HIPBLASLT_PIPELINE_ID
-  value: 112
+  value: 301
 - name: HIPCUB_PIPELINE_ID
   value: 277
 - name: HIPFFT_PIPELINE_ID
