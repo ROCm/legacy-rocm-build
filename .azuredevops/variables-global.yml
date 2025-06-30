@@ -104,7 +104,7 @@ variables:
 - name: ROCALUTION_PIPELINE_ID
   value: 89
 - name: ROCBLAS_PIPELINE_ID
-  value: 85
+  value: 302
 - name: ROCDBGAPI_PIPELINE_ID
   value: 135
 - name: ROCDECODE_PIPELINE_ID
