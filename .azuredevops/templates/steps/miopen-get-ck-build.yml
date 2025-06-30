@@ -40,7 +40,7 @@ steps:
 
       AZURE_URL="$AZ_API/build/builds/$CK_BUILD_ID/artifacts?api-version=7.1"
       ARTIFACT_URL=$(curl -s $AZURE_URL | \
-        jq --arg os "ubuntu2204" --arg gfx "gfx942" '
+        jq --arg os "ubuntu2204" --arg gfx "${{ parameters.gpuTarget }}" '
           .value
           | map(select(.name | test($os) and test($gfx)))
           | max_by(.name | capture("drop_(?<dropNumber>\\d+)").dropNumber | tonumber)
@@ -56,7 +56,7 @@ steps:
         echo "Found latest CK build ID: $CK_BUILD_ID"
         AZURE_URL="$AZ_API/build/builds/$CK_BUILD_ID/artifacts?api-version=7.1"
         ARTIFACT_URL=$(curl -s $AZURE_URL | \
-          jq --arg os "ubuntu2204" --arg gfx "gfx942" '
+          jq --arg os "ubuntu2204" --arg gfx "${{ parameters.gpuTarget }}" '
             .value
             | map(select(.name | test($os) and test($gfx)))
             | max_by(.name | capture("drop_(?<dropNumber>\\d+)").dropNumber | tonumber)
