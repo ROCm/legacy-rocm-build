@@ -23,7 +23,9 @@ steps:
   inputs:
     targetType: inline
     script: |
-      sudo apt-get install -y jq
+      ${{ iif((eq(job.os, 'ubuntu2204'), eq(job.os, 'ubuntu2404')), 'sudo apt-get install -y jq', '') }}
+
+      echo "##vso[task.setvariable variable=manifest_filename]manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}"
 
       # RESOURCES_REPOSITORIES is a runtime variable (not an env var!) that contains quotations and newlines
       # So we need to save it to a file to properly preserve its formatting and contents
@@ -67,7 +69,7 @@ steps:
         )
       ' resources.repositories)
 
-      manifest_json=$(Build.ArtifactStagingDirectory)/manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.json
+      manifest_json=$(Build.ArtifactStagingDirectory)/$(manifest_filename).json
 
       dependencies=()
       for manifest_file in $(Pipeline.Workspace)/d/**/manifest_*.json; do
@@ -119,7 +121,7 @@ steps:
   inputs:
     targetType: inline
     script: |
-      manifest_json=$(Build.ArtifactStagingDirectory)/manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.json
+      manifest_json=$(Build.ArtifactStagingDirectory)/manifest_filename.json
       cat $manifest_json
 - task: Bash@3
   displayName: Create manifest.html
@@ -128,10 +130,10 @@ steps:
   inputs:
     targetType: inline
     script: |
-      manifest_html=$(Build.ArtifactStagingDirectory)/manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.html
+      manifest_html="$(Build.ArtifactStagingDirectory)/$(manifest_filename).html"
       cat <<EOF > $manifest_html
       <html>
-      <h1>$manifest_html</h1>
+      <h1>$(manifest_filename)</h1>
       <h2>Current</h2>
       <table border="1">
       <tr>
@@ -171,7 +173,7 @@ steps:
   continueOnError: true
   inputs:
     tabName: Manifest
-    reportDir: $(Build.ArtifactStagingDirectory)/manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.html
+    reportDir: $(Build.ArtifactStagingDirectory)/$(manifest_filename).html
 - task: Bash@3
   displayName: Save manifest artifact file name
   condition: always()
@@ -180,5 +182,5 @@ steps:
     workingDirectory: $(Pipeline.Workspace)
     targetType: inline
     script: |
-      echo "manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.html" >> pipelineArtifacts.txt
-      echo "manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.json" >> pipelineArtifacts.txt
+      echo "$(manifest_filename).html" >> pipelineArtifacts.txt
+      echo "$(manifest_filename).json" >> pipelineArtifacts.txt
