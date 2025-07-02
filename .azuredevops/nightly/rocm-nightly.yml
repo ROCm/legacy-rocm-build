@@ -150,11 +150,9 @@ stages:
           script: echo "$(Build.DefinitionName)_$(Build.BuildNumber)_ubuntu2204_${{ job.target }}.tar.gz" >> pipelineArtifacts.txt
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
 
-  - stage: rocm_nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}_docker
-    dependsOn: rocm_nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}
-    condition: succeeded()
-    jobs:
     - job: rocm_nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}_docker
+      dependsOn: rocm_nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}
+      condition: succeeded()
       variables:
       - group: common
       - template: /.azuredevops/variables-global.yml
