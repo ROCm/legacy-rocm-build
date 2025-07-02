@@ -180,11 +180,9 @@ stages:
               RUN mkdir hsa-amd-aqlprofile
               RUN dpkg-deb -R $(cat packageName) hsa-amd-aqlprofile
               RUN cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
-              RUN NIGHTLY_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds?definitions=206&statusFilter=completed&resultFilter=succeeded&\$top=1&api-version=7.1" \
-                && BUILD_ID=$(curl -s $NIGHTLY_URL | jq ".value[0].id") \
-                && ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$BUILD_ID/artifacts?artifactName=rocmnightlyubuntu2204gfx942staging&api-version=7.1" \
+              RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=rocmnightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
                 && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
-                && wget -nv $DOWNLOAD_URL -O nightly.zip
+                && wget $DOWNLOAD_URL -O nightly.zip
               RUN unzip nightly.zip
               RUN tar -xf rocmnightly*/rocm-nightly_* -C rocm
               RUN ln -s /root/rocm /opt/rocm
