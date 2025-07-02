@@ -15,7 +15,7 @@ steps:
       URL_BEGIN="https://artprodcus3.artifacts.visualstudio.com/"
       URL_MIDDLE="/_apis/artifact/"
       URL_END="/content?format=file&subPath=%2F"
-      FORMATTED_JOB_NAME=$(echo $(Agent.JobName) | sed 's/ /./g; s/[-_]//g')
+      FORMATTED_JOB_NAME=$(echo "$(Agent.JobName)_$(System.JobAttempt)" | sed 's/ /./g; s/[-_]//g')
       ARTIFACT_STRING="pipelineartifact://ROCm-CI/projectId/$(DOWNLOAD_PROJECT_ID)/buildId/$(Build.BuildId)/artifactName/${FORMATTED_JOB_NAME}"
       ENCODED_STRING=$(echo -n "${ARTIFACT_STRING}" | base64 -w 0)
       PADDING_COUNT=$(echo -n "${ENCODED_STRING}" | awk -F= '{print NF-1}')

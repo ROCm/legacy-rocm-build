@@ -30,6 +30,7 @@ steps:
       cat <<EOF > resources.repositories
       $(RESOURCES_REPOSITORIES)
       EOF
+      echo "Value of resources.repositories:"
       cat resources.repositories
 
       IS_TAG_BUILD=$(jq 'has("release_repo")' resources.repositories)
@@ -111,7 +112,14 @@ steps:
         ')
       dependencies_rows=$(echo $dependencies_rows)
       echo "##vso[task.setvariable variable=dependencies_rows;]$dependencies_rows"
-
+- task: Bash@3
+  displayName: Print manifest.json
+  condition: always()
+  continueOnError: true
+  inputs:
+    targetType: inline
+    script: |
+      manifest_json=$(Build.ArtifactStagingDirectory)/manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.json
       cat $manifest_json
 - task: Bash@3
   displayName: Create manifest.html
@@ -123,7 +131,7 @@ steps:
       manifest_html=$(Build.ArtifactStagingDirectory)/manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}.html
       cat <<EOF > $manifest_html
       <html>
-      <h1>Manifest</h1>
+      <h1>$manifest_html</h1>
       <h2>Current</h2>
       <table border="1">
       <tr>
