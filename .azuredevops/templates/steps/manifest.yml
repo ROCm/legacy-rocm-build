@@ -25,8 +25,6 @@ steps:
     script: |
       ${{ iif(or(eq(parameters.os, 'ubuntu2204'), eq(parameters.os, 'ubuntu2404')), 'sudo apt-get install -y jq', '') }}
 
-      echo "##vso[task.setvariable variable=manifest_filename]manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}"
-
       # RESOURCES_REPOSITORIES is a runtime variable (not an env var!) that contains quotations and newlines
       # So we need to save it to a file to properly preserve its formatting and contents
       cat <<EOF > resources.repositories
@@ -69,8 +67,6 @@ steps:
         )
       ' resources.repositories)
 
-      manifest_json=$(Build.ArtifactStagingDirectory)/$(manifest_filename).json
-
       dependencies=()
       for manifest_file in $(Pipeline.Workspace)/d/**/manifest_*.json; do
         echo "Processing $manifest_file"
@@ -80,6 +76,10 @@ steps:
         done <<< "$file"
       done
       dependencies_json=$(printf '%s\n' "${dependencies[@]}" | jq -s '.')
+
+      manifest_filename="manifest_${{ parameters.componentName }}_$(Build.BuildId)_$(Build.BuildNumber)_${{ parameters.os }}_${{ parameters.gpuTarget }}_${{ parameters.artifactName }}"
+      echo "##vso[task.setvariable variable=manifest_filename]$manifest_filename"
+      manifest_json=$(Build.ArtifactStagingDirectory)/$manifest_filename.json
 
       jq -n \
         --argjson current "$current" \
@@ -121,8 +121,7 @@ steps:
   inputs:
     targetType: inline
     script: |
-      manifest_json=$(Build.ArtifactStagingDirectory)/manifest_filename.json
-      cat $manifest_json
+      cat $(Build.ArtifactStagingDirectory)/$(manifest_filename).json
 - task: Bash@3
   displayName: Create manifest.html
   condition: always()
