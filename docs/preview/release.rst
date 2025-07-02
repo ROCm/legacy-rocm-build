@@ -1,270 +1,400 @@
-****************************
-ROCm 7.0 Alpha release notes
-****************************
+***************************
+ROCm 7.0 RC1 release notes
+***************************
 
-The ROCm 7.0 Alpha is an early look into the upcoming ROCm 7.0 major release,
-which introduces functional support for AMD Instinct™ MI355X and MI350X
-on bare metal, single node systems. It also includes new features for current-generation
-MI300X, MI200, and MI100 series accelerators. This is an alpha-quality release;
-expect issues and limitations that will be addressed in upcoming previews.
+The ROCm 7.0 RC1 is a release candidate for the upcoming ROCm 7.0 major
+release, which introduces functional support for AMD Instinct™ MI355X and
+MI350X on single node systems and new features for current-generation
+accelerators.
+In this RC1, system support is widened to include more AMD GPUs, Linux
+distributions, and virtualization options. This preview includes enhancements
+to the HIP runtime, ROCm libraries, and system management tooling.
+
+This is a first release candidate; expect issues and limitations that will be
+addressed in upcoming previews.
 
 .. important::
 
-   This Alpha release is not intended for performance evaluation.
-   For the latest stable release for production-level functionality,
-   see `ROCm documentation <https://rocm.docs.amd.com/en/latest/>`_.
+   This preview is not intended for performance evaluation. For the latest stable
+   release with production-level functionality, see `ROCm 6.4.2 documentation
+   <https://rocm.docs.amd.com/en/latest/>`_.
 
-This page provides a high-level summary of supported systems, key changes to the ROCm software
-stack, developments related to AI frameworks, current known limitations, and installation
-information.
+This document highlights the key changes in the RC1 build since the
+`Beta <https://rocm.docs.amd.com/en/docs-7.0-beta/preview/release.html>`__.
+For a complete history, see the :doc:`ROCm 7.0 preview release history <versions>`.
 
-.. _alpha-system-requirements:
+.. _rc1-system-requirements:
 
 Operating system and hardware support
 =====================================
 
-Only the accelerators and operating systems listed here are supported. Multi-node systems,
-virtualized environments, and GPU partitioning are not supported in this Alpha.
+This preview supports the following AMD accelerators and Linux distributions in single node setups.
 
-* AMD accelerator: Instinct MI355X, MI350X, MI325X [#mi325x]_, MI300X, MI300A, MI250X, MI250, MI210, MI100
-* Operating system: Ubuntu 22.04, Ubuntu 24.04, or RHEL 9.6
-* System type: Bare metal, single node only
-* Partitioning: Not supported
+.. tab-set::
 
-.. [#mi325x] MI325X is only supported with Ubuntu 22.04.
+   .. tab-item:: Instinct MI355X, MI350X
 
-.. _alpha-highlights:
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
 
-Alpha release highlights
-========================
+         * - Ubuntu
+           - 24.04, 22.04
 
-This section highlights key features enabled in the ROCm 7.0 Alpha.
+         * - RHEL
+           - 9.6
+
+         * - Oracle Linux
+           - 9
+
+   .. tab-item:: Instinct MI325X
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6
+
+   .. tab-item:: Instinct MI300X
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+         * - Oracle Linux
+           - 9, 8
+
+         * - Debian
+           - 12
+
+   .. tab-item:: Instinct MI300A
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+   .. tab-item:: Instinct MI250X, MI250, MI210
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 9.4, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+   .. tab-item:: Instinct MI100
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+   .. tab-item:: Radeon PRO V710, V620
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+   .. tab-item:: Radeon RX 9000 series
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+   .. tab-item:: Radeon RX 7000 series
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+See the :doc:`installation instructions <install/index>` to install ROCm 7.0 RC1 and the Instinct Driver
+for your hardware and distribution.
+
+Virtualization support
+----------------------
+
+The RC1 includes support for GPU virtualization on KVM-based SR-IOV and VMware ESXi 8.
+The following tables detail supported OS configurations per AMD accelerator.
+
+.. tab-set::
+
+   .. tab-item:: KVM SR-IOV
+
+      All supported configurations require the `GIM SR-IOV driver version
+      8.3.0K <https://github.com/amd/MxGPU-Virtualization/releases>`__.
+
+      .. list-table::
+         :header-rows: 1
+
+         * - AMD accelerator
+           - Host OS
+           - Guest OS
+
+         * - Instinct MI350X
+           - Ubuntu 24.04
+           - Ubuntu 24.04
+
+         * - Instinct MI325X
+           - Ubuntu 22.04
+           - Ubuntu 22.04
+
+         * - Instinct MI300X
+           - Ubuntu 22.04
+           - Ubuntu 22.04
+
+         * - Instinct MI210
+           - RHEL 9.4
+           - Ubuntu 22.04 or RHEL 9.4
+
+         * - Radeon PRO V710
+           - Ubuntu 22.04.5
+           - Ubuntu 24.04
+
+   .. tab-item:: ESXi 8
+
+      The following configurations are supported on hosts running VMware ESXi 8.
+
+      .. list-table::
+         :header-rows: 1
+
+         * - AMD accelerator
+           - Guest OS
+
+         * - Instinct MI325X
+           - Ubuntu 24.04
+
+         * - Instinct MI300X
+           - Ubuntu 24.04
+
+         * - Instinct MI210
+           - Ubuntu 24.04 or SLES 15 SP6
+
+.. _rc1-highlights:
+
+RC1 release highlights
+=======================
+
+This section highlights key features enabled in the ROCm 7.0 RC1.
 
 AI frameworks
 -------------
 
-PyTorch
-~~~~~~~
-
-The ROCm 7.0 Alpha enables the following PyTorch features:
-
-* Support for PyTorch 2.7
-
-* Integrated Fused Rope kernels in APEX
-
-* Compilation of Python C++ extensions using amdclang++
-
-* Support for channels-last NHWC format for convolutions via MIOpen
-
-TensorFlow
-~~~~~~~~~~
-
-This Alpha enables support for TensorFlow 2.19.
-
-vLLM
-~~~~
-
-* Support for Open Compute Project (OCP) ``FP8`` data type
-
-* ``FP4`` precision for Llama 3.1 405B
+The ROCm 7.0 RC1 supports PyTorch 2.7, TensorFlow 2.19, and Triton 3.3.0.
 
 Libraries
 ---------
 
-.. _alpha-new-data-type-support:
+Composable Kernel
+~~~~~~~~~~~~~~~~~
 
-New data type support
-~~~~~~~~~~~~~~~~~~~~~
+The RC1 adds functional support for microscaling (MX) data type ``FP6`` in
+Composable Kernel. This builds upon `MX data type support (ROCm 7.0 Alpha)
+<https://rocm.docs.amd.com/en/docs-7.0-alpha/preview/release.html#new-data-type-support>`__.
 
-MX-compliant data types bring microscaling support to ROCm. For more information, see the `OCP
-Microscaling (MX) Formats Specification
-<https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf>`_. The ROCm
-7.0 Alpha enables functional support for MX data types ``FP4``, ``FP6``, and ``FP8`` on MI355X
-systems in these ROCm libraries:
+hipBLASLt
+~~~~~~~~~
 
-* Composable Kernel (``FP4`` and ``FP8`` only)
-
-* hipBLASLt
-
-* MIGraphX (``FP4`` only)
-
-The following libraries are updated to support the Open Compute Project (OCP) floating-point ``FP8``
-format on MI355X instead of the NANOO ``FP8`` format:
-
-* Composable Kernel
-
-* hipBLASLt
-
-* hipSPARSELt
-
-* MIGraphX
-
-* rocWMMA
-
-MIGraphX now also supports ``BF16``.
+GEMM performance has been improved for ``FP8``, ``FP16``, ``BF16``, and ``FP32`` data types.
 
 RCCL support
 ~~~~~~~~~~~~
 
-RCCL is supported for single-node functional usage only. Multi-node communication capabilities will
-be supported in future preview releases.
-
-MIGraphX
-~~~~~~~~
-
-* Support for OCP ``FP8`` and MX ``FP4`` data types on MI355X
-
-* Support for ``BF16`` on all hardware
-
-* Support for PyTorch 2.7 via Torch-MIGraphX
-
-Tools
------
-
-AMD SMI
-~~~~~~~
-
-* The default output of the ``amd-smi`` CLI now displays a simple table view.
-
-* New APIs: CPU affinity shows GPUs' affinitization to each CPU in a system.
-
-ROCgdb
-~~~~~~
-
-* MX data types support: ``FP4``, ``FP6``, and ``FP8``
-
-ROCprof Compute Viewer
-~~~~~~~~~~~~~~~~~~~~~~
-
-* Initial release: ``rocprof-compute-viewer`` allows the visualization of ``rocprofv3``'s thread
-  trace output
-
-ROCprof Trace Decoder
-~~~~~~~~~~~~~~~~~~~~~
-
-* Initial release: ``rocprof-trace-decoder`` a plugin API for decoding thread traces
-
-ROCm Compute Profiler
-~~~~~~~~~~~~~~~~~~~~~
-
-* MX data types support: ``FP4``, ``FP6``, and ``FP8``
-
-* MI355X and MI350X performance counters: CPC, SPI, SQ, TA/TD/TCP, and TCC
-
-* Enhanced roofline analysis with support for ``INT8``, ``INT32``, ``FP8``, ``FP16``, and ``BF16``
-  data types
-
-* Roofline distinction for ``FP32`` and ``FP64`` data types
-
-* Selective kernel profiling
-
-ROCm Systems Profiler
-~~~~~~~~~~~~~~~~~~~~~
-
-* Trace support for computer vision APIs: H264, H265, AV1, VP9, and JPEG
-
-* Trace support for computer vision engine activity
-
-* OpenMP for C++ language and kernel activity support
-
-ROCm Validation Suite
-~~~~~~~~~~~~~~~~~~~~~
-
-* MI355X and MI350X accelerator support in the IET (Integrated Execution Test), GST (GPU Stress Test), and Babel (memory bandwidth test) modules.
-
-ROCprofiler-SDK
-~~~~~~~~~~~~~~~
-
-* Program counter (PC) sampling (host trap-based)
-
-* API for profiling applications using thread traces (beta)
-
-* Support in ``rocprofv3`` CLI tool for thread trace service
+RCCL is supported for single node functional usage only. Multi-node communication capabilities will
+be supported in a future release.
 
 HIP
 ---
 
-The HIP runtime includes support for:
+The following changes improve functionality and runtime performance:
 
-* Open Compute Project (OCP) MX floating-point ``FP4``, ``FP6``, and ``FP8`` data types and APIs
+* Improved launch latency for device-to-device (D2D) copies and ``memset`` operations on AMD Instinct MI300 series accelerators.
 
-* Improved logging by adding more precise pointer information and launch arguments for better
-  tracking and debugging in dispatch methods
+* Added ``hipMemGetHandleForAddressRange`` to retrieve a handle for a specified
+  memory address range. This provides functional parity with CUDA
+  ``cuMemGetHandleForAddressRange``.
 
-In addition, the HIP runtime includes the following functional improvements which improve runtime
-performance and user experience:
-
-* Optimized HIP runtime lock contention in some events and kernel handling APIs. Event processing
-  and memory object look-ups now use the shared mutex implementation. Kernel object look-up during
-  C++ kernel launch can now avoid a global lock. These changes improve performance in certain
-  applications with high usage, particularly for multiple GPUs, multiple threads, and HIP streams
-  per GPU.
-
-* Programmatic support for scratch buffer limit on GPU device. Developers can now change the default
-  allocation size with the expected scratch limit.
-
-* Unified managed buffer and kernel argument buffers so the HIP runtime no longer needs to create
-  and load a separate kernel argument buffer.
-
-* Refactored memory validation to create a unique function to validate a variety of memory copy
-  operations.
-
-* Shader names are now demangled for more readable kernel logs
-
-See :ref:`HIP compatibility <hip-known-limitation>`.
+* Resolved an issue causing crashes in TensorFlow applications. The HIP runtime now
+  combines multiple definitions of ``callbackQueue`` into a single function; in
+  case of an exception, it passes its handler to the application and provides
+  the proper error code.
 
 Compilers
 ---------
 
-* The compiler driver now uses parallel code generation by default when compiling using full LTO
-  (including when using the ``-fgpu-rdc`` option) for HIP. This divides the optimized LLVM IR module
-  into roughly equal partitions before instruction selection and lowering, which can help improve
-  build times.
+``llvm-strip`` now supports AMD GPU device code objects (``EM_AMDGPU``).
 
-  Each kernel in the linked LTO module may be put in a separate partition, and any non-inlined
-  function it depends on may be copied alongside it. Thus, while parallel code generation can
-  improve build time, it can duplicate non-inlined, non-kernel functions across multiple partitions,
-  potentially increasing the binary size of the final object file.
+HIPCC
+~~~~~
 
-  * Compiler option ``-flto-partitions=<num>``.
+The legacy Perl-based HIPCC scripts -- ``hipcc.pl`` and ``hipconfig.pl`` -- have been removed.
 
-    Equivalent to the ``--lto-partitions=<num>`` LLD option. Controls the number of partitions used for
-    parallel code generation when using full LTO (including when using ``-fgpu-rdc``). The number of
-    partitions must be greater than 0, and a value of 1 disables the feature. The default value is 8.
+AMD SMI
+-------
 
-    Developers are encouraged to experiment with different numbers of partitions using the
-    ``-flto-partitions`` Clang command line option. Recommended values are 1 to 16 partitions, with
-    especially large projects containing many kernels potentially benefitting from up to 64
-    partitions. It is not recommended to use a value greater than the number of threads on the
-    machine. Smaller projects, or projects that contain only a few kernels may also not benefit at
-    all from partitioning and may even see a slight increase in build time due to the small overhead
-    of analyzing and partitioning the modules.
+* Added:
 
-* HIPIFY now supports NVIDIA CUDA 12.8.0 APIs. See
-  `<https://github.com/ROCm/HIPIFY/blob/amd-develop/docs/reference/supported_apis.md>`_ for more
-  information.
+  * New default view when using ``amd-smi`` without arguments. The
+    improved default view provides a snapshot of commonly requested information
+    such as bdf, current partition mode, version information, and more. You can
+    obtain the same information in other output formats using ``amd-smi default
+    --json`` or ``amd-smi default --csv``.
 
-Instinct Driver / ROCm packaging separation
+  * New APIs:
+
+    * ``amdsmi_get_gpu_bad_page_threshold()`` to get bad page threshold counts.
+
+    * ``amdsmi_get_cpu_model_name()`` to get CPU model names (not sourced from E-SMI library).
+
+    * ``amdsmi_get_cpu_affinity_with_scope()`` to get CPU affinity.
+
+  * API enhancements:
+
+    * ``amdsmi_get_power_info()`` now populates ``socket_power``.
+
+    * ``amdsmi_asic_info_t`` now also includes ``subsystem_id``.
+
+  * CLI enhancements:
+
+    * ``amd-smi topology`` is now available in guest environments.
+
+    * ``amd-smi monitor -p`` now displays the power cap alongside power.
+
+* Optimized:
+
+  * Improved overall performance by reducing the number of backend API calls for ``amd-smi`` CLI commands.
+
+  * Removed partition information from the default ``amd-smi static`` CLI
+    command to avoid waking the GPU unnecessarily. This info remains available
+    via ``amd-smi`` (default view) and ``amd-smi static -p``.
+
+  * Optimized CLI command ``amd-smi topology`` in partition mode.
+
+* Changed:
+
+  * Updated ``amdsmi_get_clock_info`` in ``amdsmi_interface.py``. The ``clk_deep_sleep`` field now returns the sleep integer value.
+
+  * The char arrays in the following structures have been changed.
+
+    * ``amdsmi_vbios_info_t`` member ``build_date`` changed from ``AMDSMI_MAX_DATE_LENGTH`` to ``AMDSMI_MAX_STRING_LENGTH``.
+
+    * ``amdsmi_dpm_policy_entry_t`` member ``policy_description`` changed from ``AMDSMI_MAX_NAME`` to ``AMDSMI_MAX_STRING_LENGTH``.
+
+    * ``amdsmi_name_value_t`` member ``name`` changed from ``AMDSMI_MAX_NAME`` to ``AMDSMI_MAX_STRING_LENGTH``.
+
+  * Added new event notification types to ``amdsmi_evt_notification_type_t``:
+    ``AMDSMI_EVT_NOTIF_EVENT_MIGRATE_START``,
+    ``AMDSMI_EVT_NOTIF_EVENT_MIGRATE_END``,
+    ``AMDSMI_EVT_NOTIF_EVENT_PAGE_FAULT_START``,
+    ``AMDSMI_EVT_NOTIF_EVENT_PAGE_FAULT_END``,
+    ``AMDSMI_EVT_NOTIF_EVENT_QUEUE_EVICTION``,
+    ``AMDSMI_EVT_NOTIF_EVENT_QUEUE_RESTORE``,
+    ``AMDSMI_EVT_NOTIF_EVENT_UNMAP_FROM_GPU``,
+    ``AMDSMI_EVT_NOTIF_PROCESS_START``, ``AMDSMI_EVT_NOTIF_PROCESS_END``.
+
+  * The ``amdsmi_bdf_t`` union was changed to have an identical unnamed struct for backwards compatiblity.
+
+* Removed:
+
+  * Cleaned up and unified the API by removing unused definitions and redundant components.
+
+    * Removed unneeded API ``amdsmi_free_name_value_pairs()``.
+
+    * Removed unused definitions: ``AMDSMI_MAX_NAME``, ``AMDSMI_256_LENGTH``,
+      ``AMDSMI_MAX_DATE_LENGTH``, ``MAX_AMDSMI_NAME_LENGTH``, ``AMDSMI_LIB_VERSION_YEAR``,
+      ``AMDSMI_DEFAULT_VARIANT``, ``AMDSMI_MAX_NUM_POWER_PROFILES``,
+      ``AMDSMI_MAX_DRIVER_VERSION_LENGTH``.
+
+      * Removed unused member ``year`` in struct ``amdsmi_version_t``.
+
+    * Replaced ``amdsmi_io_link_type_t`` with the unified ``amdsmi_link_type_t``. ``amdsmi_io_link_type_t`` is no longer needed.
+      Code using the old enum might need to be updated; this change also affects ``amdsmi_link_metrics_t``, where the ``link_type`` field is changed from ``amdsmi_io_link_type_t`` to ``amdsmi_link_type_t``.
+
+    * Removed the ``amdsmi_get_power_info_v2()`` function as its functionality is now unified in ``amdsmi_get_power_info()``.
+
+    * Removed ``AMDSMI_EVT_NOTIF_RING_HANG`` event notification type in ``amdsmi_evt_notification_type_t``.
+
+    * Removed enum ``amdsmi_vram_vendor_type_t``. ``amdsmi_get_gpu_vram_info()`` now provides vendor names as a string.
+
+  * Removed backwards compatibility for the ``jpeg_activity`` and ``vcn_activity`` fields in ``amdsmi_get_gpu_metrics_info()``.
+    Use ``xcp_stats.jpeg_busy`` or ``xcp_stats.vcn_busy`` instead. This change removes ambiguity between new and old fields
+    and supports the expanded metrics available in modern ASICs.
+
+* Resolved issues:
+
+  * Removed duplicated GPU IDs when receiving events using the ``amd-smi event`` command.
+
+Instinct Driver/ROCm packaging separation
 -------------------------------------------
 
-The Instinct Driver is now distributed separately from the ROCm software stack -- it is now stored
-in its own location in the package repository at `<repo.radeon.com>`_ under ``/amdgpu/``.
-The first release is designated as Instinct Driver version 30.10 See `ROCm Gets Modular: Meet the
+The Instinct Driver is now distributed separately from the ROCm software stack and is now stored
+in its own location in the package repository at `repo.radeon.com <https://repo.radeon.com/amdgpu/>`_ under ``/amdgpu/``.
+The first release is designated as Instinct Driver version 30.10. See `ROCm Gets Modular: Meet the
 Instinct Datacenter GPU Driver
 <https://rocm.blogs.amd.com/ecosystems-and-partners/instinct-gpu-driver/README.html>`_ for more
 information.
 
-Forward and backward compatibility between the Instinct Driver and ROCm are not supported in this
-Alpha release. See the :doc:`installation instructions <install/index>`.
-
-Known limitations
-=================
-
-.. _hip-known-limitation:
-
-HIP compatibility
------------------
-
-HIP runtime APIs in the ROCm 7.0 Alpha do not include backward-incompatible changes. See `HIP 7.0 Is
-Coming: What You Need to Know to Stay Ahead
-<https://rocm.blogs.amd.com/ecosystems-and-partners/transition-to-hip-7.0:-guidance-on-upcoming-compatibility-changes/README.html>`_ for more information.
+Forward and backward compatibility between the Instinct Driver and ROCm is not supported in the
+RC1. See the :doc:`installation instructions <install/index>`.
