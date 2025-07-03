@@ -13,6 +13,7 @@ demangled
 inlined
 microscaling
 roofline
+torchtitan
 AAC
 ABI
 ACE

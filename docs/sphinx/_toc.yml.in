@@ -16,6 +16,18 @@ subtrees:
           title: Install ROCm
         - file: preview/install/instinct-driver
           title: Install Instinct Driver
+  - file: preview/benchmark-docker/index.rst
+    title: Docker images for AI
+    subtrees:
+    - entries:
+        - file: preview/benchmark-docker/training.rst
+          title: Training benchmarking
+          subtrees:
+          - entries:
+                - file: preview/benchmark-docker/pre-training-megatron-lm-llama-3-8b.rst
+                  title: Pre-train Llama 3 8B with Megatron LM
+                - file: preview/benchmark-docker/pre-training-torchtitan-llama-3-70b.rst
+                  title: Pre-train Llama 3 70B with torchtitan
 # - entries:
 #   - file: what-is-rocm.rst
 #   - file: about/release-notes.md
