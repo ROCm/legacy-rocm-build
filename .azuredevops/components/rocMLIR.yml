@@ -27,6 +27,7 @@ parameters:
     - numpy
     - tomli
     - scipy
+    - pybind11
 - name: rocmDependencies
   type: object
   default:
