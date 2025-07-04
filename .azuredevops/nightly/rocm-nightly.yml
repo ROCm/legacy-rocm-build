@@ -179,7 +179,7 @@ stages:
                 && mkdir hsa-amd-aqlprofile \
                 && dpkg-deb -R $PACKAGE_NAME hsa-amd-aqlprofile \
                 && cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
-              RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=rocmnightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
+              RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
                 && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
                 && wget $DOWNLOAD_URL -O nightly.zip
               RUN unzip nightly.zip
