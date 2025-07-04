@@ -36,6 +36,7 @@ parameters:
     - clr
     - llvm-project
     - rocDecode
+    - rocJPEG
     - rocm-cmake
     - rocm-core
     - rocminfo
@@ -192,9 +193,9 @@ jobs:
       inputs:
         itemPattern: '**/*.whl'
         targetPath: $(Agent.BuildDirectory)
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
       parameters:
-        checkoutRepo: ${{ parameters.checkoutRepo }}
+        gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
@@ -221,25 +222,17 @@ jobs:
     - task: CMake@1
       displayName: 'rocPyDecode Test CMake Flags'
       inputs:
+        workingDirectory: $(Agent.BuildDirectory)/rocm/share/rocpydecode/tests
         cmakeArgs: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(PYTHON_USER_SITE)/pybind11;$(PYTHON_DIST_PACKAGES)/pybind11;$(PYBIND11_PATH)
           -DCMAKE_BUILD_TYPE=Release
           -DGPU_TARGETS=${{ job.target }}
-          ..
+          .
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: rocPyDecode
-        testDir: $(Build.SourcesDirectory)/build
-  # sudo required for pip install but screws up permissions for next pipeline run
-    - task: Bash@3
-      displayName: Clean up test environment
-      condition: always()
-      inputs:
-        targetType: inline
-        script: |
-          pip uninstall -y rocPyDecode
-          pip uninstall -y hip-python
+        testDir: $(Agent.BuildDirectory)/rocm/share/rocpydecode/tests
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
