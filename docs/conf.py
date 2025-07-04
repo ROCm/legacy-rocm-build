@@ -12,6 +12,54 @@ from pathlib import Path
 shutil.copy2("../RELEASE.md", "./about/release-notes.md")
 shutil.copy2("../CHANGELOG.md", "./release/changelog.md")
 
+# Mark the consolidated changelog as orphan to prevent Sphinx from warning about missing toctree entries
+with open("./release/changelog.md", "r+") as file:
+    content = file.read()
+    file.seek(0)
+    file.write(":orphan:\n" + content)
+
+# Replace GitHub-style [!ADMONITION]s with Sphinx-compatible ```{admonition} blocks
+with open("./release/changelog.md", "r") as file:
+    lines = file.readlines()
+
+    modified_lines = []
+    in_admonition_section = False
+
+    # Map for matching the specific admonition type to its corresponding Sphinx markdown syntax
+    admonition_types = {
+        '> [!NOTE]': '```{note}',
+        '> [!TIP]': '```{tip}',
+        '> [!IMPORTANT]': '```{important}',
+        '> [!WARNING]': '```{warning}',
+        '> [!CAUTION]': '```{caution}'
+    }
+
+    for line in lines:
+        if any(line.startswith(k) for k in admonition_types):
+            for key in admonition_types:
+                if(line.startswith(key)):
+                    modified_lines.append(admonition_types[key] + '\n')
+                    break
+            in_admonition_section = True
+        elif in_admonition_section:
+            if line.strip() == '':
+                # If we encounter an empty line, close the admonition section
+                modified_lines.append('```\n\n')  # Close the admonition block
+                in_admonition_section = False
+            else:
+                modified_lines.append(line.lstrip('> '))
+        else:
+            modified_lines.append(line)
+
+    # In case the file ended while still in a admonition section, close it
+    if in_admonition_section:
+        modified_lines.append('```')
+
+    file.close()
+
+    with open("./release/changelog.md", 'w') as file:
+        file.writelines(modified_lines)
+
 os.system("mkdir -p ../_readthedocs/html/downloads")
 os.system("cp compatibility/compatibility-matrix-historical-6.0.csv ../_readthedocs/html/downloads/compatibility-matrix-historical-6.0.csv")
 

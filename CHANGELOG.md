@@ -34,9 +34,8 @@ for a complete overview of this release.
 
 * When using the `--follow` flag with `amd-smi ras --cper`, CPER entries are not streamed continuously as intended. This will be fixed in an upcoming ROCm release.
 
-```{note}
-See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples, and in-depth descriptions.
-```
+> [!NOTE]
+> See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples, and in-depth descriptions.
 
 ### **HIP** (6.4.1)
 
@@ -117,9 +116,8 @@ See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/release/roc
 
 - Fixed partition enumeration. It now refers to the correct DRM Render and Card paths.
 
-```{note}
-See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples, and in-depth descriptions.
-```
+> [!NOTE]
+> See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples, and in-depth descriptions.
 
 ### **ROCm Systems Profiler** (1.0.1)
 
@@ -257,9 +255,8 @@ Some workaround options are as follows:
 
 - The `pasid` field in struct `amdsmi_process_info_t` will be deprecated in a future ROCm release.
 
-```{note}
-See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples, and in-depth descriptions.
-```
+> [!NOTE]
+> See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples, and in-depth descriptions.
 
 ### **AMDMIGraphX** (2.12.0)
 
@@ -867,9 +864,8 @@ The following lists the backward incompatible changes planned for upcoming major
 
 - Fixed `rsmi_dev_target_graphics_version_get`, `rocm-smi --showhw`, and `rocm-smi --showprod` not displaying graphics version correctly for Instinct MI200 series, MI100 series, and RDNA3-based GPUs. 
 
-```{note}
-See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples, and in-depth descriptions.
-```
+> [!NOTE]
+> See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/release/rocm-rel-6.4/CHANGELOG.md) for details, examples, and in-depth descriptions.
 
 ### **ROCm Systems Profiler** (1.0.0)
 
@@ -1295,9 +1291,8 @@ for a complete overview of this release.
 * Fixed `amd-smi monitor`'s reporting of encode and decode information. `VCLOCK` and `DCLOCK` are
   now associated with both `ENC_UTIL` and `DEC_UTIL`.
 
-```{note}
-See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/6.3.x/CHANGELOG.md) for more details and examples.
-```
+> [!NOTE]
+> See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/6.3.x/CHANGELOG.md) for more details and examples.
 
 ### **HIP** (6.3.1)
 
@@ -1501,9 +1496,8 @@ for a complete overview of this release.
   - The new partition command can display GPU information, including memory and accelerator partition information.
   - The command will be at full functionality once additional partition information from `amdsmi_get_gpu_accelerator_partition_profile()` has been implemented.
 
-```{note}
-See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/6.3.x/CHANGELOG.md) for more details and examples.
-```
+> [!NOTE]
+> See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/6.3.x/CHANGELOG.md) for more details and examples.
 
 ### **HIP** (6.3.0)
 
@@ -1637,17 +1631,16 @@ See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/6.3.x/CHANG
 
 * Support for `fp8` data types
 
-### **hipRAND** (2.11.0[*](#id22))
+### **hipRAND** (2.11.0)
+
+> [!NOTE]
+> In ROCm 6.3.0, the hipRAND package version is incorrectly set to `2.11.0`.
+> In ROCm 6.2.4, the hipRAND package version was `2.11.1`.
+> The hipRAND version number will be corrected in a future ROCm release.
 
 #### Changed
 
 * Updated the default value for the `-a` argument from `rmake.py` to `gfx906:xnack-,gfx1030,gfx1100,gfx1101,gfx1102`.
-
-#### Known issues
-
-* In ROCm 6.3.0, the hipRAND package version is incorrectly set to `2.11.0`. In ROCm
-  6.2.4, the hipRAND package version was `2.11.1`. The hipRAND version number will be corrected in a
-  future ROCm release.
 
 #### Resolved issues
 
@@ -1849,7 +1842,7 @@ See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/6.3.x/CHANG
 
 #### Known issues
 
-* See [MIVisionX memory access fault in Canny edge detection](#mivisionx-memory-access-fault-in-canny-edge-detection).
+* See [MIVisionX memory access fault in Canny edge detection](https://github.com/ROCm/ROCm/issues/4086).
 * Package installation requires the manual installation of OpenCV.
 * Installation on CentOS/RedHat/SLES requires the manual installation of the `FFMPEG Dev` package.
 * Hardware decode requires installation with `--usecase=graphics` in addition to `--usecase=rocm`.
@@ -2040,9 +2033,9 @@ See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/6.3.x/CHANG
 
 #### Known issues
 
-- See [ROCm Compute Profiler post-upgrade](#rocm-compute-profiler-post-upgrade).
+- See [ROCm Compute Profiler post-upgrade](https://github.com/ROCm/ROCm/issues/4082).
 
-- See [ROCm Compute Profiler CTest failure in CI](#rocm-compute-profiler-ctest-failure-in-ci).
+- See [ROCm Compute Profiler CTest failure in CI](https://github.com/ROCm/ROCm/issues/4085).
 
 ### **ROCm Data Center Tool** (0.3.0)
 
@@ -2055,7 +2048,7 @@ See the full [AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/6.3.x/CHANG
 
 #### Known issues
 
-- See [ROCm Data Center Tool incorrect RHEL9 package version](#rocm-data-center-tool-incorrect-rhel9-package-version).
+- See [ROCm Data Center Tool incorrect RHEL9 package version](https://github.com/ROCm/ROCm/issues/4089).
 
 ### **ROCm SMI** (7.4.0)
 
@@ -2093,9 +2086,8 @@ memory partition modes upon an invalid argument return from memory partition mod
 
 - C++ tests for `memorypartition_read_write` are to be re-enabled in a future ROCm release.
 
-```{note}
-See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/6.3.x/CHANGELOG.md) for more details and examples.
-```
+> [!NOTE]
+> See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/6.3.x/CHANGELOG.md) for more details and examples.
 
 ### **ROCm Systems Profiler** (0.1.0)
 
@@ -2109,7 +2101,7 @@ See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/6.3.
 
 #### Known issues
 
-- See [ROCm Systems Profiler post-upgrade](#rocm-systems-profiler-post-upgrade).
+- See [ROCm Systems Profiler post-upgrade](https://github.com/ROCm/ROCm/issues/4083).
 
 ### **ROCm Validation Suite** (1.1.0)
 
@@ -2123,7 +2115,7 @@ See the full [ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/6.3.
 
 #### Known issues
 
-- See [ROCm Validation Suite needs specified configuration file](#rocm-validation-suite-needs-specified-configuration-file).
+- See [ROCm Validation Suite needs specified configuration file](https://github.com/ROCm/ROCm/issues/4090).
 
 ### **rocPRIM** (3.3.0)
 
@@ -2866,10 +2858,8 @@ for a complete overview of this release.
 
 See [issue #3500](https://github.com/ROCm/ROCm/issues/3500) on GitHub.
 
-```{note}
-See the [detailed AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/docs/6.2.0/CHANGELOG.md)
-on GitHub for more information.
-```
+> [!NOTE]
+> See the [detailed AMD SMI changelog](https://github.com/ROCm/amdsmi/blob/docs/6.2.0/CHANGELOG.md) on GitHub for more information.
 
 ### **Composable Kernel** (1.1.0)
 
@@ -3468,9 +3458,8 @@ The compiler may incorrectly compile a program that uses the
 the function is undefined along some path to the function. For most functions,
 uninitialized inputs cause undefined behavior.
 
-```{note}
-The ``-Wall`` compilation flag prompts the compiler to generate a warning if a variable is uninitialized along some path.
-```
+> [!NOTE]
+> The ``-Wall`` compilation flag prompts the compiler to generate a warning if a variable is uninitialized along some path.
 
 As a workaround, initialize the parameters to ``__shfl``. For example:
 
@@ -3791,10 +3780,8 @@ See [issue #3498](https://github.com/ROCm/ROCm/issues/3498) on GitHub.
 
 - Fixed Partition ID CLI output.
 
-```{note}
-See the [detailed ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/docs/6.2.0/CHANGELOG.md)
-on GitHub for more information.
-```
+> [!NOTE]
+> See the [detailed ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/docs/6.2.0/CHANGELOG.md) on GitHub for more information.
 
 ### **ROCm Validation Suite** (1.0.0)
 
@@ -4164,9 +4151,8 @@ for a complete overview of this release.
 * Fixed the `amdsmitstReadWrite.TestPowerCapReadWrite` test for RDNA3, RDNA2, and MI100 devices.
 * Fixed an issue with the `amdsmi_get_gpu_memory_reserved_pages` and `amdsmi_get_gpu_bad_page_info` Python interface calls.
 
-```{note}
-See the AMD SMI [detailed changelog](https://github.com/ROCm/amdsmi/blob/rocm-6.1.x/CHANGELOG.md) with code samples for more information.
-```
+> [!NOTE]
+> See the AMD SMI [detailed changelog](https://github.com/ROCm/amdsmi/blob/rocm-6.1.x/CHANGELOG.md) with code samples for more information.
 
 ### **RCCL** (2.18.6)
 
@@ -4246,9 +4232,8 @@ for a complete overview of this release.
 
 - `amd-smi bad-pages` can result in a `ValueError: Null pointer access` error when using some PMU firmware versions.
 
-```{note}
-See the [detailed changelog](https://github.com/ROCm/amdsmi/blob/docs/6.1.1/CHANGELOG.md) with code samples for more information.
-```
+> [!NOTE]
+> See the [detailed changelog](https://github.com/ROCm/amdsmi/blob/docs/6.1.1/CHANGELOG.md) with code samples for more information.
 
 ### **hipBLASLt** (0.7.0)
 
@@ -4317,9 +4302,8 @@ See the [detailed changelog](https://github.com/ROCm/amdsmi/blob/docs/6.1.1/CHAN
 
 - ROCm SMI reports GPU utilization incorrectly for RDNA3 GPUs in some situations. See the issue on [GitHub](https://github.com/ROCm/ROCm/issues/3112).
 
-```{note}
-See the [detailed ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/docs/6.1.1/CHANGELOG.md) with code samples for more information.
-```
+> [!NOTE]
+> See the [detailed ROCm SMI changelog](https://github.com/ROCm/rocm_smi_lib/blob/docs/6.1.1/CHANGELOG.md) with code samples for more information.
 
 ## ROCm 6.1.0
 
@@ -5036,16 +5020,16 @@ on GitHub for a complete overview of this release.
 
 ### **rocSPARSE** (2.5.4)
 
-##### Added
+#### Added
 
 - Added more mixed precisions for SpMV, (matrix: float, vectors: double, calculation: double) and (matrix: rocsparse_float_complex, vectors: rocsparse_double_complex, calculation: rocsparse_double_complex)
 - Added support for gfx940, gfx941 and gfx942
 
-##### Optimized
+#### Optimized
 
 - Fixed a bug in csrsm and bsrsm
 
-##### Known issues
+#### Known issues
 
 In csritlu0, the algorithm rocsparse_itilu0_alg_sync_split_fusion has some accuracy issues to investigate with XNACK enabled. The fallback is rocsparse_itilu0_alg_sync_split.
 
@@ -5131,7 +5115,7 @@ on GitHub for a complete overview of this release.
 
 ### **HIP** (5.6.0)
 
-##### Added
+#### Added
 
 - Added hipRTC support for amd_hip_fp16
 - Added hipStreamGetDevice implementation to get the device associated with the stream
@@ -5140,7 +5124,7 @@ on GitHub for a complete overview of this release.
 - hipArrayGetDescriptor for getting 1D or 2D array descriptor
 - hipArray3DGetDescriptor to get 3D array descriptor
 
-##### Changed
+#### Changed
 
 - hipMallocAsync to return success for zero size allocation to match hipMalloc
 - Separation of hipcc perl binaries from HIP project to hipcc project. hip-devel package depends on newly added hipcc package
@@ -5445,15 +5429,15 @@ $ gcc main.c -I/opt/rocm-5.6.0/include -L/opt/rocm-5.6.0/lib -lrocprofiler64-v2
 The resulting `a.out` will depend on
 `/opt/rocm-5.6.0/lib/librocprofiler64.so.2`.
 
-##### Added
+#### Added
 
 - 'end_time' need to be disabled in roctx_trace.txt
 
-##### Optimized
+#### Optimized
 
 - Improved Test Suite
 
-##### Resolved issues
+#### Resolved issues
 
 - rocprof in ROcm/5.4.0 gpu selector broken.
 - rocprof in ROCm/5.4.1 fails to generate kernel info.
