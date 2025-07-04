@@ -90,112 +90,108 @@ schedules:
     - develop
   always: true
 
-stages:
 - ${{ each job in parameters.jobList }}:
-  - stage: nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}
-    dependsOn: []
-    jobs:
-    - job: nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}
-      variables:
-      - group: common
-      - template: /.azuredevops/variables-global.yml
-      pool: ${{ variables.MEDIUM_BUILD_POOL }}
-      workspace:
-        clean: all
-      steps:
-      - task: DeleteFiles@1
-        displayName: 'Cleanup checkout space'
-        inputs:
-          SourceFolder: '$(Agent.BuildDirectory)/s'
-          Contents: '**/*'
-      - task: DeleteFiles@1
-        displayName: 'Cleanup Staging Area'
-        inputs:
-          SourceFolder: '$(Build.ArtifactStagingDirectory)'
-          Contents: '/**/*'
-          RemoveDotFiles: true
-      - script: df -h
-        displayName: System disk space before ROCm
-      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-        parameters:
-          dependencySource: ${{ job.source }}
-          dependencyList: ${{ parameters.rocmDependencies }}
-          os: ${{ job.os }}
-          gpuTarget: ${{ job.target }}
-      - script: df -h
-        displayName: System disk space after ROCm
-      - script: du -sh $(Agent.BuildDirectory)/rocm
-        displayName: Uncompressed ROCm size
-      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
-      - task: ArchiveFiles@2
-        displayName: Compress rocm-nightly
-        inputs:
-          rootFolderOrFile: $(Agent.BuildDirectory)/rocm
-          includeRootFolder: false
-          archiveType: tar
-          tarCompression: gz
-          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.DefinitionName)_$(Build.BuildNumber)_ubuntu2204_${{ job.target }}.tar.gz
-      - script: du -sh $(Build.ArtifactStagingDirectory)
-        displayName: Compressed ROCm size
-      - task: PublishPipelineArtifact@1
-        displayName: 'Publish ROCm Nightly Artifact'
-        retryCountOnTaskFailure: 3
-        inputs:
-          targetPath: '$(Build.ArtifactStagingDirectory)'
-      - task: Bash@3
-        displayName: Save pipeline artifact file name
-        inputs:
-          workingDirectory: $(Pipeline.Workspace)
-          targetType: inline
-          script: echo "$(Build.DefinitionName)_$(Build.BuildNumber)_ubuntu2204_${{ job.target }}.tar.gz" >> pipelineArtifacts.txt
-      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+  - job: nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - task: DeleteFiles@1
+      displayName: 'Cleanup checkout space'
+      inputs:
+        SourceFolder: '$(Agent.BuildDirectory)/s'
+        Contents: '**/*'
+    - task: DeleteFiles@1
+      displayName: 'Cleanup Staging Area'
+      inputs:
+        SourceFolder: '$(Build.ArtifactStagingDirectory)'
+        Contents: '/**/*'
+        RemoveDotFiles: true
+    - script: df -h
+      displayName: System disk space before ROCm
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        dependencySource: ${{ job.source }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        os: ${{ job.os }}
+        gpuTarget: ${{ job.target }}
+    - script: df -h
+      displayName: System disk space after ROCm
+    - script: du -sh $(Agent.BuildDirectory)/rocm
+      displayName: Uncompressed ROCm size
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+    - task: ArchiveFiles@2
+      displayName: Compress rocm-nightly
+      inputs:
+        rootFolderOrFile: $(Agent.BuildDirectory)/rocm
+        includeRootFolder: false
+        archiveType: tar
+        tarCompression: gz
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.DefinitionName)_$(Build.BuildNumber)_ubuntu2204_${{ job.target }}.tar.gz
+    - script: du -sh $(Build.ArtifactStagingDirectory)
+      displayName: Compressed ROCm size
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish ROCm Nightly Artifact'
+      retryCountOnTaskFailure: 3
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+    - task: Bash@3
+      displayName: Save pipeline artifact file name
+      inputs:
+        workingDirectory: $(Pipeline.Workspace)
+        targetType: inline
+        script: echo "$(Build.DefinitionName)_$(Build.BuildNumber)_ubuntu2204_${{ job.target }}.tar.gz" >> pipelineArtifacts.txt
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
 
-    - job: nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}_docker
-      dependsOn: nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}
-      condition: succeeded()
-      variables:
-      - group: common
-      - template: /.azuredevops/variables-global.yml
-      pool: ${{ variables.MEDIUM_BUILD_POOL }}
-      workspace:
-        clean: all
-      steps:
-      - task: Bash@3
-        displayName: Create Dockerfile
-        inputs:
-          workingDirectory: $(Agent.BuildDirectory)
-          targetType: inline
-          script: |
-            cat <<'EOF' > Dockerfile
-              FROM ubuntu:22.04
-              WORKDIR /root
-              RUN apt update
-              RUN apt upgrade -y
-              RUN apt install -y cmake curl git gcc g++ gpg lsb-release lsof ninja-build pkg-config python3 python3-pip wget zip libdrm-dev libelf-dev libgtest-dev libhsakmt-dev libhwloc-dev libnuma-dev libstdc++-12-dev libtbb-dev jq
-              RUN apt clean all
-              RUN mkdir rocm
-              RUN PACKAGE_NAME=$(curl -s https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/ | grep -oP "href=\"\K[^\"]*$(lsb_release -rs)[^\"]*\.deb") \
-                && wget https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/$PACKAGE_NAME \
-                && mkdir hsa-amd-aqlprofile \
-                && dpkg-deb -R $PACKAGE_NAME hsa-amd-aqlprofile \
-                && cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
-              RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
-                && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
-                && wget $DOWNLOAD_URL -O nightly.zip
-              RUN unzip nightly.zip
-              RUN tar -xf rocmnightly*/rocm-nightly_* -C rocm
-              RUN ln -s /root/rocm /opt/rocm
-              RUN ln -s /opt/rocm/llvm /opt/rocm/lib/llvm
-              RUN echo /opt/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
-              RUN echo /opt/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
-              RUN ldconfig
-              ENV PATH="$PATH:/opt/rocm/bin"
-              ENTRYPOINT ["/bin/bash"]
-            EOF
-      - task: Docker@2
-        displayName: Build and upload Docker image
-        inputs:
-          containerRegistry: ContainerService3
-          repository: 'nightly-${{ job.os }}-${{ job.target }}-${{ job.source }}'
-          Dockerfile: '$(Agent.BuildDirectory)/Dockerfile'
-          buildContext: '$(Agent.BuildDirectory)'
+  - job: nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}_docker
+    dependsOn: nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}
+    condition: succeeded()
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
+    workspace:
+      clean: all
+    steps:
+    - task: Bash@3
+      displayName: Create Dockerfile
+      inputs:
+        workingDirectory: $(Agent.BuildDirectory)
+        targetType: inline
+        script: |
+          cat <<'EOF' > Dockerfile
+            FROM ubuntu:22.04
+            WORKDIR /root
+            RUN apt update
+            RUN apt upgrade -y
+            RUN apt install -y cmake curl git gcc g++ gpg lsb-release lsof ninja-build pkg-config python3 python3-pip wget zip libdrm-dev libelf-dev libgtest-dev libhsakmt-dev libhwloc-dev libnuma-dev libstdc++-12-dev libtbb-dev jq
+            RUN apt clean all
+            RUN mkdir rocm
+            RUN PACKAGE_NAME=$(curl -s https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/ | grep -oP "href=\"\K[^\"]*$(lsb_release -rs)[^\"]*\.deb") \
+              && wget https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/$PACKAGE_NAME \
+              && mkdir hsa-amd-aqlprofile \
+              && dpkg-deb -R $PACKAGE_NAME hsa-amd-aqlprofile \
+              && cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
+            RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
+              && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
+              && wget $DOWNLOAD_URL -O nightly.zip
+            RUN unzip nightly.zip
+            RUN tar -xf rocmnightly*/rocm-nightly_* -C rocm
+            RUN ln -s /root/rocm /opt/rocm
+            RUN ln -s /opt/rocm/llvm /opt/rocm/lib/llvm
+            RUN echo /opt/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
+            RUN echo /opt/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
+            RUN ldconfig
+            ENV PATH="$PATH:/opt/rocm/bin"
+            ENTRYPOINT ["/bin/bash"]
+          EOF
+    - task: Docker@2
+      displayName: Build and upload Docker image
+      inputs:
+        containerRegistry: ContainerService3
+        repository: 'nightly-${{ job.os }}-${{ job.target }}-${{ job.source }}'
+        Dockerfile: '$(Agent.BuildDirectory)/Dockerfile'
+        buildContext: '$(Agent.BuildDirectory)'
