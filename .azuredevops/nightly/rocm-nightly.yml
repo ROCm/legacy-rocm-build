@@ -174,11 +174,11 @@ stages:
               RUN apt install -y cmake curl git gcc g++ gpg lsb-release lsof ninja-build pkg-config python3 python3-pip wget zip libdrm-dev libelf-dev libgtest-dev libhsakmt-dev libhwloc-dev libnuma-dev libstdc++-12-dev libtbb-dev jq
               RUN apt clean all
               RUN mkdir rocm
-              RUN curl -s https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/ | grep -oP "href=\"\K[^\"]*$(lsb_release -rs)[^\"]*\.deb" > packageName
-              RUN wget https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/$(cat packageName)
-              RUN mkdir hsa-amd-aqlprofile
-              RUN dpkg-deb -R $(cat packageName) hsa-amd-aqlprofile
-              RUN cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
+              RUN curl -s https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/ | grep -oP "href=\"\K[^\"]*$(lsb_release -rs)[^\"]*\.deb" > packageName \
+                && wget https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/$(cat packageName) \
+                && mkdir hsa-amd-aqlprofile \
+                && dpkg-deb -R $(cat packageName) hsa-amd-aqlprofile \
+                && cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
               RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=rocmnightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
                 && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
                 && wget $DOWNLOAD_URL -O nightly.zip
