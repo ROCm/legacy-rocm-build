@@ -90,21 +90,21 @@ The following models are pre-optimized for performance on AMD Instinct MI300X se
    Some models, such as Llama, require an external license agreement through
    a third party (for example, Meta).
 
-.. _amd-megatron-lm-performance-measurements:
+.. _amd-megatron-lm-performance-measurements-v254:
 
 Performance measurements
 ========================
 
 To evaluate performance, the
-`Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`_
+`Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`__
 page provides reference throughput and latency measurements for training
 popular AI models.
 
 .. important::
 
    The performance data presented in
-   `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
-   only reflects the :doc:`latest version of this training benchmarking environment <../megatron-lm>`_.
+   `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`__
+   only reflects the :doc:`latest version of this training benchmarking environment <../megatron-lm>`.
    The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
 
 System validation
@@ -115,7 +115,7 @@ auto-balancing, skip this step. Otherwise, complete the :ref:`system validation
 and optimization steps <train-a-model-system-validation>` to set up your system
 before starting training.
 
-.. _mi300x-amd-megatron-lm-training:
+.. _mi300x-amd-megatron-lm-training-v254:
 
 Environment setup
 =================
@@ -127,7 +127,7 @@ Use the following instructions to set up the environment, configure the script t
 reproduce the benchmark results on MI300X series accelerators with the AMD Megatron-LM Docker
 image.
 
-.. _amd-megatron-lm-requirements:
+.. _amd-megatron-lm-requirements-v254:
  
 Download the Docker image
 -------------------------
@@ -154,7 +154,7 @@ Download the Docker image
 The Docker container includes a pre-installed, verified version of the ROCm Megatron-LM development branch `<https://github.com/ROCm/Megatron-LM/tree/rocm_dev>`__
 (commit `fd6f01 <https://github.com/ROCm/Megatron-LM/tree/fd6f0d11d7f9480ace32f22eb7e4dab5314fa350>`_).
 
-.. _amd-megatron-lm-environment-setup:
+.. _amd-megatron-lm-environment-setup-v254:
 
 Configuration scripts
 ---------------------
@@ -468,7 +468,7 @@ accelerators with the AMD Megatron-LM Docker image.
 Key options
 -----------
 
-.. _amd-megatron-lm-benchmark-test-vars:
+.. _amd-megatron-lm-benchmark-test-vars-v254:
 
 The benchmark tests support the following sets of variables:
 
@@ -568,7 +568,7 @@ Benchmarking examples
                TEE_OUTPUT=1 MBS=5 BS=120 TP=8 TE_FP8=0 NO_TORCH_COMPILE=1
                SEQ_LENGTH=4096 bash examples/llama/train_llama2.sh
 
-            You can find the training logs at the location defined in ``$TRAIN_LOG`` in the :ref:`configuration script <amd-megatron-lm-environment-setup>`.
+            You can find the training logs at the location defined in ``$TRAIN_LOG`` in the :ref:`configuration script <amd-megatron-lm-environment-setup-v254>`.
 
             See the sample output:
 
@@ -597,7 +597,7 @@ Benchmarking examples
                TEE_OUTPUT=1 MBS=4 BS=64 TP=8 TE_FP8=0 NO_TORCH_COMPILE=1
                SEQ_LENGTH=4096 bash examples/llama/train_llama2.sh
 
-            You can find the training logs at the location defined in ``$TRAIN_LOG`` in the :ref:`configuration script <amd-megatron-lm-environment-setup>`.
+            You can find the training logs at the location defined in ``$TRAIN_LOG`` in the :ref:`configuration script <amd-megatron-lm-environment-setup-v254>`.
 
             Sample output for 2-node training:
 

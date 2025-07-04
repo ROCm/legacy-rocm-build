@@ -103,11 +103,11 @@ MI300X accelerator with the prebuilt vLLM Docker image.
 Once setup is complete, you can choose between two options to reproduce the
 benchmark results:
 
--  :ref:`MAD-integrated benchmarking <vllm-benchmark-mad>`
+-  :ref:`MAD-integrated benchmarking <vllm-benchmark-mad-v064>`
 
--  :ref:`Standalone benchmarking <vllm-benchmark-standalone>`
+-  :ref:`Standalone benchmarking <vllm-benchmark-standalone-v064>`
 
-.. _vllm-benchmark-mad:
+.. _vllm-benchmark-mad-v064:
 
 MAD-integrated benchmarking
 ===========================
@@ -135,7 +135,7 @@ model are collected in the following path: ``~/MAD/reports_float16/``.
 
 Although the following models are preconfigured to collect latency and
 throughput performance data, you can also change the benchmarking parameters.
-Refer to the :ref:`Standalone benchmarking <vllm-benchmark-standalone>` section.
+Refer to the :ref:`Standalone benchmarking <vllm-benchmark-standalone-v064>` section.
 
 Available models
 ----------------
@@ -177,7 +177,7 @@ Available models
 
    * ``pyt_vllm_mixtral-8x22b_fp8``
 
-.. _vllm-benchmark-standalone:
+.. _vllm-benchmark-standalone-v064:
 
 Standalone benchmarking
 =======================
@@ -203,14 +203,14 @@ Command
 -------
 
 To start the benchmark, use the following command with the appropriate options.
-See :ref:`Options <vllm-benchmark-standalone-options>` for the list of
+See :ref:`Options <vllm-benchmark-standalone-v064-options>` for the list of
 options and their descriptions.
 
 .. code-block:: shell
 
    ./vllm_benchmark_report.sh -s $test_option -m $model_repo -g $num_gpu -d $datatype
 
-See the :ref:`examples <vllm-benchmark-run-benchmark>` for more information.
+See the :ref:`examples <vllm-benchmark-run-benchmark-v064>` for more information.
 
 .. note::
 
@@ -229,7 +229,7 @@ See the :ref:`examples <vllm-benchmark-run-benchmark>` for more information.
       # pass your HF_TOKEN
       export HF_TOKEN=$your_personal_hf_token
 
-.. _vllm-benchmark-standalone-options:
+.. _vllm-benchmark-standalone-v064-options:
 
 Options
 -------
@@ -330,13 +330,13 @@ Options
      - ``float16`` or ``float8``
      - Data type
 
-.. _vllm-benchmark-run-benchmark:
+.. _vllm-benchmark-run-benchmark-v064:
 
 Running the benchmark on the MI300X accelerator
 -----------------------------------------------
 
 Here are some examples of running the benchmark with various options.
-See :ref:`Options <vllm-benchmark-standalone-options>` for the list of
+See :ref:`Options <vllm-benchmark-standalone-v064-options>` for the list of
 options and their descriptions.
 
 Example 1: latency benchmark

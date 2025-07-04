@@ -36,10 +36,10 @@ vLLM inference performance testing
    * `hipBLASLt {{ unified_docker.hipblaslt_version }} <https://github.com/ROCm/hipBLASLt>`_
 
    With this Docker image, you can quickly test the :ref:`expected
-   inference performance numbers <vllm-benchmark-performance-measurements>` for
+   inference performance numbers <vllm-benchmark-performance-measurements-v073>` for
    MI300X series accelerators.
 
-   .. _vllm-benchmark-available-models:
+   .. _vllm-benchmark-available-models-v073:
 
    Available models
    ================
@@ -95,7 +95,7 @@ vLLM inference performance testing
       See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
       more information.
 
-   .. _vllm-benchmark-performance-measurements:
+   .. _vllm-benchmark-performance-measurements-v073:
 
    Performance measurements
    ========================
@@ -109,7 +109,7 @@ vLLM inference performance testing
 
       The performance data presented in
       `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
-      only reflects the :doc:`latest version of this inference benchmarking environment <../vllm>`_.
+      only reflects the :doc:`latest version of this inference benchmarking environment <../vllm>`.
       The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
 
    Advanced features and known issues
@@ -130,7 +130,7 @@ vLLM inference performance testing
 
       To optimize performance, disable automatic NUMA balancing. Otherwise, the GPU
       might hang until the periodic balancing is finalized. For more information,
-   see the :ref:`system validation steps <rocm-for-ai-system-optimization>`.
+      see the :ref:`system validation steps <rocm-for-ai-system-optimization>`.
 
       .. code-block:: shell
 
@@ -154,7 +154,7 @@ vLLM inference performance testing
    Once the setup is complete, choose between two options to reproduce the
    benchmark results:
 
-   .. _vllm-benchmark-mad:
+   .. _vllm-benchmark-mad-v073:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -175,7 +175,7 @@ vLLM inference performance testing
                pip install -r requirements.txt
 
             Use this command to run the performance benchmark test on the `{{model.model}} <{{ model.url }}>`_ model
-            using one GPU with the ``{{model.precision}}`` data type on the host machine.
+            using one GPU with the :literal:`{{model.precision}}` data type on the host machine.
 
             .. code-block:: shell
 
@@ -186,7 +186,7 @@ vLLM inference performance testing
             ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
             model are collected in the following path: ``~/MAD/reports_{{model.precision}}/``.
 
-            Although the :ref:`available models <vllm-benchmark-available-models>` are preconfigured
+            Although the :ref:`available models <vllm-benchmark-available-models-v073>` are preconfigured
             to collect latency and throughput performance data, you can also change the benchmarking
             parameters. See the standalone benchmarking tab for more information.
 
@@ -264,7 +264,7 @@ vLLM inference performance testing
 
             * Latency benchmark
 
-              Use this command to benchmark the latency of the {{model.model}} model on eight GPUs with the ``{{model.precision}}`` data type.
+              Use this command to benchmark the latency of the {{model.model}} model on eight GPUs with the :literal:`{{model.precision}}` data type.
 
               .. code-block::
 
@@ -274,7 +274,7 @@ vLLM inference performance testing
 
             * Throughput benchmark
 
-              Use this command to throughput the latency of the {{model.model}} model on eight GPUs with the ``{{model.precision}}`` data type.
+              Use this command to throughput the latency of the {{model.model}} model on eight GPUs with the :literal:`{{model.precision}}` data type.
 
               .. code-block:: shell
 

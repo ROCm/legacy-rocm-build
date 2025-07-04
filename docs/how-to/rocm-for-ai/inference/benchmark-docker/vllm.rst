@@ -44,18 +44,18 @@ vLLM inference performance testing
    .. raw:: html
 
       <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
-        <div class="row">
-          <div class="col-2 me-2 model-param-head">Model group</div>
-          <div class="row col-10">
+      <div class="row">
+         <div class="col-2 me-2 model-param-head">Model group</div>
+         <div class="row col-10">
    {% for model_group in model_groups %}
             <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
    {% endfor %}
-          </div>
-        </div>
+         </div>
+      </div>
 
-        <div class="row mt-1">
-          <div class="col-2 me-2 model-param-head">Model</div>
-          <div class="row col-10">
+      <div class="row mt-1">
+         <div class="col-2 me-2 model-param-head">Model</div>
+         <div class="row col-10">
    {% for model_group in model_groups %}
       {% set models = model_group.models %}
       {% for model in models %}
@@ -66,8 +66,8 @@ vLLM inference performance testing
          {% endif %}
       {% endfor %}
    {% endfor %}
-          </div>
-        </div>
+         </div>
+      </div>
       </div>
 
    .. _vllm-benchmark-vllm:
@@ -173,7 +173,7 @@ vLLM inference performance testing
                pip install -r requirements.txt
 
             Use this command to run the performance benchmark test on the `{{model.model}} <{{ model.url }}>`_ model
-            using one GPU with the ``{{model.precision}}`` data type on the host machine.
+            using one GPU with the :literal:`{{model.precision}}` data type on the host machine.
 
             .. code-block:: shell
 
@@ -281,7 +281,7 @@ vLLM inference performance testing
 
             * Latency benchmark
 
-              Use this command to benchmark the latency of the {{model.model}} model on eight GPUs with ``{{model.precision}}`` precision.
+              Use this command to benchmark the latency of the {{model.model}} model on eight GPUs with :literal:`{{model.precision}}` precision.
 
               .. code-block::
 
@@ -291,7 +291,7 @@ vLLM inference performance testing
 
             * Throughput benchmark
 
-              Use this command to benchmark the throughput of the {{model.model}} model on eight GPUs with ``{{model.precision}}`` precision.
+              Use this command to benchmark the throughput of the {{model.model}} model on eight GPUs with :literal:`{{model.precision}}` precision.
 
               .. code-block:: shell
 

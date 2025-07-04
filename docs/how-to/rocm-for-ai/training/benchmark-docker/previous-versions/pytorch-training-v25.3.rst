@@ -39,7 +39,7 @@ software components to accelerate training workloads:
 | Triton                   | 3.1                            |
 +--------------------------+--------------------------------+
 
-.. _amd-pytorch-training-model-support:
+.. _amd-pytorch-training-model-support-v253:
 
 Supported models
 ================

@@ -96,14 +96,14 @@ This Docker image is optimized for specific model configurations outlined
 as follows. Performance can vary for other training workloads, as AMD
 doesn’t validate configurations and run conditions outside those described.
 
-.. _amd-maxtext-multi-node-setup:
+.. _amd-maxtext-multi-node-setup-v254:
 
 Multi-node setup
 ----------------
 
 For multi-node environments, ensure you have all the necessary packages for
 your network device, such as, RDMA. If you're not using a multi-node setup
-with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
+with RDMA, skip ahead to :ref:`amd-maxtext-download-docker-v254`.
 
 1. Install the following packages to build and install the RDMA driver.
 
@@ -168,7 +168,7 @@ with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
 
    e. RDMA interface
 
-      Ensure the :ref:`required packages <amd-maxtext-multi-node-setup>` are installed on all nodes.
+      Ensure the :ref:`required packages <amd-maxtext-multi-node-setup-v254>` are installed on all nodes.
       Then, set the RDMA interfaces to use for communication.
 
       .. code-block:: bash
@@ -178,7 +178,7 @@ with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
          # If using Mellanox NIC
          export NCCL_IB_HCA=mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_5,mlx5_8,mlx5_9
 
-.. _amd-maxtext-download-docker:
+.. _amd-maxtext-download-docker-v254:
 
 Download the Docker image
 -------------------------
@@ -195,7 +195,7 @@ Download the Docker image
 
       docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME/.ssh:/root/.ssh --shm-size 128G --name maxtext_training rocm/jax-training:maxtext-v25.4
 
-.. _amd-maxtext-get-started:
+.. _amd-maxtext-get-started-v254:
 
 Getting started
 ===============

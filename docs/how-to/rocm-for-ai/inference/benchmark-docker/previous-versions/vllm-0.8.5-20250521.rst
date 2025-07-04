@@ -36,10 +36,10 @@ vLLM inference performance testing
    * `hipBLASLt {{ unified_docker.hipblaslt_version }} <https://github.com/ROCm/hipBLASLt>`_
 
    With this Docker image, you can quickly test the :ref:`expected
-   inference performance numbers <vllm-benchmark-performance-measurements>` for
+   inference performance numbers <vllm-benchmark-performance-measurements-v085-20250521>` for
    MI300X series accelerators.
 
-   .. _vllm-benchmark-available-models:
+   .. _vllm-benchmark-available-models-v085-20250521:
 
    Supported models
    ================
@@ -99,7 +99,7 @@ vLLM inference performance testing
       See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
       more information.
 
-   .. _vllm-benchmark-performance-measurements:
+   .. _vllm-benchmark-performance-measurements-v085-20250521:
 
    Performance measurements
    ========================
@@ -181,7 +181,7 @@ vLLM inference performance testing
                pip install -r requirements.txt
 
             Use this command to run the performance benchmark test on the `{{model.model}} <{{ model.url }}>`_ model
-            using one GPU with the ``{{model.precision}}`` data type on the host machine.
+            using one GPU with the :literal:`{{model.precision}}` data type on the host machine.
 
             .. code-block:: shell
 
@@ -192,7 +192,7 @@ vLLM inference performance testing
             ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
             model are collected in the following path: ``~/MAD/reports_{{model.precision}}/``.
 
-            Although the :ref:`available models <vllm-benchmark-available-models>` are preconfigured
+            Although the :ref:`available models <vllm-benchmark-available-models-v085-20250521>` are preconfigured
             to collect latency and throughput performance data, you can also change the benchmarking
             parameters. See the standalone benchmarking tab for more information.
 
@@ -289,7 +289,7 @@ vLLM inference performance testing
 
             * Latency benchmark
 
-              Use this command to benchmark the latency of the {{model.model}} model on eight GPUs with ``{{model.precision}}`` precision.
+              Use this command to benchmark the latency of the {{model.model}} model on eight GPUs with :literal:`{{model.precision}}` precision.
 
               .. code-block::
 
@@ -299,7 +299,7 @@ vLLM inference performance testing
 
             * Throughput benchmark
 
-              Use this command to benchmark the throughput of the {{model.model}} model on eight GPUs with ``{{model.precision}}`` precision.
+              Use this command to benchmark the throughput of the {{model.model}} model on eight GPUs with :literal:`{{model.precision}}` precision.
 
               .. code-block:: shell
 

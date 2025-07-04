@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: How to configure MI300X accelerators to fully leverage their capabilities and achieve optimal performance.
    :keywords: ROCm, AI, machine learning, MI300X, LLM, usage, tutorial, optimization, tuning

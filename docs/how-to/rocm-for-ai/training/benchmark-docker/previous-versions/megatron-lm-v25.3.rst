@@ -114,7 +114,7 @@ the output is ``1``, run the following command to disable NUMA auto-balancing.
 See :ref:`System validation and optimization <rocm-for-ai-system-optimization>`
 for more information.
 
-.. _mi300x-amd-megatron-lm-training:
+.. _mi300x-amd-megatron-lm-training-v253:
 
 Environment setup
 =================
@@ -126,7 +126,7 @@ Use the following instructions to set up the environment, configure the script t
 reproduce the benchmark results on the MI300X accelerators with the AMD Megatron-LM Docker
 image.
 
-.. _amd-megatron-lm-requirements:
+.. _amd-megatron-lm-requirements-v253:
  
 Download the Docker image
 -------------------------
@@ -152,7 +152,7 @@ Download the Docker image
 
 The Docker container includes a pre-installed, verified version of Megatron-LM from the `release branch <https://github.com/ROCm/Megatron-LM/tree/megatron_release_v25.3>`_.
 
-.. _amd-megatron-lm-environment-setup:
+.. _amd-megatron-lm-environment-setup-v253:
 
 Configuration scripts
 ---------------------
@@ -396,7 +396,7 @@ accelerators with the AMD Megatron-LM Docker image.
 Key options
 -----------
 
-.. _amd-megatron-lm-benchmark-test-vars:
+.. _amd-megatron-lm-benchmark-test-vars-v253:
 
 The benchmark tests support the following sets of variables:
 
@@ -486,7 +486,7 @@ Benchmarking examples
                TEE_OUTPUT=1 MBS=5 BS=120 TP=8 TE_FP8=0 NO_TORCH_COMPILE=1
                SEQ_LENGTH=4096 bash examples/llama/train_llama2.sh
 
-            You can find the training logs at the location defined in ``$TRAIN_LOG`` in the :ref:`configuration script <amd-megatron-lm-environment-setup>`.
+            You can find the training logs at the location defined in ``$TRAIN_LOG`` in the :ref:`configuration script <amd-megatron-lm-environment-setup-v253>`.
 
             See the sample output:
 
@@ -515,7 +515,7 @@ Benchmarking examples
                TEE_OUTPUT=1 MBS=4 BS=64 TP=8 TE_FP8=0 NO_TORCH_COMPILE=1
                SEQ_LENGTH=4096 bash examples/llama/train_llama2.sh
 
-            You can find the training logs at the location defined in ``$TRAIN_LOG`` in the :ref:`configuration script <amd-megatron-lm-environment-setup>`.
+            You can find the training logs at the location defined in ``$TRAIN_LOG`` in the :ref:`configuration script <amd-megatron-lm-environment-setup-v253>`.
 
             Sample output for 2-node training:
 
