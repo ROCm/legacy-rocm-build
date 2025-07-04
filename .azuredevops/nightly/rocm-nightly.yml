@@ -166,7 +166,7 @@ stages:
           workingDirectory: $(Agent.BuildDirectory)
           targetType: inline
           script: |
-            cat <<EOF > Dockerfile
+            cat <<'EOF' > Dockerfile
               FROM ubuntu:22.04
               WORKDIR /root
               RUN apt update
