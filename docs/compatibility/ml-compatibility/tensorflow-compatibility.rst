@@ -10,16 +10,16 @@
 TensorFlow compatibility
 *******************************************************************************
 
-`TensorFlow <https://www.tensorflow.org/>`_ is an open-source library for
+`TensorFlow <https://www.tensorflow.org/>`__ is an open-source library for
 solving machine learning, deep learning, and AI problems. It can solve many
 problems across different sectors and industries but primarily focuses on
 neural network training and inference. It is one of the most popular and
 in-demand frameworks and is very active in open-source contribution and
 development.
 
-The `official TensorFlow repository <http://github.com/tensorflow/tensorflow>`_
+The `official TensorFlow repository <http://github.com/tensorflow/tensorflow>`__
 includes full ROCm support. AMD maintains a TensorFlow `ROCm repository
-<http://github.com/rocm/tensorflow-upstream>`_ in order to quickly add bug
+<http://github.com/rocm/tensorflow-upstream>`__ in order to quickly add bug
 fixes, updates, and support for the latest ROCM versions.
 
 - ROCm TensorFlow release:
@@ -27,16 +27,16 @@ fixes, updates, and support for the latest ROCM versions.
   - Offers :ref:`Docker images <tensorflow-docker-compat>` with
     ROCm and TensorFlow pre-installed.
 
-  - ROCm TensorFlow repository: `<https://github.com/ROCm/tensorflow-upstream>`_
+  - ROCm TensorFlow repository: `<https://github.com/ROCm/tensorflow-upstream>`__
 
   - See the :doc:`ROCm TensorFlow installation guide <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
     to get started.
 
 - Official TensorFlow release:
 
-  - Official TensorFlow repository: `<https://github.com/tensorflow/tensorflow>`_
+  - Official TensorFlow repository: `<https://github.com/tensorflow/tensorflow>`__
 
-  - See the `TensorFlow API versions <https://www.tensorflow.org/versions>`_ list.
+  - See the `TensorFlow API versions <https://www.tensorflow.org/versions>`__ list.
 
   .. note::
 
@@ -54,9 +54,9 @@ Docker image compatibility
    <i class="fab fa-docker"></i>
 
 AMD validates and publishes ready-made `TensorFlow images
-<https://hub.docker.com/r/rocm/tensorflow>`_ with ROCm backends on
+<https://hub.docker.com/r/rocm/tensorflow>`__ with ROCm backends on
 Docker Hub. The following Docker image tags and associated inventories are
-validated for `ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`_. Click
+validated for `ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__. Click
 the |docker-icon| icon to view the image on Docker Hub.
 
 .. list-table:: TensorFlow Docker image components
@@ -76,8 +76,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.18.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/tensorflow_rocm-2.18.1-cp312-cp312-manylinux_2_28_x86_64.whl>`__
       - dev
       - 24.04
-      - `Python 3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-      - `TensorBoard 2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18.0>`_
+      - `Python 3.12.10 <https://www.python.org/downloads/release/python-31210/>`__
+      - `TensorBoard 2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18.0>`__
 
     * - .. raw:: html
 
@@ -86,8 +86,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.18.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/tensorflow_rocm-2.18.1-cp312-cp312-manylinux_2_28_x86_64.whl>`__
       - runtime
       - 24.04
-      - `Python 3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-      - `TensorBoard 2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18.0>`_
+      - `Python 3.12.10 <https://www.python.org/downloads/release/python-31210/>`__
+      - `TensorBoard 2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18.0>`__
 
     * - .. raw:: html
 
@@ -96,8 +96,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.18.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/tensorflow_rocm-2.18.1-cp310-cp310-manylinux_2_28_x86_64.whl>`__
       - dev
       - 22.04
-      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-      - `TensorBoard 2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18.0>`_
+      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`__
+      - `TensorBoard 2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18.0>`__
 
     * - .. raw:: html
 
@@ -106,8 +106,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.18.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/tensorflow_rocm-2.18.1-cp310-cp310-manylinux_2_28_x86_64.whl>`__
       - runtime
       - 22.04
-      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-      - `TensorBoard 2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18.0>`_
+      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`__
+      - `TensorBoard 2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18.0>`__
 
     * - .. raw:: html
 
@@ -116,8 +116,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.17.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4/tensorflow_rocm-2.17.1-cp312-cp312-manylinux_2_28_x86_64.whl>`__
       - dev
       - 24.04
-      - `Python 3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-      - `TensorBoard 2.17.1 <https://github.com/tensorflow/tensorboard/tree/2.17.1>`_
+      - `Python 3.12.10 <https://www.python.org/downloads/release/python-31210/>`__
+      - `TensorBoard 2.17.1 <https://github.com/tensorflow/tensorboard/tree/2.17.1>`__
 
     * - .. raw:: html
 
@@ -126,8 +126,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.18.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4/tensorflow_rocm-2.17.1-cp312-cp312-manylinux_2_28_x86_64.whl>`__
       - runtime
       - 24.04
-      - `Python 3.12.10 <https://www.python.org/downloads/release/python-3124/>`_
-      - `TensorBoard 2.17.1 <https://github.com/tensorflow/tensorboard/tree/2.17.1>`_
+      - `Python 3.12.10 <https://www.python.org/downloads/release/python-3124/>`__
+      - `TensorBoard 2.17.1 <https://github.com/tensorflow/tensorboard/tree/2.17.1>`__
 
     * - .. raw:: html
 
@@ -136,8 +136,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.17.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/tensorflow_rocm-2.17.1-cp312-cp312-manylinux_2_28_x86_64.whl>`__
       - dev
       - 22.04
-      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-      - `TensorBoard 2.17.1 <https://github.com/tensorflow/tensorboard/tree/2.17.1>`_
+      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`__
+      - `TensorBoard 2.17.1 <https://github.com/tensorflow/tensorboard/tree/2.17.1>`__
 
     * - .. raw:: html
 
@@ -146,8 +146,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.17.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/tensorflow_rocm-2.17.1-cp310-cp310-manylinux_2_28_x86_64.whl>`__
       - runtime
       - 22.04
-      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-      - `TensorBoard 2.17.1 <https://github.com/tensorflow/tensorboard/tree/2.17.1>`_
+      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`__
+      - `TensorBoard 2.17.1 <https://github.com/tensorflow/tensorboard/tree/2.17.1>`__
 
     * - .. raw:: html
 
@@ -156,8 +156,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.16.2 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/tensorflow_rocm-2.16.2-cp312-cp312-manylinux_2_28_x86_64.whl>`__
       - dev
       - 24.04
-      - `Python 3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-      - `TensorBoard 2.16.2 <https://github.com/tensorflow/tensorboard/tree/2.16.2>`_
+      - `Python 3.12.10 <https://www.python.org/downloads/release/python-31210/>`__
+      - `TensorBoard 2.16.2 <https://github.com/tensorflow/tensorboard/tree/2.16.2>`__
 
     * - .. raw:: html
 
@@ -166,8 +166,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.16.2 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/tensorflow_rocm-2.16.2-cp312-cp312-manylinux_2_28_x86_64.whl>`__
       - runtime
       - 24.04
-      - `Python 3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-      - `TensorBoard 2.16.2 <https://github.com/tensorflow/tensorboard/tree/2.16.2>`_
+      - `Python 3.12.10 <https://www.python.org/downloads/release/python-31210/>`__
+      - `TensorBoard 2.16.2 <https://github.com/tensorflow/tensorboard/tree/2.16.2>`__
 
     * - .. raw:: html
 
@@ -176,8 +176,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.16.2 <https://hub.docker.com/layers/rocm/tensorflow/rocm6.4.1-py3.10-tf2.16-dev/images/sha256-36c4fa047c86e2470ac473ec1429aea6d4b8934b90ffeb34d1afab40e7e5b377>`__
       - dev
       - 22.04
-      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-      - `TensorBoard 2.16.2 <https://github.com/tensorflow/tensorboard/tree/2.16.2>`_
+      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`__
+      - `TensorBoard 2.16.2 <https://github.com/tensorflow/tensorboard/tree/2.16.2>`__
 
     * - .. raw:: html
 
@@ -186,8 +186,8 @@ the |docker-icon| icon to view the image on Docker Hub.
       - `tensorflow-rocm 2.16.2 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.1/tensorflow_rocm-2.16.2-cp312-cp312-manylinux_2_28_x86_64.whl>`__
       - runtime
       - 22.04
-      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-      - `TensorBoard 2.16.2 <https://github.com/tensorflow/tensorboard/tree/2.16.2>`_
+      - `Python 3.10.17 <https://www.python.org/downloads/release/python-31017/>`__
+      - `TensorBoard 2.16.2 <https://github.com/tensorflow/tensorboard/tree/2.16.2>`__
 
 
 Critical ROCm libraries for TensorFlow
@@ -207,43 +207,43 @@ are available in ROCm :version:`rocm_version`.
       - Version
       - Purpose
       - Used in
-    * - `hipBLAS <https://github.com/ROCm/hipBLAS>`_
+    * - `hipBLAS <https://github.com/ROCm/hipBLAS>`__
       - :version-ref:`hipBLAS rocm_version`
       - Provides GPU-accelerated Basic Linear Algebra Subprograms (BLAS) for
         matrix and vector operations.
       - Accelerates operations like ``tf.matmul``, ``tf.linalg.matmul``, and
         other matrix multiplications commonly used in neural network layers.
-    * - `hipBLASLt <https://github.com/ROCm/hipBLASLt>`_
+    * - `hipBLASLt <https://github.com/ROCm/hipBLASLt>`__
       - :version-ref:`hipBLASLt rocm_version`
       - Extends hipBLAS with additional optimizations like fused kernels and
         integer tensor cores.
       - Optimizes matrix multiplications and linear algebra operations used in
         layers like dense, convolutional, and RNNs in TensorFlow.
-    * - `hipCUB <https://github.com/ROCm/hipCUB>`_
+    * - `hipCUB <https://github.com/ROCm/hipCUB>`__
       - :version-ref:`hipCUB rocm_version`
       - Provides a C++ template library for parallel algorithms for reduction,
         scan, sort and select.
       - Supports operations like ``tf.reduce_sum``, ``tf.cumsum``, ``tf.sort``
         and other tensor operations in TensorFlow, especially those involving
         scanning, sorting, and filtering.
-    * - `hipFFT <https://github.com/ROCm/hipFFT>`_
+    * - `hipFFT <https://github.com/ROCm/hipFFT>`__
       - :version-ref:`hipFFT rocm_version`
       - Accelerates Fast Fourier Transforms (FFT) for signal processing tasks.
       - Used for operations like signal processing, image filtering, and
         certain types of neural networks requiring FFT-based transformations.
-    * - `hipSOLVER <https://github.com/ROCm/hipSOLVER>`_
+    * - `hipSOLVER <https://github.com/ROCm/hipSOLVER>`__
       - :version-ref:`hipSOLVER rocm_version`
       - Provides GPU-accelerated direct linear solvers for dense and sparse
         systems.
       - Optimizes linear algebra functions such as solving systems of linear
         equations, often used in optimization and training tasks.
-    * - `hipSPARSE <https://github.com/ROCm/hipSPARSE>`_
+    * - `hipSPARSE <https://github.com/ROCm/hipSPARSE>`__
       - :version-ref:`hipSPARSE rocm_version`
       - Optimizes sparse matrix operations for efficient computations on sparse
         data.
       - Accelerates sparse matrix operations in models with sparse weight
         matrices or activations, commonly used in neural networks.
-    * - `MIOpen <https://github.com/ROCm/MIOpen>`_
+    * - `MIOpen <https://github.com/ROCm/MIOpen>`__
       - :version-ref:`MIOpen rocm_version`
       - Provides optimized deep learning primitives such as convolutions,
         pooling,
@@ -251,13 +251,13 @@ are available in ROCm :version:`rocm_version`.
       - Speeds up convolutional neural networks (CNNs) and other layers. Used
         in TensorFlow for layers like ``tf.nn.conv2d``, ``tf.nn.relu``, and
         ``tf.nn.lstm_cell``.
-    * - `RCCL <https://github.com/ROCm/rccl>`_
+    * - `RCCL <https://github.com/ROCm/rccl>`__
       - :version-ref:`RCCL rocm_version`
       - Optimizes for multi-GPU communication for operations like AllReduce and
         Broadcast.
       - Distributed data parallel training (``tf.distribute.MirroredStrategy``).
         Handles communication in multi-GPU setups.
-    * - `rocThrust <https://github.com/ROCm/rocThrust>`_
+    * - `rocThrust <https://github.com/ROCm/rocThrust>`__
       - :version-ref:`rocThrust rocm_version`
       - Provides a C++ template library for parallel algorithms like sorting,
         reduction, and scanning.
@@ -278,7 +278,7 @@ The data type of a tensor is specified using the ``dtype`` attribute or
 argument, and TensorFlow supports a wide range of data types for different use
 cases.
 
-The basic, single data types of `tf.dtypes <https://www.tensorflow.org/api_docs/python/tf/dtypes>`_
+The basic, single data types of `tf.dtypes <https://www.tensorflow.org/api_docs/python/tf/dtypes>`__
 are as follows:
 
 .. list-table::
@@ -550,7 +550,7 @@ Use cases and recommendations
 ===============================================================================
 
 * The `Training a Neural Collaborative Filtering (NCF) Recommender on an AMD
-  GPU <https://rocm.blogs.amd.com/artificial-intelligence/ncf/README.html>`_
+  GPU <https://rocm.blogs.amd.com/artificial-intelligence/ncf/README.html>`__
   blog post discusses training an NCF recommender system using TensorFlow. It
   explains how NCF improves traditional collaborative filtering methods by
   leveraging neural networks to model non-linear user-item interactions. The
@@ -559,7 +559,7 @@ Use cases and recommendations
   purchasing) and how it addresses challenges like the lack of negative values.
 
 * The `Creating a PyTorch/TensorFlow code environment on AMD GPUs
-  <https://rocm.blogs.amd.com/software-tools-optimization/pytorch-tensorflow-env/README.html>`_
+  <https://rocm.blogs.amd.com/software-tools-optimization/pytorch-tensorflow-env/README.html>`__
   blog post provides instructions for creating a machine learning environment
   for PyTorch and TensorFlow on AMD GPUs using ROCm. It covers steps like
   installing the libraries, cloning code repositories, installing dependencies,
@@ -568,4 +568,4 @@ Use cases and recommendations
   for a better experience on AMD GPUs. This guide aims to help data scientists
   and ML practitioners adapt their code for AMD GPUs.
 
-For more use cases and recommendations, see the `ROCm Tensorflow blog posts <https://rocm.blogs.amd.com/blog/tag/tensorflow.html>`_.
+For more use cases and recommendations, see the `ROCm Tensorflow blog posts <https://rocm.blogs.amd.com/blog/tag/tensorflow.html>`__.

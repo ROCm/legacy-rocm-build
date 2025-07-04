@@ -10,10 +10,10 @@
 PyTorch compatibility
 ********************************************************************************
 
-`PyTorch <https://pytorch.org/>`_ is an open-source tensor library designed for
+`PyTorch <https://pytorch.org/>`__ is an open-source tensor library designed for
 deep learning. PyTorch on ROCm provides mixed-precision and large-scale training
-using `MIOpen <https://github.com/ROCm/MIOpen>`_ and
-`RCCL <https://github.com/ROCm/rccl>`_ libraries.
+using `MIOpen <https://github.com/ROCm/MIOpen>`__ and
+`RCCL <https://github.com/ROCm/rccl>`__ libraries.
 
 ROCm support for PyTorch is upstreamed into the official PyTorch repository. Due
 to independent compatibility considerations, this results in two distinct
@@ -27,7 +27,7 @@ release cycles for PyTorch on ROCm:
   - Offers :ref:`Docker images <pytorch-docker-compat>` with ROCm and PyTorch
     preinstalled.
 
-  - ROCm PyTorch repository: `<https://github.com/ROCm/pytorch>`_
+  - ROCm PyTorch repository: `<https://github.com/ROCm/pytorch>`__
 
   - See the :doc:`ROCm PyTorch installation guide <rocm-install-on-linux:install/3rd-party/pytorch-install>`
     to get started.
@@ -37,10 +37,10 @@ release cycles for PyTorch on ROCm:
   - Provides the latest stable version of PyTorch  but might not necessarily
     support the latest ROCm version.
 
-  - Official PyTorch repository: `<https://github.com/pytorch/pytorch>`_
+  - Official PyTorch repository: `<https://github.com/pytorch/pytorch>`__
 
-  - See the `Nightly and latest stable version installation guide <https://pytorch.org/get-started/locally/>`_
-    or `Previous versions <https://pytorch.org/get-started/previous-versions/>`_
+  - See the `Nightly and latest stable version installation guide <https://pytorch.org/get-started/locally/>`__
+    or `Previous versions <https://pytorch.org/get-started/previous-versions/>`__
     to get started.
 
 PyTorch includes tooling that generates HIP source code from the CUDA backend.
@@ -82,7 +82,7 @@ Use cases and recommendations
   use of PyTorch on the ROCm platform and focuses on efficiently leveraging AMD
   GPU hardware for training and inference tasks in AI applications.
 
-For more use cases and recommendations, see `ROCm PyTorch blog posts <https://rocm.blogs.amd.com/blog/tag/pytorch.html>`_.
+For more use cases and recommendations, see `ROCm PyTorch blog posts <https://rocm.blogs.amd.com/blog/tag/pytorch.html>`__.
 
 .. _pytorch-docker-compat:
 
@@ -93,9 +93,9 @@ Docker image compatibility
 
    <i class="fab fa-docker"></i>
 
-AMD validates and publishes `PyTorch images <https://hub.docker.com/r/rocm/pytorch>`_
+AMD validates and publishes `PyTorch images <https://hub.docker.com/r/rocm/pytorch>`__
 with ROCm backends on Docker Hub. The following Docker image tags and associated
-inventories were tested on `ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`_.
+inventories were tested on `ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__.
 Click |docker-icon| to view the image on Docker Hub.
 
 .. list-table:: PyTorch Docker image components
@@ -118,121 +118,121 @@ Click |docker-icon| to view the image on Docker Hub.
 
            <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4.1_ubuntu24.04_py3.12_pytorch_release_2.6.0/images/sha256-c76af9bfb1c25b0f40d4c29e8652105c57250bf018d23ff595b06bd79666fdd7"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `2.6.0 <https://github.com/ROCm/pytorch/tree/release/2.6>`_
+      - `2.6.0 <https://github.com/ROCm/pytorch/tree/release/2.6>`__
       - 24.04
-      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-      - `1.6.0 <https://github.com/ROCm/apex/tree/release/1.6.0>`_
-      - `0.21.0 <https://github.com/pytorch/vision/tree/v0.21.0>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.16.0 <https://github.com/openucx/ucx/tree/v1.16.0>`_
-      - `4.1.6-7ubuntu2 <https://github.com/open-mpi/ompi/tree/v4.1.6>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`__
+      - `1.6.0 <https://github.com/ROCm/apex/tree/release/1.6.0>`__
+      - `0.21.0 <https://github.com/pytorch/vision/tree/v0.21.0>`__
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`__
+      - `master <https://bitbucket.org/icl/magma/src/master/>`__
+      - `1.16.0 <https://github.com/openucx/ucx/tree/v1.16.0>`__
+      - `4.1.6-7ubuntu2 <https://github.com/open-mpi/ompi/tree/v4.1.6>`__
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`__
 
     * - .. raw:: html
 
            <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4.1_ubuntu22.04_py3.10_pytorch_release_2.6.0/images/sha256-f9d226135d51831c810dcb1251636ec61f85c65fcdda03e188c053a5d4f6585b"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `2.6.0 <https://github.com/ROCm/pytorch/tree/release/2.6>`_
+      - `2.6.0 <https://github.com/ROCm/pytorch/tree/release/2.6>`__
       - 22.04
-      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-      - `1.6.0 <https://github.com/ROCm/apex/tree/release/1.6.0>`_
-      - `0.21.0 <https://github.com/pytorch/vision/tree/v0.21.0>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.12.1~rc2-1 <https://github.com/openucx/ucx/tree/v1.12.1>`_
-      - `4.1.2-2ubuntu1 <https://github.com/open-mpi/ompi/tree/v4.1.2>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`__
+      - `1.6.0 <https://github.com/ROCm/apex/tree/release/1.6.0>`__
+      - `0.21.0 <https://github.com/pytorch/vision/tree/v0.21.0>`__
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`__
+      - `master <https://bitbucket.org/icl/magma/src/master/>`__
+      - `1.12.1~rc2-1 <https://github.com/openucx/ucx/tree/v1.12.1>`__
+      - `4.1.2-2ubuntu1 <https://github.com/open-mpi/ompi/tree/v4.1.2>`__
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`__
 
     * - .. raw:: html
 
            <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4.1_ubuntu24.04_py3.12_pytorch_release_2.5.1/images/sha256-3490e74d4f43dcdb3351dd334108d1ccd47e5a687c0523a2424ac1bcdd3dd6dd"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `2.5.1 <https://github.com/ROCm/pytorch/tree/release/2.5>`_
+      - `2.5.1 <https://github.com/ROCm/pytorch/tree/release/2.5>`__
       - 24.04
-      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-      - `1.5.0 <https://github.com/ROCm/apex/tree/release/1.5.0>`_
-      - `0.20.1 <https://github.com/pytorch/vision/tree/v0.20.1>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.16.0+ds-5ubuntu1 <https://github.com/openucx/ucx/tree/v1.10.0>`_
-      - `4.1.6-7ubuntu2 <https://github.com/open-mpi/ompi/tree/v4.1.6>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`__
+      - `1.5.0 <https://github.com/ROCm/apex/tree/release/1.5.0>`__
+      - `0.20.1 <https://github.com/pytorch/vision/tree/v0.20.1>`__
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`__
+      - `master <https://bitbucket.org/icl/magma/src/master/>`__
+      - `1.16.0+ds-5ubuntu1 <https://github.com/openucx/ucx/tree/v1.10.0>`__
+      - `4.1.6-7ubuntu2 <https://github.com/open-mpi/ompi/tree/v4.1.6>`__
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`__
 
     * - .. raw:: html
 
            <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4.1_ubuntu22.04_py3.10_pytorch_release_2.5.1/images/sha256-26c5dfffb4a54625884abca83166940f17dd27bc75f1b24f6e80fbcb7d4e9afb"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `2.5.1 <https://github.com/ROCm/pytorch/tree/release/2.5>`_
+      - `2.5.1 <https://github.com/ROCm/pytorch/tree/release/2.5>`__
       - 22.04
-      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-      - `1.5.0 <https://github.com/ROCm/apex/tree/release/1.5.0>`_
-      - `0.20.1 <https://github.com/pytorch/vision/tree/v0.20.1>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.12.1~rc2-1 <https://github.com/openucx/ucx/tree/v1.12.1>`_
-      - `4.1.2-2ubuntu1 <https://github.com/open-mpi/ompi/tree/v4.1.2>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`__
+      - `1.5.0 <https://github.com/ROCm/apex/tree/release/1.5.0>`__
+      - `0.20.1 <https://github.com/pytorch/vision/tree/v0.20.1>`__
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`__
+      - `master <https://bitbucket.org/icl/magma/src/master/>`__
+      - `1.12.1~rc2-1 <https://github.com/openucx/ucx/tree/v1.12.1>`__
+      - `4.1.2-2ubuntu1 <https://github.com/open-mpi/ompi/tree/v4.1.2>`__
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`__
 
     * - .. raw:: html
 
            <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4.1_ubuntu24.04_py3.12_pytorch_release_2.4.1/images/sha256-f378a24561fa6efc178b6dc93fc7d82e5b93653ecd59c89d4476674d29e1284d"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `2.4.1 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
+      - `2.4.1 <https://github.com/ROCm/pytorch/tree/release/2.4>`__
       - 24.04
-      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-      - `1.4.0 <https://github.com/ROCm/apex/tree/release/1.4.0>`_
-      - `0.19.0 <https://github.com/pytorch/vision/tree/v0.19.0>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.16.0+ds-5ubuntu1 <https://github.com/openucx/ucx/tree/v1.16.0>`_
-      - `4.1.6-7ubuntu2 <https://github.com/open-mpi/ompi/tree/v4.1.6>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`__
+      - `1.4.0 <https://github.com/ROCm/apex/tree/release/1.4.0>`__
+      - `0.19.0 <https://github.com/pytorch/vision/tree/v0.19.0>`__
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`__
+      - `master <https://bitbucket.org/icl/magma/src/master/>`__
+      - `1.16.0+ds-5ubuntu1 <https://github.com/openucx/ucx/tree/v1.16.0>`__
+      - `4.1.6-7ubuntu2 <https://github.com/open-mpi/ompi/tree/v4.1.6>`__
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`__
 
     * - .. raw:: html
 
            <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4.1_ubuntu22.04_py3.10_pytorch_release_2.4.1/images/sha256-2308dbd0e650b7bf8d548575cbb6e2bdc021f9386384ce570da16d58ee684d22"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `2.4.1 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
+      - `2.4.1 <https://github.com/ROCm/pytorch/tree/release/2.4>`__
       - 22.04
-      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-      - `1.4.0 <https://github.com/ROCm/apex/tree/release/1.4.0>`_
-      - `0.19.0 <https://github.com/pytorch/vision/tree/v0.19.0>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.12.1~rc2-1 <https://github.com/openucx/ucx/tree/v1.12.1>`_
-      - `4.1.2-2ubuntu1 <https://github.com/open-mpi/ompi/tree/v4.1.2>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`__
+      - `1.4.0 <https://github.com/ROCm/apex/tree/release/1.4.0>`__
+      - `0.19.0 <https://github.com/pytorch/vision/tree/v0.19.0>`__
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13.0>`__
+      - `master <https://bitbucket.org/icl/magma/src/master/>`__
+      - `1.12.1~rc2-1 <https://github.com/openucx/ucx/tree/v1.12.1>`__
+      - `4.1.2-2ubuntu1 <https://github.com/open-mpi/ompi/tree/v4.1.2>`__
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`__
 
     * - .. raw:: html
 
            <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4.1_ubuntu24.04_py3.12_pytorch_release_2.3.0/images/sha256-eefd2ab019728f91f94c5e6a9463cb0ea900b3011458d18fe5d88e50c0b57d86"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `2.3.0 <https://github.com/ROCm/pytorch/tree/release/2.3>`_
+      - `2.3.0 <https://github.com/ROCm/pytorch/tree/release/2.3>`__
       - 24.04
-      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-      - `1.3.0 <https://github.com/ROCm/apex/tree/release/1.3.0>`_
-      - `0.18.0 <https://github.com/pytorch/vision/tree/v0.18.0>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.16.0+ds-5ubuntu1 <https://github.com/openucx/ucx/tree/v1.16.0>`_
-      - `4.1.6-7ubuntu2 <https://github.com/open-mpi/ompi/tree/v4.1.6>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`__
+      - `1.3.0 <https://github.com/ROCm/apex/tree/release/1.3.0>`__
+      - `0.18.0 <https://github.com/pytorch/vision/tree/v0.18.0>`__
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13>`__
+      - `master <https://bitbucket.org/icl/magma/src/master/>`__
+      - `1.16.0+ds-5ubuntu1 <https://github.com/openucx/ucx/tree/v1.16.0>`__
+      - `4.1.6-7ubuntu2 <https://github.com/open-mpi/ompi/tree/v4.1.6>`__
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`__
 
     * - .. raw:: html
 
            <a href="https://hub.docker.com/layers/rocm/pytorch/rocm6.4.1_ubuntu22.04_py3.10_pytorch_release_2.3.0/images/sha256-473643226ab0e93a04720b256ed772619878abf9c42b9f84828cefed522696fd"><i class="fab fa-docker fa-lg"></i></a>
 
-      - `2.3.0 <https://github.com/ROCm/pytorch/tree/release/2.3>`_
+      - `2.3.0 <https://github.com/ROCm/pytorch/tree/release/2.3>`__
       - 22.04
-      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-      - `1.3.0 <https://github.com/ROCm/apex/tree/release/1.3.0>`_
-      - `0.18.0 <https://github.com/pytorch/vision/tree/v0.18.0>`_
-      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13>`_
-      - `master <https://bitbucket.org/icl/magma/src/master/>`_
-      - `1.12.1~rc2-1 <https://github.com/openucx/ucx/tree/v1.12.1>`_
-      - `4.1.2-2ubuntu1 <https://github.com/open-mpi/ompi/tree/v4.1.2>`_
-      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`_
+      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`__
+      - `1.3.0 <https://github.com/ROCm/apex/tree/release/1.3.0>`__
+      - `0.18.0 <https://github.com/pytorch/vision/tree/v0.18.0>`__
+      - `2.13.0 <https://github.com/tensorflow/tensorboard/tree/2.13>`__
+      - `master <https://bitbucket.org/icl/magma/src/master/>`__
+      - `1.12.1~rc2-1 <https://github.com/openucx/ucx/tree/v1.12.1>`__
+      - `4.1.2-2ubuntu1 <https://github.com/open-mpi/ompi/tree/v4.1.2>`__
+      - `5.3-1.0.5.0 <https://content.mellanox.com/ofed/MLNX_OFED-5.3-1.0.5.0/MLNX_OFED_LINUX-5.3-1.0.5.0-ubuntu20.04-x86_64.tgz>`__
 
 Key ROCm libraries for PyTorch
 ================================================================================
@@ -248,121 +248,121 @@ feature set available to developers.
       - Version
       - Purpose
       - Used in
-    * - `Composable Kernel <https://github.com/ROCm/composable_kernel>`_
+    * - `Composable Kernel <https://github.com/ROCm/composable_kernel>`__
       - :version-ref:`"Composable Kernel" rocm_version`
       - Enables faster execution of core operations like matrix multiplication
         (GEMM), convolutions and transformations.
       - Speeds up ``torch.permute``, ``torch.view``, ``torch.matmul``,
         ``torch.mm``, ``torch.bmm``, ``torch.nn.Conv2d``, ``torch.nn.Conv3d``
         and ``torch.nn.MultiheadAttention``.
-    * - `hipBLAS <https://github.com/ROCm/hipBLAS>`_
+    * - `hipBLAS <https://github.com/ROCm/hipBLAS>`__
       - :version-ref:`hipBLAS rocm_version`
       - Provides GPU-accelerated Basic Linear Algebra Subprograms (BLAS) for
         matrix and vector operations.
       - Supports operations such as matrix multiplication, matrix-vector
         products, and tensor contractions. Utilized in both dense and batched
         linear algebra operations.
-    * - `hipBLASLt <https://github.com/ROCm/hipBLASLt>`_
+    * - `hipBLASLt <https://github.com/ROCm/hipBLASLt>`__
       - :version-ref:`hipBLASLt rocm_version`
       - hipBLASLt is an extension of the hipBLAS library, providing additional
         features like epilogues fused into the matrix multiplication kernel or
         use of integer tensor cores.
       - Accelerates operations such as ``torch.matmul``, ``torch.mm``, and the
         matrix multiplications used in convolutional and linear layers.
-    * - `hipCUB <https://github.com/ROCm/hipCUB>`_
+    * - `hipCUB <https://github.com/ROCm/hipCUB>`__
       - :version-ref:`hipCUB rocm_version`
       - Provides a C++ template library for parallel algorithms for reduction,
         scan, sort and select.
       - Supports operations such as ``torch.sum``, ``torch.cumsum``,
         ``torch.sort`` irregular shapes often involve scanning, sorting, and
         filtering, which hipCUB handles efficiently.
-    * - `hipFFT <https://github.com/ROCm/hipFFT>`_
+    * - `hipFFT <https://github.com/ROCm/hipFFT>`__
       - :version-ref:`hipFFT rocm_version`
       - Provides GPU-accelerated Fast Fourier Transform (FFT) operations.
       - Used in functions like the ``torch.fft`` module.
-    * - `hipRAND <https://github.com/ROCm/hipRAND>`_
+    * - `hipRAND <https://github.com/ROCm/hipRAND>`__
       - :version-ref:`hipRAND rocm_version`
       - Provides fast random number generation for GPUs.
       - The ``torch.rand``, ``torch.randn``, and stochastic layers like
         ``torch.nn.Dropout`` rely on hipRAND.
-    * - `hipSOLVER <https://github.com/ROCm/hipSOLVER>`_
+    * - `hipSOLVER <https://github.com/ROCm/hipSOLVER>`__
       - :version-ref:`hipSOLVER rocm_version`
       - Provides GPU-accelerated solvers for linear systems, eigenvalues, and
         singular value decompositions (SVD).
       - Supports functions like ``torch.linalg.solve``,
         ``torch.linalg.eig``, and ``torch.linalg.svd``.
-    * - `hipSPARSE <https://github.com/ROCm/hipSPARSE>`_
+    * - `hipSPARSE <https://github.com/ROCm/hipSPARSE>`__
       - :version-ref:`hipSPARSE rocm_version`
       - Accelerates operations on sparse matrices, such as sparse matrix-vector
         or matrix-matrix products.
       - Sparse tensor operations ``torch.sparse``.
-    * - `hipSPARSELt <https://github.com/ROCm/hipSPARSELt>`_
+    * - `hipSPARSELt <https://github.com/ROCm/hipSPARSELt>`__
       - :version-ref:`hipSPARSELt rocm_version`
       - Accelerates operations on sparse matrices, such as sparse matrix-vector
         or matrix-matrix products.
       - Sparse tensor operations ``torch.sparse``.
-    * - `hipTensor <https://github.com/ROCm/hipTensor>`_
+    * - `hipTensor <https://github.com/ROCm/hipTensor>`__
       - :version-ref:`hipTensor rocm_version`
       - Optimizes for high-performance tensor operations, such as contractions.
       - Accelerates tensor algebra, especially in deep learning and scientific
         computing.
-    * - `MIOpen <https://github.com/ROCm/MIOpen>`_
+    * - `MIOpen <https://github.com/ROCm/MIOpen>`__
       - :version-ref:`MIOpen rocm_version`
       - Optimizes deep learning primitives such as convolutions, pooling,
         normalization, and activation functions.
       - Speeds up convolutional neural networks (CNNs), recurrent neural
         networks (RNNs), and other layers. Used in operations like
         ``torch.nn.Conv2d``, ``torch.nn.ReLU``, and ``torch.nn.LSTM``.
-    * - `MIGraphX <https://github.com/ROCm/AMDMIGraphX>`_
+    * - `MIGraphX <https://github.com/ROCm/AMDMIGraphX>`__
       - :version-ref:`MIGraphX rocm_version`
       - Adds graph-level optimizations, ONNX models and mixed precision support
         and enable Ahead-of-Time (AOT) Compilation.
       - Speeds up inference models and executes ONNX models for
         compatibility with other frameworks.
         ``torch.nn.Conv2d``, ``torch.nn.ReLU``, and ``torch.nn.LSTM``.
-    * - `MIVisionX <https://github.com/ROCm/MIVisionX>`_
+    * - `MIVisionX <https://github.com/ROCm/MIVisionX>`__
       - :version-ref:`MIVisionX rocm_version`
       - Optimizes acceleration for computer vision and AI workloads like
         preprocessing, augmentation, and inferencing.
       - Faster data preprocessing and augmentation pipelines for datasets like
         ImageNet or COCO and easy to integrate into PyTorch's ``torch.utils.data``
         and ``torchvision`` workflows.
-    * - `rocAL <https://github.com/ROCm/rocAL>`_
+    * - `rocAL <https://github.com/ROCm/rocAL>`__
       - :version-ref:`rocAL rocm_version`
       - Accelerates the data pipeline by offloading intensive preprocessing and
         augmentation tasks. rocAL is part of MIVisionX.
       - Easy to integrate into PyTorch's ``torch.utils.data`` and
         ``torchvision`` data load workloads.
-    * - `RCCL <https://github.com/ROCm/rccl>`_
+    * - `RCCL <https://github.com/ROCm/rccl>`__
       - :version-ref:`RCCL rocm_version`
       - Optimizes for multi-GPU communication for operations like AllReduce and
         Broadcast.
       - Distributed data parallel training (``torch.nn.parallel.DistributedDataParallel``).
         Handles communication in multi-GPU setups.
-    * - `rocDecode <https://github.com/ROCm/rocDecode>`_
+    * - `rocDecode <https://github.com/ROCm/rocDecode>`__
       - :version-ref:`rocDecode rocm_version`
       - Provides hardware-accelerated data decoding capabilities, particularly
         for image, video, and other dataset formats.
       - Can be integrated in ``torch.utils.data``, ``torchvision.transforms``
         and ``torch.distributed``.
-    * - `rocJPEG <https://github.com/ROCm/rocJPEG>`_
+    * - `rocJPEG <https://github.com/ROCm/rocJPEG>`__
       - :version-ref:`rocJPEG rocm_version`
       - Provides hardware-accelerated JPEG image decoding and encoding.
       - GPU accelerated ``torchvision.io.decode_jpeg`` and
         ``torchvision.io.encode_jpeg`` and can be integrated in
         ``torch.utils.data`` and ``torchvision``.
-    * - `RPP <https://github.com/ROCm/RPP>`_
+    * - `RPP <https://github.com/ROCm/RPP>`__
       - :version-ref:`RPP rocm_version`
       - Speeds up data augmentation, transformation, and other preprocessing steps.
       - Easy to integrate into PyTorch's ``torch.utils.data`` and
         ``torchvision`` data load workloads to speed up data processing.
-    * - `rocThrust <https://github.com/ROCm/rocThrust>`_
+    * - `rocThrust <https://github.com/ROCm/rocThrust>`__
       - :version-ref:`rocThrust rocm_version`
       - Provides a C++ template library for parallel algorithms like sorting,
         reduction, and scanning.
       - Utilized in backend operations for tensor computations requiring
         parallel processing.
-    * - `rocWMMA <https://github.com/ROCm/rocWMMA>`_
+    * - `rocWMMA <https://github.com/ROCm/rocWMMA>`__
       - :version-ref:`rocWMMA rocm_version`
       - Accelerates warp-level matrix-multiply and matrix-accumulate to speed up matrix
         multiplication (GEMM) and accumulation operations with mixed precision
@@ -381,7 +381,7 @@ PyTorch versions.
 torch
 --------------------------------------------------------------------------------
 
-`torch <https://pytorch.org/docs/stable/index.html>`_ is the central module of
+`torch <https://pytorch.org/docs/stable/index.html>`__ is the central module of
 PyTorch, providing data structures for multi-dimensional tensors and
 implementing mathematical operations on them. It also includes utilities for
 efficient serialization of tensors and arbitrary data types and other tools.
@@ -392,7 +392,7 @@ Tensor data types
 The tensor data type is specified using the ``dtype`` attribute or argument. 
 PyTorch supports many data types for different use cases.
 
-The following table lists `torch.Tensor <https://pytorch.org/docs/stable/tensors.html>`_
+The following table lists `torch.Tensor <https://pytorch.org/docs/stable/tensors.html>`__
 single data types:
 
 .. list-table::
@@ -746,7 +746,7 @@ torch.compiler
 torchaudio
 --------------------------------------------------------------------------------
 
-The `torchaudio <https://pytorch.org/audio/stable/index.html>`_ library provides
+The `torchaudio <https://pytorch.org/audio/stable/index.html>`__ library provides
 utilities for processing audio data in PyTorch, such as audio loading,
 transformations, and feature extraction.
 
@@ -782,7 +782,7 @@ The following ``torchaudio`` features are GPU-accelerated.
 torchvision
 --------------------------------------------------------------------------------
 
-The `torchvision <https://pytorch.org/vision/stable/index.html>`_ library
+The `torchvision <https://pytorch.org/vision/stable/index.html>`__ library
 provides datasets, model architectures, and common image transformations for
 computer vision.
 
@@ -821,7 +821,7 @@ The following ``torchvision`` features are GPU-accelerated.
 torchtext
 --------------------------------------------------------------------------------
 
-The `torchtext <https://pytorch.org/text/stable/index.html>`_ library provides
+The `torchtext <https://pytorch.org/text/stable/index.html>`__ library provides
 utilities for processing and working with text data in PyTorch, including
 tokenization, vocabulary management, and text embeddings. torchtext supports
 preprocessing pipelines and integration with PyTorch models, simplifying the
@@ -837,7 +837,7 @@ explicitly to the GPU using ``.to('cuda')``.
 torchtune
 --------------------------------------------------------------------------------
 
-The `torchtune <https://pytorch.org/torchtune/stable/index.html>`_ library for
+The `torchtune <https://pytorch.org/torchtune/stable/index.html>`__ library for
 authoring, fine-tuning and experimenting with LLMs.
 
 * Usage: Enabling developers to fine-tune ROCm PyTorch solutions.
@@ -847,7 +847,7 @@ authoring, fine-tuning and experimenting with LLMs.
 torchserve
 --------------------------------------------------------------------------------
 
-The `torchserve <https://pytorch.org/serve/>`_ is a PyTorch domain library
+The `torchserve <https://pytorch.org/serve/>`__ is a PyTorch domain library
 for common sparsity and parallelism primitives needed for large-scale recommender
 systems.
 
@@ -859,7 +859,7 @@ systems.
 torchrec
 --------------------------------------------------------------------------------
 
-The `torchrec <https://pytorch.org/torchrec/>`_ is a PyTorch domain library for
+The `torchrec <https://pytorch.org/torchrec/>`__ is a PyTorch domain library for
 common sparsity and parallelism primitives needed for large-scale recommender
 systems.
 
