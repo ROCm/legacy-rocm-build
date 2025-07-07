@@ -129,6 +129,7 @@ html_theme_options = {"link_main_doc": False}
 redirects = {"reference/openmp/openmp": "../../about/compatibility/openmp.html"}
 
 numfig = False
+suppress_warnings = ["autosectionlabel.*"]
 
 html_context = {
     "project_path" : {project_path},
