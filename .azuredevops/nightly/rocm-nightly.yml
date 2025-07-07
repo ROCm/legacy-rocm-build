@@ -3,20 +3,20 @@ parameters:
 - name: jobList
   type: object
   default:
-    # - { os: ubuntu2204, target: gfx942, source: staging }
-    # - { os: ubuntu2204, target: gfx90a, source: staging }
-    # - { os: ubuntu2204, target: gfx1201, source: staging }
-    # - { os: ubuntu2204, target: gfx1100, source: staging }
+    - { os: ubuntu2204, target: gfx942, source: staging }
+    - { os: ubuntu2204, target: gfx90a, source: staging }
+    - { os: ubuntu2204, target: gfx1201, source: staging }
+    - { os: ubuntu2204, target: gfx1100, source: staging }
     - { os: ubuntu2204, target: gfx1030, source: staging }
-    # - { os: ubuntu2404, target: gfx942, source: staging }
-    # - { os: ubuntu2404, target: gfx90a, source: staging }
-    # - { os: ubuntu2404, target: gfx1201, source: staging }
-    # - { os: ubuntu2404, target: gfx1100, source: staging }
+    - { os: ubuntu2404, target: gfx942, source: staging }
+    - { os: ubuntu2404, target: gfx90a, source: staging }
+    - { os: ubuntu2404, target: gfx1201, source: staging }
+    - { os: ubuntu2404, target: gfx1100, source: staging }
     - { os: ubuntu2404, target: gfx1030, source: staging }
-    # - { os: almalinux8, target: gfx942, source: staging }
-    # - { os: almalinux8, target: gfx90a, source: staging }
-    # - { os: almalinux8, target: gfx1201, source: staging }
-    # - { os: almalinux8, target: gfx1100, source: staging }
+    - { os: almalinux8, target: gfx942, source: staging }
+    - { os: almalinux8, target: gfx90a, source: staging }
+    - { os: almalinux8, target: gfx1201, source: staging }
+    - { os: almalinux8, target: gfx1100, source: staging }
     - { os: almalinux8, target: gfx1030, source: staging }
 - name: rocmDependencies
   type: object
