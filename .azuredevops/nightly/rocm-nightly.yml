@@ -3,21 +3,21 @@ parameters:
 - name: jobList
   type: object
   default:
-    - { os: ubuntu2204, target: gfx942, source: staging }
-    - { os: ubuntu2204, target: gfx90a, source: staging }
-    - { os: ubuntu2204, target: gfx1201, source: staging }
-    - { os: ubuntu2204, target: gfx1100, source: staging }
-    - { os: ubuntu2204, target: gfx1030, source: staging }
-    - { os: ubuntu2404, target: gfx942, source: staging }
-    - { os: ubuntu2404, target: gfx90a, source: staging }
-    - { os: ubuntu2404, target: gfx1201, source: staging }
-    - { os: ubuntu2404, target: gfx1100, source: staging }
-    - { os: ubuntu2404, target: gfx1030, source: staging }
-    - { os: almalinux8, target: gfx942, source: staging }
-    - { os: almalinux8, target: gfx90a, source: staging }
-    - { os: almalinux8, target: gfx1201, source: staging }
-    - { os: almalinux8, target: gfx1100, source: staging }
-    - { os: almalinux8, target: gfx1030, source: staging }
+    - { os: ubuntu2204, packageManager: apt, target: gfx942, source: staging }
+    - { os: ubuntu2204, packageManager: apt, target: gfx90a, source: staging }
+    - { os: ubuntu2204, packageManager: apt, target: gfx1201, source: staging }
+    - { os: ubuntu2204, packageManager: apt, target: gfx1100, source: staging }
+    - { os: ubuntu2204, packageManager: apt, target: gfx1030, source: staging }
+    - { os: ubuntu2404, packageManager: apt, target: gfx942, source: staging }
+    - { os: ubuntu2404, packageManager: apt, target: gfx90a, source: staging }
+    - { os: ubuntu2404, packageManager: apt, target: gfx1201, source: staging }
+    - { os: ubuntu2404, packageManager: apt, target: gfx1100, source: staging }
+    - { os: ubuntu2404, packageManager: apt, target: gfx1030, source: staging }
+    - { os: almalinux8, packageManager: dnf, target: gfx942, source: staging }
+    - { os: almalinux8, packageManager: dnf, target: gfx90a, source: staging }
+    - { os: almalinux8, packageManager: dnf, target: gfx1201, source: staging }
+    - { os: almalinux8, packageManager: dnf, target: gfx1100, source: staging }
+    - { os: almalinux8, packageManager: dnf, target: gfx1030, source: staging }
 - name: rocmDependencies
   type: object
   default:
@@ -146,36 +146,80 @@ jobs:
         targetType: inline
         script: echo "$(Build.DefinitionName)_$(Build.BuildNumber)_ubuntu2204_${{ job.target }}.tar.gz" >> pipelineArtifacts.txt
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-    - task: Bash@3
-      displayName: Create Dockerfile
-      inputs:
-        workingDirectory: $(Agent.BuildDirectory)
-        targetType: inline
-        script: |
-          cat <<'EOF' > Dockerfile
-            FROM ubuntu:22.04
-            WORKDIR /root
-            RUN apt update
-            RUN apt upgrade -y
-            RUN apt install -y cmake curl git gcc g++ gpg lsb-release lsof ninja-build pkg-config python3 python3-pip wget zip libdrm-dev libelf-dev libgtest-dev libhsakmt-dev libhwloc-dev libnuma-dev libstdc++-12-dev libtbb-dev jq
-            RUN apt clean all
-            RUN mkdir rocm
-            RUN PACKAGE_NAME=$(curl -s https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/ | grep -oP "href=\"\K[^\"]*$(lsb_release -rs)[^\"]*\.deb") \
-              && wget -nv --retry-connrefused https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/$PACKAGE_NAME \
-              && mkdir hsa-amd-aqlprofile \
-              && dpkg-deb -R $PACKAGE_NAME hsa-amd-aqlprofile \
-              && cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
-            RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
-              && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
-              && wget -nv --retry-connrefused $DOWNLOAD_URL -O nightly.zip \
-              && unzip nightly.zip \
-              && tar -xf nightly${{ job.os }}${{ job.target }}${{ job.source }}/rocm-nightly*${{ job.os }}*${{ job.target }}*.tar.gz -C rocm
-            RUN echo /root/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
-            RUN echo /root/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
-            RUN ldconfig -v
-            ENV PATH="$PATH:/root/rocm/bin"
-            ENTRYPOINT ["/bin/bash"]
-          EOF
+    - ${{ if eq(job.packageManager, 'apt') }}:
+      - task: Bash@3
+        displayName: Create Dockerfile
+        inputs:
+          workingDirectory: $(Agent.BuildDirectory)
+          targetType: inline
+          script: |
+            cat <<'EOF' > Dockerfile
+              ${{ iif(eq(job.os, 'ubuntu2204'), 'FROM ubuntu:22.04', '') }}
+              ${{ iif(eq(job.os, 'ubuntu2404'), 'FROM ubuntu:24.04', '') }}
+
+              WORKDIR /root
+              RUN mkdir rocm
+
+              RUN apt update \
+                && apt upgrade -y \
+                && apt install -y cmake curl git gcc g++ gpg lsb-release lsof ninja-build pkg-config python3 python3-pip wget zip libdrm-dev libelf-dev libgtest-dev libhsakmt-dev libhwloc-dev libnuma-dev libstdc++-12-dev libtbb-dev jq \
+                && apt clean all
+
+              RUN PACKAGE_NAME=$(curl -s https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/ | grep -oP "href=\"\K[^\"]*$(lsb_release -rs)[^\"]*\.deb") \
+                && wget -nv --retry-connrefused https://repo.radeon.com/rocm/apt/latest/pool/main/h/hsa-amd-aqlprofile/$PACKAGE_NAME \
+                && mkdir hsa-amd-aqlprofile \
+                && dpkg-deb -R $PACKAGE_NAME hsa-amd-aqlprofile \
+                && cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
+
+              RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
+                && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
+                && wget -nv --retry-connrefused $DOWNLOAD_URL -O nightly.zip \
+                && unzip nightly.zip \
+                && tar -xf nightly${{ job.os }}${{ job.target }}${{ job.source }}/rocm-nightly*${{ job.os }}*${{ job.target }}*.tar.gz -C rocm
+
+              RUN echo /root/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
+              RUN echo /root/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
+              RUN ldconfig -v
+              ENV PATH="$PATH:/root/rocm/bin"
+              ENTRYPOINT ["/bin/bash"]
+            EOF
+            cat Dockerfile
+    - ${{ elseif eq(job.packageManager, 'dnf') }}:
+      - task: Bash@3
+        displayName: Create Dockerfile
+        inputs:
+          workingDirectory: $(Agent.BuildDirectory)
+          targetType: inline
+          script: |
+            cat <<'EOF' > Dockerfile
+              ${{ iif(eq(job.os, 'almalinux8'), 'FROM almalinux:8', '') }}
+
+              WORKDIR /root
+              RUN mkdir rocm
+
+              RUN dnf install -y cmake curl git gcc gcc-c++ gpg lsb-release lsof ninja-build pkg-config python3 python3-pip wget zip libdrm-devel libelf-devel gtest-devel hsakmt-devel hwloc-devel numactl-devel libstdc++-devel tbb jq \
+                && dnf clean all
+
+              RUN PACKAGE_NAME=$(curl -s https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/ | grep -oP "hsa-amd-aqlprofile-[^\"]+\.rpm" | head -n1) \
+                && wget -nv --retry-connrefused https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/$PACKAGE_NAME \
+                && mkdir hsa-amd-aqlprofile \
+                && sudo dnf -y install rpm-build cpio \
+                && rpm2cpio $PACKAGE_NAME | (cd hsa-amd-aqlprofile && cpio -idmv) \
+                && cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
+
+              RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
+                && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
+                && wget -nv --retry-connrefused $DOWNLOAD_URL -O nightly.zip \
+                && unzip nightly.zip \
+                && tar -xf nightly${{ job.os }}${{ job.target }}${{ job.source }}/rocm-nightly*${{ job.os }}*${{ job.target }}*.tar.gz -C rocm
+
+              RUN echo /root/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
+              RUN echo /root/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
+              RUN ldconfig -v
+              ENV PATH="$PATH:/root/rocm/bin"
+              ENTRYPOINT ["/bin/bash"]
+            EOF
+            cat Dockerfile
     - task: Docker@2
       displayName: Build and upload Docker image
       inputs:
