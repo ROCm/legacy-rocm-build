@@ -271,7 +271,7 @@ end-of-document token, remove sentence splitting, and use the tokenizer type.
 In this case, the automatically generated output files are named ``my-gpt2_text_document.bin`` and
 ``my-gpt2_text_document.idx``.
 
-.. image:: ../../data/how-to/rocm-for-ai/prep-training-datasets-my-gpt2-text-document.png
+.. image:: /data/how-to/rocm-for-ai/prep-training-datasets-my-gpt2-text-document.png
    :width: 800
 
 .. _amd-megatron-lm-environment-setup:
@@ -469,7 +469,7 @@ Benchmarking examples
 
       See the sample output:
 
-      .. image:: ../../data/how-to/rocm-for-ai/llama2-7b-training-log-sample.png
+      .. image:: /data/how-to/rocm-for-ai/llama2-7b-training-log-sample.png
          :width: 800
 
    .. tab-item:: Multi node training
@@ -500,12 +500,12 @@ Benchmarking examples
 
       Master node:
 
-      .. image:: ../../data/how-to/rocm-for-ai/2-node-training-master.png
+      .. image:: /data/how-to/rocm-for-ai/2-node-training-master.png
          :width: 800
 
       Worker node:
 
-      .. image:: ../../data/how-to/rocm-for-ai/2-node-training-worker.png
+      .. image:: /data/how-to/rocm-for-ai/2-node-training-worker.png
          :width: 800
 
 Previous versions

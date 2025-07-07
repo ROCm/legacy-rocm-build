@@ -22,7 +22,7 @@ previous releases of the ``ROCm/megatron-lm`` Docker image on `Docker Hub <https
      - 6.3.4
      - 2.8.0a0+gite2f9759
      - 
-       * `Documentation <../megatron-lm>`_
+       * :doc:`Documentation <../megatron-lm>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/megatron-lm/v25.5_py312/images/sha256-4506f18ba188d24189c6b1f95130b425f52c528a543bb3f420351824edceadc2>`_
 
    * - v25.4

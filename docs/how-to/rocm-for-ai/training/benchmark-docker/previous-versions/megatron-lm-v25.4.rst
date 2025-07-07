@@ -572,7 +572,7 @@ Benchmarking examples
 
             See the sample output:
 
-            .. image:: ../../../../data/how-to/rocm-for-ai/llama2-7b-training-log-sample.png
+            .. image:: /data/how-to/rocm-for-ai/llama2-7b-training-log-sample.png
                :width: 800
 
          .. tab-item:: Multi-node training
@@ -603,12 +603,12 @@ Benchmarking examples
 
             Master node:
 
-            .. image:: ../../../../data/how-to/rocm-for-ai/2-node-training-master.png
+            .. image:: /data/how-to/rocm-for-ai/2-node-training-master.png
                :width: 800
 
             Worker node:
 
-            .. image:: ../../../../data/how-to/rocm-for-ai/2-node-training-worker.png
+            .. image:: /data/how-to/rocm-for-ai/2-node-training-worker.png
                :width: 800
 
 Previous versions
