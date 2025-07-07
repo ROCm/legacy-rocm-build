@@ -24,5 +24,3 @@ training, fine-tuning, and inference. It leverages popular machine learning fram
 - :doc:`Fine-tuning and inference <fine-tuning-and-inference>` using a
   :doc:`single-accelerator <single-gpu-fine-tuning-and-inference>` or
   :doc:`multi-accelerator <multi-gpu-fine-tuning-and-inference>` system.
-
-
