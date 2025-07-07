@@ -185,3 +185,8 @@ jobs:
         repository: 'nightly-${{ job.os }}-${{ job.target }}-${{ job.source }}'
         Dockerfile: '$(Agent.BuildDirectory)/Dockerfile'
         buildContext: '$(Agent.BuildDirectory)'
+    - task: Bash@3
+      displayName: '!! Docker Run Command !!'
+      inputs:
+        targetType: inline
+        script: echo "docker run -it --network=host --device=/dev/kfd --device=/dev/dri --security-opt seccomp=unconfined rocmexternalcicd.azurecr.io/nightly-${{ job.os }}-${{ job.target }}-${{ job.source }}:$(Build.BuildId)" | tr '[:upper:]' '[:lower:]'
