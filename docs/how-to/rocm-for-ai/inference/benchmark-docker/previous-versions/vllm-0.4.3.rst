@@ -336,8 +336,8 @@ Further reading
 - To learn how to optimize inference on LLMs, see
   :doc:`Fine-tuning LLMs and inference optimization </how-to/llm-fine-tuning-optimization/index>`.
 
-- For a list of other ready-made Docker images for ROCm, see the
-  :doc:`Docker image support matrix <rocm-install-on-linux:reference/docker-image-support-matrix>`.
+- For a list of other ready-made Docker images for AI with ROCm, see
+  `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.
 
 Previous versions
 =================
