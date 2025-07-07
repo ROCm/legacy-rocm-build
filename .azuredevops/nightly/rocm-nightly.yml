@@ -170,12 +170,10 @@ jobs:
               && wget -nv --retry-connrefused $DOWNLOAD_URL -O nightly.zip \
               && unzip nightly.zip \
               && tar -xf nightly${{ job.os }}${{ job.target }}${{ job.source }}/rocm-nightly*${{ job.os }}*${{ job.target }}*.tar.gz -C rocm
-            RUN ln -s /root/rocm /opt/rocm
-            RUN ln -s /opt/rocm/llvm /opt/rocm/lib/llvm
-            RUN echo /opt/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
-            RUN echo /opt/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
-            RUN ldconfig
-            ENV PATH="$PATH:/opt/rocm/bin"
+            RUN echo /root/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
+            RUN echo /root/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
+            RUN ldconfig -v
+            ENV PATH="$PATH:/root/rocm/bin"
             ENTRYPOINT ["/bin/bash"]
           EOF
     - task: Docker@2
