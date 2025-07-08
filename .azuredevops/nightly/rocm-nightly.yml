@@ -131,7 +131,7 @@ jobs:
         includeRootFolder: false
         archiveType: tar
         tarCompression: gz
-        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.DefinitionName)_$(Build.BuildNumber)_ubuntu2204_${{ job.target }}.tar.gz
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.DefinitionName)_$(Build.BuildNumber)_${{ job.os }}_${{ job.target }}.tar.gz
     - script: du -sh $(Build.ArtifactStagingDirectory)
       displayName: Compressed ROCm size
     - task: PublishPipelineArtifact@1
@@ -144,7 +144,7 @@ jobs:
       inputs:
         workingDirectory: $(Pipeline.Workspace)
         targetType: inline
-        script: echo "$(Build.DefinitionName)_$(Build.BuildNumber)_ubuntu2204_${{ job.target }}.tar.gz" >> pipelineArtifacts.txt
+        script: echo "$(Build.DefinitionName)_$(Build.BuildNumber)_${{ job.os }}_${{ job.target }}.tar.gz" >> pipelineArtifacts.txt
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     - ${{ if eq(job.packageManager, 'apt') }}:
       - task: Bash@3
@@ -197,7 +197,7 @@ jobs:
               WORKDIR /root
               RUN mkdir rocm
 
-              RUN dnf install -y cmake curl git gcc gcc-c++ gpg lsb-release lsof ninja-build pkg-config python3 python3-pip wget zip libdrm-devel libelf-devel gtest-devel hsakmt-devel hwloc-devel numactl-devel libstdc++-devel tbb jq \
+              RUN dnf install -y cmake curl git gcc gcc-c++ gnupg2 redhat-lsb-core lsof ninja-build pkgconf python3 python3-pip wget zip libdrm-devel elfutils-libelf-devel hwloc-devel numactl-devel libstdc++-devel tbb-devel jq \
                 && dnf clean all
 
               RUN PACKAGE_NAME=$(curl -s https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/ | grep -oP "hsa-amd-aqlprofile-[^\"]+\.rpm" | head -n1) \
