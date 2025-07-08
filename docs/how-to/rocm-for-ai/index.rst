@@ -6,7 +6,7 @@
 Use ROCm for AI
 **************************
 
-ROCm™ is an open-source software platform that enables high-performance computing and machine learning applications. It features the ability to accelerate training, fine-tuning, and inference for AI application development. With ROCm, you can access the full power of AMD GPUs, which can significantly improve the performance and efficiency of AI workloads.
+ROCm is an open-source software platform that enables high-performance computing and machine learning applications. It features the ability to accelerate training, fine-tuning, and inference for AI application development. With ROCm, you can access the full power of AMD GPUs, which can significantly improve the performance and efficiency of AI workloads.
 
 You can use ROCm to perform distributed training, which enables you to train models across multiple GPUs or nodes simultaneously. Additionally, ROCm supports mixed-precision training, which can help reduce the memory and compute requirements of training workloads. For fine-tuning, ROCm provides access to various algorithms and optimization techniques. In terms of inference, ROCm provides several techniques that can help you optimize your models for deployment, such as quantization, GEMM tuning, and optimization with composable kernel.
  

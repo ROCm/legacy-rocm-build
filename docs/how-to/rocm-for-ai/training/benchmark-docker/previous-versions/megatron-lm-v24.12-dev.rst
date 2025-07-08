@@ -102,7 +102,8 @@ the output is ``1``, run the following command to disable NUMA auto-balancing.
 
    sudo sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'
 
-See :ref:`mi300x-disable-numa` for more information.
+See :ref:`System validation and optimization <rocm-for-ai-system-optimization>`
+for more information.
 
 Hardware verification with ROCm
 -------------------------------
@@ -118,7 +119,7 @@ Run the command:
 
    rocm-smi --setperfdeterminism 1900
 
-See :ref:`mi300x-hardware-verification-with-rocm` for more information.
+See `Hardware verification with ROCm <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html#hardware-verification-with-rocm>`_ for more information.
 
 RCCL Bandwidth Test
 -------------------
@@ -171,7 +172,7 @@ Run on 8 GPUs (``-g 8``), scanning from 8 bytes to 10 GB:
 
    ./build/all_reduce_perf -b 8 -e 10G -f 2 -g 8
 
-.. image:: ../../data/how-to/rocm-for-ai/rccl-tests-8-gpu.png
+.. image:: /data/how-to/rocm-for-ai/rccl-tests-8-gpu.png
    :width: 800
 
 Using one MPI process per GPU and ``-g 1`` for performance-oriented runs on both single-node and multi-node is
@@ -181,7 +182,7 @@ recommended. So, a run on 8 GPUs looks something like:
 
    mpirun -np 8 --bind-to numa ./build/all_reduce_perf -b 8 -e 10G -f 2 -g 1
 
-.. image:: ../../data/how-to/rocm-for-ai/rccl-tests-1-mpi-process-per-gpu.png
+.. image:: /data/how-to/rocm-for-ai/rccl-tests-1-mpi-process-per-gpu.png
    :width: 800
 
 Running with one MPI process per GPU ensures a one-to-one mapping for CPUs and GPUs, which can be beneficial

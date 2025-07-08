@@ -151,8 +151,8 @@ desired effect. Continuous iteration helps refine the performance gains and
 address any new bottlenecks that may emerge.
 
 ROCm provides a prebuilt optimized Docker image that has everything required to implement
-the tips in this section. It includes ROCm, vLLM, PyTorch, and tuning files in the CSV 
-format. For more information, see :doc:`../inference/vllm-benchmark`.
+the LLM inference tips in this section. It includes ROCm, PyTorch, and vLLM.
+For more information, see :doc:`/how-to/rocm-for-ai/inference/benchmark-docker/vllm`.
 
 .. _mi300x-profiling-tools:
 
@@ -343,9 +343,10 @@ The following performance tips are not *specific* to vLLM -- they are general
 but relevant in this context. You can tune the following vLLM parameters to
 achieve optimal request latency and throughput performance.
 
-* As described in :ref:`mi300x-env-vars`, the environment
-  variable ``HIP_FORCE_DEV_KERNARG`` can improve vLLM performance. Set it to
-  ``export HIP_FORCE_DEV_KERNARG=1``.
+* As described in `Environment variables (MI300X)
+  <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html#environment-variables>`_,
+  the environment variable ``HIP_FORCE_DEV_KERNARG`` can improve vLLM
+  performance. Set it to ``export HIP_FORCE_DEV_KERNARG=1``.
 
 * Set the :ref:`RCCL environment variable <mi300x-rccl>` ``NCCL_MIN_NCHANNELS``
   to ``112`` to increase the number of channels on MI300X to potentially improve
@@ -410,9 +411,9 @@ for additional performance tips. :ref:`fine-tuning-llms-vllm` describes vLLM
 usage with ROCm.
 
 ROCm provides a prebuilt optimized Docker image for validating the performance
-of LLM inference with vLLM on the MI300X accelerator. The Docker image includes
-ROCm, vLLM, PyTorch, and tuning files in the CSV format. For more information,
-see :doc:`../inference/vllm-benchmark`.
+of LLM inference with vLLM on MI300X series accelerators. The Docker image includes
+ROCm, vLLM, and PyTorch. For more information, see
+:doc:`/how-to/rocm-for-ai/inference/benchmark-docker/vllm`.
 
 .. _mi300x-vllm-throughput-measurement:
 
@@ -1477,8 +1478,9 @@ following command: ``cat /proc/sys/kernel/numa_balancing`` and
 checking whether the output is ``0``.
 
 If the output is ``1``, you can disable NUMA auto-balancing by running the
-following command: ``sudo sysctl kernel.numa_balancing=0``. For more
-details, see :ref:`AMD Instinct MI300X system optimization <mi300x-disable-numa>`.
+following command: ``sudo sysctl kernel.numa_balancing=0``. For more details,
+see `AMD Instinct MI300X system optimization
+<https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html#disable-numa-auto-balancing>`_.
 
 .. _mi300x-rccl-disable-acs:
 

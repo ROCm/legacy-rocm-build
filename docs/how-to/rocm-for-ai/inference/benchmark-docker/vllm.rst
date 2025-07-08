@@ -344,3 +344,4 @@ Previous versions
 
 See :doc:`previous-versions/vllm-history` to find documentation for previous releases
 of the ``ROCm/vllm`` Docker image.
+

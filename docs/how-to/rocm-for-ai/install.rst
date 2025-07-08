@@ -28,7 +28,7 @@ ROCm supports multiple :doc:`installation methods <rocm-install-on-linux:install
 
 * :doc:`Using your Linux distribution's package manager <rocm-install-on-linux:install/install-methods/package-manager-index>`
 
-* :doc:`Using the AMDGPU installer <rocm-install-on-linux:install/amdgpu-install>`
+* :doc:`Using the AMDGPU installer <rocm-install-on-linux:install/install-methods/amdgpu-installer-index>`
 
 * :ref:`Multi-version installation <rocm-install-on-linux:installation-types>`
 

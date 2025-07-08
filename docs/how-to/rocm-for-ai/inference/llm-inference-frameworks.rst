@@ -141,7 +141,7 @@ Installing vLLM
 
    ROCm provides a prebuilt optimized Docker image for validating the performance of LLM inference with vLLM
    on the MI300X accelerator. The Docker image includes ROCm, vLLM, and PyTorch.
-   For more information, see :doc:`vllm-benchmark`.
+   For more information, see :doc:`/how-to/rocm-for-ai/inference/benchmark-docker/vllm`.
 
 .. _fine-tuning-llms-tgi:
 

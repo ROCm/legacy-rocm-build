@@ -111,7 +111,8 @@ the output is ``1``, run the following command to disable NUMA auto-balancing.
 
    sudo sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'
 
-See :ref:`mi300x-disable-numa` for more information.
+See :ref:`System validation and optimization <rocm-for-ai-system-optimization>`
+for more information.
 
 .. _mi300x-amd-megatron-lm-training:
 
