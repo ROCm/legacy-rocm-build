@@ -93,6 +93,7 @@ schedules:
 jobs:
 - ${{ each job in parameters.jobList }}:
   - job: nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}
+    timeoutInMinutes: 90
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
