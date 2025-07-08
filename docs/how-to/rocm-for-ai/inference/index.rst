@@ -14,14 +14,14 @@ Throughout the following topics, this section provides a comprehensive guide to 
 The AI Developer Hub contains `AMD ROCm tutorials <https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/>`_ for
 training, fine-tuning, and inference. It leverages popular machine learning frameworks on AMD GPUs.
 
-- :doc:`Installing ROCm and machine learning frameworks <install>`
+- :doc:`Installing ROCm and machine learning frameworks <../install>`
 
 - :doc:`Running models from Hugging Face <hugging-face-models>`
 
 - :doc:`LLM inference frameworks <llm-inference-frameworks>`
 
-- :doc:`vLLM inference performance testing <vllm-benchmark>`
+- :doc:`vLLM inference performance testing <benchmark-docker/vllm>`
 
-- :doc:`PyTorch inference performance testing <pytorch-inference-benchmark>`
+- :doc:`PyTorch inference performance testing <benchmark-docker/pytorch-inference>`
 
 - :doc:`Deploying your model <deploy-your-model>`
