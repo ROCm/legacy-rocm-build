@@ -8,7 +8,7 @@ MI300 and MI200 series performance counters and metrics
 
 This document lists and describes the hardware performance counters and derived metrics available
 for the AMD Instinct™ MI300 and MI200 GPU. You can also access this information using the
-:doc:`ROCProfiler tool <rocprofiler:rocprofv1>`.
+:doc:`ROCprofiler-SDK <rocprofiler-sdk:how-to/using-rocprofv3>`.
 
 MI300 and MI200 series performance counters
 ===============================================================
