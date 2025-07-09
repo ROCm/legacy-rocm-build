@@ -14,7 +14,7 @@ configurations -- before installing, see the :ref:`supported OSes and hardware
 
 .. important::
 
-   Upgrades and downgrades are not supported. You must install any existing
+   Upgrades and downgrades are not supported. You must uninstall any existing
    ROCm installation before installing the Alpha build.
 
 .. grid:: 2
