@@ -1,11 +1,10 @@
 vllm_benchmark:
   unified_docker:
     latest:
-      # TODO: update me
-      pull_tag: rocm/vllm:rocm6.4.1_vllm_0.9.1_20250702
-      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.9.1_20250702/images/sha256-45068a2079cb8df554ed777141bf0c67d6627c470a897256e60c9f262677faab
+      pull_tag: rocm/vllm:rocm6.4.1_vllm_0.9.0.1_20250605
+      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.9.0.1_20250605/images/sha256-f48beeb3d72663a93c77211eb45273d564451447c097e060befa713d565fa36c
       rocm_version: 6.4.1
-      vllm_version: 0.9.1 (0.9.2.dev206+gb335519f2.rocm641)
+      vllm_version: 0.9.0.1 (0.9.0.2.dev108+g71faa1880.rocm641)
       pytorch_version: 2.7.0+gitf717b2a
       hipblaslt_version: 0.15
   model_groups:

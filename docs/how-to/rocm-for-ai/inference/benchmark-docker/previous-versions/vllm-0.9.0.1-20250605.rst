@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: Learn how to validate LLM inference performance on MI300X accelerators using AMD MAD and the
                  ROCm vLLM Docker image.
@@ -7,9 +9,14 @@
 vLLM inference performance testing
 **********************************
 
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm vLLM
+   inference performance documentation. See :doc:`../vllm` for the latest version.
+
 .. _vllm-benchmark-unified-docker:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.9.0.1_20250605-benchmark-models.yaml
 
    {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
    {% set model_groups = data.vllm_benchmark.model_groups %}
@@ -112,7 +119,7 @@ vLLM inference performance testing
    ==================================
 
    For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-   see the developer's guide at `<https://github.com/ROCm/vllm/tree/5486e7bc8523be0324ccd68f221959445b56cc2a/docs/dev-docker>`__.
+   see the developer's guide at `<https://github.com/ROCm/vllm/tree/7bb0618b1fe725b7d4fad9e525aa44da12c94a8b/docs/dev-docker>`__.
 
    System validation
    =================
@@ -325,19 +332,19 @@ Further reading
   see `<https://github.com/ROCm/vllm/tree/main/benchmarks>`_.
 
 - To learn more about system settings and management practices to configure your system for
-  MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
+  MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
 
 - For application performance optimization strategies for HPC and AI workloads,
-  including inference with vLLM, see :doc:`/how-to/rocm-for-ai/inference-optimization/workload`.
+  including inference with vLLM, see :doc:`../../inference-optimization/workload`.
 
-- To learn how to run community models from Hugging Face on AMD GPUs, see
-  :doc:`Running models from Hugging Face </how-to/rocm-for-ai/inference/hugging-face-models>`.
+- To learn how to run LLM models from Hugging Face or your own model, see
+  :doc:`Running models from Hugging Face <../hugging-face-models>`.
 
-- To learn how to fine-tune LLMs and optimize inference, see
-  :doc:`Fine-tuning LLMs and inference optimization </how-to/rocm-for-ai/fine-tuning/fine-tuning-and-inference>`.
+- To learn how to optimize inference on LLMs, see
+  :doc:`Inference optimization <../../inference-optimization/index>`.
 
-- For a list of other ready-made Docker images for AI with ROCm, see
-  `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.
+- To learn how to fine-tune LLMs, see
+  :doc:`Fine-tuning LLMs <../../fine-tuning/index>`.
 
 Previous versions
 =================
