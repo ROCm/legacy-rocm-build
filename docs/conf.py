@@ -5,15 +5,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
-import shutil
 import sys
 from pathlib import Path
-
-shutil.copy2("../RELEASE.md", "./about/release-notes.md")
-shutil.copy2("../CHANGELOG.md", "./release/changelog.md")
-
-os.system("mkdir -p ../_readthedocs/html/downloads")
-os.system("cp compatibility/compatibility-matrix-historical-6.0.csv ../_readthedocs/html/downloads/compatibility-matrix-historical-6.0.csv")
 
 latex_engine = "xelatex"
 latex_elements = {
@@ -34,8 +27,8 @@ project = "ROCm Documentation"
 project_path = os.path.abspath(".").replace("\\", "/")
 author = "Advanced Micro Devices, Inc."
 copyright = "Copyright (c) 2025 Advanced Micro Devices, Inc. All rights reserved."
-version = "7.0 Alpha"
-release = "7.0 Alpha"
+version = "7.0 Alpha 2"
+release = "7.0 Alpha 2"
 setting_all_article_info = True
 all_article_info_os = ["linux", "windows"]
 all_article_info_author = ""
@@ -44,6 +37,7 @@ all_article_info_author = ""
 article_pages = [
     {"file": "preview/index", "os": ["linux"],},
     {"file": "preview/release", "os": ["linux"],},
+    {"file": "preview/versions", "os": ["linux"],},
     {"file": "preview/install/index", "os": ["linux"],},
     {"file": "preview/install/instinct-driver", "os": ["linux"],},
     {"file": "preview/install/rocm", "os": ["linux"],},
@@ -55,64 +49,9 @@ article_pages = [
     {"file": "preview/benchmark-docker/inference", "os": ["linux"],},
     {"file": "preview/benchmark-docker/inference-vllm-llama-3.1-405b-fp4", "os": ["linux"],},
     {"file": "preview/benchmark-docker/inference-sglang-deepseek-r1-fp4", "os": ["linux"],},
-
-    # {"file": "about/release-notes", "os": ["linux"], "date": "2025-06-26"},
-    # {"file": "release/changelog", "os": ["linux"],},
-    # {"file": "compatibility/compatibility-matrix", "os": ["linux"]},
-    # {"file": "compatibility/ml-compatibility/pytorch-compatibility", "os": ["linux"]},
-    # {"file": "compatibility/ml-compatibility/tensorflow-compatibility", "os": ["linux"]},
-    # {"file": "compatibility/ml-compatibility/jax-compatibility", "os": ["linux"]},
-    # {"file": "how-to/deep-learning-rocm", "os": ["linux"]},
-    #
-    # {"file": "how-to/rocm-for-ai/index", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/install", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/system-health-check", "os": ["linux"]},
-    #
-    # {"file": "how-to/rocm-for-ai/training/index", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/training/train-a-model", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/training/prerequisite-system-validation", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/training/benchmark-docker/megatron-lm", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/training/benchmark-docker/pytorch-training", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/training/scale-model-training", "os": ["linux"]},
-    #
-    # {"file": "how-to/rocm-for-ai/fine-tuning/index", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/fine-tuning/overview", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/fine-tuning/fine-tuning-and-inference", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/fine-tuning/single-gpu-fine-tuning-and-inference", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/fine-tuning/multi-gpu-fine-tuning-and-inference", "os": ["linux"]},
-    #
-    # {"file": "how-to/rocm-for-ai/inference/index", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference/hugging-face-models", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference/llm-inference-frameworks", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference/benchmark-docker/vllm", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.8.5-20250513", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
-    #
-    # {"file": "how-to/rocm-for-ai/inference-optimization/index", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference-optimization/model-quantization", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference-optimization/model-acceleration-libraries", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference-optimization/optimizing-with-composable-kernel", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference-optimization/optimizing-triton-kernel", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference-optimization/profiling-and-debugging", "os": ["linux"]},
-    # {"file": "how-to/rocm-for-ai/inference-optimization/workload", "os": ["linux"]},
-    #
-    # {"file": "how-to/system-optimization/index", "os": ["linux"]},
-    # {"file": "how-to/system-optimization/mi300x", "os": ["linux"]},
-    # {"file": "how-to/system-optimization/mi200", "os": ["linux"]},
-    # {"file": "how-to/system-optimization/mi100", "os": ["linux"]},
-    # {"file": "how-to/system-optimization/w6000-v620", "os": ["linux"]},
-    # {"file": "how-to/tuning-guides/mi300x/index", "os": ["linux"]},
-    # {"file": "how-to/tuning-guides/mi300x/system", "os": ["linux"]},
-    # {"file": "how-to/tuning-guides/mi300x/workload", "os": ["linux"]},
-    # {"file": "how-to/system-debugging", "os": ["linux"]},
-    # {"file": "how-to/gpu-enabled-mpi", "os": ["linux"]},
 ]
 
 external_toc_path = "./sphinx/_toc.yml"
-# Options to improve documentation build time for preview release documentation
-external_toc_exclude_missing = True # don't build files that aren't in the TOC
 external_projects_remote_repository = "" # don't fetch data to resolve intersphinx xrefs
 
 # Add the _extensions directory to Python's search path
@@ -120,12 +59,7 @@ sys.path.append(str(Path(__file__).parent / 'extension'))
 
 extensions = ["rocm_docs", "sphinx_reredirects", "sphinx_sitemap", "sphinxcontrib.datatemplates", "version-ref", "csv-to-list-table"]
 
-compatibility_matrix_file = str(Path(__file__).parent / 'compatibility/compatibility-matrix-historical-6.0.csv')
-
 external_projects_current_project = "rocm"
-
-# Uncomment if facing rate limit exceed issue with local build
-# external_projects_remote_repository = ""
 
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "https://rocm-stg.amd.com/")
 html_context = {}
@@ -135,15 +69,13 @@ if os.environ.get("READTHEDOCS", "") == "True":
 html_theme = "rocm_docs_theme"
 html_theme_options = {"flavor": "rocm-docs-home"}
 
-html_static_path = ["sphinx/static/css", "extension/how-to/rocm-for-ai/inference"]
-html_css_files = ["rocm_custom.css", "rocm_rn.css", "vllm-benchmark.css"]
-html_js_files = ["vllm-benchmark.js"]
+html_static_path = ["sphinx/static/css", "sphinx/static/js"]
+html_css_files = ["rocm_custom.css", "rocm_rn.css"]
+html_js_files = ["preview-version-list.js"]
 
-html_title = "ROCm 7.0 Alpha documentation"
+html_title = "ROCm 7.0 Alpha 2 documentation"
 
 html_theme_options = {"link_main_doc": False}
-
-redirects = {"reference/openmp/openmp": "../../about/compatibility/openmp.html"}
 
 numfig = False
 

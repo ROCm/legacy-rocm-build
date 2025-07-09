@@ -81,7 +81,7 @@ Register ROCm repositories
 
          .. code-block:: shell
 
-            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/30.10_alpha/ubuntu jammy main" \
+            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/30.10_alpha2/ubuntu jammy main" \
               | sudo tee /etc/apt/sources.list.d/amdgpu.list
             sudo apt update 
 
@@ -104,7 +104,7 @@ Register ROCm repositories
 
          .. code-block:: shell
 
-            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/30.10_alpha/ubuntu noble main" \
+            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/30.10_alpha2/ubuntu noble main" \
               | sudo tee /etc/apt/sources.list.d/amdgpu.list
             sudo apt update 
 
@@ -116,7 +116,7 @@ Register ROCm repositories
          sudo tee /etc/yum.repos.d/amdgpu.repo <<EOF
          [amdgpu]
          name=amdgpu
-         baseurl=https://repo.radeon.com/amdgpu/30.10_alpha/rhel/9.6/main/x86_64/
+         baseurl=https://repo.radeon.com/amdgpu/30.10_alpha2/rhel/9.6/main/x86_64/
          enabled=1
          priority=50
          gpgcheck=1
