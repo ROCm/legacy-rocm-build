@@ -248,7 +248,7 @@ Instinct Driver / ROCm packaging separation
 -------------------------------------------
 
 The Instinct Driver is now distributed separately from the ROCm software stack -- it is now stored
-in its own location in the package repository at `<repo.radeon.com>`_ under ``/amdgpu/``.
+in its own location in the package repository at `repo.radeon.com <https://repo.radeon.com/amdgpu/>`_ under ``/amdgpu/``.
 The first release is designated as Instinct Driver version 30.10. See `ROCm Gets Modular: Meet the
 Instinct Datacenter GPU Driver
 <https://rocm.blogs.amd.com/ecosystems-and-partners/instinct-gpu-driver/README.html>`_ for more
