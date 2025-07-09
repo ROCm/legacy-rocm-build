@@ -198,7 +198,7 @@ jobs:
               WORKDIR /root
               RUN mkdir rocm
 
-              RUN dnf install -y cmake curl git gcc gcc-c++ gnupg2 redhat-lsb-core lsof ninja-build pkgconf python3 python3-pip wget zip libdrm-devel elfutils-libelf-devel hwloc-devel numactl-devel libstdc++-devel tbb-devel jq \
+              RUN dnf install -y cmake curl git gcc gcc-c++ gnupg2 redhat-lsb-core lsof pkgconf python3 python3-pip wget zip libdrm-devel elfutils-libelf-devel numactl-devel libstdc++-devel tbb-devel jq \
                 && dnf clean all
 
               RUN PACKAGE_NAME=$(curl -s https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/ | grep -oP "hsa-amd-aqlprofile-[^\"]+\.rpm" | head -n1) \
