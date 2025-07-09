@@ -10,4 +10,4 @@
 
 | Preview version | Release date |
 | --------------- | ------------ |
-| [7.0 Alpha](https://rocm-stg.amd.com/en/docs-7.0-alpha/preview/index.html) | June 26, 2025 |
+| [7.0 Alpha](https://rocm.docs.amd.com/en/docs-7.0-alpha/preview/index.html) | June 26, 2025 |

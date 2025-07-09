@@ -4,8 +4,8 @@ ROCm 7.0 Alpha release notes
 
 The ROCm 7.0 Alpha is an early look into the upcoming ROCm 7.0 major release,
 which introduces functional support for AMD Instinct™ MI355X and MI350X
-on bare metal, single node systems. It also includes new features for current-generation
-MI300X, MI200, and MI100 series accelerators. This is an alpha-quality release;
+on bare metal, single node systems. It also includes new features for
+MI300X, MI200, and MI100 series accelerators. This is an Alpha-quality release;
 expect issues and limitations that will be addressed in upcoming previews.
 
 .. important::
