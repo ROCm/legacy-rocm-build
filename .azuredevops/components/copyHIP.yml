@@ -39,4 +39,6 @@ jobs:
       parameters:
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      inputs:
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
