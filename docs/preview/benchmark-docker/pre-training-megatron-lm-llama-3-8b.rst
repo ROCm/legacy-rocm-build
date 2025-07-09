@@ -60,15 +60,16 @@ appropriate options, download the model, and run the throughput test.
 
          .. code-block:: shell
 
-            bash examples/llama/train_llama3.sh
+            bash examples/llama/train_llama3.sh \
                 TEE_OUTPUT=1 \
                 MBS=4 \
-                BS=256 \
+                BS=512 \
                 TP=1 \
                 TE_FP8=0 \
                 SEQ_LENGTH=8192 \
                 MODEL_SIZE=8 \
-                TOTAL_ITERS=10
+                TOTAL_ITERS=10 \
+                GEMM_TUNING=1
 
    .. note::
 

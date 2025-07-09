@@ -4,8 +4,8 @@ ROCm 7.0 Alpha release notes
 
 The ROCm 7.0 Alpha is an early look into the upcoming ROCm 7.0 major release,
 which introduces functional support for AMD Instinct™ MI355X and MI350X
-on bare metal, single node systems. It also includes new features for current-generation
-MI300X, MI200, and MI100 series accelerators. This is an alpha-quality release;
+on bare metal, single node systems. It also includes new features for
+MI300X, MI200, and MI100 series accelerators. This is an Alpha-quality release;
 expect issues and limitations that will be addressed in upcoming previews.
 
 .. important::
@@ -249,7 +249,7 @@ Instinct Driver / ROCm packaging separation
 
 The Instinct Driver is now distributed separately from the ROCm software stack -- it is now stored
 in its own location in the package repository at `<repo.radeon.com>`_ under ``/amdgpu/``.
-The first release is designated as Instinct Driver version 30.10 See `ROCm Gets Modular: Meet the
+The first release is designated as Instinct Driver version 30.10. See `ROCm Gets Modular: Meet the
 Instinct Datacenter GPU Driver
 <https://rocm.blogs.amd.com/ecosystems-and-partners/instinct-gpu-driver/README.html>`_ for more
 information.
@@ -265,6 +265,7 @@ Known limitations
 HIP compatibility
 -----------------
 
-HIP runtime APIs in the ROCm 7.0 Alpha do not include backward-incompatible changes. See `HIP 7.0 Is
+HIP runtime APIs in the ROCm 7.0 Alpha do not include the upcoming backward-incompatible changes. See `HIP 7.0 Is
 Coming: What You Need to Know to Stay Ahead
-<https://rocm.blogs.amd.com/ecosystems-and-partners/transition-to-hip-7.0:-guidance-on-upcoming-compatibility-changes/README.html>`_ for more information.
+<https://rocm.blogs.amd.com/ecosystems-and-partners/transition-to-hip-7.0-blog/README.html>`_ to learn about the
+changes expected for HIP.
