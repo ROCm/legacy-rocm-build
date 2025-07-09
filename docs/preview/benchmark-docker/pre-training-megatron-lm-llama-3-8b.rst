@@ -60,7 +60,7 @@ appropriate options, download the model, and run the throughput test.
 
          .. code-block:: shell
 
-            bash examples/llama/train_llama3.sh
+            bash examples/llama/train_llama3.sh \
                 TEE_OUTPUT=1 \
                 MBS=4 \
                 BS=512 \
