@@ -152,6 +152,7 @@ jobs:
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
   - job: hipSPARSELt_test_${{ job.target }}
+    timeoutInMinutes: 120
     dependsOn: hipSPARSELt_build_${{ job.target }}
     condition:
       and(succeeded(),
