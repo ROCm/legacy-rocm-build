@@ -211,7 +211,7 @@ jobs:
               RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
                 && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
                 && wget -nv --retry-connrefused $DOWNLOAD_URL -O nightly.zip \
-                && unzip nightly.zip \
+                && UNZIP_DISABLE_ZIPBOMB_DETECTION=TRUE unzip nightly.zip \
                 && tar -xf nightly${{ job.os }}${{ job.target }}${{ job.source }}/rocm-nightly*${{ job.os }}*${{ job.target }}*.tar.gz -C rocm
 
               RUN echo /root/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
