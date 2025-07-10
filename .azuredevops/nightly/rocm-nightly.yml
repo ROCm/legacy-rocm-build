@@ -204,7 +204,7 @@ jobs:
               RUN PACKAGE_NAME=$(curl -s https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/ | grep -oP "hsa-amd-aqlprofile-[^\"]+\.rpm" | head -n1) \
                 && wget -nv --retry-connrefused https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/$PACKAGE_NAME \
                 && mkdir hsa-amd-aqlprofile \
-                && sudo dnf -y install rpm-build cpio \
+                && dnf -y install rpm-build cpio \
                 && rpm2cpio $PACKAGE_NAME | (cd hsa-amd-aqlprofile && cpio -idmv) \
                 && cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
 
