@@ -13,6 +13,11 @@ the powerful parallel processing capabilities and efficient compute resource
 management, significantly improving training time and overall performance in
 machine learning applications.
 
+AMD provides ready-to-use Docker images for MI355X and MI350X series
+accelerators containing essential software components and optimizations to
+accelerate and benchmark training workloads for popular models.
+See the following sections for instructions.
+
 .. grid:: 1
 
    .. grid-item-card:: Training benchmarking
