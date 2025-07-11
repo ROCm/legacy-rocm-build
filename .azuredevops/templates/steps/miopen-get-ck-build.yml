@@ -40,10 +40,10 @@ steps:
 
       AZURE_URL="$AZ_API/build/builds/$CK_BUILD_ID/artifacts?api-version=7.1"
       ARTIFACT_URL=$(curl -s $AZURE_URL | \
-        jq --arg os "ubuntu2204" --arg gfx "${{ parameters.gpuTarget }}" '
+        jq --arg gfx "${{ parameters.gpuTarget }}" '
           .value
-          | map(select(.name | test($os) and test($gfx)))
-          | max_by(.name | capture("drop_(?<dropNumber>\\d+)").dropNumber | tonumber)
+          | map(select(.name | test($gfx)))
+          | max_by(.name | capture("_(?<dropNumber>\\d+)").dropNumber | tonumber)
           | .resource.downloadUrl
         ' | \
         tr -d '"')
@@ -59,7 +59,7 @@ steps:
           jq --arg os "ubuntu2204" --arg gfx "${{ parameters.gpuTarget }}" '
             .value
             | map(select(.name | test($os) and test($gfx)))
-            | max_by(.name | capture("drop_(?<dropNumber>\\d+)").dropNumber | tonumber)
+            | max_by(.name | capture("_(?<dropNumber>\\d+)").dropNumber | tonumber)
             | .resource.downloadUrl
           ' | \
           tr -d '"')

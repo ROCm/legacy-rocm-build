@@ -46,5 +46,6 @@ steps:
     displayName: '${{ parameters.artifactName }} Publish'
     retryCountOnTaskFailure: 3
     inputs:
+      # if this artifact name is changed, please also update $ARTIFACT_URL inside miopen-get-ck-build.yml
       artifactName: $(Agent.JobName)_$(System.JobAttempt)
       targetPath: '$(Build.ArtifactStagingDirectory)'
