@@ -28,6 +28,12 @@ subtrees:
                   title: Pre-train Llama 3 8B with Megatron LM
                 - file: preview/benchmark-docker/pre-training-torchtitan-llama-3-70b.rst
                   title: Pre-train Llama 3 70B with torchtitan
+        - file: preview/benchmark-docker/inference.rst
+          title: Inference benchmarking
+          subtrees:
+          - entries:
+                - file: preview/benchmark-docker/inference-sglang-deepseek-r1-fp4.rst
+                  title: Inference DeepSeek R1 FP4 with SGLang
 # - entries:
 #   - file: what-is-rocm.rst
 #   - file: about/release-notes.md
