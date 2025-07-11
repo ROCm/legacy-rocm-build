@@ -18,3 +18,4 @@ See the following sections for instructions.
 
       * :doc:`inference-sglang-deepseek-r1-fp4`
 
+      * :doc:`inference-vllm-llama-3.1-405b-fp4`

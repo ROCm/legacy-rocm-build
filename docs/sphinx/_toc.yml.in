@@ -34,6 +34,8 @@ subtrees:
           - entries:
                 - file: preview/benchmark-docker/inference-sglang-deepseek-r1-fp4.rst
                   title: Inference DeepSeek R1 FP4 with SGLang
+                - file: preview/benchmark-docker/inference-vllm-llama-3.1-405b-fp4.rst
+                  title: Inference Llama 3.1 405B FP4 with vLLM
 # - entries:
 #   - file: what-is-rocm.rst
 #   - file: about/release-notes.md

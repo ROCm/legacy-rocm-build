@@ -12,7 +12,7 @@ expect issues and limitations that will be addressed in upcoming previews.
 
    This Alpha release is not intended for performance evaluation.
    For the latest stable release for production-level functionality,
-   see `ROCm 6.4.1 documentation <https://rocm.docs.amd.com/en/latest/>`_.
+   see `ROCm 6.4.2 documentation <https://rocm.docs.amd.com/en/latest/>`_.
 
 This page provides a high-level summary of supported systems, key changes to the ROCm software
 stack, developments related to AI frameworks, current known limitations, and installation

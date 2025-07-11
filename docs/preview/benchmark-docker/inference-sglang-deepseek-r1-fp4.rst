@@ -4,7 +4,7 @@ Benchmarking DeepSeek R1 FP4 inference with SGLang
 
 This section provides instructions to test the inference performance of DeepSeek R1
 with FP4 precision via the SGLang serving framework.
-The accompanying Docker image integrates the ROCm 7.0 Alpha with vLLM, and is
+The accompanying Docker image integrates the ROCm 7.0 Alpha with SGLang, and is
 tailored for AMD Instinct MI355X and MI350X accelerators. This
 benchmark does not support other accelerators.
 
@@ -18,6 +18,14 @@ appropriate options, download the model, and run the throughput test.
       docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sglang_0.4.6.post4_mi35X_alpha
 
 2. Download the model.
+
+   .. note::
+
+      This model uses microscaling 4-bit floating point (MXFP4) quantization
+      via `AMD Quark <https://quark.docs.amd.com/latest/>`_ for efficient
+      inference on AMD accelerators. See model card on Hugging Face at
+      `DeepSeek-R1-MXFP4-Preview
+      <https://huggingface.co/amd/DeepSeek-R1-MXFP4-Preview>`__.
 
    .. code-block:: shell
 
