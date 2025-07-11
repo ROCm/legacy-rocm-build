@@ -30,3 +30,7 @@ configurations.
       * :doc:`pre-training-megatron-lm-llama-3-8b`
 
       * :doc:`pre-training-torchtitan-llama-3-70b`
+
+   .. grid-item-card:: Inference
+
+      * :doc:`inference-sglang-deepseek-r1-fp4`
