@@ -96,14 +96,6 @@ parameters:
 - name: downstreamComponentMatrix
   type: object
   default:
-   # technically hipSPARSELt is a downstream component of hipSPARSE
-   # since hipSPARSE is not yet enabled, we will trigger it from rocBLAS in the interim
-    - hipSPARSELt:
-      name: hipSPARSELt
-      sparseCheckoutDir: projects/hipsparselt
-      skipUnifiedBuild: 'false'
-      buildDependsOn:
-        - rocBLAS_build
     # rocSOLVER depends on both rocBLAS and rocPRIM
     # for a unified build, rocBLAS will be the one to call rocSOLVER
     # - rocSOLVER:
