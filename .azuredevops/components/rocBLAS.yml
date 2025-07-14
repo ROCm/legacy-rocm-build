@@ -96,6 +96,12 @@ parameters:
 - name: downstreamComponentMatrix
   type: object
   default:
+    - rocSPARSE:
+      name: rocSPARSE
+      sparseCheckoutDir: projects/rocsparse
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        - rocBLAS_build
     # rocSOLVER depends on both rocBLAS and rocPRIM
     # for a unified build, rocBLAS will be the one to call rocSOLVER
     # - rocSOLVER:
