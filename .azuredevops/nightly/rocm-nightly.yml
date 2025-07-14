@@ -180,6 +180,8 @@ jobs:
 
               RUN echo /root/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
               RUN echo /root/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
+              RUN echo /root/rocm/lib64 | tee -a /etc/ld.so.conf.d/rocm-ci.conf
+              RUN echo /root/rocm/llvm/lib64 | tee -a /etc/ld.so.conf.d/rocm-ci.conf
               RUN ldconfig -v
               ENV PATH="$PATH:/root/rocm/bin"
               ENTRYPOINT ["/bin/bash"]
@@ -216,6 +218,8 @@ jobs:
 
               RUN echo /root/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
               RUN echo /root/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
+              RUN echo /root/rocm/lib64 | tee -a /etc/ld.so.conf.d/rocm-ci.conf
+              RUN echo /root/rocm/llvm/lib64 | tee -a /etc/ld.so.conf.d/rocm-ci.conf
               RUN ldconfig -v
               ENV PATH="$PATH:/root/rocm/bin"
               ENTRYPOINT ["/bin/bash"]
