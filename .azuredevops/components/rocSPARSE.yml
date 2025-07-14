@@ -1,10 +1,29 @@
 parameters:
+- name: componentName
+  type: string
+  default: rocSPARSE
 - name: checkoutRepo
   type: string
   default: 'self'
 - name: checkoutRef
   type: string
   default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -13,27 +32,25 @@ parameters:
 - name: aptPackages
   type: object
   default:
-    - python3-pip
     - cmake
-    - ninja-build
-    - libboost-program-options-dev
-    - googletest
-    - libfftw3-dev
-    - git
     - gfortran
-    - libgtest-dev
+    - git
+    - libboost-program-options-dev
     - libdrm-dev
+    - libfftw3-dev
+    - ninja-build
+    - python3-pip
 - name: rocmDependencies
   type: object
   default:
-    - rocm-cmake
-    - llvm-project
-    - ROCR-Runtime
     - clr
+    - llvm-project
     - rocBLAS
+    - rocm-cmake
     - rocminfo
     - rocPRIM
     - rocprofiler-register
+    - ROCR-Runtime
     - roctracer
 - name: rocmTestDependencies
   type: object
@@ -52,19 +69,39 @@ parameters:
   type: object
   default:
     buildJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1030 }
     testJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+- name: downstreamComponentMatrix
+  type: object
+  default:
+    - hipSPARSE:
+      name: hipSPARSE
+      sparseCheckoutDir: projects/hipsparse
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        - rocSPARSE_build
+    # hipSOLVER depends on both rocSOLVER and rocSPARSE
+    # for a unified build, rocSOLVER will be the one to call hipSOLVER
+    # - hipSOLVER:
+    #   name: hipSOLVER
+    #   sparseCheckoutDir: projects/hipsolver
+    #   skipUnifiedBuild: 'true'
+    #   buildDependsOn:
+    #     - rocSPARSE_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocSPARSE_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -77,22 +114,32 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
+      parameters:
+        dependencyList:
+          - gtest
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        os: ${{ job.os }}
         extraBuildFlags: >-
-          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/bin/hipcc
-          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/bin/hipcc
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/bin/amdclang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/bin/amdclang
           -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -DCMAKE_BUILD_TYPE=Release
           -DAMDGPU_TARGETS=${{ job.target }}
@@ -103,68 +150,92 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
-        artifactName: rocSPARSE
+        componentName: ${{ parameters.componentName }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
-        artifactName: rocSPARSE
+        componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
         publish: false
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-prepare-package.yml
       parameters:
-        sourceDir: $(Build.SourcesDirectory)/build/clients
+        sourceDir: $(Agent.BuildDirectory)/s/build/clients
         contentsString: matrices/**
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         artifactName: testMatrices
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        gpuTarget: ${{ job.target }}
-        extraEnvVars:
-          - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
+    - ${{ if eq(job.os, 'ubuntu2204') }}:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          gpuTarget: ${{ job.target }}
+          extraEnvVars:
+            - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
 
-- ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocSPARSE_test_${{ job.target }}
-    timeoutInMinutes: 90
-    dependsOn: rocSPARSE_build_${{ job.target }}
-    condition:
-      and(succeeded(),
-        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
-        eq(${{ parameters.aggregatePipeline }}, False)
-      )
-    variables:
-    - group: common
-    - template: /.azuredevops/variables-global.yml
-    pool: ${{ job.target }}_test_pool
-    workspace:
-      clean: all
-    steps:
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-      parameters:
-        gpuTarget: ${{ job.target }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-      parameters:
-        checkoutRef: ${{ parameters.checkoutRef }}
-        dependencyList: ${{ parameters.rocmTestDependencies }}
-        gpuTarget: ${{ job.target }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-      parameters:
-        componentName: rocSPARSE
-        testDir: '$(Agent.BuildDirectory)/rocm/bin'
-        testExecutable: './rocsparse-test'
-        testParameters: '--gtest_filter="*quick*" --gtest_output=xml:./test_output.xml --gtest_color=yes'
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        environment: test
-        gpuTarget: ${{ job.target }}
+- ${{ if eq(parameters.unifiedBuild, False) }}:
+  - ${{ each job in parameters.jobMatrix.testJobs }}:
+    - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}
+      timeoutInMinutes: 90
+      dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
+      condition:
+        and(succeeded(),
+          eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
+          eq(${{ parameters.aggregatePipeline }}, False)
+        )
+      variables:
+      - group: common
+      - template: /.azuredevops/variables-global.yml
+      pool: ${{ job.target }}_test_pool
+      workspace:
+        clean: all
+      steps:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          packageManager: ${{ job.packageManager }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+        parameters:
+          preTargetFilter: ${{ parameters.componentName }}
+          gpuTarget: ${{ job.target }}
+          os: ${{ job.os }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+        parameters:
+          checkoutRef: ${{ parameters.checkoutRef }}
+          dependencyList: ${{ parameters.rocmTestDependencies }}
+          gpuTarget: ${{ job.target }}
+          os: ${{ job.os }}
+          ${{ if parameters.triggerDownstreamJobs }}:
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+        parameters:
+          componentName: ${{ parameters.componentName }}
+          os: ${{ job.os }}
+          testDir: '$(Agent.BuildDirectory)/rocm/bin'
+          testExecutable: './rocsparse-test'
+          testParameters: '--gtest_filter="*quick*" --gtest_output=xml:./test_output.xml --gtest_color=yes'
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          environment: test
+          gpuTarget: ${{ job.target }}
+
+- ${{ if parameters.triggerDownstreamJobs }}:
+  - ${{ each component in parameters.downstreamComponentMatrix }}:
+    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+          buildDependsOn: ${{ component.buildDependsOn }}
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+          triggerDownstreamJobs: true
+          unifiedBuild: ${{ parameters.unifiedBuild }}

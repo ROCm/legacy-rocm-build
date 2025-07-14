@@ -75,19 +75,17 @@ parameters:
   type: object
   default:
     buildJobs:
-      - gfx942:
-        target: gfx942
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
     testJobs:
-      - gfx942:
-        target: gfx942
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: ${{ parameters.componentName }}_build_ubuntu2204_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
-          - ${{ build }}_ubuntu2204_${{ job.target }}
+          - ${{ build }}_${{ job.os }}_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -109,6 +107,7 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
@@ -120,6 +119,7 @@ jobs:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
@@ -141,6 +141,7 @@ jobs:
       workingDirectory: $(Pipeline.Workspace)/deps
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
@@ -156,37 +157,41 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
+        os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        pipModules: ${{ parameters.pipModules }}
-        gpuTarget: ${{ job.target }}
-        extraCopyDirectories:
-          - deps
-        extraPaths: /home/user/workspace/rocm/llvm/bin:/home/user/workspace/rocm/bin
-        extraEnvVars:
-          - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
-          - TENSILE_ROCM_ASSEMBLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang
-          - CMAKE_CXX_COMPILER:::/home/user/workspace/rocm/llvm/bin/hipcc
-          - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
-        installLatestCMake: true
+    - ${{ if eq(job.os, 'ubuntu2204') }}:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          pipModules: ${{ parameters.pipModules }}
+          gpuTarget: ${{ job.target }}
+          extraCopyDirectories:
+            - deps
+          extraPaths: /home/user/workspace/rocm/llvm/bin:/home/user/workspace/rocm/bin
+          extraEnvVars:
+            - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
+            - TENSILE_ROCM_ASSEMBLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang
+            - CMAKE_CXX_COMPILER:::/home/user/workspace/rocm/llvm/bin/hipcc
+            - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
+          installLatestCMake: true
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
-    - job: ${{ parameters.componentName }}_test_ubuntu2204_${{ job.target }}
+    - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}
       timeoutInMinutes: 120
-      dependsOn: ${{ parameters.componentName }}_build_ubuntu2204_${{ job.target }}
+      dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
       condition:
         and(succeeded(),
           eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
+          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
           eq(${{ parameters.aggregatePipeline }}, False)
         )
       variables:
@@ -200,21 +205,26 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
+          packageManager: ${{ job.packageManager }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
         parameters:
+          preTargetFilter: ${{ parameters.componentName }}
           gpuTarget: ${{ job.target }}
+          os: ${{ job.os }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
         parameters:
           checkoutRef: ${{ parameters.checkoutRef }}
           dependencyList: ${{ parameters.rocmTestDependencies }}
           gpuTarget: ${{ job.target }}
+          os: ${{ job.os }}
           ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
+          os: ${{ job.os }}
           testDir: '$(Agent.BuildDirectory)/rocm/bin'
           testExecutable: './hipsparselt-test'
           testParameters: '--gtest_output=xml:./test_output.xml --gtest_color=yes --gtest_filter=*pre_checkin*'
