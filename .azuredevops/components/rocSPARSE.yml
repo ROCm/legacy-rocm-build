@@ -165,6 +165,7 @@ jobs:
         contentsString: matrices/**
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         artifactName: testMatrices
         gpuTarget: ${{ job.target }}
         os: ${{ job.os }}
