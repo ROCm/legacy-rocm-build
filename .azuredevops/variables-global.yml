@@ -86,7 +86,7 @@ variables:
 - name: HIPSPARSE_PIPELINE_ID
   value: 83
 - name: HIPSPARSELT_PIPELINE_ID
-  value: 104
+  value: 309
 - name: HIPTENSOR_PIPELINE_ID
   value: 105
 - name: LLVM_PROJECT_PIPELINE_ID
@@ -154,7 +154,7 @@ variables:
 - name: ROCSOLVER_PIPELINE_ID
   value: 81
 - name: ROCSPARSE_PIPELINE_ID
-  value: 98
+  value: 314
 - name: ROCTHRUST_PIPELINE_ID
   value: 276
 - name: ROCTRACER_PIPELINE_ID
