@@ -781,6 +781,7 @@ reStructuredText
 redirections
 refactorization
 reformats
+reinforcememt
 repo
 repos
 representativeness
@@ -788,6 +789,7 @@ req
 resampling
 rescaling
 reusability
+RLHF
 roadmap
 roc
 rocAL
@@ -899,6 +901,7 @@ vectorize
 vectorized
 vectorizer
 vectorizes
+verl
 virtualize
 virtualized
 vjxb
