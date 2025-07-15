@@ -203,7 +203,7 @@ Use the following script to run the RCCL test for four MI300X GPU nodes. Modify 
    -x NCCL_DEBUG=version \
    $HOME/rccl-tests/build/all_reduce_perf -b 8 -e 8g -f 2 -g 1
 
-.. image:: ../../data/how-to/rocm-for-ai/rccl-tests-4-mi300x-gpu-nodes.png
+.. image:: /data/how-to/rocm-for-ai/rccl-tests-4-mi300x-gpu-nodes.png
    :width: 800
 
 .. _mi300x-amd-megatron-lm-training:
