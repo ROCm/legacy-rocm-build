@@ -6,6 +6,7 @@ ACS
 AccVGPR
 AccVGPRs
 ALU
+AllReduce
 AMD
 AMDGPU
 AMDGPUs
@@ -13,6 +14,7 @@ AMDMIGraphX
 AMI
 AOCC
 AOMP
+AOT
 AOTriton
 APBDIS
 APIC
@@ -79,10 +81,13 @@ ConnectX
 CuPy
 da
 Dashboarding
+Dataloading
 DBRX
 DDR
 DF
 DGEMM
+DGL
+DGLGraph
 dGPU
 dGPUs
 DIMM
@@ -100,6 +105,7 @@ DataFrame
 DataLoader
 DataParallel
 Debian
+decompositions
 DeepSeek
 DeepSpeed
 Dependabot
@@ -129,6 +135,7 @@ FluxBenchmark
 Fortran
 Fuyu
 GALB
+GAT
 GCC
 GCD
 GCDs
@@ -156,6 +163,8 @@ GPT
 GPU
 GPU's
 GPUs
+Graphbolt
+GraphSage
 GRBM
 GenAI
 GenZ
@@ -168,6 +177,7 @@ HIPCC
 HIPExtension
 HIPIFY
 HIPification
+hipification
 HIPify
 HPC
 HPCG
@@ -182,6 +192,7 @@ Higgs
 Hyperparameters
 Huggingface
 ICD
+ICT
 ICV
 IDE
 IDEs
@@ -216,6 +227,7 @@ KV
 KVM
 Karpathy's
 KiB
+Kineto
 Keras
 Khronos
 LAPACK
@@ -264,6 +276,7 @@ Miniconda
 MirroredStrategy
 Mixtral
 MosaicML
+Mpops
 Multicore
 Multithreaded
 MyEnvironment
@@ -277,6 +290,7 @@ NIC
 NICs
 NLI
 NLP
+NN
 NPKit
 NPS
 NSP
@@ -313,6 +327,7 @@ OpenMPI
 OpenSSL
 OpenVX
 OpenXLA
+Optim
 Oversubscription
 PagedAttention
 Pallas
@@ -351,6 +366,7 @@ RDC's
 RDMA
 RDNA
 README
+Recomputation
 RHEL
 RMW
 RNN
@@ -781,6 +797,7 @@ reStructuredText
 redirections
 refactorization
 reformats
+reinforcememt
 repo
 repos
 representativeness
@@ -788,6 +805,7 @@ req
 resampling
 rescaling
 reusability
+RLHF
 roadmap
 roc
 rocAL
@@ -899,6 +917,7 @@ vectorize
 vectorized
 vectorizer
 vectorizes
+verl
 virtualize
 virtualized
 vjxb
