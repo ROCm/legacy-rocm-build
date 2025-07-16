@@ -75,7 +75,7 @@ workloads:
              <div class="col-2 me-2 model-param-head">Model</div>
              <div class="row col-10">
       {% for model_group in model_groups %}
-               <div class="col-4 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
              </div>
            </div>
@@ -604,7 +604,20 @@ Single node training
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 RECOMPUTE=1 SEQ_LENGTH=8192 MBS=2 BS=16 TE_FP8=0 TP=1 PP=1 FSDP=1 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh 
+      TOKENIZER_MODEL=meta-llama/Llama-3.3-70B-Instruct \
+      CKPT_FORMAT=torch_dist \
+      TEE_OUTPUT=1 \
+      RECOMPUTE=1 \
+      SEQ_LENGTH=8192 \
+      MBS=2 \
+      BS=16 \
+      TE_FP8=0 \
+      TP=1 \
+      PP=1 \
+      FSDP=1 \
+      MODEL_SIZE=70 \
+      TOTAL_ITERS=50 \
+      bash examples/llama/train_llama3.sh 
 
    .. note::
 
@@ -622,13 +635,29 @@ Single node training
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 MBS=2 BS=128 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
+      TEE_OUTPUT=1 \
+      MBS=2 \
+      BS=128 \
+      TP=1 \
+      TE_FP8=1 \
+      SEQ_LENGTH=8192 \
+      MODEL_SIZE=8 \
+      TOTAL_ITERS=50 \
+      bash examples/llama/train_llama3.sh
 
    For Llama 3.1 8B BF16, use the following command:
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 MBS=2 BS=128 TP=1 TE_FP8=0 SEQ_LENGTH=8192 MODEL_SIZE=8 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
+      TEE_OUTPUT=1 \
+      MBS=2 \
+      BS=128 \
+      TP=1 \
+      TE_FP8=0 \
+      SEQ_LENGTH=8192 \
+      MODEL_SIZE=8 \
+      TOTAL_ITERS=50 \
+      bash examples/llama/train_llama3.sh
 
 .. container:: model-doc pyt_megatron_lm_train_llama-3.1-70b
 
@@ -637,7 +666,18 @@ Single node training
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 MBS=3 BS=24 TP=1 TE_FP8=0 FSDP=1 RECOMPUTE=1 SEQ_LENGTH=8192 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
+      CKPT_FORMAT=torch_dist \
+      TEE_OUTPUT=1 \
+      MBS=3 \
+      BS=24 \
+      TP=1 \
+      TE_FP8=0 \
+      FSDP=1 \
+      RECOMPUTE=1 \
+      SEQ_LENGTH=8192 \
+      MODEL_SIZE=70 \
+      TOTAL_ITERS=50 \
+      bash examples/llama/train_llama3.sh
 
    .. note::
 
@@ -646,7 +686,36 @@ Single node training
       parallelism, MCore's distributed optimizer, gradient accumulation fusion,
       or FP16.
 
-      Currently, FSDP is only compatible with BF16 precision.
+.. container:: model-doc pyt_megatron_lm_train_llama-3.1-70b-proxy
+
+   To run the training on a single node for Llama 3.1 70B with proxy, use the following command.
+
+   .. code-block:: shell
+
+      CKPT_FORMAT=torch_dist \
+      TEE_OUTPUT=1 \
+      RECOMPUTE=1 \
+      MBS=3 \
+      BS=24 \
+      TP=1 \
+      TE_FP8=1 \
+      SEQ_LENGTH=8192 \
+      MODEL_SIZE=70 \
+      FSDP=1 \
+      TOTAL_ITERS=10 \
+      NUM_LAYERS=40 \
+      bash examples/llama/train_llama3.sh
+
+   .. note::
+
+      It is suggested to use ``TP=1`` when FSDP is enabled for higher
+      throughput. FSDP-v2 is not supported with pipeline parallelism, expert
+      parallelism, MCore's distributed optimizer, gradient accumulation fusion,
+      or FP16.
+
+   .. note::
+
+      Use two or more nodes to run the *full* Llama 70B model with FP8 precision.
 
 .. container:: model-doc pyt_megatron_lm_train_llama-2-7b
 
@@ -655,13 +724,29 @@ Single node training
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 MBS=4 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=4096 MODEL_SIZE=7 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
+      TEE_OUTPUT=1 \
+      MBS=4 \
+      BS=256 \
+      TP=1 \
+      TE_FP8=1 \
+      SEQ_LENGTH=4096 \
+      MODEL_SIZE=7 \
+      TOTAL_ITERS=50 \
+      bash examples/llama/train_llama2.sh
 
    For Llama 2 7B BF16, use the following command:
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 MBS=4 BS=256 TP=1 TE_FP8=0 SEQ_LENGTH=4096 MODEL_SIZE=7 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
+      TEE_OUTPUT=1 \
+      MBS=4 \
+      BS=256 \
+      TP=1 \
+      TE_FP8=0 \
+      SEQ_LENGTH=4096 \
+      MODEL_SIZE=7 \
+      TOTAL_ITERS=50 \
+      bash examples/llama/train_llama2.sh
 
 .. container:: model-doc pyt_megatron_lm_train_llama-2-70b
 
@@ -670,7 +755,18 @@ Single node training
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 MBS=7 BS=56 TP=1 TE_FP8=0 FSDP=1 RECOMPUTE=1 SEQ_LENGTH=4096 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
+      CKPT_FORMAT=torch_dist \
+      TEE_OUTPUT=1 \
+      MBS=7 \
+      BS=56 \
+      TP=1 \
+      TE_FP8=0 \
+      FSDP=1 \
+      RECOMPUTE=1 \
+      SEQ_LENGTH=4096 \
+      MODEL_SIZE=70 \
+      TOTAL_ITERS=50 \
+      bash examples/llama/train_llama2.sh
 
    .. note::
 
@@ -688,7 +784,7 @@ Single node training
 
    .. code-block:: shell
 
-      FORCE_BANLANCE=true \
+      FORCE_BALANCE=true \
       RUN_ENV=cluster \
       MODEL_SIZE=671B \
       TRAIN_ITERS=50 \
@@ -710,7 +806,14 @@ Single node training
 
    .. code-block:: shell
 
-      GEMM_TUNING=1 PR=bf16 MBS=4 AC=none SEQ_LEN=4096 PAD_LEN=4096 TRAIN_ITERS=50 bash examples/deepseek_v2/train_deepseekv2.sh
+      GEMM_TUNING=1 \
+      PR=bf16 \
+      MBS=4 \
+      AC=none \
+      SEQ_LEN=4096 \
+      PAD_LEN=4096 \
+      TRAIN_ITERS=50 \
+      bash examples/deepseek_v2/train_deepseekv2.sh
 
 .. container:: model-doc pyt_megatron_lm_train_mixtral-8x7b
 
@@ -719,7 +822,23 @@ Single node training
 
    .. code-block:: shell
 
-      RECOMPUTE_NUM_LAYERS=0 TEE_OUTPUT=1 MBS=1 GBS=16 TP_SIZE=1 PP_SIZE=1 AC=none PR=bf16 EP_SIZE=8 ETP_SIZE=1 SEQLEN=4096 FORCE_BALANCE=true MOCK_DATA=1 RUN_ENV=cluster MODEL_SIZE=8x7B TRAIN_ITERS=50 bash examples/mixtral/train_mixtral_moe.sh
+      RECOMPUTE_NUM_LAYERS=0 \
+      TEE_OUTPUT=1 \
+      MBS=1 \
+      GBS=16 \
+      TP_SIZE=1 \
+      PP_SIZE=1 \
+      AC=none \
+      PR=bf16 \
+      EP_SIZE=8 \
+      ETP_SIZE=1 \
+      SEQLEN=4096 \
+      FORCE_BALANCE=true \
+      MOCK_DATA=1 \
+      RUN_ENV=cluster \
+      MODEL_SIZE=8x7B \
+      TRAIN_ITERS=50 \
+      bash examples/mixtral/train_mixtral_moe.sh
 
 .. container:: model-doc pyt_megatron_lm_train_mixtral-8x22b-proxy
 
@@ -728,7 +847,81 @@ Single node training
 
    .. code-block:: shell
 
-      RECOMPUTE_NUM_LAYERS=4 TEE_OUTPUT=1 MBS=1 GBS=16 TP_SIZE=1 PP_SIZE=1 AC=full NUM_LAYERS=4 PR=bf16 EP_SIZE=8 ETP_SIZE=1 SEQLEN=8192 FORCE_BALANCE=true MOCK_DATA=1 RUN_ENV=cluster MODEL_SIZE=8x22B TRAIN_ITERS=50 bash examples/mixtral/train_mixtral_moe.sh
+      RECOMPUTE_NUM_LAYERS=4 \
+      TEE_OUTPUT=1 \
+      MBS=1 \
+      GBS=16 \
+      TP_SIZE=1 \
+      PP_SIZE=1 \
+      AC=full \
+      NUM_LAYERS=4 \
+      PR=bf16 \
+      EP_SIZE=8 \
+      ETP_SIZE=1 \
+      SEQLEN=8192 \
+      FORCE_BALANCE=true \
+      MOCK_DATA=1 \
+      RUN_ENV=cluster \
+      MODEL_SIZE=8x22B \
+      TRAIN_ITERS=50 \
+      bash examples/mixtral/train_mixtral_moe.sh
+
+.. container:: model-doc pyt_megatron_lm_train_qwen2.5-7b
+
+   To run training on a single node for Qwen 2.5 7B BF16, use the following
+   command.
+
+   .. code-block:: shell
+
+      bash examples/qwen/train_qwen2.sh TP=1 \
+          CP=1 \
+          PP=1 \
+          MBS=10 \
+          BS=640 \
+          TE_FP8=0 \
+          MODEL_SIZE=7 \
+          SEQ_LENGTH=2048 \
+          TOTAL_ITERS=50 \
+          MOCK_DATA=1 \
+          TOKENIZER_MODEL=Qwen/Qwen2.5-7B
+
+   For FP8, use the following command.
+
+   .. code-block:: shell
+
+      bash examples/qwen/train_qwen2.sh \
+          TP=1 \
+          CP=1 \
+          PP=1 \
+          MBS=10 \
+          BS=640 \
+          TE_FP8=1 \
+          MODEL_SIZE=7 \
+          SEQ_LENGTH=2048 \
+          TOTAL_ITERS=50 \
+          MOCK_DATA=1 \
+          TOKENIZER_MODEL=Qwen/Qwen2.5-7B
+
+.. container:: model-doc pyt_megatron_lm_train_qwen2.5-72b
+
+   To run the training on a single node for Qwen 2.5 72B BF16, use the following command.
+
+   .. code-block:: shell
+
+      bash examples/qwen/train_qwen2.sh \
+          FSDP=1 \
+          CP=1 \
+          PP=1 \
+          MBS=3 \
+          BS=24 \
+          TE_FP8=0 \
+          MODEL_SIZE=72 \
+          SEQ_LENGTH=2048 \
+          TOTAL_ITERS=50 \
+          MOCK_DATA=1 \
+          TOKENIZER_MODEL=Qwen/Qwen2.5-72B \
+          RECOMPUTE_ACTIVATIONS=full \
+          CKPT_FORMAT=torch_dist
 
 Multi-node training
 ^^^^^^^^^^^^^^^^^^^
@@ -741,13 +934,33 @@ use these commands.
 
   .. code-block:: shell
 
-     TEE_OUTPUT=1 MBS=2 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8  MASTER_ADDR=IP_NODE0 NNODES=2 NODE_RANK=0 bash examples/llama/train_llama3.sh
+     TEE_OUTPUT=1 \
+     MBS=2 \
+     BS=256 \
+     TP=1 \
+     TE_FP8=1 \
+     SEQ_LENGTH=8192 \
+     MODEL_SIZE=8  \
+     MASTER_ADDR=IP_NODE0 \
+     NNODES=2 \
+     NODE_RANK=0 \
+     bash examples/llama/train_llama3.sh
 
 * On the worker node ``NODE1``:
 
   .. code-block:: shell
 
-     TEE_OUTPUT=1 MBS=2 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8  MASTER_ADDR=IP_NODE0 NNODES=2 NODE_RANK=1 bash examples/llama/train_llama3.sh
+     TEE_OUTPUT=1 \
+     MBS=2 \
+     BS=256 \
+     TP=1 \
+     TE_FP8=1 \
+     SEQ_LENGTH=8192 \
+     MODEL_SIZE=8  \
+     MASTER_ADDR=IP_NODE0 \
+     NNODES=2 \
+     NODE_RANK=1 \
+     bash examples/llama/train_llama3.sh
 
 Or, for DeepSeek-V3, an example script ``train_deepseek_v3_slurm.sh`` is
 provided in
