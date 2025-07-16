@@ -28,9 +28,29 @@ vLLM inference performance testing
 
    * `hipBLASLt {{ unified_docker.hipblaslt_version }} <https://github.com/ROCm/hipBLASLt>`_
 
-   With this Docker image, you can quickly test the :ref:`expected
-   inference performance numbers <vllm-benchmark-performance-measurements>` for
-   MI300X series accelerators.
+With this Docker image, you can quickly test the :ref:`expected
+inference performance numbers <vllm-benchmark-performance-measurements>` for
+MI300X series accelerators.
+
+What's new
+==========
+
+The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <previous-versions/vllm-history>`.
+
+* The ``--compilation-config-parameter`` parameter is no longer required as its options are now enabled by default.
+
+* Resolved Llama 3.1 405 B custom all-reduce issue, eliminating the need for ``--disable-custom-all-reduce``.
+
+* Fixed a ``+rms_norm`` custom kernel issue.
+
+* Added quick reduce functionality. Set ``VLLM_ROCM_QUICK_REDUCE_QUANTIZATION=FP`` to enable; supported modes are ``FP``, ``INT8``, ``INT6``, ``INT4``.
+
+* Implemented a workaround to potentially mitigate GPU crashes experienced with the Command R+ model, pending a driver fix.
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+
+   {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
+   {% set model_groups = data.vllm_benchmark.model_groups %}
 
    .. _vllm-benchmark-available-models:
 
@@ -108,29 +128,16 @@ vLLM inference performance testing
       only reflects the latest version of this inference benchmarking environment.
       The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
 
-   Advanced features and known issues
-   ==================================
-
-   For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-   see the developer's guide at `<https://github.com/ROCm/vllm/tree/5486e7bc8523be0324ccd68f221959445b56cc2a/docs/dev-docker>`__.
-
    System validation
    =================
 
    Before running AI workloads, it's important to validate that your AMD hardware is configured
    correctly and performing optimally.
 
-   To optimize performance, disable automatic NUMA balancing. Otherwise, the GPU
-   might hang until the periodic balancing is finalized. For more information,
-   see the :ref:`system validation steps <rocm-for-ai-system-optimization>`.
-
-   .. code-block:: shell
-
-      # disable automatic NUMA balancing
-      sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'
-      # check if NUMA balancing is disabled (returns 0 if disabled)
-      cat /proc/sys/kernel/numa_balancing
-      0
+   If you have already validated your system settings, including aspects like NUMA auto-balancing, you
+   can skip this step. Otherwise, complete the procedures in the :ref:`System validation and
+   optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
+   before starting training.
 
    To test for optimal performance, consult the recommended :ref:`System health benchmarks
    <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
@@ -317,6 +324,41 @@ vLLM inference performance testing
                - .. math:: throughput\_gen = requests \times \mathsf{\text{output lengths}} / elapsed\_time
       {% endfor %}
    {% endfor %}
+
+Advanced usage
+==============
+
+For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
+see the developer's guide at `<https://github.com/ROCm/vllm/tree/main/docs/dev-docker>`__.
+
+Reproducing the Docker image
+----------------------------
+
+To reproduce this ROCm/vLLM Docker image release, follow these steps:
+
+1. Clone the `vLLM repository <https://github.com/ROCm/vllm>`__.
+
+   .. code-block:: shell
+
+      git clone https://github.com/ROCm/vllm.git
+
+2. Checkout the specific release commit.
+
+   .. code-block:: shell
+
+      cd vllm
+      git checkout b335519f20495128a47d86f2c01dd467e2fe602b
+
+3. Build the Docker image. Replace ``vllm-rocm`` with your desired image tag.
+
+   .. code-block:: shell
+
+      docker build -f docker/Dockerfile.rocm -t vllm-rocm --build-arg USE_CYTHON=1 .
+
+Known issues
+============
+
+AITER does not support FP8 KV cache.
 
 Further reading
 ===============
