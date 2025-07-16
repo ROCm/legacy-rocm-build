@@ -364,7 +364,7 @@ To reproduce this ROCm/vLLM Docker image release, follow these steps:
 
    .. code-block:: shell
 
-      docker build -f docker/Dockerfile.rocm -t vllm-rocm --build-arg USE_CYTHON=1 .
+      docker build -f docker/Dockerfile.rocm -t vllm-rocm .
 
 Known issues
 ============
