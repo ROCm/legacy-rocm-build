@@ -187,7 +187,7 @@ system's configuration.
                   pip install -r requirements.txt
 
             2. Use this command to run the performance benchmark test on the `{{model.model}} <{{ model.url }}>`_ model
-               using one GPU with the ``{{model.precision}}`` data type on the host machine.
+               using one GPU with the :literal:`{{model.precision}}` data type on the host machine.
 
                .. code-block:: shell
 
