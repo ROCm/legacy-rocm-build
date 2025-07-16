@@ -288,10 +288,11 @@ system's configuration.
                        - ``float16`` or ``float8``
                        - Data type
 
-                  .. note::
 
-                     The input sequence length, output sequence length, and tensor parallel (TP) are
-                     already configured. You don't need to specify them with this script.
+                  The input sequence length, output sequence length, and tensor parallel (TP) are
+                  already configured. You don't need to specify them with this script.
+
+               Command:
 
                .. code-block::
 
@@ -305,8 +306,6 @@ system's configuration.
 
                   For best performance, it's recommend to run with ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``.
 
-               .. note::
-
                   If you encounter the following error, pass your access-authorized Hugging
                   Face token to the gated models.
 
@@ -316,6 +315,8 @@ system's configuration.
 
                      # pass your HF_TOKEN
                      export HF_TOKEN=$your_personal_hf_token
+
+            .. rubric:: Examples
 
             Here are some examples of running the benchmark with various options.
 

@@ -5,7 +5,7 @@ vllm_benchmark:
       pull_tag: rocm/vllm:rocm6.4.1_vllm_0.9.1_20250715
       docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.9.1_20250715/images/sha256-4a429705fa95a58f6d20aceab43b1b76fa769d57f32d5d28bd3f4e030e2a78ea
       rocm_version: 6.4.1
-      vllm_version: 0.9.1 (0.9.2.dev206+gb335519f2.rocm641)
+      vllm_version: 0.9.1 (0.9.2.dev364+gb432b7a28.rocm641)
       pytorch_version: 2.7.0+gitf717b2a
       hipblaslt_version: 0.15
   model_groups:
