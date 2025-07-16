@@ -55,7 +55,7 @@ compatibility and system requirements.
       :doc:`PyTorch <../compatibility/ml-compatibility/pytorch-compatibility>`,"2.6, 2.5, 2.4, 2.3","2.6, 2.5, 2.4, 2.3","2.4, 2.3, 2.2, 2.1, 2.0, 1.13"
       :doc:`TensorFlow <../compatibility/ml-compatibility/tensorflow-compatibility>`,"2.18.1, 2.17.1, 2.16.2","2.18.1, 2.17.1, 2.16.2","2.17.0, 2.16.2, 2.15.1"
       :doc:`JAX <../compatibility/ml-compatibility/jax-compatibility>`,0.4.35,0.4.35,0.4.31  
-      :doc:`Stanford Megatron-LM <../compatibility/ml-compatibility/stanford-megatron-lm-compatibility>`,N/A,N/A,`85f95ae <https://github.com/stanford-futuredata/Megatron-LM/commit/85f95aef3b648075fe6f291c86714fdcbd9cd1f5>`_
+      :doc:`Stanford Megatron-LM <../compatibility/ml-compatibility/stanford-megatron-lm-compatibility>`,N/A,N/A,85f95ae
       :doc:`DGL <../compatibility/ml-compatibility/dgl-compatibility>`,2.4.0,2.4.0,N/A
       `ONNX Runtime <https://onnxruntime.ai/docs/build/eps.html#amd-migraphx>`_,1.2,1.2,1.17.3
       ,,,
