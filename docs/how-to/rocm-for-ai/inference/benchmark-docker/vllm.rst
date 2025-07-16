@@ -37,9 +37,11 @@ What's new
 
 The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <previous-versions/vllm-history>`.
 
-* The ``--compilation-config-parameter`` parameter is no longer required as its options are now enabled by default.
+* The ``--compilation-config-parameter`` is no longer required as its options are now enabled by default.
+  This parameter has been removed from the benchmarking script.
 
 * Resolved Llama 3.1 405 B custom all-reduce issue, eliminating the need for ``--disable-custom-all-reduce``.
+  This parameter has been removed from the benchmarking script.
 
 * Fixed a ``+rms_norm`` custom kernel issue.
 
@@ -239,6 +241,10 @@ The following is summary of notable changes since the :doc:`previous ROCm/vLLM D
 
                ./vllm_benchmark_report.sh -s $test_option -m {{model.model_repo}} -g $num_gpu -d {{model.precision}}
 
+            .. note::
+
+               For best performance, it's recommend to run with ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``.
+
             .. list-table::
                :header-rows: 1
                :align: center
@@ -358,7 +364,7 @@ To reproduce this ROCm/vLLM Docker image release, follow these steps:
 Known issues
 ============
 
-AITER does not support FP8 KV cache.
+AITER does not support FP8 KV cache yet.
 
 Further reading
 ===============
