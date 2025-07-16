@@ -20,51 +20,45 @@ essential components, including PyTorch, ROCm libraries, and Megatron-LM
 utilities. It contains the following software components to accelerate training
 workloads:
 
-+--------------------------+--------------------------------+
-| Software component       | Version                        |
-+==========================+================================+
-| ROCm                     | 6.3.4                          |
-+--------------------------+--------------------------------+
-| PyTorch                  | 2.8.0a0+gite2f9759             |
-+--------------------------+--------------------------------+
-| Python                   | 3.12 or 3.10                   |
-+--------------------------+--------------------------------+
-| Transformer Engine       | 1.13.0+bb061ade                |
-+--------------------------+--------------------------------+
-| Flash Attention          | 3.0.0                          |
-+--------------------------+--------------------------------+
-| hipBLASLt                | 0.13.0-4f18bf6                 |
-+--------------------------+--------------------------------+
-| Triton                   | 3.3.0                          |
-+--------------------------+--------------------------------+
-| RCCL                     | 2.22.3                         |
-+--------------------------+--------------------------------+
-
-Megatron-LM provides the following key features to train large language models efficiently:
-
-- Transformer Engine (TE)
-
-- APEX
-
-- GEMM tuning
-
-- Torch.compile
-
-- 3D parallelism: TP + SP + CP
-
-- Distributed optimizer
-
-- Flash Attention (FA) 3
-
-- Fused kernels
-
-- Pre-training
-
-.. _amd-megatron-lm-model-support:
-
-The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
-
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/megatron-lm-benchmark-models.yaml
+
+   {% set dockers = data.dockers %}
+   {% if dockers|length > 1 %}
+   .. tab-set::
+
+      {% for docker in data.dockers %}
+      .. tab-item:: {{ docker.doc_name }}
+         :sync: {{ docker.pull_tag }}
+
+         .. list-table::
+            :header-rows: 1
+
+            * - Software component
+              - Version
+
+            {% for component_name, component_version in docker.components.items() %}
+            * - {{ component_name }}
+              - {{ component_version }}
+
+            {% endfor %}
+      {% endfor %}
+   {% elif dockers|length == 1 %}
+   .. list-table::
+      :header-rows: 1
+
+      * - Software component
+        - Version
+
+      {% for component_name, component_version in docker.components %}
+      * - {{ component_name }}
+        - {{ component_version }}
+
+      {% endfor %}
+   {% endif %}
+
+   .. _amd-megatron-lm-model-support:
+
+   The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
 
    Supported models
    ================
@@ -73,8 +67,7 @@ The following models are pre-optimized for performance on AMD Instinct MI300X se
    Some instructions, commands, and training recommendations in this documentation might
    vary by model -- select one to get started.
 
-   {% set model_groups = data["megatron-lm_benchmark"].model_groups %}
-
+   {% set model_groups = data.model_groups %}
    .. raw:: html
 
          <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
@@ -155,42 +148,77 @@ image.
 Download the Docker image
 -------------------------
 
-1. Use the following command to pull the Docker image from Docker Hub.
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/megatron-lm-benchmark-models.yaml
 
-   .. tab-set:: 
+   {% set dockers = data.dockers %}
+   1. Use the following command to pull the Docker image from Docker Hub.
 
-      .. tab-item:: Ubuntu 24.04 + Python 3.12
-         :sync: py312
+      {% if dockers|length > 1 %}
+      .. tab-set:: 
 
-         .. code-block:: shell
+         {% for docker in data.dockers %}
+         .. tab-item:: {{ docker.doc_name }}
+            :sync: {{ docker.pull_tag }}
 
-            docker pull rocm/megatron-lm:v25.5_py312
+            .. code-block:: shell
 
-      .. tab-item:: Ubuntu 22.04 + Python 3.10
-         :sync: py310
+               docker pull {{ docker.pull_tag }}
 
-         .. code-block:: shell
+         {% endfor %}
+      {% elif dockers|length == 1 %}
+      {% set docker = dockers[0] %}
+      .. code-block:: shell
 
-            docker pull rocm/megatron-lm:v25.5_py310
+         docker pull {{ docker.pull_tag }}
 
-2. Launch the Docker container.
+      {% endif %}
+   2. Launch the Docker container.
 
-   .. tab-set::
+      {% if dockers|length > 1 %}
+      .. tab-set::
 
-      .. tab-item:: Ubuntu 24.04 + Python 3.12
-         :sync: py312
+         {% for docker in data.dockers %}
+         .. tab-item:: {{ docker.doc_name }}
+            :sync: {{ docker.pull_tag }}
 
-         .. code-block:: shell
+            .. code-block:: shell
 
-            docker run -it --device /dev/dri --device /dev/kfd --device /dev/infiniband --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME:$HOME -v  $HOME/.ssh:/root/.ssh --shm-size 128G --name megatron_training_env rocm/megatron-lm:v25.5_py312
+               docker run -it \
+                   --device /dev/dri \
+                   --device /dev/kfd \
+                   --device /dev/infiniband \
+                   --network host --ipc host \
+                   --group-add video \
+                   --cap-add SYS_PTRACE \
+                   --security-opt seccomp=unconfined \
+                   --privileged \
+                   -v $HOME:$HOME \
+                   -v $HOME/.ssh:/root/.ssh \
+                   --shm-size 128G \
+                   --name megatron_training_env \
+                   {{ docker.pull_tag }}
 
+         {% endfor %}
+      {% elif dockers|length == 1 %}
+      {% set docker = dockers[0] %}
+      .. code-block:: shell
 
-      .. tab-item:: Ubuntu 22.04 + Python 3.10
-         :sync: py310
+         docker run -it \
+             --device /dev/dri \
+             --device /dev/kfd \
+             --device /dev/infiniband \
+             --network host --ipc host \
+             --group-add video \
+             --cap-add SYS_PTRACE \
+             --security-opt seccomp=unconfined \
+             --privileged \
+             -v $HOME:$HOME \
+             -v $HOME/.ssh:/root/.ssh \
+             --shm-size 128G \
+             --name megatron_training_env \
+             {{ docker.pull_tag }}
 
-         .. code-block:: shell
-
-            docker run -it --device /dev/dri --device /dev/kfd --device /dev/infiniband --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME:$HOME -v  $HOME/.ssh:/root/.ssh --shm-size 128G --name megatron_training_env rocm/megatron-lm:v25.5_py310
+      {% endif %}
 
 3. Use these commands if you exit the ``megatron_training_env`` container and need to return to it.
 
