@@ -20,7 +20,7 @@ dockers:
       hipBLASLt: 393e413
       Triton: 3.3.0
       RCCL: 2.23.4.7a84c5d
-    doc_name: Ubuntu 24.04 + Python 3.12
+    doc_name: Ubuntu 22.04 + Python 3.10
 model_groups:
   - group: Meta Llama
     tag: llama

@@ -27,10 +27,8 @@ workloads:
    .. tab-set::
 
       {% for docker in data.dockers %}
-      .. tab-item:: {{ docker.doc_name }}
+      .. tab-item:: ``{{ docker.pull_tag }}``
          :sync: {{ docker.pull_tag }}
-
-         Docker tag: :literal:` {{ docker.pull_tag }} `
 
          .. list-table::
             :header-rows: 1
@@ -45,8 +43,6 @@ workloads:
             {% endfor %}
       {% endfor %}
    {% elif dockers|length == 1 %}
-   Docker tag: :literal:` {{ docker.pull_tag }} `
-
    .. list-table::
       :header-rows: 1
 
@@ -579,27 +575,17 @@ also be passed as command line arguments. Refer to the following example configu
      # Specify which RDMA interfaces to use for communication
      export NCCL_IB_HCA=rdma0,rdma1,rdma2,rdma3,rdma4,rdma5,rdma6,rdma7
 
-Getting started
-===============
-
-The prebuilt Megatron-LM with ROCm training environment allows users to quickly validate
-system performance, conduct training benchmarks, and achieve superior
-performance for models like Llama, DeepSeek, and Mixtral. This container should not be
-expected to provide generalized performance across all training workloads. You
-can expect the container to perform in the model configurations described in
-the following section, but other configurations are not validated by AMD.
-
 .. _amd-megatron-lm-run-training:
 
 Run training
-------------
+============
 
 Use the following example commands to set up the environment, configure
 :ref:`key options <amd-megatron-lm-benchmark-test-vars>`, and run training on
 MI300X series accelerators with the AMD Megatron-LM environment.
 
 Single node training
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 .. container:: model-doc pyt_megatron_lm_train_llama-3.3-70b
 
@@ -629,8 +615,6 @@ Single node training
       throughput. FSDP-v2 is not supported with pipeline parallelism, expert
       parallelism, MCore's distributed optimizer, gradient accumulation fusion,
       or FP16.
-
-      Currently, FSDP is only compatible with BF16 precision.
 
 .. container:: model-doc pyt_megatron_lm_train_llama-3.1-8b
 
@@ -712,14 +696,14 @@ Single node training
 
    .. note::
 
+      Use two or more nodes to run the *full* Llama 70B model with FP8 precision.
+
+   .. note::
+
       It is suggested to use ``TP=1`` when FSDP is enabled for higher
       throughput. FSDP-v2 is not supported with pipeline parallelism, expert
       parallelism, MCore's distributed optimizer, gradient accumulation fusion,
       or FP16.
-
-   .. note::
-
-      Use two or more nodes to run the *full* Llama 70B model with FP8 precision.
 
 .. container:: model-doc pyt_megatron_lm_train_llama-2-7b
 
@@ -778,8 +762,6 @@ Single node training
       throughput. FSDP-v2 is not supported with pipeline parallelism, expert
       parallelism, MCore's distributed optimizer, gradient accumulation fusion,
       or FP16.
-
-      Currently, FSDP is only compatible with BF16 precision.
 
 .. container:: model-doc pyt_megatron_lm_train_deepseek-v3-proxy
 
@@ -927,8 +909,8 @@ Single node training
           RECOMPUTE_ACTIVATIONS=full \
           CKPT_FORMAT=torch_dist
 
-Multi-node training
-^^^^^^^^^^^^^^^^^^^
+Multi-node training examples
+----------------------------
 
 To run training on multiple nodes, launch the Docker container on each node.
 For example, for Llama 3 using a two node setup (``NODE0`` as the master node),
