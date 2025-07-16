@@ -49,15 +49,15 @@ The following is summary of notable changes since the :doc:`previous ROCm/vLLM D
 
 * Implemented a workaround to potentially mitigate GPU crashes experienced with the Command R+ model, pending a driver fix.
 
+Supported models
+================
+
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
    {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
    {% set model_groups = data.vllm_benchmark.model_groups %}
 
    .. _vllm-benchmark-available-models:
-
-   Supported models
-   ================
 
    The following models are supported for inference performance benchmarking
    with vLLM and ROCm. Some instructions, commands, and recommendations in this
@@ -107,43 +107,48 @@ The following is summary of notable changes since the :doc:`previous ROCm/vLLM D
       {% endfor %}
    {% endfor %}
 
-   .. note::
+.. note::
 
-      vLLM is a toolkit and library for LLM inference and serving. AMD implements
-      high-performance custom kernels and modules in vLLM to enhance performance.
-      See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
-      more information.
+   vLLM is a toolkit and library for LLM inference and serving. AMD implements
+   high-performance custom kernels and modules in vLLM to enhance performance.
+   See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
+   more information.
 
-   .. _vllm-benchmark-performance-measurements:
+.. _vllm-benchmark-performance-measurements:
 
-   Performance measurements
-   ========================
+Performance measurements
+========================
 
-   To evaluate performance, the
+To evaluate performance, the
+`Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
+page provides reference throughput and latency measurements for inferencing popular AI models.
+
+.. important::
+
+   The performance data presented in
    `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
-   page provides reference throughput and latency measurements for inferencing popular AI models.
+   only reflects the latest version of this inference benchmarking environment.
+   The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
 
-   .. important::
+System validation
+=================
 
-      The performance data presented in
-      `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
-      only reflects the latest version of this inference benchmarking environment.
-      The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
+Before running AI workloads, it's important to validate that your AMD hardware is configured
+correctly and performing optimally.
 
-   System validation
-   =================
+If you have already validated your system settings, including aspects like NUMA auto-balancing, you
+can skip this step. Otherwise, complete the procedures in the :ref:`System validation and
+optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
+before starting training.
 
-   Before running AI workloads, it's important to validate that your AMD hardware is configured
-   correctly and performing optimally.
+To test for optimal performance, consult the recommended :ref:`System health benchmarks
+<rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
+system's configuration.
 
-   If you have already validated your system settings, including aspects like NUMA auto-balancing, you
-   can skip this step. Otherwise, complete the procedures in the :ref:`System validation and
-   optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
-   before starting training.
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
-   To test for optimal performance, consult the recommended :ref:`System health benchmarks
-   <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
-   system's configuration.
+   {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
+   {% set model_groups = data.vllm_benchmark.model_groups %}
 
    Pull the Docker image
    =====================
