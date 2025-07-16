@@ -177,22 +177,26 @@ system's configuration.
 
          .. tab-item:: MAD-integrated benchmarking
 
-            Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
-            directory and install the required packages on the host machine.
+            1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
+               directory and install the required packages on the host machine.
 
-            .. code-block:: shell
+               .. code-block:: shell
 
-               git clone https://github.com/ROCm/MAD
-               cd MAD
-               pip install -r requirements.txt
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD
+                  pip install -r requirements.txt
 
-            Use this command to run the performance benchmark test on the `{{model.model}} <{{ model.url }}>`_ model
-            using one GPU with the :literal:`{{model.precision}}` data type on the host machine.
+            2. Use this command to run the performance benchmark test on the `{{model.model}} <{{ model.url }}>`_ model
+               using one GPU with the ``{{model.precision}}`` data type on the host machine.
 
-            .. code-block:: shell
+               .. code-block:: shell
 
-               export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-               python3 tools/run_models.py --tags {{model.mad_tag}} --keep-model-dir --live-output --timeout 28800
+                  export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
+                  python3 tools/run_models.py \
+                      --tags {{model.mad_tag}} \
+                      --keep-model-dir \
+                      --live-output \
+                      --timeout 28800
 
             MAD launches a Docker container with the name
             ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
@@ -223,77 +227,84 @@ system's configuration.
 
          .. tab-item:: Standalone benchmarking
 
-            Run the vLLM benchmark tool independently by starting the
-            `Docker container <{{ unified_docker.docker_hub_url }}>`_
-            as shown in the following snippet.
-
-            .. code-block::
-
-               docker pull {{ unified_docker.pull_tag }}
-               docker run -it --device=/dev/kfd --device=/dev/dri --group-add video --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name test {{ unified_docker.pull_tag }}
-
-            In the Docker container, clone the ROCm MAD repository and navigate to the
-            benchmark scripts directory at ``~/MAD/scripts/vllm``.
-
-            .. code-block::
-
-               git clone https://github.com/ROCm/MAD
-               cd MAD/scripts/vllm
-
-            To start the benchmark, use the following command with the appropriate options.
-
-            .. code-block::
-
-               ./vllm_benchmark_report.sh -s $test_option -m {{model.model_repo}} -g $num_gpu -d {{model.precision}}
-
-            .. note::
-
-               For best performance, it's recommend to run with ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``.
-
-            .. list-table::
-               :header-rows: 1
-               :align: center
-
-               * - Name
-                 - Options
-                 - Description
-
-               * - ``$test_option``
-                 - latency
-                 - Measure decoding token latency
-
-               * -
-                 - throughput
-                 - Measure token generation throughput
-
-               * -
-                 - all
-                 - Measure both throughput and latency
-
-               * - ``$num_gpu``
-                 - 1 or 8
-                 - Number of GPUs
-
-               * - ``$datatype``
-                 - ``float16`` or ``float8``
-                 - Data type
-
-            .. note::
-
-               The input sequence length, output sequence length, and tensor parallel (TP) are
-               already configured. You don't need to specify them with this script.
-
-            .. note::
-
-               If you encounter the following error, pass your access-authorized Hugging
-               Face token to the gated models.
+            1. Run the vLLM benchmark tool independently by starting the
+               `Docker container <{{ unified_docker.docker_hub_url }}>`_
+               as shown in the following snippet.
 
                .. code-block::
 
-                  OSError: You are trying to access a gated repo.
+                  docker pull {{ unified_docker.pull_tag }}
+                  docker run -it --device=/dev/kfd --device=/dev/dri --group-add video --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name test {{ unified_docker.pull_tag }}
 
-                  # pass your HF_TOKEN
-                  export HF_TOKEN=$your_personal_hf_token
+            2. In the Docker container, clone the ROCm MAD repository and navigate to the
+               benchmark scripts directory at ``~/MAD/scripts/vllm``.
+
+               .. code-block::
+
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD/scripts/vllm
+
+            3. To start the benchmark, use the following command with the appropriate options.
+
+               .. dropdown:: Benchmark options
+                  :open:
+
+                  .. list-table::
+                     :header-rows: 1
+                     :align: center
+
+                     * - Name
+                       - Options
+                       - Description
+
+                     * - ``$test_option``
+                       - latency
+                       - Measure decoding token latency
+
+                     * -
+                       - throughput
+                       - Measure token generation throughput
+
+                     * -
+                       - all
+                       - Measure both throughput and latency
+
+                     * - ``$num_gpu``
+                       - 1 or 8
+                       - Number of GPUs
+
+                     * - ``$datatype``
+                       - ``float16`` or ``float8``
+                       - Data type
+
+                  .. note::
+
+                     The input sequence length, output sequence length, and tensor parallel (TP) are
+                     already configured. You don't need to specify them with this script.
+
+               .. code-block::
+
+                  ./vllm_benchmark_report.sh \
+                      -s $test_option \
+                      -m {{model.model_repo}} \
+                      -g $num_gpu \
+                      -d {{model.precision}}
+
+               .. note::
+
+                  For best performance, it's recommend to run with ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``.
+
+               .. note::
+
+                  If you encounter the following error, pass your access-authorized Hugging
+                  Face token to the gated models.
+
+                  .. code-block::
+
+                     OSError: You are trying to access a gated repo.
+
+                     # pass your HF_TOKEN
+                     export HF_TOKEN=$your_personal_hf_token
 
             Here are some examples of running the benchmark with various options.
 
@@ -340,7 +351,7 @@ Advanced usage
 ==============
 
 For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-see the developer's guide at `<https://github.com/ROCm/vllm/tree/main/docs/dev-docker>`__.
+see the developer's guide at `<https://github.com/ROCm/vllm/tree/f94ec9beeca1071cc34f9d1e206d8c7f3ac76129/docs/dev-docker>`__.
 
 Reproducing the Docker image
 ----------------------------
@@ -366,8 +377,8 @@ To reproduce this ROCm/vLLM Docker image release, follow these steps:
 
       docker build -f docker/Dockerfile.rocm -t vllm-rocm .
 
-Known issues
-============
+Known issues and workarounds
+============================
 
 AITER does not support FP8 KV cache yet.
 
