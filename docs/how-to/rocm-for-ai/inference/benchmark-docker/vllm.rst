@@ -231,15 +231,26 @@ system's configuration.
                `Docker container <{{ unified_docker.docker_hub_url }}>`_
                as shown in the following snippet.
 
-               .. code-block::
+               .. code-block:: shell
 
                   docker pull {{ unified_docker.pull_tag }}
-                  docker run -it --device=/dev/kfd --device=/dev/dri --group-add video --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name test {{ unified_docker.pull_tag }}
+                  docker run -it \
+                      --device=/dev/kfd \
+                      --device=/dev/dri \
+                      --group-add video \
+                      --shm-size 16G \
+                      --security-opt seccomp=unconfined \
+                      --security-opt apparmor=unconfined \
+                      --cap-add=SYS_PTRACE \
+                      -v $(pwd):/workspace \
+                      --env HUGGINGFACE_HUB_CACHE=/workspace \
+                      --name test \
+                      {{ unified_docker.pull_tag }}
 
             2. In the Docker container, clone the ROCm MAD repository and navigate to the
                benchmark scripts directory at ``~/MAD/scripts/vllm``.
 
-               .. code-block::
+               .. code-block:: shell
 
                   git clone https://github.com/ROCm/MAD
                   cd MAD/scripts/vllm
@@ -314,7 +325,11 @@ system's configuration.
 
               .. code-block::
 
-                 ./vllm_benchmark_report.sh -s latency -m {{model.model_repo}} -g 8 -d {{model.precision}}
+                 ./vllm_benchmark_report.sh \
+                     -s latency \
+                     -m {{model.model_repo}} \
+                     -g 8 \
+                     -d {{model.precision}}
 
               Find the latency report at ``./reports_{{model.precision}}_vllm_rocm{{unified_docker.rocm_version}}/summary/{{model.model_repo.split('/', 1)[1] if '/' in model.model_repo else model.model_repo}}_latency_report.csv``.
 
@@ -324,7 +339,11 @@ system's configuration.
 
               .. code-block:: shell
 
-                 ./vllm_benchmark_report.sh -s throughput -m {{model.model_repo}} -g 8 -d {{model.precision}}
+                 ./vllm_benchmark_report.sh \
+                     -s throughput \
+                     -m {{model.model_repo}} \
+                     -g 8 \
+                     -d {{model.precision}}
 
               Find the throughput report at ``./reports_{{model.precision}}_vllm_rocm{{unified_docker.rocm_version}}/summary/{{model.model_repo.split('/', 1)[1] if '/' in model.model_repo else model.model_repo}}_throughput_report.csv``.
 
