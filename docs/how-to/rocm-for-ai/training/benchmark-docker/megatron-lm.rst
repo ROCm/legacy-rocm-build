@@ -376,6 +376,22 @@ If the tokenizer is not found, it'll be downloaded if publicly available.
 
       TOKENIZER_MODEL=tokenizer/tokenizer.model
 
+.. container:: model-doc pyt_megatron_lm_train_qwen2.5-7b
+
+   The training script uses the ``HuggingFaceTokenizer``. Set ``TOKENIZER_MODEL`` to the appropriate Hugging Face model path.
+
+   .. code-block:: shell
+
+      TOKENIZER_MODEL="Qwen/Qwen2.5-7B"
+
+.. container:: model-doc pyt_megatron_lm_train_qwen2.5-72b
+
+   The training script uses the ``HuggingFaceTokenizer``. Set ``TOKENIZER_MODEL`` to the appropriate Hugging Face model path.
+
+   .. code-block:: shell
+
+      TOKENIZER_MODEL="Qwen/Qwen2.5-72B"
+
 Dataset options
 ---------------
 
@@ -401,7 +417,7 @@ You can use either mock data or real data for training.
 Download the dataset
 ^^^^^^^^^^^^^^^^^^^^
 
-.. container:: model-doc pyt_megatron_lm_train_llama-3.3-70b pyt_megatron_lm_train_llama-3.1-8b pyt_megatron_lm_train_llama-3.1-70b pyt_megatron_lm_train_llama-2-7b pyt_megatron_lm_train_llama-2-70b
+.. container:: model-doc pyt_megatron_lm_train_llama-3.3-70b pyt_megatron_lm_train_llama-3.1-8b pyt_megatron_lm_train_llama-3.1-70b pyt_megatron_lm_train_llama-2-7b pyt_megatron_lm_train_llama-2-70b pyt_megatron_lm_train_llama-3.1-70b-proxy
 
    For Llama models, use the `prepare_dataset.sh
    <https://github.com/ROCm/Megatron-LM/tree/rocm_dev/examples/llama>`_ script
@@ -476,8 +492,6 @@ Download the dataset
 
       DATA_DIR="<path-to>/deepseek-datasets"  # Change to where your dataset is stored
 
-      Ensure that the files are accessible inside the Docker container.
-
 .. container:: model-doc pyt_megatron_lm_train_mixtral-8x7b pyt_megatron_lm_train_mixtral-8x22b-proxy
 
    If you don't already have the dataset, download the Mixtral dataset using the following
@@ -497,6 +511,27 @@ Download the dataset
       MOCK_DATA=0 # Train on real data
 
       DATA_DIR="<path-to>/mixtral-datasets"  # Change to where your dataset is stored
+
+   Ensure that the files are accessible inside the Docker container.
+
+.. container:: model-doc pyt_megatron_lm_train_qwen2.5-7b pyt_megatron_lm_train_qwen2.5-72b
+
+   If you don't already have the dataset, download the Mixtral dataset using the following
+   commands:
+
+   .. code-block:: shell
+
+      mkdir -p temp/qwen-datasets
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/qwen-datasets/wudao_qwenbpe_text_document.bin
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/qwen-datasets/wudao_qwenbpe_text_document.idx
+
+   To train on this data, update the ``DATA_DIR`` variable to point to the location of your dataset.
+
+   .. code-block:: bash
+
+      MOCK_DATA=0 # Train on real data
+
+      DATA_DIR="<path-to>/qwen-datasets"  # Change to where your dataset is stored
 
    Ensure that the files are accessible inside the Docker container.
 
