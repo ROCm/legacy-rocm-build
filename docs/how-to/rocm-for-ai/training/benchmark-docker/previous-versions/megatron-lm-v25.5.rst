@@ -71,7 +71,7 @@ Megatron-LM provides the following key features to train large language models e
 
 The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/megatron-lm-v25.5-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/megatron-lm-v25.5-benchmark-models.yaml
 
    Supported models
    ================

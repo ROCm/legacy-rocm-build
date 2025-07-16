@@ -15,7 +15,7 @@ purpose-built to support models like Llama, DeepSeek, and Mixtral,
 enabling developers to train next-generation AI models more
 efficiently.
 
-AMD provides a ready-to-use Docker image for MI300X series accelerators containing
+AMD provides ready-to-use Docker images for MI300X series accelerators containing
 essential components, including PyTorch, ROCm libraries, and Megatron-LM
 utilities. It contains the following software components to accelerate training
 workloads:
@@ -30,6 +30,8 @@ workloads:
       .. tab-item:: {{ docker.doc_name }}
          :sync: {{ docker.pull_tag }}
 
+         Docker tag: :literal:` {{ docker.pull_tag }} `
+
          .. list-table::
             :header-rows: 1
 
@@ -43,6 +45,8 @@ workloads:
             {% endfor %}
       {% endfor %}
    {% elif dockers|length == 1 %}
+   Docker tag: :literal:` {{ docker.pull_tag }} `
+
    .. list-table::
       :header-rows: 1
 
