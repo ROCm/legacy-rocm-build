@@ -16,7 +16,7 @@ verl offers a scalable, open-source fine-tuning solution optimized for AMD Insti
 * See the `verl documentation <https://verl.readthedocs.io/en/latest/>`_ for more information about verl. 
 * The official verl GitHub repository is `https://github.com/volcengine/verl <https://github.com/volcengine/verl>`_.
 * Use the AMD-validated :ref:`Docker images <verl-docker-compat>` with ROCm and verl preinstalled. 
-* See the :doc:`ROCm verl installation guide <rocm-install-on-linux:install/3rd-party/dgl-install>` to get started.
+* See the :doc:`ROCm verl installation guide <rocm-install-on-linux:install/3rd-party/verl-install>` to get started.
 
 .. note::
 
