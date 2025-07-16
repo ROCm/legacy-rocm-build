@@ -358,7 +358,7 @@ To reproduce this ROCm/vLLM Docker image release, follow these steps:
    .. code-block:: shell
 
       cd vllm
-      git checkout b335519f20495128a47d86f2c01dd467e2fe602b
+      git checkout b432b7a285aa0dcb9677380936ffa74931bb6d6f
 
 3. Build the Docker image. Replace ``vllm-rocm`` with your desired image tag.
 
