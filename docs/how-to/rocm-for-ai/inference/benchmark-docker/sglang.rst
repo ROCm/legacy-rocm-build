@@ -12,11 +12,10 @@ SGLang inference performance testing
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/sglang-benchmark-models.yaml
 
    {% set unified_docker = data.sglang_benchmark.unified_docker.latest %}
-   {% set model_groups = data.sglang_benchmark.model_groups %}
 
-   `SGLang <https://docs.sglang.ai>`_ is a high-performance inference and
+   `SGLang <https://docs.sglang.ai>`__ is a high-performance inference and
    serving engine for large language models (LLMs) and vision models. The
-   ROCm-enabled `SGLang Docker <{{ unified_docker.docker_hub_url }}>`_ image
+   ROCm-enabled `SGLang Docker image <{{ unified_docker.docker_hub_url }}>`__
    bundles SGLang with PyTorch, optimized for AMD Instinct MI300X series
    accelerators. It includes the following software components:
 
@@ -26,41 +25,39 @@ SGLang inference performance testing
       * - Software component
         - Version
 
-      * - `ROCm <https://github.com/ROCm/ROCm>`_
+      * - `ROCm <https://github.com/ROCm/ROCm>`__
         - {{ unified_docker.rocm_version }}
 
-      * - `SGLang <https://docs.sglang.ai/index.html>`_
+      * - `SGLang <https://docs.sglang.ai/index.html>`__
         - {{ unified_docker.sglang_version }} 
 
-      * - `PyTorch <https://github.com/pytorch/pytorch>`_
+      * - `PyTorch <https://github.com/pytorch/pytorch>`__
         - {{ unified_docker.pytorch_version }} 
 
-   System validation
-   =================
+System validation
+=================
 
-   Before running AI workloads, it's important to validate that your AMD hardware is configured
-   correctly and performing optimally.
+Before running AI workloads, it's important to validate that your AMD hardware is configured
+correctly and performing optimally.
 
-   To optimize performance, disable automatic NUMA balancing. Otherwise, the GPU
-   might hang until the periodic balancing is finalized. For more information,
-   see the :ref:`system validation steps <rocm-for-ai-system-optimization>`.
+If you have already validated your system settings, including aspects like NUMA auto-balancing, you
+can skip this step. Otherwise, complete the procedures in the :ref:`System validation and
+optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
+before starting training.
 
-   .. code-block:: shell
+To test for optimal performance, consult the recommended :ref:`System health benchmarks
+<rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
+system's configuration.
 
-      # disable automatic NUMA balancing
-      sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'
-      # check if NUMA balancing is disabled (returns 0 if disabled)
-      cat /proc/sys/kernel/numa_balancing
-      0
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/sglang-benchmark-models.yaml
 
-   To test for optimal performance, consult the recommended :ref:`System health benchmarks
-   <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
-   system's configuration.
+   {% set unified_docker = data.sglang_benchmark.unified_docker.latest %}
+   {% set model_groups = data.sglang_benchmark.model_groups %}
 
    Pull the Docker image
    =====================
 
-   Download the `SGLang Docker image <{{ unified_docker.docker_hub_url }}>`_.
+   Download the `SGLang Docker image <{{ unified_docker.docker_hub_url }}>`__.
    Use the following command to pull the Docker image from Docker Hub.
 
    .. code-block:: shell
@@ -71,7 +68,7 @@ SGLang inference performance testing
    ============
 
    Once the setup is complete, choose one of the following methods to benchmark inference performance with
-   `DeepSeek-R1-Distill-Qwen-32B <https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B>`_.
+   `DeepSeek-R1-Distill-Qwen-32B <https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B>`__.
 
    .. _sglang-benchmark-mad:
 
@@ -84,22 +81,22 @@ SGLang inference performance testing
 
          .. tab-item:: MAD-integrated benchmarking
 
-            Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
-            directory and install the required packages on the host machine.
+            1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
+               directory and install the required packages on the host machine.
 
-            .. code-block:: shell
+               .. code-block:: shell
 
-               git clone https://github.com/ROCm/MAD
-               cd MAD
-               pip install -r requirements.txt
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD
+                  pip install -r requirements.txt
 
-            Use this command to run the performance benchmark test on the `{{model.model}} <{{ model.url }}>`_ model
-            using one GPU with the ``{{model.precision}}`` data type on the host machine.
+            2. Use this command to run the performance benchmark test on the `{{model.model}} <{{ model.url }}>`_ model
+               using one GPU with the ``{{model.precision}}`` data type on the host machine.
 
-            .. code-block:: shell
+               .. code-block:: shell
 
-               export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-               python3 tools/run_models.py --tags {{model.mad_tag}} --keep-model-dir --live-output --timeout 28800
+                  export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
+                  python3 tools/run_models.py --tags {{model.mad_tag}} --keep-model-dir --live-output --timeout 28800
 
             MAD launches a Docker container with the name
             ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
@@ -113,8 +110,8 @@ SGLang inference performance testing
 
             .. rubric:: Download the Docker image and required scripts
 
-            Run the SGLang benchmark script independently by starting the
-            `Docker container <{{ unified_docker.docker_hub_url }}>`_
+            1. Run the SGLang benchmark script independently by starting the
+            `Docker container <{{ unified_docker.docker_hub_url }}>`__
             as shown in the following snippet.
 
             .. code-block:: shell
@@ -122,7 +119,7 @@ SGLang inference performance testing
                docker pull {{ unified_docker.pull_tag }}
                docker run -it --device=/dev/kfd --device=/dev/dri --group-add video --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name test {{ unified_docker.pull_tag }}
 
-            In the Docker container, clone the ROCm MAD repository and navigate to the
+            2. In the Docker container, clone the ROCm MAD repository and navigate to the
             benchmark scripts directory at ``~/MAD/scripts/sglang``.
 
             .. code-block:: shell
@@ -130,48 +127,51 @@ SGLang inference performance testing
                git clone https://github.com/ROCm/MAD
                cd MAD/scripts/sglang
 
-            To start the benchmark, use the following command with the appropriate options.
+            3. To start the benchmark, use the following command with the appropriate options.
 
-            .. code-block:: shell
+               .. dropdown:: Benchmark options
+                  :open:
 
-               ./sglang_benchmark_report.sh -s $test_option -m {{model.model_repo}} -g $num_gpu -d $datatype [-a $dataset]
+                  .. list-table::
+                     :header-rows: 1
+                     :align: center
 
-            .. list-table::
-               :header-rows: 1
-               :align: center
+                     * - Name
+                       - Options
+                       - Description
 
-               * - Name
-                 - Options
-                 - Description
+                     * - ``$test_option``
+                       - latency
+                       - Measure decoding token latency
 
-               * - ``$test_option``
-                 - latency
-                 - Measure decoding token latency
+                     * -
+                       - throughput
+                       - Measure token generation throughput
 
-               * -
-                 - throughput
-                 - Measure token generation throughput
+                     * -
+                       - all
+                       - Measure both throughput and latency
 
-               * -
-                 - all
-                 - Measure both throughput and latency
+                     * - ``$num_gpu``
+                       - 8
+                       - Number of GPUs
 
-               * - ``$num_gpu``
-                 - 8
-                 - Number of GPUs
+                     * - ``$datatype``
+                       - ``bfloat16``
+                       - Data type
 
-               * - ``$datatype``
-                 - ``bfloat16``
-                 - Data type
+                     * - ``$dataset``
+                       - random
+                       - Dataset
 
-               * - ``$dataset``
-                 - random
-                 - Dataset
+                  The input sequence length, output sequence length, and tensor parallel (TP) are
+                  already configured. You don't need to specify them with this script.
 
-            .. note::
+               Command:
 
-               The input sequence length, output sequence length, and tensor parallel (TP) are
-               already configured. You don't need to specify them with this script.
+               .. code-block:: shell
+
+                  ./sglang_benchmark_report.sh -s $test_option -m {{model.model_repo}} -g $num_gpu -d $datatype [-a $dataset]
 
             .. note::
 
@@ -186,7 +186,7 @@ SGLang inference performance testing
 
             .. rubric:: Benchmarking examples
 
-            Here are some examples of running the benchmark with various options.
+            Here are some examples of running the benchmark with various options:
 
             * Latency benchmark
 
@@ -234,13 +234,22 @@ Further reading
   see `<https://github.com/sgl-project/sglang/tree/main/benchmark/blog_v0_2>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
+  MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`__.
 
-- To learn how to run LLM models from Hugging Face or your own model, see
-  :doc:`Running models from Hugging Face <../hugging-face-models>`.
+- For application performance optimization strategies for HPC and AI workloads,
+  including inference with vLLM, see :doc:`/how-to/rocm-for-ai/inference-optimization/workload`.
 
-- To learn how to optimize inference on LLMs, see
-  :doc:`Inference optimization <../../inference-optimization/index>`.
+- To learn how to run community models from Hugging Face on AMD GPUs, see
+  :doc:`Running models from Hugging Face </how-to/rocm-for-ai/inference/hugging-face-models>`.
 
-- To learn how to fine-tune LLMs, see
-  :doc:`Fine-tuning LLMs <../../fine-tuning/index>`.
+- To learn how to fine-tune LLMs and optimize inference, see
+  :doc:`Fine-tuning LLMs and inference optimization </how-to/rocm-for-ai/fine-tuning/fine-tuning-and-inference>`.
+
+- For a list of other ready-made Docker images for AI with ROCm, see
+  `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.
+
+Previous versions
+=================
+
+See :doc:`previous-versions/sglang-history` to find documentation for previous releases
+of SGLang inference performance testing.
