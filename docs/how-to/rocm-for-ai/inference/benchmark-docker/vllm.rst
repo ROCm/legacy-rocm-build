@@ -237,6 +237,8 @@ system's configuration.
 
          .. tab-item:: Standalone benchmarking
 
+            .. rubric:: Download the Docker image and required scripts
+
             1. Run the vLLM benchmark tool independently by starting the
                `Docker container <{{ unified_docker.docker_hub_url }}>`_
                as shown in the following snippet.
@@ -298,7 +300,6 @@ system's configuration.
                        - ``float16`` or ``float8``
                        - Data type
 
-
                   The input sequence length, output sequence length, and tensor parallel (TP) are
                   already configured. You don't need to specify them with this script.
 
@@ -326,9 +327,9 @@ system's configuration.
                      # pass your HF_TOKEN
                      export HF_TOKEN=$your_personal_hf_token
 
-            .. rubric:: Examples
+            .. rubric:: Benchmarking examples
 
-            Here are some examples of running the benchmark with various options.
+            Here are some examples of running the benchmark with various options:
 
             * Latency benchmark
 
