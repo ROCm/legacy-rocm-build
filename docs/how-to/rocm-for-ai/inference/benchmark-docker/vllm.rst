@@ -20,13 +20,23 @@ vLLM inference performance testing
    Docker image integrates vLLM and PyTorch tailored specifically for MI300X series
    accelerators and includes the following components:
 
-   * `ROCm {{ unified_docker.rocm_version }} <https://github.com/ROCm/ROCm>`_
+   .. list-table::
+      :header-rows: 1
 
-   * `vLLM {{ unified_docker.vllm_version }} <https://docs.vllm.ai/en/latest>`_
+      * - Software component
+        - Version
 
-   * `PyTorch {{ unified_docker.pytorch_version }} <https://github.com/ROCm/pytorch.git>`_
+      * - `ROCm <https://github.com/ROCm/ROCm>`__
+        - {{ unified_docker.rocm_version }}
 
-   * `hipBLASLt {{ unified_docker.hipblaslt_version }} <https://github.com/ROCm/hipBLASLt>`_
+      * - `vLLM <https://docs.vllm.ai/en/latest>`__
+        - {{ unified_docker.vllm_version }}
+
+      * - `PyTorch <https://github.com/ROCm/pytorch>`__
+        - {{ unified_docker.pytorch_version }}
+
+      * - `hipBLASLt <https://github.com/ROCm/hipBLASLt>`__
+        - {{ unified_docker.hipblaslt_version }}
 
 With this Docker image, you can quickly test the :ref:`expected
 inference performance numbers <vllm-benchmark-performance-measurements>` for
