@@ -1,6 +1,5 @@
 .. meta::
-   :description: Learn how to validate LLM inference performance on MI300X accelerators using AMD MAD and the
-                 ROCm vLLM Docker image.
+   :description: Learn how to validate LLM inference performance on MI300X accelerators using AMD MAD and SGLang
    :keywords: model, MAD, automation, dashboarding, validate
 
 ************************************
@@ -96,7 +95,11 @@ system's configuration.
                .. code-block:: shell
 
                   export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-                  python3 tools/run_models.py --tags {{model.mad_tag}} --keep-model-dir --live-output --timeout 28800
+                  python3 tools/run_models.py \
+                      --tags {{model.mad_tag}} \
+                      --keep-model-dir \
+                      --live-output \
+                      --timeout 28800
 
             MAD launches a Docker container with the name
             ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
@@ -111,21 +114,32 @@ system's configuration.
             .. rubric:: Download the Docker image and required scripts
 
             1. Run the SGLang benchmark script independently by starting the
-            `Docker container <{{ unified_docker.docker_hub_url }}>`__
-            as shown in the following snippet.
+               `Docker container <{{ unified_docker.docker_hub_url }}>`__
+               as shown in the following snippet.
 
-            .. code-block:: shell
+               .. code-block:: shell
 
-               docker pull {{ unified_docker.pull_tag }}
-               docker run -it --device=/dev/kfd --device=/dev/dri --group-add video --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name test {{ unified_docker.pull_tag }}
+                  docker pull {{ unified_docker.pull_tag }}
+                  docker run -it \
+                      --device=/dev/kfd \
+                      --device=/dev/dri \
+                      --group-add video \
+                      --shm-size 16G \
+                      --security-opt seccomp=unconfined \
+                      --security-opt apparmor=unconfined \
+                      --cap-add=SYS_PTRACE \
+                      -v $(pwd):/workspace \
+                      --env HUGGINGFACE_HUB_CACHE=/workspace \
+                      --name test \
+                      {{ unified_docker.pull_tag }}
 
             2. In the Docker container, clone the ROCm MAD repository and navigate to the
-            benchmark scripts directory at ``~/MAD/scripts/sglang``.
+               benchmark scripts directory at ``~/MAD/scripts/sglang``.
 
-            .. code-block:: shell
+               .. code-block:: shell
 
-               git clone https://github.com/ROCm/MAD
-               cd MAD/scripts/sglang
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD/scripts/sglang
 
             3. To start the benchmark, use the following command with the appropriate options.
 
@@ -194,7 +208,11 @@ system's configuration.
 
               .. code-block:: shell
 
-                 ./sglang_benchmark_report.sh -s latency -m {{model.model_repo}} -g 8 -d {{model.precision}}
+                 ./sglang_benchmark_report.sh \
+                     -s latency \
+                     -m {{model.model_repo}} \
+                     -g 8 \
+                     -d {{model.precision}}
 
               Find the latency report at ``./reports_{{model.precision}}/summary/{{model.model_repo.split('/', 1)[1] if '/' in model.model_repo else model.model_repo}}_latency_report.csv``.
 
@@ -204,7 +222,12 @@ system's configuration.
 
               .. code-block:: shell
 
-                 ./sglang_benchmark_report.sh -s throughput -m {{model.model_repo}} -g 8 -d {{model.precision}} -a random
+                 ./sglang_benchmark_report.sh \
+                     -s throughput \
+                     -m {{model.model_repo}} \
+                     -g 8 \
+                     -d {{model.precision}} \
+                     -a random
 
               Find the throughput report at ``./reports_{{model.precision}}/summary/{{model.model_repo.split('/', 1)[1] if '/' in model.model_repo else model.model_repo}}_throughput_report.csv``.
 
