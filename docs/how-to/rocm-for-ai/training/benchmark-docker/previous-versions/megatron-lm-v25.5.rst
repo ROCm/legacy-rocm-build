@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: How to train a model using Megatron-LM for ROCm.
    :keywords: ROCm, AI, LLM, train, Megatron-LM, megatron, Llama, tutorial, docker, torch
@@ -5,6 +7,11 @@
 ******************************************
 Training a model with Megatron-LM for ROCm
 ******************************************
+
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm Megatron-LM
+   training performance documentation. See :doc:`../megatron-lm` for the latest version.
 
 The `Megatron-LM framework for ROCm <https://github.com/ROCm/Megatron-LM>`_ is
 a specialized fork of the robust Megatron-LM, designed to enable efficient
@@ -15,50 +22,56 @@ purpose-built to support models like Llama, DeepSeek, and Mixtral,
 enabling developers to train next-generation AI models more
 efficiently.
 
-AMD provides ready-to-use Docker images for MI300X series accelerators containing
+AMD provides a ready-to-use Docker image for MI300X series accelerators containing
 essential components, including PyTorch, ROCm libraries, and Megatron-LM
 utilities. It contains the following software components to accelerate training
 workloads:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/megatron-lm-benchmark-models.yaml
++--------------------------+--------------------------------+
+| Software component       | Version                        |
++==========================+================================+
+| ROCm                     | 6.3.4                          |
++--------------------------+--------------------------------+
+| PyTorch                  | 2.8.0a0+gite2f9759             |
++--------------------------+--------------------------------+
+| Python                   | 3.12 or 3.10                   |
++--------------------------+--------------------------------+
+| Transformer Engine       | 1.13.0+bb061ade                |
++--------------------------+--------------------------------+
+| Flash Attention          | 3.0.0                          |
++--------------------------+--------------------------------+
+| hipBLASLt                | 0.13.0-4f18bf6                 |
++--------------------------+--------------------------------+
+| Triton                   | 3.3.0                          |
++--------------------------+--------------------------------+
+| RCCL                     | 2.22.3                         |
++--------------------------+--------------------------------+
 
-   {% set dockers = data.dockers %}
-   {% if dockers|length > 1 %}
-   .. tab-set::
+Megatron-LM provides the following key features to train large language models efficiently:
 
-      {% for docker in data.dockers %}
-      .. tab-item:: ``{{ docker.pull_tag }}``
-         :sync: {{ docker.pull_tag }}
+- Transformer Engine (TE)
 
-         .. list-table::
-            :header-rows: 1
+- APEX
 
-            * - Software component
-              - Version
+- GEMM tuning
 
-            {% for component_name, component_version in docker.components.items() %}
-            * - {{ component_name }}
-              - {{ component_version }}
+- Torch.compile
 
-            {% endfor %}
-      {% endfor %}
-   {% elif dockers|length == 1 %}
-   .. list-table::
-      :header-rows: 1
+- 3D parallelism: TP + SP + CP
 
-      * - Software component
-        - Version
+- Distributed optimizer
 
-      {% for component_name, component_version in docker.components %}
-      * - {{ component_name }}
-        - {{ component_version }}
+- Flash Attention (FA) 3
 
-      {% endfor %}
-   {% endif %}
+- Fused kernels
 
-   .. _amd-megatron-lm-model-support:
+- Pre-training
 
-   The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
+.. _amd-megatron-lm-model-support-v255:
+
+The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/megatron-lm-v25.5-benchmark-models.yaml
 
    Supported models
    ================
@@ -67,7 +80,8 @@ workloads:
    Some instructions, commands, and training recommendations in this documentation might
    vary by model -- select one to get started.
 
-   {% set model_groups = data.model_groups %}
+   {% set model_groups = data["megatron-lm_benchmark"].model_groups %}
+
    .. raw:: html
 
          <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
@@ -75,7 +89,7 @@ workloads:
              <div class="col-2 me-2 model-param-head">Model</div>
              <div class="row col-10">
       {% for model_group in model_groups %}
-               <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-4 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
              </div>
            </div>
@@ -102,20 +116,20 @@ workloads:
    Some models, such as Llama, require an external license agreement through
    a third party (for example, Meta).
 
-.. _amd-megatron-lm-performance-measurements:
+.. _amd-megatron-lm-performance-measurements-v255:
 
 Performance measurements
 ========================
 
 To evaluate performance, the
-`Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`_
+`Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`__
 page provides reference throughput and latency measurements for training
 popular AI models.
 
 .. important::
 
    The performance data presented in
-   `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
+   `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`__
    only reflects the latest version of this training benchmarking environment.
    The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
 
@@ -134,7 +148,7 @@ To test for optimal performance, consult the recommended :ref:`System health ben
 <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
 system's configuration.
 
-.. _mi300x-amd-megatron-lm-training:
+.. _mi300x-amd-megatron-lm-training-v255:
 
 Environment setup
 =================
@@ -143,82 +157,47 @@ Use the following instructions to set up the environment, configure the script t
 reproduce the benchmark results on MI300X series accelerators with the AMD Megatron-LM Docker
 image.
 
-.. _amd-megatron-lm-requirements:
+.. _amd-megatron-lm-requirements-v255:
  
 Download the Docker image
 -------------------------
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/megatron-lm-benchmark-models.yaml
+1. Use the following command to pull the Docker image from Docker Hub.
 
-   {% set dockers = data.dockers %}
-   1. Use the following command to pull the Docker image from Docker Hub.
+   .. tab-set:: 
 
-      {% if dockers|length > 1 %}
-      .. tab-set:: 
+      .. tab-item:: Ubuntu 24.04 + Python 3.12
+         :sync: py312
 
-         {% for docker in data.dockers %}
-         .. tab-item:: {{ docker.doc_name }}
-            :sync: {{ docker.pull_tag }}
+         .. code-block:: shell
 
-            .. code-block:: shell
+            docker pull rocm/megatron-lm:v25.5_py312
 
-               docker pull {{ docker.pull_tag }}
+      .. tab-item:: Ubuntu 22.04 + Python 3.10
+         :sync: py310
 
-         {% endfor %}
-      {% elif dockers|length == 1 %}
-      {% set docker = dockers[0] %}
-      .. code-block:: shell
+         .. code-block:: shell
 
-         docker pull {{ docker.pull_tag }}
+            docker pull rocm/megatron-lm:v25.5_py310
 
-      {% endif %}
-   2. Launch the Docker container.
+2. Launch the Docker container.
 
-      {% if dockers|length > 1 %}
-      .. tab-set::
+   .. tab-set::
 
-         {% for docker in data.dockers %}
-         .. tab-item:: {{ docker.doc_name }}
-            :sync: {{ docker.pull_tag }}
+      .. tab-item:: Ubuntu 24.04 + Python 3.12
+         :sync: py312
 
-            .. code-block:: shell
+         .. code-block:: shell
 
-               docker run -it \
-                   --device /dev/dri \
-                   --device /dev/kfd \
-                   --device /dev/infiniband \
-                   --network host --ipc host \
-                   --group-add video \
-                   --cap-add SYS_PTRACE \
-                   --security-opt seccomp=unconfined \
-                   --privileged \
-                   -v $HOME:$HOME \
-                   -v $HOME/.ssh:/root/.ssh \
-                   --shm-size 128G \
-                   --name megatron_training_env \
-                   {{ docker.pull_tag }}
+            docker run -it --device /dev/dri --device /dev/kfd --device /dev/infiniband --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME:$HOME -v  $HOME/.ssh:/root/.ssh --shm-size 128G --name megatron_training_env rocm/megatron-lm:v25.5_py312
 
-         {% endfor %}
-      {% elif dockers|length == 1 %}
-      {% set docker = dockers[0] %}
-      .. code-block:: shell
 
-         docker run -it \
-             --device /dev/dri \
-             --device /dev/kfd \
-             --device /dev/infiniband \
-             --network host --ipc host \
-             --group-add video \
-             --cap-add SYS_PTRACE \
-             --security-opt seccomp=unconfined \
-             --privileged \
-             -v $HOME:$HOME \
-             -v $HOME/.ssh:/root/.ssh \
-             --shm-size 128G \
-             --name megatron_training_env \
-             {{ docker.pull_tag }}
+      .. tab-item:: Ubuntu 22.04 + Python 3.10
+         :sync: py310
 
-      {% endif %}
+         .. code-block:: shell
+
+            docker run -it --device /dev/dri --device /dev/kfd --device /dev/infiniband --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME:$HOME -v  $HOME/.ssh:/root/.ssh --shm-size 128G --name megatron_training_env rocm/megatron-lm:v25.5_py310
 
 3. Use these commands if you exit the ``megatron_training_env`` container and need to return to it.
 
@@ -232,7 +211,7 @@ Megatron-LM development branch
 `<https://github.com/ROCm/Megatron-LM/tree/rocm_dev>`__, including necessary
 training scripts.
 
-.. _amd-megatron-lm-environment-setup:
+.. _amd-megatron-lm-environment-setup-v255:
 
 Configuration
 =============
@@ -242,39 +221,39 @@ Configuration
    Update the ``train_llama3.sh`` configuration script in the ``examples/llama``
    directory of
    `<https://github.com/ROCm/Megatron-LM/tree/rocm_dev/examples/llama>`__ to configure your training run.
-   Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training>`.
+   Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training-v255>`.
 
 .. container:: model-doc pyt_megatron_lm_train_llama-2-7b pyt_megatron_lm_train_llama-2-70b
 
    Update the ``train_llama2.sh`` configuration script in the ``examples/llama``
    directory of
    `<https://github.com/ROCm/Megatron-LM/tree/rocm_dev/examples/llama>`__ to configure your training run.
-   Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training>`.
+   Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training-v255>`.
 
 .. container:: model-doc pyt_megatron_lm_train_deepseek-v3-proxy
 
    Update the ``train_deepseekv3.sh`` configuration script in the ``examples/deepseek_v3``
    directory of
    `<https://github.com/ROCm/Megatron-LM/tree/rocm_dev/examples/deepseek_v3>`__ to configure your training run.
-   Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training>`.
+   Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training-v255>`.
 
 .. container:: model-doc pyt_megatron_lm_train_deepseek-v2-lite-16b
 
    Update the ``train_deepseekv2.sh`` configuration script in the ``examples/deepseek_v2``
    directory of
    `<https://github.com/ROCm/Megatron-LM/tree/rocm_dev/examples/deepseek_v2>`__ to configure your training run.
-   Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training>`.
+   Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training-v255>`.
 
 .. container:: model-doc pyt_megatron_lm_train_mixtral-8x7b pyt_megatron_lm_train_mixtral-8x22b-proxy
 
    Update the ``train_mixtral_moe.sh`` configuration script in the ``examples/mixtral``
    directory of
    `<https://github.com/ROCm/Megatron-LM/tree/rocm_dev/examples/mixtral>`__ to configure your training run.
-   Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training>`.
+   Options can also be passed as command line arguments as described in :ref:`Run training <amd-megatron-lm-run-training-v255>`.
 
 .. note::
 
-   See :ref:`Key options <amd-megatron-lm-benchmark-test-vars>` for more information on configuration options.
+   See :ref:`Key options <amd-megatron-lm-benchmark-test-vars-v255>` for more information on configuration options.
 
 Network interface
 -----------------
@@ -296,7 +275,7 @@ example:
 
    export GLOO_SOCKET_IFNAME=ens50f0np0
 
-.. _amd-megatron-lm-tokenizer:
+.. _amd-megatron-lm-tokenizer-v255:
 
 Tokenizer
 ---------
@@ -376,22 +355,6 @@ If the tokenizer is not found, it'll be downloaded if publicly available.
 
       TOKENIZER_MODEL=tokenizer/tokenizer.model
 
-.. container:: model-doc pyt_megatron_lm_train_qwen2.5-7b
-
-   The training script uses the ``HuggingFaceTokenizer``. Set ``TOKENIZER_MODEL`` to the appropriate Hugging Face model path.
-
-   .. code-block:: shell
-
-      TOKENIZER_MODEL="Qwen/Qwen2.5-7B"
-
-.. container:: model-doc pyt_megatron_lm_train_qwen2.5-72b
-
-   The training script uses the ``HuggingFaceTokenizer``. Set ``TOKENIZER_MODEL`` to the appropriate Hugging Face model path.
-
-   .. code-block:: shell
-
-      TOKENIZER_MODEL="Qwen/Qwen2.5-72B"
-
 Dataset options
 ---------------
 
@@ -417,7 +380,7 @@ You can use either mock data or real data for training.
 Download the dataset
 ^^^^^^^^^^^^^^^^^^^^
 
-.. container:: model-doc pyt_megatron_lm_train_llama-3.3-70b pyt_megatron_lm_train_llama-3.1-8b pyt_megatron_lm_train_llama-3.1-70b pyt_megatron_lm_train_llama-2-7b pyt_megatron_lm_train_llama-2-70b pyt_megatron_lm_train_llama-3.1-70b-proxy
+.. container:: model-doc pyt_megatron_lm_train_llama-3.3-70b pyt_megatron_lm_train_llama-3.1-8b pyt_megatron_lm_train_llama-3.1-70b pyt_megatron_lm_train_llama-2-7b pyt_megatron_lm_train_llama-2-70b
 
    For Llama models, use the `prepare_dataset.sh
    <https://github.com/ROCm/Megatron-LM/tree/rocm_dev/examples/llama>`_ script
@@ -433,7 +396,7 @@ Download the dataset
 
    ``TOKENIZER_MODEL`` can be any accessible Hugging Face tokenizer.
    Remember to either pre-download the tokenizer or setup Hugging Face access
-   otherwise when needed -- see the :ref:`Tokenizer <amd-megatron-lm-tokenizer>` section.
+   otherwise when needed -- see the :ref:`Tokenizer <amd-megatron-lm-tokenizer-v255>` section.
 
    .. note::
 
@@ -456,8 +419,8 @@ Download the dataset
       wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/SlimPajama.json
       wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-train.json
       wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-valid.json
-      cd ..
-      bash tools/run_make_pretraining_dataset_megatron.sh deepseek-datasets/SlimPajama.json DeepSeekV3Tokenizer text deepseek-datasets deepseek-ai/DeepSeek-V3
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.bin
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.idx
 
    To train on this data, update the ``DATA_DIR`` variable to point to the location of your dataset.
 
@@ -481,8 +444,8 @@ Download the dataset
       wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/SlimPajama.json
       wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-train.json
       wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/alpaca_zh-valid.json
-      cd ..
-      bash tools/run_make_pretraining_dataset_megatron.sh deepseek-datasets/SlimPajama.json DeepSeekV3Tokenizer text deepseek-datasets deepseek-ai/DeepSeek-V3
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.bin
+      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/deepseek-datasets/mmap_deepseekv2_datasets_text_document.idx
 
    To train on this data, update the ``DATA_DIR`` variable to point to the location of your dataset.
 
@@ -491,6 +454,8 @@ Download the dataset
       MOCK_DATA=0 # Train on real data
 
       DATA_DIR="<path-to>/deepseek-datasets"  # Change to where your dataset is stored
+
+      Ensure that the files are accessible inside the Docker container.
 
 .. container:: model-doc pyt_megatron_lm_train_mixtral-8x7b pyt_megatron_lm_train_mixtral-8x22b-proxy
 
@@ -511,27 +476,6 @@ Download the dataset
       MOCK_DATA=0 # Train on real data
 
       DATA_DIR="<path-to>/mixtral-datasets"  # Change to where your dataset is stored
-
-   Ensure that the files are accessible inside the Docker container.
-
-.. container:: model-doc pyt_megatron_lm_train_qwen2.5-7b pyt_megatron_lm_train_qwen2.5-72b
-
-   If you don't already have the dataset, download the Mixtral dataset using the following
-   commands:
-
-   .. code-block:: shell
-
-      mkdir -p temp/qwen-datasets
-      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/qwen-datasets/wudao_qwenbpe_text_document.bin
-      wget https://atp-modelzoo-wlcb-pai.oss-cn-wulanchabu.aliyuncs.com/release/models/pai-megatron-patch/qwen-datasets/wudao_qwenbpe_text_document.idx
-
-   To train on this data, update the ``DATA_DIR`` variable to point to the location of your dataset.
-
-   .. code-block:: bash
-
-      MOCK_DATA=0 # Train on real data
-
-      DATA_DIR="<path-to>/qwen-datasets"  # Change to where your dataset is stored
 
    Ensure that the files are accessible inside the Docker container.
 
@@ -575,17 +519,27 @@ also be passed as command line arguments. Refer to the following example configu
      # Specify which RDMA interfaces to use for communication
      export NCCL_IB_HCA=rdma0,rdma1,rdma2,rdma3,rdma4,rdma5,rdma6,rdma7
 
-.. _amd-megatron-lm-run-training:
+Getting started
+===============
+
+The prebuilt Megatron-LM with ROCm training environment allows users to quickly validate
+system performance, conduct training benchmarks, and achieve superior
+performance for models like Llama, DeepSeek, and Mixtral. This container should not be
+expected to provide generalized performance across all training workloads. You
+can expect the container to perform in the model configurations described in
+the following section, but other configurations are not validated by AMD.
+
+.. _amd-megatron-lm-run-training-v255:
 
 Run training
-============
+------------
 
 Use the following example commands to set up the environment, configure
-:ref:`key options <amd-megatron-lm-benchmark-test-vars>`, and run training on
+:ref:`key options <amd-megatron-lm-benchmark-test-vars-v255>`, and run training on
 MI300X series accelerators with the AMD Megatron-LM environment.
 
 Single node training
---------------------
+^^^^^^^^^^^^^^^^^^^^
 
 .. container:: model-doc pyt_megatron_lm_train_llama-3.3-70b
 
@@ -594,20 +548,7 @@ Single node training
 
    .. code-block:: shell
 
-      TOKENIZER_MODEL=meta-llama/Llama-3.3-70B-Instruct \
-      CKPT_FORMAT=torch_dist \
-      TEE_OUTPUT=1 \
-      RECOMPUTE=1 \
-      SEQ_LENGTH=8192 \
-      MBS=2 \
-      BS=16 \
-      TE_FP8=0 \
-      TP=1 \
-      PP=1 \
-      FSDP=1 \
-      MODEL_SIZE=70 \
-      TOTAL_ITERS=50 \
-      bash examples/llama/train_llama3.sh 
+      TEE_OUTPUT=1 RECOMPUTE=1 SEQ_LENGTH=8192 MBS=2 BS=16 TE_FP8=0 TP=1 PP=1 FSDP=1 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh 
 
    .. note::
 
@@ -615,6 +556,8 @@ Single node training
       throughput. FSDP-v2 is not supported with pipeline parallelism, expert
       parallelism, MCore's distributed optimizer, gradient accumulation fusion,
       or FP16.
+
+      Currently, FSDP is only compatible with BF16 precision.
 
 .. container:: model-doc pyt_megatron_lm_train_llama-3.1-8b
 
@@ -623,29 +566,13 @@ Single node training
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 \
-      MBS=2 \
-      BS=128 \
-      TP=1 \
-      TE_FP8=1 \
-      SEQ_LENGTH=8192 \
-      MODEL_SIZE=8 \
-      TOTAL_ITERS=50 \
-      bash examples/llama/train_llama3.sh
+      TEE_OUTPUT=1 MBS=2 BS=128 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
 
    For Llama 3.1 8B BF16, use the following command:
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 \
-      MBS=2 \
-      BS=128 \
-      TP=1 \
-      TE_FP8=0 \
-      SEQ_LENGTH=8192 \
-      MODEL_SIZE=8 \
-      TOTAL_ITERS=50 \
-      bash examples/llama/train_llama3.sh
+      TEE_OUTPUT=1 MBS=2 BS=128 TP=1 TE_FP8=0 SEQ_LENGTH=8192 MODEL_SIZE=8 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
 
 .. container:: model-doc pyt_megatron_lm_train_llama-3.1-70b
 
@@ -654,18 +581,7 @@ Single node training
 
    .. code-block:: shell
 
-      CKPT_FORMAT=torch_dist \
-      TEE_OUTPUT=1 \
-      MBS=3 \
-      BS=24 \
-      TP=1 \
-      TE_FP8=0 \
-      FSDP=1 \
-      RECOMPUTE=1 \
-      SEQ_LENGTH=8192 \
-      MODEL_SIZE=70 \
-      TOTAL_ITERS=50 \
-      bash examples/llama/train_llama3.sh
+      TEE_OUTPUT=1 MBS=3 BS=24 TP=1 TE_FP8=0 FSDP=1 RECOMPUTE=1 SEQ_LENGTH=8192 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama3.sh
 
    .. note::
 
@@ -674,36 +590,7 @@ Single node training
       parallelism, MCore's distributed optimizer, gradient accumulation fusion,
       or FP16.
 
-.. container:: model-doc pyt_megatron_lm_train_llama-3.1-70b-proxy
-
-   To run the training on a single node for Llama 3.1 70B with proxy, use the following command.
-
-   .. code-block:: shell
-
-      CKPT_FORMAT=torch_dist \
-      TEE_OUTPUT=1 \
-      RECOMPUTE=1 \
-      MBS=3 \
-      BS=24 \
-      TP=1 \
-      TE_FP8=1 \
-      SEQ_LENGTH=8192 \
-      MODEL_SIZE=70 \
-      FSDP=1 \
-      TOTAL_ITERS=10 \
-      NUM_LAYERS=40 \
-      bash examples/llama/train_llama3.sh
-
-   .. note::
-
-      Use two or more nodes to run the *full* Llama 70B model with FP8 precision.
-
-   .. note::
-
-      It is suggested to use ``TP=1`` when FSDP is enabled for higher
-      throughput. FSDP-v2 is not supported with pipeline parallelism, expert
-      parallelism, MCore's distributed optimizer, gradient accumulation fusion,
-      or FP16.
+      Currently, FSDP is only compatible with BF16 precision.
 
 .. container:: model-doc pyt_megatron_lm_train_llama-2-7b
 
@@ -712,29 +599,13 @@ Single node training
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 \
-      MBS=4 \
-      BS=256 \
-      TP=1 \
-      TE_FP8=1 \
-      SEQ_LENGTH=4096 \
-      MODEL_SIZE=7 \
-      TOTAL_ITERS=50 \
-      bash examples/llama/train_llama2.sh
+      TEE_OUTPUT=1 MBS=4 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=4096 MODEL_SIZE=7 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
 
    For Llama 2 7B BF16, use the following command:
 
    .. code-block:: shell
 
-      TEE_OUTPUT=1 \
-      MBS=4 \
-      BS=256 \
-      TP=1 \
-      TE_FP8=0 \
-      SEQ_LENGTH=4096 \
-      MODEL_SIZE=7 \
-      TOTAL_ITERS=50 \
-      bash examples/llama/train_llama2.sh
+      TEE_OUTPUT=1 MBS=4 BS=256 TP=1 TE_FP8=0 SEQ_LENGTH=4096 MODEL_SIZE=7 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
 
 .. container:: model-doc pyt_megatron_lm_train_llama-2-70b
 
@@ -743,18 +614,7 @@ Single node training
 
    .. code-block:: shell
 
-      CKPT_FORMAT=torch_dist \
-      TEE_OUTPUT=1 \
-      MBS=7 \
-      BS=56 \
-      TP=1 \
-      TE_FP8=0 \
-      FSDP=1 \
-      RECOMPUTE=1 \
-      SEQ_LENGTH=4096 \
-      MODEL_SIZE=70 \
-      TOTAL_ITERS=50 \
-      bash examples/llama/train_llama2.sh
+      TEE_OUTPUT=1 MBS=7 BS=56 TP=1 TE_FP8=0 FSDP=1 RECOMPUTE=1 SEQ_LENGTH=4096 MODEL_SIZE=70 TOTAL_ITERS=50 bash examples/llama/train_llama2.sh
 
    .. note::
 
@@ -763,6 +623,8 @@ Single node training
       parallelism, MCore's distributed optimizer, gradient accumulation fusion,
       or FP16.
 
+      Currently, FSDP is only compatible with BF16 precision.
+
 .. container:: model-doc pyt_megatron_lm_train_deepseek-v3-proxy
 
    To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy, 
@@ -770,8 +632,7 @@ Single node training
 
    .. code-block:: shell
 
-      export NVTE_FUSED_ATTN_CK=0
-      FORCE_BALANCE=true \
+      FORCE_BANLANCE=true \
       RUN_ENV=cluster \
       MODEL_SIZE=671B \
       TRAIN_ITERS=50 \
@@ -793,15 +654,7 @@ Single node training
 
    .. code-block:: shell
 
-      export NVTE_FUSED_ATTN_CK=0
-      GEMM_TUNING=1 \
-      PR=bf16 \
-      MBS=4 \
-      AC=none \
-      SEQ_LEN=4096 \
-      PAD_LEN=4096 \
-      TRAIN_ITERS=50 \
-      bash examples/deepseek_v2/train_deepseekv2.sh
+      GEMM_TUNING=1 PR=bf16 MBS=4 AC=none SEQ_LEN=4096 PAD_LEN=4096 TRAIN_ITERS=50 bash examples/deepseek_v2/train_deepseekv2.sh
 
 .. container:: model-doc pyt_megatron_lm_train_mixtral-8x7b
 
@@ -810,24 +663,7 @@ Single node training
 
    .. code-block:: shell
 
-      TOKENIZER_MODEL=<path/to/tokenizer/model>
-      RECOMPUTE_NUM_LAYERS=0 \
-      TEE_OUTPUT=1 \
-      MBS=1 \
-      GBS=16 \
-      TP_SIZE=1 \
-      PP_SIZE=1 \
-      AC=none \
-      PR=bf16 \
-      EP_SIZE=8 \
-      ETP_SIZE=1 \
-      SEQLEN=4096 \
-      FORCE_BALANCE=true \
-      MOCK_DATA=1 \
-      RUN_ENV=cluster \
-      MODEL_SIZE=8x7B \
-      TRAIN_ITERS=50 \
-      bash examples/mixtral/train_mixtral_moe.sh
+      RECOMPUTE_NUM_LAYERS=0 TEE_OUTPUT=1 MBS=1 GBS=16 TP_SIZE=1 PP_SIZE=1 AC=none PR=bf16 EP_SIZE=8 ETP_SIZE=1 SEQLEN=4096 FORCE_BALANCE=true MOCK_DATA=1 RUN_ENV=cluster MODEL_SIZE=8x7B TRAIN_ITERS=50 bash examples/mixtral/train_mixtral_moe.sh
 
 .. container:: model-doc pyt_megatron_lm_train_mixtral-8x22b-proxy
 
@@ -836,85 +672,10 @@ Single node training
 
    .. code-block:: shell
 
-      TOKENIZER_MODEL=<path/to/tokenizer/model>
-      RECOMPUTE_NUM_LAYERS=4 \
-      TEE_OUTPUT=1 \
-      MBS=1 \
-      GBS=16 \
-      TP_SIZE=1 \
-      PP_SIZE=1 \
-      AC=full \
-      NUM_LAYERS=4 \
-      PR=bf16 \
-      EP_SIZE=8 \
-      ETP_SIZE=1 \
-      SEQLEN=8192 \
-      FORCE_BALANCE=true \
-      MOCK_DATA=1 \
-      RUN_ENV=cluster \
-      MODEL_SIZE=8x22B \
-      TRAIN_ITERS=50 \
-      bash examples/mixtral/train_mixtral_moe.sh
+      RECOMPUTE_NUM_LAYERS=4 TEE_OUTPUT=1 MBS=1 GBS=16 TP_SIZE=1 PP_SIZE=1 AC=full NUM_LAYERS=4 PR=bf16 EP_SIZE=8 ETP_SIZE=1 SEQLEN=8192 FORCE_BALANCE=true MOCK_DATA=1 RUN_ENV=cluster MODEL_SIZE=8x22B TRAIN_ITERS=50 bash examples/mixtral/train_mixtral_moe.sh
 
-.. container:: model-doc pyt_megatron_lm_train_qwen2.5-7b
-
-   To run training on a single node for Qwen 2.5 7B BF16, use the following
-   command.
-
-   .. code-block:: shell
-
-      bash examples/qwen/train_qwen2.sh TP=1 \
-          CP=1 \
-          PP=1 \
-          MBS=10 \
-          BS=640 \
-          TE_FP8=0 \
-          MODEL_SIZE=7 \
-          SEQ_LENGTH=2048 \
-          TOTAL_ITERS=50 \
-          MOCK_DATA=1 \
-          TOKENIZER_MODEL=Qwen/Qwen2.5-7B
-
-   For FP8, use the following command.
-
-   .. code-block:: shell
-
-      bash examples/qwen/train_qwen2.sh \
-          TP=1 \
-          CP=1 \
-          PP=1 \
-          MBS=10 \
-          BS=640 \
-          TE_FP8=1 \
-          MODEL_SIZE=7 \
-          SEQ_LENGTH=2048 \
-          TOTAL_ITERS=50 \
-          MOCK_DATA=1 \
-          TOKENIZER_MODEL=Qwen/Qwen2.5-7B
-
-.. container:: model-doc pyt_megatron_lm_train_qwen2.5-72b
-
-   To run the training on a single node for Qwen 2.5 72B BF16, use the following command.
-
-   .. code-block:: shell
-
-      bash examples/qwen/train_qwen2.sh \
-          FSDP=1 \
-          CP=1 \
-          PP=1 \
-          MBS=3 \
-          BS=24 \
-          TE_FP8=0 \
-          MODEL_SIZE=72 \
-          SEQ_LENGTH=2048 \
-          TOTAL_ITERS=50 \
-          MOCK_DATA=1 \
-          TOKENIZER_MODEL=Qwen/Qwen2.5-72B \
-          RECOMPUTE_ACTIVATIONS=full \
-          CKPT_FORMAT=torch_dist
-
-Multi-node training examples
-----------------------------
+Multi-node training
+^^^^^^^^^^^^^^^^^^^
 
 To run training on multiple nodes, launch the Docker container on each node.
 For example, for Llama 3 using a two node setup (``NODE0`` as the master node),
@@ -924,33 +685,13 @@ use these commands.
 
   .. code-block:: shell
 
-     TEE_OUTPUT=1 \
-     MBS=2 \
-     BS=256 \
-     TP=1 \
-     TE_FP8=1 \
-     SEQ_LENGTH=8192 \
-     MODEL_SIZE=8  \
-     MASTER_ADDR=IP_NODE0 \
-     NNODES=2 \
-     NODE_RANK=0 \
-     bash examples/llama/train_llama3.sh
+     TEE_OUTPUT=1 MBS=2 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8  MASTER_ADDR=IP_NODE0 NNODES=2 NODE_RANK=0 bash examples/llama/train_llama3.sh
 
 * On the worker node ``NODE1``:
 
   .. code-block:: shell
 
-     TEE_OUTPUT=1 \
-     MBS=2 \
-     BS=256 \
-     TP=1 \
-     TE_FP8=1 \
-     SEQ_LENGTH=8192 \
-     MODEL_SIZE=8  \
-     MASTER_ADDR=IP_NODE0 \
-     NNODES=2 \
-     NODE_RANK=1 \
-     bash examples/llama/train_llama3.sh
+     TEE_OUTPUT=1 MBS=2 BS=256 TP=1 TE_FP8=1 SEQ_LENGTH=8192 MODEL_SIZE=8  MASTER_ADDR=IP_NODE0 NNODES=2 NODE_RANK=1 bash examples/llama/train_llama3.sh
 
 Or, for DeepSeek-V3, an example script ``train_deepseek_v3_slurm.sh`` is
 provided in
@@ -962,7 +703,7 @@ training on 16 nodes, try the following command:
 
    sbatch examples/deepseek_v3/train_deepseek_v3_slurm.sh
 
-.. _amd-megatron-lm-benchmark-test-vars:
+.. _amd-megatron-lm-benchmark-test-vars-v255:
 
 Key options
 -----------
@@ -1030,5 +771,5 @@ The benchmark tests support the following sets of variables.
 Previous versions
 =================
 
-See :doc:`previous-versions/megatron-lm-history` to find documentation for previous releases
+See :doc:`megatron-lm-history` to find documentation for previous releases
 of the ``ROCm/megatron-lm`` Docker image.
