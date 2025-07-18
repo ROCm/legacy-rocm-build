@@ -770,6 +770,7 @@ Single node training
 
    .. code-block:: shell
 
+      export NVTE_FUSED_ATTN_CK=0
       FORCE_BALANCE=true \
       RUN_ENV=cluster \
       MODEL_SIZE=671B \
@@ -792,6 +793,7 @@ Single node training
 
    .. code-block:: shell
 
+      export NVTE_FUSED_ATTN_CK=0
       GEMM_TUNING=1 \
       PR=bf16 \
       MBS=4 \
@@ -808,6 +810,7 @@ Single node training
 
    .. code-block:: shell
 
+      TOKENIZER_MODEL=<path/to/tokenizer/model>
       RECOMPUTE_NUM_LAYERS=0 \
       TEE_OUTPUT=1 \
       MBS=1 \
@@ -833,6 +836,7 @@ Single node training
 
    .. code-block:: shell
 
+      TOKENIZER_MODEL=<path/to/tokenizer/model>
       RECOMPUTE_NUM_LAYERS=4 \
       TEE_OUTPUT=1 \
       MBS=1 \
