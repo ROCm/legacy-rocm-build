@@ -111,14 +111,6 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         packageManager: ${{ job.packageManager }}
-    - task: Bash@3
-      displayName: Install libhwloc5
-      inputs:
-        targetType: 'inline'
-        script: |
-          wget http://ftp.us.debian.org/debian/pool/main/h/hwloc/libhwloc5_1.11.12-3_amd64.deb
-          wget http://ftp.us.debian.org/debian/pool/main/h/hwloc/libhwloc-dev_1.11.12-3_amd64.deb
-          sudo apt install -y --allow-downgrades ./libhwloc5_1.11.12-3_amd64.deb ./libhwloc-dev_1.11.12-3_amd64.deb
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
       parameters:
