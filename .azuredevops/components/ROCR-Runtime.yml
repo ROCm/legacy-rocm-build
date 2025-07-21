@@ -29,7 +29,7 @@ parameters:
   type: object
   default:
     - llvm-project
-    - rocm_smi_lib
+    - amdsmi
     - rocprofiler-register
 
 - name: jobMatrix
