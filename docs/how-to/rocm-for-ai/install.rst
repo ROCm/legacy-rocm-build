@@ -60,6 +60,12 @@ images with the framework pre-installed.
 
 * :doc:`JAX for ROCm <rocm-install-on-linux:install/3rd-party/jax-install>`
 
+* :doc:`verl for ROCm <rocm-install-on-linux:install/3rd-party/verl-install>`
+
+* :doc:`Stanford Megatron-LM for ROCm <rocm-install-on-linux:install/3rd-party/jax-install>`
+
+* :doc:`DGL for ROCm <rocm-install-on-linux:install/3rd-party/jax-install>`
+
 Next steps
 ==========
 
