@@ -111,6 +111,15 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         packageManager: ${{ job.packageManager }}
+    - task: Bash@3
+      displayName: 'Link hwloc.so.5'
+      inputs:
+        targetType: inline
+        script: |
+          echo $(Build.SourcesDirectory)/rocrtst/thirdparty/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+          sudo cat /etc/ld.so.conf.d/rocm-ci.conf
+          sudo ldconfig -v
+          ldconfig -p
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
       parameters:
