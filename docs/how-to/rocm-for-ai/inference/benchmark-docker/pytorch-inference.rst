@@ -103,7 +103,7 @@ PyTorch inference performance testing
 
          The Chai-1 benchmark uses a specifically selected Docker image using ROCm 6.2.3 and PyTorch 2.3.0 to address an accuracy issue.
 
-   .. container:: model-doc pyt_clip_inference pyt_mochi_video_inference pyt_wan2.1_inference
+   .. container:: model-doc pyt_clip_inference pyt_mochi_video_inference pyt_wan2.1_inference pyt_janus_pro_inference
 
       Use the following command to pull the `ROCm PyTorch Docker image <https://hub.docker.com/layers/rocm/pytorch/latest/images/sha256-05b55983e5154f46e7441897d0908d79877370adca4d1fff4899d9539d6c4969>`__ from Docker Hub.
 
@@ -144,8 +144,9 @@ PyTorch inference performance testing
 
       MAD launches a Docker container with the name
       ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
-      model are collected in ``perf.csv``.
+      model are collected in ``perf_{{model.mad_tag}}.csv``.
 
+      {% if model.mad_tag != "pyt_janus_pro_inference" %}
       .. note::
 
          For improved performance, consider enabling TunableOp. By default,
@@ -156,6 +157,7 @@ PyTorch inference performance testing
 
          Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run.
          Although this might increase the initial training time, it can result in a performance gain.
+      {% endif %}
 
       {% endfor %}
    {% endfor %}
