@@ -19,9 +19,9 @@ subtrees:
 
 - caption: Install
   entries:
-  - url: https://rocm.docs.amd.com/projects/install-on-linux/en/latest/
+  - url: https://rocm.docs.amd.com/projects/install-on-linux/en/${branch}/
     title: ROCm on Linux
-  - url: https://rocm.docs.amd.com/projects/install-on-windows/en/${branch}/
+  - url: https://rocm.docs.amd.com/projects/install-on-windows/en/latest/
     title: HIP SDK on Windows
   - url: https://rocm.docs.amd.com/projects/radeon/en/latest/index.html
     title: ROCm on Radeon GPUs
