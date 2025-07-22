@@ -83,6 +83,28 @@ parameters:
     testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+- name: downstreamComponentMatrix
+  type: object
+  default:
+    - hipBLAS:
+      name: hipBLAS
+      sparseCheckoutDir: projects/hipBLAS
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        - rocSOLVER_build
+    # hipSOLVER depends on both rocSOLVER and rocSPARSE
+    # for a unified build, rocSOLVER will be the one to call hipSOLVER
+    # - hipSOLVER:
+    #   name: hipSOLVER
+    #   sparseCheckoutDir: projects/hipsolver
+    #   skipUnifiedBuild: 'false'
+    #   buildDependsOn:
+    #     - rocSOLVER_build
+    #   unifiedBuild:
+    #     downstreamAggregateNames: rocSOLVER+rocSPARSE
+    #     buildDependsOn:
+    #       - rocSOLVER_build
+    #       - rocSPARSE_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
@@ -111,12 +133,6 @@ jobs:
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
-    - task: Bash@3
-      displayName: 'Clone lapack'
-      inputs:
-        targetType: inline
-        script: git clone --depth 1 --branch v3.9.1 https://github.com/Reference-LAPACK/lapack
-        workingDirectory: '$(Build.SourcesDirectory)'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
       parameters:
         dependencyList:
@@ -130,6 +146,12 @@ jobs:
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+    - task: Bash@3
+      displayName: 'Clone lapack'
+      inputs:
+        targetType: inline
+        script: git clone --depth 1 --branch v3.9.1 https://github.com/Reference-LAPACK/lapack
+        workingDirectory: '$(Build.SourcesDirectory)'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: lapack
@@ -228,3 +250,19 @@ jobs:
           aptPackages: ${{ parameters.aptPackages }}
           environment: test
           gpuTarget: ${{ job.target }}
+
+- ${{ if parameters.triggerDownstreamJobs }}:
+  - ${{ each component in parameters.downstreamComponentMatrix }}:
+    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+          triggerDownstreamJobs: true
+          unifiedBuild: ${{ parameters.unifiedBuild }}
+          ${{ if parameters.unifiedBuild }}:
+            buildDependsOn: ${{ component.unifiedBuild.buildDependsOn }}
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ component.unifiedBuild.downstreamAggregateNames }}
+          ${{ else }}:
+            buildDependsOn: ${{ component.buildDependsOn }}
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}

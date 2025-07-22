@@ -104,17 +104,17 @@ parameters:
         - rocBLAS_build
     # rocSOLVER depends on both rocBLAS and rocPRIM
     # for a unified build, rocBLAS will be the one to call rocSOLVER
-    # - rocSOLVER:
-    #   name: rocSOLVER
-    #   sparseCheckoutDir: projects/rocsolver
-    #   skipUnifiedBuild: 'false'
-    #   buildDependsOn:
-    #     - rocBLAS_build
-    #   unifiedBuild:
-    #     downstreamAggregateNames: rocBLAS+rocPRIM
-    #     buildDependsOn:
-    #       - rocBLAS_build
-    #       - rocPRIM_build
+    - rocSOLVER:
+      name: rocSOLVER
+      sparseCheckoutDir: projects/rocsolver
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        - rocBLAS_build
+      unifiedBuild:
+        downstreamAggregateNames: rocBLAS+rocPRIM
+        buildDependsOn:
+          - rocBLAS_build
+          - rocPRIM_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
