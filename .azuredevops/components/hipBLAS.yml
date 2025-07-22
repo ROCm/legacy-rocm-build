@@ -214,18 +214,18 @@ jobs:
           environment: test
           gpuTarget: ${{ job.target }}
 
-- ${{ if parameters.triggerDownstreamJobs }}:
-  - ${{ each component in parameters.downstreamComponentMatrix }}:
-    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
-      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
-        parameters:
-          checkoutRepo: ${{ parameters.checkoutRepo }}
-          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
-          triggerDownstreamJobs: true
-          unifiedBuild: ${{ parameters.unifiedBuild }}
-          ${{ if parameters.unifiedBuild }}:
-            buildDependsOn: ${{ component.unifiedBuild.buildDependsOn }}
-            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ component.unifiedBuild.downstreamAggregateNames }}
-          ${{ else }}:
-            buildDependsOn: ${{ component.buildDependsOn }}
-            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+# - ${{ if parameters.triggerDownstreamJobs }}:
+#   - ${{ each component in parameters.downstreamComponentMatrix }}:
+#     - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+#       - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+#         parameters:
+#           checkoutRepo: ${{ parameters.checkoutRepo }}
+#           sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+#           triggerDownstreamJobs: true
+#           unifiedBuild: ${{ parameters.unifiedBuild }}
+#           ${{ if parameters.unifiedBuild }}:
+#             buildDependsOn: ${{ component.unifiedBuild.buildDependsOn }}
+#             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ component.unifiedBuild.downstreamAggregateNames }}
+#           ${{ else }}:
+#             buildDependsOn: ${{ component.buildDependsOn }}
+#             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
