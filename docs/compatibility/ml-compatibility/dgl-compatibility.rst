@@ -42,15 +42,15 @@ GAT, GCN and GraphSage. Using these we can support a variety of use-cases such a
 - 1D (Temporal) and 2D (Image) Classification
 - Drug Discovery
 
-Refer to :doc:`ROCm DGL blog posts <https://rocm.blogs.amd.com/blog/tag/dgl.html>` 
-for examples and best practices to optimize your training workflows on AMD GPUs. 
+Multiple use cases of DGL have been tested and verified.
+However, a recommended example follows a drug discovery pipeline using the ``SE3Transformer``.
+Refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`_, 
+where you can search for DGL examples and best practices to optimize your training workflows on AMD GPUs. 
 
 Coverage includes:
 
 - Single-GPU training/inference
 - Multi-GPU training
-
-Benchmarking details are included in the :doc:`Benchmarks` section.
 
 
 .. _dgl-docker-compat:
