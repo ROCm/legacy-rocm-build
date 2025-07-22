@@ -28,8 +28,8 @@ parameters:
 - name: rocmTestDependencies
   type: object
   default:
-    - llvm-project
     - amdsmi
+    - llvm-project
     - rocprofiler-register
 
 - name: jobMatrix
