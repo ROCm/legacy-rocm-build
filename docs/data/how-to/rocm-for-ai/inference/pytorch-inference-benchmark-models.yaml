@@ -1,6 +1,6 @@
 pytorch_inference_benchmark:
   unified_docker:
-    latest: &rocm-pytorch-docker-latest
+    latest:
       pull_tag: rocm/pytorch:latest
       docker_hub_url:
       rocm_version:
