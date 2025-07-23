@@ -12,7 +12,7 @@ benchmark does not support other accelerators.
 Follow these steps to pull the required image, spin up the container with the
 appropriate options, download the model, and run the throughput test.
 
-1. Pull the Docker image.
+1. Pull the `Docker image <https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_pytorch_training_mi35X_alpha/images/sha256-734c76d4d68ab23b47f4bf012863793df11f83714c35683fb5c15bc48d0a6dd2>`__.
 
    .. code-block:: shell
 

@@ -11,7 +11,7 @@ accelerators.
 Follow these steps to pull the required image, spin up the container with the
 appropriate options, download the model, and run the throughput test.
 
-1. Pull the Docker image.
+1. Pull the `Docker image <https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_ubuntu_22.04_vllm_0.9.1_mi35x_alpha/images/sha256-3ab87887724b75e5d1d2306a04afae853849ec3aabf8f9ee6335d766b3d0eaa0>`__.
 
    .. code-block:: shell
 

@@ -11,7 +11,7 @@ benchmark does not support other accelerators.
 Follow these steps to pull the required image, spin up the container with the
 appropriate options, download the model, and run the throughput test.
 
-1. Pull the Docker image.
+1. Pull the `Docker image <https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_ubuntu_22.04_sglang_0.4.6.post4_mi35X_alpha/images/sha256-3095b0179c31bb892799c3b53e73f202abbd66409903cb990f48d0fdd3b1a1fe>`__.
 
    .. code-block:: shell
 
