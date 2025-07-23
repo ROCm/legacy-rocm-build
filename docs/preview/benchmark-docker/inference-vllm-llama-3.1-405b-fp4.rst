@@ -15,7 +15,7 @@ appropriate options, download the model, and run the throughput test.
 
    .. code-block:: shell
 
-      docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_vllm_0.9.1_mi35X_alpha
+      docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_vllm_0.9.1_mi35x_alpha
 
 2. Download the model.
 
@@ -63,7 +63,7 @@ appropriate options, download the model, and run the throughput test.
           -e VLLM_ROCM_USE_AITER_PAGED_ATTN=1 \
           -e VLLM_ROCM_USE_AITER_RMSNORM=1 \
           -e VLLM_USE_V1=0 \
-          rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_vllm_0.9.1_mi35X_alpha
+          rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_vllm_0.9.1_mi35x_alpha
 
    Run the ``benchmark_throughput.py`` script.
 
