@@ -203,7 +203,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
-          componentName: hipBLA${{ parameters.componentName }}
+          componentName: ${{ parameters.componentName }}
           testExecutable: $(Agent.BuildDirectory)/rocm/bin/hipblas-test
           testParameters: '--yaml hipblas_smoke.yaml --gtest_output=xml:./test_output.xml --gtest_color=yes'
           testDir: '$(Agent.BuildDirectory)/rocm/bin'
