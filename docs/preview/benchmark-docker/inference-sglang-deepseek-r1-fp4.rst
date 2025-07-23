@@ -11,13 +11,21 @@ benchmark does not support other accelerators.
 Follow these steps to pull the required image, spin up the container with the
 appropriate options, download the model, and run the throughput test.
 
-1. Pull the Docker image.
+1. Pull the `Docker image <https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_ubuntu_22.04_sglang_0.4.6.post4_mi35X_alpha/images/sha256-3095b0179c31bb892799c3b53e73f202abbd66409903cb990f48d0fdd3b1a1fe>`__.
 
    .. code-block:: shell
 
       docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sglang_0.4.6.post4_mi35X_alpha
 
 2. Download the model.
+
+   .. note::
+
+      This model uses microscaling 4-bit floating point (MXFP4) quantization
+      via `AMD Quark <https://quark.docs.amd.com/latest/>`_ for efficient
+      inference on AMD accelerators. See model card on Hugging Face at
+      `DeepSeek-R1-MXFP4-Preview
+      <https://huggingface.co/amd/DeepSeek-R1-MXFP4-Preview>`__.
 
    .. code-block:: shell
 
