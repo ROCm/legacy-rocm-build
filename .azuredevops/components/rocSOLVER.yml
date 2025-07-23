@@ -88,7 +88,7 @@ parameters:
   default:
     - hipBLAS:
       name: hipBLAS
-      sparseCheckoutDir: projects/hipBLAS
+      sparseCheckoutDir: projects/hipblas
       skipUnifiedBuild: 'false'
       buildDependsOn:
         - rocSOLVER_build
