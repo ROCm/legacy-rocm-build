@@ -10,5 +10,6 @@
 
 | Preview version | Release date |
 | --------------- | ------------ |
+| [Beta](https://rocm.docs.amd.com/en/docs-7.0-beta/preview/index.html) | July 24, 2025 |
 | [Alpha 2](https://rocm.docs.amd.com/en/docs-7.0-alpha-2/preview/index.html) | July 10, 2025 |
 | [Alpha](https://rocm.docs.amd.com/en/docs-7.0-alpha/preview/index.html) | June 26, 2025 |
