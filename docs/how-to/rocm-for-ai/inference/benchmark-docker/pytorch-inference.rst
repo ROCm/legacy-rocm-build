@@ -140,7 +140,11 @@ PyTorch inference performance testing
       .. code-block:: shell
 
          export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-         python3 tools/run_models.py --tags {{model.mad_tag}} --keep-model-dir --live-output --timeout 28800
+         madengine run \
+             --tags {{model.mad_tag}} \
+             --keep-model-dir \
+             --live-output \
+             --timeout 28800
 
       MAD launches a Docker container with the name
       ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
@@ -152,8 +156,7 @@ PyTorch inference performance testing
          For improved performance, consider enabling TunableOp. By default,
          ``{{model.mad_tag}}`` runs with TunableOp disabled (see
          `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To enable
-         it, edit the default run behavior in the ``tools/run_models.py``-- update the model's
-         run ``args`` by changing ``--tunableop off`` to ``--tunableop on``.
+         it, include the ``--tunableop on`` argument in your run.
 
          Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run.
          Although this might increase the initial training time, it can result in a performance gain.
@@ -165,8 +168,10 @@ PyTorch inference performance testing
 Further reading
 ===============
 
+- To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
+
 - To learn more about system settings and management practices to configure your system for
-  MI300X accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - For application performance optimization strategies for HPC and AI workloads,
   including inference with vLLM, see :doc:`../../inference-optimization/workload`.
