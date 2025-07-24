@@ -142,7 +142,11 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
             .. code-block:: shell
 
                export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-               python3 tools/run_models.py --tags {{ model.mad_tag }} --keep-model-dir --live-output --timeout 28800
+               madengine run \
+                   --tags {{ model.mad_tag }} \
+                   --keep-model-dir \
+                   --live-output \
+                   --timeout 28800
 
             MAD launches a Docker container with the name
             ``container_ci-{{ model.mad_tag }}``, for example. The latency and throughput reports of the
@@ -426,6 +430,17 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
                .. rubric:: Benchmarking examples
 
                For examples of benchmarking commands, see `<https://github.com/ROCm/MAD/tree/develop/benchmark/pytorch_train#benchmarking-examples>`__.
+
+Further reading
+===============
+
+- To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
+
+- To learn more about system settings and management practices to configure your system for
+  AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+
+- For a list of other ready-made Docker images for AI with ROCm, see
+  `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.
 
 Previous versions
 =================

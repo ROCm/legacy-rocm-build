@@ -73,7 +73,11 @@ document are not validated.
 
       .. code-block:: shell
 
-         python3 tools/run_models.py --tags pyt_mpt30b_training --keep-model-dir --live-output --clean-docker-cache
+         madengine run \
+             --tags pyt_mpt30b_training \
+             --keep-model-dir \
+             --live-output \
+             --clean-docker-cache
 
       .. tip::
 
@@ -90,7 +94,7 @@ document are not validated.
 
          For improved performance (training throughput), consider enabling TunableOp.
          By default, ``pyt_mpt30b_training`` runs with TunableOp disabled. To enable it,
-         run ``tools/run_models.py`` with the ``--tunableop on`` argument or edit the
+         run ``madengine run`` with the ``--tunableop on`` argument or edit the
          ``models.json`` configuration before running training.
 
          Although this might increase the initial training time, it can result in a performance gain.
@@ -172,4 +176,13 @@ Key performance metrics include:
 
     Overall training loss. A decreasing trend indicates the model is learning effectively.
 
+Further reading
+===============
 
+- To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
+
+- To learn more about system settings and management practices to configure your system for
+  AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+
+- For a list of other ready-made Docker images for AI with ROCm, see
+  `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.
