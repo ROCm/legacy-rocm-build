@@ -296,7 +296,7 @@ warpSize
 ^^^^^^^^
 
 To align with the CUDA specification, the ``warpSize`` device variable is no longer a
-compile-time constant (``constexpr``). This is a breaking change for applications
+compile-time constant (``constexpr``). This is a backwards-incompatible change for applications
 that use ``warpSize`` in a compile-time context.
 
 ROCprofiler-SDK and rocprofv3
