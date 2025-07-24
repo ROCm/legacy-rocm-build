@@ -1,8 +1,8 @@
 ************************************************
-Install the ROCm 7.0 Alpha 2 via package manager
+Install the ROCm 7.0 Beta via package manager
 ************************************************
 
-This page describes how to install the ROCm 7.0 Alpha 2 build using ``apt`` on
+This page describes how to install AMD ROCm 7.0 Beta build using ``apt`` on
 Ubuntu 22.04 or 24.04, or ``dnf`` on Red Hat Enterprise Linux 9.6.
 
 .. important::
@@ -115,10 +115,10 @@ Register ROCm repositories
 
          .. code-block:: shell
 
-            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/7.0_alpha2 jammy main" \
+            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/7.0_beta jammy main" \
               | sudo tee /etc/apt/sources.list.d/rocm.list
 
-            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/graphics/7.0_alpha2/ubuntu jammy main" \ 
+            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/graphics/7.0_beta/ubuntu jammy main" \ 
               | sudo tee /etc/apt/sources.list.d/rocm-graphics.list
 
             echo -e 'Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600' \
@@ -144,10 +144,10 @@ Register ROCm repositories
 
          .. code-block:: shell
 
-            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/7.0_alpha2 noble main" \
+            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/7.0_beta noble main" \
               | sudo tee /etc/apt/sources.list.d/rocm.list
 
-            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/graphics/7.0_alpha2/ubuntu noble main" \
+            echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/graphics/7.0_beta/ubuntu noble main" \
               | sudo tee /etc/apt/sources.list.d/rocm-graphics.list
 
             echo -e 'Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600' \
@@ -162,7 +162,7 @@ Register ROCm repositories
          sudo tee /etc/yum.repos.d/rocm.repo <<EOF
          [ROCm-7.0.0]
          name=ROCm7.0.0
-         baseurl=https://repo.radeon.com/rocm/el9/7.0_alpha2/main
+         baseurl=https://repo.radeon.com/rocm/el9/7.0_beta/main
          enabled=1
          priority=50
          gpgcheck=1
@@ -172,7 +172,7 @@ Register ROCm repositories
          sudo tee /etc/yum.repos.d/rocm-graphics.repo <<EOF
          [ROCm-7.0.0-Graphics]
          name=ROCm7.0.0-Graphics
-         baseurl=https://repo.radeon.com/graphics/7.0_alpha2/rhel/9/main/x86_64/
+         baseurl=https://repo.radeon.com/graphics/7.0_beta/rhel/9/main/x86_64/
          enabled=1
          priority=50
          gpgcheck=1
