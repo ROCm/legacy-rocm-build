@@ -133,6 +133,12 @@ jobs:
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+    - task: Bash@3
+      displayName: 'Clone lapack'
+      inputs:
+        targetType: inline
+        script: git clone --depth 1 --branch v3.9.1 https://github.com/Reference-LAPACK/lapack
+        workingDirectory: '$(Build.SourcesDirectory)'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
       parameters:
         dependencyList:
@@ -146,12 +152,6 @@ jobs:
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
-    - task: Bash@3
-      displayName: 'Clone lapack'
-      inputs:
-        targetType: inline
-        script: git clone --depth 1 --branch v3.9.1 https://github.com/Reference-LAPACK/lapack
-        workingDirectory: '$(Build.SourcesDirectory)'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: lapack
