@@ -27,28 +27,14 @@ project = "ROCm Documentation"
 project_path = os.path.abspath(".").replace("\\", "/")
 author = "Advanced Micro Devices, Inc."
 copyright = "Copyright (c) 2025 Advanced Micro Devices, Inc. All rights reserved."
-version = "7.0 Alpha 2"
-release = "7.0 Alpha 2"
+version = "7.0 Beta"
+release = "7.0 Beta"
 setting_all_article_info = True
-all_article_info_os = ["linux", "windows"]
+all_article_info_os = ["linux"]
 all_article_info_author = ""
 
-# pages with specific settings
 article_pages = [
-    {"file": "preview/index", "os": ["linux"],},
-    {"file": "preview/release", "os": ["linux"],},
-    {"file": "preview/versions", "os": ["linux"],},
-    {"file": "preview/install/index", "os": ["linux"],},
-    {"file": "preview/install/instinct-driver", "os": ["linux"],},
-    {"file": "preview/install/rocm", "os": ["linux"],},
-    {"file": "preview/benchmark-docker/index", "os": ["linux"],},
-    {"file": "preview/benchmark-docker/training", "os": ["linux"],},
-    {"file": "preview/benchmark-docker/pre-training-megatron-lm-llama-3-8b", "os": ["linux"],},
-    {"file": "preview/benchmark-docker/pre-training-torchtitan-llama-3-70b", "os": ["linux"],},
-    {"file": "preview/benchmark-docker/fine-tuning-lora-llama-2-70b", "os": ["linux"],},
-    {"file": "preview/benchmark-docker/inference", "os": ["linux"],},
-    {"file": "preview/benchmark-docker/inference-vllm-llama-3.1-405b-fp4", "os": ["linux"],},
-    {"file": "preview/benchmark-docker/inference-sglang-deepseek-r1-fp4", "os": ["linux"],},
+    {"file": "preview/release", "date": "2025-07-24",},
 ]
 
 external_toc_path = "./sphinx/_toc.yml"
@@ -73,7 +59,7 @@ html_static_path = ["sphinx/static/css", "sphinx/static/js"]
 html_css_files = ["rocm_custom.css", "rocm_rn.css"]
 html_js_files = ["preview-version-list.js"]
 
-html_title = "ROCm 7.0 Alpha 2 documentation"
+html_title = "ROCm 7.0 Beta documentation"
 
 html_theme_options = {"link_main_doc": False}
 

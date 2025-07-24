@@ -1,3 +1,12 @@
+subproject
+ROCpd
+rocpd
+STL
+XCCs
+chiplets
+hipRTC
+nvRTC
+warpSize
 Datacenter
 GST
 IET
