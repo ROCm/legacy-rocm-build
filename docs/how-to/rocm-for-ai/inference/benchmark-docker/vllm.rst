@@ -202,7 +202,7 @@ system's configuration.
                .. code-block:: shell
 
                   export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-                  python3 tools/run_models.py \
+                  madengine run \
                       --tags {{model.mad_tag}} \
                       --keep-model-dir \
                       --live-output \
@@ -226,12 +226,12 @@ system's configuration.
 
                By default, ``{{model.mad_tag}}`` runs with TunableOp disabled
                (see
-               `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To
-               enable it, edit the default run behavior in the ``models.json``
-               configuration before running inference -- update the model's run
-               ``args`` by changing ``--tunableop off`` to ``--tunableop on``.
+               `<https://github.com/ROCm/MAD/blob/develop/models.json>`__).
+               To enable it, include the ``--tunableop on`` argument in your
+               run.
 
-               Enabling TunableOp triggers a two-pass run -- a warm-up followed by the performance-collection run.
+               Enabling TunableOp triggers a two-pass run -- a warm-up followed
+               by the performance-collection run.
 
             {% endif %}
 

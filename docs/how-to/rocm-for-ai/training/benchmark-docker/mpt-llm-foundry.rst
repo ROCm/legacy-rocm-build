@@ -73,7 +73,11 @@ document are not validated.
 
       .. code-block:: shell
 
-         python3 tools/run_models.py --tags pyt_mpt30b_training --keep-model-dir --live-output --clean-docker-cache
+         madengine run \
+             --tags pyt_mpt30b_training \
+             --keep-model-dir \
+             --live-output \
+             --clean-docker-cache
 
       .. tip::
 
@@ -90,7 +94,7 @@ document are not validated.
 
          For improved performance (training throughput), consider enabling TunableOp.
          By default, ``pyt_mpt30b_training`` runs with TunableOp disabled. To enable it,
-         run ``tools/run_models.py`` with the ``--tunableop on`` argument or edit the
+         run ``madengine run`` with the ``--tunableop on`` argument or edit the
          ``models.json`` configuration before running training.
 
          Although this might increase the initial training time, it can result in a performance gain.

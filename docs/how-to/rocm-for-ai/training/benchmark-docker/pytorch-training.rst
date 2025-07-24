@@ -142,7 +142,11 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
             .. code-block:: shell
 
                export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-               python3 tools/run_models.py --tags {{ model.mad_tag }} --keep-model-dir --live-output --timeout 28800
+               madengine run \
+                   --tags {{ model.mad_tag }} \
+                   --keep-model-dir \
+                   --live-output \
+                   --timeout 28800
 
             MAD launches a Docker container with the name
             ``container_ci-{{ model.mad_tag }}``, for example. The latency and throughput reports of the
