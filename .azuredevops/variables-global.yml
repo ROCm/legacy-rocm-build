@@ -68,7 +68,7 @@ variables:
 - name: HIPBLAS_COMMON_PIPELINE_ID
   value: 300
 - name: HIPBLAS_PIPELINE_ID
-  value: 87
+  value: 317
 - name: HIPBLASLT_PIPELINE_ID
   value: 301
 - name: HIPCUB_PIPELINE_ID
@@ -84,7 +84,7 @@ variables:
 - name: HIPSOLVER_PIPELINE_ID
   value: 84
 - name: HIPSPARSE_PIPELINE_ID
-  value: 83
+  value: 315
 - name: HIPSPARSELT_PIPELINE_ID
   value: 309
 - name: HIPTENSOR_PIPELINE_ID
