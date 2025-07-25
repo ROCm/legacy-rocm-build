@@ -233,7 +233,7 @@ jobs:
           -DBUILD_DEV=OFF
           -DMIOPEN_USE_MLIR=ON
           -DMIOPEN_GPU_SYNC=OFF
-          ..
+          $(Agent.BuildDirectory)/s
     - task: Bash@3
       displayName: 'MIOpen Test Build'
       inputs:
