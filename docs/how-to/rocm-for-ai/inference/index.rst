@@ -24,4 +24,6 @@ training, fine-tuning, and inference. It leverages popular machine learning fram
 
 - :doc:`PyTorch inference performance testing <benchmark-docker/pytorch-inference>`
 
+- :doc:`SGLang inference performance testing <benchmark-docker/sglang>`
+
 - :doc:`Deploying your model <deploy-your-model>`
