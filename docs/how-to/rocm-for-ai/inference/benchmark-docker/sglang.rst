@@ -95,7 +95,7 @@ system's configuration.
                .. code-block:: shell
 
                   export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-                  python3 tools/run_models.py \
+                  madengine run \
                       --tags {{model.mad_tag}} \
                       --keep-model-dir \
                       --live-output \
@@ -255,6 +255,8 @@ Further reading
 
 - To learn more about the options for latency and throughput benchmark scripts,
   see `<https://github.com/sgl-project/sglang/tree/main/benchmark/blog_v0_2>`__.
+
+- To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
 - To learn more about system settings and management practices to configure your system for
   MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`__.

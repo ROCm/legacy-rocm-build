@@ -4,7 +4,7 @@ sglang_benchmark:
       pull_tag: lmsysorg/sglang:v0.4.5-rocm630
       docker_hub_url: https://hub.docker.com/layers/lmsysorg/sglang/v0.4.5-rocm630/images/sha256-63d2cb760a237125daf6612464cfe2f395c0784e21e8b0ea37d551cd10d3c951
       rocm_version: 6.3.0
-      sglang_version: 0.4.5
+      sglang_version: 0.4.5 (0.4.5-rocm)
       pytorch_version: 2.6.0a0+git8d4926e
   model_groups:
     - group: DeepSeek
