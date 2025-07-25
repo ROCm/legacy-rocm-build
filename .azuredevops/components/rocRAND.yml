@@ -79,6 +79,12 @@ parameters:
       skipUnifiedBuild: 'false'
       buildDependsOn:
         - rocRAND_build
+    - MIOpen:
+      name: MIOpen
+      sparseCheckoutDir: projects/miopen
+      skipUnifiedBuild: 'true'
+      buildDependsOn:
+        - rocRAND_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:

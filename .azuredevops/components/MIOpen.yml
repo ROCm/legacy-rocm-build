@@ -1,10 +1,29 @@
 parameters:
+- name: componentName
+  type: string
+  default: MIOpen
 - name: checkoutRepo
   type: string
   default: 'self'
 - name: checkoutRef
   type: string
   default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -77,7 +96,11 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: MIOpen_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_ubuntu2204_${{ job.target }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_ubuntu2204_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -95,6 +118,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/miopen-get-ck-build.yml
       parameters:
         gpuTarget: ${{ job.target }}
@@ -104,6 +128,8 @@ jobs:
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - task: Bash@3
       displayName: Build and install other dependencies
       inputs:
@@ -130,6 +156,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         gpuTarget: ${{ job.target }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         gpuTarget: ${{ job.target }}
@@ -143,9 +170,9 @@ jobs:
           - miopen-deps
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: MIOpen_test_${{ job.target }}
+  - job: ${{ parameters.componentName }}_test_ubuntu2204_${{ job.target }}
     timeoutInMinutes: 180
-    dependsOn: MIOpen_build_${{ job.target }}
+    dependsOn: ${{ parameters.componentName }}_build_ubuntu2204_${{ job.target }}
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -169,6 +196,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/miopen-get-ck-build.yml
       parameters:
@@ -178,6 +206,8 @@ jobs:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmTestDependencies }}
         gpuTarget: ${{ job.target }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - task: Bash@3
       displayName: Build and install other dependencies
       inputs:
@@ -214,7 +244,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
-        componentName: MIOpen
+        componentName: ${{ parameters.componentName }}
         testParameters: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml --exclude-regex "test_rnn_seq_api|GPU_Conv2dTuningAsm_FP32"'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
