@@ -134,7 +134,7 @@ jobs:
       displayName: Build and install other dependencies
       inputs:
         targetType: inline
-        workingDirectory: $(Build.SourcesDirectory)
+        workingDirectory: $(Agent.BuildDirectory)/s
         script: |
           sed -i '/composable_kernel/d' requirements.txt
           mkdir -p $(Agent.BuildDirectory)/miopen-deps
@@ -212,7 +212,7 @@ jobs:
       displayName: Build and install other dependencies
       inputs:
         targetType: inline
-        workingDirectory: $(Build.SourcesDirectory)
+        workingDirectory: $(Agent.BuildDirectory)/s
         script: |
           sed -i '/composable_kernel/d' requirements.txt
           mkdir -p $(Agent.BuildDirectory)/miopen-deps
@@ -223,7 +223,7 @@ jobs:
       displayName: 'MIOpen Test CMake Flags'
       inputs:
         cmakeArgs: >-
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Build.SourcesDirectory)/bin;$(Agent.BuildDirectory)/miopen-deps
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/s/bin;$(Agent.BuildDirectory)/miopen-deps
           -DCMAKE_INSTALL_PREFIX=$(Agent.BuildDirectory)/rocm
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
@@ -240,7 +240,7 @@ jobs:
         targetType: inline
         script: |
           cmake --build . --target tests -- -j$(nproc)
-        workingDirectory: $(Build.SourcesDirectory)/build
+        workingDirectory: $(Agent.BuildDirectory)/s/build
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
