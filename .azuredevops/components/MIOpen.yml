@@ -239,7 +239,7 @@ jobs:
       inputs:
         targetType: inline
         script: |
-          cmake --build $(Agent.BuildDirectory)/s --target tests -- -j$(nproc)
+          cmake --build . --target tests -- -j$(nproc)
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
