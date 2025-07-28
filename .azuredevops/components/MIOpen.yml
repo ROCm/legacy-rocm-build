@@ -276,7 +276,7 @@ jobs:
       - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
         parameters:
           checkoutRepo: ${{ parameters.checkoutRepo }}
-          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+          # sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
           buildDependsOn: ${{ component.buildDependsOn }}
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
           triggerDownstreamJobs: true
