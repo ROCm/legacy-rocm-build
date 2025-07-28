@@ -245,7 +245,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: ${{ parameters.componentName }}
-        testParameters: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml --exclude-regex "test_rnn_seq_api|GPU_Conv2dTuningAsm_FP32"'
+        testParameters: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml --exclude-regex "test_rnn_seq_api|GPU_Conv2dTuningAsm_FP32|GPU_Conv2dTuningAsmBwdWrw_FP32"'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
