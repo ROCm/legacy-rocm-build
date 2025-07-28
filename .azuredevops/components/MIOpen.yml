@@ -238,6 +238,7 @@ jobs:
       displayName: 'MIOpen Test Build'
       inputs:
         targetType: inline
+        workingDirectory: build
         script: |
           cmake --build . --target tests -- -j$(nproc)
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
