@@ -79,6 +79,7 @@ parameters:
 - name: rocmTestDependencies
   type: object
   default:
+    - aomp
     - clr
     - half
     - hipBLAS-common
