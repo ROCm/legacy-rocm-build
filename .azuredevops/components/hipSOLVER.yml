@@ -85,11 +85,11 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_ubuntu2204_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
-          - ${{ build }}_${{ job.os }}_${{ job.target }}
+          - ${{ build }}_ubuntu2204_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -152,8 +152,8 @@ jobs:
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
-    - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}
-      dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
+    - job: ${{ parameters.componentName }}_test_ubuntu2204_${{ job.target }}
+      dependsOn: ${{ parameters.componentName }}_build_ubuntu2204_${{ job.target }}
       condition:
         and(succeeded(),
           eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
