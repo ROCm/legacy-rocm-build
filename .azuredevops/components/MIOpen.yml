@@ -98,12 +98,14 @@ parameters:
   default:
     - MIVisionX:
       name: MIVisionX
+      checkoutRepo: mivisionx_repo
       sparseCheckoutDir: ''
       skipUnifiedBuild: 'false'
       buildDependsOn:
         - MIOpen_build
     - AMDMIGraphX:
       name: AMDMIGraphX
+      checkoutRepo: amdmigraphx_repo
       sparseCheckoutDir: ''
       skipUnifiedBuild: 'false'
       buildDependsOn:
@@ -276,7 +278,7 @@ jobs:
     - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
       - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
         parameters:
-          checkoutRepo: ${{ parameters.checkoutRepo }}
+          checkoutRepo: ${{ component.checkoutRepo }}
           # sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
           buildDependsOn: ${{ component.buildDependsOn }}
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
