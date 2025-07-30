@@ -273,14 +273,14 @@ jobs:
         extraCopyDirectories:
           - miopen-deps
 
-- ${{ if parameters.triggerDownstreamJobs }}:
-  - ${{ each component in parameters.downstreamComponentMatrix }}:
-    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
-      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
-        parameters:
-          checkoutRepo: ${{ component.checkoutRepo }}
-          # sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
-          buildDependsOn: ${{ component.buildDependsOn }}
-          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
-          triggerDownstreamJobs: true
-          unifiedBuild: ${{ parameters.unifiedBuild }}
+# - ${{ if parameters.triggerDownstreamJobs }}:
+#   - ${{ each component in parameters.downstreamComponentMatrix }}:
+#     - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+#       - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+#         parameters:
+#           checkoutRepo: ${{ component.checkoutRepo }}
+#           # sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+#           buildDependsOn: ${{ component.buildDependsOn }}
+#           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+#           triggerDownstreamJobs: true
+#           unifiedBuild: ${{ parameters.unifiedBuild }}
