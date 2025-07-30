@@ -49,6 +49,15 @@ parameters:
     - joblib
     - "packaging>=22.0"
     - --upgrade
+    - "dataclasses;python_version == '3.6'"
+    - pyyaml
+    - msgpack
+    - "joblib>=1.4.0; python_version >= '3.8'"
+    - "joblib>=1.1.1; python_version < '3.8'"
+    - simplejson
+    - ujson
+    - orjson
+    - yappi
 - name: rocmDependencies
   type: object
   default:
