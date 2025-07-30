@@ -1,0 +1,194 @@
+parameters:
+- name: componentName
+  type: string
+  default: rocm-libraries
+- name: checkoutRepo
+  type: string
+  default: 'self'
+- name: checkoutRef
+  type: string
+  default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
+# set to true if doing full build of ROCm stack
+# and dependencies are pulled from same pipeline
+- name: aggregatePipeline
+  type: boolean
+  default: false
+- name: aptPackages
+  type: object
+  default:
+    - ccache
+    - gfortran
+    - git
+    - libdrm-dev
+    - libmsgpack-dev
+    - libnuma-dev
+    - ninja-build
+    - python3-pip
+    - python3-venv
+- name: pipModules
+  type: object
+  default:
+    - joblib
+    - "packaging>=22.0"
+    - --upgrade
+- name: rocmDependencies
+  type: object
+  default:
+    - aomp
+    - clr
+    - llvm-project
+    - rocminfo
+    - rocm-cmake
+    - rocm_smi_lib
+    - rocprofiler-register
+    - ROCR-Runtime
+    - roctracer
+- name: rocmTestDependencies
+  type: object
+  default:
+    - aomp
+    - clr
+    - llvm-project
+    - rocminfo
+    - rocm_smi_lib
+    - rocprofiler-register
+    - ROCR-Runtime
+    - roctracer
+
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - { pool: rocm-ci_ultra_build_pool, os: ubuntu2204, packageManager: apt, target: gfx942 }
+
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
+    timeoutInMinutes: 300
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: HIP_ROCCLR_HOME
+      value: $(Build.BinariesDirectory)/rocm
+    - name: TENSILE_ROCM_ASSEMBLER_PATH
+      value: $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+    - name: TENSILE_ROCM_OFFLOAD_BUNDLER_PATH
+      value: $(Agent.BuildDirectory)/rocm/llvm/bin/clang-offload-bundler
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    - name: DAY_STRING
+      value: $[format('{0:ddMMyyyy}', pipeline.startTime)]
+    pool: ${{ job.pool }}
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
+      parameters:
+        dependencyList:
+          - gtest
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        os: ${{ job.os }}
+        gpuTarget: ${{ job.target }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+    - task: Bash@3
+      displayName: Add ROCm binaries to PATH
+      inputs:
+        targetType: inline
+        script: |
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
+          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
+    - task: Bash@3
+      displayName: Build and install LAPACK
+      inputs:
+        targetType: inline
+        script: |
+          mkdir -p $(Agent.BuildDirectory)/temp-deps
+          cd $(Agent.BuildDirectory)/temp-deps
+          # position-independent LAPACK is required for almalinux8 builds
+          cmake -DBUILD_GTEST=OFF -DBUILD_LAPACK=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $(Agent.BuildDirectory)/s/deps
+          make
+          sudo make install
+    - script: |
+        mkdir -p $(CCACHE_DIR)
+        echo "##vso[task.prependpath]/usr/lib/ccache"
+      displayName: Update path for ccache
+    - task: Cache@2
+      displayName: Ccache caching
+      inputs:
+        key: hipBLASLt | ${{ job.os }} | ${{ job.target }} | $(DAY_STRING) | $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+        path: $(CCACHE_DIR)
+        restoreKeys: |
+          hipBLASLt | ${{ job.os }} | ${{ job.target }} | $(DAY_STRING)
+          hipBLASLt | ${{ job.os }} | ${{ job.target }}
+          hipBLASLt | ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        os: ${{ job.os }}
+        extraBuildFlags: >-
+          -DROCM_LIBRARIES_SUPERBUILD=ON
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        componentName: ${{ parameters.componentName }}
+        os: ${{ job.os }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        componentName: ${{ parameters.componentName }}
+        os: ${{ job.os }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+    - ${{ if eq(job.os, 'ubuntu2204') }}:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          pipModules: ${{ parameters.pipModules }}
+          gpuTarget: ${{ job.target }}
+          extraPaths: /home/user/workspace/rocm/llvm/bin:/home/user/workspace/rocm/bin
+          installLatestCMake: true
+          extraEnvVars:
+            - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
+            - TENSILE_ROCM_ASSEMBLER_PATH:::/home/user/workspace/rocm/llvm/bin/amdclang
+            - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
+            - ROCM_PATH:::/home/user/workspace/rocm
+          extraCopyDirectories:
+            - deps
