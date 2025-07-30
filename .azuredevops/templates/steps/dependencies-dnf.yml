@@ -54,11 +54,13 @@ parameters:
     libfftw3-dev: fftw-devel
     libfmt-dev: fmt-devel
     libgmp-dev: gmp-devel
+    liblapack-dev: lapack-devel
     liblzma-dev: xz-devel
     libmpfr-dev: mpfr-devel
     libmsgpack-dev: msgpack-devel
     libncurses5-dev: ncurses-devel
     libnuma-dev: numactl-devel
+    libopenblas-dev: openblas-devel
     libopenmpi-dev: openmpi-devel
     libpci-dev: libpciaccess-devel
     libssl-dev: openssl-devel
