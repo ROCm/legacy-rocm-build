@@ -1,7 +1,7 @@
 parameters:
 - name: componentName
   type: string
-  default: rocm-libraries
+  default: rocm_libraries
 - name: checkoutRepo
   type: string
   default: 'self'
