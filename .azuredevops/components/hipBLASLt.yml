@@ -162,6 +162,17 @@ jobs:
         script: |
           echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
           echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
+    - task: Bash@3
+      displayName: Build and install LAPACK
+      inputs:
+        targetType: inline
+        script: |
+          mkdir -p $(Agent.BuildDirectory)/temp-deps
+          cd $(Agent.BuildDirectory)/temp-deps
+          # position-independent LAPACK is required for almalinux8 builds
+          cmake -DBUILD_GTEST=OFF -DBUILD_LAPACK=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $(Agent.BuildDirectory)/s/deps
+          make
+          sudo make install
     - script: |
         mkdir -p $(CCACHE_DIR)
         echo "##vso[task.prependpath]/usr/lib/ccache"
