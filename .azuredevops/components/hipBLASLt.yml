@@ -185,7 +185,7 @@ jobs:
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           -DCMAKE_C_COMPILER_LAUNCHER=ccache
-          -DAMDGPU_TARGETS=${{ job.target }}
+          -DGPU_TARGETS=${{ job.target }}
           -DBUILD_CLIENTS_TESTS=ON
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
