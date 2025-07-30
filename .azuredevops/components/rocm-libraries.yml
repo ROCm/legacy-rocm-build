@@ -129,24 +129,6 @@ jobs:
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
-    - task: Bash@3
-      displayName: Add ROCm binaries to PATH
-      inputs:
-        targetType: inline
-        script: |
-          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/bin"
-          echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
-    - task: Bash@3
-      displayName: Build and install LAPACK
-      inputs:
-        targetType: inline
-        script: |
-          mkdir -p $(Agent.BuildDirectory)/temp-deps
-          cd $(Agent.BuildDirectory)/temp-deps
-          # position-independent LAPACK is required for almalinux8 builds
-          cmake -DBUILD_GTEST=OFF -DBUILD_LAPACK=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $(Agent.BuildDirectory)/s/deps
-          make
-          sudo make install
     - script: |
         mkdir -p $(CCACHE_DIR)
         echo "##vso[task.prependpath]/usr/lib/ccache"
@@ -154,12 +136,12 @@ jobs:
     - task: Cache@2
       displayName: Ccache caching
       inputs:
-        key: hipBLASLt | ${{ job.os }} | ${{ job.target }} | $(DAY_STRING) | $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+        key: rocm-libraries | ${{ job.os }} | ${{ job.target }} | $(DAY_STRING) | $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
         path: $(CCACHE_DIR)
         restoreKeys: |
-          hipBLASLt | ${{ job.os }} | ${{ job.target }} | $(DAY_STRING)
-          hipBLASLt | ${{ job.os }} | ${{ job.target }}
-          hipBLASLt | ${{ job.os }}
+          rocm-libraries | ${{ job.os }} | ${{ job.target }} | $(DAY_STRING)
+          rocm-libraries | ${{ job.os }} | ${{ job.target }}
+          rocm-libraries | ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
