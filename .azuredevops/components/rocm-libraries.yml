@@ -88,14 +88,6 @@ jobs:
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
-    - name: HIP_ROCCLR_HOME
-      value: $(Build.BinariesDirectory)/rocm
-    - name: TENSILE_ROCM_ASSEMBLER_PATH
-      value: $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
-    - name: TENSILE_ROCM_OFFLOAD_BUNDLER_PATH
-      value: $(Agent.BuildDirectory)/rocm/llvm/bin/clang-offload-bundler
-    - name: ROCM_PATH
-      value: $(Agent.BuildDirectory)/rocm
     - name: DAY_STRING
       value: $[format('{0:ddMMyyyy}', pipeline.startTime)]
     pool: ${{ job.pool }}
@@ -167,10 +159,5 @@ jobs:
           gpuTarget: ${{ job.target }}
           extraPaths: /home/user/workspace/rocm/llvm/bin:/home/user/workspace/rocm/bin
           installLatestCMake: true
-          extraEnvVars:
-            - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
-            - TENSILE_ROCM_ASSEMBLER_PATH:::/home/user/workspace/rocm/llvm/bin/amdclang
-            - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
-            - ROCM_PATH:::/home/user/workspace/rocm
           extraCopyDirectories:
             - deps
