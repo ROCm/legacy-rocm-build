@@ -37,6 +37,7 @@ parameters:
     - libpfm4-dev
     - libtool
     - libopenmpi-dev
+    - libsqlite3-dev
     - m4
     - ninja-build
     - openmpi-bin
