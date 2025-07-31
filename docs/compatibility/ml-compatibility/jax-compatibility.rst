@@ -97,7 +97,7 @@ Docker image compatibility
 AMD validates and publishes ready-made `ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax>`_
 with ROCm backends on Docker Hub. The following Docker image tags and
 associated inventories represent the latest JAX version from the official Docker Hub and are validated for
-`ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`_. Click the |docker-icon|
+`ROCm 6.4.2 <https://repo.radeon.com/rocm/apt/6.4.2/>`_. Click the |docker-icon|
 icon to view the image on Docker Hub.
 
 .. list-table:: JAX Docker image components
@@ -110,7 +110,7 @@ icon to view the image on Docker Hub.
 
     * - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4.1-jax0.4.35-py3.12/images/sha256-7a0745a2a2758bdf86397750bac00e9086cbf67d170cfdbb08af73f7c7d18a6a"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
+           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4.2-jax0.4.35-py3.12/images/sha256-8918fa806a172c1a10eb2f57131eb31b5d7c8fa1656b8729fe7d3d736112de83"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
 
       - `0.4.35 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.4.35>`_
       - Ubuntu 24.04
@@ -118,7 +118,7 @@ icon to view the image on Docker Hub.
 
     * - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4.1-jax0.4.35-py3.10/images/sha256-5f9e8d6e6e69fdc9a1a3f2ba3b1234c3f46c53b7468538c07fd18b00899da54f"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
+           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4.2-jax0.4.35-py3.10/images/sha256-a394be13c67b7fc602216abee51233afd4b6cb7adaa57ca97e688fba82f9ad79"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
 
       - `0.4.35 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.4.35>`_
       - Ubuntu 22.04
