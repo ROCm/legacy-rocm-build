@@ -7,7 +7,6 @@ steps:
 - task: Bash@3
   name: downloadCKBuild
   displayName: Download specific CK build
-  continueOnError: true
   env:
     CXX: $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
     CC: $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
@@ -67,7 +66,19 @@ steps:
       fi
 
       echo "Downloading CK artifact from $ARTIFACT_URL"
-      wget --tries=5 --waitretry=10 --retry-connrefused -nv $ARTIFACT_URL -O $(System.ArtifactsDirectory)/ck.zip
+
+      RETRIES=0
+      MAX_RETRIES=5
+      until wget -nv $ARTIFACT_URL -O $(System.ArtifactsDirectory)/ck.zip; do
+        RETRIES=$((RETRIES+1))
+        if [[ $RETRIES -ge $MAX_RETRIES ]]; then
+          echo "Failed to download CK artifact after $MAX_RETRIES attempts."
+          exit 1
+        fi
+        echo "Download failed, retrying ($RETRIES/$MAX_RETRIES)..."
+        sleep 5
+      done
+
       unzip $(System.ArtifactsDirectory)/ck.zip -d $(System.ArtifactsDirectory)
       mkdir -p $(Agent.BuildDirectory)/rocm
       tar -zxvf $(System.ArtifactsDirectory)/composable_kernel*/*.tar.gz -C $(Agent.BuildDirectory)/rocm
@@ -82,4 +93,3 @@ steps:
         fi
         echo "Instead used latest CK build $CK_BUILD_ID for commit $BUILD_COMMIT"
       fi
-      exit $EXIT_CODE
