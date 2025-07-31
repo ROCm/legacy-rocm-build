@@ -219,7 +219,6 @@ jobs:
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
     parameters:
       dependencyList: ${{ parameters.rocmDependencies }}
-      dependencySource: staging
       gpuTarget: $(JOB_GPU_TARGET)
       setupHIPLibrarySymlinks: true
   - task: Bash@3
@@ -406,7 +405,6 @@ jobs:
     parameters:
       dependencyList: ${{ parameters.rocmTestDependencies }}
       gpuTarget: $(JOB_GPU_TARGET)
-      dependencySource: staging
 # get sources to run test scripts
   - task: Bash@3
     displayName: git clone upstream pytorch

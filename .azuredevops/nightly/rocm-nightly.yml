@@ -3,21 +3,21 @@ parameters:
 - name: jobList
   type: object
   default:
-    - { os: ubuntu2204, packageManager: apt, target: gfx942, source: staging }
-    - { os: ubuntu2204, packageManager: apt, target: gfx90a, source: staging }
-    - { os: ubuntu2204, packageManager: apt, target: gfx1201, source: staging }
-    - { os: ubuntu2204, packageManager: apt, target: gfx1100, source: staging }
-    - { os: ubuntu2204, packageManager: apt, target: gfx1030, source: staging }
-    - { os: ubuntu2404, packageManager: apt, target: gfx942, source: staging }
-    - { os: ubuntu2404, packageManager: apt, target: gfx90a, source: staging }
-    - { os: ubuntu2404, packageManager: apt, target: gfx1201, source: staging }
-    - { os: ubuntu2404, packageManager: apt, target: gfx1100, source: staging }
-    - { os: ubuntu2404, packageManager: apt, target: gfx1030, source: staging }
-    - { os: almalinux8, packageManager: dnf, target: gfx942, source: staging }
-    - { os: almalinux8, packageManager: dnf, target: gfx90a, source: staging }
-    - { os: almalinux8, packageManager: dnf, target: gfx1201, source: staging }
-    - { os: almalinux8, packageManager: dnf, target: gfx1100, source: staging }
-    - { os: almalinux8, packageManager: dnf, target: gfx1030, source: staging }
+    - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+    - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+    - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
+    - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
+    - { os: ubuntu2204, packageManager: apt, target: gfx1030 }
+    - { os: ubuntu2404, packageManager: apt, target: gfx942 }
+    - { os: ubuntu2404, packageManager: apt, target: gfx90a }
+    - { os: ubuntu2404, packageManager: apt, target: gfx1201 }
+    - { os: ubuntu2404, packageManager: apt, target: gfx1100 }
+    - { os: ubuntu2404, packageManager: apt, target: gfx1030 }
+    - { os: almalinux8, packageManager: dnf, target: gfx942 }
+    - { os: almalinux8, packageManager: dnf, target: gfx90a }
+    - { os: almalinux8, packageManager: dnf, target: gfx1201 }
+    - { os: almalinux8, packageManager: dnf, target: gfx1100 }
+    - { os: almalinux8, packageManager: dnf, target: gfx1030 }
 - name: rocmDependencies
   type: object
   default:
@@ -92,7 +92,7 @@ schedules:
 
 jobs:
 - ${{ each job in parameters.jobList }}:
-  - job: nightly_${{ job.os }}_${{ job.target }}_${{ job.source }}
+  - job: nightly_${{ job.os }}_${{ job.target }}
     timeoutInMinutes: 90
     variables:
     - group: common
@@ -116,7 +116,6 @@ jobs:
       displayName: System disk space before ROCm
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
-        dependencySource: ${{ job.source }}
         dependencyList: ${{ parameters.rocmDependencies }}
         os: ${{ job.os }}
         gpuTarget: ${{ job.target }}
@@ -172,11 +171,11 @@ jobs:
                 && dpkg-deb -R $PACKAGE_NAME hsa-amd-aqlprofile \
                 && cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
 
-              RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
+              RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}&api-version=7.1" \
                 && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
                 && wget -nv --retry-connrefused $DOWNLOAD_URL -O nightly.zip \
                 && unzip nightly.zip \
-                && tar -xf nightly${{ job.os }}${{ job.target }}${{ job.source }}/rocm-nightly*${{ job.os }}*${{ job.target }}*.tar.gz -C rocm
+                && tar -xf nightly${{ job.os }}${{ job.target }}/rocm-nightly*${{ job.os }}*${{ job.target }}*.tar.gz -C rocm
 
               RUN echo /root/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
               RUN echo /root/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
@@ -210,11 +209,11 @@ jobs:
                 && rpm2cpio $PACKAGE_NAME | (cd hsa-amd-aqlprofile && cpio -idmv) \
                 && cp -R hsa-amd-aqlprofile/opt/rocm-*/* rocm
 
-              RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}${{ job.source }}&api-version=7.1" \
+              RUN ARTIFACT_URL="https://dev.azure.com/ROCm-CI/ROCm-CI/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=nightly${{ job.os }}${{ job.target }}&api-version=7.1" \
                 && DOWNLOAD_URL=$(curl -s $ARTIFACT_URL | jq ".resource.downloadUrl" | tr -d '"') \
                 && wget -nv --retry-connrefused $DOWNLOAD_URL -O nightly.zip \
                 && UNZIP_DISABLE_ZIPBOMB_DETECTION=TRUE unzip nightly.zip \
-                && tar -xf nightly${{ job.os }}${{ job.target }}${{ job.source }}/rocm-nightly*${{ job.os }}*${{ job.target }}*.tar.gz -C rocm
+                && tar -xf nightly${{ job.os }}${{ job.target }}/rocm-nightly*${{ job.os }}*${{ job.target }}*.tar.gz -C rocm
 
               RUN echo /root/rocm/lib | tee /etc/ld.so.conf.d/rocm-ci.conf
               RUN echo /root/rocm/llvm/lib | tee -a /etc/ld.so.conf.d/rocm-ci.conf
@@ -229,11 +228,11 @@ jobs:
       displayName: Build and upload Docker image
       inputs:
         containerRegistry: ContainerService3
-        repository: 'nightly-${{ job.os }}-${{ job.target }}-${{ job.source }}'
+        repository: 'nightly-${{ job.os }}-${{ job.target }}-'
         Dockerfile: '$(Agent.BuildDirectory)/Dockerfile'
         buildContext: '$(Agent.BuildDirectory)'
     - task: Bash@3
       displayName: '!! Docker Run Command !!'
       inputs:
         targetType: inline
-        script: echo "docker run -it --network=host --device=/dev/kfd --device=/dev/dri --security-opt seccomp=unconfined rocmexternalcicd.azurecr.io/nightly-${{ job.os }}-${{ job.target }}-${{ job.source }}:$(Build.BuildId)" | tr '[:upper:]' '[:lower:]'
+        script: echo "docker run -it --network=host --device=/dev/kfd --device=/dev/dri --security-opt seccomp=unconfined rocmexternalcicd.azurecr.io/nightly-${{ job.os }}-${{ job.target }}:$(Build.BuildId)" | tr '[:upper:]' '[:lower:]'

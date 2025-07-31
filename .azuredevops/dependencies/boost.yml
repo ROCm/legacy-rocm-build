@@ -40,7 +40,6 @@ jobs:
   - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
     parameters:
       dependencyList: ${{ parameters.rocmDependencies }}
-      dependencySource: staging
   - task: Bash@3
     displayName: Add ROCm binaries to PATH
     inputs:

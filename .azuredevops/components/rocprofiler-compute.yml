@@ -65,43 +65,19 @@ parameters:
   type: object
   default:
     buildJobs:
-      - gfx942-staging:
-        name: gfx942_staging
+      - gfx942:
         target: gfx942
-        dependencySource: staging
-      - gfx942-mainline:
-        name: gfx942_mainline
-        target: gfx942
-        dependencySource: mainline
-      - gfx90a-staging:
-        name: gfx90a_staging
+      - gfx90a:
         target: gfx90a
-        dependencySource: staging
-      - gfx90a-mainline:
-        name: gfx90a_mainline
-        target: gfx90a
-        dependencySource: mainline
     testJobs:
-      - gfx942-staging:
-        name: gfx942_staging
+      - gfx942:
         target: gfx942
-        dependencySource: staging
-      - gfx942-mainline:
-        name: gfx942_mainline
-        target: gfx942
-        dependencySource: mainline
-      - gfx90a-staging:
-        name: gfx90a_staging
+      - gfx90a:
         target: gfx90a
-        dependencySource: staging
-      - gfx90a-mainline:
-        name: gfx90a_mainline
-        target: gfx90a
-        dependencySource: mainline
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocprofiler_compute_build_${{ job.name }}
+  - job: rocprofiler_compute_build_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -124,11 +100,9 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
-        artifactName: ${{ job.dependencySource }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
-        artifactName: ${{ job.dependencySource }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
@@ -138,9 +112,9 @@ jobs:
     #     gpuTarget: ${{ job.target }}
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocprofiler_compute_test_${{ job.name }}
+  - job: rocprofiler_compute_test_${{ job.target }}
     timeoutInMinutes: 120
-    dependsOn: rocprofiler_compute_build_${{ job.name }}
+    dependsOn: rocprofiler_compute_build_${{ job.target }
     condition:
       and(succeeded(),
         eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -166,14 +140,12 @@ jobs:
         checkoutRepo: ${{ parameters.checkoutRepo }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
       parameters:
-        postTargetFilter: ${{ job.dependencySource }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmTestDependencies }}
-        dependencySource: ${{ job.dependencySource }}
         gpuTarget: ${{ job.target }}
     - task: Bash@3
       displayName: Add en_US.UTF-8 locale
