@@ -50,6 +50,7 @@ parameters:
 - name: rocmDependencies
   type: object
   default:
+    - composable_kernel
     - half
     - rocRAND
     - rocBLAS
@@ -67,6 +68,7 @@ parameters:
   type: object
   default:
     - clr
+    - composable_kernel
     - half
     - hipBLAS
     - hipBLAS-common
@@ -136,9 +138,6 @@ jobs:
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/miopen-get-ck-build.yml
-      parameters:
-        gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
@@ -216,9 +215,6 @@ jobs:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/miopen-get-ck-build.yml
-      parameters:
-        gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
