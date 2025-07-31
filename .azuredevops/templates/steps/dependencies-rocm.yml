@@ -3,13 +3,6 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
-- name: dependencySource # optional, overrides checkoutRef
-  type: string
-  default: null
-  values:
-    - null # empty strings aren't allowed as values, use null instead
-    - staging
-    - mainline
 - name: dependencyList
   type: object
   default: []
@@ -38,309 +31,240 @@ parameters:
   type: object
   default:
     AMDMIGraphX:
-      pipelineId: $(AMDMIGRAPHX_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: master
+      pipelineId: 113
+      developBranch: develop
       hasGpuTarget: true
     amdsmi:
-      pipelineId: $(AMDSMI_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 99
+      developBranch: amd-staging
       hasGpuTarget: false
     aomp-extras:
-      pipelineId: $(AOMP_EXTRAS_PIPELINE_ID)
-      stagingBranch: aomp-dev
-      mainlineBranch: aomp-dev
+      pipelineId: 111
+      developBranch: aomp-dev
       hasGpuTarget: false
     aomp:
-      pipelineId: $(AOMP_PIPELINE_ID)
-      stagingBranch: aomp-dev
-      mainlineBranch: amd-mainline
+      pipelineId: 115
+      developBranch: aomp-dev
       hasGpuTarget: false
     clr:
-      pipelineId: $(CLR_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 145
+      developBranch: amd-staging
       hasGpuTarget: false
     composable_kernel:
-      pipelineId: $(COMPOSABLE_KERNEL_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 86
+      developBranch: develop
       hasGpuTarget: true
     half:
-      pipelineId: $(HALF_PIPELINE_ID)
-      stagingBranch: rocm
-      mainlineBranch: rocm
+      pipelineId: 101
+      developBranch: rocm
       hasGpuTarget: false
     HIP:
-      pipelineId: $(HIP_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 93
+      developBranch: amd-staging
       hasGpuTarget: false
     hip-tests:
-      pipelineId: $(HIP_TESTS_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 233
+      developBranch: amd-staging
       hasGpuTarget: false
     hipBLAS:
-      pipelineId: $(HIPBLAS_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 317
+      developBranch: develop
       hasGpuTarget: true
     hipBLASLt:
-      pipelineId: $(HIPBLASLT_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 301
+      developBranch: develop
       hasGpuTarget: true
     hipBLAS-common:
-      pipelineId: $(HIPBLAS_COMMON_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 300
+      developBranch: develop
       hasGpuTarget: false
     hipCUB:
-      pipelineId: $(HIPCUB_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: develop
+      pipelineId: 277
+      developBranch: develop
       hasGpuTarget: true
     hipFFT:
-      pipelineId: $(HIPFFT_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 121
+      developBranch: develop
       hasGpuTarget: true
     hipfort:
-      pipelineId: $(HIPFORT_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 102
+      developBranch: develop
       hasGpuTarget: false
     HIPIFY:
-      pipelineId: $(HIPIFY_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 92
+      developBranch: amd-staging
       hasGpuTarget: false
     hipRAND:
-      pipelineId: $(HIPRAND_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: develop
+      pipelineId: 275
+      developBranch: develop
       hasGpuTarget: true
     hipSOLVER:
-      pipelineId: $(HIPSOLVER_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 84
+      developBranch: develop
       hasGpuTarget: true
     hipSPARSE:
-      pipelineId: $(HIPSPARSE_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 315
+      developBranch: develop
       hasGpuTarget: true
     hipSPARSELt:
-      pipelineId: $(HIPSPARSELT_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 309
+      developBranch: develop
       hasGpuTarget: true
     hipTensor:
-      pipelineId: $(HIPTENSOR_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 105
+      developBranch: develop
       hasGpuTarget: true
     llvm-project:
-      pipelineId: $(LLVM_PROJECT_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 2
+      developBranch: amd-staging
       hasGpuTarget: false
     MIOpen:
-      pipelineId: $(MIOpen_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: amd-master
+      pipelineId: 108
+      developBranch: develop
       hasGpuTarget: true
     MIVisionX:
-      pipelineId: $(MIVISIONX_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: master
-      hasGpuTarget: true
-    omnitrace: # deprecated
-      pipelineId: $(OMNITRACE_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 80
+      developBranch: develop
       hasGpuTarget: true
     rccl:
-      pipelineId: $(RCCL_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 107
+      developBranch: develop
       hasGpuTarget: true
     rdc:
-      pipelineId: $(RDC_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 100
+      developBranch: amd-staging
       hasGpuTarget: false
     rocAL:
-      pipelineId: $(ROCAL_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 151
+      developBranch: develop
       hasGpuTarget: true
     rocALUTION:
-      pipelineId: $(ROCALUTION_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 89
+      developBranch: develop
       hasGpuTarget: true
     rocBLAS:
-      pipelineId: $(ROCBLAS_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 302
+      developBranch: develop
       hasGpuTarget: true
     ROCdbgapi:
-      pipelineId: $(ROCDBGAPI_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 135
+      developBranch: amd-staging
       hasGpuTarget: false
     rocDecode:
-      pipelineId: $(ROCDECODE_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 79
+      developBranch: develop
       hasGpuTarget: false
     rocFFT:
-      pipelineId: $(ROCFFT_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 120
+      developBranch: develop
       hasGpuTarget: true
     ROCgdb:
-      pipelineId: $(ROCGDB_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline-rocgdb-15
+      pipelineId: 134
+      developBranch: amd-staging
       hasGpuTarget: false
     rocJPEG:
-      pipelineId: $(ROCJPEG_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 262
+      developBranch: develop
       hasGpuTarget: false
     rocm-cmake:
-      pipelineId: $(ROCM_CMAKE_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 6
+      developBranch: develop
       hasGpuTarget: false
     rocm-core:
-      pipelineId: $(ROCM_CORE_PIPELINE_ID)
-      stagingBranch: master
-      mainlineBranch: amd-master
+      pipelineId: 103
+      developBranch: master
       hasGpuTarget: false
     rocm-examples:
-      pipelineId: $(ROCM_EXAMPLES_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 216
+      developBranch: amd-staging
       hasGpuTarget: true
     rocminfo:
-      pipelineId: $(ROCMINFO_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 91
+      developBranch: amd-staging
       hasGpuTarget: false
     rocMLIR:
-      pipelineId: $(ROCMLIR_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 229
+      developBranch: develop
       hasGpuTarget: false
     ROCmValidationSuite:
-      pipelineId: $(ROCMVALIDATIONSUITE_PIPELINE_ID)
-      stagingBranch: master
-      mainlineBranch: master
+      pipelineId: 106
+      developBranch: master
       hasGpuTarget: true
     rocm_bandwidth_test:
-      pipelineId: $(ROCM_BANDWIDTH_TEST_PIPELINE_ID)
-      stagingBranch: master
-      mainlineBranch: master
+      pipelineId: 88
+      developBranch: master
       hasGpuTarget: false
     rocm_smi_lib:
-      pipelineId: $(ROCM_SMI_LIB_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 96
+      developBranch: amd-staging
       hasGpuTarget: false
     rocPRIM:
-      pipelineId: $(ROCPRIM_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: develop
+      pipelineId: 273
+      developBranch: develop
       hasGpuTarget: true
     rocprofiler:
-      pipelineId: $(ROCPROFILER_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-master
+      pipelineId: 143
+      developBranch: amd-staging
       hasGpuTarget: true
     rocprofiler-compute:
-      pipelineId: $(ROCPROFILER_COMPUTE_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: amd-mainline
+      pipelineId: 257
+      developBranch: develop
       hasGpuTarget: true
     rocprofiler-register:
-      pipelineId: $(ROCPROFILER_REGISTER_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 1
+      developBranch: amd-staging
       hasGpuTarget: false
     rocprofiler-sdk:
-      pipelineId: $(ROCPROFILER_SDK_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 246
+      developBranch: amd-staging
       hasGpuTarget: true
     rocprofiler-systems:
-      pipelineId: $(ROCPROFILER_SYSTEMS_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 255
+      developBranch: amd-staging
       hasGpuTarget: true
     rocPyDecode:
-      pipelineId: $(ROCPYDECODE_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 239
+      developBranch: develop
       hasGpuTarget: true
     ROCR-Runtime:
-      pipelineId: $(ROCR_RUNTIME_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 10
+      developBranch: amd-staging
       hasGpuTarget: false
     rocRAND:
-      pipelineId: $(ROCRAND_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: develop
+      pipelineId: 274
+      developBranch: develop
       hasGpuTarget: true
     rocr_debug_agent:
-      pipelineId: $(ROCR_DEBUG_AGENT_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 136
+      developBranch: amd-staging
       hasGpuTarget: false
     rocSOLVER:
-      pipelineId: $(ROCSOLVER_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 81
+      developBranch: develop
       hasGpuTarget: true
     rocSPARSE:
-      pipelineId: $(ROCSPARSE_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 314
+      developBranch: develop
       hasGpuTarget: true
-    ROCT-Thunk-Interface: # deprecated
-      pipelineId: $(ROCT_THUNK_INTERFACE_PIPELINE_ID)
-      stagingBranch: master
-      mainlineBranch: master
-      hasGpuTarget: false
     rocThrust:
-      pipelineId: $(ROCTHRUST_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: develop
+      pipelineId: 276
+      developBranch: develop
       hasGpuTarget: true
     roctracer:
-      pipelineId: $(ROCTRACER_PIPELINE_ID)
-      stagingBranch: amd-staging
-      mainlineBranch: amd-mainline
+      pipelineId: 141
+      developBranch: amd-staging
       hasGpuTarget: true
     rocWMMA:
-      pipelineId: $(ROCWMMA_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 109
+      developBranch: develop
       hasGpuTarget: true
     rpp:
-      pipelineId: $(RPP_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 78
+      developBranch: develop
       hasGpuTarget: true
     TransferBench:
-      pipelineId: $(TRANSFERBENCH_PIPELINE_ID)
-      stagingBranch: develop
-      mainlineBranch: mainline
+      pipelineId: 265
+      developBranch: develop
       hasGpuTarget: true
 
 steps:
@@ -356,72 +280,30 @@ steps:
       parameters:
         componentName: ${{ split(dependency, ':')[0] }}
         pipelineId: ${{ parameters.componentVarList[split(dependency, ':')[0]].pipelineId }}
+        branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].developBranch }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         extractAndDeleteFiles: false
-        ${{ if parameters.componentVarList[split(dependency, ':')[0]].hasGpuTarget }}:
-          fileFilter: "${{ split(dependency, ':')[1] }}*_${{ parameters.os }}_${{ parameters.gpuTarget }}"
-        # dependencySource = staging
-        ${{ if eq(parameters.dependencySource, 'staging')}}:
-          branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].stagingBranch }}
-        # dependencySource = mainline
-        ${{ elseif eq(parameters.dependencySource, 'mainline')}}:
-          branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].mainlineBranch }}
-        # checkoutRef = staging
-        ${{ elseif eq(parameters.checkoutRef, parameters.componentVarList[variables['Build.DefinitionName']].stagingBranch) }}:
-          branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].stagingBranch }}
-        # checkoutRef = mainline
-        ${{ elseif eq(parameters.checkoutRef, parameters.componentVarList[variables['Build.DefinitionName']].mainlineBranch) }}:
-          branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].mainlineBranch }}
-        # SourceBranchName = staging
-        ${{ elseif eq(variables['Build.SourceBranchName'], parameters.componentVarlist[variables['Build.DefinitionName']].stagingBranch) }}:
-          branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].stagingBranch }}
-        # SourceBranchName = mainline
-        ${{ elseif eq(variables['Build.SourceBranchName'], parameters.componentVarlist[variables['Build.DefinitionName']].mainlineBranch) }}:
-          branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].mainlineBranch }}
-        # default = staging
-        ${{ else }}:
-          branchName: ${{ parameters.componentVarList[split(dependency, ':')[0]].stagingBranch }}
 # no colon (:) found in this item in the list
   - ${{ elseif containsValue(split(parameters.downstreamAggregateNames, '+'), dependency) }}:
     - template: local-artifact-download.yml
       parameters:
-        ${{ if parameters.componentVarList[dependency].hasGpuTarget }}:
-          gpuTarget: ${{ parameters.gpuTarget }}
+        buildType: current
         preTargetFilter: ${{ dependency }}
         os: ${{ parameters.os }}
-        buildType: current
+        ${{ if parameters.componentVarList[dependency].hasGpuTarget }}:
+          gpuTarget: ${{ parameters.gpuTarget }}
   - ${{ else }}:
     - template: artifact-download.yml
       parameters:
         componentName: ${{ dependency }}
         pipelineId: ${{ parameters.componentVarList[dependency].pipelineId }}
+        branchName: ${{ parameters.componentVarList[dependency].developBranch }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         extractAndDeleteFiles: false
         ${{ if parameters.componentVarList[dependency].hasGpuTarget }}:
           fileFilter: ${{ parameters.os }}_${{ parameters.gpuTarget }}
         ${{ else }}:
           fileFilter: ${{ parameters.os }}
-        # dependencySource = staging
-        ${{ if eq(parameters.dependencySource, 'staging')}}:
-          branchName: ${{ parameters.componentVarList[dependency].stagingBranch }}
-        # dependencySource = mainline
-        ${{ elseif eq(parameters.dependencySource, 'mainline')}}:
-          branchName: ${{ parameters.componentVarList[dependency].mainlineBranch }}
-        # checkoutRef = staging
-        ${{ elseif eq(parameters.checkoutRef, parameters.componentVarList[variables['Build.DefinitionName']].stagingBranch) }}:
-          branchName: ${{ parameters.componentVarList[dependency].stagingBranch }}
-        # checkoutRef = mainline
-        ${{ elseif eq(parameters.checkoutRef, parameters.componentVarList[variables['Build.DefinitionName']].mainlineBranch) }}:
-          branchName: ${{ parameters.componentVarList[dependency].mainlineBranch }}
-        # SourceBranchName = staging
-        ${{ elseif eq(variables['Build.SourceBranchName'], parameters.componentVarlist[variables['Build.DefinitionName']].stagingBranch) }}:
-          branchName: ${{ parameters.componentVarList[dependency].stagingBranch }}
-        # SourceBranchName = mainline
-        ${{ elseif eq(variables['Build.SourceBranchName'], parameters.componentVarlist[variables['Build.DefinitionName']].mainlineBranch) }}:
-          branchName: ${{ parameters.componentVarList[dependency].mainlineBranch }}
-        # default = staging
-        ${{ else }}:
-          branchName: ${{ parameters.componentVarList[dependency].stagingBranch }}
 - task: ExtractFiles@1
   displayName: Extract ROCm artifacts
   inputs:
