@@ -88,12 +88,12 @@ parameters:
         - rocSPARSE_build
     # hipSOLVER depends on both rocSOLVER and rocSPARSE
     # for a unified build, rocSOLVER will be the one to call hipSOLVER
-    - hipSOLVER:
-      name: hipSOLVER
-      sparseCheckoutDir: projects/hipsolver
-      skipUnifiedBuild: 'true'
-      buildDependsOn:
-        - rocSPARSE_build
+    # - hipSOLVER:
+    #   name: hipSOLVER
+    #   sparseCheckoutDir: projects/hipsolver
+    #   skipUnifiedBuild: 'true'
+    #   buildDependsOn:
+    #     - rocSPARSE_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
