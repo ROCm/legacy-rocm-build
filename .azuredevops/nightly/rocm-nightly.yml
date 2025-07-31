@@ -228,7 +228,7 @@ jobs:
       displayName: Build and upload Docker image
       inputs:
         containerRegistry: ContainerService3
-        repository: 'nightly-${{ job.os }}-${{ job.target }}-'
+        repository: 'nightly-${{ job.os }}-${{ job.target }}'
         Dockerfile: '$(Agent.BuildDirectory)/Dockerfile'
         buildContext: '$(Agent.BuildDirectory)'
     - task: Bash@3
