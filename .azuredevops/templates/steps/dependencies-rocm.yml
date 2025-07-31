@@ -83,7 +83,7 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     hipFFT:
-      pipelineId: 121
+      pipelineId: 283
       developBranch: develop
       hasGpuTarget: true
     hipfort:
@@ -119,7 +119,7 @@ parameters:
       developBranch: amd-staging
       hasGpuTarget: false
     MIOpen:
-      pipelineId: 108
+      pipelineId: 320
       developBranch: develop
       hasGpuTarget: true
     MIVisionX:
@@ -155,7 +155,7 @@ parameters:
       developBranch: develop
       hasGpuTarget: false
     rocFFT:
-      pipelineId: 120
+      pipelineId: 282
       developBranch: develop
       hasGpuTarget: true
     ROCgdb:
