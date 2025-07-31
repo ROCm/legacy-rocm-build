@@ -45,6 +45,7 @@ Bootloader
 CAS
 CCD
 CDNA
+CGUI
 CHTML
 CIFAR
 CLI
@@ -115,6 +116,7 @@ DevCap
 DirectX
 Dockerfile
 Doxygen
+dropless
 ELMo
 ENDPGM
 EPYC
@@ -270,6 +272,7 @@ Makefiles
 Matplotlib
 Matrox
 MaxText
+Megablocks
 Megatrends
 Megatron
 Mellanox
@@ -279,6 +282,7 @@ Miniconda
 MirroredStrategy
 Mixtral
 MosaicML
+MoEs
 Mpops
 Multicore
 Multithreaded
@@ -453,6 +457,8 @@ TPS
 TPU
 TPUs
 TSME
+Taichi
+Taichi's
 Tagram
 TensileLite
 TensorBoard
