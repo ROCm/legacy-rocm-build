@@ -47,7 +47,7 @@ This section summarizes the Megablocks features supported by ROCm.
 Use cases and recommendations
 ================================================================================
 
-The `ROCm Megablocks blog posts <https://rocm.blogs.amd.com/artificial-intelligence/Megablocks/README.html>`_ 
+The `ROCm Megablocks blog posts <https://rocm.blogs.amd.com/artificial-intelligence/megablocks/README.html>`_ 
 guide how to leverage the ROCm platform for pre-training using the Megablocks framework. 
 It features how to pre-process datasets and how to begin pre-training on AMD GPUs through:
 
