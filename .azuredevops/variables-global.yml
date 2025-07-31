@@ -74,7 +74,7 @@ variables:
 - name: HIPCUB_PIPELINE_ID
   value: 277
 - name: HIPFFT_PIPELINE_ID
-  value: 121
+  value: 283
 - name: HIPFORT_PIPELINE_ID
   value: 102
 - name: HIPIFY_PIPELINE_ID
@@ -92,7 +92,7 @@ variables:
 - name: LLVM_PROJECT_PIPELINE_ID
   value: 2
 - name: MIOPEN_PIPELINE_ID
-  value: 108
+  value: 320
 - name: MIVISIONX_PIPELINE_ID
   value: 80
 - name: RCCL_PIPELINE_ID
@@ -110,7 +110,7 @@ variables:
 - name: ROCDECODE_PIPELINE_ID
   value: 79
 - name: ROCFFT_PIPELINE_ID
-  value: 120
+  value: 282
 - name: ROCGDB_PIPELINE_ID
   value: 134
 - name: ROCJPEG_PIPELINE_ID
