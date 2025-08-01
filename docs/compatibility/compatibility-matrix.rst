@@ -56,7 +56,7 @@ compatibility and system requirements.
       :doc:`TensorFlow <../compatibility/ml-compatibility/tensorflow-compatibility>`,"2.18.1, 2.17.1, 2.16.2","2.18.1, 2.17.1, 2.16.2","2.17.0, 2.16.2, 2.15.1"
       :doc:`JAX <../compatibility/ml-compatibility/jax-compatibility>`,0.4.35,0.4.35,0.4.31  
       :doc:`Stanford Megatron-LM <../compatibility/ml-compatibility/stanford-megatron-lm-compatibility>`,N/A,N/A,85f95ae
-      :doc:`DGL <../compatibility/ml-compatibility/dgl-compatibility>`,2.4.0,2.4.0,N/A
+      :doc:`DGL <../compatibility/ml-compatibility/dgl-compatibility>`,N/A,2.4.0,N/A
       `ONNX Runtime <https://onnxruntime.ai/docs/build/eps.html#amd-migraphx>`_,1.2,1.2,1.17.3
       ,,,
       THIRD PARTY COMMS,.. _thirdpartycomms-support-compatibility-matrix:,,
