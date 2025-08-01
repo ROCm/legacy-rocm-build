@@ -19,5 +19,5 @@ The general steps to build ROCm are:
 #. Run the build command
 
 Because the ROCm stack is constantly evolving, the most current instructions are stored with the source code in GitHub.  
-For detailed build instructions, see `Build ROCm from source <https://github.com/ROCm/ROCm?tab=readme-ov-file#build-rocm-from-source>`_
+For detailed build instructions, see `Getting and Building ROCm from Source <https://github.com/ROCm/ROCm?tab=readme-ov-file#getting-and-building-rocm-from-source>`.
 
