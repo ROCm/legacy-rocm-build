@@ -32,7 +32,7 @@ ROCm Version,6.4.2,6.4.1,6.4.0,6.3.3,6.3.2,6.3.1,6.3.0,6.2.4,6.2.2,6.2.1,6.2.0, 
       :doc:`JAX <../compatibility/ml-compatibility/jax-compatibility>`,0.4.35,0.4.35,0.4.35,0.4.31,0.4.31,0.4.31,0.4.31,0.4.26,0.4.26,0.4.26,0.4.26,0.4.26,0.4.26,0.4.26,0.4.26,0.4.26,0.4.26
       :doc:`verl <../compatibility/ml-compatibility/verl-compatibility>` [#verl_compat]_,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0.3.0.post0,N/A,N/A,N/A,N/A,N/A
       :doc:`Stanford Megatron-LM <../compatibility/ml-compatibility/stanford-megatron-lm-compatibility>`,N/A,N/A,N/A,85f95ae,85f95ae,85f95ae,85f95ae,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-      :doc:`DGL <../compatibility/ml-compatibility/dgl-compatibility>`,2.4.0,2.4.0,2.4.0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+      :doc:`DGL <../compatibility/ml-compatibility/dgl-compatibility>` [#dgl_compat]_,N/A,N/A,2.4.0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
       :doc:`Megablocks <../compatibility/ml-compatibility/megablocks-compatibility>`,N/A,N/A,N/A,0.7.0,0.7.0,0.7.0,0.7.0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
       :doc:`Taichi <../compatibility/ml-compatibility/taichi-compatibility>` [#taichi_compat]_,N/A,N/A,N/A,N/A,1.8.0b1,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
       `ONNX Runtime <https://onnxruntime.ai/docs/build/eps.html#amd-migraphx>`_,1.2,1.2,1.2,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.14.1,1.14.1
