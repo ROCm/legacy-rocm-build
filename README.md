@@ -23,9 +23,6 @@ source software compilers, debuggers, and libraries. ROCm is fully integrated in
 > A new open source build platform for ROCm is under development at
 > https://github.com/ROCm/TheRock, featuring a unified CMake build with bundled
 > dependencies, Windows support, and more.
->
-> The instructions below describe the prior process for building from source
-> which will be replaced once TheRock is mature enough.
 
 ## Getting and Building ROCm from Source
 
