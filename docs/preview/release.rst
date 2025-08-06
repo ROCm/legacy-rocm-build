@@ -1,333 +1,392 @@
 ***************************
-ROCm 7.0 Beta release notes
+ROCm 7.0 RC1 release notes
 ***************************
 
-The AMD ROCm 7.0 Beta is a preview of the upcoming ROCm 7.0 release,
-which includes functional support for AMD Instinct™ MI355X and MI350X accelerators
-on single-node systems. It also introduces new ROCm features for
-MI300X, MI200, and MI100 series accelerators. These include the addition of
-KVM-based SR-IOV for GPU virtualization, major improvements to the HIP runtime,
-and enhancements to profilers.
+The ROCm 7.0 RC1 is a release candidate for the upcoming ROCm 7.0 major
+release, which introduces functional support for AMD Instinct™ MI355X and
+MI350X on single node systems and new features for current-generation
+accelerators.
+In this RC1, system support is widened to include more AMD GPUs, Linux
+distributions, and virtualization options. This preview includes enhancements
+to the HIP runtime, ROCm libraries, and system management tooling.
 
-As this is a Beta release, expect issues and limitations that will be addressed
-in upcoming previews.
+This is a first release candidate; expect issues and limitations that will be
+addressed in upcoming previews.
 
 .. important::
 
-   The Beta release is not intended for performance evaluation.
-   For the latest stable release with production-level functionality,
-   see `ROCm 6.4.2 documentation <https://rocm.docs.amd.com/en/latest/>`_.
+   This preview is not intended for performance evaluation. For the latest stable
+   release with production-level functionality, see `ROCm 6.4.2 documentation
+   <https://rocm.docs.amd.com/en/latest/>`_.
 
-This document highlights the key changes in the Beta release since the
-`Alpha 2 <https://rocm.docs.amd.com/en/docs-7.0-alpha-2/preview/release.html>`__.
+This document highlights the key changes in the RC1 build since the
+`Beta <https://rocm.docs.amd.com/en/docs-7.0-beta/preview/release.html>`__.
 For a complete history, see the :doc:`ROCm 7.0 preview release history <versions>`.
 
-.. _beta-system-requirements:
+.. _rc1-system-requirements:
 
 Operating system and hardware support
 =====================================
 
-Only the accelerators and operating systems listed below are supported. Multi-node systems
-and GPU partitioning are not supported in the Beta release.
+This preview supports the following AMD accelerators and Linux distributions in single node setups.
 
-.. list-table::
-   :stub-columns: 1
+.. tab-set::
 
-   * - AMD Instinct accelerator
-     - MI355X, MI350X, MI325X [#mi325x]_, MI300X, MI300A, MI250X, MI250, MI210, MI100
+   .. tab-item:: Instinct MI355X, MI350X
 
-   * - Operating system
-     - Ubuntu 22.04, Ubuntu 24.04, RHEL 9.6
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
 
-   * - System type
-     - Single node only
+         * - Ubuntu
+           - 24.04, 22.04
 
-   * - GPU partitioning
-     - Not supported
+         * - RHEL
+           - 9.6
 
-.. [#mi325x] MI325X is only supported with Ubuntu 22.04.
+         * - Oracle Linux
+           - 9
+
+   .. tab-item:: Instinct MI325X
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6
+
+   .. tab-item:: Instinct MI300X
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+         * - Oracle Linux
+           - 9, 8
+
+         * - Debian
+           - 12
+
+   .. tab-item:: Instinct MI300A
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+   .. tab-item:: Instinct MI250X, MI250, MI210
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 9.4, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+   .. tab-item:: Instinct MI100
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+   .. tab-item:: Radeon PRO V710, V620
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+   .. tab-item:: Radeon RX 9000 series
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+   .. tab-item:: Radeon RX 7000 series
+
+      .. list-table::
+         :stub-columns: 1
+         :widths: 30, 70
+
+         * - Ubuntu
+           - 24.04, 22.04
+
+         * - RHEL
+           - 9.6, 8.10
+
+         * - SLES
+           - 15 SP7, 15 SP6
+
+See the :doc:`installation instructions <install/index>` to install ROCm 7.0 RC1 and the Instinct Driver
+for your hardware and distribution.
 
 Virtualization support
 ----------------------
 
-The Beta introduces support for KVM-based SR-IOV on select accelerators. All
-supported configurations require the `GIM SR-IOV driver version 8.3.0K
-<https://github.com/amd/MxGPU-Virtualization/releases>`__.
+The RC1 includes support for GPU virtualization on KVM-based SR-IOV and VMware ESXi 8.
+The following tables detail supported OS configurations per AMD accelerator.
 
-.. list-table::
-   :header-rows: 1
+.. tab-set::
 
-   * - Accelerator
-     - Host OS
-     - Guest OS
+   .. tab-item:: KVM SR-IOV
 
-   * - MI350X
-     - Ubuntu 24.04
-     - Ubuntu 24.04
+      All supported configurations require the `GIM SR-IOV driver version
+      8.3.0K <https://github.com/amd/MxGPU-Virtualization/releases>`__.
 
-   * - MI325X
-     - Ubuntu 22.04
-     - Ubuntu 22.04
+      .. list-table::
+         :header-rows: 1
 
-   * - MI300X
-     - Ubuntu 24.04
-     - Ubuntu 24.04
+         * - AMD accelerator
+           - Host OS
+           - Guest OS
 
-   * - MI210
-     - Ubuntu 22.04
-     - Ubuntu 22.04
+         * - Instinct MI350X
+           - Ubuntu 24.04
+           - Ubuntu 24.04
 
-.. _beta-highlights:
+         * - Instinct MI325X
+           - Ubuntu 22.04
+           - Ubuntu 22.04
 
-Beta release highlights
+         * - Instinct MI300X
+           - Ubuntu 22.04
+           - Ubuntu 22.04
+
+         * - Instinct MI210
+           - RHEL 9.4
+           - Ubuntu 22.04 or RHEL 9.4
+
+         * - Radeon PRO V710
+           - Ubuntu 22.04.5
+           - Ubuntu 24.04
+
+   .. tab-item:: ESXi 8
+
+      The following configurations are supported on hosts running VMware ESXi 8.
+
+      .. list-table::
+         :header-rows: 1
+
+         * - AMD accelerator
+           - Guest OS
+
+         * - Instinct MI325X
+           - Ubuntu 24.04
+
+         * - Instinct MI300X
+           - Ubuntu 24.04
+
+         * - Instinct MI210
+           - Ubuntu 24.04 or SLES 15 SP6
+
+.. _rc1-highlights:
+
+RC1 release highlights
 =======================
 
-This section highlights key features enabled in the ROCm 7.0 Beta release.
+This section highlights key features enabled in the ROCm 7.0 RC1.
 
 AI frameworks
 -------------
 
-The ROCm 7.0 Beta release supports PyTorch 2.7, TensorFlow 2.19, and Triton 3.3.0.
+The ROCm 7.0 RC1 supports PyTorch 2.7, TensorFlow 2.19, and Triton 3.3.0.
+
+Libraries
+---------
+
+Composable Kernel
+~~~~~~~~~~~~~~~~~
+
+The RC1 adds functional support for microscaling (MX) data type ``FP6`` in
+Composable Kernel. This builds upon `MX data type support (ROCm 7.0 Alpha)
+<https://rocm.docs.amd.com/en/docs-7.0-alpha/preview/release.html#new-data-type-support>`__.
+
+hipBLASLt
+~~~~~~~~~
+
+GEMM performance has been improved for ``FP8``, ``FP16``, ``BF16``, and ``FP32`` data types.
 
 RCCL support
-------------
+~~~~~~~~~~~~
 
-RCCL is supported for single-node functional usage only. Multi-node communication capabilities will
-be supported in future preview releases.
+RCCL is supported for single node functional usage only. Multi-node communication capabilities will
+be supported in a future release.
 
 HIP
 ---
 
-Enhancements
-~~~~~~~~~~~~
+The following changes improve functionality and runtime performance:
 
-* Added ``hipDeviceGetAttribute``, a new device attribute to query the number
-  of compute dies (chiplets, XCCs), enabling performance optimizations based on
-  cache locality.
+* Improved launch latency for device-to-device (D2D) copies and ``memset`` operations on AMD Instinct MI300 series accelerators.
 
-* Extended fine-grained system memory pools.
+* Added ``hipMemGetHandleForAddressRange`` to retrieve a handle for a specified
+  memory address range. This provides functional parity with CUDA
+  ``cuMemGetHandleForAddressRange``.
 
-* To improve API consistency, ``num_threads`` is now an alias for the legacy
-  ``size`` parameter.
+* Resolved an issue causing crashes in TensorFlow applications. The HIP runtime now
+  combines multiple definitions of ``callbackQueue`` into a single function; in
+  case of an exception, it passes its handler to the application and provides
+  the proper error code.
 
-Fixes
+Compilers
+---------
+
+``llvm-strip`` now supports AMD GPU device code objects (``EM_AMDGPU``).
+
+HIPCC
 ~~~~~
 
-* Fixed an issue where ``hipExtMallocWithFlags()`` did not correctly handle the
-  ``hipDeviceMallocContiguous`` flag. The function now properly enables the
-  ``HSA_AMD_MEMORY_POOL_CONTIGUOUS_FLAG`` for memory pool allocations on the GPU.
+The legacy Perl-based HIPCC scripts -- ``hipcc.pl`` and ``hipconfig.pl`` -- have been removed.
 
-* Resolved a compilation failure caused by incorrect vector type alignment. The
-  HIP runtime has been refactored to use ``__hip_vec_align_v`` for proper
-  alignment.
+AMD SMI
+-------
 
-Backwards-incompatible changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Added:
 
-Backwards-incompatible API changes previously described in `HIP 7.0 Is Coming:
-What You Need to Know to Stay Ahead
-<https://rocm.blogs.amd.com/ecosystems-and-partners/transition-to-hip-7.0-blog/README.html>`__
-are enabled in the Beta. These changes -- aimed at improving GPU code
-portability -- include:
+  * New default view when using ``amd-smi`` without arguments. The
+    improved default view provides a snapshot of commonly requested information
+    such as bdf, current partition mode, version information, and more. You can
+    obtain the same information in other output formats using ``amd-smi default
+    --json`` or ``amd-smi default --csv``.
 
-Behavior changes
-^^^^^^^^^^^^^^^^
+  * New APIs:
 
-* To align with NVIDIA CUDA behavior, ``hipGetLastError`` now returns the last actual
-  error code caught in the current thread during application execution -- neither
-  ``hipSuccess`` nor ``hipErrorNotReady`` are considered errors.
-  ``hipExtGetLastError`` retains the previous behavior of ``hipGetLastError``.
+    * ``amdsmi_get_gpu_bad_page_threshold()`` to get bad page threshold counts.
 
-* Cooperative groups: added stricter input parameter validation to
-  ``hipLaunchCooperativeKernel`` and ``hipLaunchCooperativeKernelMultiDevice``.
+    * ``amdsmi_get_cpu_model_name()`` to get CPU model names (not sourced from E-SMI library).
 
-* ``hipPointerGetAttributes`` now returns ``hipSuccess`` instead of
-  ``hipErrorInvalidValue`` when a null pointer is passed as an input parameter,
-  aligning its behaviour with ``cudaPointerGetAttributes`` (CUDA 11+).
+    * ``amdsmi_get_cpu_affinity_with_scope()`` to get CPU affinity.
 
-* ``hipFree`` no longer performs an implicit device-wide wait when freeing
-  memory allocated with ``hipMallocAsync`` or ``hipMallocFromPoolAsync``. This
-  matches the behavior of ``cudaFree``.
+  * API enhancements:
 
-hipRTC changes
-^^^^^^^^^^^^^^
+    * ``amdsmi_get_power_info()`` now populates ``socket_power``.
 
-* ``hipRTC`` symbols are now removed from the HIP runtime library.
-  Any application using hipRTC APIs should link explicitly with the hipRTC
-  library. This makes the usage of hipRTC library on Linux the same as on
-  Windows and matches the behavior of CUDA nvRTC.
+    * ``amdsmi_asic_info_t`` now also includes ``subsystem_id``.
 
-* hipRTC compilation: the device code compilation now uses namespace
-  ``__hip_internal``, instead of the standard headers std, to avoid namespace
-  collision.
+  * CLI enhancements:
 
-* Datatype definitions such as ``int64_t``, ``uint64_t``, ``int32_t``,
-  ``uint32_t``, and so on, are removed to avoid any potential conflicts in
-  some applications as they use their own definitions for these types. HIP
-  now uses internal datatypes instead, prefixed with ``__hip`` --  for
-  example, ``__hip_int64_t``.
+    * ``amd-smi topology`` is now available in guest environments.
 
-HIP header clean up
-^^^^^^^^^^^^^^^^^^^
+    * ``amd-smi monitor -p`` now displays the power cap alongside power.
 
-* Removed non-essential C++ standard library headers; HIP header files now
-  only include necessary STL headers.
+* Optimized:
 
-* The deprecated struct ``HIP_MEMSET_NODE_PARAMS`` is now removed from the
-  API. Developers can use the definition ``hipMemsetParams`` instead.
+  * Improved overall performance by reducing the number of backend API calls for ``amd-smi`` CLI commands.
 
-API changes
-^^^^^^^^^^^
+  * Removed partition information from the default ``amd-smi static`` CLI
+    command to avoid waking the GPU unnecessarily. This info remains available
+    via ``amd-smi`` (default view) and ``amd-smi static -p``.
 
-* Some APIs' signatures have been adjusted to match corresponding CUDA counterparts. Impacted
-  APIs are: 
+  * Optimized CLI command ``amd-smi topology`` in partition mode.
 
-  * ``hiprtcCreateProgram``
+* Changed:
 
-  * ``hiprtcCompileProgram``
+  * Updated ``amdsmi_get_clock_info`` in ``amdsmi_interface.py``. The ``clk_deep_sleep`` field now returns the sleep integer value.
 
-  * ``hipMemcpyHtoD``
+  * The char arrays in the following structures have been changed.
 
-  * ``hipCtxGetApiVersion``
+    * ``amdsmi_vbios_info_t`` member ``build_date`` changed from ``AMDSMI_MAX_DATE_LENGTH`` to ``AMDSMI_MAX_STRING_LENGTH``.
 
-* Updated ``hipMemsetParams`` for compatibility with the CUDA equivalent structure.
+    * ``amdsmi_dpm_policy_entry_t`` member ``policy_description`` changed from ``AMDSMI_MAX_NAME`` to ``AMDSMI_MAX_STRING_LENGTH``.
 
-* HIP vector constructors for ``hipComplex`` initialization now generate
-  correct values. The affected constructors are small vector types such as
-  ``float2``, ``int4``, and so on.
+    * ``amdsmi_name_value_t`` member ``name`` changed from ``AMDSMI_MAX_NAME`` to ``AMDSMI_MAX_STRING_LENGTH``.
 
-Stream capture
-^^^^^^^^^^^^^^
+  * Added new event notification types to ``amdsmi_evt_notification_type_t``:
+    ``AMDSMI_EVT_NOTIF_EVENT_MIGRATE_START``,
+    ``AMDSMI_EVT_NOTIF_EVENT_MIGRATE_END``,
+    ``AMDSMI_EVT_NOTIF_EVENT_PAGE_FAULT_START``,
+    ``AMDSMI_EVT_NOTIF_EVENT_PAGE_FAULT_END``,
+    ``AMDSMI_EVT_NOTIF_EVENT_QUEUE_EVICTION``,
+    ``AMDSMI_EVT_NOTIF_EVENT_QUEUE_RESTORE``,
+    ``AMDSMI_EVT_NOTIF_EVENT_UNMAP_FROM_GPU``,
+    ``AMDSMI_EVT_NOTIF_PROCESS_START``, ``AMDSMI_EVT_NOTIF_PROCESS_END``.
 
-Stream capture mode is now more restrictive in HIP APIs through the addition
-of the ``CHECK_STREAM_CAPTURE_SUPPORTED`` macro.
+  * The ``amdsmi_bdf_t`` union was changed to have an identical unnamed struct for backwards compatiblity.
 
-* HIP now only supports ``hipStreamCaptureModeRelaxed``. Attempts to initiate
-  stream capture with any other mode will fail and return
-  ``hipErrorStreamCaptureUnsupported``. Consequently, the following APIs are
-  only permitted in Relaxed mode and will return an error if called during
-  capture with a now disallowed mode:
+* Removed:
 
-  * ``hipMallocManaged``
+  * Cleaned up and unified the API by removing unused definitions and redundant components.
 
-  * ``hipMemAdvise``
+    * Removed unneeded API ``amdsmi_free_name_value_pairs()``.
 
-* The following APIs check the stream capture mode and return error codes, matching
-  CUDA behavior:
+    * Removed unused definitions: ``AMDSMI_MAX_NAME``, ``AMDSMI_256_LENGTH``,
+      ``AMDSMI_MAX_DATE_LENGTH``, ``MAX_AMDSMI_NAME_LENGTH``, ``AMDSMI_LIB_VERSION_YEAR``,
+      ``AMDSMI_DEFAULT_VARIANT``, ``AMDSMI_MAX_NUM_POWER_PROFILES``,
+      ``AMDSMI_MAX_DRIVER_VERSION_LENGTH``.
 
-  * ``hipLaunchCooperativeKernelMultiDevice``
+      * Removed unused member ``year`` in struct ``amdsmi_version_t``.
 
-  * ``hipEventQuery``
+    * Replaced ``amdsmi_io_link_type_t`` with the unified ``amdsmi_link_type_t``. ``amdsmi_io_link_type_t`` is no longer needed.
+      Code using the old enum might need to be updated; this change also affects ``amdsmi_link_metrics_t``, where the ``link_type`` field is changed from ``amdsmi_io_link_type_t`` to ``amdsmi_link_type_t``.
 
-  * ``hipStreamAddCallback``
+    * Removed the ``amdsmi_get_power_info_v2()`` function as its functionality is now unified in ``amdsmi_get_power_info()``.
 
-* During stream capture, the following HIP APIs now return the error
-  ``hipErrorStreamCaptureUnsupported`` on the AMD platform, not always
-  ``hipSuccess``. This aligns with CUDA's behavior.
+    * Removed ``AMDSMI_EVT_NOTIF_RING_HANG`` event notification type in ``amdsmi_evt_notification_type_t``.
 
-  * ``hipDeviceSetMemPool``
+    * Removed enum ``amdsmi_vram_vendor_type_t``. ``amdsmi_get_gpu_vram_info()`` now provides vendor names as a string.
 
-  * ``hipMemPoolCreate``
+  * Removed backwards compatibility for the ``jpeg_activity`` and ``vcn_activity`` fields in ``amdsmi_get_gpu_metrics_info()``.
+    Use ``xcp_stats.jpeg_busy`` or ``xcp_stats.vcn_busy`` instead. This change removes ambiguity between new and old fields
+    and supports the expanded metrics available in modern ASICs.
 
-  * ``hipMemPoolDestroy``
+* Resolved issues:
 
-  * ``hipDeviceSetSharedMemConfig``
+  * Removed duplicated GPU IDs when receiving events using the ``amd-smi event`` command.
 
-  * ``hipDeviceSetCacheConfig``
-
-Error codes
-^^^^^^^^^^^
-
-Error and value codes returned by HIP APIs have been updated to align with
-their CUDA counterparts.
-
-* Module management-related APIs: ``hipModuleLaunchKernel``,
-  ``hipExtModuleLaunchKernel``, ``hipExtLaunchKernel``,
-  ``hipDrvLaunchKernelEx``, ``hipLaunchKernel``, ``hipLaunchKernelExC``,
-  ``hipModuleLaunchCooperativeKernel``, ``hipModuleLoad``
-
-* Texture management-related APIs:
-
-  * ``hipTexObjectCreate`` -- now supports zero width and height for 2D images. If
-    either is zero, will not return false.
-
-  * ``hipBindTexture2D`` -- now returns ``hipErrorNotFound`` for null texture or device pointers.
-
-  * ``hipBindTextureToArray`` -- now returns
-    ``hipErrorInvalidChannelDescriptor`` (instead of ``hipErrorInvalidValue``)
-    for null inputs.
-
-  * ``hipGetTextureAlignmentOffset`` -- now returns ``hipErrorInvalidTexture``
-    for a null texture reference.
-
-* Cooperative group-related APIs: added stricter validations to ``hipLaunchCooperativeKernelMultiDevice`` and ``hipLaunchCooperativeKernel``
-
-Invalid stream input parameter handling
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To match the CUDA runtime behavior more closely, HIP APIs with streams passed
-as input parameters no longer check the stream validity. Previously, the HIP
-runtime returned an error code ``hipErrorContextIsDestroyed`` if the stream was
-invalid. In CUDA version 12 and later, the equivalent behavior is to raise a
-segmentation fault. In HIP 7.0, the HIP runtime matches the CUDA by causing a
-segmentation fault. The list of APIs impacted by this change are as follows:
-
-* Stream management-related APIs: ``hipStreamGetCaptureInfo``,
-  ``hipStreamGetPriority``, ``hipStreamGetFlags``, ``hipStreamDestroy``,
-  ``hipStreamAddCallback``, ``hipStreamQuery``, ``hipLaunchHostFunc``
-
-* Graph management-related APIs: ``hipGraphUpload``, ``hipGraphLaunch``,
-  ``hipStreamBeginCaptureToGraph``, ``hipStreamBeginCapture``,
-  ``hipStreamIsCapturing``, ``hipStreamGetCaptureInfo``,
-  ``hipGraphInstantiateWithParams``
-
-* Memory management-related APIs: ``hipMemcpyPeerAsync``,
-  ``hipMemcpy2DValidateParams``, ``hipMallocFromPoolAsync``, ``hipFreeAsync``,
-  ``hipMallocAsync``, ``hipMemcpyAsync``, ``hipMemcpyToSymbolAsync``,
-  ``hipStreamAttachMemAsync``, ``hipMemPrefetchAsync``, ``hipDrvMemcpy3D``,
-  ``hipDrvMemcpy3DAsync``, ``hipDrvMemcpy2DUnaligned``, ``hipMemcpyParam2D``,
-  ``hipMemcpyParam2DAsync``, ``hipMemcpy2DArrayToArray``, ``hipMemcpy2D``,
-  ``hipMemcpy2DAsync``, ``hipDrvMemcpy2DUnaligned``, ``hipMemcpy3D``
-
-* Event management-related APIs: ``hipEventRecord``,
-  ``hipEventRecordWithFlags``
-
-warpSize
-^^^^^^^^
-
-To align with the CUDA specification, the ``warpSize`` device variable is no longer a
-compile-time constant (``constexpr``). This is a backwards-incompatible change for applications
-that use ``warpSize`` in a compile-time context.
-
-ROCprofiler-SDK and rocprofv3
------------------------------
-
-rocpd
-~~~~~
-
-Support has been added for the ``rocpd`` (ROCm Profiling Data) output format,
-which is now the default format for rocprofv3. A subproject of the
-ROCprofiler-SDK, ``rocpd`` enables saving profiling results to a SQLite3
-database, providing a structured and efficient foundation for analysis and
-post-processing.
-
-Core SDK enhancements
-~~~~~~~~~~~~~~~~~~~~~
-
-* ROCprofiler-SDK is now compatible with the HIP 7.0 API.
-
-* Added stochastic and host-trap PC sampling support for all MI300 series accelerators.
-
-* Added support for tracing KFD events.
-
-rocprofv3 CLI tool enhancements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-* Added stochastic and host-trap PC sampling support for all MI300 series accelerators.
-
-* HIP streams translate to Queues in Time Traces in Perfetto output.
-
-Instinct Driver / ROCm packaging separation
+Instinct Driver/ROCm packaging separation
 -------------------------------------------
 
 The Instinct Driver is now distributed separately from the ROCm software stack and is now stored
@@ -338,4 +397,4 @@ Instinct Datacenter GPU Driver
 information.
 
 Forward and backward compatibility between the Instinct Driver and ROCm is not supported in the
-Beta release. See the :doc:`installation instructions <install/index>`.
+RC1. See the :doc:`installation instructions <install/index>`.

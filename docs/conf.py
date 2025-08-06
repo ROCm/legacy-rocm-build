@@ -27,14 +27,14 @@ project = "ROCm Documentation"
 project_path = os.path.abspath(".").replace("\\", "/")
 author = "Advanced Micro Devices, Inc."
 copyright = "Copyright (c) 2025 Advanced Micro Devices, Inc. All rights reserved."
-version = "7.0 Beta"
-release = "7.0 Beta"
+version = "7.0 RC1"
+release = "7.0 RC1"
 setting_all_article_info = True
 all_article_info_os = ["linux"]
 all_article_info_author = ""
 
 article_pages = [
-    {"file": "preview/release", "date": "2025-07-24",},
+    {"file": "preview/release", "date": "2025-08-07",},
 ]
 
 external_toc_path = "./sphinx/_toc.yml"
@@ -59,7 +59,7 @@ html_static_path = ["sphinx/static/css", "sphinx/static/js"]
 html_css_files = ["rocm_custom.css", "rocm_rn.css"]
 html_js_files = ["preview-version-list.js"]
 
-html_title = "ROCm 7.0 Beta documentation"
+html_title = "ROCm 7.0 RC1 documentation"
 
 html_theme_options = {"link_main_doc": False}
 

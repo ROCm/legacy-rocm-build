@@ -7,7 +7,7 @@ root: preview/index
 subtrees:
 - entries:
   - file: preview/release.rst
-    title: Beta release notes
+    title: RC1 release notes
   - file: preview/install/index.rst
     title: Installation
     subtrees:

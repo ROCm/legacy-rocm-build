@@ -1,18 +1,18 @@
 ---
 myst:
   html_meta:
-    "description": "AMD ROCm 7.0 Beta documentation"
+    "description": "AMD ROCm 7.0 RC1 documentation"
     "keywords": "Radeon, open, compute, platform, install, how, conceptual, reference, home, docs"
 ---
 
-# AMD ROCm 7.0 Beta documentation
+# AMD ROCm 7.0 RC1 documentation
 
 AMD ROCm is an open-source software platform optimized to extract HPC and AI
-workload performance from AMD Instinct™ accelerators while maintaining
+workload performance from AMD Instinct™ accelerators and GPUs while maintaining
 compatibility with industry software frameworks.
 
 This documentation provides early access information about the ROCm 7.0
-Beta. This preview release provides access to new
+RC1. This preview release provides access to new
 features under development for testing so users can provide feedback.
 It is not recommended for production use.
 
@@ -23,5 +23,5 @@ To see documentation for previous ROCm 7.0 previews, see the [ROCm 7.0 preview r
 
 The documentation includes:
 
-- [ROCm 7.0 Beta release notes](release.rst) with feature details and support matrix
-- [Installation instructions](install/index.rst) for the ROCm 7.0 Beta and the Instinct Driver
+- [ROCm 7.0 RC1 release notes](release.rst) with feature details and support matrix
+- [Installation instructions](install/index.rst) for the ROCm 7.0 RC1 and the Instinct Driver

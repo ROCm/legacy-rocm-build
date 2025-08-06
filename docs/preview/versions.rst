@@ -10,6 +10,9 @@ ROCm 7.0 preview release history
    * - Preview version
      - Release date
 
+   * - `RC1 <https://rocm.docs.amd.com/en/docs-7.0-rc1/preview/index.html>`__
+     - August 7, 2025
+
    * - `Beta <https://rocm.docs.amd.com/en/docs-7.0-beta/preview/index.html>`__
      - July 24, 2025
 
