@@ -1,3 +1,10 @@
+VMware
+amd
+bdf
+compatiblity
+csv
+enum
+json
 subproject
 ROCpd
 rocpd

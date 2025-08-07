@@ -54,10 +54,7 @@ This preview supports the following AMD accelerators and Linux distributions in 
          :widths: 30, 70
 
          * - Ubuntu
-           - 24.04, 22.04
-
-         * - RHEL
-           - 9.6
+           - 22.04
 
    .. tab-item:: Instinct MI300X
 
@@ -210,7 +207,7 @@ The following tables detail supported OS configurations per AMD accelerator.
            - Ubuntu 22.04 or RHEL 9.4
 
          * - Radeon PRO V710
-           - Ubuntu 22.04.5
+           - Ubuntu 22.04
            - Ubuntu 24.04
 
    .. tab-item:: ESXi 8
@@ -230,7 +227,7 @@ The following tables detail supported OS configurations per AMD accelerator.
            - Ubuntu 24.04
 
          * - Instinct MI210
-           - Ubuntu 24.04 or SLES 15 SP6
+           - Ubuntu 24.04
 
 .. _rc1-highlights:
 
