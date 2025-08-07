@@ -723,7 +723,7 @@ detailed description.
         - ❌/❌
 
       *
-        - :doc:`MIGraphX <amdmigraphx:reference/cpp>`
+        - :doc:`MIGraphX <amdmigraphx:reference/MIGraphX-cpp>`
         - ✅/✅
         - ✅/✅
         - ✅/✅
@@ -863,7 +863,7 @@ detailed description.
         - ✅/✅
 
       *
-        - :doc:`MIGraphX <amdmigraphx:reference/cpp>`
+        - :doc:`MIGraphX <amdmigraphx:reference/MIGraphX-cpp>`
         - ✅/✅
         - ✅/✅
         - ✅/✅
