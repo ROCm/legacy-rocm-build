@@ -227,7 +227,7 @@ The following tables detail supported OS configurations per AMD accelerator.
            - Ubuntu 24.04
 
          * - Instinct MI210
-           - Ubuntu 24.04 or SLES 15 SP6
+           - Ubuntu 24.04
 
 .. _rc1-highlights:
 
