@@ -69,20 +69,29 @@ steps:
 
       RETRIES=0
       MAX_RETRIES=5
-      until wget -nv $ARTIFACT_URL -O $(System.ArtifactsDirectory)/ck.zip; do
-        RETRIES=$((RETRIES+1))
-        if [[ $RETRIES -ge $MAX_RETRIES ]]; then
-          echo "Failed to download CK artifact after $MAX_RETRIES attempts."
-          exit 1
+      SUCCESS=false
+      while [ $RETRIES -lt $MAX_RETRIES ]; do
+        wget -nv $ARTIFACT_URL -O $(System.ArtifactsDirectory)/ck.zip && \
+          unzip $(System.ArtifactsDirectory)/ck.zip -d $(System.ArtifactsDirectory) && \
+          mkdir -p $(Agent.BuildDirectory)/rocm && \
+          tar -zxvf $(System.ArtifactsDirectory)/composable_kernel*/*.tar.gz -C $(Agent.BuildDirectory)/rocm && \
+          rm -r $(System.ArtifactsDirectory)/ck.zip $(System.ArtifactsDirectory)/composable_kernel*
+
+        if [ $? -eq 0 ]; then
+          SUCCESS=true
+          echo "Successfully downloaded CK."
+          break
+        else
+          RETRIES=$((RETRIES + 1))
+          echo "Failed to download CK on attempt $RETRIES/$MAX_RETRIES, retrying..."
+          sleep 1
         fi
-        echo "Download failed, retrying ($RETRIES/$MAX_RETRIES)..."
-        sleep 5
       done
 
-      unzip $(System.ArtifactsDirectory)/ck.zip -d $(System.ArtifactsDirectory)
-      mkdir -p $(Agent.BuildDirectory)/rocm
-      tar -zxvf $(System.ArtifactsDirectory)/composable_kernel*/*.tar.gz -C $(Agent.BuildDirectory)/rocm
-      rm -r $(System.ArtifactsDirectory)/ck.zip $(System.ArtifactsDirectory)/composable_kernel*
+      if [ "$SUCCESS" = false ]; then
+        echo "ERROR: failed to download CK after $MAX_RETRIES attempts."
+        exit 1
+      fi
 
       if [[ $EXIT_CODE -ne 0 ]]; then
         BUILD_COMMIT=$(curl -s $AZ_API/build/builds/$CK_BUILD_ID | jq '.sourceVersion' | tr -d '"')
