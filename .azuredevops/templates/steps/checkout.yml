@@ -17,6 +17,7 @@ steps:
   - checkout: ${{ parameters.checkoutRepo }}
     clean: true
     submodules: ${{ parameters.submoduleBehaviour }}
+    timeoutInMinutes: 10
     retryCountOnTaskFailure: 3
     fetchFilter: blob:none
     ${{ if ne(parameters.sparseCheckoutDir, '') }}:
