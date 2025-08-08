@@ -16,7 +16,7 @@ in upcoming previews.
 
    The Beta release is not intended for performance evaluation.
    For the latest stable release with production-level functionality,
-   see `ROCm 6.4.2 documentation <https://rocm.docs.amd.com/en/latest/>`_.
+   see `ROCm 6.4.3 documentation <https://rocm.docs.amd.com/en/latest/>`_.
 
 This document highlights the key changes in the Beta release since the
 `Alpha 2 <https://rocm.docs.amd.com/en/docs-7.0-alpha-2/preview/release.html>`__.
