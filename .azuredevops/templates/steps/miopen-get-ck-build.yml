@@ -7,6 +7,7 @@ steps:
 - task: Bash@3
   name: downloadCKBuild
   displayName: Download specific CK build
+  retryCountOnTaskFailure: 3
   env:
     CXX: $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
     CC: $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
