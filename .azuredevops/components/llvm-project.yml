@@ -30,7 +30,7 @@ parameters:
   default:
     buildJobs:
       - { os: ubuntu2204, packageManager: apt }
-      - { os: ubuntu2404, packageManager: apt }
+      # - { os: ubuntu2404, packageManager: apt }
       - { os: almalinux8, packageManager: dnf }
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
   - job: llvm_project_${{ job.os }}
     pool:
       ${{ if eq(job.os, 'ubuntu2404') }}:
-        name: 'rocm-ci_medium_build_pool_2404' #temporarily using 'high' pool while 'ultra' is down
+        name: 'rocm-ci_high_build_pool_2404' #temporarily using 'high' pool while 'ultra' is down
       ${{ else }}:
         name: 'rocm-ci_ultra_build_pool'
     ${{ if eq(job.os, 'almalinux8') }}:
