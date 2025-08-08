@@ -1,3 +1,9 @@
+IPC
+SPIR
+VFS
+builtins
+crosslane
+frontend
 Datacenter
 GST
 IET
