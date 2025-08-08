@@ -21,3 +21,7 @@ ROCm 7.0 preview release history
 
    * - `Alpha <https://rocm.docs.amd.com/en/docs-7.0-alpha/preview/index.html>`__
      - June 26, 2025
+
+.. seealso::
+
+   For stable ROCm releases, see `ROCm release history <https://rocm.docs.amd.com/en/latest/release/versions.html>`__.

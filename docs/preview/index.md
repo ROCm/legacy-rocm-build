@@ -17,7 +17,7 @@ features under development for testing so users can provide feedback.
 It is not recommended for production use.
 
 ```{note}
-For the latest stable release for production use, see the [ROCm 6.4.2 documentation](https://rocm.docs.amd.com/en/latest/).
+For the latest stable release for production use, see the [ROCm 6.4.3 documentation](https://rocm.docs.amd.com/en/latest/).
 To see documentation for previous ROCm 7.0 previews, see the [ROCm 7.0 preview release history](versions.rst).
 ```
 
