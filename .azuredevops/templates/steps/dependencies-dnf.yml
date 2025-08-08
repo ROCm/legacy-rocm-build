@@ -87,6 +87,8 @@ steps:
 - ${{ if eq(parameters.registerROCmPackages, true) }}:
   - task: Bash@3
     displayName: 'Register AMDGPU & ROCm repos (dnf)'
+    timeoutInMinutes: 3
+    retryCountOnTaskFailure: 3
     inputs:
       targetType: inline
       script: |
@@ -107,6 +109,8 @@ steps:
         sudo dnf makecache
 - task: Bash@3
   displayName: 'Install base dnf packages'
+  timeoutInMinutes: 3
+  retryCountOnTaskFailure: 3
   inputs:
     targetType: inline
     script: |
@@ -126,6 +130,8 @@ steps:
       g++ -print-file-name=libstdc++.so
 - task: Bash@3
   displayName: 'Set python 3.11 as default'
+  timeoutInMinutes: 3
+  retryCountOnTaskFailure: 3
   inputs:
     targetType: inline
     script: |
@@ -140,6 +146,8 @@ steps:
   - ${{ if eq(pkg, 'ninja-build') }}:
     - task: Bash@3
       displayName: 'Install ninja 1.11.1'
+      timeoutInMinutes: 3
+      retryCountOnTaskFailure: 3
       inputs:
         targetType: inline
         script: |
@@ -152,6 +160,8 @@ steps:
   - ${{ if ne(parameters.aptToDnfMap[pkg], '') }}:
     - task: Bash@3
       displayName: 'dnf install ${{ parameters.aptToDnfMap[pkg] }}'
+      timeoutInMinutes: 3
+      retryCountOnTaskFailure: 3
       inputs:
         targetType: inline
         script: |
