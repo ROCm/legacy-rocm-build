@@ -149,6 +149,7 @@ jobs:
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - task: Bash@3
       displayName: Build and install other dependencies
+      retryCountOnTaskFailure: 3
       inputs:
         targetType: inline
         workingDirectory: $(Agent.BuildDirectory)/s
