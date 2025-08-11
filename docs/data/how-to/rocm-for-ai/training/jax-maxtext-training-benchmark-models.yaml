@@ -1,0 +1,37 @@
+dockers:
+  - pull_tag: rocm/jax-training:maxtext-v25.7
+    docker_hub_url: https://hub.docker.com/layers/rocm/jax-training/maxtext-v25.7/images/sha256-45f4c727d4019a63fc47313d3a5f5a5105569539294ddfd2d742218212ae9025
+    components:
+      ROCm: 6.4.0
+      JAX: 0.5.0
+      Python: 3.10.12
+      Transformer Engine: 2.1.0.dev0+9d123b65
+      hipBLASLt: 0.15.0-47700734
+model_groups:
+  - group: Meta Llama
+    tag: llama
+    models:
+      - model: Llama 3.3 70B
+        mad_tag: jax_maxtext_train_llama-3.3-70b
+      - model: Llama 3.1 8B
+        mad_tag: jax_maxtext_train_llama-3.1-8b
+      - model: Llama 3.1 70B
+        mad_tag: jax_maxtext_train_llama-3.1-70b
+      - model: Llama 3 8B
+        # mad_tag: pyt_megatron_lm_train_llama-2-7b
+      - model: Llama 3 70B
+        # mad_tag: pyt_megatron_lm_train_llama-2-70b
+      - model: Llama 2 7B
+        mad_tag: jax_maxtext_train_llama-2-7b
+      - model: Llama 2 70B
+        mad_tag: jax_maxtext_train_llama-2-70b
+  - group: DeepSeek
+    tag: deepseek
+    models:
+      - model: DeepSeek-V2-Lite
+        mad_tag: pyt_megatron_lm_train_deepseek-v2-lite-16b
+  - group: Mistral AI
+    tag: mistral
+    models:
+      - model: Mixtral 8x7B
+        mad_tag: pyt_megatron_lm_train_mixtral-8x7b
