@@ -12,24 +12,47 @@ ROCm is an optimized fork of the upstream
 `<https://github.com/AI-Hypercomputer/maxtext>`__ enabling efficient AI workloads
 on AMD MI300X series accelerators.
 
-The MaxText for ROCm training Docker (``rocm/jax-training:maxtext-v25.5``) image
+The MaxText for ROCm training Docker (``rocm/jax-training``) image
 provides a prebuilt environment for training on AMD Instinct MI300X and MI325X accelerators,
 including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
 It includes the following software components:
 
-+--------------------------+--------------------------------+
-| Software component       | Version                        |
-+==========================+================================+
-| ROCm                     | 6.4.0                          |
-+--------------------------+--------------------------------+
-| JAX                      | 0.5.0                          |
-+--------------------------+--------------------------------+
-| Python                   | 3.10.12                        |
-+--------------------------+--------------------------------+
-| Transformer Engine       | 2.1.0.dev0+9d123b65            |
-+--------------------------+--------------------------------+
-| hipBLASLt                | 0.15.0-47700734                |
-+--------------------------+--------------------------------+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+
+   {% set dockers = data.dockers %}
+   {% if dockers|length > 1 %}
+   .. tab-set::
+
+      {% for docker in dockers %}
+      .. tab-item:: ``{{ docker.pull_tag }}``
+         :sync: {{ docker.pull_tag }}
+
+         .. list-table::
+            :header-rows: 1
+
+            * - Software component
+              - Version
+
+            {% for component_name, component_version in docker.components.items() %}
+            * - {{ component_name }}
+              - {{ component_version }}
+
+            {% endfor %}
+      {% endfor %}
+   {% elif dockers|length == 1 %}
+   {% set docker = data.dockers[0] %}
+   .. list-table::
+      :header-rows: 1
+
+      * - Software component
+        - Version
+
+      {% for component_name, component_version in docker.components.items() %}
+      * - {{ component_name }}
+        - {{ component_version }}
+
+      {% endfor %}
+   {% endif %}
 
 MaxText with on ROCm provides the following key features to train large language models efficiently:
 
@@ -43,32 +66,44 @@ MaxText with on ROCm provides the following key features to train large language
 
 - NANOO FP8
 
-.. _amd-maxtext-model-support:
+.. _amd-maxtext-model-support-v257:
 
 Supported models
 ================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training
+The following models are pre-optimized for performance on AMD Instinct MI300 series accelerators.
 
-The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
 
-* Llama 3.3 70B
+   {% set model_groups = data.model_groups %}
+   .. raw:: html
 
-* Llama 3.1 8B
+         <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
+           <div class="row">
+             <div class="col-2 me-2 model-param-head">Model</div>
+             <div class="row col-10">
+      {% for model_group in model_groups %}
+               <div class="col-4 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+      {% endfor %}
+             </div>
+           </div>
 
-* Llama 3.1 70B
-
-* Llama 3 8B
-
-* Llama 3 70B
-
-* Llama 2 7B
-
-* Llama 2 70B
-
-* DeepSeek-V2-Lite
-
-* Mixtral 8x7B
+           <div class="row mt-1">
+             <div class="col-2 me-2 model-param-head">Model variant</div>
+             <div class="row col-10">
+      {% for model_group in model_groups %}
+         {% set models = model_group.models %}
+         {% for model in models %}
+            {% if models|length % 3 == 0 %}
+               <div class="col-4 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+            {% else %}
+               <div class="col-6 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+            {% endif %}
+         {% endfor %}
+      {% endfor %}
+             </div>
+           </div>
+         </div>
 
 .. note::
 
@@ -97,7 +132,7 @@ This Docker image is optimized for specific model configurations outlined
 as follows. Performance can vary for other training workloads, as AMD
 doesn’t validate configurations and run conditions outside those described.
 
-.. _amd-maxtext-multi-node-setup:
+.. _amd-maxtext-multi-node-setup-v257:
 
 Multi-node setup
 ----------------
@@ -179,7 +214,7 @@ with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
          # If using Mellanox NIC
          export NCCL_IB_HCA=mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_5,mlx5_8,mlx5_9
 
-.. _amd-maxtext-download-docker:
+.. _amd-maxtext-download-docker-v257:
 
 Pull the Docker image
 ---------------------
@@ -198,10 +233,10 @@ Pull the Docker image
 
       docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME/.ssh:/root/.ssh --shm-size 128G --name maxtext_training rocm/jax-training:maxtext-v25.5
 
-.. _amd-maxtext-get-started:
+.. _amd-maxtext-get-started-v257:
 
-Getting started
-===============
+Run training
+============
 
 The following examples demonstrate how to get started with single node
 and multi-node training using the benchmarking scripts provided at
