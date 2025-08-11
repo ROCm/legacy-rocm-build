@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: How to train a model using JAX MaxText for ROCm.
    :keywords: ROCm, AI, LLM, train, jax, torch, Llama, flux, tutorial, docker
@@ -5,6 +7,11 @@
 **************************************
 Training a model with MaxText for ROCm
 **************************************
+
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm JAX MaxText
+   training performance documentation. See :doc:`../jax-maxtext` for the latest version.
 
 MaxText is a high-performance, open-source framework built on the Google JAX
 machine learning library to train LLMs at scale. The MaxText framework for
@@ -20,35 +27,31 @@ It includes the following software components:
 +--------------------------+--------------------------------+
 | Software component       | Version                        |
 +==========================+================================+
-| ROCm                     | 6.4.0                          |
+| ROCm                     | 6.3.4                          |
 +--------------------------+--------------------------------+
-| JAX                      | 0.5.0                          |
+| JAX                      | 0.4.35                         |
 +--------------------------+--------------------------------+
 | Python                   | 3.10.12                        |
 +--------------------------+--------------------------------+
-| Transformer Engine       | 2.1.0.dev0+9d123b65            |
+| Transformer Engine       | 1.12.0.dev0+b8b92dc            |
 +--------------------------+--------------------------------+
-| hipBLASLt                | 0.15.0-47700734                |
+| hipBLASLt                | 0.13.0-ae9c477a                |
 +--------------------------+--------------------------------+
 
-MaxText with on ROCm provides the following key features to train large language models efficiently:
+Supported features and models
+=============================
+
+MaxText provides the following key features to train large language models efficiently:
 
 - Transformer Engine (TE)
 
-- Flash Attention (FA) 3 with or without sequence input packing
+- Flash Attention (FA) 3
 
 - GEMM tuning
 
 - Multi-node support
 
-- NANOO FP8
-
 .. _amd-maxtext-model-support:
-
-Supported models
-================
-
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training
 
 The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
 
@@ -68,12 +71,17 @@ The following models are pre-optimized for performance on AMD Instinct MI300X se
 
 * DeepSeek-V2-Lite
 
-* Mixtral 8x7B
-
 .. note::
 
    Some models, such as Llama 3, require an external license agreement through
    a third party (for example, Meta).
+
+Unsupported features
+--------------------
+
+Currently, MaxText's default packed input format is not supported. Using this format
+with the current Docker image results in incorrect attention calculations
+across different input sequences. Support for packed input format is planned for a future release.
 
 System validation
 =================
@@ -373,5 +381,5 @@ own cluster setup.
 Previous versions
 =================
 
-See :doc:`previous-versions/jax-maxtext-history` to find documentation for previous releases
+See :doc:`jax-maxtext-history` to find documentation for previous releases
 of the ``ROCm/jax-training`` Docker image.
