@@ -115,6 +115,7 @@ jobs:
         extraBuildFlags: >-
           -DCMAKE_MODULE_PATH=$(Build.SourcesDirectory)/cmake_modules;$(Agent.BuildDirectory)/rocm/lib/cmake;$(Agent.BuildDirectory)/rocm/lib/cmake/hip;$(Agent.BuildDirectory)/rocm/lib64/cmake;$(Agent.BuildDirectory)/rocm/lib64/cmake/hip
           -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor"
+          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -DCMAKE_POSITION_INDEPENDENT_CODE=ON
           -DENABLE_LDCONFIG=OFF
           -DUSE_PROF_API=1
