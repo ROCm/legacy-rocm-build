@@ -33,7 +33,6 @@ parameters:
 steps:
   - task: DownloadPipelineArtifact@2
     displayName: Download ${{ parameters.preTargetFilter}}*${{ parameters.os }}_${{ parameters.gpuTarget}}*${{ parameters.postTargetFilter}}
-    timeoutInMinutes: 3
     retryCountOnTaskFailure: 3
     inputs:
       ${{ if eq(parameters.buildType, 'specific') }}:

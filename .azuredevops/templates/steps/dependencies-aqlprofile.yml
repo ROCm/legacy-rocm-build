@@ -6,7 +6,6 @@ parameters:
 steps:
 - task: Bash@3
   displayName: Download and install aqlprofile
-  timeoutInMinutes: 3
   retryCountOnTaskFailure: 3
   inputs:
     targetType: inline

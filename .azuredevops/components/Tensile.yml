@@ -171,7 +171,6 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Pipeline Wheel Files'
-      timeoutInMinutes: 3
       retryCountOnTaskFailure: 3
       inputs:
         itemPattern: '**/*${{ job.os }}*.whl'

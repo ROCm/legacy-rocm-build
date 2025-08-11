@@ -27,7 +27,6 @@ steps:
 - ${{ if gt(length(parameters.pipModules), 0) }}:
   - task: Bash@3
     displayName: 'pip install  ...'
-    timeoutInMinutes: 10
     retryCountOnTaskFailure: 3
     inputs:
       targetType: inline

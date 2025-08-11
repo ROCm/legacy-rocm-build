@@ -10,7 +10,6 @@ steps:
 - ${{ if eq(parameters.registerROCmPackages, true) }}:
   - task: Bash@3
     displayName: 'Register AMDGPU & ROCm repos (apt)'
-    timeoutInMinutes: 3
     retryCountOnTaskFailure: 3
     inputs:
       targetType: inline
@@ -23,7 +22,6 @@ steps:
         sudo apt update
 - task: Bash@3
   displayName: 'APT update and install packages'
-  timeoutInMinutes: 10
   retryCountOnTaskFailure: 3
   inputs:
     targetType: inline

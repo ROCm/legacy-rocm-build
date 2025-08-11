@@ -24,7 +24,6 @@ parameters:
 steps:
 - task: DownloadPipelineArtifact@2
   displayName: Download ${{ parameters.componentName }}
-  timeoutInMinutes: 3
   retryCountOnTaskFailure: 3
   inputs:
     itemPattern: '**/*${{ parameters.componentName }}*${{ parameters.fileFilter }}*'
