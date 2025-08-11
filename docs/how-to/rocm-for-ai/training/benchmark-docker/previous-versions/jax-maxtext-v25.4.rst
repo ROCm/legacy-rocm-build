@@ -51,7 +51,7 @@ MaxText provides the following key features to train large language models effic
 
 - Multi-node support
 
-.. _amd-maxtext-model-support:
+.. _amd-maxtext-model-support-v254:
 
 The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
 

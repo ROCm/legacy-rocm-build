@@ -51,7 +51,7 @@ MaxText provides the following key features to train large language models effic
 
 - Multi-node support
 
-.. _amd-maxtext-model-support:
+.. _amd-maxtext-model-support-v255:
 
 The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
 
@@ -105,7 +105,7 @@ This Docker image is optimized for specific model configurations outlined
 as follows. Performance can vary for other training workloads, as AMD
 doesn’t validate configurations and run conditions outside those described.
 
-.. _amd-maxtext-multi-node-setup:
+.. _amd-maxtext-multi-node-setup-v255:
 
 Multi-node setup
 ----------------
@@ -187,7 +187,7 @@ with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
          # If using Mellanox NIC
          export NCCL_IB_HCA=mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_5,mlx5_8,mlx5_9
 
-.. _amd-maxtext-download-docker:
+.. _amd-maxtext-download-docker-v255:
 
 Pull the Docker image
 ---------------------
@@ -206,7 +206,7 @@ Pull the Docker image
 
       docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME/.ssh:/root/.ssh --shm-size 128G --name maxtext_training rocm/jax-training:maxtext-v25.5
 
-.. _amd-maxtext-get-started:
+.. _amd-maxtext-get-started-v255:
 
 Getting started
 ===============
