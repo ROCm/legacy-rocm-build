@@ -113,7 +113,8 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
-        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+        # ignore sparse checkout for monorepo case
+        # sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
@@ -155,6 +156,9 @@ jobs:
           -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -DBUILD_CLIENTS_TESTS=ON
           -GNinja
+        ${{ if ne(parameters.sparseCheckoutDir, '') }}:
+          cmakeSourceDir: $(Build.SourcesDirectory)/projects/hipsparselt
+          cmakeBuildDir: $(Build.SourcesDirectory)/projects/hipsparselt
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}
