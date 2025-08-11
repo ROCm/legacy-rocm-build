@@ -131,7 +131,7 @@ jobs:
       displayName: Create temp folder for external dependencies
   # hipSPARSELt already has a CMake script for external deps, so we can just run that
   # https://github.com/ROCm/hipSPARSELt/blob/develop/deps/CMakeLists.txt
-    - script: cmake $(Pipeline.Workspace)/s/deps
+    - script: cmake $(Pipeline.Workspace)/s/projects/hipsparselt/deps
       displayName: Configure hipSPARSELt external dependencies
       workingDirectory: $(Pipeline.Workspace)/deps
     - script: make
