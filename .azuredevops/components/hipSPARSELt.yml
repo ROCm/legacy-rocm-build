@@ -134,7 +134,7 @@ jobs:
     - ${{ if ne(parameters.sparseCheckoutDir, '') }}:
         script: cmake $(Pipeline.Workspace)/s/projects/hipsparselt/deps
       ${{ else }}:
-        script: cmake $(Build.SourcesDirectory)/s/deps
+        script: cmake $(Pipeline.Workspace)/s/deps
       displayName: Configure hipSPARSELt external dependencies
       workingDirectory: $(Pipeline.Workspace)/deps
     - script: make
