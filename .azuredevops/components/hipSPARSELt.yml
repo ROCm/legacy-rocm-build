@@ -113,7 +113,8 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
-        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+        # ignore sparse checkout for monorepo case, we want access to hipblaslt directory
+        # sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
@@ -130,7 +131,10 @@ jobs:
       displayName: Create temp folder for external dependencies
   # hipSPARSELt already has a CMake script for external deps, so we can just run that
   # https://github.com/ROCm/hipSPARSELt/blob/develop/deps/CMakeLists.txt
-    - script: cmake $(Pipeline.Workspace)/s/deps
+    - ${{ if ne(parameters.sparseCheckoutDir, '') }}:
+        script: cmake $(Pipeline.Workspace)/s/projects/hipsparselt/deps
+      ${{ else }}:
+        script: cmake $(Pipeline.Workspace)/s/deps
       displayName: Configure hipSPARSELt external dependencies
       workingDirectory: $(Pipeline.Workspace)/deps
     - script: make
@@ -155,6 +159,9 @@ jobs:
           -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -DBUILD_CLIENTS_TESTS=ON
           -GNinja
+        ${{ if ne(parameters.sparseCheckoutDir, '') }}:
+          cmakeSourceDir: $(Build.SourcesDirectory)/projects/hipsparselt
+          cmakeBuildDir: $(Build.SourcesDirectory)/projects/hipsparselt
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}

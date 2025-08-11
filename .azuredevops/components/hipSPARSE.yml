@@ -69,7 +69,7 @@ parameters:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
       - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx1030 }
+      #- { os: ubuntu2204, packageManager: apt, target: gfx1030 }
       - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
     testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
