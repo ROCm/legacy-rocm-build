@@ -12,35 +12,14 @@ ROCm is an optimized fork of the upstream
 `<https://github.com/AI-Hypercomputer/maxtext>`__ enabling efficient AI workloads
 on AMD MI300X series accelerators.
 
-The MaxText for ROCm training Docker (``rocm/jax-training``) image
-provides a prebuilt environment for training on AMD Instinct MI300X and MI325X accelerators,
-including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
-It includes the following software components:
-
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
 
-   {% set dockers = data.dockers %}
-   {% if dockers|length > 1 %}
-   .. tab-set::
-
-      {% for docker in dockers %}
-      .. tab-item:: ``{{ docker.pull_tag }}``
-         :sync: {{ docker.pull_tag }}
-
-         .. list-table::
-            :header-rows: 1
-
-            * - Software component
-              - Version
-
-            {% for component_name, component_version in docker.components.items() %}
-            * - {{ component_name }}
-              - {{ component_version }}
-
-            {% endfor %}
-      {% endfor %}
-   {% elif dockers|length == 1 %}
    {% set docker = data.dockers[0] %}
+   The MaxText for ROCm training Docker (``{{ docker.pull_tag }}``) image
+   provides a prebuilt environment for training on AMD Instinct MI300X and MI325X accelerators,
+   including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
+   It includes the following software components:
+
    .. list-table::
       :header-rows: 1
 
@@ -52,26 +31,28 @@ It includes the following software components:
         - {{ component_version }}
 
       {% endfor %}
-   {% endif %}
 
 MaxText with on ROCm provides the following key features to train large language models efficiently:
 
 - Transformer Engine (TE)
 
-- Flash Attention (FA) 3 with or without sequence input packing
+- Flash Attention (FA) 3 -- with or without sequence input packing
 
 - GEMM tuning
 
 - Multi-node support
 
-- NANOO FP8
+- NANOO FP8 quantization support
 
 .. _amd-maxtext-model-support-v257:
 
 Supported models
 ================
 
-The following models are pre-optimized for performance on AMD Instinct MI300 series accelerators.
+The following models are pre-optimized for performance on AMD Instinct MI300
+series accelerators. Some instructions, commands, and available training
+configurations in this documentation might vary by model -- select one to get
+started.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
 
@@ -139,7 +120,7 @@ Multi-node setup
 
 For multi-node environments, ensure you have all the necessary packages for
 your network device, such as, RDMA. If you're not using a multi-node setup
-with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
+with RDMA, skip ahead to :ref:`amd-maxtext-get-started-v257`.
 
 1. Install the following packages to build and install the RDMA driver.
 
@@ -214,196 +195,175 @@ with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
          # If using Mellanox NIC
          export NCCL_IB_HCA=mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_5,mlx5_8,mlx5_9
 
-.. _amd-maxtext-download-docker-v257:
-
-Pull the Docker image
----------------------
-
-1. Use the following command to pull the Docker image from Docker Hub.
-
-   .. code-block:: shell
-
-      docker pull rocm/jax-training:maxtext-v25.5
-
-2. Use the following command to launch the Docker container. Note that the benchmarking scripts
-   used in the :ref:`following section <amd-maxtext-get-started>` automatically launch the Docker container
-   and execute the benchmark.
-
-   .. code-block:: shell
-
-      docker run -it --device /dev/dri --device /dev/kfd --network host --ipc host --group-add video --cap-add SYS_PTRACE --security-opt seccomp=unconfined --privileged -v $HOME/.ssh:/root/.ssh --shm-size 128G --name maxtext_training rocm/jax-training:maxtext-v25.5
-
 .. _amd-maxtext-get-started-v257:
 
-Run training
+Benchmarking
 ============
 
-The following examples demonstrate how to get started with single node
-and multi-node training using the benchmarking scripts provided at
-`<https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/>`__.
+Once the setup is complete, choose between two options to reproduce the
+benchmark results:
 
-.. important::
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
 
-   The provided scripts launch a Docker container and execute a benchmark. Ensure you run these commands outside of any existing Docker container.
+   .. _vllm-benchmark-mad:
 
-Before running any benchmarks, ensure the ``$HF_HOME`` environment variable is
-set correctly and points to your Hugging Face cache directory. Refer to the
-README at `<https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/>`__
-for more detailed instructions.
+   {% set docker = data.dockers[0] %}
+   {% set model_groups = data.model_groups %}
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
 
-Single node training benchmarking examples
-------------------------------------------
+   .. container:: model-doc {{model.mad_tag}}
 
-* Example 1: Single node training with Llama 2 7B
+      .. tab-set::
 
-  Download the benchmarking script:
+         {% if model.mad_tag and "single-node" in model.doc_options %}
+         .. tab-item:: MAD-integrated benchmarking
 
-  .. code-block:: shell
+            1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
+               directory and install the required packages on the host machine.
 
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama2_7b.sh
+               .. code-block:: shell
 
-  Run the single node training benchmark:
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD
+                  pip install -r requirements.txt
 
-  .. code-block:: shell
+            2. Use this command to run the performance benchmark test on the {{ model.model }} model
+               using one GPU with the :literal:`{{model.precision}}` data type on the host machine.
 
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama2_7b.sh
+               .. code-block:: shell
 
-* Example 2: Single node training with Llama 2 70B
+                  export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
+                  madengine run \
+                      --tags {{model.mad_tag}} \
+                      --keep-model-dir \
+                      --live-output \
+                      --timeout 28800
 
-  Download the benchmarking script:
+            MAD launches a Docker container with the name
+            ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
+            model are collected in the following path: ``~/MAD/perf.csv/``.
+         {% endif %}
 
-  .. code-block:: shell
+         .. tab-item:: Standalone benchmarking
 
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama2_70b.sh
+            .. rubric:: Download the Docker image and required scripts
 
-  Run the single node training benchmark:
+            Run the JAX MaxText benchmark tool independently by starting the
+            Docker container as shown in the following snippet.
 
-  .. code-block:: shell
+            .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama2_70b.sh
+               docker pull {{ docker.pull_tag }}
 
-* Example 3: Single node training with Llama 3 8B
+            .. tab-set::
 
-  Download the benchmarking script:
+               {% if model.model_repo and "single-node" in model.doc_options %}
+               .. tab-item:: Single node training
 
-  .. code-block:: shell
+                  1. Set up environment variables.
 
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama3_8b.sh
+                     .. code-block:: shell
 
-  Run the single node training benchmark:
+                        export MAD_SECRETS_HFTOKEN=<Your Hugging Face token>
+                        export HF_HOME=<Location of saved/cached Hugging Face models>
 
-  .. code-block:: shell
+                     ``MAD_SECRETS_HFTOKEN`` is your Hugging Face access token to access models, tokenizers, and data.
+                     See `User access tokens <https://huggingface.co/docs/hub/en/security-tokens>`__.
 
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama3_8b.sh
+                     ``HF_HOME`` is where ``huggingface_hub`` will store local data. See `huggingface_hub CLI <https://huggingface.co/docs/huggingface_hub/main/en/guides/cli#huggingface-cli-download>`__.
+                     If you already have downloaded or cached Hugging Face artifacts, set this variable to that path.
+                     Downloaded files typically get cached to ``~/.cache/huggingface``.
 
-* Example 4: Single node training with Llama 3 70B
 
-  Download the benchmarking script:
+                  2. Launch the Docker container.
 
-  .. code-block:: shell
+                     .. code-block:: shell
 
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama3_70b.sh
+                        docker run -it \
+                            --device=/dev/dri \
+                            --device=/dev/kfd \
+                            --network host \
+                            --ipc host \
+                            --group-add video \
+                            --cap-add=SYS_PTRACE \
+                            --security-opt seccomp=unconfined \
+                            --privileged \
+                            -v $HOME:$HOME \
+                            -v $HOME/.ssh:/root/.ssh \
+                            -v $HF_HOME:/hf_cache \
+                            -e HF_HOME=/hf_cache \
+                            -e MAD_SECRETS_HFTOKEN=$MAD_SECRETS_HFTOKEN
+                            --shm-size 64G \
+                            --name training_env \
+                            {{ docker.pull_tag }}
 
-  Run the single node training benchmark:
+                  3. In the Docker container, clone the ROCm MAD repository and navigate to the
+                     benchmark scripts directory at ``MAD/scripts/jax-maxtext``.
 
-  .. code-block:: shell
+                     .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama3_70b.sh
+                        git clone https://github.com/ROCm/MAD
+                        cd MAD/scripts/jax-maxtext
 
-* Example 5: Single node training with Llama 3.3 70B
+                  4. Run the setup scripts to install libraries and datasets needed
+                     for benchmarking.
 
-  Download the benchmarking script:
+                     .. code-block:: shell
 
-  .. code-block:: shell
+                        ./jax-maxtext_benchmark_setup.sh -m {{ model.mad_tag }}
 
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama3.3_70b.sh
+                     To run the training benchmark with quantization, use:
 
-  Run the single node training benchmark:
+                     .. code-block:: shell
 
-  .. code-block:: shell
+                        ./jax-maxtext_benchmark_setup.sh -m {{ model.mad_tag }} -q nanoo_fp8
 
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./llama3.3_70b.sh
+               {% endif %}
+               {% if model.multinode_training_script and "multi-node" in model.doc_options %}
+               .. tab-item:: Multi-node training
 
-* Example 6: Single node training with DeepSeek V2 16B
+                  The following examples use SLURM to run on multiple nodes.
 
-  Download the benchmarking script:
+                  .. note::
 
-  .. code-block:: shell
+                     The following scripts will launch the Docker container and run the
+                     benchmark. Run them outside of any Docker container.
 
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/deepseek_v2_16b.sh
+                  1. Make sure ``$HF_HOME`` is set before running the test. See
+                     `ROCm benchmarking <https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/readme.md>`__
+                     for more details on downloading the Llama models before running the
+                     benchmark.
 
-  Run the single node training benchmark:
+                  2. To run multi-node training for {{ model.model }}, download
+                     the example multi-node benchmarking script.
 
-  .. code-block:: shell
+                     .. code-block:: shell
 
-     IMAGE="rocm/jax-training:maxtext-v25.5" bash ./deepseek_v2_16b.sh
+                        wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/{{ model.multinode_training_script }}
 
-  .. note::
+                  3. Run the multi-node training benchmark script.
 
-     The reported TFLOP/s by MaxText for DeepSeek is not accurate. Use
-     the tokens/s as a performance indicator.
+                     .. code-block:: shell
 
-Multi-node training benchmarking examples
------------------------------------------
+                        sbatch -N <num_nodes> {{ model.multinode_training_script }}
 
-The following examples use SLURM for running on multiple nodes -- the commands might need to be adjusted for your
-own cluster setup.
+               {% endif %}
+      {% endfor %}
+   {% endfor %}
 
-* Example 1: Multi-node training with Llama 2 7B
+Further reading
+===============
 
-  Download the benchmarking script:
+- See the ROCm/maxtext benchmarking README at `<https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/readme.md>`__.
 
-  .. code-block:: shell
+- To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama2_7b_multinode.sh
+- To learn more about system settings and management practices to configure your system for
+  AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
-  Run the multi-node training benchmark. For example:
-
-  .. code-block:: shell
-
-     sbatch -N <num_nodes> llama2_7b_multinode.sh
-
-* Example 2: Multi-node training with Llama 2 70B
-
-  Download the benchmarking script:
-
-  .. code-block:: shell
-
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama2_70b_multinode.sh
-
-  Run the multi-node training benchmark. For example:
-
-  .. code-block:: shell
-
-     sbatch -N <num_nodes> llama2_70b_multinode.sh
-
-* Example 3: Multi-node training with Llama 3 8B model
-
-  Download the benchmarking script:
-
-  .. code-block:: shell
-
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama3_8b_multinode.sh
-
-  Run the multi-node training benchmark. For example:
-
-  .. code-block:: shell
-
-     sbatch -N <num_nodes> llama3_8b_multinode.sh
-
-* Example 4: Multi-node training with Llama 3 70B model
-
-  Download the benchmarking script:
-
-  .. code-block:: shell
-
-     wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama3_70b_multinode.sh
-
-  Run the multi-node training benchmark. For example:
-
-  .. code-block:: shell
-
-     sbatch -N <num_nodes> llama3_70b_multinode.sh
+- For a list of other ready-made Docker images for AI with ROCm, see
+  `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.
 
 Previous versions
 =================
