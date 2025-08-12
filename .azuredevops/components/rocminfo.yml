@@ -35,18 +35,18 @@ parameters:
       - { os: ubuntu2204, packageManager: apt }
       # - { os: almalinux8, packageManager: dnf }
     testJobs:
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 1 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 2 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 3 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 4 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 5 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 6 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 7 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 8 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 9 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 10 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 11 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942, test: 12 }
       # - { os: ubuntu2204, packageManager: apt, target: gfx90a }
 
 jobs:
@@ -96,7 +96,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
 
 - ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocminfo_test_${{ job.target }}
+  - job: rocminfo_test_${{ job.target }}_${{ job.test }}
     dependsOn: rocminfo_build_${{ job.os }}
     condition:
       and(succeeded(),
