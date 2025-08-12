@@ -28,13 +28,13 @@ variables:
 - name: GFX90A_TEST_POOL
   value: gfx90a_test_pool
 - name: LATEST_RELEASE_VERSION
-  value: 6.4.2
+  value: 6.4.3
 - name: REPO_RADEON_VERSION
-  value: 6.4.2
+  value: 6.4.3
 - name: NEXT_RELEASE_VERSION
   value: 7.0.0
 - name: LATEST_RELEASE_TAG
-  value: rocm-6.4.2
+  value: rocm-6.4.3
 - name: DOCKER_SKIP_GFX
   value: gfx90a
 - name: COMPOSABLE_KERNEL_PIPELINE_ID
