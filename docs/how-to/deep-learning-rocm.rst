@@ -2,43 +2,208 @@
    :description: How to install deep learning frameworks for ROCm
    :keywords: deep learning, frameworks, ROCm, install, PyTorch, TensorFlow, JAX, MAGMA, DeepSpeed, ML, AI
 
-********************************************
-Installing deep learning frameworks for ROCm
-********************************************
+**********************************
+Deep learning frameworks for ROCm
+**********************************
 
-ROCm provides a comprehensive ecosystem for deep learning development, including
-:ref:`libraries <artificial-intelligence-apis>` for optimized deep learning operations and ROCm-aware versions of popular
-deep learning frameworks and libraries such as PyTorch, TensorFlow, and JAX. ROCm works closely with these
-frameworks to ensure that framework-specific optimizations take advantage of AMD accelerator and GPU architectures.
+Deep learning frameworks provide environments for machine learning, training, fine-tuning, inference, and performance optimization. 
 
-The following guides provide information on compatibility and supported
-features for these ROCm-enabled deep learning frameworks.
+ROCm provides a comprehensive ecosystem for optimized deep learning development and operations, as well as ROCm-aware versions of widely used deep learning frameworks and libraries, including PyTorch, TensorFlow, and JAX. 
 
-* :doc:`PyTorch compatibility <../compatibility/ml-compatibility/pytorch-compatibility>`
-* :doc:`TensorFlow compatibility <../compatibility/ml-compatibility/tensorflow-compatibility>`
-* :doc:`JAX compatibility <../compatibility/ml-compatibility/jax-compatibility>`
-* :doc:`verl compatibility <../compatibility/ml-compatibility/verl-compatibility>`
-* :doc:`Stanford Megatron-LM compatibility <../compatibility/ml-compatibility/stanford-megatron-lm-compatibility>`
-* :doc:`DGL compatibility <../compatibility/ml-compatibility/dgl-compatibility>`
-* :doc:`Megablocks compatibility <../compatibility/ml-compatibility/megablocks-compatibility>`
-* :doc:`Taichi compatibility <../compatibility/ml-compatibility/taichi-compatibility>`
+The AMD ROCm organization, which is actively involved in open-source contributions and development, collaborates closely with in-demand framework organizations to ensure that framework-specific optimizations effectively leverage AMD accelerators and GPU architectures.
 
-This chart steps through typical installation workflows for installing deep learning frameworks for ROCm.
+These topics in the ROCm documentation provide info on the installation and compatibility of these ROCm-enabled deep learning frameworks. These deep learning framework compatibility topics note the ROCm and third-party tool version support. Additionally, the Compatibility matrix topic notes the supported deep learning framework versions. 
 
-.. image:: ../data/how-to/framework_install_2024_07_04.png
-   :alt: Flowchart for installing ROCm-aware machine learning frameworks
-   :align: center
+.. tab-set::
 
-See the installation instructions to get started.
+  .. tab-item:: PyTorch
+    :sync: pytorch
 
-* :doc:`PyTorch for ROCm <rocm-install-on-linux:install/3rd-party/pytorch-install>`
-* :doc:`TensorFlow for ROCm <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
-* :doc:`JAX for ROCm <rocm-install-on-linux:install/3rd-party/jax-install>`
-* :doc:`verl for ROCm <rocm-install-on-linux:install/3rd-party/verl-install>`
-* :doc:`Stanford Megatron-LM for ROCm <rocm-install-on-linux:install/3rd-party/stanford-megatron-lm-install>`
-* :doc:`DGL for ROCm <rocm-install-on-linux:install/3rd-party/dgl-install>`
-* :doc:`Megablocks for ROCm <rocm-install-on-linux:install/3rd-party/megablocks-install>`
-* :doc:`Taichi for ROCm <rocm-install-on-linux:install/3rd-party/taichi-install>`
+    .. list-table::
+      :widths: 10 5 5
+      :header-rows: 1
+
+      *
+        - Description
+        - Learning resources
+        - Installation options
+  
+      * 
+        - PyTorch is an open-source tensor library designed for deep learning. PyTorch on ROCm provides mixed-precision and large-scale training using our MIOpen and RCCL libraries.
+
+        - 
+           | `PyTorch ROCm GitHub <https://github.com/ROCm/pytorch>`_
+           | :doc:`Install PyTorch for ROCm <rocm-install-on-linux:install/3rd-party/pytorch-install>`
+           | :doc:`Compatability info <../compatibility/ml-compatibility/pytorch-compatibility>`
+        - 
+           | Docker image 
+           | Wheels package 
+           | ROCm Base Docker image 
+           | Upstream Docker file
+
+
+  .. tab-item:: TensorFlow 
+    :sync: tensorflow
+
+    .. list-table::
+      :widths: 10 5 5
+      :header-rows: 1
+
+      *
+        - Description
+        - Learning resources
+        - Installation options
+  
+      * 
+        - TensorFlow is an open-source library for solving machine learning, deep learning, and AI problems. It can solve many problems across different sectors and industries but primarily focuses on neural network training and inference.
+
+        - 
+           | `TensorFlow ROCm GitHub <https://github.com/ROCm/tensorflow-upstream>`_
+           | :doc:`Install TensorFlow for ROCm <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
+           | :doc:`Compatability info <../compatibility/ml-compatibility/tensorflow-compatibility>`
+        - 
+           | Docker image 
+           | Wheels package 
+           
+  .. tab-item:: JAX 
+    :sync: jax
+
+    .. list-table::
+      :widths: 10 5 5
+      :header-rows: 1
+
+      *
+        - Description
+        - Learning resources
+        - Installation options
+  
+      * 
+        - TensorFlow is an open-source library for solving machine learning, deep learning, and AI problems. It can solve many problems across different sectors and industries but primarily focuses on neural network training and inference. It is one of the most popular and in-demand frameworks and is very active in open-source contribution and development.
+
+        - 
+           | `TensorFlow ROCm GitHub <https://github.com/ROCm/tensorflow-upstream>`_
+           | :doc:`Install TensorFlow for ROCm <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
+           | :doc:`Compatability info <../compatibility/ml-compatibility/tensorflow-compatibility>`
+        - 
+           | Docker image 
+           | Wheels package 
+
+  .. tab-item:: verl 
+    :sync: verl
+
+    .. list-table::
+      :widths: 10 5 5
+      :header-rows: 1
+
+      *
+        - Description
+        - Learning resources
+        - Installation options
+  
+      * 
+        - TensorFlow is an open-source library for solving machine learning, deep learning, and AI problems. It can solve many problems across different sectors and industries but primarily focuses on neural network training and inference. It is one of the most popular and in-demand frameworks and is very active in open-source contribution and development.
+
+        - 
+           | `TensorFlow ROCm GitHub <https://github.com/ROCm/tensorflow-upstream>`_
+           | :doc:`Install TensorFlow for ROCm <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
+           | :doc:`Compatability info <../compatibility/ml-compatibility/tensorflow-compatibility>`
+        - 
+           | Docker image 
+           | Wheels package 
+  
+  .. tab-item:: Stanford Megatron-LM 
+    :sync: stanford-megatron-lm
+
+    .. list-table::
+      :widths: 10 5 5
+      :header-rows: 1
+
+      *
+        - Description
+        - Learning resources
+        - Installation options
+  
+      * 
+        - TensorFlow is an open-source library for solving machine learning, deep learning, and AI problems. It can solve many problems across different sectors and industries but primarily focuses on neural network training and inference. It is one of the most popular and in-demand frameworks and is very active in open-source contribution and development.
+
+        - 
+           | `TensorFlow ROCm GitHub <https://github.com/ROCm/tensorflow-upstream>`_
+           | :doc:`Install TensorFlow for ROCm <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
+           | :doc:`Compatability info <../compatibility/ml-compatibility/tensorflow-compatibility>`
+        - 
+           | Docker image 
+           | Wheels package 
+ 
+  .. tab-item:: DGL 
+    :sync: dgl
+
+    .. list-table::
+      :widths: 10 5 5
+      :header-rows: 1
+
+      *
+        - Description
+        - Learning resources
+        - Installation options
+  
+      * 
+        - TensorFlow is an open-source library for solving machine learning, deep learning, and AI problems. It can solve many problems across different sectors and industries but primarily focuses on neural network training and inference. It is one of the most popular and in-demand frameworks and is very active in open-source contribution and development.
+
+        - 
+           | `TensorFlow ROCm GitHub <https://github.com/ROCm/tensorflow-upstream>`_
+           | :doc:`Install TensorFlow for ROCm <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
+           | :doc:`Compatability info <../compatibility/ml-compatibility/tensorflow-compatibility>`
+        - 
+           | Docker image 
+           | Wheels package 
+           
+  .. tab-item:: Megablocks 
+    :sync: megablocks
+
+    .. list-table::
+      :widths: 10 5 5
+      :header-rows: 1
+
+      *
+        - Description
+        - Learning resources
+        - Installation options
+  
+      * 
+        - TensorFlow is an open-source library for solving machine learning, deep learning, and AI problems. It can solve many problems across different sectors and industries but primarily focuses on neural network training and inference. It is one of the most popular and in-demand frameworks and is very active in open-source contribution and development.
+
+        - 
+           | `TensorFlow ROCm GitHub <https://github.com/ROCm/tensorflow-upstream>`_
+           | :doc:`Install TensorFlow for ROCm <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
+           | :doc:`Compatability info <../compatibility/ml-compatibility/tensorflow-compatibility>`
+        - 
+           | Docker image 
+           | Wheels package 
+
+  .. tab-item:: Taichi 
+    :sync: taichi
+
+    .. list-table::
+      :widths: 10 5 5
+      :header-rows: 1
+
+      *
+        - Description
+        - Learning resources
+        - Installation options
+  
+      * 
+        - TensorFlow is an open-source library for solving machine learning, deep learning, and AI problems. It can solve many problems across different sectors and industries but primarily focuses on neural network training and inference. It is one of the most popular and in-demand frameworks and is very active in open-source contribution and development.
+
+        - 
+           | `TensorFlow ROCm GitHub <https://github.com/ROCm/tensorflow-upstream>`_
+           | :doc:`Install TensorFlow for ROCm <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
+           | :doc:`Compatability info <../compatibility/ml-compatibility/tensorflow-compatibility>`
+        - 
+           | Docker image 
+           | Wheels package 
+  
+
 
 .. note::
 
