@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: Learn how to validate LLM inference performance on MI300X accelerators using AMD MAD and the
                  ROCm vLLM Docker image.
@@ -7,9 +9,14 @@
 vLLM inference performance testing
 **********************************
 
-.. _vllm-benchmark-unified-docker-812:
+.. caution::
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+   This documentation does not reflect the latest version of ROCm vLLM
+   inference performance documentation. See :doc:`../vllm` for the latest version.
+
+.. _vllm-benchmark-unified-docker-715:
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.9.1_20250715-benchmark_models.yaml
 
    {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
    {% set model_groups = data.vllm_benchmark.model_groups %}
@@ -45,13 +52,19 @@ MI300X series accelerators.
 What's new
 ==========
 
-The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <previous-versions/vllm-history>`.
+The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <vllm-history>`.
 
-* Upgraded to vLLM v0.10.
+* The ``--compilation-config-parameter`` is no longer required as its options are now enabled by default.
+  This parameter has been removed from the benchmarking script.
 
-* FP8 KV cache support via AITER.
+* Resolved Llama 3.1 405 B custom all-reduce issue, eliminating the need for ``--disable-custom-all-reduce``.
+  This parameter has been removed from the benchmarking script.
 
-* Full graph capture support via AITER.
+* Fixed a ``+rms_norm`` custom kernel issue.
+
+* Added quick reduce functionality. Set ``VLLM_ROCM_QUICK_REDUCE_QUANTIZATION=FP`` to enable; supported modes are ``FP``, ``INT8``, ``INT6``, ``INT4``.
+
+* Implemented a workaround to potentially mitigate GPU crashes experienced with the Command R+ model, pending a driver fix.
 
 Supported models
 ================
@@ -61,7 +74,7 @@ Supported models
    {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
    {% set model_groups = data.vllm_benchmark.model_groups %}
 
-   .. _vllm-benchmark-available-models-812:
+   .. _vllm-benchmark-available-models-715:
 
    The following models are supported for inference performance benchmarking
    with vLLM and ROCm. Some instructions, commands, and recommendations in this
@@ -96,7 +109,7 @@ Supported models
       </div>
       </div>
 
-   .. _vllm-benchmark-vllm-812:
+   .. _vllm-benchmark-vllm-715:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -118,14 +131,14 @@ Supported models
    See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
    more information.
 
-.. _vllm-benchmark-performance-measurements-812:
+.. _vllm-benchmark-performance-measurements-715:
 
 Performance measurements
 ========================
 
 To evaluate performance, the
 `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
-page provides reference throughput and serving measurements for inferencing popular AI models.
+page provides reference throughput and latency measurements for inferencing popular AI models.
 
 .. important::
 
@@ -170,7 +183,7 @@ system's configuration.
    Once the setup is complete, choose between two options to reproduce the
    benchmark results:
 
-   .. _vllm-benchmark-mad-812:
+   .. _vllm-benchmark-mad-715:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -203,15 +216,12 @@ system's configuration.
                       --timeout 28800
 
             MAD launches a Docker container with the name
-            ``container_ci-{{model.mad_tag}}``. The throughput and serving reports of the
-            model are collected in the following paths: ``{{ model.mad_tag }}_throughput.csv``
-            and ``{{ model.mad_tag }}_serving.csv``.
+            ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
+            model are collected in the following path: ``~/MAD/reports_{{model.precision}}/``.
 
-            Although the :ref:`available models
-            <vllm-benchmark-available-models>` are preconfigured to collect
-            offline throughput and online serving performance data, you can
-            also change the benchmarking parameters. See the standalone
-            benchmarking tab for more information.
+            Although the :ref:`available models <vllm-benchmark-available-models>` are preconfigured
+            to collect latency and throughput performance data, you can also change the benchmarking
+            parameters. See the standalone benchmarking tab for more information.
 
             {% if model.tunableop %}
 
@@ -221,12 +231,14 @@ system's configuration.
                TunableOp automatically explores different implementations and configurations of certain PyTorch
                operators to find the fastest one for your hardware.
 
-               By default, ``{{model.mad_tag}}`` runs with TunableOp disabled (see
-               `<https://github.com/ROCm/MAD/blob/develop/models.json>`__). To enable it, include
-               the ``--tunableop on`` argument in your run.
+               By default, ``{{model.mad_tag}}`` runs with TunableOp disabled
+               (see
+               `<https://github.com/ROCm/MAD/blob/develop/models.json>`__).
+               To enable it, include the ``--tunableop on`` argument in your
+               run.
 
-               Enabling TunableOp triggers a two-pass run -- a warm-up followed by the
-               performance-collection run.
+               Enabling TunableOp triggers a two-pass run -- a warm-up followed
+               by the performance-collection run.
 
             {% endif %}
 
@@ -264,13 +276,6 @@ system's configuration.
 
             3. To start the benchmark, use the following command with the appropriate options.
 
-               .. code-block::
-
-                  ./run.sh \
-                      --config $CONFIG_CSV \
-                      --model_repo {{ model.model_repo }} \
-                      <overrides>
-
                .. dropdown:: Benchmark options
                   :open:
 
@@ -282,40 +287,42 @@ system's configuration.
                        - Options
                        - Description
 
-                     * - ``--config``
-                       - ``configs/default.csv``
-                       - Run configs from the CSV for the chosen model repo and benchmark.
+                     * - ``$test_option``
+                       - latency
+                       - Measure decoding token latency
 
                      * -
-                       - ``configs/extended.csv``
-                       - 
+                       - throughput
+                       - Measure token generation throughput
 
                      * -
-                       - ``configs/performance.csv``
-                       - 
+                       - all
+                       - Measure both throughput and latency
 
-                     * - ``--benchmark``
-                       - ``throughput``
-                       - Measure offline end-to-end throughput.
+                     * - ``$num_gpu``
+                       - 1 or 8
+                       - Number of GPUs
 
-                     * - 
-                       - ``serving``
-                       - Measure online serving performance.
-
-                     * - 
-                       - ``all``
-                       - Measure both throughput and serving.
-
-                     * - `<overrides>`
-                       - See `run.sh <https://github.com/ROCm/MAD/blob/develop/scripts/vllm/run.sh>`__ for more info.
-                       - Additional overrides to the config CSV.
+                     * - ``$datatype``
+                       - ``float16`` or ``float8``
+                       - Data type
 
                   The input sequence length, output sequence length, and tensor parallel (TP) are
                   already configured. You don't need to specify them with this script.
 
+               Command:
+
+               .. code-block::
+
+                  ./vllm_benchmark_report.sh \
+                      -s $test_option \
+                      -m {{model.model_repo}} \
+                      -g $num_gpu \
+                      -d {{model.precision}}
+
                .. note::
 
-                  For best performance, it's recommended to run with ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``.
+                  For best performance, it's recommend to run with ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``.
 
                   If you encounter the following error, pass your access-authorized Hugging
                   Face token to the gated models.
@@ -331,33 +338,33 @@ system's configuration.
 
             Here are some examples of running the benchmark with various options:
 
+            * Latency benchmark
+
+              Use this command to benchmark the latency of the {{model.model}} model on eight GPUs with :literal:`{{model.precision}}` precision.
+
+              .. code-block::
+
+                 ./vllm_benchmark_report.sh \
+                     -s latency \
+                     -m {{model.model_repo}} \
+                     -g 8 \
+                     -d {{model.precision}}
+
+              Find the latency report at ``./reports_{{model.precision}}_vllm_rocm{{unified_docker.rocm_version}}/summary/{{model.model_repo.split('/', 1)[1] if '/' in model.model_repo else model.model_repo}}_latency_report.csv``.
+
             * Throughput benchmark
 
               Use this command to benchmark the throughput of the {{model.model}} model on eight GPUs with :literal:`{{model.precision}}` precision.
 
               .. code-block:: shell
 
-                 export MAD_MODEL_NAME={{ model.mad_tag }}
-                 ./run.sh \
-                     --config configs/default.csv \
-                     --model_repo {{model.model_repo}} \
-                     --benchmark throughput
+                 ./vllm_benchmark_report.sh \
+                     -s throughput \
+                     -m {{model.model_repo}} \
+                     -g 8 \
+                     -d {{model.precision}}
 
-              Find the throughput benchmark report at ``./{{ model.mad_tag }}_throughput.csv``.
-
-            * Serving benchmark
-
-              Use this command to benchmark the serving performance of the {{model.model}} model on eight GPUs with :literal:`{{model.precision}}` precision.
-
-              .. code-block::
-
-                 export MAD_MODEL_NAME={{ model.mad_tag }}
-                 ./run.sh \
-                     --config configs/default.csv \
-                     --model_repo {{model.model_repo}} \
-                     --benchmark serving
-
-              Find the serving benchmark report at ``./{{ model.mad_tag }}_serving.csv``.
+              Find the throughput report at ``./reports_{{model.precision}}_vllm_rocm{{unified_docker.rocm_version}}/summary/{{model.model_repo.split('/', 1)[1] if '/' in model.model_repo else model.model_repo}}_throughput_report.csv``.
 
             .. raw:: html
 
@@ -400,13 +407,18 @@ To reproduce this ROCm/vLLM Docker image release, follow these steps:
    .. code-block:: shell
 
       cd vllm
-      git checkout 340ea86dfe5955d6f9a9e767d6abab5aacf2c978
+      git checkout b432b7a285aa0dcb9677380936ffa74931bb6d6f
 
 3. Build the Docker image. Replace ``vllm-rocm`` with your desired image tag.
 
    .. code-block:: shell
 
       docker build -f docker/Dockerfile.rocm -t vllm-rocm .
+
+Known issues and workarounds
+============================
+
+AITER does not support FP8 KV cache yet.
 
 Further reading
 ===============
@@ -434,5 +446,5 @@ Further reading
 Previous versions
 =================
 
-See :doc:`previous-versions/vllm-history` to find documentation for previous releases
+See :doc:`vllm-history` to find documentation for previous releases
 of the ``ROCm/vllm`` Docker image.

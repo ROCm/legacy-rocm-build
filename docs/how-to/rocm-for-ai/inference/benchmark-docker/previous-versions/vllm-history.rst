@@ -16,14 +16,23 @@ previous releases of the ``ROCm/vllm`` Docker image on `Docker Hub <https://hub.
      - Components
      - Resources
 
-   * - ``rocm/vllm:rocm6.4.1_vllm_0.9.1_20250715``
+   * - ``rocm/vllm:rocm6.4.1_vllm_0.10.0_20250812``
        (latest)
+     - 
+       * ROCm 6.4.1
+       * vLLM 0.10.0
+       * PyTorch 2.7.0
+     - 
+       * :doc:`Documentation <../vllm>`
+       * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.10.0_20250812/images/sha256-4c277ad39af3a8c9feac9b30bf78d439c74d9b4728e788a419d3f1d0c30cacaa>`__
+
+   * - ``rocm/vllm:rocm6.4.1_vllm_0.9.1_20250715``
      - 
        * ROCm 6.4.1
        * vLLM 0.9.1
        * PyTorch 2.7.0
      - 
-       * :doc:`Documentation <../vllm>`
+       * :doc:`Documentation <vllm-0.9.1-20250715>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.9.1_20250715/images/sha256-4a429705fa95a58f6d20aceab43b1b76fa769d57f32d5d28bd3f4e030e2a78ea>`__
 
    * - ``rocm/vllm:rocm6.4.1_vllm_0.9.1_20250702``

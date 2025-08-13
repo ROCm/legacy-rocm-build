@@ -14,7 +14,7 @@ vLLM inference performance testing
    This documentation does not reflect the latest version of ROCm vLLM
    inference performance documentation. See :doc:`../vllm` for the latest version.
 
-.. _vllm-benchmark-unified-docker:
+.. _vllm-benchmark-unified-docker-702:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.9.1_20250702-benchmark-models.yaml
 
@@ -77,7 +77,7 @@ vLLM inference performance testing
         </div>
       </div>
 
-   .. _vllm-benchmark-vllm:
+   .. _vllm-benchmark-vllm-702:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -159,7 +159,7 @@ vLLM inference performance testing
    Once the setup is complete, choose between two options to reproduce the
    benchmark results:
 
-   .. _vllm-benchmark-mad:
+   .. _vllm-benchmark-mad-702:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}

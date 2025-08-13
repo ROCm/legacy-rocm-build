@@ -147,6 +147,8 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.8.5-20250521", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.9.0.1-20250605", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.9.0.1-20250702", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.9.1-20250702", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.9.1-20250715", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
 
