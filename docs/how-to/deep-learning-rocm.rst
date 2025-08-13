@@ -12,11 +12,11 @@ ROCm offers a comprehensive ecosystem for optimized deep learning development an
 
 The AMD ROCm organization, which is actively involved in open-source contributions and development, collaborates closely with in-demand framework organizations to ensure that framework-specific optimizations effectively leverage AMD accelerators and GPU architectures.
 
-The topics noted in the following table provide information about the installation and compatibility of these ROCm-enabled deep learning frameworks. The compatibility topics note the ROCm and third-party tool version support. Additionally, the :doc:`Compatibility matrix <../compatibility/compatibility-matrix>`_ topic notes the supported deep learning framework versions.
+The topics noted in the following table provide information about the installation and compatibility of these ROCm-enabled deep learning frameworks. The compatibility topics note the ROCm and third-party tool version support. Additionally, the :doc:`Compatibility matrix <../compatibility/compatibility-matrix>` topic notes the supported deep learning framework versions.
 
 .. list-table:: 
     :header-rows: 1
-    :widths: 15 10 20 10
+    :widths: 25 10 20 20
     :align: center
 
     * - Framework (ROCm GitHub)
