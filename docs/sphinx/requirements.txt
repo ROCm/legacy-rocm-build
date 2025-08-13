@@ -234,7 +234,7 @@ sphinx-notfound-page==1.1.0
     # via rocm-docs-core
 sphinx-reredirects==0.1.6
     # via -r requirements.in
-sphinx-sitemap==2.7.2
+sphinx-sitemap==2.8.0
     # via -r requirements.in
 sphinxcontrib-applehelp==2.0.0
     # via sphinx
