@@ -16,7 +16,7 @@ The topics noted in the following table provide information about the installati
 
 .. list-table:: 
     :header-rows: 1
-    :widths: 25 10 20 20
+    :widths: 25 20 20 20
     :align: center
 
     * - Framework (ROCm GitHub)
@@ -117,13 +117,13 @@ through the following guides.
 
 * :doc:`rocm-for-ai/index`
 
-* :doc:`Training <rocm-for-ai/training/index>`
+* :doc:`Use ROCm for training <rocm-for-ai/training/index>`
 
-* :doc:`Fine-tuning LLMs <rocm-for-ai/fine-tuning/index>`
+* :doc:`Use ROCm for fine-tuning LLMs <rocm-for-ai/fine-tuning/index>`
 
-* :doc:`Inference <rocm-for-ai/inference/index>`
+* :doc:`Use ROCm for AI inference <rocm-for-ai/inference/index>`
 
-* :doc:`Inference optimization <rocm-for-ai/inference-optimization/index>`
+* :doc:`Use ROCm for AI inference optimization <rocm-for-ai/inference-optimization/index>`
 
 
 
