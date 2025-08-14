@@ -5,6 +5,7 @@ ACEs
 ACS
 AccVGPR
 AccVGPRs
+AITER
 ALU
 AllReduce
 AMD
