@@ -93,7 +93,7 @@ schedules:
 jobs:
 - ${{ each job in parameters.jobList }}:
   - job: nightly_${{ job.os }}_${{ job.target }}
-    timeoutInMinutes: 90
+    timeoutInMinutes: 120
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -226,6 +226,7 @@ jobs:
             cat Dockerfile
     - task: Docker@2
       displayName: Build and upload Docker image
+      retryCountOnTaskFailure: 3
       inputs:
         containerRegistry: ContainerService3
         repository: 'nightly-${{ job.os }}-${{ job.target }}'
