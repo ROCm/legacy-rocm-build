@@ -3,7 +3,7 @@ vllm_benchmark:
     latest:
       # TODO: update me
       pull_tag: rocm/vllm:rocm6.4.1_vllm_0.10.0_20250812
-      docker_hub_url: 
+      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.10.0_20250812/images/sha256-4c277ad39af3a8c9feac9b30bf78d439c74d9b4728e788a419d3f1d0c30cacaa
       rocm_version: 6.4.1
       vllm_version: 0.10.0 (0.10.1.dev395+g340ea86df.rocm641)
       pytorch_version: 2.7.0+gitf717b2a (2.7.0+gitf717b2a)
