@@ -158,6 +158,7 @@ jobs:
           -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm"
           -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -DBUILD_CLIENTS_TESTS=ON
+          -DBUILD_USE_LOCAL_TENSILE=OFF
           -GNinja
         ${{ if ne(parameters.sparseCheckoutDir, '') }}:
           cmakeSourceDir: $(Build.SourcesDirectory)/projects/hipsparselt
