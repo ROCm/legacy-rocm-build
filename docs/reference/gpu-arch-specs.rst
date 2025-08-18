@@ -285,7 +285,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - Radeon AI PRO R9700
           - RDNA4
           - gfx1201
-          - 16
+          - 32
           - 64
           - 32 or 64
           - 128
