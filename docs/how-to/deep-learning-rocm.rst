@@ -16,100 +16,98 @@ The topics noted in the following table provide information about the installati
 
 .. list-table:: 
     :header-rows: 1
-    :widths: 25 20 20 20
-    :align: center
 
-    * - Framework (ROCm GitHub)
+    * - Framework (Compatibility topic)
       - Installation topic
       - Installation options
-      - Compatibility topic
+      - ROCm GitHub
 
-    * - `PyTorch <https://github.com/ROCm/pytorch>`_
+    * - `PyTorch <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/pytorch-compatibility.html>`_
       - .. raw:: html
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        | Docker image 
-        | Wheels package 
-        | ROCm Base Docker image 
-        | Upstream Docker file
+        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-a-docker-image-with-pytorch-pre-installed>`_ 
+        - | `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-a-wheels-package>`_
+        - | `ROCm Base Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-the-pytorch-rocm-base-docker-image>`_ 
+        - | `Upstream Docker file <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-the-pytorch-upstream-dockerfile>`_
       - .. raw:: html
          
-          <a href="https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/pytorch-compatibility.html"><i class="fas fa-link fa-lg"></i></a>
+          <a href="https://github.com/ROCm/pytorch"><i class="fab fa-github fa-lg"></i></a>
    
-    * - `TensorFlow <https://github.com/ROCm/tensorflow-upstream>`_
+    * - `TensorFlow <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/tensorflow-compatibility.html>`_
       - .. raw:: html
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/tensorflow-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        | Docker image 
-        | Wheels package 
+        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/tensorflow-install.html#using-a-docker-image-with-tensorflow-pre-installed>`_
+        - | `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/tensorflow-install.html#using-a-wheels-package>`_
 
       - .. raw:: html
          
-          <a href="https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/tensorflow-compatibility.html"><i class="fas fa-link fa-lg"></i></a> 
+          <a href="https://github.com/ROCm/tensorflow-upstream"><i class="fab fa-github fa-lg"></i></a> 
 
-    * - `JAX <https://github.com/ROCm/jax>`_
+    * - `JAX <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/jax-compatibility.html>`_
       - .. raw:: html
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/jax-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        | Docker image 
+        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/jax-install.html#using-a-prebuilt-docker-image>`_
       - .. raw:: html
          
-          <a href="https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/jax-compatibility.html"><i class="fas fa-link fa-lg"></i></a>
+          <a href="https://github.com/ROCm/jax"><i class="fab fa-github fa-lg"></i></a>
    
-    * - `verl <https://github.com/ROCm/verl>`_
+    * - `verl <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/verl-compatibility.html>`_
       - .. raw:: html
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/verl-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        | Docker image 
+        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/verl-install.html#use-a-prebuilt-docker-image-with-verl-pre-installed>`_
       - .. raw:: html
          
-          <a href="https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/verl-compatibility.html"><i class="fas fa-link fa-lg"></i></a>
+          <a href="https://github.com/ROCm/verl"><i class="fab fa-github fa-lg"></i></a>
 
-    * - `Stanford Megatron-LM <https://github.com/ROCm/Stanford-Megatron-LM>`_
+    * - `Stanford Megatron-LM <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/stanford-megatron-lm-compatibility.html>`_
       - .. raw:: html
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/stanford-megatron-lm-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        | Docker image 
+        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/stanford-megatron-lm-install.html#use-a-prebuilt-docker-image-with-stanford-megatron-lm-pre-installed>`_
       - .. raw:: html
          
-          <a href="https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/stanford-megatron-lm-compatibility.html"><i class="fas fa-link fa-lg"></i></a>
+          <a href="https://github.com/ROCm/Stanford-Megatron-LM"><i class="fab fa-github fa-lg"></i></a>
    
-    * - `DGL <https://github.com/ROCm/dgl>`_
+    * - `DGL <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/dgl-compatibility.html>`_
       - .. raw:: html
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/dgl-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        | Docker image 
+        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/dgl-install.html#use-a-prebuilt-docker-image-with-dgl-pre-installed>`_
       - .. raw:: html
          
-          <a href="https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/dgl-compatibility.html"><i class="fas fa-link fa-lg"></i></a> 
+          <a href="https://github.com/ROCm/dgl"><i class="fab fa-github fa-lg"></i></a> 
 
-    * - `Megablocks <https://github.com/ROCm/megablocks>`_
+    * - `Megablocks <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/megablocks-compatibility.html>`_
       - .. raw:: html
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/megablocks-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        | Docker image 
+        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/megablocks-install.html#using-a-prebuilt-docker-image-with-megablocks-pre-installed>`_
       - .. raw:: html
          
-          <a href="https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/megablocks-compatibility.html"><i class="fas fa-link fa-lg"></i></a>
+          <a href="https://github.com/ROCm/megablocks"><i class="fab fa-github fa-lg"></i></a>
    
-    * - `Taichi <https://github.com/ROCm/taichi>`_
+    * - `Taichi <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/taichi-compatibility.html>`_
       - .. raw:: html
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/taichi-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        | Docker image 
-        | Wheels package 
+        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/taichi-install.html#use-a-prebuilt-docker-image-with-taichi-pre-installed>`_ 
+        - | `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/taichi-install.html#use-a-wheels-package>`_
 
       - .. raw:: html
          
-          <a href="https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/taichi-compatibility.html"><i class="fas fa-link fa-lg"></i></a>      
+          <a href="https://github.com/ROCm/taichi"><i class="fab fa-github fa-lg"></i></a>      
 
 
 Learn how to use your ROCm deep learning environment for training, fine-tuning, inference, and performance optimization
