@@ -16,6 +16,7 @@ The topics noted in the following table provide information about the installati
 
 .. list-table:: 
     :header-rows: 1
+    :widths: 10 10 10 10
 
     * - Framework (Compatibility topic)
       - Installation topic
