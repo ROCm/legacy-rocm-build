@@ -40,7 +40,7 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
 Some instructions, commands, and training recommendations in this documentation might
 vary by model -- select one to get started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.6-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
 
    {% set unified_docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
