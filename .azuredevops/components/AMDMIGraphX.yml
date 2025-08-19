@@ -38,6 +38,7 @@ parameters:
     - libdrm-dev
     - libmsgpack-dev
     - libnuma-dev
+    - libabsl-dev
     - libprotobuf-dev
     - libsqlite3-dev
     - libtbb-dev
