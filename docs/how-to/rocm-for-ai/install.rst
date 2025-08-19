@@ -4,9 +4,9 @@
 
 .. _rocm-for-ai-install:
 
-***********************************************
+********************************************
 Installing ROCm and deep learning frameworks
-***********************************************
+********************************************
 
 Before getting started, install ROCm and supported deep learning frameworks.
 
@@ -44,7 +44,7 @@ distribution's package manager. See the following documentation resources to get
       :doc:`Installation troubleshooting <rocm-install-on-linux:reference/install-faq>` guide.
 
 Deep learning frameworks
-===========================
+========================
 
 ROCm supports deep learning frameworks and libraries including `PyTorch
 <https://pytorch.org/blog/pytorch-for-amd-rocm-platform-now-available-as-python-package>`_, `TensorFlow
