@@ -1,15 +1,26 @@
 dockers:
-  - pull_tag: rocm/megatron-lm:v25.7_py310
-    docker_hub_url: https://hub.docker.com/layers/rocm/megatron-lm/v25.7_py310/images/sha256-6189df849feeeee3ae31bb1e97aef5006d69d2b90c134e97708c19632e20ab5a
+  - pull_tag: rocm/megatron-lm:v25.6_py312
+    docker_hub_url: https://hub.docker.com/layers/rocm/megatron-lm/v25.6_py312/images/sha256-482ff906532285bceabdf2bda629bd32cb6174d2d07f4243a736378001b28df0
     components:
-      ROCm: 6.4.2
-      Primus: v0.1.0-rc1
-      PyTorch: 2.8.0a0+gitd06a406
-      Python: "3.10"
-      Transformer Engine: 2.1.0.dev0+ba586519
-      hipBLASLt: 37ba1d36
+      ROCm: 6.4.1
+      PyTorch: 2.8.0a0+git7d205b2
+      Python: 3.12
+      Transformer Engine: 2.1.0.dev0+8c4a512
+      hipBLASLt: 393e413
       Triton: 3.3.0
-      RCCL: 2.22.3
+      RCCL: 2.23.4.7a84c5d
+    doc_name: Ubuntu 24.04 + Python 3.12
+  - pull_tag: rocm/megatron-lm:v25.6_py310
+    docker_hub_url: https://hub.docker.com/layers/rocm/megatron-lm/v25.6_py310/images/sha256-9627bd9378684fe26cb1a10c7dd817868f553b33402e49b058355b0f095568d6
+    components:
+      ROCm: 6.4.1
+      PyTorch: 2.8.0a0+git7d205b2
+      Python: "3.10"
+      Transformer Engine: 2.1.0.dev0+8c4a512
+      hipBLASLt: 393e413
+      Triton: 3.3.0
+      RCCL: 2.23.4.7a84c5d
+    doc_name: Ubuntu 22.04 + Python 3.10
 model_groups:
   - group: Meta Llama
     tag: llama
