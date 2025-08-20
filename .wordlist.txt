@@ -122,6 +122,7 @@ ENDPGM
 EPYC
 ESXi
 EoS
+fas
 FBGEMM
 FFT
 FFTs
@@ -194,6 +195,7 @@ HWE
 HWS
 Haswell
 Higgs
+href
 Hyperparameters
 Huggingface
 ICD
