@@ -8,11 +8,11 @@ Deep learning frameworks for ROCm
 
 Deep learning frameworks provide environments for machine learning, training, fine-tuning, inference, and performance optimization.
 
-ROCm offers a comprehensive ecosystem for optimized deep learning development and operations, along with ROCm-aware versions of widely used deep learning frameworks and libraries, including PyTorch, TensorFlow, and JAX.
+ROCm offers a complete ecosystem for developing and running deep learning applications efficiently. It also provides ROCm-compatible versions of popular frameworks and libraries, such as PyTorch, TensorFlow, JAX, and others.
 
-The AMD ROCm organization, which is actively involved in open-source contributions and development, collaborates closely with in-demand framework organizations to ensure that framework-specific optimizations effectively leverage AMD accelerators and GPU architectures.
+The AMD ROCm organization actively contributes to open-source development and collaborates closely with framework organizations. This collaboration ensures that framework-specific optimizations effectively leverage AMD GPUs and accelerators.
 
-The topics noted in the following table provide information about the installation and compatibility of these ROCm-enabled deep learning frameworks. The compatibility topics note the ROCm and third-party tool version support. Additionally, the :doc:`Compatibility matrix <../compatibility/compatibility-matrix>` topic notes the supported deep learning framework versions.
+The table below summarizes information about ROCm-enabled deep learning frameworks. It includes details on ROCm compatibility and third-party tool support, installation steps and options, and links to GitHub resources. For a complete list of supported framework versions on ROCm, see the :doc:`compatibility matrix <../compatibility/compatibility-matrix>` topic.
 
 .. list-table:: 
     :header-rows: 1
