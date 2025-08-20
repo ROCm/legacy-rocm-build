@@ -115,7 +115,7 @@ jobs:
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
           -DROCM_ROOT=$(Agent.BuildDirectory)/rocm
-          -DAMDGPU_TARGETS=${{ job.target }}
+          -DGPU_TARGETS=${{ job.target }}
           -DCMAKE_HIP_ARCHITECTURES=${{ job.target }}
           -DCMAKE_EXE_LINKER_FLAGS=-fgpu-rdc
           -GNinja
