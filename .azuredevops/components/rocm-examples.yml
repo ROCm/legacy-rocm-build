@@ -14,6 +14,7 @@ parameters:
   type: object
   default:
     - cmake
+    - glslang-tools
     - libglfw3-dev
     - libmsgpack-dev
     - libtbb-dev
