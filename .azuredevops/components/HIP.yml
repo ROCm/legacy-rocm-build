@@ -54,6 +54,7 @@ parameters:
   type: object
   default:
     - llvm-project
+    - ROCR-Runtime
 
 - name: jobMatrix
   type: object
