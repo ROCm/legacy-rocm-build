@@ -46,6 +46,7 @@ parameters:
   default:
     - joblib
     - "packaging>=22.0"
+    - pytest-cmake
     - --upgrade
 - name: rocmDependencies
   type: object
