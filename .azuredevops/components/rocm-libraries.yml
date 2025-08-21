@@ -138,8 +138,13 @@ jobs:
       parameters:
         os: ${{ job.os }}
         extraBuildFlags: >-
-          -DROCM_LIBRARIES_SUPERBUILD=ON
-          -GNinja
+          -D CMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
+          -D CMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/llvm/include
+          -D CMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -D CMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+          -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+          -D CMAKE_C_COMPILER_LAUNCHER=ccache
+          -G Ninja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}
