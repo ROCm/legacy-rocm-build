@@ -125,10 +125,10 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
-        artifactName: amd
+        artifactName: ${{ job.platform }}
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
-        artifactName: amd
+        artifactName: ${{ job.platform }}
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
