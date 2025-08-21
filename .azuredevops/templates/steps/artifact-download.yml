@@ -25,7 +25,10 @@ steps:
 - task: DownloadPipelineArtifact@2
   displayName: Download ${{ parameters.componentName }}
   inputs:
-    itemPattern: '**/*${{ parameters.componentName }}*${{ parameters.fileFilter }}*'
+    ${{ if eq(parameters.componentName, 'clr') }}:
+      itemPattern: '**/*${{ parameters.componentName }}*${{ parameters.fileFilter }}*amd*' # filter out nvidia clr artifacts
+    ${{ else }}:
+      itemPattern: '**/*${{ parameters.componentName }}*${{ parameters.fileFilter }}*'
     targetPath: '$(Pipeline.Workspace)/d'
     allowPartiallySucceededBuilds: true
     ${{ if parameters.aggregatePipeline }}:
