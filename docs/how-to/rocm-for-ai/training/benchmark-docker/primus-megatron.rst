@@ -8,7 +8,7 @@ Training a model with Primus and Megatron-Core
 
 `Primus <https://github.com/AMD-AIG-AIMA/Primus>`__ is a unified and flexible
 LLM training framework designed to streamline training. It streamlines LLM
-training on AMD GPUs using a modular, reproducible configuration paradigm.
+training on AMD Instinct accelerators using a modular, reproducible configuration paradigm.
 Primus is backend-agnostic and supports multiple training engines -- including Megatron-Core.
 
 .. note::
