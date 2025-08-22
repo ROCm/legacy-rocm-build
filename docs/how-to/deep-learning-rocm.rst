@@ -16,22 +16,22 @@ The table below summarizes information about ROCm-enabled deep learning framewor
 
 .. list-table:: 
     :header-rows: 1
-    :widths: 10 10 10 10
+    :widths: 5 3 6 3
 
-    * - Framework (Compatibility topic)
-      - Installation topic
+    * - Framework
+      - Installation
       - Installation options
-      - ROCm GitHub
+      - GitHub
 
     * - `PyTorch <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/pytorch-compatibility.html>`_
       - .. raw:: html
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-a-docker-image-with-pytorch-pre-installed>`_ 
-        - | `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-a-wheels-package>`_
-        - | `ROCm Base Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-the-pytorch-rocm-base-docker-image>`_ 
-        - | `Upstream Docker file <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-the-pytorch-upstream-dockerfile>`_
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-a-docker-image-with-pytorch-pre-installed>`_ 
+        - `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-a-wheels-package>`_
+        - `ROCm Base Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-the-pytorch-rocm-base-docker-image>`_ 
+        - `Upstream Docker file <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/pytorch-install.html#using-the-pytorch-upstream-dockerfile>`_
       - .. raw:: html
          
           <a href="https://github.com/ROCm/pytorch"><i class="fab fa-github fa-lg"></i></a>
@@ -41,8 +41,8 @@ The table below summarizes information about ROCm-enabled deep learning framewor
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/tensorflow-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/tensorflow-install.html#using-a-docker-image-with-tensorflow-pre-installed>`_
-        - | `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/tensorflow-install.html#using-a-wheels-package>`_
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/tensorflow-install.html#using-a-docker-image-with-tensorflow-pre-installed>`_
+        - `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/tensorflow-install.html#using-a-wheels-package>`_
 
       - .. raw:: html
          
@@ -53,7 +53,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/jax-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/jax-install.html#using-a-prebuilt-docker-image>`_
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/jax-install.html#using-a-prebuilt-docker-image>`_
       - .. raw:: html
          
           <a href="https://github.com/ROCm/jax"><i class="fab fa-github fa-lg"></i></a>
@@ -63,7 +63,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/verl-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/verl-install.html#use-a-prebuilt-docker-image-with-verl-pre-installed>`_
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/verl-install.html#use-a-prebuilt-docker-image-with-verl-pre-installed>`_
       - .. raw:: html
          
           <a href="https://github.com/ROCm/verl"><i class="fab fa-github fa-lg"></i></a>
@@ -73,7 +73,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/stanford-megatron-lm-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/stanford-megatron-lm-install.html#use-a-prebuilt-docker-image-with-stanford-megatron-lm-pre-installed>`_
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/stanford-megatron-lm-install.html#use-a-prebuilt-docker-image-with-stanford-megatron-lm-pre-installed>`_
       - .. raw:: html
          
           <a href="https://github.com/ROCm/Stanford-Megatron-LM"><i class="fab fa-github fa-lg"></i></a>
@@ -83,7 +83,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/dgl-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/dgl-install.html#use-a-prebuilt-docker-image-with-dgl-pre-installed>`_
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/dgl-install.html#use-a-prebuilt-docker-image-with-dgl-pre-installed>`_
       - .. raw:: html
          
           <a href="https://github.com/ROCm/dgl"><i class="fab fa-github fa-lg"></i></a> 
@@ -93,7 +93,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/megablocks-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/megablocks-install.html#using-a-prebuilt-docker-image-with-megablocks-pre-installed>`_
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/megablocks-install.html#using-a-prebuilt-docker-image-with-megablocks-pre-installed>`_
       - .. raw:: html
          
           <a href="https://github.com/ROCm/megablocks"><i class="fab fa-github fa-lg"></i></a>
@@ -103,8 +103,8 @@ The table below summarizes information about ROCm-enabled deep learning framewor
          
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/taichi-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
-        - | `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/taichi-install.html#use-a-prebuilt-docker-image-with-taichi-pre-installed>`_ 
-        - | `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/taichi-install.html#use-a-wheels-package>`_
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/taichi-install.html#use-a-prebuilt-docker-image-with-taichi-pre-installed>`_ 
+        - `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/taichi-install.html#use-a-wheels-package>`_
 
       - .. raw:: html
          
