@@ -116,6 +116,7 @@ Deprecations
 DevCap
 DirectX
 Dockerfile
+Dockerized
 Doxygen
 dropless
 ELMo
@@ -361,6 +362,7 @@ PowerEdge
 PowerShell
 Pretrained
 Pretraining
+Primus
 Profiler's
 PyPi
 Pytest
@@ -525,6 +527,7 @@ Xilinx
 Xnack
 Xteam
 YAML
+YAMLs
 YML
 YModel
 ZeRO
@@ -585,6 +588,7 @@ completers
 composable
 concretization
 config
+configs
 conformant
 constructible
 convolutional
@@ -795,7 +799,9 @@ preprocessing
 preprocessor
 prequantized
 prerequisites
+pretrain
 pretraining
+primus
 profiler
 profilers
 protobuf

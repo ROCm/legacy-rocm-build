@@ -44,8 +44,8 @@ subtrees:
         title: Training
         subtrees:
         - entries:
-          - file: how-to/rocm-for-ai/training/benchmark-docker/megatron-lm.rst
-            title: Train a model with Megatron-LM
+          - file: how-to/rocm-for-ai/training/benchmark-docker/primus-megatron.rst
+            title: Train a model with Primus and Megatron-Core
           - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.rst
             title: Train a model with PyTorch
           - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext.rst
