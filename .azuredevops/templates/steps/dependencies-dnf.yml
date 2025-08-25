@@ -84,6 +84,7 @@ parameters:
     # note: python3.11-setuptools is already installed when updating to python 3.11
     texinfo: texinfo
     zlib1g-dev: zlib-devel
+    pybind11-dev: pybind11-devel
 
 steps:
 - ${{ if eq(parameters.registerROCmPackages, true) }}:
