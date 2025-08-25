@@ -104,6 +104,8 @@ jobs:
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+    - script: |
+        python3 -m pip install --user pybind11
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
