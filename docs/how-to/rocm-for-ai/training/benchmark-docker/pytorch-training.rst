@@ -509,7 +509,7 @@ Multi-node training
 Pre-training
 ~~~~~~~~~~~~
 
-Multi-node pre-training with torchtitan is supported. The provided SLURM script is pre-configured for Llama 3 70B.
+Multi-node training with torchtitan is supported. The provided SLURM script is pre-configured for Llama 3 70B.
 
 To launch the training job on a SLURM cluster for Llama 3 70B, run the following commands from the MAD repository.
 
@@ -522,7 +522,7 @@ To launch the training job on a SLURM cluster for Llama 3 70B, run the following
 Fine-tuning
 ~~~~~~~~~~~
 
-Multi-node fine-tuning with torchtune is supported. The provided SLURM script is pre-configured for Llama 3.3 70B.
+Multi-node training with torchtune is supported. The provided SLURM script is pre-configured for Llama 3.3 70B.
 
 To launch the training job on a SLURM cluster for Llama 3.3 70B, run the following commands from the MAD repository.
 
