@@ -142,7 +142,7 @@ jobs:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
     - job: rocprofiler_compute_test_${{ job.target }}
       timeoutInMinutes: 120
-      dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
+      dependsOn: rocprofiler_compute_build_${{ job.target }}
       condition:
         and(succeeded(),
           eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
