@@ -150,8 +150,6 @@ jobs:
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
-        extraSparseCheckoutPaths:
-          - shared/origami
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
       parameters:
         dependencyList:
