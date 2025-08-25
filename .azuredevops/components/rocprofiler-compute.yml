@@ -1,7 +1,7 @@
 parameters:
 - name: componentName
   type: string
-  default: rocprofiler_compute
+  default: rocprofiler-compute
 - name: checkoutRepo
   type: string
   default: 'self'
@@ -96,7 +96,7 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: ${{ parameters.componentName }}_build_${{ job.target }}
+  - job: rocprofiler_compute_build_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
@@ -140,7 +140,7 @@ jobs:
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
-    - job: ${{ parameters.componentName }}_test_${{ job.target }}
+    - job: rocprofiler_compute_test_${{ job.target }}
       timeoutInMinutes: 120
       dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
       condition:
