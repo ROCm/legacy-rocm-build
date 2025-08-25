@@ -1,7 +1,7 @@
 parameters:
 - name: componentName
   type: string
-  default: rocprofiler-compute
+  default: rocprofiler_compute
 - name: checkoutRepo
   type: string
   default: 'self'
