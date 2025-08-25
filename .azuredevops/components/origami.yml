@@ -58,11 +58,11 @@ parameters:
   type: object
   default:
     - hipBLASLt:
-        name: hipBLASLt
-        sparseCheckoutDir: projects/hipblaslt
-        skipUnifiedBuild: 'false'
-        buildDependsOn:
-          - origami_build
+      name: hipBLASLt
+      sparseCheckoutDir: projects/hipblaslt
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        - origami_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
