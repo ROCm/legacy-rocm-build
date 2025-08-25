@@ -166,7 +166,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
         parameters:
           checkoutRepo: ${{ parameters.checkoutRepo }}
-          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+          sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
         parameters:
           preTargetFilter: ${{ parameters.componentName }}
