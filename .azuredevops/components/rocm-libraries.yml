@@ -138,6 +138,7 @@ jobs:
           rocm-libraries | ${{ job.os }}
     - script: |
         echo "##vso[task.setvariable variable=PytestCmakePath]/home/AzDevOps/.local/share/Pytest/cmake"
+        find / -name "pytest"
       displayName: Set cmake configure paths
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
