@@ -142,7 +142,7 @@ jobs:
       parameters:
         os: ${{ job.os }}
         extraBuildFlags: >-
-          -D CMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;$(PytestCmakePath)
+          -D CMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;/home/AzDevOps/.local/bin;$(PytestCmakePath)
           -D CMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/llvm/include
           -D CMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -D CMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
