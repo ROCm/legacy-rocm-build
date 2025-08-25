@@ -135,11 +135,14 @@ jobs:
           rocm-libraries | ${{ job.os }} | ${{ job.target }} | $(DAY_STRING)
           rocm-libraries | ${{ job.os }} | ${{ job.target }}
           rocm-libraries | ${{ job.os }}
+    - script: |
+        echo "##vso[task.setvariable variable=PytestCmakePath]$(python3 -m pytest_cmake --cmake-dir)"
+      displayName: Set cmake configure paths
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
         extraBuildFlags: >-
-          -D CMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;$(python3 -m pytest_cmake --cmake-dir)
+          -D CMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;$(PytestCmakePath)
           -D CMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/llvm/include
           -D CMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -D CMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
