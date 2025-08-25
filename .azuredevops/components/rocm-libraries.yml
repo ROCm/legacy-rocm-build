@@ -36,8 +36,10 @@ parameters:
     - gfortran
     - git
     - libdrm-dev
+    - liblapack-dev
     - libmsgpack-dev
     - libnuma-dev
+    - libopenblas-dev
     - ninja-build
     - python3-pip
     - python3-venv
