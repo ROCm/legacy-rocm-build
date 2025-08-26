@@ -61,7 +61,6 @@ parameters:
     - aomp
     - clr
     - hipBLAS-common
-    - origami
     - llvm-project
     - rocminfo
     - rocm-cmake
@@ -75,7 +74,6 @@ parameters:
     - aomp
     - clr
     - hipBLAS-common
-    - origami
     - llvm-project
     - rocminfo
     - rocm_smi_lib
@@ -149,7 +147,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
-        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }} shared/origami
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
       parameters:
         dependencyList:
@@ -178,7 +176,7 @@ jobs:
           mkdir -p $(Agent.BuildDirectory)/temp-deps
           cd $(Agent.BuildDirectory)/temp-deps
           # position-independent LAPACK is required for almalinux8 builds
-          cmake -DBUILD_GTEST=OFF -DBUILD_LAPACK=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $(Agent.BuildDirectory)/s/deps
+          cmake -DBUILD_GTEST=OFF -DBUILD_LAPACK=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $(Agent.BuildDirectory)/s/projects/hipblaslt/deps
           make -j
           sudo make install
     - script: |
@@ -197,6 +195,8 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
+        cmakeSourceDir: $(Agent.BuildDirectory)/s/projects/hipblaslt
+        cmakeBuildDir: $(Agent.BuildDirectory)/s/projects/hipblaslt/build
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
           -DCMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/llvm/include
