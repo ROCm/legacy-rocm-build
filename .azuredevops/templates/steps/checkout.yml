@@ -21,8 +21,11 @@ steps:
     fetchFilter: blob:none
     ${{ if ne(parameters.sparseCheckoutDir, '') }}:
       sparseCheckoutDirectories: ${{ parameters.sparseCheckoutDir }}
-      path: sparse
-  - ${{ if ne(parameters.sparseCheckoutDir, '') }}:
+      # only checkout into 'sparse' if only one sparse dir is specified
+      ${{ if eq(length(split(parameters.sparseCheckoutDir, ' ')), 1) }}:
+        path: sparse
+  # only create symlink if only one sparse dir is specified
+  - ${{ if eq(length(split(parameters.sparseCheckoutDir, ' ')), 1) }}:
     - task: Bash@3
       displayName: Symlink sparse checkout
       inputs:
