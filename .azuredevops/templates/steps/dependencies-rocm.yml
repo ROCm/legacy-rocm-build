@@ -47,8 +47,8 @@ parameters:
       developBranch: aomp-dev
       hasGpuTarget: false
     clr:
-      pipelineId: 145
-      developBranch: amd-staging
+      pipelineId: 335
+      developBranch: develop
       hasGpuTarget: false
     composable_kernel:
       pipelineId: 86
@@ -59,8 +59,8 @@ parameters:
       developBranch: rocm
       hasGpuTarget: false
     HIP:
-      pipelineId: 93
-      developBranch: amd-staging
+      pipelineId: 335
+      developBranch: develop
       hasGpuTarget: false
     hip-tests:
       pipelineId: 233
