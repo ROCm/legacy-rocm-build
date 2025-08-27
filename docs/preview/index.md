@@ -25,3 +25,5 @@ The documentation includes:
 
 - [ROCm 7.0 Beta release notes](release.rst) with feature details and support matrix
 - [Installation instructions](install/index.rst) for the ROCm 7.0 Beta and the Instinct Driver
+- [Docker images for AI training and inference](benchmark-docker/index.rst) including the ROCm 7.0 Beta and
+  AI workload benchmarks
