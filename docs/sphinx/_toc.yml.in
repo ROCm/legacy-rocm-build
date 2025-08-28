@@ -106,6 +106,8 @@ subtrees:
             title: PyTorch inference performance testing
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang.rst
             title: SGLang inference performance testing
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-distributed.rst
+            title: SGLang distributed inference with Mooncake
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model
 

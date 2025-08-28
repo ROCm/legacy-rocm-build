@@ -1,89 +1,240 @@
-SGLang distributed inference
-============================
+.. meta::
+   :description: SGLang multi-node disaggregated distributed inference using Mooncake
+   :keywords: model, sglang, mooncake, disagg, disaggregated, distributed, multi-node, docker
 
-Disaggregated inference refers to the process of splitting the inference of
-LLMs into distinct phases -- separating the prefill and decode stages. This
-approach can improve efficiency and resource allocation by allowing each phase
-to be optimized independently.
+******************************************
+SGLang distributed inference with Mooncake
+******************************************
 
-## List of Models - focus SGlang Dissagerated P/D inference
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/sglang-distributed-benchmark-models.yaml
 
-Dense Models
-- Qwen3-32B (https://huggingface.co/Qwen/Qwen3-32B)
-- meta-llama/Llama-3.1-8B-Instruct (https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
-- amd/Llama-3.3-70B-Instruct-FP8-KV (https://huggingface.co/amd/Llama-3.3-70B-Instruct-FP8-KV)
-- amd/Llama-3.1-405B-Instruct-FP8-KV (https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV)
+   {% set docker = data.dockers[0] %}
 
-Small Experts Models
-- DeepSeek-V2 (https://huggingface.co/deepseek-ai/DeepSeek-V2)
-- Qwen3-30B-A3B (https://huggingface.co/Qwen/Qwen3-30B-A3B)
-- Mixtral-8x7B-v0.1 (https://huggingface.co/mistralai/Mixtral-8x7B-v0.1)
+   `SGLang <https://docs.sglang.ai>`__ is a high-performance inference and
+   serving engine for large language models (LLMs) and vision models. The
+   ROCm-enabled `SGLang base Docker image <{{ docker.docker_hub_url }}>`__
+   bundles SGLang with PyTorch, optimized for AMD Instinct MI300X series
+   accelerators. It includes the following software components:
 
-This repository contains scripts and documentation to launch PD Disaggregation using the Mooncake framework for above models. You will find setup instructions, node assignment details and benchmarking commands.
+   .. list-table::
+      :header-rows: 1
+
+      * - Software component
+        - Version
+
+      {% for component_name, component_version in docker.components.items() %}
+      * - {{ component_name }}
+        - {{ component_version }}
+      {% endfor %}
+
+As LLM inference increasingly demands handling massive models and dynamic workloads, efficient
+distributed inference becomes essential. Traditional co-located architectures face bottlenecks due
+to tightly coupled memory and compute resources, limiting scalability and flexibility.
+Disaggregated inference refers to the process of splitting the inference of LLMs into distinct
+phases. This architecture, facilitated by libraries like Mooncake, uses high-bandwidth
+RDMA to transfer the Key-Value (KV) cache between prefill and decode nodes.
+This allows for independent resource scaling and optimization, leading to
+improved efficiency and throughput.
+
+The following steps provide guidance on setting up and running SGLang and Mooncake for disaggregated
+distributed inference on a Slurm cluster using AMD Instinct MI300X series accelerators backed by
+Mellanox CX-7 NICs. They include step instructions, node assignment details, and benchmarking
+commands.
 
 Prerequisites
 =============
 
-- A Slurm cluster with required Nodes -> xP + yD + 1 (minimum size 3: xP=1 and xD=1)
-- Docker container with SGLang, Mooncake, etcd and NIC drivers built-in. Refer to Building the Docker image section below.
-- Access to a shared filesystem for log collection( cluster specific)
+Before starting, ensure you have:
 
+* A Slurm cluster with at least 3 nodes: 1 for the proxy, 1 for prefill (``xP``), and 1 for decode (``yD``).
 
-Building the Docker image
-=========================
+  ``Nodes -> xP + yD + 1``
 
-Access the Dockerfile located https://github.com/ROCm/MAD/docker/sglang_dissag_inference.ubuntu.amd.Dockerfile
-It uses ‘lmsysorg/sglang:v0.4.9.post1-rocm630’ as the base docker image.
+* A Dockerized environment with SGLang, Mooncake, etcd, and NIC drivers built-in. See :ref:`sglang-disagg-inf-build-docker-image` for instructions.
 
-```bash
-docker build  -t sglang_dissag_pd_image -f sglang_dissag_inference.ubuntu.amd.Dockerfile .
-```
+* A shared filesystem for storing models, scripts, and logs (cluster-specific).
 
-Scripts and benchmarking
-========================
+Supported models
+================
 
-Run instructions - scripts/sglang_dissag/README.MD
+The following models are supported for SGLang disaggregated prefill/decode
+inference. Some instructions, commands, and recommendations in this
+documentation might vary by selected model.
 
-Few files of significance:
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/sglang-distributed-benchmark-models.yaml
 
-scripts/sglang_dissag/run_xPyD_models.slurm - slurm script to launch docker containers on all nodes using sbatch or salloc  
-scripts/sglang_dissag/sglang_disagg_server.sh - Script that runs inside each docker to start required proxy, prefill and decode services
-scripts/sglang_dissag/benchmark_xPyD.sh - Benchmark script to run GSM8K for accuracy and sglang benchmarking tool for performance measurement
-scripts/sglang_dissag/benchmark_parser.py - Log parser script to be run on CONCURRENY benchmark log file to generate tabulated data
+   {% set model_groups = data.model_groups %}
+   .. raw:: html
 
-## Sbatch run command (one-liner)
-```bash
+      <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
+         <div class="row gx-0">
+            <div class="col-2 me-1 px-2 model-param-head">Model</div>
+            <div class="row col-10 pe-0">
+      {% for model_group in model_groups %}
+               <div class="col-3 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+      {% endfor %}
+            </div>
+         </div>
 
-# Clone the repo
-git clone https://github.com/ROCm/MAD.git
-cd scripts/sglang_dissag
+         <div class="row gx-0 pt-1">
+            <div class="col-2 me-1 px-2 model-param-head">Variant</div>
+            <div class="row col-10 pe-0">
+      {% for model_group in model_groups %}
+         {% set models = model_group.models %}
+         {% for model in models %}
+            {% if models|length % 3 == 0 %}
+               <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+            {% else %}
+               <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+            {% endif %}
+         {% endfor %}
+      {% endfor %}
+            </div>
+         </div>
+      </div>
 
-# Sbatch run command [run from the above folder]
-export DOCKER_IMAGE_NAME=<DOCKER IMAGE NAME>
-export xP=<num_prefill_nodes>; export yD=<num_decode_nodes>; export MODEL_NAME=Llama-3.1-8B-Instruct; sbatch -N <num_nodes> -n <num_nodes> --nodelist=<Nodes> run_xPyD_models.slurm
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
 
-# num_nodes = xP + xD + 1
-```
+   .. container:: model-doc {{ model.model_repo }}
 
-## Post execution Log files:
-A directory inside the LOG_PATH variable in the slurm script is created by the name of slurm_job_ID. 
+      .. note::
 
-Inside that folder:
+         See the `{{ model.model }} model card on Hugging Face <{{ model.url }}>`__ to learn more about this model.
+         Some models require access authorization prior to use via an external license agreement through a third party.
 
-pd_sglang_bench_serving.sh_NODE<>.log - Overall log per ser Node 
-etcd_NODE<>.log  - for etcd services
-decode_NODE<>.log - Decode services
-prefill_NODE<>.log - prefill services
+      {% endfor %}
+   {% endfor %}
 
+.. _sglang-disagg-inf-build-docker-image:
 
-## Benchmark parser ( for CONCURRENCY logs) to tabulate different data
+Build the Docker image
+----------------------
+
+Get the Dockerfile located in
+`<https://github.com/ROCm/MAD/blob/develop/docker/sglang_dissag_inference.ubuntu.amd.Dockerfile>`__.
+It uses `lmsysorg/sglang:v0.5.2rc1-rocm700-mi30x
+<https://hub.docker.com/layers/lmsysorg/sglang/v0.4.9.post1-rocm630/images/sha256-2f6b1748e4bcc70717875a7da76c87795fd8aa46a9646e08d38aa7232fc78538>`__
+as the base Docker image and installs the necessary components for Mooncake, etcd, and Mellanox network
+drivers.
 
 .. code-block:: shell
 
-   python3 benchmark_parser.py <log_path/benchmark_XXX_CONCURRENCY.log
+   git clone https://github.com/ROCm/MAD.git
+   cd MAD/docker
+   docker build \
+       -t sglang_dissag_pd_image \
+       -f sglang_dissag_inference.ubuntu.amd.Dockerfile .
 
-## Sample curl command to test launched server ( from docker on the proxy node)
+Benchmarking
+============
+
+The `<https://github.com/ROCm/MAD/tree/develop/scripts/sglang_dissag>`__
+repository contains scripts to launch SGLang inference with prefill/decode
+disaggregation via Mooncake for supported models.
+
+* `scripts/sglang_dissag/run_xPyD_models.slurm <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/run_xPyD_models.slurm>`__
+  -- the main Slurm batch script to launch Docker containers on all nodes using ``sbatch`` or ``salloc``.
+
+* `scripts/sglang_dissag/sglang_disagg_server.sh <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/sglang_disagg_server.sh>`__
+  -- the entrypoint script that runs inside each container to start the correct service -- proxy, prefill or decode.
+
+* `scripts/sglang_dissag/benchmark_xPyD.sh <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/benchmark_xPyD.sh>`__
+  -- the benchmark script to run the GSM8K accuracy benchmark and the SGLang benchmarking tool for performance measurement.
+
+* `scripts/sglang_dissag/benchmark_parser.py <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/benchmark_parser.py>`__
+  -- the log parser script to be run on concurrency benchmark log file to generate tabulated data.
+
+Launch the service
+------------------
+
+The service is deployed using a Slurm batch script that orchestrates the containers across the
+allocated nodes.
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/sglang-distributed-benchmark-models.yaml
+
+   {% set model_groups = data.model_groups %}
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
+
+   .. container:: model-doc {{ model.model_repo | lower }}
+
+      .. code-block:: shell
+
+         # Clone the MAD repo if you haven't already and
+         # navigate to the scripts directory
+         git clone https://github.com/ROCm/MAD.git
+         cd MAD/scripts/sglang_dissag/
+
+         # Slurm sbatch run command
+         export DOCKER_IMAGE_NAME=sglang_dissag_pd_image
+         export xP=<num_prefill_nodes>
+         export yD=<num_decode_nodes>
+         export MODEL_NAME={{ model.model_repo }}
+         # num_nodes = xP + yD + 1
+         sbatch -N <num_nodes> -n <num_nodes> --nodelist=<Nodes> run_xPyD_models.slurm
+
+      {% endfor %}
+   {% endfor %}
+
+Post-run logs and testing
+-------------------------
+
+Logs are stored on your shared filesystem in the directory specified by the ``LOG_PATH`` variable in the Slurm script.
+A new directory named after the Slurm job ID is created for each run.
+
+Inside that directory, you can access various logs:
+
+* ``pd_sglang_bench_serving.sh_NODE<...>.log`` -- the main log for each server node.
+
+* ``etcd_NODE<...>.log`` -- logs for etcd services.
+
+* ``prefill_NODE<...>.log`` -- logs for the prefill services.
+
+* ``decode_NODE<...>.log`` -- logs for the decode services.
+
+Use the benchmark parser script for concurrency logs to tabulate different data.
 
 .. code-block:: shell
 
-   curl -X POST http://127.0.0.1:30000/generate -H "Content-Type: application/json" -d '{ "text": "Let me tell you a story ", "sampling_params": { "temperature": 0.3 } }'
+   python3 benchmark_parser.py <log_path/benchmark_XXX_CONCURRENCY.log>
+
+To verify the service is responsive, you can try sending a ``curl`` request to test the launched
+server from the Docker container on the proxy node. For example:
+
+.. code-block:: shell
+
+   curl -X POST http://127.0.0.1:30000/generate \
+       -H "Content-Type: application/json" \
+       -d '{ "text": "Let me tell you a story ", "sampling_params": { "temperature": 0.3 } }'
+
+Further reading
+===============
+
+- To learn about Mooncake, see `Welcome to Mooncake <https://kvcache-ai.github.io/Mooncake/>`__.
+
+- To learn more about the options for latency and throughput benchmark scripts,
+  see `<https://github.com/sgl-project/sglang/tree/main/benchmark/blog_v0_2>`__.
+
+- See the base upstream Docker image on `Docker Hub <https://hub.docker.com/layers/lmsysorg/sglang/v0.5.2rc1-rocm700-mi30x/images/sha256-10c4ee502ddba44dd8c13325e6e03868bfe7f43d23d0a44780a8ee8b393f4729>`__.
+
+- To learn more about system settings and management practices to configure your system for
+  MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`__.
+
+- For application performance optimization strategies for HPC and AI workloads,
+  including inference with vLLM, see :doc:`/how-to/rocm-for-ai/inference-optimization/workload`.
+
+- To learn how to run community models from Hugging Face on AMD GPUs, see
+  :doc:`Running models from Hugging Face </how-to/rocm-for-ai/inference/hugging-face-models>`.
+
+- To learn how to fine-tune LLMs and optimize inference, see
+  :doc:`Fine-tuning LLMs and inference optimization </how-to/rocm-for-ai/fine-tuning/fine-tuning-and-inference>`.
+
+- For a list of other ready-made Docker images for AI with ROCm, see
+  `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.
+
+Previous versions
+=================
+
+See :doc:`previous-versions/sglang-history` to find documentation for previous releases
+of SGLang inference performance testing.
