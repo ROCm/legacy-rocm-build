@@ -35,6 +35,8 @@ parameters:
     - ccache
     - gfortran
     - git
+    - libboost-filesystem-dev
+    - libboost-program-options-dev
     - libdrm-dev
     - liblapack-dev
     - libmsgpack-dev
