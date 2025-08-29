@@ -83,6 +83,12 @@ Run the training benchmark
 
          .. tab-set::
 
+            .. tab-item:: BF16
+
+               .. code-block:: shell
+
+                  CONFIG_FILE="./llama3_8b_fsdp_bf16.toml" ./run_train.sh
+
             .. tab-item:: FP8
 
                .. code-block:: shell
