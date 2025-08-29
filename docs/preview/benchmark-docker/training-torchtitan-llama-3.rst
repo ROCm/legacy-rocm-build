@@ -13,7 +13,7 @@ appropriate options, download the model, and run the throughput test.
 Pull the Docker image
 =====================
 
-Use the following command to pull the `Docker image <https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_pytorch_training_mi35X_alpha/images/sha256-734c76d4d68ab23b47f4bf012863793df11f83714c35683fb5c15bc48d0a6dd2>`__.
+Use the following command to pull the `Docker image <https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_pytorch_training_mi35x_beta/images/sha256-d47db310d1913c1de526b25c06ac6bd4c9f53c199a5a04677afc57526f259234>`__.
 
 .. code-block:: shell
 

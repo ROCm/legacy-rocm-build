@@ -13,7 +13,7 @@ MI300X series accelerators.
 Pull the Docker image
 =====================
 
-1. Use the following command to pull the `Docker image <https://hub.docker.com/r/rocm/7.0-preview/tags>`__.
+1. Use the following command to pull the `Docker image <https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_ubuntu22.04_llama2_70b_training_mlperf_instinct_beta/images/sha256-e75ec355a0501cad57d258bdf055267edfbdce4339b07d203a1ca9cdced2f9c9>`__.
 
    .. code-block:: shell
 
