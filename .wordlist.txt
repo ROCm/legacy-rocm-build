@@ -1,3 +1,13 @@
+summarization
+QKV
+MLPerf
+GovReport
+oss
+openai
+gpt
+SGLang
+amd
+MXFP
 subproject
 ROCpd
 rocpd
