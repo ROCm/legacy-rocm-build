@@ -26,6 +26,7 @@ parameters:
   type: object
   default:
     bison: bison
+    catch2: catch-devel
     ccache: ccache
     cmake: cmake
     cuda-toolkit-12-9: cuda-compiler-12-9 cuda-toolkit-12-9
@@ -44,6 +45,7 @@ parameters:
     libbabeltrace-dev: libbabeltrace-devel
     libbison-dev: bison-devel
     libboost-program-options-dev: boost-devel
+    libdivide-dev: libdivide-devel
     # note: libdrm-amdgpu1 is not available in dnf
     libdrm-dev: libdrm-devel
     libdrm-amdgpu-dev: libdrm-amdgpu-devel

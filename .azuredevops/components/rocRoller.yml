@@ -32,12 +32,14 @@ parameters:
 - name: aptPackages
   type: object
   default:
+    - catch2
     - cmake
     - git
     - ninja-build
     - wget
     - libboost-program-options-dev
     - libboost-filesystem-dev
+    - libdivide-dev
     - libfmt-dev
     - libopenblas-dev
     - libmsgpack-dev
