@@ -103,7 +103,7 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
+  - job: rocroller_build_${{ job.os }}_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
