@@ -36,10 +36,28 @@ parameters:
     - git
     - ninja-build
     - wget
-    - libopenblas-dev
-    - libmsgpack-dev
     - libboost-program-options-dev
     - libboost-filesystem-dev
+    - libfmt-dev
+    - libopenblas-dev
+    - libmsgpack-dev
+    - libspdlog-dev
+    - libyaml-cpp-dev
+- name: pipModules
+  type: object
+  default:
+    - black
+    - flake8
+    - msgpack
+    - pandas
+    - pytest
+    - pytest-cmake
+    - pytest-cov
+    - pytest-mock
+    - scipy
+    - pyyaml
+    - joblib
+    - --upgrade
 - name: rocmDependencies
   type: object
   default:
@@ -95,6 +113,10 @@ jobs:
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
+      parameters:
+        dependencyList:
+          - gtest
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
