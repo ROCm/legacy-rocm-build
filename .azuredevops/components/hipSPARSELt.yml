@@ -127,22 +127,22 @@ jobs:
   # Build and install gtest and lapack
   # $(Pipeline.Workspace)/deps is a temporary folder for the build process
   # $(Pipeline.Workspace)/s/deps is part of the hipSPARSELt repo
-    - script: mkdir $(Pipeline.Workspace)/deps
-      displayName: Create temp folder for external dependencies
-  # hipSPARSELt already has a CMake script for external deps, so we can just run that
-  # https://github.com/ROCm/hipSPARSELt/blob/develop/deps/CMakeLists.txt
-    - ${{ if ne(parameters.sparseCheckoutDir, '') }}:
-        script: cmake $(Pipeline.Workspace)/s/projects/hipsparselt/deps
-      ${{ else }}:
-        script: cmake $(Pipeline.Workspace)/s/deps
-      displayName: Configure hipSPARSELt external dependencies
-      workingDirectory: $(Pipeline.Workspace)/deps
-    - script: make
-      displayName: Build hipSPARSELt external dependencies
-      workingDirectory: $(Pipeline.Workspace)/deps
-    - script: sudo make install
-      displayName: Install hipSPARSELt external dependencies
-      workingDirectory: $(Pipeline.Workspace)/deps
+  #   - script: mkdir $(Pipeline.Workspace)/deps
+  #     displayName: Create temp folder for external dependencies
+  # # hipSPARSELt already has a CMake script for external deps, so we can just run that
+  # # https://github.com/ROCm/hipSPARSELt/blob/develop/deps/CMakeLists.txt
+  #   - ${{ if ne(parameters.sparseCheckoutDir, '') }}:
+  #       script: cmake $(Pipeline.Workspace)/s/projects/hipsparselt/deps
+  #     ${{ else }}:
+  #       script: cmake $(Pipeline.Workspace)/s/deps
+  #     displayName: Configure hipSPARSELt external dependencies
+  #     workingDirectory: $(Pipeline.Workspace)/deps
+  #   - script: make
+  #     displayName: Build hipSPARSELt external dependencies
+  #     workingDirectory: $(Pipeline.Workspace)/deps
+  #   - script: sudo make install
+  #     displayName: Install hipSPARSELt external dependencies
+  #     workingDirectory: $(Pipeline.Workspace)/deps
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
@@ -150,14 +150,8 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
-          -DCMAKE_Fortran_COMPILER=f95
           -DAMDGPU_TARGETS=${{ job.target }}
-          -DTensile_LOGIC=
-          -DTensile_CPU_THREADS=
-          -DTensile_LIBRARY_FORMAT=msgpack
           -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm"
-          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-          -DBUILD_CLIENTS_TESTS=ON
           -GNinja
         ${{ if ne(parameters.sparseCheckoutDir, '') }}:
           cmakeSourceDir: $(Build.SourcesDirectory)/projects/hipsparselt
