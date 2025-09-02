@@ -15,7 +15,7 @@ appropriate options, download the model, and run the throughput test.
 Pull the Docker image
 =====================
 
-Use the following command to pull the `Docker image <https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_ubuntu_22.04_sglang_0.4.6.post4_mi35X_alpha/images/sha256-3095b0179c31bb892799c3b53e73f202abbd66409903cb990f48d0fdd3b1a1fe>`__.
+Use the following command to pull the `Docker image <https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_ubuntu_22.04_sglang_0.5.1post2_dsv3-opt_mi35x_beta/images/sha256-3308d13cea9550c9bc9dfda5af5e69d2bdbca33fcf003a410b6f634ca077895d>`__.
 
 .. code-block:: shell
 
@@ -24,9 +24,9 @@ Use the following command to pull the `Docker image <https://hub.docker.com/laye
 Download the model
 ==================
 
-See model card on Hugging Face at `DeepSeek-R1-MXFP4-Preview
+See the model card on Hugging Face at `DeepSeek-R1-MXFP4-Preview
 <https://huggingface.co/amd/DeepSeek-R1-MXFP4-Preview>`__. This model uses
-microscaling 4-bit floating point (MXFP4) quantization via `AMD Quark
+microscaling 4-bit floating point (MXFP4) quantization through `AMD Quark
 <https://quark.docs.amd.com/latest/>`_ for efficient inference on AMD
 accelerators.
 
