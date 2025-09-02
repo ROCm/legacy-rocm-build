@@ -68,6 +68,17 @@ parameters:
     - rocm-cmake
     - rocminfo
     - ROCR-Runtime
+- name: rocmTestDependencies
+  type: object
+  default:
+    - aomp
+    - clr
+    - llvm-project
+    - rocminfo
+    - rocm_smi_lib
+    - rocprofiler-register
+    - ROCR-Runtime
+    - roctracer
 
 - name: jobMatrix
   type: object
@@ -92,7 +103,7 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocRoller_build_${{ job.os }}
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
@@ -150,11 +161,6 @@ jobs:
         os: ${{ job.os }}
         componentName: ${{ parameters.componentName }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-    # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-    #   parameters:
-    #     aptPackages: ${{ parameters.aptPackages }}
-    #     extraEnvVars:
-    #       - ROCM_PATH:::/home/user/workspace/rocm
 
 - ${{ if parameters.triggerDownstreamJobs }}:
   - ${{ each component in parameters.downstreamComponentMatrix }}:
