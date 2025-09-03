@@ -207,7 +207,7 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     rocprofiler-compute:
-      pipelineId: 257
+      pipelineId: 334
       developBranch: develop
       hasGpuTarget: true
     rocprofiler-register:
