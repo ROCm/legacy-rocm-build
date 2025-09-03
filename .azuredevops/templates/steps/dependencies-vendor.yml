@@ -8,10 +8,12 @@ parameters:
   type: object
   default:
     boost: 250
+    fmtlib: 341
     grpc: 72
     gtest: 73
     half560: 68
     lapack: 69
+    spdlog: 340
 
 steps:
 - ${{ each dependency in parameters.dependencyList }}:

@@ -5,7 +5,7 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
-- name: spdlogVersion
+- name: fmtlibVersion
   type: string
   default: ''
 - name: aptPackages
@@ -14,6 +14,7 @@ parameters:
     - cmake
     - git
     - ninja-build
+    - libfmt-dev
 
 - name: jobMatrix
   type: object
@@ -24,7 +25,7 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: spdlog_${{ job.os }}
+  - job: fmtlib_${{ job.os }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -43,28 +44,23 @@ jobs:
         aptPackages: ${{ parameters.aptPackages }}
         packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
-      parameters:
-        dependencyList:
-          - fmtlib
     - task: Bash@3
-      displayName: Clone spdlog ${{ parameters.spdlogVersion }}
+      displayName: Clone fmtlib ${{ parameters.fmtlibVersion }}
       inputs:
         targetType: inline
-        script: git clone https://github.com/gabime/spdlog.git -b ${{ parameters.spdlogVersion }}
+        script: git clone https://github.com/fmtlib/fmt.git -b ${{ parameters.fmtlibVersion }}
         workingDirectory: $(Agent.BuildDirectory)
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
-        cmakeBuildDir: $(Agent.BuildDirectory)/spdlog/build
-        cmakeSourceDir: $(Agent.BuildDirectory)/spdlog
+        cmakeBuildDir: $(Agent.BuildDirectory)/fmt/build
+        cmakeSourceDir: $(Agent.BuildDirectory)/fmt
         useAmdclang: false
         extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/vendor
           -DCMAKE_BUILD_TYPE=Release
-          -DSPDLOG_USE_STD_FORMAT=OFF
-          -DSPDLOG_FMT_EXTERNAL_HO=ON
-          -DSPDLOG_INSTALL=ON
+          -DFMT_SYSTEM_HEADERS=ON
+          -DFMT_INSTALL=ON
+          -DFMT_TEST=OFF
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
