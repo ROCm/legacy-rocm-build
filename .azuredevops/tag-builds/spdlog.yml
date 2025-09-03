@@ -3,7 +3,7 @@ variables:
 - template: /.azuredevops/variables-global.yml
 
 parameters:
-- name: fmtlibVersion
+- name: spdlogVersion
   type: string
   default: "v1.15.1"
 
@@ -18,6 +18,6 @@ trigger: none
 pr: none
 
 jobs:
-  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/fmtlib.yml
+  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/spdlog.yml
     parameters:
-      fmtlibVersion: ${{ parameters.fmtlibVersion }}
+      spdlogVersion: ${{ parameters.spdlogVersion }}
