@@ -53,8 +53,14 @@ parameters:
   type: object
   default:
     buildJobs:
-      - { os: ubuntu2204, packageManager: apt }
-      - { os: almalinux8, packageManager: dnf }
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
+      - { os: almalinux8, packageManager: dnf, target: gfx942 }
+      - { os: almalinux8, packageManager: dnf, target: gfx90a }
+      - { os: almalinux8, packageManager: dnf, target: gfx1201 }
+      - { os: almalinux8, packageManager: dnf, target: gfx1100 }
 - name: downstreamComponentMatrix
   type: object
   default:
