@@ -1,0 +1,64 @@
+parameters:
+- name: checkoutRepo
+  type: string
+  default: 'self'
+- name: checkoutRef
+  type: string
+  default: ''
+- name: aptPackages
+  type: object
+  default:
+    - cmake
+    - git
+    - ninja-build
+    - libfmt-dev
+
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - { os: ubuntu2204, packageManager: apt, spdlogVersion: "v1.9.2"}
+      - { os: almalinux8, packageManager: dnf, spdlogVersion: "v1.5.0"}
+
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: spdlog_${{ job.os }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool:
+      vmImage: 'ubuntu-22.04'
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
+    workspace:
+      clean: all
+    steps:
+    - checkout: none
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - task: Bash@3
+      displayName: Clone spdlog ${{ job.spdlogVersion }}
+      inputs:
+        targetType: inline
+        script: git clone https://github.com/gabime/spdlog.git -b ${{ job.spdlogVersion }}
+        workingDirectory: $(Agent.BuildDirectory)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        os: ${{ job.os }}
+        cmakeBuildDir: $(Agent.BuildDirectory)/spdlog/build
+        cmakeSourceDir: $(Agent.BuildDirectory)/spdlog
+        useAmdclang: false
+        extraBuildFlags: >-
+          -DCMAKE_BUILD_TYPE=Release
+          -DSPDLOG_USE_STD_FORMAT=OFF
+          -DSPDLOG_FMT_EXTERNAL_HO=ON
+          -DSPDLOG_INSTALL=ON
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}

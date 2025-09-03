@@ -1,0 +1,16 @@
+variables:
+- group: common
+- template: /.azuredevops/variables-global.yml
+
+resources:
+  repositories:
+  - repository: pipelines_repo
+    type: github
+    endpoint: ROCm
+    name: ROCm/ROCm
+
+trigger: none
+pr: none
+
+jobs:
+  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/spdlog.yml
