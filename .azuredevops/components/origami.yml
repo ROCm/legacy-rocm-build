@@ -117,7 +117,7 @@ jobs:
           -DORIGAMI_BUILD_TESTING=ON
           -GNinja
     - script: |
-        cd $(Agent.BuildDirectory)/$(Build.Repository.Name)/shared/origami/build
+        cd $(Agent.BuildDirectory)/$(Build.Repository.Name)/build
         ctest --output-on-failure --parallel $(nproc)
       displayName: 'Run Origami Tests'
       condition: succeeded()
