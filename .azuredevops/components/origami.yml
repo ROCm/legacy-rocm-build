@@ -47,6 +47,7 @@ parameters:
     - rocm-cmake
     - rocminfo
     - ROCR-Runtime
+    - rocprofiler-register
 
 - name: jobMatrix
   type: object
