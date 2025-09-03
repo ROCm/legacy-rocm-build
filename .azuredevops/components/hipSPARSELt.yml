@@ -40,6 +40,7 @@ parameters:
     - gfortran
     - libgfortran5
     - libopenblas-dev
+    - liblapack-dev
 - name: pipModules
   type: object
   default:
