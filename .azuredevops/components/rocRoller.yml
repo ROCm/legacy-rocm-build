@@ -43,7 +43,6 @@ parameters:
     - libfmt-dev
     - libopenblas-dev
     - libmsgpack-dev
-    - libspdlog-dev
     - libyaml-cpp-dev
 - name: pipModules
   type: object
@@ -138,6 +137,7 @@ jobs:
       parameters:
         dependencyList:
           - gtest
+          - spdlog
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
