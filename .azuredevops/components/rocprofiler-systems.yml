@@ -105,7 +105,7 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: ${{ parameters.componentName }}_build_${{ job.target }}
+  - job: rocprofiler_systems_build_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
         dependsOn:
           - ${{ each build in parameters.buildDependsOn }}:
@@ -181,8 +181,8 @@ jobs:
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
-    - job: ${{ parameters.componentName }}_test_${{ job.target }}
-      dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
+    - job: rocprofiler_systems_test_${{ job.target }}
+      dependsOn: rocprofiler_systems_build_${{ job.target }}
       condition:
         and(succeeded(),
           eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
