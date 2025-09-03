@@ -40,7 +40,6 @@ parameters:
     - libboost-program-options-dev
     - libboost-filesystem-dev
     - libdivide-dev
-    - libfmt-dev
     - libopenblas-dev
     - libmsgpack-dev
     - libyaml-cpp-dev
@@ -138,6 +137,7 @@ jobs:
         dependencyList:
           - gtest
           - spdlog
+          - fmtlib
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
