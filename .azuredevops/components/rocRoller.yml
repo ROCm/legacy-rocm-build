@@ -67,6 +67,7 @@ parameters:
     - rocm-cmake
     - rocminfo
     - ROCR-Runtime
+    - rocprofiler-register
 - name: rocmTestDependencies
   type: object
   default:
