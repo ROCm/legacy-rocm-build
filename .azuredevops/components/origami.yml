@@ -116,12 +116,11 @@ jobs:
           -DORIGAMI_ENABLE_PYTHON=ON
           -DORIGAMI_BUILD_TESTING=ON
           -GNinja
-    # is this the right way to run tests:
-    # - script: |
-    #     cd $(Agent.BuildDirectory)/$(Build.Repository.Name)/shared/origami/build
-    #     ctest --output-on-failure --parallel $(nproc)
-    #   displayName: 'Run Origami Tests'
-    #   condition: succeeded()
+    - script: |
+        cd $(Agent.BuildDirectory)/$(Build.Repository.Name)/shared/origami/build
+        ctest --output-on-failure --parallel $(nproc)
+      displayName: 'Run Origami Tests'
+      condition: succeeded()
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}
