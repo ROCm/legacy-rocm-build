@@ -190,6 +190,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Pipeline Wheel Files'
+      retryCountOnTaskFailure: 3
       inputs:
         itemPattern: '**/*.whl'
         targetPath: $(Agent.BuildDirectory)

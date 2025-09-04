@@ -5,51 +5,28 @@ parameters:
 
 steps:
 - task: Bash@3
-  displayName: Get aqlprofile package name
+  displayName: Download and install aqlprofile
+  retryCountOnTaskFailure: 3
   inputs:
     targetType: inline
-    ${{ if eq(parameters.os, 'ubuntu2204') }}:
-      script: |
-        export packageName=$(curl -s https://repo.radeon.com/rocm/apt/$(REPO_RADEON_VERSION)/pool/main/h/hsa-amd-aqlprofile/ | grep -oP "href=\"\K[^\"]*$(lsb_release -rs)[^\"]*\.deb")
-        echo "##vso[task.setvariable variable=packageName;isreadonly=true]$packageName"
-    ${{ if eq(parameters.os, 'almalinux8') }}:
-      script: |
-        export packageName=$(curl -s https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/ | grep -oP "hsa-amd-aqlprofile-[^\"]+\.rpm" | head -n1)
-        echo "##vso[task.setvariable variable=packageName;isreadonly=true]$packageName"
-- task: Bash@3
-  displayName: 'Download aqlprofile'
-  inputs:
-    targetType: inline
-    workingDirectory: '$(Pipeline.Workspace)'
-    ${{ if eq(parameters.os, 'ubuntu2204') }}:
-      script: wget -nv https://repo.radeon.com/rocm/apt/$(REPO_RADEON_VERSION)/pool/main/h/hsa-amd-aqlprofile/$(packageName)
-    ${{ if eq(parameters.os, 'almalinux8') }}:
-      script: wget -nv https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/$(packageName)
-- task: Bash@3
-  displayName: 'Extract aqlprofile'
-  inputs:
-    targetType: inline
-    workingDirectory: '$(Pipeline.Workspace)'
-    ${{ if eq(parameters.os, 'ubuntu2204') }}:
-      script: |
-        mkdir hsa-amd-aqlprofile
-        dpkg-deb -R $(packageName) hsa-amd-aqlprofile
-    ${{ if eq(parameters.os, 'almalinux8') }}:
-      script: |
-        mkdir hsa-amd-aqlprofile
-        sudo dnf -y install rpm-build cpio
-        rpm2cpio $(packageName) | (cd hsa-amd-aqlprofile && cpio -idmv)
-- task: Bash@3
-  displayName: 'Copy aqlprofile files'
-  inputs:
-    targetType: inline
+    workingDirectory: $(Agent.BuildDirectory)
     script: |
-      mkdir -p $(Agent.BuildDirectory)/rocm
-      cp -R hsa-amd-aqlprofile/opt/rocm-*/* $(Agent.BuildDirectory)/rocm
-    workingDirectory: '$(Pipeline.Workspace)'
-- task: Bash@3
-  displayName: 'Clean up aqlprofile'
-  inputs:
-    targetType: inline
-    script: rm -rf hsa-amd-aqlprofile $(packageName)
-    workingDirectory: '$(Pipeline.Workspace)'
+      set -e
+      if [ "${{ parameters.os }}" = "ubuntu2204" ]; then
+        packageName=$(curl -s https://repo.radeon.com/rocm/apt/$(REPO_RADEON_VERSION)/pool/main/h/hsa-amd-aqlprofile/ | grep -oP "href=\"\K[^\"]*$(lsb_release -rs)[^\"]*\.deb") && \
+        wget -nv https://repo.radeon.com/rocm/apt/$(REPO_RADEON_VERSION)/pool/main/h/hsa-amd-aqlprofile/$packageName && \
+        mkdir -p hsa-amd-aqlprofile && \
+        dpkg-deb -R $packageName hsa-amd-aqlprofile
+      elif [ "${{ parameters.os }}" = "almalinux8" ]; then
+        sudo dnf -y install rpm-build cpio && \
+        packageName=$(curl -s https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/ | grep -oP "hsa-amd-aqlprofile-[^\"]+\.rpm" | head -n1) && \
+        wget -nv https://repo.radeon.com/rocm/rhel8/$(REPO_RADEON_VERSION)/main/$packageName && \
+        mkdir -p hsa-amd-aqlprofile && \
+        rpm2cpio $packageName | (cd hsa-amd-aqlprofile && cpio -idmv)
+      else
+        echo "Unsupported OS: ${{ parameters.os }}"
+        exit 1
+      fi && \
+      mkdir -p $(Agent.BuildDirectory)/rocm && \
+      cp -R hsa-amd-aqlprofile/opt/rocm-*/* $(Agent.BuildDirectory)/rocm && \
+      rm -rf hsa-amd-aqlprofile $packageName

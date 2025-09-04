@@ -115,6 +115,13 @@ parameters:
 #        buildDependsOn:
 #          - rocBLAS_build
 #          - rocPRIM_build
+    # temporary rocblas->hipblas downstream path while the SOLVERs are disabled
+    - hipBLAS:
+      name: hipBLAS
+      sparseCheckoutDir: projects/hipblas
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        - rocBLAS_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:

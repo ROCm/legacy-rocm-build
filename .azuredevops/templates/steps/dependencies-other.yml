@@ -27,6 +27,7 @@ steps:
 - ${{ if gt(length(parameters.pipModules), 0) }}:
   - task: Bash@3
     displayName: 'pip install  ...'
+    retryCountOnTaskFailure: 3
     inputs:
       targetType: inline
       script: python3 -m pip install -v --force-reinstall ${{ join(' ', parameters.pipModules) }}

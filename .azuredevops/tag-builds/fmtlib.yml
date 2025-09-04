@@ -1,0 +1,23 @@
+variables:
+- group: common
+- template: /.azuredevops/variables-global.yml
+
+parameters:
+- name: fmtlibVersion
+  type: string
+  default: "11.1.3"
+
+resources:
+  repositories:
+  - repository: pipelines_repo
+    type: github
+    endpoint: ROCm
+    name: ROCm/ROCm
+
+trigger: none
+pr: none
+
+jobs:
+  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/fmtlib.yml
+    parameters:
+      fmtlibVersion: ${{ parameters.fmtlibVersion }}
