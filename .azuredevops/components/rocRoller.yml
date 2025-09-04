@@ -139,6 +139,7 @@ jobs:
           - gtest
           - spdlog
           - fmtlib
+          - libdivide
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
