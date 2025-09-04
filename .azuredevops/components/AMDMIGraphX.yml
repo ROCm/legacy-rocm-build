@@ -38,7 +38,6 @@ parameters:
     - libdrm-dev
     - libmsgpack-dev
     - libnuma-dev
-    - libabsl-dev
     - libprotobuf-dev
     - libsqlite3-dev
     - libtbb-dev
@@ -211,6 +210,21 @@ jobs:
         gpuTarget: ${{ job.target }}
         ${{ if parameters.triggerDownstreamJobs }}:
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+    - task: Bash@3
+      displayName: 'git clone protobuf'
+      inputs:
+        targetType: inline
+        script: git clone -b "v30.0" https://github.com/protocolbuffers/protobuf --recurse-submodules
+        workingDirectory: $(Agent.BuildDirectory)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        cmakeBuildDir: $(Agent.BuildDirectory)/protobuf/build
+        cmakeSourceDir: $(Agent.BuildDirectory)/protobuf
+        extraBuildFlags: >-
+          -DCMAKE_POSITION_INDEPENDENT_CODE=On
+          -Dprotobuf_BUILD_TESTS=Off
+          -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          -DCMAKE_BUILD_TYPE=Release
     - task: CMake@1
       displayName: MIGraphXTest CMake Flags
       inputs:
