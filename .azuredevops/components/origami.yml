@@ -110,6 +110,7 @@ jobs:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         os: ${{ job.os }}
+        gpuTarget: ${{ job.target }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
@@ -124,8 +125,6 @@ jobs:
           -DORIGAMI_BUILD_TESTING=ON
           -GNinja
     - script: |
-        rocm-smi
-        rocm_agent_enumerator
         cd $(Agent.BuildDirectory)/s/build
         ctest --output-on-failure --parallel $(nproc)
       displayName: 'Run Origami Tests'
@@ -135,9 +134,11 @@ jobs:
         componentName: ${{ parameters.componentName }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
         os: ${{ job.os }}
+        gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         os: ${{ job.os }}
+        gpuTarget: ${{ job.target }}
         componentName: ${{ parameters.componentName }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
 
