@@ -106,6 +106,7 @@ jobs:
         preTargetFilter: ${{ parameters.componentName }}
         os: ${{ job.os }}
         gpuTarget: ${{ job.target }}
+
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
