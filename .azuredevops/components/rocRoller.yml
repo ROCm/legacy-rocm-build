@@ -152,7 +152,7 @@ jobs:
       parameters:
         os: ${{ job.os }}
         extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
+          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor"
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DROCROLLER_ENABLE_FETCH=ON
           -GNinja
