@@ -124,6 +124,8 @@ jobs:
           -DORIGAMI_BUILD_TESTING=ON
           -GNinja
     - script: |
+        rocm-smi
+        rocm_agent_enumerator
         cd $(Agent.BuildDirectory)/s/build
         ctest --output-on-failure --parallel $(nproc)
       displayName: 'Run Origami Tests'
