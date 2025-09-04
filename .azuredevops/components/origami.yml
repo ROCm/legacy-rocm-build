@@ -101,6 +101,11 @@ jobs:
         python3 -m pip install --upgrade pip
         python3 -m pip install "nanobind>=2.0.0"
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+      parameters:
+        preTargetFilter: ${{ parameters.componentName }}
+        os: ${{ job.os }}
+        gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
@@ -141,7 +146,18 @@ jobs:
         gpuTarget: ${{ job.target }}
         componentName: ${{ parameters.componentName }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-
+    - ${{ if eq(job.os, 'ubuntu2204') }}:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          pipModules: ${{ parameters.pipModules }}
+          installAOCL: true
+          gpuTarget: ${{ job.target }}
+          extraEnvVars:
+            - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
+            - TENSILE_ROCM_ASSEMBLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang
+            - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
+            - ROCM_PATH:::/home/user/workspace/rocm
 - ${{ if parameters.triggerDownstreamJobs }}:
   - ${{ each component in parameters.downstreamComponentMatrix }}:
     - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
