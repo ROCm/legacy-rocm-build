@@ -197,6 +197,16 @@ jobs:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       - script: |
+          echo "Current directory: $(pwd)"
+          echo "Contents of Agent.BuildDirectory:"
+          ls -la $(Agent.BuildDirectory)/
+          echo "Contents of current directory:"
+          ls -la
+          echo "Finding test executables:"
+          find $(Agent.BuildDirectory) -name "*test*" -type f -executable 2>/dev/null || true
+          find $(Agent.BuildDirectory) -name "*.so" 2>/dev/null || true
+        displayName: 'Debug: Check directory structure'
+      - script: |
           cd $(Agent.BuildDirectory)/rocm/bin
           ctest --output-on-failure --parallel $(nproc)
         displayName: 'Run Python Binding Tests'
