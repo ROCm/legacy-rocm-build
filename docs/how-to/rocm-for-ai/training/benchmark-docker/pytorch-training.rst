@@ -13,7 +13,7 @@ model training with GPU-optimized components for transformer-based models.
 
    {% set dockers = data.dockers %}
    {% set docker = dockers[0] %}
-   The `PyTorch for ROCm training Docker <https://hub.docker.com/r/rocm/pytorch-training/tags>`__
+   The `PyTorch for ROCm training Docker <{{ docker.docker_hub_url }}>`__
    (``{{ docker.pull_tag }}``) image provides a prebuilt optimized environment for fine-tuning and pretraining a
    model on AMD Instinct MI325X and MI300X accelerators. It includes the following software components to accelerate
    training workloads:

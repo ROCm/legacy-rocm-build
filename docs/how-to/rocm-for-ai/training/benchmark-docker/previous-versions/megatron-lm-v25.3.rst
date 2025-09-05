@@ -67,7 +67,7 @@ Megatron-LM provides the following key features to train large language models e
 
 - Pre-training
 
-.. _amd-megatron-lm-model-support:
+.. _amd-megatron-lm-model-support-25-3:
 
 The following models are pre-optimized for performance on the AMD Instinct MI300X accelerator.
 
@@ -278,7 +278,7 @@ handle a variety of input sequences, including unseen words or domain-specific t
    .. tab-item:: Llama
       :sync: llama
 
-      To train any of the Llama 2 models that :ref:`this Docker image supports <amd-megatron-lm-model-support>`, use the ``Llama2Tokenizer``.
+      To train any of the Llama 2 models that :ref:`this Docker image supports <amd-megatron-lm-model-support-25-3>`, use the ``Llama2Tokenizer``.
 
       To train any of Llama 3 and Llama 3.1 models that this Docker image supports, use the ``HuggingFaceTokenizer``.
       Set the Hugging Face model link in the ``TOKENIZER_MODEL`` variable.
@@ -292,7 +292,7 @@ handle a variety of input sequences, including unseen words or domain-specific t
    .. tab-item:: DeepSeek V2
       :sync: deepseek
 
-      To train any of the DeepSeek V2 models that :ref:`this Docker image supports <amd-megatron-lm-model-support>`, use the ``DeepSeekV2Tokenizer``.
+      To train any of the DeepSeek V2 models that :ref:`this Docker image supports <amd-megatron-lm-model-support-25-3>`, use the ``DeepSeekV2Tokenizer``.
 
 Multi-node training
 ^^^^^^^^^^^^^^^^^^^

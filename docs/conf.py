@@ -126,7 +126,7 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/megatron-lm-v25.5", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/megatron-lm-v25.6", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/megatron-lm-primus-migration-guide", "os": ["linux"]},
-    {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/primus-megatron", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/benchmark-docker/primus-megatron", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/pytorch-training", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-history", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.3", "os": ["linux"]},
