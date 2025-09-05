@@ -172,7 +172,8 @@ jobs:
       workspace:
         clean: all
       steps:
-      - checkout: none
+      - checkout: self
+        displayName: 'Checkout source for tests'
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
@@ -197,9 +198,19 @@ jobs:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       - script: |
-          cd $(Agent.BuildDirectory)/rocm/share/
+          # Recreate build directory for testing
+          mkdir -p $(Agent.BuildDirectory)/s/build
+          cd $(Agent.BuildDirectory)/s/build
+          cmake .. \
+            -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm \
+            -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++ \
+            -DORIGAMI_BUILD_SHARED_LIBS=ON \
+            -DORIGAMI_ENABLE_PYTHON=ON \
+            -DORIGAMI_BUILD_TESTING=ON \
+            -GNinja
+          cmake --build . --parallel
           ctest --output-on-failure --parallel $(nproc)
-        displayName: 'Run Python Binding Tests'
+        displayName: 'Build Python bindings and run tests'
         condition: succeeded()
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
@@ -207,7 +218,6 @@ jobs:
           pipModules: ${{ parameters.pipModules }}
           environment: test
           gpuTarget: ${{ job.target }}
-
 
 - ${{ if parameters.triggerDownstreamJobs }}:
   - ${{ each component in parameters.downstreamComponentMatrix }}:
