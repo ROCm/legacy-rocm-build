@@ -939,7 +939,7 @@ hipBLASLt benchmarking
 The GEMM library
 `hipBLASLt <https://rocm.docs.amd.com/projects/hipBLASLt/en/latest/index.html>`_
 provides a benchmark tool for its supported operations. Refer to the
-`documentation <https://github.com/ROCm/hipBLASLt/blob/develop/clients/benchmarks/README.md>`_
+`documentation <https://github.com/ROCm/hipBLASLt/blob/develop/clients/bench/README.md>`_
 for details.
 
 * Example 1: Benchmark mix fp8 GEMM
