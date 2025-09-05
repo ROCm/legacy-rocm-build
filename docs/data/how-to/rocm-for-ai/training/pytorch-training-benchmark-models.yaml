@@ -1,6 +1,6 @@
 dockers:
   - pull_tag: rocm/pytorch-training:v25.7
-    docker_hub_url: https://hub.docker.com/r/rocm/pytorch-training/tags
+    docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-training/v25.7/images/sha256-cc6fd840ab89cb81d926fc29eca6d075aee9875a55a522675a4b9231c9a0a712
     components:
       ROCm: 6.4.2
       PyTorch: 2.8.0a0+gitd06a406
@@ -115,37 +115,37 @@ model_groups:
   - group: Qwen
     tag: qwen
     models:
-    - model: Qwen3 8B
+    - model: Qwen 3 8B
       mad_tag: pyt_train_qwen3-8b
       model_repo: Qwen3-8B
       url: https://huggingface.co/Qwen/Qwen3-8B
       precision: BF16
       training_modes: [finetune_fw, finetune_lora]
-    - model: Qwen3 32B
+    - model: Qwen 3 32B
       mad_tag: pyt_train_qwen3-32b
       model_repo: Qwen3-32
       url: https://huggingface.co/Qwen/Qwen3-32B
       precision: BF16
       training_modes: [finetune_lora]
-    - model: Qwen2.5 32B
+    - model: Qwen 2.5 32B
       mad_tag: pyt_train_qwen2.5-32b
       model_repo: Qwen2.5-32B
       url: https://huggingface.co/Qwen/Qwen2.5-32B
       precision: BF16
       training_modes: [finetune_lora]
-    - model: Qwen2.5 72B
+    - model: Qwen 2.5 72B
       mad_tag: pyt_train_qwen2.5-72b
       model_repo: Qwen2.5-72B
       url: https://huggingface.co/Qwen/Qwen2.5-72B
       precision: BF16
       training_modes: [finetune_lora]
-    - model: Qwen2 1.5B
+    - model: Qwen 2 1.5B
       mad_tag: pyt_train_qwen2-1.5b
       model_repo: Qwen2-1.5B
       url: https://huggingface.co/Qwen/Qwen2-1.5B
       precision: BF16
       training_modes: [finetune_fw, finetune_lora]
-    - model: Qwen2 7B
+    - model: Qwen 2 7B
       mad_tag: pyt_train_qwen2-7b
       model_repo: Qwen2-7B
       url: https://huggingface.co/Qwen/Qwen2-7B
