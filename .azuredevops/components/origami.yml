@@ -75,8 +75,6 @@ parameters:
     testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
-      - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
-      - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
 - name: downstreamComponentMatrix
   type: object
   default:
@@ -170,8 +168,6 @@ jobs:
       variables:
       - group: common
       - template: /.azuredevops/variables-global.yml
-      - name: ROCM_PATH
-        value: $(Agent.BuildDirectory)/rocm
       pool: ${{ job.target }}_test_pool
       workspace:
         clean: all
