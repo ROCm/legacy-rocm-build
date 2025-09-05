@@ -39,7 +39,7 @@ vLLM inference performance testing
         - {{ unified_docker.hipblaslt_version }}
 
 With this Docker image, you can quickly test the :ref:`expected
-inference performance numbers <vllm-benchmark-performance-measurements>` for
+inference performance numbers <vllm-benchmark-performance-measurements-812>` for
 MI300X series accelerators.
 
 What's new
@@ -208,7 +208,7 @@ system's configuration.
             and ``{{ model.mad_tag }}_serving.csv``.
 
             Although the :ref:`available models
-            <vllm-benchmark-available-models>` are preconfigured to collect
+            <vllm-benchmark-available-models-812>` are preconfigured to collect
             offline throughput and online serving performance data, you can
             also change the benchmarking parameters. See the standalone
             benchmarking tab for more information.

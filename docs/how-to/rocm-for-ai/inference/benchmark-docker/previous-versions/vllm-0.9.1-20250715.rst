@@ -46,7 +46,7 @@ vLLM inference performance testing
         - {{ unified_docker.hipblaslt_version }}
 
 With this Docker image, you can quickly test the :ref:`expected
-inference performance numbers <vllm-benchmark-performance-measurements>` for
+inference performance numbers <vllm-benchmark-performance-measurements-715>` for
 MI300X series accelerators.
 
 What's new
@@ -219,7 +219,7 @@ system's configuration.
             ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
             model are collected in the following path: ``~/MAD/reports_{{model.precision}}/``.
 
-            Although the :ref:`available models <vllm-benchmark-available-models>` are preconfigured
+            Although the :ref:`available models <vllm-benchmark-available-models-715>` are preconfigured
             to collect latency and throughput performance data, you can also change the benchmarking
             parameters. See the standalone benchmarking tab for more information.
 
