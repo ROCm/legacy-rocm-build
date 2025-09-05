@@ -142,6 +142,12 @@ jobs:
     #     ctest --output-on-failure --parallel $(nproc)
     #   displayName: 'Run Origami Tests'
     #   condition: succeeded()
+    - script: |
+        # Copy Python bindings to artifact location
+        mkdir -p $(Agent.BuildDirectory)/rocm/python
+        cp -r $(Agent.BuildDirectory)/s/build/python/* $(Agent.BuildDirectory)/rocm/python/
+      displayName: 'Package Python bindings'
+      condition: succeeded()
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}
@@ -196,11 +202,18 @@ jobs:
           ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      # - script: |
+      #     cd $(Agent.BuildDirectory)/s/build
+      #     ctest --output-on-failure --parallel $(nproc)
+      #   displayName: 'Run Python Binding Tests'
+        # condition: succeeded()
       - script: |
-          cd $(Agent.BuildDirectory)/s/build
-          ctest --output-on-failure --parallel $(nproc)
-        displayName: 'Run Python Binding Tests'
-        condition: succeeded()
+          # Run Python tests directly
+          cd $(Agent.BuildDirectory)/s/python
+          export PYTHONPATH="$(Agent.BuildDirectory)/rocm/python:$(Agent.BuildDirectory)/s/python:$PYTHONPATH"
+          python3 origami_test.py
+          python3 origami_grid_test.py
+        displayName: 'Run Python tests'
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
