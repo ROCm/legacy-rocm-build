@@ -32,7 +32,6 @@ parameters:
 - name: aptPackages
   type: object
   default:
-    - catch2
     - cmake
     - git
     - ninja-build
@@ -136,10 +135,11 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
       parameters:
         dependencyList:
-          - gtest
-          - spdlog
+          - catch2
           - fmtlib
+          - gtest
           - libdivide
+          - spdlog
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
