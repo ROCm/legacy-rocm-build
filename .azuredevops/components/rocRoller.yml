@@ -148,11 +148,20 @@ jobs:
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+    - task: Bash@3
+      displayName: Add paths for CMake and Python site-packages binaries
+      inputs:
+        targetType: inline
+        script: |
+          USER_BASE=$(python3 -m site --user-base)
+          echo "##vso[task.prependpath]$USER_BASE/bin"
+          echo "##vso[task.setvariable variable=PytestCmakePath]$USER_BASE/share/Pytest/cmake"
+        displayName: Set cmake configure paths
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
         extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor"
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;$(PytestCmakePath)
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DROCROLLER_ENABLE_FETCH=ON
           -GNinja
