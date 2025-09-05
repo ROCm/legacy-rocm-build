@@ -1,0 +1,63 @@
+parameters:
+- name: checkoutRepo
+  type: string
+  default: 'self'
+- name: checkoutRef
+  type: string
+  default: ''
+- name: catch2Version
+  type: string
+  default: ''
+- name: aptPackages
+  type: object
+  default:
+    - cmake
+    - git
+    - ninja-build
+
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - { os: ubuntu2204, packageManager: apt}
+      - { os: almalinux8, packageManager: dnf}
+
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: catch2_${{ job.os }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool:
+      vmImage: 'ubuntu-22.04'
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
+    workspace:
+      clean: all
+    steps:
+    - checkout: none
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - task: Bash@3
+      displayName: Clone catch2 ${{ parameters.catch2Version }}
+      inputs:
+        targetType: inline
+        script: git clone https://github.com/catchorg/Catch2.git -b ${{ parameters.catch2Version }}
+        workingDirectory: $(Agent.BuildDirectory)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        os: ${{ job.os }}
+        cmakeBuildDir: $(Agent.BuildDirectory)/Catch2/build
+        cmakeSourceDir: $(Agent.BuildDirectory)/Catch2
+        useAmdclang: false
+        extraBuildFlags: >-
+          -DCMAKE_BUILD_TYPE=Release
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}
