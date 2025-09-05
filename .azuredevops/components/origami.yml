@@ -197,15 +197,32 @@ jobs:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       - script: |
-          echo "Current directory: $(pwd)"
-          echo "Contents of Agent.BuildDirectory:"
-          ls -la $(Agent.BuildDirectory)/
-          echo "Contents of current directory:"
-          ls -la
-          echo "Finding test executables:"
-          find $(Agent.BuildDirectory) -name "*test*" -type f -executable 2>/dev/null || true
-          find $(Agent.BuildDirectory) -name "*.so" 2>/dev/null || true
-        displayName: 'Debug: Check directory structure'
+          echo "=== Finding build directory ==="
+          echo "Agent.BuildDirectory: $(Agent.BuildDirectory)"
+          echo "System.DefaultWorkingDirectory: $(System.DefaultWorkingDirectory)"
+          
+          # Look for common build directory patterns
+          for dir in "$(Agent.BuildDirectory)" "$(System.DefaultWorkingDirectory)" "/home/user/_work/1"; do
+            echo "Searching in $dir:"
+            find "$dir" -type d -name "build" 2>/dev/null || true
+            find "$dir" -type d -name "*origami*" 2>/dev/null || true
+          done
+          
+          # Look for CMake test files
+          echo "=== Finding CTestTestfile.cmake ==="
+          find "$(Agent.BuildDirectory)" -name "CTestTestfile.cmake" 2>/dev/null || true
+          
+          # Look for the actual extracted artifacts
+          echo "=== Directory structure ==="
+          ls -la "$(Agent.BuildDirectory)/"
+          
+          # If origami directory exists
+          if [ -d "$(Agent.BuildDirectory)/origami" ]; then
+            echo "=== Contents of origami directory ==="
+            ls -la "$(Agent.BuildDirectory)/origami/"
+            find "$(Agent.BuildDirectory)/origami" -type d -name "build" 2>/dev/null || true
+          fi
+        displayName: 'Find build directory'
       - script: |
           cd $(Agent.BuildDirectory)/rocm/bin
           ctest --output-on-failure --parallel $(nproc)
