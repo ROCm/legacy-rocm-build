@@ -48,19 +48,35 @@ parameters:
     - rocminfo
     - ROCR-Runtime
     - rocprofiler-register
+- name: rocmTestDependencies
+  type: object
+  default:
+    - clr
+    - llvm-project
+    - rocm-cmake
+    - rocminfo
+    - ROCR-Runtime
+    - rocprofiler-register
 
 - name: jobMatrix
   type: object
   default:
     buildJobs:
+      - { os: ubuntu2204, packageManager: apt }
+      - { os: almalinux8, packageManager: dnf }
+      # - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      # - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      # - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
+      # - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
+      # - { os: almalinux8, packageManager: dnf, target: gfx942 }
+      # - { os: almalinux8, packageManager: dnf, target: gfx90a }
+      # - { os: almalinux8, packageManager: dnf, target: gfx1201 }
+      # - { os: almalinux8, packageManager: dnf, target: gfx1100 }
+    testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
       - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
       - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
-      - { os: almalinux8, packageManager: dnf, target: gfx942 }
-      - { os: almalinux8, packageManager: dnf, target: gfx90a }
-      - { os: almalinux8, packageManager: dnf, target: gfx1201 }
-      - { os: almalinux8, packageManager: dnf, target: gfx1100 }
 - name: downstreamComponentMatrix
   type: object
   default:
@@ -73,11 +89,11 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: origami_build_${{ job.os }}_${{ job.target }}
+  - job: origami_build_${{ job.os }}
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
-          - ${{ build }}_${{ job.os }}_${{ job.target }}
+          - ${{ build }}_${{ job.os }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -101,12 +117,6 @@ jobs:
         python3 -m pip install --upgrade pip
         python3 -m pip install "nanobind>=2.0.0"
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-      parameters:
-        preTargetFilter: ${{ parameters.componentName }}
-        os: ${{ job.os }}
-        gpuTarget: ${{ job.target }}
-
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
@@ -116,7 +126,6 @@ jobs:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         os: ${{ job.os }}
-        gpuTarget: ${{ job.target }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
@@ -130,35 +139,74 @@ jobs:
           -DORIGAMI_ENABLE_PYTHON=ON
           -DORIGAMI_BUILD_TESTING=ON
           -GNinja
-    - script: |
-        cd $(Agent.BuildDirectory)/s/build
-        ctest --output-on-failure --parallel $(nproc)
-      displayName: 'Run Origami Tests'
-      condition: succeeded()
+    # - script: |
+    #     cd $(Agent.BuildDirectory)/s/build
+    #     ctest --output-on-failure --parallel $(nproc)
+    #   displayName: 'Run Origami Tests'
+    #   condition: succeeded()
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
         os: ${{ job.os }}
-        gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         os: ${{ job.os }}
-        gpuTarget: ${{ job.target }}
         componentName: ${{ parameters.componentName }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
-    - ${{ if eq(job.os, 'ubuntu2204') }}:
-      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+
+############ TEST  #############
+- ${{ if eq(parameters.unifiedBuild, False) }}:
+  - ${{ each job in parameters.jobMatrix.testJobs }}:
+    - job: origami_test_${{ job.os }}_${{ job.target }}
+      timeoutInMinutes: 120
+      dependsOn: origami_build_${{ job.os }}
+      condition:
+        and(succeeded(),
+          eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
+          eq(${{ parameters.aggregatePipeline }}, False)
+        )
+      variables:
+      - group: common
+      - template: /.azuredevops/variables-global.yml
+      - name: ROCM_PATH
+        value: $(Agent.BuildDirectory)/rocm
+      pool: ${{ job.target }}_test_pool
+      workspace:
+        clean: all
+      steps:
+      - checkout: none
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
-          pipModules: ${{ parameters.pipModules }}
-          installAOCL: true
+          packageManager: ${{ job.packageManager }}
+      - script: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install "nanobind>=2.0.0"
+        displayName: 'Install Python dependencies'
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+        parameters:
+          preTargetFilter: ${{ parameters.componentName }}
+          os: ${{ job.os }}
           gpuTarget: ${{ job.target }}
-          extraEnvVars:
-            - HIP_ROCCLR_HOME:::/home/user/workspace/rocm
-            - TENSILE_ROCM_ASSEMBLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang
-            - TENSILE_ROCM_OFFLOAD_BUNDLER_PATH:::/home/user/workspace/rocm/llvm/bin/clang-offload-bundler
-            - ROCM_PATH:::/home/user/workspace/rocm
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+        parameters:
+          checkoutRef: ${{ parameters.checkoutRef }}
+          dependencyList: ${{ parameters.rocmTestDependencies }}
+          os: ${{ job.os }}
+          gpuTarget: ${{ job.target }}
+          ${{ if parameters.triggerDownstreamJobs }}:
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      - script: |
+          cd $(Agent.BuildDirectory)/s/build
+          ctest --output-on-failure --parallel $(nproc)
+        displayName: 'Run Python Binding Tests'
+        condition: succeeded()
+
+
 - ${{ if parameters.triggerDownstreamJobs }}:
   - ${{ each component in parameters.downstreamComponentMatrix }}:
     - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
