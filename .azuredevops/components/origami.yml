@@ -197,7 +197,7 @@ jobs:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       - script: |
-          cd $(Agent.BuildDirectory)/rocm/bin/build
+          cd $(Agent.BuildDirectory)/rocm/share/
           ctest --output-on-failure --parallel $(nproc)
         displayName: 'Run Python Binding Tests'
         condition: succeeded()
