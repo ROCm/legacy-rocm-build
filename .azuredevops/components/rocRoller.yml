@@ -85,8 +85,8 @@ parameters:
     buildJobs:
       - { pool: rocm-ci_ultra_build_pool, os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { pool: rocm-ci_medium_build_pool, os: ubuntu2204, packageManager: apt, target: gfx90a }
-      - { pool: rocm-ci_ultra_build_pool, os: almalinux8, packageManager: dnf, target: gfx942 }
-      - { pool: rocm-ci_medium_build_pool, os: almalinux8, packageManager: dnf, target: gfx90a }
+      #- { pool: rocm-ci_ultra_build_pool, os: almalinux8, packageManager: dnf, target: gfx942 }
+      #- { pool: rocm-ci_medium_build_pool, os: almalinux8, packageManager: dnf, target: gfx90a }
     testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
@@ -166,13 +166,13 @@ jobs:
           -DROCROLLER_ENABLE_FETCH=ON
           -GNinja
     - task: Bash@3
-      displayName: Capture build.ninja artifact
+      displayName: Capture ninja.build artifact
       condition: always()
       inputs:
         targetType: inline
         script: |
-          cp $(Agent.BuildDirectory)/ninja.build $(Build.ArtifactStagingDirectory)
-          echo "ninja.build" >> pipelineArtifacts.txt
+          cp $(Agent.BuildDirectory)/s/build/build.ninja $(Build.ArtifactStagingDirectory)
+          echo "build.ninja" >> pipelineArtifacts.txt
         displayName: Set cmake configure paths
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
