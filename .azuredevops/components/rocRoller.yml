@@ -161,7 +161,7 @@ jobs:
       parameters:
         os: ${{ job.os }}
         extraBuildFlags: >-
-          -D CMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;$(PytestCmakePath)
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;$(PytestCmakePath)
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DROCROLLER_ENABLE_FETCH=ON
           -GNinja
@@ -171,7 +171,7 @@ jobs:
       inputs:
         targetType: inline
         script: |
-          cp "$(Agent.BuildDirectory)/ninja.build $(Build.ArtifactStagingDirectory)"
+          cp $(Agent.BuildDirectory)/ninja.build $(Build.ArtifactStagingDirectory)
           echo "ninja.build" >> pipelineArtifacts.txt
         displayName: Set cmake configure paths
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
