@@ -8,6 +8,9 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
+- name: rocPyDecodeRepo
+  type: string
+  default: rocpydecode_repo
 # monorepo related parameters
 - name: sparseCheckoutDir
   type: string
@@ -207,7 +210,7 @@ jobs:
     - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
       - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
         parameters:
-          checkoutRepo: ${{ parameters.checkoutRepo }}
+          checkoutRepo: ${{ parameters.rocPyDecodeRepo }}
           sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
           buildDependsOn: ${{ component.buildDependsOn }}
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
