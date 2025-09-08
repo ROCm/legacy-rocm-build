@@ -137,18 +137,19 @@ jobs:
           -DORIGAMI_ENABLE_PYTHON=ON
           -DORIGAMI_BUILD_TESTING=ON
           -GNinja
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Build Directory Artifact'
-      inputs:
-        targetPath: '$(Agent.BuildDirectory)/s/build'
-        artifact: '${{ parameters.componentName }}_${{ job.os }}_build_dir'
-        publishLocation: 'pipeline'
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Python Source Artifact'
-      inputs:
-        targetPath: '$(Agent.BuildDirectory)/s/python'
-        artifact: '${{ parameters.componentName }}_${{ job.os }}_python_src'
-        publishLocation: 'pipeline'
+    - ${{ if ne(job.os, 'almalinux8') }}:
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Build Directory Artifact'
+        inputs:
+          targetPath: '$(Agent.BuildDirectory)/s/build'
+          artifact: '${{ parameters.componentName }}_${{ job.os }}_build_dir'
+          publishLocation: 'pipeline'
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Python Source Artifact'
+        inputs:
+          targetPath: '$(Agent.BuildDirectory)/s/python'
+          artifact: '${{ parameters.componentName }}_${{ job.os }}_python_src'
+          publishLocation: 'pipeline'
     # - script: |
     #     cd $(Agent.BuildDirectory)/s/build
     #     ctest --output-on-failure --parallel $(nproc)
