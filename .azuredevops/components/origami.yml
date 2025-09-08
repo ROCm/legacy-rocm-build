@@ -181,7 +181,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
         parameters:
           checkoutRepo: ${{ parameters.checkoutRepo }}
-          sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+          sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }} ${{ parameters.sparseCheckoutDir }}/python
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
@@ -210,23 +210,8 @@ jobs:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       - script: |
-          echo "========================================================================"
-          echo "DEBUGGING: Finding where the checkout process put the files..."
-          echo "Current directory is:"
-          pwd
-          
-          echo "------------------------------------------------------------------------"
-          echo "Contents of the Agent's Build Directory ($(Agent.BuildDirectory)):"
-          ls -laR $(Agent.BuildDirectory)
-          echo "========================================================================"
-
-          # The script will likely fail below, but the log from the 'ls' command above
-          # will tell us the correct path to use for the python scripts.
-          
-          echo "Setting up environment for Python tests..."
           export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
-          
-          echo "PYTHONPATH is now: $PYTHONPATH"
+
           echo "--- Running origami_test.py ---"
           python3 $(Agent.BuildDirectory)/s/python/origami_test.py
           
