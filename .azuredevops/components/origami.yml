@@ -222,12 +222,12 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       - script: |
           export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
-
-          echo "--- Running origami_test.py ---"
-          python3 $(Agent.BuildDirectory)/s/python/origami_test.py
+          ctest --output-on-failure --parallel $(nproc)
+          # echo "--- Running origami_test.py ---"
+          # python3 $(Agent.BuildDirectory)/s/python/origami_test.py
           
-          echo "--- Running origami_grid_test.py ---"
-          python3 $(Agent.BuildDirectory)/s/python/origami_grid_test.py
+          # echo "--- Running origami_grid_test.py ---"
+          # python3 $(Agent.BuildDirectory)/s/python/origami_grid_test.py
         displayName: 'Run Python Binding Tests'
         condition: succeeded()
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
