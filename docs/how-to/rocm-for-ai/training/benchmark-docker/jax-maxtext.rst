@@ -2,9 +2,9 @@
    :description: How to train a model using JAX MaxText for ROCm.
    :keywords: ROCm, AI, LLM, train, jax, torch, Llama, flux, tutorial, docker
 
-**************************************
-Training a model with MaxText for ROCm
-**************************************
+******************************************
+Training a model with JAX MaxText for ROCm
+******************************************
 
 MaxText is a high-performance, open-source framework built on the Google JAX
 machine learning library to train LLMs at scale. The MaxText framework for
@@ -12,23 +12,42 @@ ROCm is an optimized fork of the upstream
 `<https://github.com/AI-Hypercomputer/maxtext>`__ enabling efficient AI workloads
 on AMD MI300X series accelerators.
 
+The MaxText for ROCm training Docker image
+provides a prebuilt environment for training on AMD Instinct MI300X and MI325X accelerators,
+including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
+It includes the following software components:
+
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
 
-   {% set docker = data.dockers[0] %}
-   The MaxText for ROCm training Docker (``{{ docker.pull_tag }}``) image
-   provides a prebuilt environment for training on AMD Instinct MI300X and MI325X accelerators,
-   including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
-   It includes the following software components:
+   {% set dockers = data.dockers %}
+   .. tab-set::
 
-   .. list-table::
-      :header-rows: 1
+      {% for docker in dockers %}
+      {% set jax_version = docker.components["JAX"] %}
 
-      * - Software component
-        - Version
+      .. tab-item:: JAX {{ jax_version }}
+         :sync: {{ docker.pull_tag }}
 
-      {% for component_name, component_version in docker.components.items() %}
-      * - {{ component_name }}
-        - {{ component_version }}
+         .. list-table::
+            :header-rows: 1
+
+            * - Software component
+              - Version
+
+            {% for component_name, component_version in docker.components.items() %}
+            * - {{ component_name }}
+              - {{ component_version }}
+
+            {% endfor %}
+         {% if jax_version == "0.6.0" %}
+         .. note::
+
+            Shardy is a new config in JAX 0.6.0. You might get related errors if it's
+            not configured correctly. For now you can turn it off by setting
+            ``shardy=False`` during the training run. You can also follow the `migration
+            guide <https://docs.jax.dev/en/latest/shardy_jax_migration.html>`__ to enable
+            it.
+         {% endif %}
 
       {% endfor %}
 
@@ -207,6 +226,7 @@ benchmark results:
 
    .. _vllm-benchmark-mad:
 
+   {% set dockers = data.dockers %}
    {% set docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
    {% for model_group in model_groups %}
@@ -252,9 +272,17 @@ benchmark results:
             Run the JAX MaxText benchmark tool independently by starting the
             Docker container as shown in the following snippet.
 
-            .. code-block:: shell
+            .. tab-set::
+               {% for docker in dockers %}
+               {% set jax_version = docker.components["JAX"] %}
 
-               docker pull {{ docker.pull_tag }}
+               .. tab-item:: JAX {{ jax_version }}
+                  :sync: {{ docker.pull_tag }}
+
+                  .. code-block:: shell
+
+                     docker pull {{ docker.pull_tag }}
+               {% endfor %}
 
             .. tab-set::
 
