@@ -117,7 +117,7 @@ jobs:
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
-          - ${{ build }}_${{ job.os }} # this was changes dont forget
+          - ${{ build }}_${{ job.os }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -197,8 +197,6 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
-        cmakeSourceDir: $(Agent.BuildDirectory)/s/projects/hipblaslt
-        cmakeBuildDir: $(Agent.BuildDirectory)/s/projects/hipblaslt/build
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
           -DCMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/llvm/include
