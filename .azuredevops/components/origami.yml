@@ -222,6 +222,7 @@ jobs:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       - script: |
+          cd $(Agent.BuildDirectory)/s/build
           export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
           ctest --output-on-failure --parallel $(nproc)
           # echo "--- Running origami_test.py ---"
