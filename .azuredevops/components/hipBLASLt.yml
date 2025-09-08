@@ -149,7 +149,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
-        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }} shared/origami
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
       parameters:
         dependencyList:
@@ -178,7 +178,7 @@ jobs:
           mkdir -p $(Agent.BuildDirectory)/temp-deps
           cd $(Agent.BuildDirectory)/temp-deps
           # position-independent LAPACK is required for almalinux8 builds
-          cmake -DBUILD_GTEST=OFF -DBUILD_LAPACK=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $(Agent.BuildDirectory)/s/projects/hipblaslt/deps
+          cmake -DBUILD_GTEST=OFF -DBUILD_LAPACK=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $(Agent.BuildDirectory)/s/deps
           make -j
           sudo make install
     - script: |
