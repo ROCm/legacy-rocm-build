@@ -143,6 +143,12 @@ jobs:
         targetPath: '$(Agent.BuildDirectory)/s/build'
         artifact: '${{ parameters.componentName }}_${{ job.os }}_build_dir'
         publishLocation: 'pipeline'
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Python Source Artifact'
+      inputs:
+        targetPath: '$(Agent.BuildDirectory)/s/python'
+        artifact: '${{ parameters.componentName }}_${{ job.os }}_python_src'
+        publishLocation: 'pipeline'
     # - script: |
     #     cd $(Agent.BuildDirectory)/s/build
     #     ctest --output-on-failure --parallel $(nproc)
@@ -181,7 +187,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
         parameters:
           checkoutRepo: ${{ parameters.checkoutRepo }}
-          sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }} ${{ parameters.sparseCheckoutDir }}/python
+          sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
@@ -200,6 +206,11 @@ jobs:
         inputs:
           artifact: '${{ parameters.componentName }}_${{ job.os }}_build_dir'
           path: '$(Agent.BuildDirectory)/s/build'
+      - task: DownloadPipelineArtifact@2
+        displayName: 'Download Python Source Artifact'
+        inputs:
+          artifact: '${{ parameters.componentName }}_${{ job.os }}_python_src'
+          path: '$(Agent.BuildDirectory)/s/python'
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
         parameters:
           checkoutRef: ${{ parameters.checkoutRef }}
