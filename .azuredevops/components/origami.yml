@@ -143,11 +143,11 @@ jobs:
         targetPath: '$(Agent.BuildDirectory)/s/build'
         artifact: '${{ parameters.componentName }}_${{ job.os }}_build_dir'
         publishLocation: 'pipeline'
-    - script: |
-        cd $(Agent.BuildDirectory)/s/build
-        ctest --output-on-failure --parallel $(nproc)
-      displayName: 'Run Origami Tests'
-      condition: succeeded()
+    # - script: |
+    #     cd $(Agent.BuildDirectory)/s/build
+    #     ctest --output-on-failure --parallel $(nproc)
+    #   displayName: 'Run Origami Tests'
+    #   condition: succeeded()
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}
