@@ -64,14 +64,6 @@ parameters:
     buildJobs:
       - { os: ubuntu2204, packageManager: apt }
       - { os: almalinux8, packageManager: dnf }
-      # - { os: ubuntu2204, packageManager: apt, target: gfx942 }
-      # - { os: ubuntu2204, packageManager: apt, target: gfx90a }
-      # - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
-      # - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
-      # - { os: almalinux8, packageManager: dnf, target: gfx942 }
-      # - { os: almalinux8, packageManager: dnf, target: gfx90a }
-      # - { os: almalinux8, packageManager: dnf, target: gfx1201 }
-      # - { os: almalinux8, packageManager: dnf, target: gfx1100 }
     testJobs:
       - { os: ubuntu2204, packageManager: apt, target: gfx942 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
@@ -150,11 +142,6 @@ jobs:
           targetPath: '$(Agent.BuildDirectory)/s/python'
           artifact: '${{ parameters.componentName }}_${{ job.os }}_python_src'
           publishLocation: 'pipeline'
-    # - script: |
-    #     cd $(Agent.BuildDirectory)/s/build
-    #     ctest --output-on-failure --parallel $(nproc)
-    #   displayName: 'Run Origami Tests'
-    #   condition: succeeded()
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}
@@ -166,7 +153,6 @@ jobs:
         componentName: ${{ parameters.componentName }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
 
-############ TEST  #############
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
     - job: origami_test_${{ job.os }}_${{ job.target }}
