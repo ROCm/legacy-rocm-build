@@ -25,3 +25,7 @@ inference workloads using next-generation AMD accelerators.
       * :doc:`inference-vllm-llama-3.3-70b-fp8`
 
       * :doc:`inference-vllm-gpt-oss-120b`
+
+      * :doc:`inference-sglang-deepseek-r1-fp4`
+
+      * :doc:`inference-sglang-deepseek-r1-fp8`

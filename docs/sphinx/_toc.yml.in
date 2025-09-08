@@ -23,3 +23,5 @@ subtrees:
           - file: preview/benchmark-docker/inference-vllm-llama-3.1-405b-fp4.rst
           - file: preview/benchmark-docker/inference-vllm-llama-3.3-70b-fp8.rst
           - file: preview/benchmark-docker/inference-vllm-gpt-oss-120b.rst
+          - file: preview/benchmark-docker/inference-sglang-deepseek-r1-fp4.rst
+          - file: preview/benchmark-docker/inference-sglang-deepseek-r1-fp8.rst
