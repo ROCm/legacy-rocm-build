@@ -178,7 +178,10 @@ jobs:
       workspace:
         clean: all
       steps:
-      - checkout: self
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
@@ -217,7 +220,6 @@ jobs:
           pipModules: ${{ parameters.pipModules }}
           environment: test
           gpuTarget: ${{ job.target }}
-
 
 - ${{ if parameters.triggerDownstreamJobs }}:
   - ${{ each component in parameters.downstreamComponentMatrix }}:
