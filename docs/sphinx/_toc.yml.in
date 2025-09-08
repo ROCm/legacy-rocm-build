@@ -16,3 +16,10 @@ subtrees:
           title: Install ROCm
         - file: preview/install/instinct-driver
           title: Install Instinct Driver
+  - file: preview/benchmark-docker/index.rst
+    title: Docker images for AI
+    subtrees:
+    - entries:
+          - file: preview/benchmark-docker/inference-vllm-llama-3.1-405b-fp4.rst
+          - file: preview/benchmark-docker/inference-vllm-llama-3.3-70b-fp8.rst
+          - file: preview/benchmark-docker/inference-vllm-gpt-oss-120b.rst
