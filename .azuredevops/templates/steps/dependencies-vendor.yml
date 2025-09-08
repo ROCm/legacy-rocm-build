@@ -8,11 +8,13 @@ parameters:
   type: object
   default:
     boost: 250
+    catch2: 343
     fmtlib: 341
     grpc: 72
     gtest: 73
     half560: 68
     lapack: 69
+    libdivide: 342
     spdlog: 340
 
 steps:
@@ -31,7 +33,7 @@ steps:
     inputs:
       archiveFilePatterns: '$(Pipeline.Workspace)/d/**/*.tar.gz'
       destinationFolder: $(Agent.BuildDirectory)/vendor
-      cleanDestinationFolder: true
+      cleanDestinationFolder: false
       overwriteExistingFiles: true
   - task: DeleteFiles@1
     displayName: Clean up ${{ dependency }}

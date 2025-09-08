@@ -437,3 +437,8 @@ Once the setup is complete, choose between two options to start benchmarking:
 
            ./pytorch_benchmark_report.sh -t HF_finetune_lora -p BF16 -m Llama-2-70B
 
+Previous versions
+=================
+
+See :doc:`pytorch-training-history` to find documentation for previous releases
+of the ``ROCm/pytorch-training`` Docker image.

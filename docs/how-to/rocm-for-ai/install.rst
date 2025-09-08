@@ -22,9 +22,9 @@ If you’re new to ROCm, refer to the :doc:`ROCm quick start install guide for L
 <rocm-install-on-linux:install/quick-start>`.
 
 If you’re using a Radeon GPU for graphics-accelerated applications, refer to the
-`Radeon installation instructions <https://rocm.docs.amd.com/projects/radeon/en/docs-6.1.3/docs/install/native_linux/install-radeon.html>`_.
+`Radeon installation instructions <https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/howto_native_linux.html>`_.
 
-You can install ROCm on :ref:`compatible systems <rocm-install-on-linux:reference/system-requirements>` via your Linux
+You can install ROCm on :doc:`compatible systems <rocm-install-on-linux:reference/system-requirements>` via your Linux
 distribution's package manager. See the following documentation resources to get started:
 
 * :doc:`ROCm installation overview <rocm-install-on-linux:install/install-overview>`
