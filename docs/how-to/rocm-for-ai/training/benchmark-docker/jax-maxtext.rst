@@ -357,16 +357,15 @@ benchmark results:
 
                For quantized training, use the following command:
 
-               .. important::
-
-                  Quantized training currently only supports the JAX 0.5.0 Docker image
-                  (``rocm/jax-training:maxtext-v25.7``). Support will be added to the JAX
-                  0.6.0 Docker image (``rocm/jax-training:maxtext-v25.7-jax060``) in a
-                  future release.
-
                .. code-block:: shell
 
                   ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q nanoo_fp8
+
+               .. important::
+
+                  Quantized training is not supported with the JAX 0.6.0 Docker image; support
+                  will be added in a future release. For quantized training, use the JAX 0.5.0
+                  Docker image: ``rocm/jax-training:maxtext-v25.7``.
 
             {% endif %}
             {% if model.multinode_training_script and "multi-node" in model.doc_options %}
