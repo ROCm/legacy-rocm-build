@@ -3,9 +3,9 @@ Docker images for AI inference
 *******************************************
 
 This page accompanies preview Docker images designed to reproduce
-training performance on AMD Instinct™ MI355X, MI350X, and MI300X series
+inference performance on AMD Instinct™ MI355X, MI350X, and MI300X series
 accelerators. The images provide access to preview versions of the ROCm 7.0
-software stack and are targeted at early-access users evaluating training and
+software stack and are targeted at early-access users evaluating AI
 inference workloads using next-generation AMD accelerators.
 
 .. important::
