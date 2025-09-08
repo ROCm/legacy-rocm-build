@@ -47,6 +47,10 @@ It includes the following software components:
             ``shardy=False`` during the training run. You can also follow the `migration
             guide <https://docs.jax.dev/en/latest/shardy_jax_migration.html>`__ to enable
             it.
+
+            The provided multi-node training scripts in this documentation are
+            not currently supported with JAX 0.6.0. For multi-node training, use the JAX 0.5.0
+            Docker image.
          {% endif %}
 
       {% endfor %}
@@ -227,7 +231,6 @@ benchmark results:
    .. _vllm-benchmark-mad:
 
    {% set dockers = data.dockers %}
-   {% set docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -284,27 +287,31 @@ benchmark results:
                      docker pull {{ docker.pull_tag }}
                {% endfor %}
 
-            .. tab-set::
+            {% if model.model_repo and "single-node" in model.doc_options %}
+            .. rubric:: Single node training
 
-               {% if model.model_repo and "single-node" in model.doc_options %}
-               .. tab-item:: Single node training
+            1. Set up environment variables.
 
-                  1. Set up environment variables.
+               .. code-block:: shell
 
-                     .. code-block:: shell
+                  export MAD_SECRETS_HFTOKEN=<Your Hugging Face token>
+                  export HF_HOME=<Location of saved/cached Hugging Face models>
 
-                        export MAD_SECRETS_HFTOKEN=<Your Hugging Face token>
-                        export HF_HOME=<Location of saved/cached Hugging Face models>
+               ``MAD_SECRETS_HFTOKEN`` is your Hugging Face access token to access models, tokenizers, and data.
+               See `User access tokens <https://huggingface.co/docs/hub/en/security-tokens>`__.
 
-                     ``MAD_SECRETS_HFTOKEN`` is your Hugging Face access token to access models, tokenizers, and data.
-                     See `User access tokens <https://huggingface.co/docs/hub/en/security-tokens>`__.
+               ``HF_HOME`` is where ``huggingface_hub`` will store local data. See `huggingface_hub CLI <https://huggingface.co/docs/huggingface_hub/main/en/guides/cli#huggingface-cli-download>`__.
+               If you already have downloaded or cached Hugging Face artifacts, set this variable to that path.
+               Downloaded files typically get cached to ``~/.cache/huggingface``.
 
-                     ``HF_HOME`` is where ``huggingface_hub`` will store local data. See `huggingface_hub CLI <https://huggingface.co/docs/huggingface_hub/main/en/guides/cli#huggingface-cli-download>`__.
-                     If you already have downloaded or cached Hugging Face artifacts, set this variable to that path.
-                     Downloaded files typically get cached to ``~/.cache/huggingface``.
+            2. Launch the Docker container.
 
+               .. tab-set::
+                  {% for docker in dockers %}
+                  {% set jax_version = docker.components["JAX"] %}
 
-                  2. Launch the Docker container.
+                  .. tab-item:: JAX {{ jax_version }}
+                     :sync: {{ docker.pull_tag }}
 
                      .. code-block:: shell
 
@@ -325,58 +332,75 @@ benchmark results:
                             --shm-size 64G \
                             --name training_env \
                             {{ docker.pull_tag }}
+                  {% endfor %}
 
-                  3. In the Docker container, clone the ROCm MAD repository and navigate to the
-                     benchmark scripts directory at ``MAD/scripts/jax-maxtext``.
+            3. In the Docker container, clone the ROCm MAD repository and navigate to the
+               benchmark scripts directory at ``MAD/scripts/jax-maxtext``.
 
-                     .. code-block:: shell
+               .. code-block:: shell
 
-                        git clone https://github.com/ROCm/MAD
-                        cd MAD/scripts/jax-maxtext
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD/scripts/jax-maxtext
 
-                  4. Run the setup scripts to install libraries and datasets needed
-                     for benchmarking.
+            4. Run the setup scripts to install libraries and datasets needed
+               for benchmarking.
 
-                     .. code-block:: shell
+               .. code-block:: shell
 
-                        ./jax-maxtext_benchmark_setup.sh -m {{ model.mad_tag }}
+                  ./jax-maxtext_benchmark_setup.sh -m {{ model.model_repo }}
 
-                     To run the training benchmark with quantization, use:
+            5. To run the training benchmark without quantization, use the following command:
 
-                     .. code-block:: shell
+               .. code-block:: shell
 
-                        ./jax-maxtext_benchmark_setup.sh -m {{ model.mad_tag }} -q nanoo_fp8
+                  ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }}
 
-               {% endif %}
-               {% if model.multinode_training_script and "multi-node" in model.doc_options %}
-               .. tab-item:: Multi-node training
+               For quantized training, use the following command:
 
-                  The following examples use SLURM to run on multiple nodes.
+               .. important::
 
-                  .. note::
+                  Quantized training currently only supports the JAX 0.5.0 Docker image
+                  (``rocm/jax-training:maxtext-v25.7``). Support will be added to the JAX
+                  0.6.0 Docker image (``rocm/jax-training:maxtext-v25.7-jax060``) in a
+                  future release.
 
-                     The following scripts will launch the Docker container and run the
-                     benchmark. Run them outside of any Docker container.
+               .. code-block:: shell
 
-                  1. Make sure ``$HF_HOME`` is set before running the test. See
-                     `ROCm benchmarking <https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/readme.md>`__
-                     for more details on downloading the Llama models before running the
-                     benchmark.
+                  ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q nanoo_fp8
 
-                  2. To run multi-node training for {{ model.model }}, download
-                     the example multi-node benchmarking script.
+            {% endif %}
+            {% if model.multinode_training_script and "multi-node" in model.doc_options %}
+            .. rubric:: Multi-node training
 
-                     .. code-block:: shell
+            The following examples use SLURM to run on multiple nodes.
 
-                        wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/{{ model.multinode_training_script }}
+            .. note::
 
-                  3. Run the multi-node training benchmark script.
+               The following scripts will launch the Docker container and run the
+               benchmark. Run them outside of any Docker container.
 
-                     .. code-block:: shell
+            1. Make sure ``$HF_HOME`` is set before running the test. See
+               `ROCm benchmarking <https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/readme.md>`__
+               for more details on downloading the Llama models before running the
+               benchmark.
 
-                        sbatch -N <num_nodes> {{ model.multinode_training_script }}
+            2. To run multi-node training for {{ model.model }}, 
+               use the
+               `multi-node training script <https://github.com/ROCm/MAD/blob/develop/scripts/jax-maxtext/gpu-rocm/{{ model.multinode_training_script }}>`__
+               under the ``scripts/jax-maxtext/gpu-rocm/`` directory.
 
-               {% endif %}
+            3. Run the multi-node training benchmark script.
+
+               .. code-block:: shell
+
+                  sbatch -N <num_nodes> {{ model.multinode_training_script }}
+
+         {% else %}
+            .. rubric:: Multi-node training
+
+            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v257`
+            with an available `multi-node training script <https://github.com/ROCm/MAD/tree/develop/scripts/jax-maxtext/gpu-rocm>`__.
+         {% endif %}
       {% endfor %}
    {% endfor %}
 
