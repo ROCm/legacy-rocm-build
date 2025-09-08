@@ -137,16 +137,16 @@ jobs:
           -DORIGAMI_ENABLE_PYTHON=ON
           -DORIGAMI_BUILD_TESTING=ON
           -GNinja
-    # - script: |
-    #     cd $(Agent.BuildDirectory)/s/build
-    #     ctest --output-on-failure --parallel $(nproc)
-    #   displayName: 'Run Origami Tests'
-    #   condition: succeeded()
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Build Directory Artifact'
+      inputs:
+        targetPath: '$(Agent.BuildDirectory)/s/build'
+        artifact: '${{ parameters.componentName }}_${{ job.os }}_build_dir'
+        publishLocation: 'pipeline'
     - script: |
-        # Copy Python bindings to artifact location
-        mkdir -p $(Agent.BuildDirectory)/rocm/python
-        cp -r $(Agent.BuildDirectory)/s/build/python/* $(Agent.BuildDirectory)/rocm/python/
-      displayName: 'Package Python bindings'
+        cd $(Agent.BuildDirectory)/s/build
+        ctest --output-on-failure --parallel $(nproc)
+      displayName: 'Run Origami Tests'
       condition: succeeded()
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
@@ -178,7 +178,7 @@ jobs:
       workspace:
         clean: all
       steps:
-      - checkout: none
+      - checkout: self
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
@@ -192,7 +192,11 @@ jobs:
         parameters:
           preTargetFilter: ${{ parameters.componentName }}
           os: ${{ job.os }}
-          # gpuTarget: ${{ job.target }}
+      - task: DownloadPipelineArtifact@2
+        displayName: 'Download Build Directory Artifact'
+        inputs:
+          artifact: '${{ parameters.componentName }}_${{ job.os }}_build_dir'
+          path: '$(Agent.BuildDirectory)/s/build'
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
         parameters:
           checkoutRef: ${{ parameters.checkoutRef }}
@@ -202,18 +206,11 @@ jobs:
           ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-      # - script: |
-      #     cd $(Agent.BuildDirectory)/s/build
-      #     ctest --output-on-failure --parallel $(nproc)
-      #   displayName: 'Run Python Binding Tests'
-        # condition: succeeded()
       - script: |
-          # Run Python tests directly
-          cd $(Agent.BuildDirectory)/s/python
-          export PYTHONPATH="$(Agent.BuildDirectory)/rocm/python:$(Agent.BuildDirectory)/s/python:$PYTHONPATH"
-          python3 origami_test.py
-          python3 origami_grid_test.py
-        displayName: 'Run Python tests'
+          cd $(Agent.BuildDirectory)/s/build
+          ctest --output-on-failure --parallel $(nproc)
+        displayName: 'Run Python Binding Tests'
+        condition: succeeded()
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
