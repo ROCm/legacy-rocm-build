@@ -49,9 +49,9 @@ The following is summary of notable changes since the :doc:`previous ROCm/vLLM D
 
 * Upgraded to vLLM v0.10.
 
-* FP8 KV cache support via AITER.
+* Set ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1`` by default for better performance.
 
-* Full graph capture support via AITER.
+* Set `VLLM_ROCM_USE_AITER_RMSNORM=0` by default to avoid various issues with torch compile.
 
 Supported models
 ================
@@ -234,42 +234,126 @@ system's configuration.
 
             .. rubric:: Download the Docker image and required scripts
 
-            1. Run the vLLM benchmark tool independently by starting the
-               `Docker container <{{ unified_docker.docker_hub_url }}>`_
-               as shown in the following snippet.
+            Run the vLLM benchmark tool independently by starting the
+            `Docker container <{{ unified_docker.docker_hub_url }}>`_
+            as shown in the following snippet.
 
-               .. code-block:: shell
+            .. code-block:: shell
 
-                  docker pull {{ unified_docker.pull_tag }}
-                  docker run -it \
-                      --device=/dev/kfd \
-                      --device=/dev/dri \
-                      --group-add video \
-                      --shm-size 16G \
-                      --security-opt seccomp=unconfined \
-                      --security-opt apparmor=unconfined \
-                      --cap-add=SYS_PTRACE \
-                      -v $(pwd):/workspace \
-                      --env HUGGINGFACE_HUB_CACHE=/workspace \
-                      --name test \
-                      {{ unified_docker.pull_tag }}
+               docker pull {{ unified_docker.pull_tag }}
+               docker run -it \
+                   --device=/dev/kfd \
+                   --device=/dev/dri \
+                   --group-add video \
+                   --shm-size 16G \
+                   --security-opt seccomp=unconfined \
+                   --security-opt apparmor=unconfined \
+                   --cap-add=SYS_PTRACE \
+                   -v $(pwd):/workspace \
+                   --env HUGGINGFACE_HUB_CACHE=/workspace \
+                   --name test \
+                   {{ unified_docker.pull_tag }}
 
-            2. In the Docker container, clone the ROCm MAD repository and navigate to the
-               benchmark scripts directory at ``~/MAD/scripts/vllm``.
+            .. rubric:: Throughput command
 
-               .. code-block:: shell
+            .. code-block:: shell
 
-                  git clone https://github.com/ROCm/MAD
-                  cd MAD/scripts/vllm
+               model={{ model.model_repo }}
+               tp=1
+               num_prompts=1024
+               in=128
+               out=128
+               dtype=auto
+               kv_cache_dtype=fp8
+               max_num_seqs=1024
+               max_seq_len_to_capture=131072
+               max_num_batched_tokens=8192
+               max_model_len=131072
 
-            3. To start the benchmark, use the following command with the appropriate options.
+               vllm bench throughput --model $model \
+                   -tp $tp \
+                   --num-prompts $num_prompts \
+                   --input-len $in \
+                   --output-len $out \
+                   --dtype $dtype \
+                   --kv-cache-dtype $kv_cache_dtype \
+                   --max-num-seqs $max_num_seqs \
+                   --max-seq-len-to-capture $max_seq_len_to_capture \
+                   --max-num-batched-tokens $max_num_batched_tokens \
+                   --max-model-len $max_model_len \
+                   --trust-remote-code \
+                   --output-json ${model}_throughput.json \
+                   --gpu-memory-utilization 0.9
 
-               .. code-block::
+            .. rubric:: Serving command
 
-                  ./run.sh \
-                      --config $CONFIG_CSV \
-                      --model_repo {{ model.model_repo }} \
-                      <overrides>
+               1. Start the server using the following command:
+
+                  .. code-block:: shell
+
+                     model={{ model.model_repo }}
+                     tp=1
+                     dtype=auto
+                     kv_cache_dtype=fp8
+                     max_num_seqs=256
+                     max_seq_len_to_capture=131072
+                     max_num_batched_tokens=8192
+                     max_model_len=131072
+                     vllm serve $model \
+                         -tp $tp \
+                         --dtype $dtype \
+                         --kv-cache-dtype $kv_cache_dtype \
+                         --max-num-seqs $max_num_seqs \
+                         --max-seq-len-to-capture $max_seq_len_to_capture \
+                         --max-num-batched-tokens $max_num_batched_tokens \
+                         --max-model-len $max_model_len \
+                         --no-enable-prefix-caching \
+                         --swap-space 16 \
+                         --disable-log-requests \
+                         --trust-remote-code \
+                         --gpu-memory-utilization 0.9
+
+                  Wait for model to load and the server to be ready to accept requests.
+
+               2. On another terminal on the same machine, run the benchmark:
+
+                  .. code-block:: shell
+
+                     # Connect to the container
+                     docker exec -it test bash
+
+                     # Wait for the server to start
+                     until curl -s http://localhost:8000/v1/models; do sleep 30; done
+
+                     # Run the benchmark
+                     model=amd/Llama-3.1-8B-Instruct-FP8-KV
+                     max_concurrency=1
+                     num_prompts=10
+                     in=128
+                     out=128
+                     vllm bench serve --model $model \
+                         --percentile-metrics "ttft,tpot,itl,e2el" \
+                         --dataset-name random \
+                         --ignore-eos \
+                         --max-concurrency $max_concurrency \
+                         --num-prompts $num_prompts \
+                         --random-input-len $in \
+                         --random-output-len $out \
+                         --trust-remote-code \
+                         --save-result \
+                         --result-filename ${model}_serving.json
+
+               .. note::
+
+                  If you encounter the following error, pass your access-authorized Hugging
+                  Face token to the gated models.
+
+                  .. code-block::
+
+                     OSError: You are trying to access a gated repo.
+
+                     # pass your HF_TOKEN
+                     export HF_TOKEN=$your_personal_hf_token
 
                .. dropdown:: Benchmark options
                   :open:
@@ -309,23 +393,6 @@ system's configuration.
                      * - `<overrides>`
                        - See `run.sh <https://github.com/ROCm/MAD/blob/develop/scripts/vllm/run.sh>`__ for more info.
                        - Additional overrides to the config CSV.
-
-                  The input sequence length, output sequence length, and tensor parallel (TP) are
-                  already configured. You don't need to specify them with this script.
-
-               .. note::
-
-                  For best performance, it's recommended to run with ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``.
-
-                  If you encounter the following error, pass your access-authorized Hugging
-                  Face token to the gated models.
-
-                  .. code-block::
-
-                     OSError: You are trying to access a gated repo.
-
-                     # pass your HF_TOKEN
-                     export HF_TOKEN=$your_personal_hf_token
 
             .. rubric:: Benchmarking examples
 
