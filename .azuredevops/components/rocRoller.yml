@@ -190,6 +190,7 @@ jobs:
       parameters:
         os: ${{ job.os }}
         componentName: ${{ parameters.componentName }}
+        gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
