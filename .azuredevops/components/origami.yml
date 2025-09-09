@@ -181,9 +181,6 @@ jobs:
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
           packageManager: ${{ job.packageManager }}
-      - script: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install "nanobind>=2.0.0"
         displayName: 'Install Python dependencies'
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
