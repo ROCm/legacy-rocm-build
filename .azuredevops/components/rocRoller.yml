@@ -242,6 +242,7 @@ jobs:
           os: ${{ job.os }}
           testDir: '$(Agent.BuildDirectory)/rocm/bin'
           testExecutable: './rocroller-tests-catch'
+          testParameters: '--reporter junit::out=results.xml./test_output.xml'
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
