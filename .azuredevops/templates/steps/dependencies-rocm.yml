@@ -251,8 +251,8 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     roctracer:
-      pipelineId: 141
-      developBranch: amd-staging
+      pipelineId: 331
+      developBranch: develop
       hasGpuTarget: true
     rocWMMA:
       pipelineId: 109
