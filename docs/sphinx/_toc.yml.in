@@ -32,19 +32,23 @@ subtrees:
       - file: compatibility/ml-compatibility/pytorch-compatibility.rst
         title: PyTorch compatibility
       - file: compatibility/ml-compatibility/tensorflow-compatibility.rst
-        title: TensorFlow compatibility  
+        title: TensorFlow compatibility
       - file: compatibility/ml-compatibility/jax-compatibility.rst
         title: JAX compatibility
       - file: compatibility/ml-compatibility/verl-compatibility.rst
-        title: verl compatibility  
+        title: verl compatibility
       - file: compatibility/ml-compatibility/stanford-megatron-lm-compatibility.rst
         title: Stanford Megatron-LM compatibility
       - file: compatibility/ml-compatibility/dgl-compatibility.rst
-        title: DGL compatibility  
+        title: DGL compatibility
       - file: compatibility/ml-compatibility/megablocks-compatibility.rst
         title: Megablocks compatibility
       - file: compatibility/ml-compatibility/taichi-compatibility.rst
-        title: Taichi compatibility 
+        title: Taichi compatibility
+      - file: compatibility/ml-compatibility/ray-compatibility.rst
+        title: Ray compatibility
+      - file: compatibility/ml-compatibility/llama-cpp-compatibility.rst
+        title: llama.cpp compatibility
   - file: how-to/build-rocm.rst
     title: Build ROCm from source
 

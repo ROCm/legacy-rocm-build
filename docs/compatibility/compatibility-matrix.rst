@@ -246,6 +246,8 @@ Expand for full historical view of:
    .. [#dgl_compat] DGL is only supported on ROCm 6.4.0.
    .. [#megablocks_compat] Megablocks is only supported on ROCm 6.3.0.
    .. [#taichi_compat] Taichi is only supported on ROCm 6.3.2.
+   .. [#ray_compat] Ray is only supported on ROCm 6.4.1.
+   .. [#llama-cpp_compat] llama.cpp is only supported on ROCm 6.4.0.
    .. [#kfd_support-past-60] As of ROCm 6.4.0, forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software is provided up to a year apart. For earlier ROCm releases, the compatibility is provided for +/- 2 releases. The tested user space versions on this page were accurate as of the time of initial ROCm release. For the most up-to-date information, see the latest version of this information at `User and kernel-space support matrix <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/user-kernel-space-compat-matrix.html>`_.
    .. [#ROCT-rocr-past-60] Starting from ROCm 6.3.0, the ROCT Thunk Interface is included as part of the ROCr runtime package.
    
