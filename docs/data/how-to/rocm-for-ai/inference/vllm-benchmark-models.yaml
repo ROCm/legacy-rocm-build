@@ -167,6 +167,13 @@ vllm_benchmark:
         model_repo: Qwen/Qwen3-30B-A3B
         url: https://huggingface.co/Qwen/Qwen3-30B-A3B
         precision: float16
+        config:
+          tp: 1
+          dtype: auto
+          kv_cache_dtype: auto
+          max_seq_len_to_capture: 32768
+          max_num_batched_tokens: 32768
+          max_model_len: 8192
     - group: Microsoft Phi
       tag: phi
       models:
