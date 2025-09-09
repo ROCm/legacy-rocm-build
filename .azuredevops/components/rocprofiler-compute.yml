@@ -55,6 +55,7 @@ parameters:
     - pymongo
     - pyyaml
     - setuptools
+    - sqlalchemy
     - tabulate
     - textual
     - textual_plotext
