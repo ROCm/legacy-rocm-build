@@ -103,6 +103,7 @@ parameters:
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: rocroller_build_${{ job.os }}_${{ job.target }}
+    timeoutInMinutes: 120
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
