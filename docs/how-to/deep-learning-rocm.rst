@@ -110,6 +110,28 @@ The table below summarizes information about ROCm-enabled deep learning framewor
 
           <a href="https://github.com/ROCm/taichi"><i class="fab fa-github fa-lg"></i></a>
 
+    * - `Ray <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/ray-compatibility.html>`__
+      - .. raw:: html
+
+          <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/ray-install.html"><i class="fas fa-link fa-lg"></i></a>
+      - 
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/ray-install.html#using-a-prebuilt-docker-image-with-ray-pre-installed>`__
+        - `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/ray-install.html#install-ray-on-bare-metal-or-a-custom-container>`__
+        - `ROCm Base Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/ray-install.html#build-your-own-docker-image>`__
+      - .. raw:: html
+
+          <a href="https://github.com/ROCm/ray"><i class="fab fa-github fa-lg"></i></a>
+
+    * - `llama.cpp <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/llama-cpp-compatibility.html>`__
+      - .. raw:: html
+
+          <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/llama-cpp-install.html"><i class="fas fa-link fa-lg"></i></a>
+      - 
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/llama-cpp-install.html#use-a-prebuilt-docker-image-with-llama-cpp-pre-installed>`__
+      - .. raw:: html
+
+          <a href="https://github.com/ROCm/llama.cpp"><i class="fab fa-github fa-lg"></i></a>
+
 Learn how to use your ROCm deep learning environment for training, fine-tuning, inference, and performance optimization
 through the following guides.
 
