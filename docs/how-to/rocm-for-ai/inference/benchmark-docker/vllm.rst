@@ -47,11 +47,11 @@ What's new
 
 The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <previous-versions/vllm-history>`.
 
-* Upgraded to vLLM v0.10.
+* Upgraded to vLLM v0.10.1.
 
 * Set ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1`` by default for better performance.
 
-* Set `VLLM_ROCM_USE_AITER_RMSNORM=0` by default to avoid various issues with torch compile.
+* Set ``VLLM_ROCM_USE_AITER_RMSNORM=0`` by default to avoid various issues with torch compile.
 
 .. _vllm-benchmark-supported-models-909:
 
@@ -183,7 +183,7 @@ system's configuration.
 
          .. tab-item:: MAD-integrated benchmarking
 
-            The following commands are tailored for {{ model.model }}.
+            The following commands are optimized for {{ model.model }}.
             See :ref:`vllm-benchmark-supported-models-909` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
@@ -240,14 +240,16 @@ system's configuration.
             The following commands are tailored for {{ model.model }}.
             See :ref:`vllm-benchmark-supported-models-909` to switch to another available model.
 
-            For more information on configuration, see the `config files
-            <https://github.com/ROCm/MAD-private/tree/develop/scripts/vllm/configs>`__.
-            in the MAD repository. Refer to the `vLLM engine <https://docs.vllm.ai/en/latest/configuration/engine_args.html#engineargs>`__
-            for descriptions of available configuration options
-            and `Benchmarking vLLM <https://github.com/vllm-project/vllm/blob/main/benchmarks/README.md>`__ for
-            additional benchmarking information.
+            .. seealso::
 
-            .. rubric:: Download the Docker image and required scripts
+               For more information on configuration, see the `config files
+               <https://github.com/ROCm/MAD-private/tree/develop/scripts/vllm/configs>`__
+               in the MAD repository. Refer to the `vLLM engine <https://docs.vllm.ai/en/latest/configuration/engine_args.html#engineargs>`__
+               for descriptions of available configuration options
+               and `Benchmarking vLLM <https://github.com/vllm-project/vllm/blob/main/benchmarks/README.md>`__ for
+               additional benchmarking information.
+
+            .. rubric:: Launch the container
 
             You can run the vLLM benchmark tool independently by starting the
             `Docker container <{{ unified_docker.docker_hub_url }}>`_ as shown
@@ -270,6 +272,8 @@ system's configuration.
                    {{ unified_docker.pull_tag }}
 
             .. rubric:: Throughput command
+
+            Use the following command to start the throughput benchmark.
 
             .. code-block:: shell
 
