@@ -1,0 +1,72 @@
+dockers:
+  - pull_tag: rocm/jax-training:maxtext-v25.7
+    docker_hub_url: https://hub.docker.com/layers/rocm/jax-training/maxtext-v25.7/images/sha256-45f4c727d4019a63fc47313d3a5f5a5105569539294ddfd2d742218212ae9025
+    components:
+      ROCm: 6.4.1
+      JAX: 0.5.0
+      Python: 3.10.12
+      Transformer Engine: 2.1.0+90d703dd
+      hipBLASLt: 1.x.x
+  - pull_tag: rocm/jax-training:maxtext-v25.7-jax060
+    docker_hub_url: https://hub.docker.com/layers/rocm/jax-training/maxtext-v25.7/images/sha256-45f4c727d4019a63fc47313d3a5f5a5105569539294ddfd2d742218212ae9025
+    components:
+      ROCm: 6.4.1
+      JAX: 0.6.0
+      Python: 3.10.12
+      Transformer Engine: 2.1.0+90d703dd
+      hipBLASLt: 1.1.0-499ece1c21
+model_groups:
+  - group: Meta Llama
+    tag: llama
+    models:
+      - model: Llama 3.3 70B
+        mad_tag: jax_maxtext_train_llama-3.3-70b
+        model_repo: Llama-3.3-70B
+        precision: bf16
+        doc_options: ["single-node"]
+      - model: Llama 3.1 8B
+        mad_tag: jax_maxtext_train_llama-3.1-8b
+        model_repo: Llama-3.1-8B
+        precision: bf16
+        doc_options: ["single-node"]
+      - model: Llama 3.1 70B
+        mad_tag: jax_maxtext_train_llama-3.1-70b
+        model_repo: Llama-3.1-70B
+        precision: bf16
+        doc_options: ["single-node"]
+      - model: Llama 3 8B
+        mad_tag: jax_maxtext_train_llama-3-8b
+        multinode_training_script: llama3_8b_multinode.sh
+        doc_options: ["multi-node"]
+      - model: Llama 3 70B
+        mad_tag: jax_maxtext_train_llama-3-70b
+        multinode_training_script: llama3_70b_multinode.sh
+        doc_options: ["multi-node"]
+      - model: Llama 2 7B
+        mad_tag: jax_maxtext_train_llama-2-7b
+        model_repo: Llama-2-7B
+        precision: bf16
+        multinode_training_script: llama2_7b_multinode.sh
+        doc_options: ["single-node", "multi-node"]
+      - model: Llama 2 70B
+        mad_tag: jax_maxtext_train_llama-2-70b
+        model_repo: Llama-2-70B
+        precision: bf16
+        multinode_training_script: llama2_70b_multinode.sh
+        doc_options: ["single-node", "multi-node"]
+  - group: DeepSeek
+    tag: deepseek
+    models:
+      - model: DeepSeek-V2-Lite (16B)
+        mad_tag: jax_maxtext_train_deepseek-v2-lite-16b
+        model_repo: DeepSeek-V2-lite
+        precision: bf16
+        doc_options: ["single-node"]
+  - group: Mistral AI
+    tag: mistral
+    models:
+      - model: Mixtral 8x7B
+        mad_tag: jax_maxtext_train_mixtral-8x7b
+        model_repo: Mixtral-8x7B
+        precision: bf16
+        doc_options: ["single-node"]
