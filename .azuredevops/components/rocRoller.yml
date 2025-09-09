@@ -179,15 +179,6 @@ jobs:
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DROCROLLER_ENABLE_FETCH=ON
           -GNinja
-    - task: Bash@3
-      displayName: Capture ninja.build artifact
-      condition: always()
-      inputs:
-        targetType: inline
-        script: |
-          cp $(Agent.BuildDirectory)/s/build/build.ninja $(Build.ArtifactStagingDirectory)
-          echo "build.ninja" >> pipelineArtifacts.txt
-        displayName: Set cmake configure paths
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}
