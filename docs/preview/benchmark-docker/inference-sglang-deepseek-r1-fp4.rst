@@ -14,12 +14,12 @@ appropriate options, download the model, and run the benchmark.
 Pull the Docker image
 =====================
 
-Use the following command to pull the appropriate `Docker image
-<https://hub.docker.com/r/rocm/7.0-preview/tags>`__.
+Use the following command to pull the `Docker image
+<https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2_mi35x_rc1/images/sha256-2c2a78219b478421482db0c4dce612cca11ce163274f5dbad2b305067fb86012>`__.
 
 .. code-block:: shell
 
-   docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev:v0.5.2rc2_mi35x_rc1
+   docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2_mi35x_rc1
 
 Download the model
 ==================
@@ -58,7 +58,7 @@ Run the inference benchmark
           --device=/dev/kfd \
           --device=/dev/dri \
           -e SGLANG_USE_AITER=1 \
-          rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev:v0.5.2rc2_mi35x_rc1
+          rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2_mi35x_rc1
 
 2. Start the server.
 

@@ -14,8 +14,8 @@ appropriate options, download the model, and run the benchmark.
 Pull the Docker image
 =====================
 
-Use the following command to pull the appropriate `Docker image
-<https://hub.docker.com/r/rocm/7.0-preview/tags>`__.
+Use the following command to pull the appropriate `Docker image <https://hub.docker.com/r/rocm/7.0-preview/tags>`_
+for your system.
 
 .. tab-set::
 
@@ -24,14 +24,14 @@ Use the following command to pull the appropriate `Docker image
 
       .. code-block:: shell
 
-         docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev:v0.5.2rc2_mi35x_rc1
+         docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2_mi35x_rc1
 
    .. tab-item:: MI300X series
       :sync: mi30x
 
       .. code-block:: shell
 
-         docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.05_sgl-dev:v0.5.2rc2-mi30x_rc1
+         docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2-mi30x_rc1
 
 Download the model
 ==================
@@ -72,7 +72,7 @@ Run the inference benchmark
                 --device=/dev/kfd \
                 --device=/dev/dri \
                 -e SGLANG_USE_AITER=1 \
-                rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev:v0.5.2rc2_mi35x_rc1
+                rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2_mi35x_rc1
 
       .. tab-item:: MI300X series
          :sync: mi30x
@@ -92,7 +92,7 @@ Run the inference benchmark
                 --device=/dev/kfd \
                 --device=/dev/dri \
                 -e SGLANG_USE_AITER=1 \
-                rocm/7.0-preview:rocm7.0_preview_ubuntu_22.05_sgl-dev:v0.5.2rc2-mi30x_rc1
+                rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2-mi30x_rc1
 
 2. Start the server.
 
