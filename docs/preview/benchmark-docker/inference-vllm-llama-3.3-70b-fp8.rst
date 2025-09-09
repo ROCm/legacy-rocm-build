@@ -24,8 +24,7 @@ Download the model
 ==================
 
 See the model card on Hugging Face at
-`amd/Llama-3.3-70B-Instruct-FP8-KV
-<https://huggingface.co/amd/Llama-3.3-70B-Instruct-FP8-KV>`__.
+`amd/Llama-3.3-70B-Instruct-FP8-KV <https://huggingface.co/amd/Llama-3.3-70B-Instruct-FP8-KV>`__.
 
 .. code-block:: shell
 
