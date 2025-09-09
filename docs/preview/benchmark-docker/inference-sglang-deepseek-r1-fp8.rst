@@ -19,7 +19,7 @@ for your system.
 
 .. tab-set::
 
-   .. tab-item:: MI355X and MI350X
+   .. tab-item:: MI350 series
       :sync: mi35x
 
       .. code-block:: shell
@@ -36,8 +36,7 @@ for your system.
 Download the model
 ==================
 
-See the model card on Hugging Face at `deepseek-ai/DeepSeek-R1-0528
-<https://huggingface.co/deepseek-ai/DeepSeek-R1-0528>`.
+See the model card on Hugging Face at `deepseek-ai/DeepSeek-R1-0528 <https://huggingface.co/deepseek-ai/DeepSeek-R1-0528>`__.
 
 .. code-block:: shell
 
@@ -54,7 +53,7 @@ Run the inference benchmark
 
    .. tab-set::
 
-      .. tab-item:: MI355X and MI350X
+      .. tab-item:: MI350 series
          :sync: mi35x
 
          .. code-block:: shell
