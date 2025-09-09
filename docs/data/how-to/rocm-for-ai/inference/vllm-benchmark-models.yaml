@@ -78,7 +78,11 @@ vllm_benchmark:
         model_repo: Qwen/QwQ-32B
         url: https://huggingface.co/Qwen/QwQ-32B
         precision: float16
-        tunableop: true
+      - model: Qwen3 30B A3B
+        mad_tag: pyt_vllm_qwen3-30b-a3b
+        model_repo: Qwen/Qwen3-30B-A3B
+        url: https://huggingface.co/Qwen/Qwen3-30B-A3B
+        precision: float16
     - group: Microsoft Phi
       tag: phi
       models:
