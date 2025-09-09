@@ -87,7 +87,6 @@ Run the inference benchmark
                 -w /app/ \
                 --ipc=host \
                 --network=host \
-                --network=host \
                 --shm-size 64G \
                 --mount type=bind,src=/data,dst=/data \
                 --device=/dev/kfd \
