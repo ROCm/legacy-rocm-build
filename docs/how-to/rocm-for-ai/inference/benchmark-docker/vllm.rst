@@ -183,7 +183,7 @@ system's configuration.
 
          .. tab-item:: MAD-integrated benchmarking
 
-            The following commands are optimized for {{ model.model }}.
+            The following run command is tailored to {{ model.model }}.
             See :ref:`vllm-benchmark-supported-models-909` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
@@ -237,7 +237,7 @@ system's configuration.
 
          .. tab-item:: Standalone benchmarking
 
-            The following commands are tailored for {{ model.model }}.
+            The following commands are optimized for {{ model.model }}.
             See :ref:`vllm-benchmark-supported-models-909` to switch to another available model.
 
             .. seealso::
