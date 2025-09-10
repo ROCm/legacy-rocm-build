@@ -49,6 +49,8 @@ steps:
 - task: Bash@3
   displayName: '${{ parameters.componentName }} Test'
   continueOnError: ${{ containsValue(parameters.allowComponentTestFailure, parameters.componentName) }}
+  env:
+    AMD_LOG_LEVEL: 4
   inputs:
     targetType: inline
     script: |
