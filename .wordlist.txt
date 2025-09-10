@@ -156,6 +156,7 @@ GEMMs
 GFLOPS
 GFortran
 GFXIP
+GGUF
 Gemma
 GiB
 GIM

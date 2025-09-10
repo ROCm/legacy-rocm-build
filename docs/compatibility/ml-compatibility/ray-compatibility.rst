@@ -66,9 +66,15 @@ Use cases and recommendations
   GPUs. Follow this guide to get started with verl on AMD Instinct GPUs and 
   accelerate your RLHF training with ROCm-optimized performance.
 
+* The `Exploring Use Cases for Scalable AI: Implementing Ray with ROCm Support for Efficient ML Workflows 
+  <https://rocm.blogs.amd.com/artificial-intelligence/rocm-ray/README.html>`__
+  blog post describes key use cases such as training and inference for large language models (LLMs), 
+  model serving, hyperparameter tuning, reinforcement learning, and the orchestration of large-scale 
+  workloads using Ray in the ROCm environment.
+
 For more use cases and recommendations, see the AMD GPU tabs in the `Accelerator Support 
-topic <https://docs.ray.io/en/latest/ray-core/scheduling/accelerators.html#accelerator-support>`_ 
-of the Ray core documentation and refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`_, 
+topic <https://docs.ray.io/en/latest/ray-core/scheduling/accelerators.html#accelerator-support>`__ 
+of the Ray core documentation and refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`__, 
 where you can search for Ray examples and best practices to optimize your workloads on AMD GPUs.
 
 .. _ray-docker-compat:
