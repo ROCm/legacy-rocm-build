@@ -195,8 +195,8 @@ parameters:
       developBranch: master
       hasGpuTarget: false
     rocm_smi_lib:
-      pipelineId: 96
-      developBranch: amd-staging
+      pipelineId: 358
+      developBranch: develop
       hasGpuTarget: false
     rocPRIM:
       pipelineId: 273
