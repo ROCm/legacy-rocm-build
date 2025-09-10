@@ -398,7 +398,7 @@ Advanced usage
 ==============
 
 For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
-see the developer's guide at `<https://github.com/ROCm/vllm/tree/f94ec9beeca1071cc34f9d1e206d8c7f3ac76129/docs/dev-docker>`__.
+see the developer's guide at `<https://github.com/ROCm/vllm/blob/documentation/docs/dev-docker/README.md>`__.
 
 Reproducing the Docker image
 ----------------------------
@@ -416,7 +416,7 @@ To reproduce this ROCm/vLLM Docker image release, follow these steps:
    .. code-block:: shell
 
       cd vllm
-      git checkout b9a1c4c8a2430555f1959938b87b10640c751e57
+      git checkout 6663000a391911eba96d7864a26ac42b07f6ef29
 
 3. Build the Docker image. Replace ``vllm-rocm`` with your desired image tag.
 
