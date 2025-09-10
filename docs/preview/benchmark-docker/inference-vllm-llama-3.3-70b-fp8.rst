@@ -25,6 +25,9 @@ Download the model
 
 See the model card on Hugging Face at
 `amd/Llama-3.3-70B-Instruct-FP8-KV <https://huggingface.co/amd/Llama-3.3-70B-Instruct-FP8-KV>`__.
+This model uses FP8 quantization via `AMD Quark
+<https://quark.docs.amd.com/latest/>`_ for efficient inference on AMD
+accelerators.
 
 .. code-block:: shell
 
