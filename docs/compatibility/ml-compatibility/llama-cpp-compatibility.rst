@@ -67,8 +67,13 @@ llama.cpp is also used in a range of real-world applications, including:
 - Various other AI applications use llama.cpp as their inference engine;  
   for a detailed list, see the `user interfaces (UIs) section <https://github.com/ggml-org/llama.cpp?tab=readme-ov-file#description>`__.
 
-Refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`_,
+For more use cases and recommendations, refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`__, 
 where you can search for llama.cpp examples and best practices to optimize your workloads on AMD GPUs.
+
+- The `Llama.cpp Meets Instinct: A New Era of Open-Source AI Acceleration <https://rocm.blogs.amd.com/ecosystems-and-partners/llama-cpp/README.html>`__, 
+  blog post outlines how the open-source llama.cpp framework enables efficient LLM inference—including interactive inference with ``llama-cli``, 
+  server deployment with ``llama-server``, GGUF model preparation and quantization, performance benchmarking, and optimizations tailored for 
+  AMD Instinct GPUs within the ROCm ecosystem. 
 
 .. _llama-cpp-docker-compat:
 
