@@ -171,8 +171,8 @@ parameters:
       developBranch: develop
       hasGpuTarget: false
     rocm-core:
-      pipelineId: 103
-      developBranch: master
+      pipelineId: 349
+      developBranch: develop
       hasGpuTarget: false
     rocm-examples:
       pipelineId: 216
