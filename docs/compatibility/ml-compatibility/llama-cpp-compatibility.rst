@@ -71,9 +71,9 @@ For more use cases and recommendations, refer to the `AMD ROCm blog <https://roc
 where you can search for llama.cpp examples and best practices to optimize your workloads on AMD GPUs.
 
 - The `Llama.cpp Meets Instinct: A New Era of Open-Source AI Acceleration <https://rocm.blogs.amd.com/ecosystems-and-partners/llama-cpp/README.html>`__, 
-blog post outlines how the open-source llama.cpp framework enables efficient LLM inference—including interactive inference with ``llama-cli``, 
-server deployment with ``llama-server``, GGUF model preparation and quantization, performance benchmarking, and optimizations tailored for 
-AMD Instinct GPUs within the ROCm ecosystem. 
+  blog post outlines how the open-source llama.cpp framework enables efficient LLM inference—including interactive inference with ``llama-cli``, 
+  server deployment with ``llama-server``, GGUF model preparation and quantization, performance benchmarking, and optimizations tailored for 
+  AMD Instinct GPUs within the ROCm ecosystem. 
 
 .. _llama-cpp-docker-compat:
 
