@@ -179,8 +179,8 @@ parameters:
       developBranch: amd-staging
       hasGpuTarget: true
     rocminfo:
-      pipelineId: 91
-      developBranch: amd-staging
+      pipelineId: 356
+      developBranch: develop
       hasGpuTarget: false
     rocMLIR:
       pipelineId: 229
