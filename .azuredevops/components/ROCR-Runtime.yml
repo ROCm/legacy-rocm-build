@@ -8,7 +8,7 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
-# monorepo related parameters
+# monorepo related parameters test
 - name: sparseCheckoutDir
   type: string
   default: ''
