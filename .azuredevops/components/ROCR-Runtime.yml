@@ -158,6 +158,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
         parameters:
           checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
         parameters:
           runRocminfo: false
