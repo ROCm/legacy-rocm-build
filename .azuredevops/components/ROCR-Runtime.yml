@@ -1,10 +1,29 @@
 parameters:
+- name: componentName
+  type: string
+  default: rocr-runtime
 - name: checkoutRepo
   type: string
   default: 'self'
 - name: checkoutRef
   type: string
   default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -45,6 +64,10 @@ parameters:
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: ROCR_Runtime_build_${{ job.os }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}
     pool:
       vmImage: 'ubuntu-22.04'
     ${{ if eq(job.os, 'almalinux8') }}:
@@ -65,14 +88,18 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         os: ${{ job.os }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         os: ${{ job.os }}
         useAmdclang: false
         extraBuildFlags: >-
@@ -82,105 +109,111 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
     #   parameters:
     #     aptPackages: ${{ parameters.aptPackages }}
 
-- ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: ROCR_Runtime_test_${{ job.os }}_${{ job.target }}
-    dependsOn: ROCR_Runtime_build_${{ job.os }}
-    condition:
-      and(succeeded(),
-        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
-        eq(${{ parameters.aggregatePipeline }}, False)
-      )
-    variables:
-    - group: common
-    - template: /.azuredevops/variables-global.yml
-    pool: ${{ job.target }}_test_pool
-    workspace:
-      clean: all
-    steps:
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        packageManager: ${{ job.packageManager }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-      parameters:
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-      parameters:
-        checkoutRef: ${{ parameters.checkoutRef }}
-        dependencyList: ${{ parameters.rocmTestDependencies }}
-        gpuTarget: ${{ job.target }}
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-      parameters:
-        checkoutRepo: ${{ parameters.checkoutRepo }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-      parameters:
-        runRocminfo: false
-    - task: Bash@3
-      displayName: Build kfdtest
-      inputs:
-        targetType: 'inline'
-        workingDirectory: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest
-        script: |
-          if [ -e /opt/rh/gcc-toolset-14/enable ]; then
-            source /opt/rh/gcc-toolset-14/enable
-          fi
-          mkdir build && cd build
-          cmake -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm ..
-          make
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-      parameters:
-        componentName: kfdtest
-        testExecutable: BIN_DIR=$(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/build ./run_kfdtest.sh
-        testParameters: '-p core --gtest_output=xml:./test_output.xml --gtest_color=yes'
-        testDir: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/scripts
-        os: ${{ job.os }}
-    - task: Bash@3
-      displayName: Build rocrtst
-      inputs:
-        targetType: 'inline'
-        workingDirectory: $(Build.SourcesDirectory)/rocrtst/suites/test_common
-        script: |
-          echo $(Build.SourcesDirectory)/rocrtst/thirdparty/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
-          sudo cat /etc/ld.so.conf.d/rocm-ci.conf
-          sudo ldconfig -v
-          ldconfig -p
-          if [ -e /opt/rh/gcc-toolset-14/enable ]; then
-            source /opt/rh/gcc-toolset-14/enable
-          fi
-          BASE_CLANG_DIR=$(Agent.BuildDirectory)/rocm/llvm/lib/clang
-          export NEWEST_CLANG_VER=$(ls -1 $BASE_CLANG_DIR | sort -V | tail -n 1)
-          mkdir build && cd build
-          cmake .. \
-            -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm \
-            -DTARGET_DEVICES=${{ job.target }} \
-            -DROCM_DIR=$(Agent.BuildDirectory)/rocm \
-            -DLLVM_DIR=$(Agent.BuildDirectory)/rocm/llvm/bin \
-            -DOPENCL_INC_DIR=$BASE_CLANG_DIR/$NEWEST_CLANG_VER/include
-          make
-          make rocrtst_kernels
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-      parameters:
-        componentName: rocrtst
-        testExecutable: ./rocrtst64
-        testParameters: '--gtest_filter="-rocrtstNeg.Memory_Negative_Tests:rocrtstFunc.Memory_Max_Mem" --gtest_output=xml:./test_output.xml --gtest_color=yes'
-        testDir: $(Build.SourcesDirectory)/rocrtst/suites/test_common/build/${{ job.target }}
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        environment: test
-        gpuTarget: ${{ job.target }}
-  # docker image will be missing libhwloc5
+- ${{ if eq(parameters.unifiedBuild, False) }}:
+  - ${{ each job in parameters.jobMatrix.testJobs }}:
+    - job: ROCR_Runtime_test_${{ job.os }}_${{ job.target }}
+      dependsOn: ROCR_Runtime_build_${{ job.os }}
+      condition:
+        and(succeeded(),
+          eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
+          eq(${{ parameters.aggregatePipeline }}, False)
+        )
+      variables:
+      - group: common
+      - template: /.azuredevops/variables-global.yml
+      pool: ${{ job.target }}_test_pool
+      workspace:
+        clean: all
+      steps:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          packageManager: ${{ job.packageManager }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+        parameters:
+          os: ${{ job.os }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+        parameters:
+          checkoutRef: ${{ parameters.checkoutRef }}
+          dependencyList: ${{ parameters.rocmTestDependencies }}
+          gpuTarget: ${{ job.target }}
+          os: ${{ job.os }}
+          ${{ if parameters.triggerDownstreamJobs }}:
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+        parameters:
+          runRocminfo: false
+      - task: Bash@3
+        displayName: Build kfdtest
+        inputs:
+          targetType: 'inline'
+          workingDirectory: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest
+          script: |
+            if [ -e /opt/rh/gcc-toolset-14/enable ]; then
+              source /opt/rh/gcc-toolset-14/enable
+            fi
+            mkdir build && cd build
+            cmake -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm ..
+            make
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+        parameters:
+          componentName: kfdtest
+          testExecutable: BIN_DIR=$(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/build ./run_kfdtest.sh
+          testParameters: '-p core --gtest_output=xml:./test_output.xml --gtest_color=yes'
+          testDir: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/scripts
+          os: ${{ job.os }}
+      - task: Bash@3
+        displayName: Build rocrtst
+        inputs:
+          targetType: 'inline'
+          workingDirectory: $(Build.SourcesDirectory)/rocrtst/suites/test_common
+          script: |
+            echo $(Build.SourcesDirectory)/rocrtst/thirdparty/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+            sudo cat /etc/ld.so.conf.d/rocm-ci.conf
+            sudo ldconfig -v
+            ldconfig -p
+            if [ -e /opt/rh/gcc-toolset-14/enable ]; then
+              source /opt/rh/gcc-toolset-14/enable
+            fi
+            BASE_CLANG_DIR=$(Agent.BuildDirectory)/rocm/llvm/lib/clang
+            export NEWEST_CLANG_VER=$(ls -1 $BASE_CLANG_DIR | sort -V | tail -n 1)
+            mkdir build && cd build
+            cmake .. \
+              -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm \
+              -DTARGET_DEVICES=${{ job.target }} \
+              -DROCM_DIR=$(Agent.BuildDirectory)/rocm \
+              -DLLVM_DIR=$(Agent.BuildDirectory)/rocm/llvm/bin \
+              -DOPENCL_INC_DIR=$BASE_CLANG_DIR/$NEWEST_CLANG_VER/include
+            make
+            make rocrtst_kernels
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+        parameters:
+          componentName: rocrtst
+          testExecutable: ./rocrtst64
+          testParameters: '--gtest_filter="-rocrtstNeg.Memory_Negative_Tests:rocrtstFunc.Memory_Max_Mem" --gtest_output=xml:./test_output.xml --gtest_color=yes'
+          testDir: $(Build.SourcesDirectory)/rocrtst/suites/test_common/build/${{ job.target }}
+          os: ${{ job.os }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          environment: test
+          gpuTarget: ${{ job.target }}
+    # docker image will be missing libhwloc5
