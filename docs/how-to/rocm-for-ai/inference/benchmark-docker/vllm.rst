@@ -7,14 +7,14 @@
 vLLM inference performance testing
 **********************************
 
-.. _vllm-benchmark-unified-docker-812:
+.. _vllm-benchmark-unified-docker-909:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
-   {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
-   {% set model_groups = data.vllm_benchmark.model_groups %}
+   {% set docker = data.dockers[0] %}
+   {% set model_groups = data.model_groups %}
 
-   The `ROCm vLLM Docker <{{ unified_docker.docker_hub_url }}>`_ image offers
+   The `ROCm vLLM Docker <{{ docker.docker_hub_url }}>`_ image offers
    a prebuilt, optimized environment for validating large language model (LLM)
    inference performance on AMD Instinct™ MI300X series accelerators. This ROCm vLLM
    Docker image integrates vLLM and PyTorch tailored specifically for MI300X series
@@ -26,20 +26,13 @@ vLLM inference performance testing
       * - Software component
         - Version
 
-      * - `ROCm <https://github.com/ROCm/ROCm>`__
-        - {{ unified_docker.rocm_version }}
-
-      * - `vLLM <https://docs.vllm.ai/en/latest>`__
-        - {{ unified_docker.vllm_version }}
-
-      * - `PyTorch <https://github.com/ROCm/pytorch>`__
-        - {{ unified_docker.pytorch_version }}
-
-      * - `hipBLASLt <https://github.com/ROCm/hipBLASLt>`__
-        - {{ unified_docker.hipblaslt_version }}
+      {% for component_name, component_version in docker.components.items() %}
+      * - {{ component_name }}
+        - {{ component_version }}
+      {% endfor %}
 
 With this Docker image, you can quickly test the :ref:`expected
-inference performance numbers <vllm-benchmark-performance-measurements-812>` for
+inference performance numbers <vllm-benchmark-performance-measurements-909>` for
 MI300X series accelerators.
 
 What's new
@@ -60,10 +53,10 @@ Supported models
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
-   {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
-   {% set model_groups = data.vllm_benchmark.model_groups %}
+   {% set docker = data.dockers[0] %}
+   {% set model_groups = data.model_groups %}
 
-   .. _vllm-benchmark-available-models-812:
+   .. _vllm-benchmark-available-models-909:
 
    The following models are supported for inference performance benchmarking
    with vLLM and ROCm. Some instructions, commands, and recommendations in this
@@ -98,29 +91,25 @@ Supported models
       </div>
       </div>
 
-   .. _vllm-benchmark-vllm-812:
+   .. _vllm-benchmark-vllm-909:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
 
-   .. container:: model-doc {{model.mad_tag}}
+   .. container:: model-doc {{ model.mad_tag }}
 
       .. note::
 
          See the `{{ model.model }} model card on Hugging Face <{{ model.url }}>`_ to learn more about your selected model.
          Some models require access authorization prior to use via an external license agreement through a third party.
+      {% if model.precision == "float8" and model.model_repo.startswith("amd") %}
+         This model uses FP8 quantization via `AMD Quark <https://quark.docs.amd.com/latest/>`__ for efficient inference on AMD accelerators.
+      {% endif %}
 
       {% endfor %}
    {% endfor %}
 
-.. note::
-
-   vLLM is a toolkit and library for LLM inference and serving. AMD implements
-   high-performance custom kernels and modules in vLLM to enhance performance.
-   See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
-   more information.
-
-.. _vllm-benchmark-performance-measurements-812:
+.. _vllm-benchmark-performance-measurements-909:
 
 Performance measurements
 ========================
@@ -153,18 +142,18 @@ system's configuration.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
-   {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
-   {% set model_groups = data.vllm_benchmark.model_groups %}
+   {% set docker = data.dockers[0] %}
+   {% set model_groups = data.model_groups %}
 
    Pull the Docker image
    =====================
 
-   Download the `ROCm vLLM Docker image <{{ unified_docker.docker_hub_url }}>`_.
+   Download the `ROCm vLLM Docker image <{{ docker.docker_hub_url }}>`_.
    Use the following command to pull the Docker image from Docker Hub.
 
    .. code-block:: shell
 
-      docker pull {{ unified_docker.pull_tag }}
+      docker pull {{ docker.pull_tag }}
 
    Benchmarking
    ============
@@ -172,7 +161,7 @@ system's configuration.
    Once the setup is complete, choose between two options to reproduce the
    benchmark results:
 
-   .. _vllm-benchmark-mad-812:
+   .. _vllm-benchmark-mad-909:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -213,7 +202,7 @@ system's configuration.
             and ``{{ model.mad_tag }}_serving.csv``.
 
             Although the :ref:`available models
-            <vllm-benchmark-available-models-812>` are preconfigured to collect
+            <vllm-benchmark-available-models-909>` are preconfigured to collect
             offline throughput and online serving performance data, you can
             also change the benchmarking parameters. See the standalone
             benchmarking tab for more information.
@@ -252,12 +241,12 @@ system's configuration.
             .. rubric:: Launch the container
 
             You can run the vLLM benchmark tool independently by starting the
-            `Docker container <{{ unified_docker.docker_hub_url }}>`_ as shown
+            `Docker container <{{ docker.docker_hub_url }}>`_ as shown
             in the following snippet.
 
             .. code-block:: shell
 
-               docker pull {{ unified_docker.pull_tag }}
+               docker pull {{ docker.pull_tag }}
                docker run -it \
                    --device=/dev/kfd \
                    --device=/dev/dri \
@@ -269,7 +258,7 @@ system's configuration.
                    -v $(pwd):/workspace \
                    --env HUGGINGFACE_HUB_CACHE=/workspace \
                    --name test \
-                   {{ unified_docker.pull_tag }}
+                   {{ docker.pull_tag }}
 
             .. rubric:: Throughput command
 
@@ -333,7 +322,7 @@ system's configuration.
                       --trust-remote-code \
                       --gpu-memory-utilization 0.9
 
-               Wait for model to load and the server to be ready to accept requests.
+               Wait until the model has loaded and the server is ready to accept requests.
 
             2. On another terminal on the same machine, run the benchmark:
 
@@ -435,14 +424,11 @@ Further reading
 - To learn more about system settings and management practices to configure your system for
   AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
+- See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
+  a brief introduction to vLLM and optimization strategies.
+
 - For application performance optimization strategies for HPC and AI workloads,
   including inference with vLLM, see :doc:`/how-to/rocm-for-ai/inference-optimization/workload`.
-
-- To learn how to run community models from Hugging Face on AMD GPUs, see
-  :doc:`Running models from Hugging Face </how-to/rocm-for-ai/inference/hugging-face-models>`.
-
-- To learn how to fine-tune LLMs and optimize inference, see
-  :doc:`Fine-tuning LLMs and inference optimization </how-to/rocm-for-ai/fine-tuning/fine-tuning-and-inference>`.
 
 - For a list of other ready-made Docker images for AI with ROCm, see
   `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.
