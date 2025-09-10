@@ -254,6 +254,7 @@ jobs:
       parameters:
         componentName: rocPyDecode
         testDir: $(Agent.BuildDirectory)/rocm/share/rocpydecode/tests
+        testExecutable: export AMD_LOG_LEVEL=4 ctest
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
