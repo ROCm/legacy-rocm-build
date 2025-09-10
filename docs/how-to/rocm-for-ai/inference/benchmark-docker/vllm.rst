@@ -12,7 +12,6 @@ vLLM inference performance testing
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
-   {% set model_groups = data.model_groups %}
 
    The `ROCm vLLM Docker <{{ docker.docker_hub_url }}>`_ image offers
    a prebuilt, optimized environment for validating large language model (LLM)
@@ -65,30 +64,30 @@ Supported models
    .. raw:: html
 
       <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
-      <div class="row">
-         <div class="col-2 me-2 model-param-head">Model group</div>
-         <div class="row col-10">
-   {% for model_group in model_groups %}
-            <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
-   {% endfor %}
-         </div>
-      </div>
-
-      <div class="row mt-1">
-         <div class="col-2 me-2 model-param-head">Model</div>
-         <div class="row col-10">
-   {% for model_group in model_groups %}
-      {% set models = model_group.models %}
-      {% for model in models %}
-         {% if models|length % 3 == 0 %}
-            <div class="col-4 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
-         {% else %}
-            <div class="col-6 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
-         {% endif %}
+         <div class="row gx-0">
+            <div class="col-2 me-1 px-2 model-param-head">Model</div>
+            <div class="row col-10 pe-0">
+      {% for model_group in model_groups %}
+               <div class="col-3 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
-   {% endfor %}
+            </div>
          </div>
-      </div>
+
+         <div class="row gx-0 pt-1">
+            <div class="col-2 me-1 px-2 model-param-head">Variant</div>
+            <div class="row col-10 pe-0">
+      {% for model_group in model_groups %}
+         {% set models = model_group.models %}
+         {% for model in models %}
+            {% if models|length % 3 == 0 %}
+               <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+            {% else %}
+               <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+            {% endif %}
+         {% endfor %}
+      {% endfor %}
+            </div>
+         </div>
       </div>
 
    .. _vllm-benchmark-vllm-909:

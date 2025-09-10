@@ -52,7 +52,7 @@ MI300X series accelerators.
 What's new
 ==========
 
-The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <previous-versions/vllm-history>`.
+The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <vllm-history>`.
 
 * Upgraded to vLLM v0.10.
 
