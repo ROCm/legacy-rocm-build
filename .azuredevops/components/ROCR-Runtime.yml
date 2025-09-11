@@ -166,7 +166,7 @@ jobs:
         displayName: Build kfdtest
         inputs:
           targetType: 'inline'
-          workingDirectory: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest
+          workingDirectory: $(Agent.BuildDirectory)/s/libhsakmt/tests/kfdtest
           script: |
             if [ -e /opt/rh/gcc-toolset-14/enable ]; then
               source /opt/rh/gcc-toolset-14/enable
@@ -177,17 +177,17 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: kfdtest
-          testExecutable: BIN_DIR=$(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/build ./run_kfdtest.sh
+          testExecutable: BIN_DIR=$(Agent.BuildDirectory)/s/libhsakmt/tests/kfdtest/build ./run_kfdtest.sh
           testParameters: '-p core --gtest_output=xml:./test_output.xml --gtest_color=yes'
-          testDir: $(Build.SourcesDirectory)/libhsakmt/tests/kfdtest/scripts
+          testDir: $(Agent.BuildDirectory)/s/libhsakmt/tests/kfdtest/scripts
           os: ${{ job.os }}
       - task: Bash@3
         displayName: Build rocrtst
         inputs:
           targetType: 'inline'
-          workingDirectory: $(Build.SourcesDirectory)/rocrtst/suites/test_common
+          workingDirectory: $(Agent.BuildDirectory)/s/rocrtst/suites/test_common
           script: |
-            echo $(Build.SourcesDirectory)/rocrtst/thirdparty/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
+            echo $(Agent.BuildDirectory)/s/rocrtst/thirdparty/lib | sudo tee -a /etc/ld.so.conf.d/rocm-ci.conf
             sudo cat /etc/ld.so.conf.d/rocm-ci.conf
             sudo ldconfig -v
             ldconfig -p
