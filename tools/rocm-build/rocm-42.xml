@@ -6,8 +6,6 @@
      sync-c="true"
      sync-j="4" />
 <!--list of projects for ROCm-->
-    <project name="ROCm" revision="roc-7.0.x" />
-    <project name="ROCK-Kernel-Driver" />
     <project name="ROCR-Runtime" />
     <project name="amdsmi" />
     <project name="rdc" />
