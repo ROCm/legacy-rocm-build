@@ -179,6 +179,8 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
+        cmakeSourceDir: $(Agent.BuildDirectory)/sparse/projects/rocblas
+        cmakeBuildDir: $(Agent.BuildDirectory)/sparse/projects/rocblas/build
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
           -DCMAKE_BUILD_TYPE=Release
