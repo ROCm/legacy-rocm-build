@@ -40,7 +40,6 @@
     <project groups="mathlibs" name="AMDMIGraphX" />
     <project groups="mathlibs" name="MIVisionX" />
     <project groups="mathlibs" name="ROCmValidationSuite" />
-    <project groups="mathlibs" name="Tensile" />
     <project groups="mathlibs" name="composable_kernel" />
     <project groups="mathlibs" name="hipSOLVER" />
     <project groups="mathlibs" name="hipTensor" />

@@ -6,7 +6,6 @@
      sync-c="true"
      sync-j="4" />
 <!--list of projects for ROCm-->
-    <project name="ROCK-Kernel-Driver" />
     <project name="ROCR-Runtime" />
     <project name="amdsmi" />
     <project name="rdc" />
@@ -39,7 +38,6 @@
     <project groups="mathlibs" name="AMDMIGraphX" />
     <project groups="mathlibs" name="MIVisionX" />
     <project groups="mathlibs" name="ROCmValidationSuite" />
-    <project groups="mathlibs" name="Tensile" />
     <project groups="mathlibs" name="composable_kernel" />
     <project groups="mathlibs" name="hipSOLVER" />
     <project groups="mathlibs" name="hipTensor" />
