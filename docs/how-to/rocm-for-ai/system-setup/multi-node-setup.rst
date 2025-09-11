@@ -4,9 +4,9 @@
 
 .. _rocm-for-ai-multi-node-setup:
 
-********************************
-Multi-node setup for AI training
-********************************
+*********************************
+Multi-node setup for AI workloads
+*********************************
 
 AMD provides ready-to-use Docker images for AMD Instinct™ MI300X and MI325X
 accelerators containing ROCm-capable deep learning frameworks and essential
@@ -27,11 +27,11 @@ Before starting, ensure your environment meets the following requirements:
 
 * **ROCm Docker container** to simplify environment setup for AI workloads. See the following resources to get started:
 
-  * :doc:`Training a model with Megatron-LM and ROCm <training/benchmark-docker/megatron-lm>`
+  * :doc:`Training a model with Megatron-LM and ROCm <../training/benchmark-docker/megatron-lm>`
 
-  * :doc:`Training a model with PyTorch and ROCm <training/benchmark-docker/pytorch-training>`
+  * :doc:`Training a model with PyTorch and ROCm <../training/benchmark-docker/pytorch-training>`
 
-  * :doc:`Training a model with JAX MaxText and ROCm <training/benchmark-docker/jax-maxtext>`
+  * :doc:`Training a model with JAX MaxText and ROCm <../training/benchmark-docker/jax-maxtext>`
 
 * Slurm workload manager to run the :ref:`provided examples <multi-node-setup-training-examples>`.
 
@@ -127,7 +127,7 @@ Set the number of nodes you want to train on (for example, ``2``, ``4``, or ``8`
 Node ranks
 ----------
 
-Set the rank of each node (``0`` for master, ``1`` for the first worker node, and so on)
+Set the rank of each node (``0`` for master, ``1`` for the first worker node, and so on).
 Node ranks should be unique across all nodes in the cluster.
 
 .. code-block:: bash
@@ -220,6 +220,8 @@ The following benchmarking examples demonstrate training a Llama 3 8B model
 across multiple 8-GPU nodes, using FSDP for intra-node parallelism and DP for
 inter-node parallelism.
 
+.. _rocm-for-ai-multi-node-setup-pyt-train-example:
+
 JAX MaxText
 -----------
 
@@ -280,7 +282,7 @@ Megatron-LM
 .. note::
 
    The Megatron-LM Docker image now focuses on :ref:`Training a model with
-   Primus and Megatron-Core <amd-primus-megatron-multi-node-examples>`. The
+   Primus and Megatron <amd-primus-megatron-multi-node-examples>`. The
    following example refers to the legacy Megatron-LM :ref:`Training a model
    with Megatron-LM <amd-megatron-lm-multi-node-examples>` and might have
    limited support.

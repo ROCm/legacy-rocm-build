@@ -1,5 +1,3 @@
-:orphan:
-
 .. meta::
    :description: Prerequisite system validation before using ROCm for AI.
    :keywords: ROCm, AI, LLM, train, megatron, Llama, tutorial, docker, torch, pytorch, jax

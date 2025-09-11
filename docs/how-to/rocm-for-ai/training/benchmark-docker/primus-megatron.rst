@@ -450,7 +450,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 Multi-node training examples
 ----------------------------
 
-Refer to :doc:`/how-to/rocm-for-ai/multi-node-setup` to configure your environment for multi-node
+Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your environment for multi-node
 training.
 
 To run training on multiple nodes, you can use the
