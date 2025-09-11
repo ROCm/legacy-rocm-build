@@ -112,7 +112,7 @@ Multi-node setup
 
 For multi-node environments, ensure you have all the necessary packages for
 your network device, such as, RDMA. If you're not using a multi-node setup
-with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
+with RDMA, skip ahead to :ref:`amd-maxtext-download-docker-v255`.
 
 1. Install the following packages to build and install the RDMA driver.
 
@@ -177,7 +177,7 @@ with RDMA, skip ahead to :ref:`amd-maxtext-download-docker`.
 
    e. RDMA interface
 
-      Ensure the :ref:`required packages <amd-maxtext-multi-node-setup>` are installed on all nodes.
+      Ensure the :ref:`required packages <amd-maxtext-multi-node-setup-v255>` are installed on all nodes.
       Then, set the RDMA interfaces to use for communication.
 
       .. code-block:: bash
@@ -199,7 +199,7 @@ Pull the Docker image
       docker pull rocm/jax-training:maxtext-v25.5
 
 2. Use the following command to launch the Docker container. Note that the benchmarking scripts
-   used in the :ref:`following section <amd-maxtext-get-started>` automatically launch the Docker container
+   used in the :ref:`following section <amd-maxtext-get-started-v255>` automatically launch the Docker container
    and execute the benchmark.
 
    .. code-block:: shell

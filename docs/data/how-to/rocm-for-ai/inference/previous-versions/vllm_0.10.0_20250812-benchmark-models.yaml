@@ -1,0 +1,91 @@
+vllm_benchmark:
+  unified_docker:
+    latest:
+      pull_tag: rocm/vllm:rocm6.4.1_vllm_0.10.0_20250812
+      docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.10.0_20250812/images/sha256-4c277ad39af3a8c9feac9b30bf78d439c74d9b4728e788a419d3f1d0c30cacaa
+      rocm_version: 6.4.1
+      vllm_version: 0.10.0 (0.10.1.dev395+g340ea86df.rocm641)
+      pytorch_version: 2.7.0+gitf717b2a
+      hipblaslt_version: 0.15
+  model_groups:
+    - group: Meta Llama
+      tag: llama
+      models:
+      - model: Llama 3.1 8B
+        mad_tag: pyt_vllm_llama-3.1-8b
+        model_repo: meta-llama/Llama-3.1-8B-Instruct
+        url: https://huggingface.co/meta-llama/Llama-3.1-8B
+        precision: float16
+      - model: Llama 3.1 70B
+        mad_tag: pyt_vllm_llama-3.1-70b
+        model_repo: meta-llama/Llama-3.1-70B-Instruct
+        url: https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
+        precision: float16
+      - model: Llama 3.1 405B
+        mad_tag: pyt_vllm_llama-3.1-405b
+        model_repo: meta-llama/Llama-3.1-405B-Instruct
+        url: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct
+        precision: float16
+      - model: Llama 2 70B
+        mad_tag: pyt_vllm_llama-2-70b
+        model_repo: meta-llama/Llama-2-70b-chat-hf
+        url: https://huggingface.co/meta-llama/Llama-2-70b-chat-hf
+        precision: float16
+      - model: Llama 3.1 8B FP8
+        mad_tag: pyt_vllm_llama-3.1-8b_fp8
+        model_repo: amd/Llama-3.1-8B-Instruct-FP8-KV
+        url: https://huggingface.co/amd/Llama-3.1-8B-Instruct-FP8-KV
+        precision: float8
+      - model: Llama 3.1 70B FP8
+        mad_tag: pyt_vllm_llama-3.1-70b_fp8
+        model_repo: amd/Llama-3.1-70B-Instruct-FP8-KV
+        url: https://huggingface.co/amd/Llama-3.1-70B-Instruct-FP8-KV
+        precision: float8
+      - model: Llama 3.1 405B FP8
+        mad_tag: pyt_vllm_llama-3.1-405b_fp8
+        model_repo: amd/Llama-3.1-405B-Instruct-FP8-KV
+        url: https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV
+        precision: float8
+    - group: Mistral AI
+      tag: mistral
+      models:
+      - model: Mixtral MoE 8x7B
+        mad_tag: pyt_vllm_mixtral-8x7b
+        model_repo: mistralai/Mixtral-8x7B-Instruct-v0.1
+        url: https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1
+        precision: float16
+      - model: Mixtral MoE 8x22B
+        mad_tag: pyt_vllm_mixtral-8x22b
+        model_repo: mistralai/Mixtral-8x22B-Instruct-v0.1
+        url: https://huggingface.co/mistralai/Mixtral-8x22B-Instruct-v0.1
+        precision: float16
+      - model: Mixtral MoE 8x7B FP8
+        mad_tag: pyt_vllm_mixtral-8x7b_fp8
+        model_repo: amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV
+        url: https://huggingface.co/amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV
+        precision: float8
+      - model: Mixtral MoE 8x22B FP8
+        mad_tag: pyt_vllm_mixtral-8x22b_fp8
+        model_repo: amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV
+        url: https://huggingface.co/amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV
+        precision: float8
+    - group: Qwen
+      tag: qwen
+      models:
+      - model: QwQ-32B
+        mad_tag: pyt_vllm_qwq-32b
+        model_repo: Qwen/QwQ-32B
+        url: https://huggingface.co/Qwen/QwQ-32B
+        precision: float16
+      - model: Qwen3 30B A3B
+        mad_tag: pyt_vllm_qwen3-30b-a3b
+        model_repo: Qwen/Qwen3-30B-A3B
+        url: https://huggingface.co/Qwen/Qwen3-30B-A3B
+        precision: float16
+    - group: Microsoft Phi
+      tag: phi
+      models:
+      - model: Phi-4
+        mad_tag: pyt_vllm_phi-4
+        model_repo: microsoft/phi-4
+        url: https://huggingface.co/microsoft/phi-4

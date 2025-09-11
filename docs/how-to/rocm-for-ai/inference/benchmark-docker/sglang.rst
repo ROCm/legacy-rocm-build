@@ -2,19 +2,19 @@
    :description: Learn how to validate LLM inference performance on MI300X accelerators using AMD MAD and SGLang
    :keywords: model, MAD, automation, dashboarding, validate
 
-************************************
-SGLang inference performance testing
-************************************
+*****************************************************************
+SGLang inference performance testing DeepSeek-R1-Distill-Qwen-32B
+*****************************************************************
 
 .. _sglang-benchmark-unified-docker:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/sglang-benchmark-models.yaml
 
-   {% set unified_docker = data.sglang_benchmark.unified_docker.latest %}
+   {% set docker = data.dockers[0] %}
 
    `SGLang <https://docs.sglang.ai>`__ is a high-performance inference and
    serving engine for large language models (LLMs) and vision models. The
-   ROCm-enabled `SGLang Docker image <{{ unified_docker.docker_hub_url }}>`__
+   ROCm-enabled `SGLang Docker image <{{ docker.docker_hub_url }}>`__
    bundles SGLang with PyTorch, optimized for AMD Instinct MI300X series
    accelerators. It includes the following software components:
 
@@ -24,14 +24,10 @@ SGLang inference performance testing
       * - Software component
         - Version
 
-      * - `ROCm <https://github.com/ROCm/ROCm>`__
-        - {{ unified_docker.rocm_version }}
-
-      * - `SGLang <https://docs.sglang.ai/index.html>`__
-        - {{ unified_docker.sglang_version }} 
-
-      * - `PyTorch <https://github.com/pytorch/pytorch>`__
-        - {{ unified_docker.pytorch_version }} 
+      {% for component_name, component_version in docker.components.items() %}
+      * - {{ component_name }}
+        - {{ component_version }}
+      {% endfor %}
 
 System validation
 =================
@@ -50,8 +46,8 @@ system's configuration.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/sglang-benchmark-models.yaml
 
-   {% set unified_docker = data.sglang_benchmark.unified_docker.latest %}
-   {% set model_groups = data.sglang_benchmark.model_groups %}
+   {% set unified_docker = data.dockers[0] %}
+   {% set model_groups = data.model_groups %}
 
    Pull the Docker image
    =====================
