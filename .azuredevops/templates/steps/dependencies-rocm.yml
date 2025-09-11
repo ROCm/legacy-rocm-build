@@ -63,8 +63,8 @@ parameters:
       developBranch: develop
       hasGpuTarget: false
     hip-tests:
-      pipelineId: 233
-      developBranch: amd-staging
+      pipelineId: 362
+      developBranch: develop
       hasGpuTarget: false
     hipBLAS:
       pipelineId: 317
