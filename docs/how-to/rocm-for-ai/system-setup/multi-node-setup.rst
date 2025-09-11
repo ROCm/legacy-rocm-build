@@ -1,5 +1,3 @@
-:orphan:
-
 .. meta::
    :description: Multi-node setup for AI training
    :keywords: gpu, accelerator, system, health, validation, bench, perf, performance, rvs, rccl, babel, mi300x, mi325x, flops, bandwidth, rbt, training
@@ -229,14 +227,14 @@ JAX MaxText
 
    .. code-block:: shell
 
-      wget https://raw.githubusercontent.com/ROCm/maxtext/refs/heads/main/benchmarks/gpu-rocm/llama3_8b_multinode.sh
+      wget https://raw.githubusercontent.com/ROCm/MAD/refs/heads/develop/scripts/jax-maxtext/gpu-rocm/llama3_8b_multinode.sh
 
-   Or clone the `<https://github.com/ROCm/maxtext>`__ repository.
+   Or clone the `<https://github.com/ROCm/MAD>`__ repository.
 
    .. code-block:: shell
 
-      git clone https://github.com/ROCm/maxtext
-      cd benchmarks/gpu-rocm
+      git clone https://github.com/ROCm/MAD
+      cd scripts/jax-maxtext/gpu-rocm
 
 2. Run the benchmark for multi-node training.
 
