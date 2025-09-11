@@ -210,7 +210,7 @@ jobs:
           componentName: rocrtst
           testExecutable: ./rocrtst64
           testParameters: '--gtest_filter="-rocrtstNeg.Memory_Negative_Tests:rocrtstFunc.Memory_Max_Mem" --gtest_output=xml:./test_output.xml --gtest_color=yes'
-          testDir: $(Build.SourcesDirectory)/rocrtst/suites/test_common/build/${{ job.target }}
+          testDir: $(Agent.BuildDirectory)/s//rocrtst/suites/test_common/build/${{ job.target }}
           os: ${{ job.os }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
