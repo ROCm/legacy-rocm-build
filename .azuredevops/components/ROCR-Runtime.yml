@@ -1,7 +1,7 @@
 parameters:
 - name: componentName
   type: string
-  default: rocr-runtime
+  default: ROCR-Runtime
 - name: checkoutRepo
   type: string
   default: 'self'
