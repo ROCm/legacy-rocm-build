@@ -47,10 +47,6 @@ It includes the following software components:
             ``shardy=False`` during the training run. You can also follow the `migration
             guide <https://docs.jax.dev/en/latest/shardy_jax_migration.html>`__ to enable
             it.
-
-            The provided multi-node training scripts in this documentation are
-            not currently supported with JAX 0.6.0. For multi-node training, use the JAX 0.5.0
-            Docker image.
          {% endif %}
 
       {% endfor %}
@@ -361,12 +357,6 @@ benchmark results:
 
                   ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q nanoo_fp8
 
-               .. important::
-
-                  Quantized training is not supported with the JAX 0.6.0 Docker image; support
-                  will be added in a future release. For quantized training, use the JAX 0.5.0
-                  Docker image: ``rocm/jax-training:maxtext-v25.7``.
-
             {% endif %}
             {% if model.multinode_training_script and "multi-node" in model.doc_options %}
             .. rubric:: Multi-node training
@@ -383,7 +373,7 @@ benchmark results:
                for more details on downloading the Llama models before running the
                benchmark.
 
-            2. To run multi-node training for {{ model.model }}, 
+            2. To run multi-node training for {{ model.model }},
                use the
                `multi-node training script <https://github.com/ROCm/MAD/blob/develop/scripts/jax-maxtext/gpu-rocm/{{ model.multinode_training_script }}>`__
                under the ``scripts/jax-maxtext/gpu-rocm/`` directory.
