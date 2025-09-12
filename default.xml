@@ -6,6 +6,7 @@
      sync-c="true"
      sync-j="4" />
 <!--list of projects for ROCm-->
+    <project name="aqlprofile" />
     <project name="ROCR-Runtime" />
     <project name="amdsmi" />
     <project name="rdc" />
@@ -47,7 +48,7 @@
     <project groups="mathlibs" name="rocALUTION" />
     <project groups="mathlibs" name="rocDecode" />
     <project groups="mathlibs" name="rocJPEG" />
-    <project groups="mathlibs" name="rocm-libraries" />
+    <project groups="mathlibs" name="rocm-libraries">
         <linkfile src="projects/hipcub" dest="hipCUB"/>
         <linkfile src="projects/rocprim" dest="rocPRIM"/>
         <linkfile src="projects/hiprand" dest="hipRAND"/>
@@ -63,6 +64,7 @@
         <linkfile src="projects/miopen" dest="MIOpen"/>
         <linkfile src="projects/hipfft" dest="hipFFT"/>
         <linkfile src="projects/rocfft" dest="rocFFT"/>
+    </project>
     <project groups="mathlibs" name="rocPyDecode" />
     <project groups="mathlibs" name="rocSHMEM" />
     <project groups="mathlibs" name="rocSOLVER" />
