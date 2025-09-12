@@ -24,9 +24,9 @@ model_groups:
   - group: Small experts models
     tag: small-experts-models
     models:
-      - model: DeepSeek V2
-        model_repo: DeepSeek-V2
-        url: https://huggingface.co/deepseek-ai/DeepSeek-V2
+      - model: DeepSeek V3
+        model_repo: DeepSeek-V3
+        url: https://huggingface.co/deepseek-ai/DeepSeek-V3
       - model: Mixtral 8x7B v0.1
         model_repo: Mixtral-8x7B-v0.1
         url: https://huggingface.co/mistralai/Mixtral-8x7B-v0.1
