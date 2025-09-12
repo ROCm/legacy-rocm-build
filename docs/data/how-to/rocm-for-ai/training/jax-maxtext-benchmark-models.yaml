@@ -1,12 +1,4 @@
 dockers:
-  - pull_tag: rocm/jax-training:maxtext-v25.7
-    docker_hub_url: https://hub.docker.com/layers/rocm/jax-training/maxtext-v25.7/images/sha256-45f4c727d4019a63fc47313d3a5f5a5105569539294ddfd2d742218212ae9025
-    components:
-      ROCm: 6.4.1
-      JAX: 0.5.0
-      Python: 3.10.12
-      Transformer Engine: 2.1.0+90d703dd
-      hipBLASLt: 1.x.x
   - pull_tag: rocm/jax-training:maxtext-v25.7-jax060
     docker_hub_url: https://hub.docker.com/layers/rocm/jax-training/maxtext-v25.7/images/sha256-45f4c727d4019a63fc47313d3a5f5a5105569539294ddfd2d742218212ae9025
     components:
@@ -15,6 +7,14 @@ dockers:
       Python: 3.10.12
       Transformer Engine: 2.1.0+90d703dd
       hipBLASLt: 1.1.0-499ece1c21
+  - pull_tag: rocm/jax-training:maxtext-v25.7
+    docker_hub_url: https://hub.docker.com/layers/rocm/jax-training/maxtext-v25.7/images/sha256-45f4c727d4019a63fc47313d3a5f5a5105569539294ddfd2d742218212ae9025
+    components:
+      ROCm: 6.4.1
+      JAX: 0.5.0
+      Python: 3.10.12
+      Transformer Engine: 2.1.0+90d703dd
+      hipBLASLt: 1.x.x
 model_groups:
   - group: Meta Llama
     tag: llama
