@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: How to train a model using Megatron-LM for ROCm.
    :keywords: ROCm, AI, LLM, train, Megatron-LM, megatron, Llama, tutorial, docker, torch
@@ -5,6 +7,11 @@
 ********************************************
 Training a model with Primus and Megatron-LM
 ********************************************
+
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm Megatron-LM
+   training performance documentation. See :doc:`../primus-megatron` for the latest version.
 
 `Primus <https://github.com/AMD-AGI/Primus>`__ is a unified and flexible
 LLM training framework designed to streamline training. It streamlines LLM
@@ -16,17 +23,17 @@ Primus is backend-agnostic and supports multiple training engines -- including M
    Primus with the Megatron backend is intended to replace ROCm
    Megatron-LM in this Dockerized training environment. To learn how to migrate
    workloads from Megatron-LM to Primus with Megatron, see
-   :doc:`previous-versions/megatron-lm-primus-migration-guide`.
+   :doc:`megatron-lm-primus-migration-guide`.
 
 For ease of use, AMD provides a ready-to-use Docker image for MI300 series accelerators
-containing essential components for Primus and Megatron-Core.
+containing essential components for Primus and Megatron-LM.
 
 .. note::
 
    This Docker environment is based on Python 3.10 and Ubuntu 22.04. For an alternative environment with
-   Python 3.12 and Ubuntu 24.04, see the :doc:`previous ROCm Megatron-LM v25.6 Docker release <previous-versions/megatron-lm-v25.6>`.
+   Python 3.12 and Ubuntu 24.04, see the :doc:`previous ROCm Megatron-LM v25.6 Docker release <megatron-lm-v25.6>`.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.7-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
    {% set docker = dockers[0] %}
@@ -50,7 +57,7 @@ The following models are pre-optimized for performance on AMD Instinct MI300X se
 Some instructions, commands, and training examples in this documentation might
 vary by model -- select one to get started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.7-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    .. raw:: html
@@ -104,7 +111,7 @@ system's configuration.
 
 .. _mi300x-amd-primus-megatron-lm-training:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.7-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
       {% set docker = dockers[0] %}
@@ -162,7 +169,7 @@ Configuration
 Primus defines a training configuration in YAML for each model in
 `examples/megatron/configs <https://github.com/AMD-AIG-AIMA/Primus/tree/v0.1.0-rc1/examples/megatron/configs>`__.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.7-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    {% for model_group in model_groups %}
@@ -406,7 +413,7 @@ To run training on multiple nodes, you can use the
 `run_slurm_pretrain.sh <https://github.com/AMD-AIG-AIMA/Primus/tree/v0.1.0-rc1/examples/run_slurm_pretrain.sh>`__
 to launch the multi-node workload. Use the following steps to setup your environment:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.7-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
    {% set docker = dockers[0] %}
@@ -593,10 +600,10 @@ num_layers
 Previous versions
 =================
 
-See :doc:`previous-versions/megatron-lm-history` to find documentation for previous releases
+See :doc:`megatron-lm-history` to find documentation for previous releases
 of the ``ROCm/megatron-lm`` Docker image.
 
 This training environment now uses Primus with Megatron as the primary
 configuration. Limited support for the legacy ROCm Megatron-LM is still
 available. For instructions on using ROCm Megatron-LM, see the
-:doc:`megatron-lm` documentation.
+:doc:`megatron-lm` document.
