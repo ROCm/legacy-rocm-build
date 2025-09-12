@@ -60,7 +60,7 @@ div[data-param-k="model-group"][data-param-state="disabled"] {
 .model-param-head {
   background-color: var(--compat-head-color);
   padding: 0.15rem 0.15rem 0.15rem 0.67rem;
-  border-right: solid 4px var(--compat-accent-color);
+  border-right: solid 3px var(--compat-accent-color);
   font-weight: 600;
 }
 
