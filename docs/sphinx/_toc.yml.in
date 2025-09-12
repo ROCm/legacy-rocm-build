@@ -20,12 +20,37 @@ subtrees:
     title: Docker images for AI
     subtrees:
     - entries:
+          - file: preview/benchmark-docker/rc2/index.rst
+            title: RC2 performance benchmarking
+            subtrees:
+            - entries:
+                  - file: preview/benchmark-docker/rc2/training-megatron-lm-llama-3.rst
+                    title: Llama 3 pre-training with Megatron-LM
+                  - file: preview/benchmark-docker/rc2/training-torchtitan-llama-3.rst
+                    title: Llama 3 pre-training with torchtitan
+                  - file: preview/benchmark-docker/rc2/training-mlperf-fine-tuning-llama-2-70b.rst
+                    title: Llama 2 70B LoRA fine-tuning with MLPerf
+                  - file: preview/benchmark-docker/rc2/inference-vllm-llama-3.1-405b-fp4.rst
+                    title: Llama 3.1 405B FP4 inference with vLLM
+                  - file: preview/benchmark-docker/rc2/inference-vllm-llama-3.3-70b-fp8.rst
+                    title: Llama 3.3 70B FP8 inference with vLLM
+                  - file: preview/benchmark-docker/rc2/inference-vllm-gpt-oss-120b.rst
+                    title: GPT OSS 120B inference with vLLM
+                  - file: preview/benchmark-docker/rc2/inference-sglang-deepseek-r1-fp4.rst
+                    title: DeepSeek R1 FP4 inference with SGLang
+                  - file: preview/benchmark-docker/rc2/inference-sglang-deepseek-r1-fp8.rst
+                    title: DeepSeek R1 FP8 inference with SGLang
           - file: preview/benchmark-docker/rc1/index.rst
-            title: RC1
+            title: RC1 performance benchmarking
             subtrees:
             - entries:
                   - file: preview/benchmark-docker/rc1/inference-vllm-llama-3.1-405b-fp4.rst
+                    title: Llama 3.1 405B FP4 inference with vLLM
                   - file: preview/benchmark-docker/rc1/inference-vllm-llama-3.3-70b-fp8.rst
+                    title: Llama 3.3 70B FP8 inference with vLLM
                   - file: preview/benchmark-docker/rc1/inference-vllm-gpt-oss-120b.rst
+                    title: GPT OSS 120B inference with vLLM
                   - file: preview/benchmark-docker/rc1/inference-sglang-deepseek-r1-fp4.rst
+                    title: DeepSeek R1 FP4 inference with SGLang
                   - file: preview/benchmark-docker/rc1/inference-sglang-deepseek-r1-fp8.rst
+                    title: DeepSeek R1 FP8 inference with SGLang

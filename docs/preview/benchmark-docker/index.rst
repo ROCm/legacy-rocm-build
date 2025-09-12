@@ -16,7 +16,39 @@ inference workloads using next-generation AMD accelerators.
    If you're looking for production-level workloads for MI300X series accelerators, see
    `Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html>`_.
 
+RC2
+===
+
 .. grid:: 2
+
+   .. grid-item-card:: Training
+
+      * :doc:`rc2/inference-vllm-llama-3.1-405b-fp4`
+
+      * :doc:`rc2/inference-vllm-llama-3.3-70b-fp8`
+
+      * :doc:`rc2/inference-vllm-gpt-oss-120b`
+
+      * :doc:`rc2/inference-sglang-deepseek-r1-fp4`
+
+      * :doc:`rc2/inference-sglang-deepseek-r1-fp8`
+
+   .. grid-item-card:: Inference
+
+      * :doc:`rc2/inference-vllm-llama-3.1-405b-fp4`
+
+      * :doc:`rc2/inference-vllm-llama-3.3-70b-fp8`
+
+      * :doc:`rc2/inference-vllm-gpt-oss-120b`
+
+      * :doc:`rc2/inference-sglang-deepseek-r1-fp4`
+
+      * :doc:`rc2/inference-sglang-deepseek-r1-fp8`
+
+RC1
+===
+
+.. grid:: 1
 
    .. grid-item-card:: Inference
 
