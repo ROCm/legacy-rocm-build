@@ -9,7 +9,7 @@ subtrees:
   - file: preview/release.rst
     title: ROCm RC1 release notes
   - file: preview/install/index.rst
-    title: ROCm RC1 Installation
+    title: ROCm RC1 installation
     subtrees:
     - entries:
         - file: preview/install/rocm
@@ -21,7 +21,7 @@ subtrees:
     subtrees:
     - entries:
           - file: preview/benchmark-docker/rc2/index.rst
-            title: RC2 performance benchmarking
+            title: RC2 performance benchmarks
             subtrees:
             - entries:
                   - file: preview/benchmark-docker/rc2/training-megatron-lm-llama-3.rst
@@ -41,7 +41,7 @@ subtrees:
                   - file: preview/benchmark-docker/rc2/inference-sglang-deepseek-r1-fp8.rst
                     title: DeepSeek R1 FP8 inference with SGLang
           - file: preview/benchmark-docker/rc1/index.rst
-            title: RC1 performance benchmarking
+            title: RC1 performance benchmarks
             subtrees:
             - entries:
                   - file: preview/benchmark-docker/rc1/inference-vllm-llama-3.1-405b-fp4.rst

@@ -14,5 +14,5 @@ ready(() => {
 	versionListLink.href = "https://rocm.docs.amd.com/en/docs-7.0-rc/preview/versions.html"
 
 	const headerLogoText = document.querySelector("div.header-logo a:not(.navbar-brand):not(.header-all-versions)")
-	headerLogoText.textContent = "ROCm™ Software 7.0 release candidate"
+	headerLogoText.textContent = "ROCm™ Software 7.0 Release Candidate"
 });
