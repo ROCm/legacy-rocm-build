@@ -152,25 +152,31 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
-        extraBuildFlags:
-          # General
-          - -DCMAKE_BUILD_TYPE=Release
-          - -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
-          - -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
-          - -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm"
-          # NOTE: new build only
-          - -DGPU_TARGETS=${{ job.target }}
-          # NOTE: old build only -- can be removed after full transition to new build
-          - -DAMDGPU_TARGETS=${{ job.target }}
-          - -DCMAKE_Fortran_COMPILER=f95
-          - -DTensile_LOGIC=
-          - -DTensile_CPU_THREADS=
-          - -DTensile_LIBRARY_FORMAT=msgpack
-          - -DROCM_PATH=$(Agent.BuildDirectory)/rocm
-          - -DBUILD_CLIENTS_TESTS=ON
-          - -DBUILD_USE_LOCAL_TENSILE=OFF
-          # Generator
-          - -GNinja
+        # NOTE: the following options are old build only 
+        # and can be removed after full transition to new build
+        # -DAMDGPU_TARGETS=${{ job.target }}
+        # -DCMAKE_Fortran_COMPILER=f95
+        # -DTensile_LOGIC=
+        # -DTensile_CPU_THREADS=
+        # -DTensile_LIBRARY_FORMAT=msgpack
+        # -DROCM_PATH=$(Agent.BuildDirectory)/rocm
+        # -DBUILD_CLIENTS_TESTS=ON
+        # -DBUILD_USE_LOCAL_TENSILE=OFF
+        extraBuildFlags: >-
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm"
+          -DGPU_TARGETS=${{ job.target }}
+          -DAMDGPU_TARGETS=${{ job.target }}
+          -DCMAKE_Fortran_COMPILER=f95
+          -DTensile_LOGIC=
+          -DTensile_CPU_THREADS=
+          -DTensile_LIBRARY_FORMAT=msgpack
+          -DROCM_PATH=$(Agent.BuildDirectory)/rocm
+          -DBUILD_CLIENTS_TESTS=ON
+          -DBUILD_USE_LOCAL_TENSILE=OFF
+          -GNinja
         ${{ if ne(parameters.sparseCheckoutDir, '') }}:
           cmakeSourceDir: $(Build.SourcesDirectory)/projects/hipsparselt
           cmakeBuildDir: $(Build.SourcesDirectory)/projects/hipsparselt
