@@ -1,0 +1,23 @@
+variables:
+- group: common
+- template: /.azuredevops/variables-global.yml
+
+parameters:
+- name: spdlogVersion
+  type: string
+  default: "v1.15.1"
+
+resources:
+  repositories:
+  - repository: pipelines_repo
+    type: github
+    endpoint: ROCm
+    name: ROCm/ROCm
+
+trigger: none
+pr: none
+
+jobs:
+  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/spdlog.yml
+    parameters:
+      spdlogVersion: ${{ parameters.spdlogVersion }}

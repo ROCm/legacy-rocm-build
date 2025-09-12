@@ -1,0 +1,236 @@
+parameters:
+- name: componentName
+  type: string
+  default: origami
+- name: checkoutRepo
+  type: string
+  default: 'self'
+- name: checkoutRef
+  type: string
+  default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
+# set to true if doing full build of ROCm stack
+# and dependencies are pulled from same pipeline
+- name: aggregatePipeline
+  type: boolean
+  default: false
+- name: aptPackages
+  type: object
+  default:
+    - cmake
+    - git
+    - ninja-build
+    - wget
+    - python3
+    - python3-dev
+    - python3-pip
+- name: pipModules
+  type: object
+  default:
+    - nanobind>=2.0.0
+- name: rocmDependencies
+  type: object
+  default:
+    - clr
+    - llvm-project
+    - rocm-cmake
+    - rocminfo
+    - ROCR-Runtime
+    - rocprofiler-register
+- name: rocmTestDependencies
+  type: object
+  default:
+    - clr
+    - llvm-project
+    - rocm-cmake
+    - rocminfo
+    - ROCR-Runtime
+    - rocprofiler-register
+
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - { os: ubuntu2204, packageManager: apt }
+      - { os: almalinux8, packageManager: dnf }
+    testJobs:
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+- name: downstreamComponentMatrix
+  type: object
+  default:
+    - hipBLASLt:
+      name: hipBLASLt
+      sparseCheckoutDir: projects/hipblaslt
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        - origami_build
+
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: origami_build_${{ job.os }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    pool:
+      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        os: ${{ job.os }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        os: ${{ job.os }}
+        extraBuildFlags: >-
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -DORIGAMI_BUILD_SHARED_LIBS=ON
+          -DORIGAMI_ENABLE_PYTHON=ON
+          -DORIGAMI_BUILD_TESTING=ON
+          -GNinja
+    - ${{ if ne(job.os, 'almalinux8') }}:
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Build Directory Artifact'
+        inputs:
+          targetPath: '$(Agent.BuildDirectory)/s/build'
+          artifact: '${{ parameters.componentName }}_${{ job.os }}_build_dir'
+          publishLocation: 'pipeline'
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Python Source Artifact'
+        inputs:
+          targetPath: '$(Agent.BuildDirectory)/s/python'
+          artifact: '${{ parameters.componentName }}_${{ job.os }}_python_src'
+          publishLocation: 'pipeline'
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        componentName: ${{ parameters.componentName }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}
+        componentName: ${{ parameters.componentName }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+
+- ${{ if eq(parameters.unifiedBuild, False) }}:
+  - ${{ each job in parameters.jobMatrix.testJobs }}:
+    - job: origami_test_${{ job.os }}_${{ job.target }}
+      timeoutInMinutes: 120
+      dependsOn: origami_build_${{ job.os }}
+      condition:
+        and(succeeded(),
+          eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
+          eq(${{ parameters.aggregatePipeline }}, False)
+        )
+      variables:
+      - group: common
+      - template: /.azuredevops/variables-global.yml
+      pool: ${{ job.target }}_test_pool
+      workspace:
+        clean: all
+      steps:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          pipModules: ${{ parameters.pipModules }}
+          packageManager: ${{ job.packageManager }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+        parameters:
+          preTargetFilter: ${{ parameters.componentName }}
+          os: ${{ job.os }}
+      - task: DownloadPipelineArtifact@2
+        displayName: 'Download Build Directory Artifact'
+        inputs:
+          artifact: '${{ parameters.componentName }}_${{ job.os }}_build_dir'
+          path: '$(Agent.BuildDirectory)/s/build'
+      - task: DownloadPipelineArtifact@2
+        displayName: 'Download Python Source Artifact'
+        inputs:
+          artifact: '${{ parameters.componentName }}_${{ job.os }}_python_src'
+          path: '$(Agent.BuildDirectory)/s/python'
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+        parameters:
+          checkoutRef: ${{ parameters.checkoutRef }}
+          dependencyList: ${{ parameters.rocmTestDependencies }}
+          os: ${{ job.os }}
+          gpuTarget: ${{ job.target }}
+          ${{ if parameters.triggerDownstreamJobs }}:
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      - script: |
+          export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
+
+          echo "--- Running origami_test.py ---"
+          python3 $(Agent.BuildDirectory)/s/python/origami_test.py
+          
+          echo "--- Running origami_grid_test.py ---"
+          python3 $(Agent.BuildDirectory)/s/python/origami_grid_test.py
+        displayName: 'Run Python Binding Tests'
+        condition: succeeded()
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          pipModules: ${{ parameters.pipModules }}
+          environment: test
+          gpuTarget: ${{ job.target }}
+
+- ${{ if parameters.triggerDownstreamJobs }}:
+  - ${{ each component in parameters.downstreamComponentMatrix }}:
+    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+          buildDependsOn: ${{ component.buildDependsOn }}
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+          triggerDownstreamJobs: true
+          unifiedBuild: ${{ parameters.unifiedBuild }}

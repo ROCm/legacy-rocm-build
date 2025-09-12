@@ -7,7 +7,7 @@ vLLM inference performance testing version history
 This table lists previous versions of the ROCm vLLM inference Docker image for
 inference performance testing. For detailed information about available models
 for benchmarking, see the version-specific documentation. You can find tagged
-previous releases of the ``ROCm/vllm`` Docker image on `Docker Hub <https://hub.docker.com/r/rocm/vllm/tags>`__.
+previous releases of the ``ROCm/vllm`` Docker image on `Docker Hub <https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.10.1_20250909/images/sha256-1113268572e26d59b205792047bea0e61e018e79aeadceba118b7bf23cb3715c>`__.
 
 .. list-table::
    :header-rows: 1

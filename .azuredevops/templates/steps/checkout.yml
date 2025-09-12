@@ -20,7 +20,7 @@ steps:
     retryCountOnTaskFailure: 3
     fetchFilter: blob:none
     ${{ if ne(parameters.sparseCheckoutDir, '') }}:
-      sparseCheckoutDirectories: ${{ parameters.sparseCheckoutDir }}
+      sparseCheckoutDirectories: ${{ parameters.sparseCheckoutDir }} shared
       path: sparse
   - ${{ if ne(parameters.sparseCheckoutDir, '') }}:
     - task: Bash@3

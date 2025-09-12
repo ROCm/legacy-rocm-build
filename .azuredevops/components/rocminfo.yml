@@ -1,10 +1,29 @@
 parameters:
+- name: componentName
+  type: string
+  default: rocminfo
 - name: checkoutRepo
   type: string
   default: 'self'
 - name: checkoutRef
   type: string
   default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -40,7 +59,11 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocminfo_build_${{ job.os }}
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}
     pool:
       vmImage: 'ubuntu-22.04'
     ${{ if eq(job.os, 'almalinux8') }}:
@@ -62,14 +85,18 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         os: ${{ job.os }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         os: ${{ job.os }}
         useAmdclang: false
         extraBuildFlags: >-
@@ -78,65 +105,71 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         os: ${{ job.os }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
 
-- ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rocminfo_test_${{ job.target }}
-    dependsOn: rocminfo_build_${{ job.os }}
-    condition:
-      and(succeeded(),
-        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
-        eq(${{ parameters.aggregatePipeline }}, False)
-      )
-    variables:
-    - group: common
-    - template: /.azuredevops/variables-global.yml
-    pool: ${{ job.target }}_test_pool
-    workspace:
-      clean: all
-    steps:
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        packageManager: ${{ job.packageManager }}
-        registerROCmPackages: true
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-      parameters:
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-      parameters:
-        checkoutRef: ${{ parameters.checkoutRef }}
-        dependencyList: ${{ parameters.rocmTestDependencies }}
-        gpuTarget: ${{ job.target }}
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-      parameters:
-        runRocminfo: false
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-      parameters:
-        componentName: rocminfo
-        testDir: '$(Agent.BuildDirectory)'
-        testExecutable: './rocm/bin/rocminfo'
-        testParameters: ''
-        testPublishResults: false
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-      parameters:
-        componentName: rocm_agent_enumerator
-        testDir: '$(Agent.BuildDirectory)'
-        testExecutable: './rocm/bin/rocm_agent_enumerator'
-        testParameters: ''
-        testPublishResults: false
-        os: ${{ job.os }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        registerROCmPackages: true
-        environment: test
-        gpuTarget: ${{ job.target }}
+- ${{ if eq(parameters.unifiedBuild, False) }}:
+  - ${{ each job in parameters.jobMatrix.testJobs }}:
+    - job: rocminfo_test_${{ job.target }}
+      dependsOn: rocminfo_build_${{ job.os }}
+      condition:
+        and(succeeded(),
+          eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
+          eq(${{ parameters.aggregatePipeline }}, False)
+        )
+      variables:
+      - group: common
+      - template: /.azuredevops/variables-global.yml
+      pool: ${{ job.target }}_test_pool
+      workspace:
+        clean: all
+      steps:
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          packageManager: ${{ job.packageManager }}
+          registerROCmPackages: true
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+        parameters:
+          os: ${{ job.os }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+        parameters:
+          checkoutRef: ${{ parameters.checkoutRef }}
+          dependencyList: ${{ parameters.rocmTestDependencies }}
+          gpuTarget: ${{ job.target }}
+          os: ${{ job.os }}
+          ${{ if parameters.triggerDownstreamJobs }}:
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+        parameters:
+          runRocminfo: false
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+        parameters:
+          componentName: ${{ parameters.componentName }}
+          testDir: '$(Agent.BuildDirectory)'
+          testExecutable: './rocm/bin/rocminfo'
+          testParameters: ''
+          testPublishResults: false
+          os: ${{ job.os }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+        parameters:
+          componentName: rocm_agent_enumerator
+          testDir: '$(Agent.BuildDirectory)'
+          testExecutable: './rocm/bin/rocm_agent_enumerator'
+          testParameters: ''
+          testPublishResults: false
+          os: ${{ job.os }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          registerROCmPackages: true
+          environment: test
+          gpuTarget: ${{ job.target }}

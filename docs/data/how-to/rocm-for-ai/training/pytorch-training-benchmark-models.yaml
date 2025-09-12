@@ -1,38 +1,17 @@
-unified_docker:
-  latest:
-    pull_tag: rocm/pytorch-training:v25.6
-    docker_hub_url: https://hub.docker.com/r/rocm/pytorch-training/tags
-    rocm_version: 6.4.1
-    pytorch_version: 2.8.0a0+git7d205b2
-    python_version: 3.10.17
-    transformer_engine_version: 1.14.0+2f85f5f2
-    flash_attention_version: 3.0.0.post1
-    hipblaslt_version: 0.15.0-8c6919d
-    triton_version: 3.3.0
+dockers:
+  - pull_tag: rocm/pytorch-training:v25.7
+    docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-training/v25.7/images/sha256-cc6fd840ab89cb81d926fc29eca6d075aee9875a55a522675a4b9231c9a0a712
+    components:
+      ROCm: 6.4.2
+      PyTorch: 2.8.0a0+gitd06a406
+      Python: 3.10.18
+      Transformer Engine: 2.2.0.dev0+94e53dd8
+      Flash Attention: 3.0.0.post1
+      hipBLASLt: 1.1.0-4b9a52edfc
+      Triton: 3.3.0
 model_groups:
-  - group: Pre-training
-    tag: pre-training
-    models:
-    - model: Llama 3.1 8B
-      mad_tag: pyt_train_llama-3.1-8b
-      model_repo: Llama-3.1-8B
-      url: https://huggingface.co/meta-llama/Llama-3.1-8B
-      precision: BF16
-      training_modes: [pretrain]
-    - model: Llama 3.1 70B
-      mad_tag: pyt_train_llama-3.1-70b
-      model_repo: Llama-3.1-70B
-      url: https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
-      precision: BF16
-      training_modes: [pretrain]
-    - model: FLUX.1-dev
-      mad_tag: pyt_train_flux
-      model_repo: Flux
-      url: https://huggingface.co/black-forest-labs/FLUX.1-dev
-      precision: BF16
-      training_modes: [pretrain]
-  - group: Fine-tuning
-    tag: fine-tuning
+  - group: Meta Llama
+    tag: llama
     models:
     - model: Llama 4 Scout 17B-16E
       mad_tag: pyt_train_llama-4-scout-17b-16e
@@ -75,19 +54,19 @@ model_groups:
       model_repo: Llama-3.1-8B
       url: https://huggingface.co/meta-llama/Llama-3.1-8B
       precision: BF16
-      training_modes: [finetune_fw, finetune_lora]
+      training_modes: [pretrain, finetune_fw, finetune_lora, HF_pretrain]
     - model: Llama 3.1 70B
       mad_tag: pyt_train_llama-3.1-70b
       model_repo: Llama-3.1-70B
-      url: https://huggingface.co/meta-llama/Llama-3.1-70B
+      url: https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
       precision: BF16
-      training_modes: [finetune_fw, finetune_lora, finetune_qlora]
+      training_modes: [pretrain, finetune_fw, finetune_lora]
     - model: Llama 3.1 405B
       mad_tag: pyt_train_llama-3.1-405b
       model_repo: Llama-3.1-405B
       url: https://huggingface.co/meta-llama/Llama-3.1-405B
       precision: BF16
-      training_modes: [finetune_qlora, HF_finetune_lora]
+      training_modes: [finetune_qlora]
     - model: Llama 3 8B
       mad_tag: pyt_train_llama-3-8b
       model_repo: Llama-3-8B
@@ -117,4 +96,67 @@ model_groups:
       model_repo: Llama-2-70B
       url: https://github.com/meta-llama/llama-models/tree/main/models/llama2
       precision: BF16
-      training_modes: [finetune_lora, finetune_qlora, HF_finetune_lora]
+      training_modes: [finetune_lora, finetune_qlora]
+  - group: OpenAI
+    tag: openai
+    models:
+    - model: GPT OSS 20B
+      mad_tag: pyt_train_gpt_oss_20b
+      model_repo: GPT-OSS-20B
+      url: https://huggingface.co/openai/gpt-oss-20b
+      precision: BF16
+      training_modes: [HF_finetune_lora]
+    - model: GPT OSS 120B
+      mad_tag: pyt_train_gpt_oss_120b
+      model_repo: GPT-OSS-120B
+      url: https://huggingface.co/openai/gpt-oss-120b
+      precision: BF16
+      training_modes: [HF_finetune_lora]
+  - group: Qwen
+    tag: qwen
+    models:
+    - model: Qwen 3 8B
+      mad_tag: pyt_train_qwen3-8b
+      model_repo: Qwen3-8B
+      url: https://huggingface.co/Qwen/Qwen3-8B
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora]
+    - model: Qwen 3 32B
+      mad_tag: pyt_train_qwen3-32b
+      model_repo: Qwen3-32
+      url: https://huggingface.co/Qwen/Qwen3-32B
+      precision: BF16
+      training_modes: [finetune_lora]
+    - model: Qwen 2.5 32B
+      mad_tag: pyt_train_qwen2.5-32b
+      model_repo: Qwen2.5-32B
+      url: https://huggingface.co/Qwen/Qwen2.5-32B
+      precision: BF16
+      training_modes: [finetune_lora]
+    - model: Qwen 2.5 72B
+      mad_tag: pyt_train_qwen2.5-72b
+      model_repo: Qwen2.5-72B
+      url: https://huggingface.co/Qwen/Qwen2.5-72B
+      precision: BF16
+      training_modes: [finetune_lora]
+    - model: Qwen 2 1.5B
+      mad_tag: pyt_train_qwen2-1.5b
+      model_repo: Qwen2-1.5B
+      url: https://huggingface.co/Qwen/Qwen2-1.5B
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora]
+    - model: Qwen 2 7B
+      mad_tag: pyt_train_qwen2-7b
+      model_repo: Qwen2-7B
+      url: https://huggingface.co/Qwen/Qwen2-7B
+      precision: BF16
+      training_modes: [finetune_fw, finetune_lora]
+  - group: Flux
+    tag: flux
+    models:
+    - model: FLUX.1-dev
+      mad_tag: pyt_train_flux
+      model_repo: Flux
+      url: https://huggingface.co/black-forest-labs/FLUX.1-dev
+      precision: BF16
+      training_modes: [pretrain]

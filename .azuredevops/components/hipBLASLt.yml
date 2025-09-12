@@ -35,6 +35,8 @@ parameters:
     - ccache
     - gfortran
     - git
+    - libboost-filesystem-dev
+    - libboost-program-options-dev
     - libdrm-dev
     - liblapack-dev
     - libmsgpack-dev
@@ -176,7 +178,7 @@ jobs:
           mkdir -p $(Agent.BuildDirectory)/temp-deps
           cd $(Agent.BuildDirectory)/temp-deps
           # position-independent LAPACK is required for almalinux8 builds
-          cmake -DBUILD_GTEST=OFF -DBUILD_LAPACK=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $(Agent.BuildDirectory)/s/deps
+          cmake -DBUILD_GTEST=OFF -DBUILD_LAPACK=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON $(Agent.BuildDirectory)/sparse/projects/hipblaslt/deps
           make -j
           sudo make install
     - script: |
@@ -195,6 +197,8 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
+        cmakeSourceDir: $(Agent.BuildDirectory)/sparse/projects/hipblaslt
+        cmakeBuildDir: $(Agent.BuildDirectory)/sparse/projects/hipblaslt/build
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
           -DCMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/llvm/include

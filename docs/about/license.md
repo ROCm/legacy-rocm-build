@@ -29,6 +29,7 @@ additional licenses. Please review individual repositories for more information.
 | [AMD SMI](https://github.com/ROCm/amdsmi) | [MIT](https://github.com/ROCm/amdsmi/blob/amd-staging/LICENSE) |
 | [aomp](https://github.com/ROCm/aomp/) | [Apache 2.0](https://github.com/ROCm/aomp/blob/aomp-dev/LICENSE) |
 | [aomp-extras](https://github.com/ROCm/aomp-extras/) | [MIT](https://github.com/ROCm/aomp-extras/blob/aomp-dev/LICENSE) |
+| [AQLprofile] | [MIT](https://github.com/ROCm/aqlprofile/blob/amd-staging/LICENSE) |
 | [Code Object Manager (Comgr)](https://github.com/ROCm/llvm-project/tree/amd-staging/amd/comgr) | [The University of Illinois/NCSA](https://github.com/ROCm/llvm-project/blob/amd-staging/amd/comgr/LICENSE.txt) |
 | [Composable Kernel](https://github.com/ROCm/composable_kernel) | [MIT](https://github.com/ROCm/composable_kernel/blob/develop/LICENSE) |
 | [half](https://github.com/ROCm/half/) | [MIT](https://github.com/ROCm/half/blob/rocm/LICENSE.txt) |
@@ -46,7 +47,6 @@ additional licenses. Please review individual repositories for more information.
 | [hipSPARSE](https://github.com/ROCm/hipSPARSE/) | [MIT](https://github.com/ROCm/hipSPARSE/blob/develop/LICENSE.md) |
 | [hipSPARSELt](https://github.com/ROCm/hipSPARSELt/) | [MIT](https://github.com/ROCm/hipSPARSELt/blob/develop/LICENSE.md) |
 | [hipTensor](https://github.com/ROCm/hipTensor) | [MIT](https://github.com/ROCm/hipTensor/blob/develop/LICENSE) |
-| hsa-amd-aqlprofile | [AMD Software EULA](https://www.amd.com/en/legal/eula/amd-software-eula.html) |
 | [llvm-project](https://github.com/ROCm/llvm-project/) | [Apache](https://github.com/ROCm/llvm-project/blob/amd-staging/LICENSE.TXT) |
 | [llvm-project/flang](https://github.com/ROCm/llvm-project/tree/amd-staging/flang) | [Apache 2.0](https://github.com/ROCm/llvm-project/blob/amd-staging/flang/LICENSE.TXT) |
 | [MIGraphX](https://github.com/ROCm/AMDMIGraphX/) | [MIT](https://github.com/ROCm/AMDMIGraphX/blob/develop/LICENSE) |
@@ -132,12 +132,10 @@ companies.
 ### Package licensing
 
 :::{attention}
-AQL Profiler and AOCC CPU optimization are both provided in binary form, each
-subject to the license agreement enclosed in the directory for the binary available
-in `/opt/rocm/share/doc/hsa-amd-aqlprofile/EULA`. By using, installing,
-copying or distributing AQL Profiler and/or AOCC CPU Optimizations, you agree to
+ROCprof Trace Decoder and AOCC CPU optimizations are provided in binary form, subject to the license agreement enclosed on [GitHub](https://github.com/ROCm/rocprof-trace-decoder/blob/amd-mainline/LICENSE) for ROCprof Trace Decoder, and [Developer Central](https://www.amd.com/en/developer/aocc.html) for AOCC. By using, installing,
+copying or distributing ROCprof Trace Decoder or AOCC CPU Optimizations, you agree to
 the terms and conditions of this license agreement. If you do not agree to the
-terms of this agreement, do not install, copy or use the AQL Profiler and/or the
+terms of this agreement, do not install, copy or use ROCprof Trace Decoder or the
 AOCC CPU Optimizations.
 :::
 

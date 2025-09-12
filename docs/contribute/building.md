@@ -28,12 +28,30 @@ See the [Python requirements file](https://github.com/ROCm/ROCm/blob/develop/doc
 
 Use the Python Virtual Environment (`venv`) and run the following commands from the project root:
 
+::::{tab-set}
+:::{tab-item} Linux and WSL
+:sync: linux
+
 ```sh
 python3 -mvenv .venv
 
-.venv/bin/python     -m pip install -r docs/sphinx/requirements.txt
-.venv/bin/python     -m sphinx -T -E -b html -d _build/doctrees -D language=en docs _build/html
+.venv/bin/python -m pip install -r docs/sphinx/requirements.txt
+.venv/bin/python -m sphinx -T -E -b html -d _build/doctrees -D language=en docs _build/html
 ```
+
+:::
+:::{tab-item} Windows
+:sync: windows
+
+```powershell
+python -mvenv .venv
+
+.venv\Scripts\python.exe -m pip install -r docs/sphinx/requirements.txt
+.venv\Scripts\python.exe -m sphinx -T -E -b html -d _build/doctrees -D language=en docs _build/html
+```
+
+:::
+::::
 
 Navigate to `_build/html/index.html` and open this file in a web browser.
 

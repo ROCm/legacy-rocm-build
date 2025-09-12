@@ -21,6 +21,8 @@ In this guide, you'll learn about:
 
 - Training a model
 
+  - :doc:`With Primus (Megatron-LM backend) <benchmark-docker/primus-megatron>`
+
   - :doc:`With Megatron-LM <benchmark-docker/megatron-lm>`
 
   - :doc:`With PyTorch <benchmark-docker/pytorch-training>`

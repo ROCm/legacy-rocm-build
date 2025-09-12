@@ -1,0 +1,67 @@
+parameters:
+- name: checkoutRepo
+  type: string
+  default: 'self'
+- name: checkoutRef
+  type: string
+  default: ''
+- name: fmtlibVersion
+  type: string
+  default: ''
+- name: aptPackages
+  type: object
+  default:
+    - cmake
+    - git
+    - ninja-build
+    - libfmt-dev
+
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - { os: ubuntu2204, packageManager: apt}
+      - { os: almalinux8, packageManager: dnf}
+
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: fmtlib_${{ job.os }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    pool:
+      vmImage: 'ubuntu-22.04'
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
+    workspace:
+      clean: all
+    steps:
+    - checkout: none
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - task: Bash@3
+      displayName: Clone fmtlib ${{ parameters.fmtlibVersion }}
+      inputs:
+        targetType: inline
+        script: git clone https://github.com/fmtlib/fmt.git -b ${{ parameters.fmtlibVersion }}
+        workingDirectory: $(Agent.BuildDirectory)
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        os: ${{ job.os }}
+        cmakeBuildDir: $(Agent.BuildDirectory)/fmt/build
+        cmakeSourceDir: $(Agent.BuildDirectory)/fmt
+        useAmdclang: false
+        extraBuildFlags: >-
+          -DCMAKE_BUILD_TYPE=Release
+          -DFMT_SYSTEM_HEADERS=ON
+          -DFMT_INSTALL=ON
+          -DFMT_TEST=OFF
+          -GNinja
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}

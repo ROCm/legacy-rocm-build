@@ -47,8 +47,8 @@ parameters:
       developBranch: aomp-dev
       hasGpuTarget: false
     clr:
-      pipelineId: 145
-      developBranch: amd-staging
+      pipelineId: 335
+      developBranch: develop
       hasGpuTarget: false
     composable_kernel:
       pipelineId: 86
@@ -59,12 +59,12 @@ parameters:
       developBranch: rocm
       hasGpuTarget: false
     HIP:
-      pipelineId: 93
-      developBranch: amd-staging
+      pipelineId: 335
+      developBranch: develop
       hasGpuTarget: false
     hip-tests:
-      pipelineId: 233
-      developBranch: amd-staging
+      pipelineId: 362
+      developBranch: develop
       hasGpuTarget: false
     hipBLAS:
       pipelineId: 317
@@ -171,16 +171,16 @@ parameters:
       developBranch: develop
       hasGpuTarget: false
     rocm-core:
-      pipelineId: 103
-      developBranch: master
+      pipelineId: 349
+      developBranch: develop
       hasGpuTarget: false
     rocm-examples:
       pipelineId: 216
       developBranch: amd-staging
       hasGpuTarget: true
     rocminfo:
-      pipelineId: 91
-      developBranch: amd-staging
+      pipelineId: 356
+      developBranch: develop
       hasGpuTarget: false
     rocMLIR:
       pipelineId: 229
@@ -195,19 +195,19 @@ parameters:
       developBranch: master
       hasGpuTarget: false
     rocm_smi_lib:
-      pipelineId: 96
-      developBranch: amd-staging
+      pipelineId: 358
+      developBranch: develop
       hasGpuTarget: false
     rocPRIM:
       pipelineId: 273
       developBranch: develop
       hasGpuTarget: true
     rocprofiler:
-      pipelineId: 143
-      developBranch: amd-staging
+      pipelineId: 329
+      developBranch: develop
       hasGpuTarget: true
     rocprofiler-compute:
-      pipelineId: 257
+      pipelineId: 344
       developBranch: develop
       hasGpuTarget: true
     rocprofiler-register:
@@ -215,8 +215,8 @@ parameters:
       developBranch: develop
       hasGpuTarget: false
     rocprofiler-sdk:
-      pipelineId: 246
-      developBranch: amd-staging
+      pipelineId: 347
+      developBranch: develop
       hasGpuTarget: true
     rocprofiler-systems:
       pipelineId: 255
@@ -227,8 +227,8 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     ROCR-Runtime:
-      pipelineId: 10
-      developBranch: amd-staging
+      pipelineId: 354
+      developBranch: develop
       hasGpuTarget: false
     rocRAND:
       pipelineId: 274
@@ -251,8 +251,8 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     roctracer:
-      pipelineId: 141
-      developBranch: amd-staging
+      pipelineId: 331
+      developBranch: develop
       hasGpuTarget: true
     rocWMMA:
       pipelineId: 109

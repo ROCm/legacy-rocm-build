@@ -36,8 +36,10 @@ parameters:
     - gfortran
     - git
     - libdrm-dev
+    - liblapack-dev
     - libmsgpack-dev
     - libnuma-dev
+    - libopenblas-dev
     - ninja-build
     - python3-pip
     - python3-venv
@@ -46,6 +48,8 @@ parameters:
   default:
     - joblib
     - "packaging>=22.0"
+    - pytest
+    - pytest-cmake
     - --upgrade
 - name: rocmDependencies
   type: object
@@ -98,12 +102,12 @@ jobs:
     workspace:
       clean: all
     steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
         packageManager: ${{ job.packageManager }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
@@ -134,12 +138,26 @@ jobs:
           rocm-libraries | ${{ job.os }} | ${{ job.target }} | $(DAY_STRING)
           rocm-libraries | ${{ job.os }} | ${{ job.target }}
           rocm-libraries | ${{ job.os }}
+    - task: Bash@3
+      displayName: Add paths for CMake and Python site-packages binaries
+      inputs:
+        targetType: inline
+        script: |
+          USER_BASE=$(python3 -m site --user-base)
+          echo "##vso[task.prependpath]$USER_BASE/bin"
+          echo "##vso[task.setvariable variable=PytestCmakePath]$USER_BASE/share/Pytest/cmake"
+        displayName: Set cmake configure paths
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
         extraBuildFlags: >-
-          -DROCM_LIBRARIES_SUPERBUILD=ON
-          -GNinja
+          -D CMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;$(PytestCmakePath)
+          -D CMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/llvm/include
+          -D CMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -D CMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+          -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+          -D CMAKE_C_COMPILER_LAUNCHER=ccache
+          -G Ninja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}

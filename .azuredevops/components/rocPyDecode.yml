@@ -5,6 +5,22 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -47,19 +63,19 @@ parameters:
   type: object
   default:
     buildJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
     testJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: rocPyDecode_build_${{ job.target }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -74,16 +90,20 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - task: Bash@3
       displayName: 'Save Python Package Paths'
       inputs:
@@ -190,6 +210,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - task: DownloadPipelineArtifact@2
       displayName: 'Download Pipeline Wheel Files'
+      retryCountOnTaskFailure: 3
       inputs:
         itemPattern: '**/*.whl'
         targetPath: $(Agent.BuildDirectory)

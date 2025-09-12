@@ -115,6 +115,13 @@ parameters:
 #        buildDependsOn:
 #          - rocBLAS_build
 #          - rocPRIM_build
+    # temporary rocblas->hipblas downstream path while the SOLVERs are disabled
+    - hipBLAS:
+      name: hipBLAS
+      sparseCheckoutDir: projects/hipblas
+      skipUnifiedBuild: 'false'
+      buildDependsOn:
+        - rocBLAS_build
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
@@ -172,6 +179,8 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
+        cmakeSourceDir: $(Agent.BuildDirectory)/sparse/projects/rocblas
+        cmakeBuildDir: $(Agent.BuildDirectory)/sparse/projects/rocblas/build
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
           -DCMAKE_BUILD_TYPE=Release

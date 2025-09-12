@@ -16,12 +16,20 @@ previous releases of the ``ROCm/pytorch-training`` Docker image on `Docker Hub <
      - Components
      - Resources
 
+   * - v25.7
+     - 
+       * ROCm 6.4.2
+       * PyTorch 2.8.0a0+gitd06a406
+     - 
+       * :doc:`Documentation <../pytorch-training>`
+       * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-training/v25.7/images/sha256-cc6fd840ab89cb81d926fc29eca6d075aee9875a55a522675a4b9231c9a0a712>`__
+
    * - v25.6
      - 
        * ROCm 6.3.4
        * PyTorch 2.8.0a0+git7d205b2
      - 
-       * :doc:`Documentation <../pytorch-training>`
+       * :doc:`Documentation <pytorch-training-v25.6>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-training/v25.6/images/sha256-a4cea3c493a4a03d199a3e81960ac071d79a4a7a391aa9866add3b30a7842661>`__
 
    * - v25.5

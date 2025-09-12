@@ -131,6 +131,7 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
@@ -149,6 +150,7 @@ jobs:
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - task: Bash@3
       displayName: Build and install other dependencies
+      retryCountOnTaskFailure: 3
       inputs:
         targetType: inline
         workingDirectory: $(Agent.BuildDirectory)/s
@@ -210,6 +212,7 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
@@ -228,6 +231,7 @@ jobs:
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - task: Bash@3
       displayName: Build and install other dependencies
+      retryCountOnTaskFailure: 3
       inputs:
         targetType: inline
         workingDirectory: $(Agent.BuildDirectory)/s

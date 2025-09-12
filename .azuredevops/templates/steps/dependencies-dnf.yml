@@ -89,6 +89,7 @@ steps:
 - ${{ if eq(parameters.registerROCmPackages, true) }}:
   - task: Bash@3
     displayName: 'Register AMDGPU & ROCm repos (dnf)'
+    retryCountOnTaskFailure: 3
     inputs:
       targetType: inline
       script: |
@@ -109,12 +110,13 @@ steps:
         sudo dnf makecache
 - task: Bash@3
   displayName: 'Install base dnf packages'
+  retryCountOnTaskFailure: 3
   inputs:
     targetType: inline
     script: |
-      sudo dnf config-manager --set-enabled powertools
       # rpm fusion free repo for some dependencies
-      sudo dnf -y install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm
+      sudo dnf config-manager --set-enabled powertools && \
+      sudo dnf -y install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm && \
       sudo dnf -y install ${{ join(' ', parameters.basePackages) }}
 - task: Bash@3
   displayName: 'Check gcc environment'
@@ -128,6 +130,7 @@ steps:
       g++ -print-file-name=libstdc++.so
 - task: Bash@3
   displayName: 'Set python 3.11 as default'
+  retryCountOnTaskFailure: 3
   inputs:
     targetType: inline
     script: |
@@ -142,18 +145,20 @@ steps:
   - ${{ if eq(pkg, 'ninja-build') }}:
     - task: Bash@3
       displayName: 'Install ninja 1.11.1'
+      retryCountOnTaskFailure: 3
       inputs:
         targetType: inline
         script: |
-          curl -LO https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip
-          sudo dnf -y install unzip
-          unzip ninja-linux.zip
-          sudo mv ninja /usr/local/bin/ninja
-          sudo chmod +x /usr/local/bin/ninja
+          sudo dnf -y install unzip && \
+          curl -LO https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip && \
+          unzip ninja-linux.zip && \
+          sudo mv ninja /usr/local/bin/ninja && \
+          sudo chmod +x /usr/local/bin/ninja && \
           echo "##vso[task.prependpath]/usr/local/bin"
   - ${{ if ne(parameters.aptToDnfMap[pkg], '') }}:
     - task: Bash@3
       displayName: 'dnf install ${{ parameters.aptToDnfMap[pkg] }}'
+      retryCountOnTaskFailure: 3
       inputs:
         targetType: inline
         script: |

@@ -16,7 +16,7 @@ vLLM inference performance testing
 
 .. _vllm-benchmark-unified-docker-715:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.9.1_20250715-benchmark_models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.9.1_20250715-benchmark-models.yaml
 
    {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
    {% set model_groups = data.vllm_benchmark.model_groups %}
@@ -46,7 +46,7 @@ vLLM inference performance testing
         - {{ unified_docker.hipblaslt_version }}
 
 With this Docker image, you can quickly test the :ref:`expected
-inference performance numbers <vllm-benchmark-performance-measurements>` for
+inference performance numbers <vllm-benchmark-performance-measurements-715>` for
 MI300X series accelerators.
 
 What's new
@@ -69,7 +69,7 @@ The following is summary of notable changes since the :doc:`previous ROCm/vLLM D
 Supported models
 ================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.9.1_20250715-benchmark_models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.9.1_20250715-benchmark-models.yaml
 
    {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
    {% set model_groups = data.vllm_benchmark.model_groups %}
@@ -162,7 +162,7 @@ To test for optimal performance, consult the recommended :ref:`System health ben
 <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
 system's configuration.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.9.1_20250715-benchmark_models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.9.1_20250715-benchmark-models.yaml
 
    {% set unified_docker = data.vllm_benchmark.unified_docker.latest %}
    {% set model_groups = data.vllm_benchmark.model_groups %}
@@ -219,7 +219,7 @@ system's configuration.
             ``container_ci-{{model.mad_tag}}``. The latency and throughput reports of the
             model are collected in the following path: ``~/MAD/reports_{{model.precision}}/``.
 
-            Although the :ref:`available models <vllm-benchmark-available-models>` are preconfigured
+            Although the :ref:`available models <vllm-benchmark-available-models-715>` are preconfigured
             to collect latency and throughput performance data, you can also change the benchmarking
             parameters. See the standalone benchmarking tab for more information.
 
