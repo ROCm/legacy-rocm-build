@@ -20,12 +20,12 @@ inference workloads using next-generation AMD accelerators.
 
    .. grid-item-card:: Inference
 
-      * :doc:`inference-vllm-llama-3.1-405b-fp4`
+      * :doc:`rc1/inference-vllm-llama-3.1-405b-fp4`
 
-      * :doc:`inference-vllm-llama-3.3-70b-fp8`
+      * :doc:`rc1/inference-vllm-llama-3.3-70b-fp8`
 
-      * :doc:`inference-vllm-gpt-oss-120b`
+      * :doc:`rc1/inference-vllm-gpt-oss-120b`
 
-      * :doc:`inference-sglang-deepseek-r1-fp4`
+      * :doc:`rc1/inference-sglang-deepseek-r1-fp4`
 
-      * :doc:`inference-sglang-deepseek-r1-fp8`
+      * :doc:`rc1/inference-sglang-deepseek-r1-fp8`
