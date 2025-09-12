@@ -4,7 +4,7 @@ dockers:
     components:
       ROCm: 7.0.0
       SGLang: v0.5.2rc1
-      PyTorch: 2.4.0+rocm7.0.0.gitf9e5bf54
+      pytorch-triton-rocm: 3.4.0+rocm7.0.0.gitf9e5bf54
 model_groups:
   - group: Dense models
     tag: dense-models

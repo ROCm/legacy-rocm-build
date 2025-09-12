@@ -6,6 +6,15 @@
 SGLang distributed inference with Mooncake
 ******************************************
 
+As LLM inference increasingly demands handling massive models and dynamic workloads, efficient
+distributed inference becomes essential. Traditional co-located architectures face bottlenecks due
+to tightly coupled memory and compute resources, limiting scalability and flexibility.
+Disaggregated inference refers to the process of splitting the inference of LLMs into distinct
+phases. This architecture, facilitated by libraries like Mooncake, uses high-bandwidth
+RDMA to transfer the Key-Value (KV) cache between prefill and decode nodes.
+This allows for independent resource scaling and optimization, leading to
+improved efficiency and throughput.
+
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/sglang-distributed-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
@@ -27,19 +36,9 @@ SGLang distributed inference with Mooncake
         - {{ component_version }}
       {% endfor %}
 
-As LLM inference increasingly demands handling massive models and dynamic workloads, efficient
-distributed inference becomes essential. Traditional co-located architectures face bottlenecks due
-to tightly coupled memory and compute resources, limiting scalability and flexibility.
-Disaggregated inference refers to the process of splitting the inference of LLMs into distinct
-phases. This architecture, facilitated by libraries like Mooncake, uses high-bandwidth
-RDMA to transfer the Key-Value (KV) cache between prefill and decode nodes.
-This allows for independent resource scaling and optimization, leading to
-improved efficiency and throughput.
-
 The following steps provide guidance on setting up and running SGLang and Mooncake for disaggregated
 distributed inference on a Slurm cluster using AMD Instinct MI300X series accelerators backed by
-Mellanox CX-7 NICs. They include step instructions, node assignment details, and benchmarking
-commands.
+Mellanox CX-7 NICs.
 
 Prerequisites
 =============
@@ -68,24 +67,24 @@ documentation might vary by selected model.
 
       <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
          <div class="row gx-0">
-            <div class="col-2 me-1 px-2 model-param-head">Model</div>
+            <div class="col-2 me-1 px-2 model-param-head">Model type</div>
             <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
-               <div class="col-3 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
             </div>
          </div>
 
          <div class="row gx-0 pt-1">
-            <div class="col-2 me-1 px-2 model-param-head">Variant</div>
+            <div class="col-2 me-1 px-2 model-param-head">Model</div>
             <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
          {% set models = model_group.models %}
          {% for model in models %}
             {% if models|length % 3 == 0 %}
-               <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+               <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.model_repo | lower }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
             {% else %}
-               <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+               <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.model_repo | lower }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
             {% endif %}
          {% endfor %}
       {% endfor %}
@@ -157,7 +156,7 @@ allocated nodes.
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
 
-   .. container:: model-doc {{ model.model_repo | lower }}
+   .. container:: model-doc {{ model.model_repo }}
 
       .. code-block:: shell
 
