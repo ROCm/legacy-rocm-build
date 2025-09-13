@@ -1,0 +1,24 @@
+dockers:
+  - pull_tag: rocm/pytorch-training:v25.8
+    docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-training/v25.8/images/sha256-cc6fd840ab89cb81d926fc29eca6d075aee9875a55a522675a4b9231c9a0a712
+    components:
+      ROCm: 6.4.3
+      PyTorch: 2.8.0a0+gitd06a406
+      Python: 3.10.18
+      Transformer Engine: 2.2.0.dev0+a1e66aae
+      Flash Attention: 3.0.0.post1
+      hipBLASLt: 1.1.0-d1b517fc7a
+model_groups:
+  - group: Meta Llama
+    tag: llama
+    models:
+    - model: Llama 3.1 8B
+      mad_tag: primus_pyt_train_llama-3.1-8b
+      model_repo: Llama-3.1-8B
+      url: https://huggingface.co/meta-llama/Llama-3.1-8B
+      precision: BF16
+    - model: Llama 3.1 70B
+      mad_tag: primus_pyt_train_llama-3.1-70b
+      model_repo: Llama-3.1-70B
+      url: https://huggingface.co/meta-llama/Llama-3.1-70B
+      precision: BF16

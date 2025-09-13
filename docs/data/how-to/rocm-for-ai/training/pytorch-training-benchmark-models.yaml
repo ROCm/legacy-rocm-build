@@ -1,14 +1,13 @@
 dockers:
-  - pull_tag: rocm/pytorch-training:v25.7
-    docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-training/v25.7/images/sha256-cc6fd840ab89cb81d926fc29eca6d075aee9875a55a522675a4b9231c9a0a712
+  - pull_tag: rocm/pytorch-training:v25.8
+    docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-training/v25.8/images/sha256-cc6fd840ab89cb81d926fc29eca6d075aee9875a55a522675a4b9231c9a0a712
     components:
-      ROCm: 6.4.2
+      ROCm: 6.4.3
       PyTorch: 2.8.0a0+gitd06a406
       Python: 3.10.18
-      Transformer Engine: 2.2.0.dev0+94e53dd8
+      Transformer Engine: 2.2.0.dev0+a1e66aae
       Flash Attention: 3.0.0.post1
-      hipBLASLt: 1.1.0-4b9a52edfc
-      Triton: 3.3.0
+      hipBLASLt: 1.1.0-d1b517fc7a
 model_groups:
   - group: Meta Llama
     tag: llama
