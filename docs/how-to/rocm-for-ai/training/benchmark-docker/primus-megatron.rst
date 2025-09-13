@@ -19,7 +19,8 @@ Primus is backend-agnostic and supports multiple training engines -- including M
    :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 
 For ease of use, AMD provides a ready-to-use Docker image for MI300 series accelerators
-containing essential components for Primus and Megatron-Core.
+containing essential components for Primus and Megatron-LM. This release adds support
+for Primus Turbo with optimized attention and group GEMM kernels.
 
 .. note::
 
@@ -152,7 +153,7 @@ system's configuration.
       docker exec -it primus_training_env bash
 
 The Docker container hosts verified release tag ``v0.1.0-rc1`` of the `Primus
-<https://github.com/AMD-AIG-AIMA/Primus/tree/v0.1.0-rc1>`__ repository.
+<https://github.com/AMD-AGI/Primus/tree/v0.1.0-rc1>`__ repository.
 
 .. _amd-primus-megatron-lm-environment-setup:
 
@@ -160,7 +161,7 @@ Configuration
 =============
 
 Primus defines a training configuration in YAML for each model in
-`examples/megatron/configs <https://github.com/AMD-AIG-AIMA/Primus/tree/v0.1.0-rc1/examples/megatron/configs>`__.
+`examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/927a71702784347a311ca48fd45f0f308c6ef6dd/examples/megatron/configs>`__.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
@@ -208,7 +209,7 @@ Tokenizer
 In Primus, each model uses a tokenizer from Hugging Face. For example, Llama
 3.1 8B model uses ``tokenizer_model: meta-llama/Llama-3.1-8B`` and
 ``tokenizer_type: Llama3Tokenizer`` defined in the `llama3.1-8B model
-<https://github.com/AMD-AIG-AIMA/Primus/tree/v0.1.0-rc1/primus/configs/models/megatron/llama3.1_8B.yaml>`__
+<https://github.com/AMD-AGI/Primus/blob/927a71702784347a311ca48fd45f0f308c6ef6dd/examples/megatron/configs/llama3.1_8B-pretrain.yaml>`__
 definition. As such, you need to set the ``HF_TOKEN`` environment variable with
 right permissions to access the tokenizer for each model.
 
@@ -287,8 +288,7 @@ Once setup is complete, run the appropriate training command.
       bash ./examples/run_pretrain.sh \
           --train_iters 50 \
           --num_layers 40 \
-          --fp8 hybrid \
-          --no_fp8_weight_transpose_cache true
+          --fp8 hybrid
 
    .. note::
 
@@ -438,10 +438,9 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
       NNODES=8 EXP=examples/megatron/configs/llama3.3_70B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 4 \
+          --micro_batch_size 1 \
           --global_batch_size 256 \
           --recompute_num_layers 80 \
-          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
    To train Llama 3.3 70B BF16 on 8 nodes, run:
@@ -474,10 +473,9 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
       NNODES=8 EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 4 \
+          --micro_batch_size 1 \
           --global_batch_size 256 \
           --recompute_num_layers 80 \
-          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
    To train Llama 3.1 70B BF16 on 8 nodes, run:
@@ -507,10 +505,9 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
       NNODES=8 EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 10 \
-          --global_batch_size 640 \
+          --micro_batch_size 2 \
+          --global_batch_size 256 \
           --recompute_num_layers 80 \
-          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
    To train Llama 2 70B BF16 on 8 nodes, run:
@@ -542,10 +539,9 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
       NNODES=8 EXP=examples/megatron/configs/qwen2.5_72B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 8 \
-          --global_batch_size 512 \
+          --micro_batch_size 4 \
+          --global_batch_size 256 \
           --recompute_num_layers 80 \
-          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
 .. _amd-primus-megatron-lm-benchmark-test-vars:
@@ -589,6 +585,12 @@ recompute_granularity
 
 num_layers
   For using a reduced number of layers as with proxy models.
+
+Further reading
+===============
+
+* For an introduction to Primus, see `Primus: A Lightweight, Unified Training
+  Framework for Large Models on AMD GPUs <https://rocm.blogs.amd.com/software-tools-optimization/primus/README.html>`__.
 
 Previous versions
 =================
