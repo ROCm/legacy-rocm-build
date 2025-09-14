@@ -48,7 +48,7 @@ containing essential components for Primus and Megatron-LM.
         - {{ component_version }}
       {% endfor %}
 
-.. _amd-primus-megatron-lm-model-support:
+.. _amd-primus-megatron-lm-model-support-v257:
 
 Supported models
 ================
@@ -109,7 +109,7 @@ To test for optimal performance, consult the recommended :ref:`System health ben
 <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
 system's configuration.
 
-.. _mi300x-amd-primus-megatron-lm-training:
+.. _mi300x-amd-primus-megatron-lm-training-v257:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.7-benchmark-models.yaml
 
@@ -122,7 +122,7 @@ system's configuration.
    Use the following instructions to set up the environment, configure the script to train models, and
    reproduce the benchmark results on MI300X series accelerators with the ``{{ docker.pull_tag }}`` image.
 
-   .. _amd-primus-megatron-lm-requirements:
+   .. _amd-primus-megatron-lm-requirements-v257:
 
    Download the Docker image
    -------------------------
@@ -161,7 +161,7 @@ system's configuration.
 The Docker container hosts verified release tag ``v0.1.0-rc1`` of the `Primus
 <https://github.com/AMD-AIG-AIMA/Primus/tree/v0.1.0-rc1>`__ repository.
 
-.. _amd-primus-megatron-lm-environment-setup:
+.. _amd-primus-megatron-lm-environment-setup-v257:
 
 Configuration
 =============
@@ -207,7 +207,7 @@ You can use either mock data or real data for training.
 
   Ensure that the files are accessible inside the Docker container.
 
-.. _amd-primus-megatron-lm-tokenizer:
+.. _amd-primus-megatron-lm-tokenizer-v257:
 
 Tokenizer
 ---------
@@ -224,7 +224,7 @@ right permissions to access the tokenizer for each model.
    # Export your HF_TOKEN in the workspace
    export HF_TOKEN=<your_hftoken>
 
-.. _amd-primus-megatron-lm-run-training:
+.. _amd-primus-megatron-lm-run-training-v257:
 
 Run training
 ============
@@ -555,7 +555,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
           --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
-.. _amd-primus-megatron-lm-benchmark-test-vars:
+.. _amd-primus-megatron-lm-benchmark-test-vars-v257:
 
 Key options
 -----------
@@ -602,8 +602,3 @@ Previous versions
 
 See :doc:`megatron-lm-history` to find documentation for previous releases
 of the ``ROCm/megatron-lm`` Docker image.
-
-This training environment now uses Primus with Megatron as the primary
-configuration. Limited support for the legacy ROCm Megatron-LM is still
-available. For instructions on using ROCm Megatron-LM, see the
-:doc:`megatron-lm` document.
