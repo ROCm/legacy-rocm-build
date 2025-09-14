@@ -5,15 +5,13 @@
    :keywords: ROCm, AI, LLM, train, Megatron-LM, megatron, Llama, tutorial, docker, torch
 
 ******************************************
-Training a model with Megatron-LM for ROCm
+Training a model with Megatron-LM on ROCm
 ******************************************
 
 .. caution::
 
-   The ROCm Megatron-LM framework now has limited support with this Docker
-   environment; it now focuses on Primus with Megatron-Core. See :doc:`primus-megatron`.
-
-   To learn how to migrate your existing workloads to Primus with Megatron-Core,
+   Primus with Megatron supersedes this ROCm Megatron-LM training workflow.
+   To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
    see :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 
 The `Megatron-LM framework for ROCm <https://github.com/ROCm/Megatron-LM>`_ is
@@ -807,8 +805,15 @@ Single node training
       AC=none \
       SEQ_LEN=4096 \
       PAD_LEN=4096 \
-      TRAIN_ITERS=50 \
+      TRAIN_ITERS=20 \
       bash examples/deepseek_v2/train_deepseekv2.sh
+
+   .. note::
+
+      Note that DeepSeek-V2-Lite is experiencing instability due to GPU memory access fault
+      for large iterations.
+      For stability, it's recommended to use Primus for this workload.
+      See :doc:`primus-megatron`.
 
 .. container:: model-doc pyt_megatron_lm_train_mixtral-8x7b
 

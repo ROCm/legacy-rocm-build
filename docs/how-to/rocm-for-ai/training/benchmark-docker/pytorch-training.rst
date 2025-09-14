@@ -1,9 +1,11 @@
+:orphan:
+
 .. meta::
    :description: How to train a model using PyTorch for ROCm.
    :keywords: ROCm, AI, LLM, train, PyTorch, torch, Llama, flux, tutorial, docker
 
 **************************************
-Training a model with PyTorch for ROCm
+Training a model with PyTorch on ROCm
 **************************************
 
 PyTorch is an open-source machine learning framework that is widely used for

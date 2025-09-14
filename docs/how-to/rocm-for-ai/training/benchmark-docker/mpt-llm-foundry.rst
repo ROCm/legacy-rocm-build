@@ -3,7 +3,7 @@
    :keywords: ROCm, AI, LLM, train, PyTorch, torch, Llama, flux, tutorial, docker
 
 ******************************************
-Training MPT-30B with LLM Foundry and ROCm
+Training MPT-30B with LLM Foundry on ROCm
 ******************************************
 
 MPT-30B is a 30-billion parameter decoder-style transformer-based model from

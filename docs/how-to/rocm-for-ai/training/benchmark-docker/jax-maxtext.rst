@@ -3,7 +3,7 @@
    :keywords: ROCm, AI, LLM, train, jax, torch, Llama, flux, tutorial, docker
 
 ******************************************
-Training a model with JAX MaxText for ROCm
+Training a model with JAX MaxText on ROCm
 ******************************************
 
 MaxText is a high-performance, open-source framework built on the Google JAX
