@@ -21,7 +21,7 @@ previous releases of the ``ROCm/pytorch-training`` Docker image on `Docker Hub <
        * ROCm 6.4.3
        * PyTorch 2.8.0a0+gitd06a406
      - 
-       * :doc:`Primus PyTorch documentation <../primus-pytorch>`
+       * :doc:`Primus PyTorch Training documentation <../primus-pytorch>`
        * :doc:`PyTorch training (legacy) documentation <../pytorch-training>`
        * `Docker Hub <https://hub.docker.com/r/rocm/pytorch-training/tags>`__
 
