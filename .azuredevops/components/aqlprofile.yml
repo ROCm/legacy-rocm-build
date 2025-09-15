@@ -32,10 +32,34 @@ parameters:
 - name: aptPackages
   type: object
   default:
+    - build-essential
     - cmake
     - git
+    - libdrm-amdgpu-dev
+    - libdrm-dev
+    - libdw-dev
+    - libelf-dev
+    - libsqlite3-dev
+    - libva-dev
     - ninja-build
+    - pkg-config
     - python3-pip
+- name: pipModules
+  type: object
+  default:
+    - black
+    - clang-format
+    - clang-tidy
+    - cmake
+    - cmake-format
+    - dataclasses
+    - numpy
+    - otf2
+    - pandas
+    - perfetto
+    - pycobertura
+    - "pytest>=6.2.5"
+    - pyyaml
 - name: rocmDependencies
   type: object
   default:
@@ -82,7 +106,8 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
-        packageManager: ${{ job.packageManager }}
+        pipModules: ${{ parameters.pipModules }}
+        registerROCmPackages: true
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
