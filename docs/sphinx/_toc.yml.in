@@ -28,6 +28,10 @@ subtrees:
                     title: Llama 3 pre-training with Megatron-LM
                   - file: preview/benchmark-docker/rc2/training-torchtitan-llama-3.rst
                     title: Llama 3 pre-training with torchtitan
+                  - file: preview/benchmark-docker/rc2/training-maxtext-llama-3.rst
+                    title: Llama 3 pre-training with MaxText
+                  - file: preview/benchmark-docker/rc2/training-maxtext-mixtral-8x7b.rst
+                    title: Mixtral 8x7b pre-training with MaxText
                   - file: preview/benchmark-docker/rc2/training-mlperf-fine-tuning-llama-2-70b.rst
                     title: Llama 2 70B LoRA fine-tuning with MLPerf
                   - file: preview/benchmark-docker/rc2/inference-vllm-llama-3.1-405b-fp4.rst

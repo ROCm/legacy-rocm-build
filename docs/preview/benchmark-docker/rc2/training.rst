@@ -15,4 +15,8 @@ See the following sections for instructions.
 
       * :doc:`training-torchtitan-llama-3`
 
+      * :doc:`training-maxtext-llama-3`
+
+      * :doc:`training-maxtext-mixtral-8x7b`
+
       * :doc:`training-mlperf-fine-tuning-llama-2-70b`
