@@ -1,5 +1,5 @@
 ***********************************************
-Benchmark Llama 3 pre-training with Megatron-LM
+Benchmark Mixtral 8x7b pre-training with MaxText
 ***********************************************
 
 This page describes how to benchmark the Mixtral 8x7B pre-training using the

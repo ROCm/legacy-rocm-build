@@ -1,5 +1,5 @@
 ***********************************************
-Benchmark Llama 3 pre-training with Megatron-LM
+Benchmark Llama 3 pre-training with MaxText
 ***********************************************
 
 This page describes how to benchmark Llama 3 8B and 70B pre-training using the
