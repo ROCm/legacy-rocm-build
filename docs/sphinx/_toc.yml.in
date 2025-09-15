@@ -3,58 +3,29 @@
 defaults:
   numbered: False
   maxdepth: 6
-root: preview/index
+root: preview/benchmark-docker/index.rst
 subtrees:
-- entries:
-  - file: preview/release.rst
-    title: ROCm RC1 release notes
-  - file: preview/install/index.rst
-    title: ROCm RC1 installation
-    subtrees:
-    - entries:
-        - file: preview/install/rocm
-          title: Install ROCm
-        - file: preview/install/instinct-driver
-          title: Install Instinct Driver
-  - file: preview/benchmark-docker/index.rst
-    title: Docker images for AI
-    subtrees:
-    - entries:
-          - file: preview/benchmark-docker/rc2/index.rst
-            title: RC2 performance benchmarks
-            subtrees:
-            - entries:
-                  - file: preview/benchmark-docker/rc2/training-megatron-lm-llama-3.rst
-                    title: Llama 3 pre-training with Megatron-LM
-                  - file: preview/benchmark-docker/rc2/training-torchtitan-llama-3.rst
-                    title: Llama 3 pre-training with torchtitan
-                  - file: preview/benchmark-docker/rc2/training-maxtext-llama-3.rst
-                    title: Llama 3 pre-training with MaxText
-                  - file: preview/benchmark-docker/rc2/training-maxtext-mixtral-8x7b.rst
-                    title: Mixtral 8x7b pre-training with MaxText
-                  - file: preview/benchmark-docker/rc2/training-mlperf-fine-tuning-llama-2-70b.rst
-                    title: Llama 2 70B LoRA fine-tuning with MLPerf
-                  - file: preview/benchmark-docker/rc2/inference-vllm-llama-3.1-405b-fp4.rst
-                    title: Llama 3.1 405B FP4 inference with vLLM
-                  - file: preview/benchmark-docker/rc2/inference-vllm-llama-3.3-70b-fp8.rst
-                    title: Llama 3.3 70B FP8 inference with vLLM
-                  - file: preview/benchmark-docker/rc2/inference-vllm-gpt-oss-120b.rst
-                    title: GPT OSS 120B inference with vLLM
-                  - file: preview/benchmark-docker/rc2/inference-sglang-deepseek-r1-fp4.rst
-                    title: DeepSeek R1 FP4 inference with SGLang
-                  - file: preview/benchmark-docker/rc2/inference-sglang-deepseek-r1-fp8.rst
-                    title: DeepSeek R1 FP8 inference with SGLang
-          - file: preview/benchmark-docker/rc1/index.rst
-            title: RC1 performance benchmarks
-            subtrees:
-            - entries:
-                  - file: preview/benchmark-docker/rc1/inference-vllm-llama-3.1-405b-fp4.rst
-                    title: Llama 3.1 405B FP4 inference with vLLM
-                  - file: preview/benchmark-docker/rc1/inference-vllm-llama-3.3-70b-fp8.rst
-                    title: Llama 3.3 70B FP8 inference with vLLM
-                  - file: preview/benchmark-docker/rc1/inference-vllm-gpt-oss-120b.rst
-                    title: GPT OSS 120B inference with vLLM
-                  - file: preview/benchmark-docker/rc1/inference-sglang-deepseek-r1-fp4.rst
-                    title: DeepSeek R1 FP4 inference with SGLang
-                  - file: preview/benchmark-docker/rc1/inference-sglang-deepseek-r1-fp8.rst
-                    title: DeepSeek R1 FP8 inference with SGLang
+- caption: Training
+  entries:
+  - file: preview/benchmark-docker/training-megatron-lm-llama-3.rst
+    title: Llama 3 pre-training with Megatron-LM
+  - file: preview/benchmark-docker/training-torchtitan-llama-3.rst
+    title: Llama 3 pre-training with torchtitan
+  - file: preview/benchmark-docker/training-maxtext-llama-3.rst
+    title: Llama 3 pre-training with MaxText
+  - file: preview/benchmark-docker/training-maxtext-mixtral-8x7b.rst
+    title: Mixtral 8x7B pre-training with MaxText
+  - file: preview/benchmark-docker/training-mlperf-fine-tuning-llama-2-70b.rst
+    title: Llama 2 70B LoRA fine-tuning with MLPerf
+- caption: Inference
+  entries:
+  - file: preview/benchmark-docker/inference-vllm-llama-3.1-405b-fp4.rst
+    title: Llama 3.1 405B FP4 inference with vLLM
+  - file: preview/benchmark-docker/inference-vllm-llama-3.3-70b-fp8.rst
+    title: Llama 3.3 70B FP8 inference with vLLM
+  - file: preview/benchmark-docker/inference-vllm-gpt-oss-120b.rst
+    title: GPT OSS 120B inference with vLLM
+  - file: preview/benchmark-docker/inference-sglang-deepseek-r1-fp4.rst
+    title: DeepSeek R1 FP4 inference with SGLang
+  - file: preview/benchmark-docker/inference-sglang-deepseek-r1-fp8.rst
+    title: DeepSeek R1 FP8 inference with SGLang

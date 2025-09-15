@@ -4,9 +4,9 @@ Benchmark Llama 3.1 405B FP4 inference with vLLM
 
 This section provides instructions to test the inference performance of Llama
 3.1 405B on the vLLM inference engine. The accompanying Docker image integrates
-the ROCm 7.0 preview with vLLM, and is tailored for AMD Instinct
-MI355X, MI350X, and MI300X series accelerators. This benchmark does not support other
-GPUs.
+`ROCm 7.0 <https://rocm.docs.amd.com/en/latest/>`__ with vLLM, and is tailored
+for AMD Instinct MI355X, MI350X, and MI300X series accelerators. This benchmark
+does not support other GPUs.
 
 Follow these steps to pull the required image, spin up the container with the
 appropriate options, download the model, and run the throughput test.
@@ -18,7 +18,7 @@ Use the following command to pull the `Docker image <https://hub.docker.com/laye
 
 .. code-block:: shell
 
-   docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_vllm_0.10.1_instinct_rc1
+   docker pull rocm/7.0-preview:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250915
 
 Download the model
 ==================
@@ -72,7 +72,7 @@ Run the inference benchmark
         -e TRITON_HIP_PRESHUFFLE_SCALES=0 \
         -e VLLM_TRITON_FP4_GEMM_BPRESHUFFLE=0 \
         --name vllm-server \
-        rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_vllm_0.10.1_instinct_rc1
+        rocm/7.0-preview:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250915
 
 2. Start the server.
 

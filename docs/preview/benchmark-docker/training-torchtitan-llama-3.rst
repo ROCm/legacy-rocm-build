@@ -3,7 +3,7 @@ Benchmark Llama 3 pre-training with torchtitan
 **********************************************
 
 This page describes how to benchmark Llama 3 8B and 70B pre-training using
-torchtitan. The accompanying Docker image integrates a Beta preview build of
+torchtitan. The accompanying Docker image integrates
 ROCm 7.0 with torchtitan -- and is tailored for AMD Instinct MI355X and MI350X
 accelerators. This benchmark does not support other accelerators.
 
@@ -17,7 +17,7 @@ Use the following command to pull the `Docker image <https://hub.docker.com/laye
 
 .. code-block:: shell
 
-   docker pull rocm/7.0-preview:rocm7.0_preview_pytorch_training_mi35x_beta
+   docker pull rocm/7.0-preview:rocm7.0_pytorch_training_instinct_20250915
 
 Run the training benchmark
 ==========================
@@ -40,7 +40,7 @@ Run the training benchmark
           --shm-size 64G \
           -w /workspace/torchtitan \
           --name training_benchmark \
-          rocm/7.0-preview:rocm7.0_preview_pytorch_training_mi35x_beta
+          rocm/7.0-preview:rocm7.0_pytorch_training_instinct_20250915
 
    .. note::
 

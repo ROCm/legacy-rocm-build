@@ -3,11 +3,10 @@ Benchmark Llama 3 pre-training with Megatron-LM
 ***********************************************
 
 This page describes how to benchmark Llama 3 8B and 70B pre-training using the
-Megatron-LM framework. It includes configurations for both
-FP8 and BF16 precision to measure throughput. The accompanying Docker
-image integrates a Beta preview build of ROCm 7.0 with Megatron-LM
--- and is tailored for AMD Instinct MI355X and MI350X accelerators.
-This benchmark does not support other accelerators.
+Megatron-LM framework. It includes configurations for both FP8 and BF16
+precision to measure throughput. The accompanying Docker image integrates ROCm
+7.0 with Megatron-LM -- and is tailored for AMD Instinct MI355X and MI350X
+accelerators. This benchmark does not support other accelerators.
 
 Follow these steps to pull the required image, spin up the container with the
 appropriate options, download the model, and run the throughput test.
@@ -19,7 +18,7 @@ Use the following command to pull the `Docker image <https://hub.docker.com/laye
 
 .. code-block:: shell
 
-   docker pull rocm/7.0-preview:rocm7.0_preview_pytorch_training_mi35x_beta
+   docker pull rocm/7.0-preview:rocm7.0_pytorch_training_instinct_20250915
 
 Run the training benchmark
 ==========================
@@ -42,7 +41,7 @@ Run the training benchmark
           --shm-size 64G \
           -w /workspace/Megatron-LM \
           --name training_benchmark \
-          rocm/7.0-preview:rocm7.0_preview_pytorch_training_mi35x_beta
+          rocm/7.0-preview:rocm7.0_pytorch_training_instinct_20250915
 
    .. note::
 
@@ -143,14 +142,22 @@ Run the training benchmark
    * ``TOTAL_ITERS``: Number of training iterations to execute
 
 Other supported models
-==========================
-   * Llama-2-7B
-   * Llama-3.3-70B
-   * DeepSeekV2-Lite
-   * Mxtral-8x7B
-   * Qwen-2.5-7B
-   * Qwen-2.7-72B
+======================
 
-Known Issue
-==========================
-There is a known issue of getting "Memory Access Fault" error on selected models and configurations. A fix will be updated in later versions.
+* Llama-2-7B
+
+* Llama-3.3-70B
+
+* DeepSeek-V2-Lite
+
+* Mixtral-8x7B
+
+* Qwen-2.5-7B
+
+* Qwen-2.7-72B
+
+Known issue
+===========
+
+Select models and configurations result in a "Memory Access Fault" error.
+This issue will be fixed in an upcoming release.

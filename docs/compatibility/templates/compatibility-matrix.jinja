@@ -1,0 +1,282 @@
+{# --- load explicit datasets --- #}
+{% set latest_meta = data.rocm_versions.latest %}
+{% set latest_data = load(latest_meta.data_file, data_format="yaml") %}
+
+{% set previous_meta = data.rocm_versions.previous %}
+{% set previous_data = load(previous_meta.data_file, data_format="yaml") %}
+
+{% set compare_meta = data.rocm_versions.compare %}
+{% set compare_data = load(compare_meta.data_file, data_format="yaml") %}
+
+{# --- build iterable dataset list --- #}
+{% set datasets = [
+  {'name':'latest', 'version': latest_data.rocm_version, 'data': latest_data},
+  {'name':'previous','version': previous_data.rocm_version, 'data': previous_data},
+  {'name':'compare', 'version': compare_data.rocm_version, 'data': compare_data}
+] %}
+
+{% import "dynamic-picker.jinja" as dp %}
+{% import "dynamic-table.jinja" as dt %}
+
+{# --- HELPER MACROS --- #}
+{% macro version_label(dataset) -%}
+  {{ dataset.version }}
+  {%- if dataset.name == "latest" %} (latest)
+  {%- elif dataset.name == "previous" %} (previous)
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro render_value_or_dash(value) -%}
+  {%- if value is defined and value is not sameas false -%}
+    {%- if value is iterable and value is not string -%}
+      <ul>{% for item in value %}<li>{{ item }}</li>{% endfor %}</ul>
+    {%- else -%}
+      {{ value }}
+    {%- endif -%}
+  {%- else -%}
+    –
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro render_section_header(title, colspan, group_value="global") -%}
+  <tr data-group-k="gpu" data-group-v="{{ group_value }}">
+    <th colspan="{{ colspan }}">{{ title }}</th>
+  </tr>
+{%- endmacro %}
+
+{# for the picker, always use "latest" GPUs #}
+{% set current_data = latest_data.amd_gpu_support %}
+
+This table outlines the compatibility of ROCm {{ latest_data.rocm_version }}
+with supported AMD GPUs, Linux distributions, GPU virtualization
+technologies, external libraries, and deep learning frameworks --
+specifically for headless compute workloads.
+
+For consumer-focused usage that may require graphics output, see the `ROCm
+on Radeon <https://rocm.docs.amd.com/projects/radeon/en/latest/>`__
+documentation.
+
+.. raw:: html
+
+   {# ---------------- PICKER ---------------- #}
+   {% call dp.picker_container() %}
+      {# GPU CLASSES #}
+      {% call dp.picker_row("GPU class", initial=True) %}
+         {% for class_name, gpu_class in current_data.items() %}
+            {{ dp.picker_tile(class_name ~ " GPU", key="plat", value=class_name, tile_width=4) }}
+         {% endfor %}
+      {% endcall %}
+
+      {# GPUS per CLASS #}
+      {% for class_name, gpu_class in current_data.items() %}
+         {% call dp.picker_row(class_name, group_key="plat", group_value=class_name) %}
+            {% for gpu_name, gpu in gpu_class.items() %}
+               {{ dp.picker_tile(gpu_name, key="gpu", value=gpu_name, tile_width=4) }}
+            {% endfor %}
+         {% endcall %}
+      {% endfor %}
+   {% endcall %}
+
+   {# ---------------- TABLE MACROS ---------------- #}
+   {% macro render_table_header(datasets) -%}
+     <thead>
+       <tr>
+         <th>ROCm version</th>
+         {% for d in datasets %}
+           <th>{{ version_label(d) }}</th>
+         {% endfor %}
+       </tr>
+     </thead>
+   {%- endmacro %}
+
+   {% macro format_os_info(entry) -%}
+     {% if entry.kernel is string %}
+       (kernel: {{ entry.kernel }}, glibc: {{ entry.glibc|default("N/A") }})
+     {% elif entry.kernel is mapping %}
+       (kernel: 
+         {%- for flavour, version in entry.kernel.items() -%}
+           {{ version }} {{ flavour|upper }}{{ ", " if not loop.last else "" }}
+         {%- endfor -%},
+         glibc: {{ entry.glibc|default("N/A") }}
+       )
+     {% else %}
+       (kernel: N/A, glibc: {{ entry.glibc|default("N/A") }})
+     {% endif %}
+   {%- endmacro %}
+
+   {% macro render_os_rows(class_name, gpu_name, datasets) -%}
+     {% set latest_gpu = datasets[0].data.amd_gpu_support[class_name][gpu_name] %}
+     {% set grouped = {} %}
+     {% for os in latest_gpu.os_support %}
+       {% set _ = grouped.setdefault(os.distro, []).append(os) %}
+     {% endfor %}
+
+     {{ render_section_header("Supported Linux distributions", 1 + datasets|length, dp.normalize(gpu_name)) }}
+
+     {% for distro in grouped.keys() %}
+       <tr data-group-k="gpu" data-group-v="{{ dp.normalize(gpu_name) }}">
+         <th>{{ distro }}</th>
+         {% for d in datasets %}
+           {% set other_gpu = d.data.amd_gpu_support[class_name][gpu_name] %}
+           <td>
+             {% for e in other_gpu.os_support if e.distro == distro %}
+               <ul>
+                 <li>{{ e.version }} {{ format_os_info(e) }}</li>
+               </ul>
+             {% endfor %}
+           </td>
+         {% endfor %}
+       </tr>
+     {% endfor %}
+   {%- endmacro %}
+
+   {% macro render_driver_rows(class_name, gpu_name, datasets) -%}
+     {% if class_name == "Instinct" %}
+       {% set latest_gpu = datasets[0].data.amd_gpu_support[class_name][gpu_name] %}
+       {% if latest_gpu.get('fw_support') is defined %}
+         {{ render_section_header("Firmware and Driver Support", 1 + datasets|length, dp.normalize(gpu_name)) }}
+
+         <tr data-group-k="gpu" data-group-v="{{ dp.normalize(gpu_name) }}">
+           <th>PLDM bundle</th>
+           {% for d in datasets %}
+             {% set other_gpu = d.data.amd_gpu_support[class_name][gpu_name] %}
+             <td>
+               {% if other_gpu.fw_support is defined %}
+                 {{ render_value_or_dash(other_gpu.fw_support.pldm_bundle) }}
+               {% else %}
+                 –
+               {% endif %}
+             </td>
+           {% endfor %}
+         </tr>
+
+         <tr data-group-k="gpu" data-group-v="{{ dp.normalize(gpu_name) }}">
+           <th>AMD GPU driver</th>
+           {% for d in datasets %}
+             {% set other_gpu = d.data.amd_gpu_support[class_name][gpu_name] %}
+             <td>
+               {% if other_gpu.fw_support is defined %}
+                 {{ render_value_or_dash(other_gpu.fw_support.amd_gpu_driver) }}
+               {% else %}
+                 –
+               {% endif %}
+             </td>
+           {% endfor %}
+         </tr>
+
+         <tr data-group-k="gpu" data-group-v="{{ dp.normalize(gpu_name) }}">
+           <th>Virtualization driver (GIM)</th>
+           {% for d in datasets %}
+             {% set other_gpu = d.data.amd_gpu_support[class_name][gpu_name] %}
+             <td>
+               {% if other_gpu.fw_support is defined %}
+                 {{ other_gpu.fw_support.virtualization_driver }}
+               {% else %}
+                 –
+               {% endif %}
+             </td>
+           {% endfor %}
+         </tr>
+       {% endif %}
+     {% endif %}
+   {%- endmacro %}
+
+   {% macro render_virtualization_rows(class_name, gpu_name, datasets) -%}
+     {% set latest_gpu = datasets[0].data.amd_gpu_support[class_name][gpu_name] %}
+
+     {% if latest_gpu.virtualization_support %}
+       {{ render_section_header("Virtualization Support", 1 + datasets|length, dp.normalize(gpu_name)) }}
+
+       {% for virt in latest_gpu.virtualization_support %}
+         {% set idx = loop.index0 %}
+         <tr data-group-k="gpu" data-group-v="{{ dp.normalize(gpu_name) }}">
+           <th>{{ virt.hypervisor }} – {{ virt.type }}</th>
+           {% for d in datasets %}
+             {% set other_gpu = d.data.amd_gpu_support[class_name][gpu_name] %}
+             <td>
+               {% if other_gpu.virtualization_support and idx < other_gpu.virtualization_support|length %}
+                 {% set v = other_gpu.virtualization_support[idx] %}
+                 <div><strong>Host OS:</strong> {{ v.host_os|join(", ") if v.host_os is iterable and v.host_os is not string else v.host_os }}</div>
+                 <div><strong>Guest OS:</strong> {{ v.guest_os|join(", ") if v.guest_os is iterable and v.guest_os is not string else v.guest_os }}</div>
+                 {% if v.get('driver') %}
+                   <div><strong>Driver:</strong> {{ v.driver }}</div>
+                 {% endif %}
+               {% else %}
+                 –
+               {% endif %}
+             </td>
+           {% endfor %}
+         </tr>
+       {% endfor %}
+     {% endif %}
+   {%- endmacro %}
+
+   {% macro render_component_section(datasets, section_name, display_name) -%}
+     {% set comps = datasets[0].data.components %}
+
+     {{ render_section_header(display_name, 1 + datasets|length) }}
+
+     {% for category_name, category in comps[section_name].items() %}
+       {# Category header #}
+       <tr data-group-k="global">
+         <th colspan="{{ 1 + datasets|length }}">
+           {{ category_name }}
+         </th>
+       </tr>
+
+       {# Projects within category #}
+       {% for proj, p in category.items() %}
+         <tr data-group-k="global">
+           <th>{{ p.display_name|default(proj) }}</th>
+           {% for d in datasets %}
+             <td>{{ d.data.components[section_name][category_name][proj].version }}</td>
+           {% endfor %}
+         </tr>
+       {% endfor %}
+     {% endfor %}
+   {%- endmacro %}
+
+   {% macro render_components_rows(datasets) -%}
+     {{ render_section_header("ROCm Components", 1 + datasets|length) }}
+     {{ render_component_section(datasets, 'rocm-libraries', 'ROCm Libraries') }}
+     {{ render_component_section(datasets, 'rocm-systems', 'ROCm Systems') }}
+   {%- endmacro %}
+
+   {% macro render_third_party_section(datasets, section_name, display_name) -%}
+     {% set libs = datasets[0].data.third_party_libs_support %}
+
+     {{ render_section_header(display_name, 1 + datasets|length) }}
+
+     {% for lib, val in libs[section_name].items() %}
+       <tr data-group-k="global">
+         <th>{{ lib }}</th>
+         {% for d in datasets %}
+           {% set other = d.data.third_party_libs_support[section_name][lib] %}
+           <td>{{ render_value_or_dash(other) }}</td>
+         {% endfor %}
+       </tr>
+     {% endfor %}
+   {%- endmacro %}
+
+   {% macro render_third_party_libs_rows(datasets) -%}
+     {{ render_section_header("Third‑party Libraries Support", 1 + datasets|length) }}
+     {{ render_third_party_section(datasets, 'deep_learning_frameworks', 'Deep learning frameworks') }}
+     {{ render_third_party_section(datasets, 'communications', 'Communications') }}
+     {{ render_third_party_section(datasets, 'parallel_algorithms', 'Parallel Algorithms') }}
+   {%- endmacro %}
+
+   {# --- table entrypoint --- #}
+   {% call dt.table_container() %}
+     {{ render_table_header(datasets) }}
+     <tbody>
+       {% for class_name, gpu_class in latest_data.amd_gpu_support.items() %}
+         {% for gpu_name, gpu in gpu_class.items() %}
+           {{ render_os_rows(class_name, gpu_name, datasets) }}
+           {{ render_driver_rows(class_name, gpu_name, datasets) }}
+           {{ render_virtualization_rows(class_name, gpu_name, datasets) }}
+         {% endfor %}
+       {% endfor %}
+     {{ render_third_party_libs_rows(datasets) }}
+     {{ render_components_rows(datasets) }}
+     </tbody>
+   {% endcall %}

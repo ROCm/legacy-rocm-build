@@ -6,9 +6,9 @@ This guide provides instructions to benchmark LoRA fine-tuning on the Llama 2
 70B model. The benchmark follows the MLPerf training submission for
 long-document summarization using the GovReport dataset.
 
-The accompanying Docker image integrates an early-access preview of the ROCm
-7.0 software stack and is optimized for AMD Instinct™ MI355X, MI350X, and
-MI300X series accelerators.
+The accompanying Docker image integrates the `ROCm 7.0 <https://rocm.docs.amd.com/en/latest/>`__
+software stack and is optimized for AMD Instinct™ MI355X, MI350X, and MI300X
+series accelerators.
 
 Pull the Docker image
 =====================
@@ -17,14 +17,14 @@ Pull the Docker image
 
    .. code-block:: shell
 
-      docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu22.04_llama2_70b_training_mlperf_instinct_beta
+      docker pull rocm/7.0-preview:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915
 
 2. Copy the benchmark scripts from the container to your host. These scripts
    are used to configure the environment and launch the benchmark.
 
    .. code-block:: shell
 
-      container_id=$(docker create rocm/7.0-preview:rocm7.0_preview_ubuntu22.04_llama2_70b_training_mlperf_instinct_beta) && \
+      container_id=$(docker create rocm/7.0-preview:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915) && \
       docker cp $container_id:/workspace/code/runtime_tunables.sh . && \
       docker cp $container_id:/workspace/code/run_with_docker.sh . && \
       docker cp $container_id:/workspace/code/config_MI355X_1x8x1.sh . && \
@@ -63,7 +63,7 @@ length 8192.
           --security-opt=seccomp=unconfined \
           --volume=/data/mlperf_llama2:/data \
           --volume=/data/mlperf_llama2/model:/ckpt \
-          rocm/7.0-preview:rocm7.0_preview_ubuntu22.04_llama2_70b_training_mlperf_instinct_beta
+          rocm/7.0-preview:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915
 
 2. From within the container, run the preparation script. This will download and
    preprocess the dataset and model.
@@ -107,7 +107,7 @@ benchmark from your host machine.
 
       export DATADIR=/data/mlperf_llama2
       export LOGDIR=/data/mlperf_llama2/results
-      export CONT=rocm/7.0-preview:rocm7.0_preview_ubuntu22.04_llama2_70b_training_mlperf_instinct_beta
+      export CONT=rocm/7.0-preview:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915
 
    .. tip::
 

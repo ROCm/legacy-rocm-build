@@ -4,7 +4,7 @@ Benchmark DeepSeek R1 FP8 inference with SGLang
 
 This section provides instructions to test the inference performance of DeepSeek R1
 with FP8 precision via the SGLang serving framework.
-The accompanying Docker image integrates the ROCm 7.0 preview with SGLang, and is
+The accompanying Docker image integrates ROCm 7.0 with SGLang, and is
 tailored for AMD Instinct MI355X, MI350X, and MI300X series accelerators. This
 benchmark does not support other accelerators.
 
@@ -24,20 +24,20 @@ for your system.
 
       .. code-block:: shell
 
-         docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2_mi35x_rc1
+         docker pull rocm/7.0-preview:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm700-mi35x-20250915
 
    .. tab-item:: MI300X series
       :sync: mi30x
 
       .. code-block:: shell
 
-         docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2-mi30x_rc1
+         docker pull rocm/7.0-preview:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm7.0-mi30x-20250915
 
 Download the model
 ==================
 
 See the model card on Hugging Face at `deepseek-ai/DeepSeek-R1-0528
-<https://huggingface.co/deepseek-ai/DeepSeek-R1-0528>`.
+<https://huggingface.co/deepseek-ai/DeepSeek-R1-0528>`__.
 
 .. code-block:: shell
 
@@ -72,7 +72,7 @@ Run the inference benchmark
                 --device=/dev/kfd \
                 --device=/dev/dri \
                 -e SGLANG_USE_AITER=1 \
-                rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2_mi35x_rc1
+                rocm/7.0-preview:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm700-mi35x-20250915
 
       .. tab-item:: MI300X series
          :sync: mi30x
@@ -92,7 +92,7 @@ Run the inference benchmark
                 --device=/dev/kfd \
                 --device=/dev/dri \
                 -e SGLANG_USE_AITER=1 \
-                rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2-mi30x_rc1
+                rocm/7.0-preview:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm7.0-mi30x-20250915
 
 2. Start the server.
 

@@ -4,7 +4,7 @@ Benchmark GPT OSS 120B inference with vLLM
 
 This section provides instructions to test the inference performance of OpenAI
 GPT OSS 120B on the vLLM inference engine. The accompanying Docker image integrates
-the ROCm 7.0 preview with vLLM, and is tailored for AMD Instinct
+`ROCm 7.0 <https://rocm.docs.amd.com/en/latest/>`__ with vLLM, and is tailored for AMD Instinct
 MI355X, MI350X, and MI300X series accelerators. This benchmark does not support other
 GPUs.
 
@@ -18,7 +18,7 @@ Use the following command to pull the `Docker image <https://hub.docker.com/laye
 
 .. code-block:: shell
 
-   docker pull rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_vllm_0.10.1_instinct_rc1
+   docker pull rocm/7.0-preview:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250915
 
 Download the model
 ==================
@@ -65,7 +65,7 @@ Run the inference benchmark
           -e VLLM_DISABLE_COMPILE_CACHE=1 \
           -e HSA_NO_SCRATCH_RECLAIM=1 \
           --name vllm-server \
-          rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_vllm_0.10.1_instinct_rc1
+          rocm/7.0-preview:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250915
 
 2. Set environment variables and start the server.
 
