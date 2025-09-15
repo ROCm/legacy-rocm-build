@@ -142,3 +142,15 @@ Run the training benchmark
 
    * ``TOTAL_ITERS``: Number of training iterations to execute
 
+Other supported models
+==========================
+   * Llama-2-7B
+   * Llama-3.3-70B
+   * DeepSeekV2-Lite
+   * Mxtral-8x7B
+   * Qwen-2.5-7B
+   * Qwen-2.7-72B
+
+Known Issue
+==========================
+There is a known issue of getting "Memory Access Fault" error on selected models and configurations. A fix will be updated in later versions.
