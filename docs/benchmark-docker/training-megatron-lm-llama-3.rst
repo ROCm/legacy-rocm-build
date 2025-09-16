@@ -162,4 +162,10 @@ Known issues
 - Some models and configurations may trigger a "Memory Access Fault" error.
   Updates to improve stability are planned for upcoming releases.
 
-- A regression related to Composable Kernel (CK) may cause errors in certain cases. A fix is planned for an upcoming release.
+- A regression related to Composable Kernel (CK) may cause errors in certain
+  cases. A fix is planned for an upcoming release.
+
+- Flash Attention forward may not pick the best performing ASM kernel with batch
+  size greater than 1 and impact model performance.
+  For best performance on MI355X and MI350X GPUs, use the ROCm 7.0 Preview beta Docker
+  (``rocm/7.0-preview:rocm7.0_preview_pytorch_training_mi35x_beta``).
