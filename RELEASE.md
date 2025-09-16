@@ -172,7 +172,7 @@ Key compiler enhancements include:
 * Comgr:
     * Added support for an in-memory virtual file system (VFS) for storing temporary files generated during intermediate compilation steps. This is designed to improve performance by reducing on-disk file I/O. Currently, VFS is supported only for the device library link step, with plans for expanded support in future releases.
 * SPIR-V:
-    * Improved [target-specific extensions](https://github.com/llvm/llvm-project/blob/main/clang/docs/LanguageExtensions.rst#target-specific-extensions):
+    * Improved [target-specific extensions](https://github.com/ROCm/llvm-project/blob/c2535466c6e40acd5ecf6ba1676a4e069c6245cc/clang/docs/LanguageExtensions.rst):
         * Added a new target-specific builtin ``__builtin_amdgcn_processor_is`` for late or deferred queries of the current target processor.
         * Added a new target-specific builtin ``__builtin_amdgcn_is_invocable``, enabling fine-grained, per-builtin feature availability.
 * The compiler driver now uses parallel code generation by default when compiling using full LTO (including when using the `-fgpu-rdc` option) for HIP. This divides the optimized LLVM IR module into roughly equal partitions before instruction selection and lowering, which can help improve build times. 
