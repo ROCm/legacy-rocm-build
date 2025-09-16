@@ -473,7 +473,7 @@ The GPU and baseboard firmware releases numbering may vary by GPU family. Note t
       </tr>
       <tr>
           <td>MI300X</td>
-          <td>01.25.03.02 (or later)</td>
+          <td>01.25.03.12 (or later)<br>01.25.02.04</td>
           <td rowspan="6" style="vertical-align: middle;">
               30.10<br>
               6.4.z where z (0–3)<br>
