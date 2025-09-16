@@ -197,7 +197,9 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
-          testDir: $(Agent.BuildDirectory)/rocm/share/aqlprofile/test
+          testDir: $(Agent.BuildDirectory)
+          testParameters: ''
+          testExecutable: $(Agent.BuildDirectory)/rocm/share/aqlprofile/test/run.sh
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
