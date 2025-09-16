@@ -1,5 +1,8 @@
 # download and install non-rocm dependencies through apt and pip
 parameters:
+- name: os
+  type: string
+  default: 'ubuntu2204'
 - name: aptPackages
   type: object
   default: []
