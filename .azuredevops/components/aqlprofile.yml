@@ -131,11 +131,12 @@ jobs:
         os: ${{ job.os }}
         consolidateBuildAndInstall: true
         extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor"
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/aqlprofile/cmake_modules
           -DAMDGPU_TARGETS=${{ job.target }}
           -DBUILD_BENCHMARK=ON
-          -DBUILD_TEST=ON
+          -DAQLPROFILE_BUILD_TESTS=ON
           -GNinja
         extraCxxFlags: -Wno-deprecated-declarations
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
@@ -199,7 +200,7 @@ jobs:
           componentName: ${{ parameters.componentName }}
           testDir: $(Agent.BuildDirectory)
           testParameters: ''
-          testExecutable: $(Agent.BuildDirectory)/rocm/lib/hsa-amd-aqlprofile/run.sh
+          testExecutable: $(Agent.BuildDirectory)/rocm/lib/hsa-amd-aqlprofile/test/run.sh
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
