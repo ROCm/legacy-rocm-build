@@ -1,6 +1,6 @@
 dockers:
   - pull_tag: rocm/megatron-lm:v25.8_py310
-    docker_hub_url: https://hub.docker.com/layers/rocm/megatron-lm/v25.7_py310/images/sha256-6189df849feeeee3ae31bb1e97aef5006d69d2b90c134e97708c19632e20ab5a
+    docker_hub_url: https://hub.docker.com/layers/rocm/megatron-lm/v25.8_py310/images/sha256-50fc824361054e445e86d5d88d5f58817f61f8ec83ad4a7e43ea38bbc4a142c0
     components:
       ROCm: 6.4.3
       PyTorch: 2.8.0a0+gitd06a406
