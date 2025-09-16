@@ -622,6 +622,7 @@ coalescable
 codename
 collater
 comgr
+compat
 completers
 composable
 concretization
@@ -783,6 +784,7 @@ lossy
 macOS
 matchers
 maxtext
+megablocks
 megatron
 microarchitecture
 migraphx
@@ -941,6 +943,7 @@ softmax
 spack
 spmm
 src
+stanford
 stochastically
 strided
 subcommand
