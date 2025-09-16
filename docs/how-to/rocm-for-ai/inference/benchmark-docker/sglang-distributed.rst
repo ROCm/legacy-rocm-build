@@ -207,6 +207,24 @@ server from the Docker container on the proxy node. For example:
        -H "Content-Type: application/json" \
        -d '{ "text": "Let me tell you a story ", "sampling_params": { "temperature": 0.3 } }'
 
+Known issues
+============
+
+When running larger models, such as DeepSeek-V3 and Llama-3.1-405B-Instruct-FP8-KV, at
+higher concurrency levels (512+), the following error might occur:
+
+.. code-block:: shell-session
+
+   <TransferEncodingError: 400, message:
+    Not enough data to satisfy transfer length header.
+
+   The above exception was the direct cause of the following exception:
+
+   Traceback (most recent call last):
+   ...
+
+This leads to dropping requests and lower throughput.
+
 Further reading
 ===============
 
