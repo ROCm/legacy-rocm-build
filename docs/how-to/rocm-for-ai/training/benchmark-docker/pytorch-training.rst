@@ -164,19 +164,19 @@ Run training
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
 
-         The following run command is tailored to {{ model.model }}.
-         See :ref:`amd-pytorch-training-model-support` to switch to another available model.
-
-         1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
-            directory and install the required packages on the host machine.
-
-            .. code-block:: shell
-
-               git clone https://github.com/ROCm/MAD
-               cd MAD
-               pip install -r requirements.txt
-
          .. container:: model-doc {{ model.mad_tag }}
+
+            The following run command is tailored to {{ model.model }}.
+            See :ref:`amd-pytorch-training-model-support` to switch to another available model.
+
+            1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
+               directory and install the required packages on the host machine.
+
+               .. code-block:: shell
+
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD
+                  pip install -r requirements.txt
 
             2. For example, use this command to run the performance benchmark test on the {{ model.model }} model
                using one node with the {{ model.precision }} data type on the host machine.
@@ -202,8 +202,10 @@ Run training
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
 
-         The following commands are tailored to {{ model.model }}.
-         See :ref:`amd-pytorch-training-model-support` to switch to another available model.
+         .. container:: model-doc {{ model.mad_tag }}
+
+            The following commands are tailored to {{ model.model }}.
+            See :ref:`amd-pytorch-training-model-support` to switch to another available model.
 
       {% endfor %}
    {% endfor %}
