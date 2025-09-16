@@ -179,7 +179,7 @@ allocated nodes.
 Post-run logs and testing
 -------------------------
 
-Logs are stored on your shared filesystem in the directory specified by the ``LOG_PATH`` variable in the Slurm script.
+Logs are stored in your shared filesystem in the directory specified by the ``LOG_PATH`` variable in the Slurm script.
 A new directory named after the Slurm job ID is created for each run.
 
 Inside that directory, you can access various logs:
