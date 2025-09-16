@@ -119,5 +119,5 @@ Other supported models
 Known issue
 ===========
 
-Select models and configurations result in a "Memory Access Fault" error.
-This issue will be fixed in an upcoming release.
+Some models and configurations may trigger a "Memory Access Fault" message.
+Updates to improve stability are planned for upcoming releases.
