@@ -8,7 +8,7 @@ SGLang distributed inference with Mooncake
 
 As LLM inference increasingly demands handling massive models and dynamic workloads, efficient
 distributed inference becomes essential. Traditional co-located architectures face bottlenecks due
-to tightly coupled memory and compute resources, limiting scalability and flexibility.
+to tightly coupled memory and compute resources, which limits scalability and flexibility.
 Disaggregated inference refers to the process of splitting the inference of LLMs into distinct
 phases. This architecture, facilitated by libraries like Mooncake, uses high-bandwidth
 RDMA to transfer the Key-Value (KV) cache between prefill and decode nodes.
