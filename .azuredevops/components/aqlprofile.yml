@@ -65,14 +65,14 @@ parameters:
   default:
     - clr
     - llvm-project
-    - rocr
+    - ROCR-Runtime
 - name: rocmTestDependencies
   type: object
   default:
     - clr
     - llvm-project
     - rocminfo
-    - rocr
+    - ROCR-Runtime
     - rocprofiler-register
 
 - name: jobMatrix
