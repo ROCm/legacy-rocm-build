@@ -136,7 +136,7 @@ disaggregation via Mooncake for supported models.
   -- the main Slurm batch script to launch Docker containers on all nodes using ``sbatch`` or ``salloc``.
 
 * `scripts/sglang_dissag/sglang_disagg_server.sh <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/sglang_disagg_server.sh>`__
-  -- the entrypoint script that runs inside each container to start the correct service -- proxy, prefill or decode.
+  -- the entrypoint script that runs inside each container to start the correct service -- proxy, prefill, or decode.
 
 * `scripts/sglang_dissag/benchmark_xPyD.sh <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/benchmark_xPyD.sh>`__
   -- the benchmark script to run the GSM8K accuracy benchmark and the SGLang benchmarking tool for performance measurement.
