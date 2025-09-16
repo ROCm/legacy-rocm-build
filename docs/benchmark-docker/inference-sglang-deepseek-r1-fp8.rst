@@ -24,7 +24,7 @@ for your system.
 
       .. code-block:: shell
 
-         docker pull rocm/7.0:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm700-mi35x-20250915
+         docker pull rocm/7.0:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm7.0-mi35x-20250915
 
    .. tab-item:: MI300X series
       :sync: mi30x
@@ -72,7 +72,7 @@ Run the inference benchmark
                 --device=/dev/kfd \
                 --device=/dev/dri \
                 -e SGLANG_USE_AITER=1 \
-                rocm/7.0:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm700-mi35x-20250915
+                rocm/7.0:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm7.0-mi35x-20250915
 
       .. tab-item:: MI300X series
          :sync: mi30x
