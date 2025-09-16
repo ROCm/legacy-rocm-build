@@ -197,7 +197,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
-          testDir: '$(Agent.BuildDirectory)/rocm/bin/rocprim'
+          testDir: '$(Agent.BuildDirectory)/rocm/bin/aqlprofile/'
           extraTestParameters: '-I ${{ job.shard }},,${{ job.shardCount }} -E device_merge_inplace'
           os: ${{ job.os }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
