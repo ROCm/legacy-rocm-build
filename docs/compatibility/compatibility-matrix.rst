@@ -158,10 +158,10 @@ compatibility and system requirements.
 
 .. rubric:: Footnotes
 
-.. [#ol-700-mi300x] **For ROCm 7.0** - Oracle Linux 9 is supported only on AMD Instinct MI300X, MI350X, and MI355X. Oracle Linux 8 is only supported on AMD Instinct MI300X.
-.. [#ol-mi300x] **Prior ROCm 7.0** - Oracle Linux is supported only on AMD Instinct MI300X.
-.. [#single-node] Debian 12 is supported only on AMD Instinct MI300X for single-node functionality.
-.. [#az-mi300x] Starting ROCm 6.4.0, Azure Linux 3.0 is supported only on AMD Instinct MI300X and AMD Radeon PRO V710.
+.. [#ol-700-mi300x] **For ROCm 7.0.0** - Oracle Linux 9 is supported only on AMD Instinct MI300X, MI350X, and MI355X. Oracle Linux 8 is only supported on AMD Instinct MI300X.
+.. [#ol-mi300x] **Prior to ROCm 7.0.0** - Oracle Linux is supported only on AMD Instinct MI300X.
+.. [#single-node] **Prior to ROCm 7.0.0** - Debian 12 is supported only on AMD Instinct MI300X for single-node functionality.
+.. [#az-mi300x] Starting from ROCm 6.4.0, Azure Linux 3.0 is supported only on AMD Instinct MI300X and AMD Radeon PRO V710.
 .. [#RDNA-OS] Radeon AI PRO R9700, Radeon RX 9070 XT (gfx1201), Radeon RX 9060 XT (gfx1200), Radeon PRO W7700 (gfx1101), and Radeon RX 7800 XT (gfx1101) are supported only on Ubuntu 24.04.2, Ubuntu 22.04.5, RHEL 9.6, and RHEL 9.4.
 .. [#7700XT-OS] Radeon RX 7700 XT (gfx1101) is supported only on Ubuntu 24.04.2 and RHEL 9.6.
 .. [#kfd_support] As of ROCm 6.4.0, forward and backward compatibility between the AMD Kernel-mode GPU Driver (KMD) and its user space software is provided up to a year apart. For earlier ROCm releases, the compatibility is provided for +/- 2 releases. The supported user space versions on this page were accurate as of the time of initial ROCm release. For the most up-to-date information, see the latest version of this information at `User and kernel-space support matrix <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/user-kernel-space-compat-matrix.html>`_.
@@ -236,10 +236,10 @@ Expand for full historical view of:
 
    .. rubric:: Footnotes
 
-   .. [#ol-700-mi300x-past-60] **For ROCm 7.0** - Oracle Linux 9 is supported only on AMD Instinct MI300X, MI350X, and MI355X. Oracle Linux 8 is only supported on AMD Instinct MI300X.
-   .. [#mi300x-past-60] **Prior ROCm 7.0** - Oracle Linux is supported only on AMD Instinct MI300X.
-   .. [#single-node-past-60] Debian 12 is supported only on AMD Instinct MI300X for single-node functionality.
-   .. [#az-mi300x-past-60] Starting ROCm 6.4.0, Azure Linux 3.0 is supported only on AMD Instinct MI300X and AMD Radeon PRO V710.
+   .. [#ol-700-mi300x-past-60] **For ROCm 7.0.0** - Oracle Linux 9 is supported only on AMD Instinct MI300X, MI350X, and MI355X. Oracle Linux 8 is only supported on AMD Instinct MI300X.
+   .. [#mi300x-past-60] **Prior to ROCm 7.0.0** - Oracle Linux is supported only on AMD Instinct MI300X.
+   .. [#single-node-past-60] **Prior to ROCm 7.0.0 ** - Debian 12 is supported only on AMD Instinct MI300X for single-node functionality.
+   .. [#az-mi300x-past-60] Starting from ROCm 6.4.0, Azure Linux 3.0 is supported only on AMD Instinct MI300X and AMD Radeon PRO V710.
    .. [#az-mi300x-630-past-60] **Prior ROCm 6.4.0**- Azure Linux 3.0 is supported only on AMD Instinct MI300X.
    .. [#RDNA-OS-past-60] Radeon AI PRO R9700, Radeon RX 9070 XT (gfx1201), Radeon RX 9060 XT (gfx1200), Radeon PRO W7700 (gfx1101), and Radeon RX 7800 XT (gfx1101) are supported only on Ubuntu 24.04.2, Ubuntu 22.04.5, RHEL 9.6, and RHEL 9.4.
    .. [#7700XT-OS-past-60] Radeon RX 7700 XT (gfx1101) is supported only on Ubuntu 24.04.2 and RHEL 9.6.
