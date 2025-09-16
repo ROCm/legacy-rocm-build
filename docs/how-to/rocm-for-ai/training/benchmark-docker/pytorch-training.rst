@@ -8,6 +8,11 @@
 Training a model with PyTorch on ROCm
 **************************************
 
+.. note::
+
+   Primus with the PyTorch torchtitan backend is intended to supersede the :doc:`ROCm PyTorch training <pytorch-training>` workflow.
+   See :doc:`primus-pytorch` for details.
+
 PyTorch is an open-source machine learning framework that is widely used for
 model training with GPU-optimized components for transformer-based models.
 
@@ -89,9 +94,11 @@ vary by model -- select one to get started.
       {% for model_group in model_groups %}
          {% set models = model_group.models %}
          {% for model in models %}
+         {% if model.training_modes %}
          * - {{ model.model }}
            - ``{{ model.training_modes | join('``, ``') }}``
 
+         {% endif %}
          {% endfor %}
       {% endfor %}
 
@@ -139,6 +146,9 @@ system's configuration.
 This Docker image is optimized for specific model configurations outlined
 below. Performance can vary for other training workloads, as AMD
 doesn’t test configurations and run conditions outside those described.
+
+Run training
+============
 
 Run training
 ============
