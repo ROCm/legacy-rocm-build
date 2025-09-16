@@ -18,7 +18,7 @@ Use the following command to pull the `Docker image <https://hub.docker.com/laye
 
 .. code-block:: shell
 
-   docker pull rocm/7.0-preview:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250915
+   docker pull rocm/7.0:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250915
 
 Download the model
 ==================
@@ -72,7 +72,7 @@ Run the inference benchmark
         -e TRITON_HIP_PRESHUFFLE_SCALES=0 \
         -e VLLM_TRITON_FP4_GEMM_BPRESHUFFLE=0 \
         --name vllm-server \
-        rocm/7.0-preview:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250915
+        rocm/7.0:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250915
 
 2. Start the server.
 

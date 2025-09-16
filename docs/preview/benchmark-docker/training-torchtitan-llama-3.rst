@@ -17,7 +17,7 @@ Use the following command to pull the `Docker image <https://hub.docker.com/laye
 
 .. code-block:: shell
 
-   docker pull rocm/7.0-preview:rocm7.0_pytorch_training_instinct_20250915
+   docker pull rocm/7.0:rocm7.0_pytorch_training_instinct_20250915
 
 Run the training benchmark
 ==========================
@@ -40,7 +40,7 @@ Run the training benchmark
           --shm-size 64G \
           -w /workspace/torchtitan \
           --name training_benchmark \
-          rocm/7.0-preview:rocm7.0_pytorch_training_instinct_20250915
+          rocm/7.0:rocm7.0_pytorch_training_instinct_20250915
 
    .. note::
 

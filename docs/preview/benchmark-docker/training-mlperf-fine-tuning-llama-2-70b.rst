@@ -17,14 +17,14 @@ Pull the Docker image
 
    .. code-block:: shell
 
-      docker pull rocm/7.0-preview:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915
+      docker pull rocm/7.0:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915
 
 2. Copy the benchmark scripts from the container to your host. These scripts
    are used to configure the environment and launch the benchmark.
 
    .. code-block:: shell
 
-      container_id=$(docker create rocm/7.0-preview:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915) && \
+      container_id=$(docker create rocm/7.0:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915) && \
       docker cp $container_id:/workspace/code/runtime_tunables.sh . && \
       docker cp $container_id:/workspace/code/run_with_docker.sh . && \
       docker cp $container_id:/workspace/code/config_MI355X_1x8x1.sh . && \
@@ -63,7 +63,7 @@ length 8192.
           --security-opt=seccomp=unconfined \
           --volume=/data/mlperf_llama2:/data \
           --volume=/data/mlperf_llama2/model:/ckpt \
-          rocm/7.0-preview:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915
+          rocm/7.0:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915
 
 2. From within the container, run the preparation script. This will download and
    preprocess the dataset and model.
@@ -107,7 +107,7 @@ benchmark from your host machine.
 
       export DATADIR=/data/mlperf_llama2
       export LOGDIR=/data/mlperf_llama2/results
-      export CONT=rocm/7.0-preview:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915
+      export CONT=rocm/7.0:rocm7.0_ubuntu22.04_llama2_70B_training_ml_perf_instinct_20250915
 
    .. tip::
 
