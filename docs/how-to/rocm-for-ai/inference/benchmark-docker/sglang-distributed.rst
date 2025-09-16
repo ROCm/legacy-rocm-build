@@ -142,7 +142,7 @@ disaggregation via Mooncake for supported models.
   -- the benchmark script to run the GSM8K accuracy benchmark and the SGLang benchmarking tool for performance measurement.
 
 * `scripts/sglang_dissag/benchmark_parser.py <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/benchmark_parser.py>`__
-  -- the log parser script to be run on concurrency benchmark log file to generate tabulated data.
+  -- the log parser script to be run on the concurrency benchmark log file to generate tabulated data.
 
 Launch the service
 ------------------
