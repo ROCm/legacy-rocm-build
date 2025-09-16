@@ -199,7 +199,7 @@ jobs:
           componentName: ${{ parameters.componentName }}
           testDir: $(Agent.BuildDirectory)
           testParameters: ''
-          testExecutable: $(Agent.BuildDirectory)/rocm/share/aqlprofile/test/run.sh
+          testExecutable: $(Agent.BuildDirectory)/rocm/bin/aqlprofile/test/run.sh
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
