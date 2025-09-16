@@ -100,7 +100,7 @@ documentation might vary by selected model.
       .. note::
 
          See the `{{ model.model }} model card on Hugging Face <{{ model.url }}>`__ to learn more about this model.
-         Some models require access authorization prior to use via an external license agreement through a third party.
+         Some models require access authorization prior to use through an external license agreement with a third party.
 
       {% endfor %}
    {% endfor %}
