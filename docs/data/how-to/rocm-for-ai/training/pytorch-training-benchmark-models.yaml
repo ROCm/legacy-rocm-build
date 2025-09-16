@@ -150,6 +150,15 @@ model_groups:
       url: https://huggingface.co/Qwen/Qwen2-7B
       precision: BF16
       training_modes: [finetune_fw, finetune_lora]
+  - group: Stable Diffusion
+    tag: sd
+    models:
+    - model: Stable Diffusion XL
+      mad_tag: pyt_huggingface_stable_diffusion_xl_2k_lora_finetuning
+      model_repo: SDXL
+      url: https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0
+      precision: BF16
+      training_modes: [finetune_lora]
   - group: Flux
     tag: flux
     models:

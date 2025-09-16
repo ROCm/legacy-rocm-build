@@ -56,7 +56,7 @@ vary by model -- select one to get started.
             <div class="col-2 me-1 px-2 model-param-head">Model</div>
             <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
-               <div class="col-3 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
             </div>
          </div>
@@ -150,9 +150,6 @@ doesn’t test configurations and run conditions outside those described.
 Run training
 ============
 
-Run training
-============
-
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
 
    {% set unified_docker = data.dockers[0] %}
@@ -164,6 +161,12 @@ Run training
 
       .. tab-item:: MAD-integrated benchmarking
 
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
+
+         The following run command is tailored to {{ model.model }}.
+         See :ref:`amd-pytorch-training-model-support` to switch to another available model.
+
          1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
             directory and install the required packages on the host machine.
 
@@ -172,9 +175,6 @@ Run training
                git clone https://github.com/ROCm/MAD
                cd MAD
                pip install -r requirements.txt
-
-   {% for model_group in model_groups %}
-      {% for model in model_group.models %}
 
          .. container:: model-doc {{ model.mad_tag }}
 
@@ -198,6 +198,15 @@ Run training
    {% endfor %}
 
       .. tab-item:: Standalone benchmarking
+
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
+
+         The following commands are tailored to {{ model.model }}.
+         See :ref:`amd-pytorch-training-model-support` to switch to another available model.
+
+      {% endfor %}
+   {% endfor %}
 
          .. rubric:: Download the Docker image and required packages
 

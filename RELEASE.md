@@ -335,8 +335,9 @@ ROCm documentation continues to be updated to provide clearer and more comprehen
   benchmarking guides have been updated with expanded model coverage and 
   optimized Docker environments. Highlights include:
 
-  * The [Training a model with Primus and Megatron](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/training/benchmark-docker/primus-megatron.html) benchmarking guide
-    now leverages the unified AMD Primus framework with the Megatron backend. See [Primus: A Lightweight, Unified Training Framework for Large Models on AMD
+  * The [Training a model with Primus and Megatron](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/training/benchmark-docker/primus-megatron.html) 
+    and [Training a model with Primus and PyTorch](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/training/benchmark-docker/primus-pytorch.html) benchmarking guides
+    now leverage the unified AMD Primus framework with the Megatron and torchtitan backends. See [Primus: A Lightweight, Unified Training Framework for Large Models on AMD
     GPUs](https://rocm.blogs.amd.com/software-tools-optimization/primus/README.html) for an introduction to Primus.
 
   * The [Training a model with PyTorch](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html) benchmarking guide
@@ -344,6 +345,9 @@ ROCm documentation continues to be updated to provide clearer and more comprehen
 
   * The [Training a model with JAX MaxText](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.html) benchmarking guide
     now supports [MAD](https://github.com/ROCm/MAD)-integrated benchmarking. The MaxText training environment now uses JAX 0.6.0 or 0.5.0. FP8 quantized training is supported with JAX 0.5.0.
+
+  * The [SGLang distributed inference](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference/benchmark-docker/sglang-distributed.html?model=llama-3.1-8b-instruct) guide
+    provides a recipe to get started with disaggregated prefill/decode inference.
 
   * The [vLLM inference performance testing](https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference/benchmark-docker/vllm.html) documentation
     now features clearer serving and throughput benchmarking commands -- for improved transparency of model benchmarking configurations. The vLLM inference
@@ -408,17 +412,16 @@ ROCm documentation continues to be updated to provide clearer and more comprehen
 
 ## User space, driver, and firmware dependent changes
 
-The software for AMD Datacenter GPU products requires maintaining a hardware
-and software stack with interdependencies between the GPU and baseboard
-firmware, AMD GPU drivers, and the ROCm user space software.
-
+Running GPU software on AMD data center GPUs requires maintaining a coordinated
+hardware and software stack. This stack has interdependencies between the GPU
+and baseboard firmware, AMD GPU drivers, and the ROCm user-space software.
 As of the ROCm 7.0.0 release, these interdependencies are publicly documented.
-Note that while AMD publishes drivers and ROCm user space, your server or
+While AMD publishes drivers and ROCm user space components, your server or
 infrastructure provider publishes the GPU and baseboard firmware by bundling
 AMD’s firmware releases via AMD’s Platform Level Data Model (PLDM) bundle,
 which includes Integrated Firmware Image (IFWI).
 
-GPU and baseboard firmware versioning might differ across GPU families. With the
+GPU and baseboard firmware versioning might differ across GPU families. Note that with the
 ROCm 7.0.0 release, the AMD GPU driver (amdgpu) is now versioned separately
 from ROCm. See [AMD GPU Driver/ROCm packaging separation](#amd-gpu-driver-rocm-packaging-separation).
 
