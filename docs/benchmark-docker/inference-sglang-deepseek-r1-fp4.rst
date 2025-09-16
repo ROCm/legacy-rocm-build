@@ -16,11 +16,11 @@ Pull the Docker image
 =====================
 
 Use the following command to pull the `Docker image
-<https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_ubuntu_22.04_sgl-dev-v0.5.2rc2_mi35x_rc1/images/sha256-2c2a78219b478421482db0c4dce612cca11ce163274f5dbad2b305067fb86012>`__.
+<https://hub.docker.com/r/rocm/7.0/tags>`__.
 
 .. code-block:: shell
 
-   docker pull rocm/7.0-preview:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm700-mi35x-20250915
+   docker pull rocm/7.0:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm700-mi35x-20250915
 
 Download the model
 ==================

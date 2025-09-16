@@ -14,7 +14,7 @@ appropriate options, download the model, and run the benchmark.
 Pull the Docker image
 =====================
 
-Use the following command to pull the appropriate `Docker image <https://hub.docker.com/r/rocm/7.0-preview/tags>`_
+Use the following command to pull the appropriate `Docker image <https://hub.docker.com/r/rocm/7.0/tags>`__
 for your system.
 
 .. tab-set::

@@ -14,7 +14,7 @@ appropriate options, download the model, and run the throughput test.
 Pull the Docker image
 =====================
 
-Use the following command to pull the `Docker image <https://hub.docker.com/layers/rocm/7.0-preview/rocm7.0_preview_ubuntu_22.04_vllm_0.10.1_instinct_rc1/images/sha256-eee29678dc4dc8f2e054de889555be6f4fd74e58053bf7277d56ace1a850513e>`__.
+Use the following command to pull the `Docker image <https://hub.docker.com/r/rocm/7.0/tags>`__.
 
 .. code-block:: shell
 
