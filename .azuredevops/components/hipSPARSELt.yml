@@ -132,11 +132,11 @@ jobs:
   # Build and install gtest and lapack
   # $(Pipeline.Workspace)/deps is a temporary folder for the build process
   # $(Pipeline.Workspace)/s/deps is part of the hipSPARSELt repo
-    - script: mkdir $(Pipeline.Workspace)/deps
+    - script: mkdir -p $(Pipeline.Workspace)/deps
       displayName: Create temp folder for external dependencies
   # hipSPARSELt already has a CMake script for external deps, so we can just run that
   # https://github.com/ROCm/hipSPARSELt/blob/develop/deps/CMakeLists.txt
-  - ${{ if or(exists('projects/hipsparselt/deps'), exists('deps')) }}:
+  - ${{ if or(exists('projects/hipsparselt/deps/CMakeLists.txt'), exists('deps/CMakeLists.txt')) }}:
     - ${{ if ne(parameters.sparseCheckoutDir, '') }}:
         script: cmake $(Pipeline.Workspace)/s/projects/hipsparselt/deps
       ${{ else }}:
