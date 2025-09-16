@@ -156,8 +156,11 @@ Other supported models
 
 * Qwen-2.5-72B
 
-Known issue
-===========
+Known issues
+============
 
-Some models and configurations may trigger a "Memory Access Fault" message.
-Updates to improve stability are planned for upcoming releases.
+- Some models and configurations may trigger a "Memory Access Fault" error.
+  Updates to improve stability are planned for upcoming releases.
+
+- A regression related to Composable Kernel (CK) has been identified as a potential
+  source of errors in certain cases. This issue will be resolved in a future release.
