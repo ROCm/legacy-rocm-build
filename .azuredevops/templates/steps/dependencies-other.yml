@@ -43,12 +43,12 @@ steps:
     inputs:
       targetType: inline
       ${{ if eq(parameters.os, 'almalinux8') }}:
-        script: >-
+        script: |
           wget https://dvc.org/download/linux-deb/dvc-3.62.0 -O ./dvc_3.62.0_amd64.deb
           sudo DEBIAN_FRONTEND=noninteractive apt-get --yes --fix-missing install ./dvc_3.62.0_amd64.deb
           sudo rm -f ./dvc_3.62.0_amd64.deb
       ${{ if ne(parameters.os, 'almalinux8') }}:
-        script: >-
+        script: |
           wget https://dvc.org/download/linux-rpm/dvc-3.62.0 -O ./dvc-3.62.0-1.x86_64.rpm
           sudo DEBIAN_FRONTEND=noninteractive apt-get --yes --fix-missing install ./dvc-3.62.0-1.x86_64.rpm
           sudo rm -f ./dvc-3.62.0-1.x86_64.rpm
