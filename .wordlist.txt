@@ -72,6 +72,7 @@ CU
 CUDA
 CUs
 CXX
+CX
 Cavium
 CentOS
 ChatGPT
@@ -118,6 +119,8 @@ Dependabot
 Deprecations
 DevCap
 DirectX
+Disaggregated
+disaggregated
 Dockerfile
 Dockerized
 Doxygen
@@ -127,6 +130,7 @@ ENDPGM
 EPYC
 ESXi
 EoS
+etcd
 fas
 FBGEMM
 FIFOs
@@ -178,6 +182,7 @@ GPUs
 Graphbolt
 GraphSage
 GRBM
+GRE
 GenAI
 GenZ
 GitHub
@@ -301,6 +306,7 @@ MirroredStrategy
 Mixtral
 MosaicML
 MoEs
+Mooncake
 Mpops
 Multicore
 Multithreaded
@@ -445,6 +451,7 @@ SKU
 SKUs
 SLES
 SLURM
+Slurm
 SMEM
 SMFMA
 SMI
