@@ -49,7 +49,7 @@ Before starting, ensure you have:
 
   ``Nodes -> xP + yD + 1``
 
-* A Dockerized environment with SGLang, Mooncake, etcd, and NIC drivers built-in. See :ref:`sglang-disagg-inf-build-docker-image` for instructions.
+* A Dockerized environment with SGLang, Mooncake, etcd, and NIC drivers built in. See :ref:`sglang-disagg-inf-build-docker-image` for instructions.
 
 * A shared filesystem for storing models, scripts, and logs (cluster-specific).
 
