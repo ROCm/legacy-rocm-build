@@ -36,7 +36,7 @@ improved efficiency and throughput.
         - {{ component_version }}
       {% endfor %}
 
-The following steps provide guidance on setting up and running SGLang and Mooncake for disaggregated
+The following guides on setting up and running SGLang and Mooncake for disaggregated
 distributed inference on a Slurm cluster using AMD Instinct MI300X series accelerators backed by
 Mellanox CX-7 NICs.
 
