@@ -8,14 +8,14 @@ compatibility with industry software frameworks.
 
 This documentation accompanies preview Docker images designed to reproduce
 training and inference performance on AMD Instinct™ MI355X, MI350X, and MI300X
-series accelerators with ROCm 7.0. The images provide the 7.0.0 release of the
-ROCm software stack and are targeted at early-access users evaluating AI
-inference workloads using next-generation AMD accelerators. See the Docker image repository
-on `rocm/7.0-preview <https://hub.docker.com/r/rocm/7.0-preview/>`__.
+series accelerators with ROCm 7.0. The images provide the 7.0 release of the
+ROCm software stack and are targeted at users evaluating AI inference workloads
+using next-generation AMD accelerators. See the Docker image repository at
+`rocm/7.0 <https://hub.docker.com/r/rocm/7.0/>`__.
 
 .. note::
 
-   ROCm 7.0 is available. See the documentation at `ROCm 7.0 documentation
+   ROCm 7.0 is now available. See the documentation at `ROCm 7.0 documentation
    <https://rocm.docs.amd.com/en/docs-7.0.0/>`__.
 
 .. important::
@@ -23,22 +23,22 @@ on `rocm/7.0-preview <https://hub.docker.com/r/rocm/7.0-preview/>`__.
    The following AI workload benchmarks use ROCm 7.0 on AMD Instinct MI355X,
    MI350X, and MI300X series accelerators.
 
-   If you're looking for production-level workloads for MI300X series accelerators, see
+    For other workloads for MI300X series accelerators, see
    `Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html>`_.
 
 .. grid:: 2
 
    .. grid-item-card:: Training
 
-      * :doc:`inference-vllm-llama-3.1-405b-fp4`
+      * :doc:`training-maxtext-llama-3.rst`
 
-      * :doc:`inference-vllm-llama-3.3-70b-fp8`
+      * :doc:`training-maxtext-mixtral-8x7b.rst`
 
-      * :doc:`inference-vllm-gpt-oss-120b`
+      * :doc:`training-megatron-lm-llama-3.rst`
 
-      * :doc:`inference-sglang-deepseek-r1-fp4`
+      * :doc:`training-mlperf-fine-tuning-llama-2-70b.rst`
 
-      * :doc:`inference-sglang-deepseek-r1-fp8`
+      * :doc:`training-torchtitan-llama-3.rst`
 
    .. grid-item-card:: Inference
 

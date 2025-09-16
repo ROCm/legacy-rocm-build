@@ -27,8 +27,8 @@ project = "ROCm Documentation"
 project_path = os.path.abspath(".").replace("\\", "/")
 author = "Advanced Micro Devices, Inc."
 copyright = "Copyright (c) 2025 Advanced Micro Devices, Inc. All rights reserved."
-version = "7.0 Preview"
-release = "7.0 Preview"
+version = "7.0.0"
+release = "7.0.0"
 setting_all_article_info = True
 all_article_info_os = ["linux"]
 all_article_info_author = ""
@@ -57,9 +57,8 @@ html_theme_options = {"flavor": "rocm-docs-home"}
 
 html_static_path = ["sphinx/static/css", "sphinx/static/js"]
 html_css_files = ["rocm_custom.css", "rocm_rn.css"]
-html_js_files = ["preview-version-list.js"]
 
-html_title = "ROCm 7.0 preview"
+html_title = "ROCm 7.0 AI Training and Inference Performance"
 
 html_theme_options = {"link_main_doc": False}
 
