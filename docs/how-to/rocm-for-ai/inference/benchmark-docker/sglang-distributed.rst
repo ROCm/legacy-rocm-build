@@ -45,7 +45,7 @@ Prerequisites
 
 Before starting, ensure you have:
 
-* A Slurm cluster with at least 3 nodes: 1 for the proxy, 1 for prefill (``xP``), and 1 for decode (``yD``).
+* A Slurm cluster with at least three nodes: one for the proxy, one for prefill (``xP``), and one for decode (``yD``).
 
   ``Nodes -> xP + yD + 1``
 
