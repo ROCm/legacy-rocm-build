@@ -40,6 +40,8 @@ accelerators.
 Run the inference benchmark
 ===========================
 
+.. _docker-run-vllm-llama-3.3:
+
 1. Start the container using the following command.
 
    .. code-block:: shell
@@ -121,3 +123,14 @@ Run the inference benchmark
           --percentile-metrics ttft,tpot,itl,e2el \
           --ignore-eos
 
+Known issue
+===========
+
+If you encounter accuracy issues, try disabling multi-head attention (MHA) as a
+temporary workaround. This issue will be fixed in the next release.
+
+To disable MHA, set the following environment variable when :ref:`starting the container <docker-run-vllm-llama-3.3>`:
+
+.. code-block:: shell
+
+   -e VLLM_ROCM_USE_AITER_MHA=0
