@@ -41,4 +41,4 @@ steps:
         ${{ if eq(parameters.sparseCheckoutDir, '') }}:
           workingDirectory: $(Agent.BuildDirectory)/s
         ${{ else }}:
-          workingDirectory: $(Agent.BuildDirectory)/sparse
+          workingDirectory: $(Agent.BuildDirectory)/sparse/${{ parameters.sparseCheckoutDir }}
