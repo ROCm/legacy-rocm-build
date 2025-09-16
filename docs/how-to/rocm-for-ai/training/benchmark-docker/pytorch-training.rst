@@ -94,9 +94,11 @@ vary by model -- select one to get started.
       {% for model_group in model_groups %}
          {% set models = model_group.models %}
          {% for model in models %}
+         {% if model.training_modes %}
          * - {{ model.model }}
            - ``{{ model.training_modes | join('``, ``') }}``
 
+         {% endif %}
          {% endfor %}
       {% endfor %}
 

@@ -167,4 +167,3 @@ model_groups:
       model_repo:
       url: https://github.com/NVIDIA/DeepLearningExamples/tree/master/PyTorch/Recommendation/NCF
       precision: FP32
-      training_modes: [pretrain, training]
