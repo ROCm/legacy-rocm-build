@@ -12,6 +12,10 @@ parameters:
 - name: submoduleBehaviour
   type: string
   default: 'true'
+# determines if dvc should be used or not
+- name: largeFiles
+  type: boolean
+  default: true
 
 steps:
   - checkout: ${{ parameters.checkoutRepo }}
@@ -28,3 +32,10 @@ steps:
       inputs:
         targetType: inline
         script: ln -s $(Agent.BuildDirectory)/sparse/${{ parameters.sparseCheckoutDir }} $(Agent.BuildDirectory)/s
+  - ${{ if eq(parameters.largeFiles, true) }}:
+    - task: Bash@3
+      displayName: dvc pull
+      inputs:
+        targetType: inline
+        script: dvc pull
+        workingDirectory: $(Agent.BuildDirectory)/s

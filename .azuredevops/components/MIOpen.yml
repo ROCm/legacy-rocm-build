@@ -42,11 +42,15 @@ parameters:
     - python3-pip
     - python3-venv
     - software-properties-common
+    - wget
     - zip
 - name: pipModules
   type: object
   default:
     - cget
+- name: largeFiles
+  type: boolean
+  default: true
 - name: rocmDependencies
   type: object
   default:
@@ -131,12 +135,14 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+        largeFiles: ${{ parameters.largeFiles }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+        largeFiles: ${{ parameters.largeFiles }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/miopen-get-ck-build.yml
       parameters:
         gpuTarget: ${{ job.target }}
@@ -212,12 +218,14 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+        largeFiles: ${{ parameters.largeFiles }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+        largeFiles: ${{ parameters.largeFiles }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/miopen-get-ck-build.yml
       parameters:
