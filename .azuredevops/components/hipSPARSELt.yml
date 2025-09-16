@@ -176,6 +176,7 @@ jobs:
           -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -DBUILD_CLIENTS_TESTS=ON
           -DBUILD_USE_LOCAL_TENSILE=OFF
+          -DHIPSPARSELT_ENABLE_FETCH=ON
           -GNinja
         ${{ if ne(parameters.sparseCheckoutDir, '') }}:
           cmakeSourceDir: $(Build.SourcesDirectory)/projects/hipsparselt
