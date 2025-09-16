@@ -12,7 +12,7 @@ to tightly coupled memory and compute resources, limiting scalability and flexib
 Disaggregated inference refers to the process of splitting the inference of LLMs into distinct
 phases. This architecture, facilitated by libraries like Mooncake, uses high-bandwidth
 RDMA to transfer the Key-Value (KV) cache between prefill and decode nodes.
-This allows for independent resource scaling and optimization, leading to
+This allows for independent resource scaling and optimization, resulting in
 improved efficiency and throughput.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/sglang-distributed-benchmark-models.yaml
