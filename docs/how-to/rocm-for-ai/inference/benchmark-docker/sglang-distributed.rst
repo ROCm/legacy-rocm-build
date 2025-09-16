@@ -122,8 +122,8 @@ drivers.
    git clone https://github.com/ROCm/MAD.git
    cd MAD/docker
    docker build \
-       -t sglang_dissag_pd_image \
-       -f sglang_dissag_inference.ubuntu.amd.Dockerfile .
+       -t sglang_disagg_pd_image \
+       -f sglang_disagg_inference.ubuntu.amd.Dockerfile .
 
 Benchmarking
 ============
@@ -132,16 +132,16 @@ The `<https://github.com/ROCm/MAD/tree/develop/scripts/sglang_dissag>`__
 repository contains scripts to launch SGLang inference with prefill/decode
 disaggregation via Mooncake for supported models.
 
-* `scripts/sglang_dissag/run_xPyD_models.slurm <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/run_xPyD_models.slurm>`__
+* `scripts/sglang_dissag/run_xPyD_models.slurm <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_disagg/run_xPyD_models.slurm>`__
   -- the main Slurm batch script to launch Docker containers on all nodes using ``sbatch`` or ``salloc``.
 
-* `scripts/sglang_dissag/sglang_disagg_server.sh <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/sglang_disagg_server.sh>`__
+* `scripts/sglang_dissag/sglang_disagg_server.sh <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_disagg/sglang_disagg_server.sh>`__
   -- the entrypoint script that runs inside each container to start the correct service -- proxy, prefill, or decode.
 
-* `scripts/sglang_dissag/benchmark_xPyD.sh <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/benchmark_xPyD.sh>`__
+* `scripts/sglang_dissag/benchmark_xPyD.sh <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_disagg/benchmark_xPyD.sh>`__
   -- the benchmark script to run the GSM8K accuracy benchmark and the SGLang benchmarking tool for performance measurement.
 
-* `scripts/sglang_dissag/benchmark_parser.py <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_dissag/benchmark_parser.py>`__
+* `scripts/sglang_dissag/benchmark_parser.py <https://github.com/ROCm/MAD/blob/develop/scripts/sglang_disagg/benchmark_parser.py>`__
   -- the log parser script to be run on the concurrency benchmark log file to generate tabulated data.
 
 Launch the service
@@ -163,10 +163,10 @@ allocated nodes.
          # Clone the MAD repo if you haven't already and
          # navigate to the scripts directory
          git clone https://github.com/ROCm/MAD.git
-         cd MAD/scripts/sglang_dissag/
+         cd MAD/scripts/sglang_disagg/
 
          # Slurm sbatch run command
-         export DOCKER_IMAGE_NAME=sglang_dissag_pd_image
+         export DOCKER_IMAGE_NAME=sglang_disagg_pd_image
          export xP=<num_prefill_nodes>
          export yD=<num_decode_nodes>
          export MODEL_NAME={{ model.model_repo }}
