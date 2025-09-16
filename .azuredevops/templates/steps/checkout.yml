@@ -38,12 +38,12 @@ steps:
       inputs:
         targetType: inline
         ${{ if eq(parameters.sparseCheckoutDir, '') }}:
-          script:
+          script: |
             pushd $(Agent.BuildDirectory)/s
             dvc pull
             popd
         ${{ else }}:
-          script:
+          script: |
             pushd $(Agent.BuildDirectory)/sparse/${{ parameters.sparseCheckoutDir }}
             dvc pull
             popd
