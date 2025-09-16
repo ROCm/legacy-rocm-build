@@ -38,4 +38,7 @@ steps:
       inputs:
         targetType: inline
         script: dvc pull
-        workingDirectory: $(Agent.BuildDirectory)/s
+        ${{ if eq(parameters.sparseCheckoutDir, '') }}:
+          workingDirectory: $(Agent.BuildDirectory)/s
+        ${{ else }}:
+          workingDirectory: $(Agent.BuildDirectory)/sparse
