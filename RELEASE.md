@@ -408,9 +408,19 @@ ROCm documentation continues to be updated to provide clearer and more comprehen
 
 ## User space, driver, and firmware dependent changes
 
-GPU Software for AMD datacenter GPU products requires you to maintain a hardware and software stack with interdependencies between the GPU and baseboard firmware, AMD GPU drivers, and the ROCm user space software. Starting ROCm 7.0.0 release, we are publicly documenting these interdependencies. Note that while AMD publishes drivers and ROCm user space, your server or infrastructure provider publishes the GPU and baseboard firmware by bundling AMD’s firmware releases via AMD's Platform Level Data Model (PLDM) bundle (Firmware), which includes Integrated Firmware Image (IFWI).
+The software for AMD Datacenter GPU products requires maintaining a hardware
+and software stack with interdependencies between the GPU and baseboard
+firmware, AMD GPU drivers, and the ROCm user space software.
 
-The GPU and baseboard firmware releases numbering may vary by GPU family. Note that, ROCm 7.0.0 release is the first release where the AMD GPU Driver (amdgpu) is versioned independently of ROCm.
+As of the ROCm 7.0.0 release, these interdependencies are publicly documented.
+Note that while AMD publishes drivers and ROCm user space, your server or
+infrastructure provider publishes the GPU and baseboard firmware by bundling
+AMD’s firmware releases via AMD’s Platform Level Data Model (PLDM) bundle,
+which includes Integrated Firmware Image (IFWI).
+
+GPU and baseboard firmware versioning might differ across GPU families. With the
+ROCm 7.0.0 release, the AMD GPU driver (amdgpu) is now versioned separately
+from ROCm. See [AMD GPU Driver/ROCm packaging separation](#amd-gpu-driver-rocm-packaging-separation).
 
 <div class="pst-scrollable-table-container">
   <table class="table" align="left" valign="middle">
