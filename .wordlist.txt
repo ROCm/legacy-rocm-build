@@ -178,6 +178,7 @@ GPUs
 Graphbolt
 GraphSage
 GRBM
+GRE
 GenAI
 GenZ
 GitHub
