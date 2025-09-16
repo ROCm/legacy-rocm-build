@@ -154,7 +154,7 @@ Other supported models
 
 * Qwen-2.5-7B
 
-* Qwen-2.7-72B
+* Qwen-2.5-72B
 
 Known issue
 ===========
