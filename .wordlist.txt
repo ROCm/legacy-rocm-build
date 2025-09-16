@@ -84,6 +84,7 @@ Conda
 ConnectX
 CountOnes
 CuPy
+CX
 da
 Dashboarding
 Dataloading
@@ -118,6 +119,8 @@ Dependabot
 Deprecations
 DevCap
 DirectX
+Disaggregated
+disaggregated
 Dockerfile
 Dockerized
 Doxygen
@@ -302,6 +305,7 @@ MirroredStrategy
 Mixtral
 MosaicML
 MoEs
+Mooncake
 Mpops
 Multicore
 Multithreaded
@@ -446,6 +450,7 @@ SKU
 SKUs
 SLES
 SLURM
+Slurm
 SMEM
 SMFMA
 SMI
