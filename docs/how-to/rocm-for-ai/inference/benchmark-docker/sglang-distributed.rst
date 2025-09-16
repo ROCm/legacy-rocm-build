@@ -22,7 +22,7 @@ improved efficiency and throughput.
    `SGLang <https://docs.sglang.ai>`__ is a high-performance inference and
    serving engine for large language models (LLMs) and vision models. The
    ROCm-enabled `SGLang base Docker image <{{ docker.docker_hub_url }}>`__
-   bundles SGLang with PyTorch, optimized for AMD Instinct MI300X series
+   bundles SGLang with PyTorch, which is optimized for AMD Instinct MI300X series
    accelerators. It includes the following software components:
 
    .. list-table::
