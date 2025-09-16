@@ -8,6 +8,11 @@
 Training a model with PyTorch on ROCm
 **************************************
 
+.. note::
+
+   Primus with the PyTorch torchtitan backend is intended to supersede the :doc:`ROCm PyTorch training <pytorch-training>` workflow.
+   See :doc:`primus-pytorch` for details.
+
 PyTorch is an open-source machine learning framework that is widely used for
 model training with GPU-optimized components for transformer-based models.
 
