@@ -195,7 +195,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
-          testDir: $(Agent.BuildDirectory)/s/test/run.sh
+          testDir: $(Agent.BuildDirectory)/s/test
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
