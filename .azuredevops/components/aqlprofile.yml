@@ -134,8 +134,6 @@ jobs:
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/aqlprofile/cmake_modules
-          -DAMDGPU_TARGETS=${{ job.target }}
-          -DBUILD_BENCHMARK=ON
           -DAQLPROFILE_BUILD_TESTS=ON
           -GNinja
         extraCxxFlags: -Wno-deprecated-declarations
@@ -174,7 +172,10 @@ jobs:
       workspace:
         clean: all
       steps:
-      - checkout: none
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+        parameters:
+          checkoutRepo: ${{ parameters.checkoutRepo }}
+          sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
@@ -185,7 +186,6 @@ jobs:
           preTargetFilter: ${{ parameters.componentName }}
           gpuTarget: ${{ job.target }}
           os: ${{ job.os }}
-      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
         parameters:
           checkoutRef: ${{ parameters.checkoutRef }}
