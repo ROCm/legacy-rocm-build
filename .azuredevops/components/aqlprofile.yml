@@ -200,7 +200,7 @@ jobs:
           componentName: ${{ parameters.componentName }}
           testDir: $(Agent.BuildDirectory)
           testParameters: ''
-          testExecutable: $(Agent.BuildDirectory)/rocm/lib/hsa-amd-aqlprofile/test/run.sh
+          testExecutable: $(Agent.BuildDirectory)/rocm/share/hsa-amd-aqlprofile/run_tests.sh
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
