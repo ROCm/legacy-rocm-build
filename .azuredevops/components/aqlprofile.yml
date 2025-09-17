@@ -172,10 +172,7 @@ jobs:
       workspace:
         clean: all
       steps:
-      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
-        parameters:
-          checkoutRepo: ${{ parameters.checkoutRepo }}
-          sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+      - checkout: none
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
@@ -198,9 +195,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
-          testDir: $(Agent.BuildDirectory)/s/aqlprofile/test/
-          testParameters: ''
-          testExecutable: ./run.sh
+          testDir: $(Agent.BuildDirectory)/rocm/share/hsa-amd-aqlprofile
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
