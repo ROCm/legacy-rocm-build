@@ -2,6 +2,15 @@
 Benchmark Llama 2 70B LoRA fine-tuning with MLPerf
 **************************************************
 
+.. note::
+
+   For the latest iteration of AI training and inference performance for ROCm
+   7.0, see `Infinity Hub
+   <https://www.amd.com/en/developer/resources/infinity-hub.html#q=ROCm%207>`__
+   and the `ROCm 7.0 AI training and inference performance
+   <https://rocm.docs.amd.com/en/docs-7.0-docker/benchmark-docker/index.html>`__
+   documentation.
+
 This guide provides instructions to benchmark LoRA fine-tuning on the Llama 2
 70B model. The benchmark follows the MLPerf training submission for
 long-document summarization using the GovReport dataset.
