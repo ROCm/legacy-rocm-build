@@ -79,11 +79,15 @@ parameters:
   type: object
   default:
     buildJobs:
-      - { os: ubuntu2404, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2404, packageManager: apt, target: gfx90a }
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
     testJobs:
-      - { os: ubuntu2404, packageManager: apt, target: gfx942 }
-      - { os: ubuntu2404, packageManager: apt, target: gfx90a }
+      - gfx942:
+        target: gfx942
+      - gfx90a:
+        target: gfx90a
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
@@ -95,9 +99,7 @@ jobs:
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
-    pool:
-      ${{ if eq(job.os, 'ubuntu2404') }}:
-        vmImage: 'ubuntu-24.04'
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
     workspace:
       clean: all
     steps:
@@ -129,7 +131,9 @@ jobs:
         os: ${{ job.os }}
         consolidateBuildAndInstall: true
         extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH=$(Build.BinariesDirectory)
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/aqlprofile/cmake_modules
           -DAQLPROFILE_BUILD_TESTS=ON
           -GNinja
         extraCxxFlags: -Wno-deprecated-declarations
