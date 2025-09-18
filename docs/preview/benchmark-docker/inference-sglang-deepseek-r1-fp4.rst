@@ -2,6 +2,15 @@
 Benchmark DeepSeek R1 FP4 inference with SGLang
 ***********************************************
 
+.. note::
+
+   For the latest iteration of AI training and inference performance for ROCm
+   7.0, see `Infinity Hub
+   <https://www.amd.com/en/developer/resources/infinity-hub.html#q=ROCm%207>`__
+   and the `ROCm 7.0 AI training and inference performance
+   <https://rocm.docs.amd.com/en/docs-7.0-docker/benchmark-docker/index.html>`__
+   documentation.
+
 This section provides instructions to test the inference performance of DeepSeek R1
 with FP4 precision via the SGLang serving framework.
 The accompanying Docker image integrates the ROCm 7.0 preview with SGLang, and is

@@ -15,9 +15,8 @@ addressed in upcoming previews.
 
 .. important::
 
-   This preview is not intended for performance evaluation. For the latest stable
-   release with production-level functionality, see `ROCm 6.4.3 documentation
-   <https://rocm.docs.amd.com/en/latest/>`_.
+   This preview is not intended for performance evaluation.
+   For the latest stable release for use in production, see the [ROCm documentation](https://rocm.docs.amd.com/en/latest/).
 
 This document highlights the key changes in the RC1 build since the
 `Beta <https://rocm.docs.amd.com/en/docs-7.0-beta/preview/release.html>`__.
