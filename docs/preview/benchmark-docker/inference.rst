@@ -2,6 +2,15 @@
 Benchmarking model inference
 ****************************
 
+.. note::
+
+   For the latest iteration of AI training and inference performance for ROCm
+   7.0, see `Infinity Hub
+   <https://www.amd.com/en/developer/resources/infinity-hub.html#q=ROCm%207>`__
+   and the `ROCm 7.0 AI training and inference performance
+   <https://rocm.docs.amd.com/en/docs-7.0-docker/benchmark-docker/index.html>`__
+   documentation.
+
 AI inference is a process of deploying a trained machine learning model to make
 predictions or classifications on new data. By leveraging the ROCm platform's
 capabilities, you can harness the power of high-performance computing and
