@@ -46,7 +46,7 @@ using next-generation AMD accelerators. See the Docker image repository at
 
       * :doc:`inference-vllm-llama-3.3-70b-fp8`
 
-      * :doc:`inference-vllm-deepseek`
+      * :doc:`inference-vllm-deepseek-r1-fp8`
 
       * :doc:`inference-vllm-gpt-oss-120b`
 
