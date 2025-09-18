@@ -24,7 +24,7 @@ subtrees:
   - file: benchmark-docker/inference-vllm-llama-3.3-70b-fp8.rst
     title: Llama 3.3 70B FP8 inference with vLLM
   - file: benchmark-docker/inference-vllm-deepseek.rst
-    title: DeepSeek inference with vLLM
+    title: DeepSeek R1 FP8 inference with vLLM
   - file: benchmark-docker/inference-vllm-gpt-oss-120b.rst
     title: GPT OSS 120B inference with vLLM
   - file: benchmark-docker/inference-sglang-deepseek-r1-fp4.rst

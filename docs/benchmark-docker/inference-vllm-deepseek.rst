@@ -1,15 +1,15 @@
 ************************************************
-Benchmark DeepSeek inference with vLLM
+Benchmark DeepSeek R1 FP8 inference with vLLM
 ************************************************
 
-This section provides instructions to test the inference performance of Llama
-3.3 70B on the vLLM inference engine. The accompanying Docker image integrates
+This section provides instructions to test the inference performance of DeepSeek R1
+with FP8 precision on the vLLM inference engine. The accompanying Docker image integrates
 `ROCm 7.0 <https://rocm.docs.amd.com/en/latest/>`__ with vLLM, and is tailored
 for AMD Instinct MI355X, MI350X, and MI300X series accelerators. This benchmark
 does not support other GPUs.
 
 Follow these steps to pull the required image, spin up the container with the
-appropriate options, download the model, and run the throughput test.
+appropriate options, download the model, and run the benchmark.
 
 Pull the Docker image
 =====================
@@ -24,10 +24,7 @@ Download the model
 ==================
 
 See the model card on Hugging Face at
-`amd/Llama-3.3-70B-Instruct-FP8-KV <https://huggingface.co/amd/Llama-3.3-70B-Instruct-FP8-KV>`__.
-This model uses FP8 quantization via `AMD Quark
-<https://quark.docs.amd.com/latest/>`_ for efficient inference on AMD
-accelerators.
+`deepseek-ai/DeepSeek-R1-0528 <https://huggingface.co/deepseek-ai/DeepSeek-R1-0528>`__.
 
 .. code-block:: shell
 
@@ -35,7 +32,7 @@ accelerators.
    HF_HUB_ENABLE_HF_TRANSFER=1 \
    HF_HOME=/data/huggingface-cache \
    HF_TOKEN="<HF_TOKEN>" \
-   huggingface-cli download amd/Llama-3.3-70B-Instruct-FP8-KV --exclude "original/*"
+   huggingface-cli download deepseek-ai/DeepSeek-R1-0528 --exclude "original/*"
 
 Run the inference benchmark
 ===========================
@@ -58,16 +55,11 @@ Run the inference benchmark
         -v /data:/data \
         -e HF_HOME=/data/huggingface-cache \
         -e HF_HUB_OFFLINE=1 \
-        -e VLLM_USE_V1=1 \
-        -e VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1 \
-        -e AMDGCN_USE_BUFFER_OPS=1 \
         -e VLLM_USE_AITER_TRITON_ROPE=1 \
-        -e TRITON_HIP_ASYNC_COPY_BYPASS_PERMUTE=1 \
-        -e TRITON_HIP_USE_ASYNC_COPY=1 \
-        -e TRITON_HIP_USE_BLOCK_PINGPONG=1 \
-        -e TRITON_HIP_ASYNC_FAST_SWIZZLE=1 \
         -e VLLM_ROCM_USE_AITER=1 \
+        -e VLLM_ROCM_USE_AITER_PAGED_ATTN=0 \
         -e VLLM_ROCM_USE_AITER_RMSNORM=1 \
+        -e VLLM_USE_AITER_TRITON_SILU_MUL=0 \
         --name vllm-server \
         rocm/7.0:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250915
 
@@ -78,24 +70,21 @@ Run the inference benchmark
       max_model_len=10240
       max_num_seqs=1024
       max_num_batched_tokens=131072
-      max_seq_len_to_capture=16384
-      tensor_parallel_size=1
+      max_seq_len_to_capture=10240
+      tensor_parallel_size=8
 
-      vllm serve amd/Llama-3.3-70B-Instruct-FP8-KV \
+      vllm serve deepseek-ai/DeepSeek-R1-0528 \
           --host localhost \
           --port 8000 \
           --swap-space 64 \
-          --disable-log-requests \
-          --dtype auto \
           --max-model-len ${max_model_len} \
           --tensor-parallel-size ${tensor_parallel_size} \
           --max-num-seqs ${max_num_seqs} \
-          --distributed-executor-backend mp \
-          --kv-cache-dtype fp8 \
-          --gpu-memory-utilization 0.94 \
+          --gpu-memory-utilization 0.95 \
           --max-seq-len-to-capture ${max_seq_len_to_capture} \
           --max-num-batched-tokens ${max_num_batched_tokens} \
           --no-enable-prefix-caching \
+          --block-size 1 \
           --async-scheduling
 
           # Wait for model to load and server is ready to accept requests
@@ -114,7 +103,7 @@ Run the inference benchmark
       num_prompts=32
 
       python3 /app/vllm/benchmarks/benchmark_serving.py --host localhost --port 8000 \
-          --model amd/Llama-3.3-70B-Instruct-FP8-KV \ 
+          --model deepseek-ai/DeepSeek-R1-0528 \ 
           --dataset-name random \
           --random-input-len ${input_tokens} \
           --random-output-len ${output_tokens} \
@@ -122,15 +111,3 @@ Run the inference benchmark
           --num-prompts ${num_prompts} \
           --percentile-metrics ttft,tpot,itl,e2el \
           --ignore-eos
-
-Known issue
-===========
-
-If you encounter accuracy issues, try disabling multi-head attention (MHA) as a
-temporary workaround. This issue will be fixed in the next release.
-
-To disable MHA, set the following environment variable when :ref:`starting the container <docker-run-vllm-ds>`:
-
-.. code-block:: shell
-
-   -e VLLM_ROCM_USE_AITER_MHA=0
