@@ -2,6 +2,15 @@
 Benchmarking Llama 3 8B pre-training with Megatron-LM
 *****************************************************
 
+.. note::
+
+   For the latest iteration of AI training and inference performance for ROCm
+   7.0, see `Infinity Hub
+   <https://www.amd.com/en/developer/resources/infinity-hub.html#q=ROCm%207>`__
+   and the `ROCm 7.0 AI training and inference performance
+   <https://rocm.docs.amd.com/en/docs-7.0-docker/benchmark-docker/index.html>`__
+   documentation.
+
 This section details how to benchmark Llama 3 8B pre-training using the
 Megatron-LM framework. It includes configurations for both ``FP8`` and
 ``BF16`` precision to measure throughput.

@@ -11,8 +11,7 @@ expect issues and limitations that will be addressed in upcoming previews.
 .. important::
 
    The Alpha 2 release is not intended for performance evaluation.
-   For the latest stable release with production-level functionality,
-   see `ROCm 6.4.3 documentation <https://rocm.docs.amd.com/en/latest/>`_.
+   For the latest stable release for use in production, see the [ROCm documentation](https://rocm.docs.amd.com/en/latest/).
 
 This page provides a high-level summary of key changes added to the Alpha 2
 release since `the previous Alpha
