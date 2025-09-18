@@ -43,6 +43,7 @@ parameters:
     - rocSOLVER
     - rocSPARSE
     - rocThrust
+    - rocWMMA
 - name: rocmTestDependencies
   type: object
   default:
@@ -69,6 +70,7 @@ parameters:
     - rocSPARSE
     - rocThrust
     - roctracer
+    - rocWMMA
 
 - name: jobMatrix
   type: object
