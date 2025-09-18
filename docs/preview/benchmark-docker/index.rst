@@ -6,6 +6,15 @@
 Docker images for AI training and inference
 *******************************************
 
+.. note::
+
+   For the latest iteration of AI training and inference performance for ROCm
+   7.0, see `Infinity Hub
+   <https://www.amd.com/en/developer/resources/infinity-hub.html#q=ROCm%207>`__
+   and the `ROCm 7.0 AI training and inference performance
+   <https://rocm.docs.amd.com/en/docs-7.0-docker/benchmark-docker/index.html>`__
+   documentation.
+
 This page accompanies preview Docker images designed to reproduce
 training performance on AMD Instinct™ MI355X, MI350X, and MI300X series
 accelerators. The images provide access to Beta versions of the ROCm 7.0
