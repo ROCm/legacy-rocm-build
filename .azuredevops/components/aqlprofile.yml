@@ -130,7 +130,6 @@ jobs:
         consolidateBuildAndInstall: true
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
-          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/aqlprofile/cmake_modules
           -DAQLPROFILE_BUILD_TESTS=ON
           -GNinja
