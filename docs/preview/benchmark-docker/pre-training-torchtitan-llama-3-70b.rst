@@ -2,6 +2,15 @@
 Benchmarking Llama 3 70B pre-training with torchtitan
 *****************************************************
 
+.. note::
+
+   For the latest iteration of AI training and inference performance for ROCm
+   7.0, see `Infinity Hub
+   <https://www.amd.com/en/developer/resources/infinity-hub.html#q=ROCm%207>`__
+   and the `ROCm 7.0 AI training and inference performance
+   <https://rocm.docs.amd.com/en/docs-7.0-docker/benchmark-docker/index.html>`__
+   documentation.
+
 This guide provides instructions for benchmarking the pre-training throughput
 of the Llama 3 70B model using torchtitan. By following these steps, you will
 use a pre-configured Docker container, download the necessary Llama 3 assets,
