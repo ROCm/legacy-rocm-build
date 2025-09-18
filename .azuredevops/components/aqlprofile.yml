@@ -129,8 +129,6 @@ jobs:
         os: ${{ job.os }}
         consolidateBuildAndInstall: true
         extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
-          -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/aqlprofile/cmake_modules
           -DAQLPROFILE_BUILD_TESTS=ON
           -GNinja
         extraCxxFlags: -Wno-deprecated-declarations
