@@ -1,10 +1,15 @@
+parameters:
+  - name: cmakeVersion
+    type: string
+    default: '3.25.0'
+
 steps:
 - task: Bash@3
-  displayName: Install CMake 3.31
+  displayName: Install CMake ${{ parameters.cmakeVersion }}
   inputs:
     targetType: inline
     script: |
-      CMAKE_VERSION=3.25
+      CMAKE_VERSION=${{ parameters.cmakeVersion }}
       CMAKE_ROOT="$(Pipeline.Workspace)/cmake"
 
       echo "Downloading CMake $CMAKE_VERSION..."
