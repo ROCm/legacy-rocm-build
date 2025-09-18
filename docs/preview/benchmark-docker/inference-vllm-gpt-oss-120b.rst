@@ -2,6 +2,15 @@
 Benchmark GPT OSS 120B inference with vLLM
 ******************************************
 
+.. note::
+
+   For the latest iteration of AI training and inference performance for ROCm
+   7.0, see `Infinity Hub
+   <https://www.amd.com/en/developer/resources/infinity-hub.html#q=ROCm%207>`__
+   and the `ROCm 7.0 AI training and inference performance
+   <https://rocm.docs.amd.com/en/docs-7.0-docker/benchmark-docker/index.html>`__
+   documentation.
+
 This section provides instructions to test the inference performance of OpenAI
 GPT OSS 120B on the vLLM inference engine. The accompanying Docker image integrates
 the ROCm 7.0 preview with vLLM, and is tailored for AMD Instinct
