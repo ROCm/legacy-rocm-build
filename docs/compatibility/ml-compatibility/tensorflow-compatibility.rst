@@ -47,80 +47,15 @@ fixes, updates, and support for the latest ROCM versions.
 .. _tensorflow-docker-compat:
 
 Docker image compatibility
-===============================================================================
+================================================================================
 
-.. |docker-icon| raw:: html
+AMD provides preconfigured Docker images with TensorFlow and the ROCm backend.
+These images are published on `Docker Hub <https://hub.docker.com/r/rocm/tensorflow>`__ and are the
+recommended way to get started with deep learning with TensorFlow on ROCm.
 
-   <i class="fab fa-docker"></i>
-
-AMD validates and publishes ready-made `TensorFlow images
-<https://hub.docker.com/r/rocm/tensorflow>`__ with ROCm backends on
-Docker Hub. The following Docker image tags and associated inventories are
-validated for `ROCm 6.4.2 <https://repo.radeon.com/rocm/apt/6.4.2/>`__. Click
-the |docker-icon| icon to view the image on Docker Hub.
-
-.. list-table:: TensorFlow Docker image components
-    :header-rows: 1
-
-    * - Docker image
-      - TensorFlow
-      - Ubuntu
-      - Python
-      - TensorBoard
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/tensorflow/rocm6.4.2-py3.12-tf2.18-dev/images/sha256-96754ce2d30f729e19b497279915b5212ba33d5e408e7e5dd3f2304d87e3441e"><i class="fab fa-docker fa-lg"></i> rocm/tensorflow</a>
-
-      - `tensorflow-rocm 2.18.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.2/>`__
-      - 24.04
-      - `Python 3.12 <https://www.python.org/downloads/release/python-31210/>`__
-      - `TensorBoard 2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18.0>`__
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/tensorflow/rocm6.4.2-py3.10-tf2.18-dev/images/sha256-fa741508d383858e86985a9efac85174529127408102558ae2e3a4ac894eea1e"><i class="fab fa-docker fa-lg"></i> rocm/tensorflow</a>
-
-      - `tensorflow-rocm 2.18.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.2/>`__
-      - 22.04
-      - `Python 3.10 <https://www.python.org/downloads/release/python-31017/>`__
-      - `TensorBoard 2.18.0 <https://github.com/tensorflow/tensorboard/tree/2.18.0>`__
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/tensorflow/rocm6.4.2-py3.12-tf2.17-dev/images/sha256-3a0aef09f2a8833c2b64b85874dd9449ffc2ad257351857338ff5b706c03a418"><i class="fab fa-docker fa-lg"></i> rocm/tensorflow</a>
-
-      - `tensorflow-rocm 2.17.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.2/>`__
-      - 24.04
-      - `Python 3.12 <https://www.python.org/downloads/release/python-31210/>`__
-      - `TensorBoard 2.17.1 <https://github.com/tensorflow/tensorboard/tree/2.17.1>`__
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/tensorflow/rocm6.4.2-py3.10-tf2.17-dev/images/sha256-bc7341a41ebe7ab261aa100732874507c452421ef733e408ac4f05ed453b0bc5"><i class="fab fa-docker fa-lg"></i> rocm/tensorflow</a>
-
-      - `tensorflow-rocm 2.17.1 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.2/>`__
-      - 22.04
-      - `Python 3.10 <https://www.python.org/downloads/release/python-31017/>`__
-      - `TensorBoard 2.17.1 <https://github.com/tensorflow/tensorboard/tree/2.17.1>`__
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/tensorflow/rocm6.4.2-py3.12-tf2.16-dev/images/sha256-4841a8df7c340dab79bf9362dad687797649a00d594e0832eb83ea6880a40d3b"><i class="fab fa-docker fa-lg"></i> rocm/tensorflow</a>
-
-      - `tensorflow-rocm 2.16.2 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.2/>`__
-      - 24.04
-      - `Python 3.12 <https://www.python.org/downloads/release/python-31210/>`__
-      - `TensorBoard 2.16.2 <https://github.com/tensorflow/tensorboard/tree/2.16.2>`__
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/tensorflow/rocm6.4.2-py3.10-tf2.16-dev/images/sha256-883fa95aba960c58a3e46fceaa18f03ede2c7df89b8e9fd603ab2d47e0852897"><i class="fab fa-docker fa-lg"></i> rocm/tensorflow</a>
-
-      - `tensorflow-rocm 2.16.2 <https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4.2/>`__
-      - 22.04
-      - `Python 3.10 <https://www.python.org/downloads/release/python-31017/>`__
-      - `TensorBoard 2.16.2 <https://github.com/tensorflow/tensorboard/tree/2.16.2>`__
+To find the right image tag, see the :ref:`TensorFlow on ROCm installation
+documentation <rocm-install-on-linux:tensorflow-docker-support>` for a list of
+available ``rocm/tensorflow`` images.
 
 
 Critical ROCm libraries for TensorFlow

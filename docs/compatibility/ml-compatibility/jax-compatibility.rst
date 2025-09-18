@@ -90,75 +90,15 @@ For more use cases and recommendations, see `ROCm JAX blog posts <https://rocm.b
 Docker image compatibility
 ================================================================================
 
-.. |docker-icon| raw:: html
+AMD provides preconfigured Docker images with JAX and the ROCm backend.
+These images are published on `Docker Hub <https://hub.docker.com/r/rocm/jax>`__ and are the
+recommended way to get started with deep learning with JAX on ROCm.
+For ``jax-community`` images, see `rocm/jax-community
+<https://hub.docker.com/r/rocm/jax-community/tags>`__ on Docker Hub.
 
-   <i class="fab fa-docker"></i>
-
-AMD validates and publishes ready-made `ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax>`_
-with ROCm backends on Docker Hub. The following Docker image tags and
-associated inventories represent the latest JAX version from the official Docker Hub and are validated for
-`ROCm 6.4.2 <https://repo.radeon.com/rocm/apt/6.4.2/>`_. Click the |docker-icon|
-icon to view the image on Docker Hub.
-
-.. list-table:: JAX Docker image components
-    :header-rows: 1
-
-    * - Docker image
-      - JAX
-      - Linux
-      - Python
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4.2-jax0.4.35-py3.12/images/sha256-8918fa806a172c1a10eb2f57131eb31b5d7c8fa1656b8729fe7d3d736112de83"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
-
-      - `0.4.35 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.4.35>`_
-      - Ubuntu 24.04
-      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4.2-jax0.4.35-py3.10/images/sha256-a394be13c67b7fc602216abee51233afd4b6cb7adaa57ca97e688fba82f9ad79"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
-
-      - `0.4.35 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.4.35>`_
-      - Ubuntu 22.04
-      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-
-AMD publishes `Community ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax-community>`_
-with ROCm backends on Docker Hub. The following Docker image tags and
-associated inventories are tested for `ROCm 6.3.2 <https://repo.radeon.com/rocm/apt/6.3.2/>`_.
-
-.. list-table:: JAX community Docker image components
-    :header-rows: 1
-
-    * - Docker image
-      - JAX
-      - Linux
-      - Python
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/jax-community/rocm6.3.2-jax0.5.0-py3.12.8/images/sha256-25dfaa0183e274bd0a3554a309af3249c6f16a1793226cb5373f418e39d3146a"><i class="fab fa-docker fa-lg"></i> rocm/jax-community</a>
-
-      - `0.5.0 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.5.0>`_
-      - Ubuntu 22.04
-      - `3.12.8 <https://www.python.org/downloads/release/python-3128/>`_
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/jax-community/rocm6.3.2-jax0.5.0-py3.11.11/images/sha256-ff9baeca9067d13e6c279c911e5a9e5beed0817d24fafd424367cc3d5bd381d7"><i class="fab fa-docker fa-lg"></i> rocm/jax-community</a>
-
-      - `0.5.0 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.5.0>`_
-      - Ubuntu 22.04
-      - `3.11.11 <https://www.python.org/downloads/release/python-31111/>`_
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/jax-community/rocm6.3.2-jax0.5.0-py3.10.16/images/sha256-8bab484be1713655f74da51a191ed824bb9d03db1104fd63530a1ac3c37cf7b1"><i class="fab fa-docker fa-lg"></i> rocm/jax-community</a>
-
-      - `0.5.0 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.5.0>`_
-      - Ubuntu 22.04
-      - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`_
+To find the right image tag, see the :ref:`JAX on ROCm installation
+documentation <rocm-install-on-linux:jax-docker-support>` for a list of
+available ``rocm/jax`` images.
 
 .. _key_rocm_libraries:
 
