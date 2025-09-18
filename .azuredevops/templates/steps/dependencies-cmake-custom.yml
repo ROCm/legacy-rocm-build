@@ -1,7 +1,7 @@
 parameters:
   - name: cmakeVersion
     type: string
-    default: '3.25.0'
+    default: '3.31.0'
 
 steps:
 - task: Bash@3
