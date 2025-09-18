@@ -1,0 +1,23 @@
+steps:
+- task: Bash@3
+  displayName: Install CMake 3.31
+  inputs:
+    targetType: inline
+    script: |
+      CMAKE_VERSION=3.25
+      CMAKE_ROOT="$(Pipeline.Workspace)/cmake"
+
+      echo "Downloading CMake $CMAKE_VERSION..."
+      curl -fsSL -o cmake.tar.gz https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz
+
+      echo "Extracting to $CMAKE_ROOT..."
+      sudo mkdir -p $CMAKE_ROOT
+      sudo tar --strip-components=1 -xz -C $CMAKE_ROOT -f cmake.tar.gz
+
+      echo "##vso[task.prependpath]$CMAKE_ROOT/bin"
+- task: Bash@3
+  displayName: cmake --version
+  inputs:
+    targetType: inline
+    script: |
+      cmake --version
