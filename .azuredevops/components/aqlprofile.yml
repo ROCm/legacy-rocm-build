@@ -137,6 +137,10 @@ jobs:
           -DAQLPROFILE_BUILD_TESTS=ON
           -GNinja
         extraCxxFlags: -Wno-deprecated-declarations
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      parameters:
+        componentName: ${{ parameters.componentName }}
+        testDir: $(Agent.BuildDirectory)/s/test
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}
