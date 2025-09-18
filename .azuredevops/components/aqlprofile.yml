@@ -129,6 +129,7 @@ jobs:
         os: ${{ job.os }}
         consolidateBuildAndInstall: true
         extraBuildFlags: >-
+          -DCMAKE_PREFIX_PATH=$(Build.BinariesDirectory)
           -DAQLPROFILE_BUILD_TESTS=ON
           -GNinja
         extraCxxFlags: -Wno-deprecated-declarations
