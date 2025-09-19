@@ -5,8 +5,7 @@ Benchmark DeepSeek R1 FP8 inference with SGLang
 This section provides instructions to test the inference performance of DeepSeek R1
 with FP8 precision via the SGLang serving framework.
 The accompanying Docker image integrates ROCm 7.0 with SGLang, and is
-tailored for AMD Instinct MI355X, MI350X, and MI300X series accelerators. This
-benchmark does not support other accelerators.
+supported on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs.
 
 Follow these steps to pull the required image, spin up the container with the
 appropriate options, download the model, and run the benchmark.
