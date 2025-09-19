@@ -1,13 +1,13 @@
 dockers:
-  - pull_tag: rocm/megatron-lm:v25.8_py310
-    docker_hub_url: https://hub.docker.com/layers/rocm/megatron-lm/v25.8_py310/images/sha256-50fc824361054e445e86d5d88d5f58817f61f8ec83ad4a7e43ea38bbc4a142c0
+  - pull_tag: rocm/megatron-lm:v25.7_py310
+    docker_hub_url: https://hub.docker.com/layers/rocm/megatron-lm/v25.7_py310/images/sha256-6189df849feeeee3ae31bb1e97aef5006d69d2b90c134e97708c19632e20ab5a
     components:
-      ROCm: 6.4.3
-      Primus: 927a717
+      ROCm: 6.4.2
+      Primus: v0.1.0-rc1
       PyTorch: 2.8.0a0+gitd06a406
       Python: "3.10"
-      Transformer Engine: 2.2.0.dev0+54dd2bdc
-      hipBLASLt: d1b517fc7a
+      Transformer Engine: 2.1.0.dev0+ba586519
+      hipBLASLt: 37ba1d36
       Triton: 3.3.0
       RCCL: 2.22.3
 model_groups:

@@ -1,12 +1,12 @@
 :orphan:
 
-**********************************************************************
-Migrating workloads to Primus (Megatron-Core backend) from Megatron-LM
-**********************************************************************
+*****************************************************************
+Migrating workloads to Primus (Megatron backend) from Megatron-LM
+*****************************************************************
 
 Primus supports Megatron-Core as backend optimization library,
 replacing ROCm Megatron-LM. This document outlines the steps to migrate
-workload from ROCm Megatron-LM to Primus with the Megatron-Core backend.
+workload from ROCm Megatron-LM to Primus with the Megatron backend.
 
 Model architecture
 ==================
