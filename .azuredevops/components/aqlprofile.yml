@@ -71,7 +71,6 @@ parameters:
   default:
     - clr
     - llvm-project
-    - rocminfo
     - ROCR-Runtime
     - rocprofiler-register
 
@@ -91,7 +90,7 @@ jobs:
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
-          - ${{ build }}_${{ job.target }}
+          - ${{ build }}_${{ job.os }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -103,7 +102,7 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
-        registerROCmPackages: true
+        packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
@@ -133,7 +132,6 @@ jobs:
           -DAQLPROFILE_BUILD_TESTS=ON
           -DGPU_TARGETS=${{ job.target }}
           -GNinja
-        extraCxxFlags: -Wno-deprecated-declarations
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
         componentName: ${{ parameters.componentName }}
