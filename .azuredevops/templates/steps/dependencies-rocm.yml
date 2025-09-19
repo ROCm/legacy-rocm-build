@@ -126,6 +126,10 @@ parameters:
       pipelineId: 80
       developBranch: develop
       hasGpuTarget: true
+    origami:
+      pipelineId: 364
+      developBranch: develop
+      hasGpuTarget: true
     rccl:
       pipelineId: 107
       developBranch: develop
