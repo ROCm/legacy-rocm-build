@@ -207,6 +207,7 @@ jobs:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       - script: |
+          set -e
           export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
 
           echo "--- Running origami_test.py ---"
