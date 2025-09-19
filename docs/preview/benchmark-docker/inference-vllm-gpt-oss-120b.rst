@@ -14,7 +14,7 @@ Benchmark GPT OSS 120B inference with vLLM
 This section provides instructions to test the inference performance of OpenAI
 GPT OSS 120B on the vLLM inference engine. The accompanying Docker image integrates
 the ROCm 7.0 preview with vLLM, and is tailored for AMD Instinct
-MI355X, MI350X, and MI300X series accelerators. This benchmark does not support other
+MI355X and MI350X accelerators. This benchmark does not support other
 GPUs.
 
 Follow these steps to pull the required image, spin up the container with the
