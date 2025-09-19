@@ -33,6 +33,7 @@ parameters:
     - hipRAND
     - hipSOLVER
     - hipSPARSE
+    - hipTensor
     - llvm-project
     - rocBLAS
     - rocFFT
@@ -58,6 +59,7 @@ parameters:
     - hipRAND
     - hipSOLVER
     - hipSPARSE
+    - hipTensor
     - llvm-project
     - rocBLAS
     - rocFFT
