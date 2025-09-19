@@ -52,6 +52,8 @@ parameters:
     - clang-tidy
     - cmake
     - cmake-format
+    - "pytest>=6.2.5"
+    - pyyaml
 - name: rocmDependencies
   type: object
   default:
@@ -95,7 +97,6 @@ jobs:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
         packageManager: ${{ job.packageManager }}
-        registerROCmPackages: true
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
