@@ -87,7 +87,7 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: ${{ parameters.componentName }}_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
@@ -131,6 +131,7 @@ jobs:
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/aqlprofile/cmake_modules
           -DAQLPROFILE_BUILD_TESTS=ON
+          -DGPU_TARGETS=${{ job.target }}
           -GNinja
         extraCxxFlags: -Wno-deprecated-declarations
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
@@ -153,8 +154,8 @@ jobs:
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
-    - job: ${{ parameters.componentName }}_test_${{ job.target }}
-      dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
+    - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}
+      dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
       condition:
         and(succeeded(),
           eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
