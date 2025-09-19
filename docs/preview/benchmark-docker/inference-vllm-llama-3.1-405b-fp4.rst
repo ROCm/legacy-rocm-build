@@ -78,8 +78,6 @@ Run the inference benchmark
         -e VLLM_ROCM_USE_AITER_RMSNORM=1 \
         -e VLLM_TRITON_FP4_GEMM_USE_ASM=1 \
         -e VLLM_TRITON_FP4_GEMM_SPLITK_USE_BF16=1 \
-        -e TRITON_HIP_PRESHUFFLE_SCALES=0 \
-        -e VLLM_TRITON_FP4_GEMM_BPRESHUFFLE=0 \
         --name vllm-server \
         rocm/7.0-preview:rocm7.0_preview_ubuntu_22.04_vllm_0.10.1_instinct_rc1
 
