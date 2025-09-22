@@ -230,7 +230,7 @@ system's configuration.
             .. seealso::
 
                For more information on configuration, see the `config files
-               <https://github.com/ROCm/MAD-private/tree/develop/scripts/vllm/configs>`__
+               <https://github.com/ROCm/MAD/tree/develop/scripts/vllm/configs>`__
                in the MAD repository. Refer to the `vLLM engine <https://docs.vllm.ai/en/latest/configuration/engine_args.html#engineargs>`__
                for descriptions of available configuration options
                and `Benchmarking vLLM <https://github.com/vllm-project/vllm/blob/main/benchmarks/README.md>`__ for
@@ -351,6 +351,9 @@ system's configuration.
                       --result-filename ${model}_serving.json
 
             .. note::
+
+               For improved performance with certain Mixture of Experts models, such as Mixtral 8x22B,
+               try adding ``export VLLM_ROCM_USE_AITER=1`` to your commands.
 
                If you encounter the following error, pass your access-authorized Hugging
                Face token to the gated models.

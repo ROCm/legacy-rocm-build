@@ -111,7 +111,7 @@ Build the Docker image
 ----------------------
 
 Get the Dockerfile located in
-`<https://github.com/ROCm/MAD/blob/develop/docker/sglang_dissag_inference.ubuntu.amd.Dockerfile>`__.
+`<https://github.com/ROCm/MAD/blob/develop/docker/sglang_disagg_inference.ubuntu.amd.Dockerfile>`__.
 It uses `lmsysorg/sglang:v0.5.2rc1-rocm700-mi30x
 <https://hub.docker.com/layers/lmsysorg/sglang/v0.4.9.post1-rocm630/images/sha256-2f6b1748e4bcc70717875a7da76c87795fd8aa46a9646e08d38aa7232fc78538>`__
 as the base Docker image and installs the necessary components for Mooncake, etcd, and Mellanox network
@@ -128,7 +128,7 @@ drivers.
 Benchmarking
 ============
 
-The `<https://github.com/ROCm/MAD/tree/develop/scripts/sglang_dissag>`__
+The `<https://github.com/ROCm/MAD/tree/develop/scripts/sglang_disagg>`__
 repository contains scripts to launch SGLang inference with prefill/decode
 disaggregation via Mooncake for supported models.
 
