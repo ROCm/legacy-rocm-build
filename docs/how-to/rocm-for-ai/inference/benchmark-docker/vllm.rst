@@ -230,7 +230,7 @@ system's configuration.
             .. seealso::
 
                For more information on configuration, see the `config files
-               <https://github.com/ROCm/MAD-private/tree/develop/scripts/vllm/configs>`__
+               <https://github.com/ROCm/MAD/tree/develop/scripts/vllm/configs>`__
                in the MAD repository. Refer to the `vLLM engine <https://docs.vllm.ai/en/latest/configuration/engine_args.html#engineargs>`__
                for descriptions of available configuration options
                and `Benchmarking vLLM <https://github.com/vllm-project/vllm/blob/main/benchmarks/README.md>`__ for
