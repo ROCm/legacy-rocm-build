@@ -352,6 +352,9 @@ system's configuration.
 
             .. note::
 
+               For improved performance with certain Mixture of Experts models, such as Mixtral 8x22B,
+               try adding ``export VLLM_ROCM_USE_AITER=1`` to your commands.
+
                If you encounter the following error, pass your access-authorized Hugging
                Face token to the gated models.
 
