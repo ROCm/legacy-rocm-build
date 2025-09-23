@@ -219,8 +219,8 @@ parameters:
       developBranch: develop
       hasGpuTarget: false
     rocprofiler-sdk:
-      pipelineId: 347
-      developBranch: develop
+      pipelineId: 246
+      developBranch: amd-staging
       hasGpuTarget: true
     rocprofiler-systems:
       pipelineId: 255
