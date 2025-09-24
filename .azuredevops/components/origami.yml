@@ -112,6 +112,10 @@ jobs:
         packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
+      parameters:
+        dependencyList:
+          - gtest
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
@@ -215,7 +219,7 @@ jobs:
           os: ${{ job.os }}
           testDir: '$(Agent.BuildDirectory)/rocm/bin'
           testExecutable: './origami-tests'
-          # testParameters: '--yaml origami-tests.yaml --gtest_output=xml:./test_output.xml --gtest_color=yes'
+          testParameters: '--yaml origami-tests.yaml --gtest_output=xml:./test_output.xml --gtest_color=yes'
       - script: |
           set -e
           export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
