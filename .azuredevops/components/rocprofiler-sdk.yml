@@ -213,7 +213,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
-          testDir: $(Agent.BuildDirectory)/b/share/rocprofiler-sdk/tests
+          testDir: $(Agent.BuildDirectory)
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
