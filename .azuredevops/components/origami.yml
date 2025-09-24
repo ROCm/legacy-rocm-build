@@ -206,6 +206,13 @@ jobs:
           ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+        parameters:
+          componentName: ${{ parameters.componentName }}
+          os: ${{ job.os }}
+          testDir: '$(Agent.BuildDirectory)/rocm/bin'
+          testExecutable: './origami-tests'
+          # testParameters: '--yaml origami-tests.yaml --gtest_output=xml:./test_output.xml --gtest_color=yes'
       - script: |
           set -e
           export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
