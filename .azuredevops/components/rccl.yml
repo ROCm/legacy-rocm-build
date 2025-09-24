@@ -231,7 +231,7 @@ jobs:
       - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
         parameters:
           checkoutRepo: ${{ parameters.systemsRepo }}
-          sparseCheckoutDir: ${{ component.systemsSparseCheckoutDir }}
+          sparseCheckoutDir: ${{ parameters.systemsSparseCheckoutDir }}
           triggerDownstreamJobs: true
           unifiedBuild: ${{ parameters.unifiedBuild }}
           ${{ if parameters.unifiedBuild }}:
