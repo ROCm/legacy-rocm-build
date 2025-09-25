@@ -35,24 +35,10 @@ parameters:
     - build-essential
     - cmake
     - git
-    - libdrm-amdgpu-dev
-    - libdrm-dev
-    - libdw-dev
-    - libelf-dev
-    - libsqlite3-dev
-    - libva-dev
-    - ninja-build
-    - pkg-config
     - python3-pip
 - name: pipModules
   type: object
   default:
-    - black
-    - clang-format
-    - clang-tidy
-    - cmake
-    - cmake-format
-    - "pytest>=6.2.5"
     - pyyaml
 - name: rocmDependencies
   type: object
