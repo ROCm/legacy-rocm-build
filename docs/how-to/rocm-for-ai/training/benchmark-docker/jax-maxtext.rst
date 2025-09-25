@@ -3,7 +3,7 @@
    :keywords: ROCm, AI, LLM, train, jax, torch, Llama, flux, tutorial, docker
 
 ******************************************
-Training a model with JAX MaxText for ROCm
+Training a model with JAX MaxText on ROCm
 ******************************************
 
 MaxText is a high-performance, open-source framework built on the Google JAX
@@ -47,10 +47,6 @@ It includes the following software components:
             ``shardy=False`` during the training run. You can also follow the `migration
             guide <https://docs.jax.dev/en/latest/shardy_jax_migration.html>`__ to enable
             it.
-
-            The provided multi-node training scripts in this documentation are
-            not currently supported with JAX 0.6.0. For multi-node training, use the JAX 0.5.0
-            Docker image.
          {% endif %}
 
       {% endfor %}
@@ -82,32 +78,32 @@ started.
    {% set model_groups = data.model_groups %}
    .. raw:: html
 
-         <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
-           <div class="row">
-             <div class="col-2 me-2 model-param-head">Model</div>
-             <div class="row col-10">
+      <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
+         <div class="row gx-0">
+            <div class="col-2 me-1 px-2 model-param-head">Model</div>
+            <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
-               <div class="col-4 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
-             </div>
-           </div>
+            </div>
+         </div>
 
-           <div class="row mt-1">
-             <div class="col-2 me-2 model-param-head">Model variant</div>
-             <div class="row col-10">
+         <div class="row gx-0 pt-1">
+            <div class="col-2 me-1 px-2 model-param-head">Variant</div>
+            <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
          {% set models = model_group.models %}
          {% for model in models %}
             {% if models|length % 3 == 0 %}
-               <div class="col-4 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+               <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
             {% else %}
-               <div class="col-6 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+               <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
             {% endif %}
          {% endfor %}
       {% endfor %}
-             </div>
-           </div>
+            </div>
          </div>
+      </div>
 
 .. note::
 
@@ -208,7 +204,7 @@ with RDMA, skip ahead to :ref:`amd-maxtext-get-started-v257`.
 
    e. RDMA interface
 
-      Ensure the :ref:`required packages <amd-maxtext-multi-node-setup>` are installed on all nodes.
+      Ensure the :ref:`required packages <amd-maxtext-multi-node-setup-v257>` are installed on all nodes.
       Then, set the RDMA interfaces to use for communication.
 
       .. code-block:: bash
@@ -361,12 +357,6 @@ benchmark results:
 
                   ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q nanoo_fp8
 
-               .. important::
-
-                  Quantized training is not supported with the JAX 0.6.0 Docker image; support
-                  will be added in a future release. For quantized training, use the JAX 0.5.0
-                  Docker image: ``rocm/jax-training:maxtext-v25.7``.
-
             {% endif %}
             {% if model.multinode_training_script and "multi-node" in model.doc_options %}
             .. rubric:: Multi-node training
@@ -383,7 +373,7 @@ benchmark results:
                for more details on downloading the Llama models before running the
                benchmark.
 
-            2. To run multi-node training for {{ model.model }}, 
+            2. To run multi-node training for {{ model.model }},
                use the
                `multi-node training script <https://github.com/ROCm/MAD/blob/develop/scripts/jax-maxtext/gpu-rocm/{{ model.multinode_training_script }}>`__
                under the ``scripts/jax-maxtext/gpu-rocm/`` directory.
@@ -405,8 +395,6 @@ benchmark results:
 
 Further reading
 ===============
-
-- See the ROCm/maxtext benchmarking README at `<https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/readme.md>`__.
 
 - To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 

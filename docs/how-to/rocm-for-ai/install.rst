@@ -47,7 +47,7 @@ Deep learning frameworks
 ========================
 
 ROCm supports deep learning frameworks and libraries including `PyTorch
-<https://pytorch.org/blog/pytorch-for-amd-rocm-platform-now-available-as-python-package>`_, `TensorFlow
+<https://pytorch.org>`_, `TensorFlow
 <https://tensorflow.org>`_, `JAX <https://jax.readthedocs.io/en/latest>`_, and more.
 
 Review the :doc:`framework installation documentation <../deep-learning-rocm>`. For ease-of-use, it's recommended to use official ROCm prebuilt Docker

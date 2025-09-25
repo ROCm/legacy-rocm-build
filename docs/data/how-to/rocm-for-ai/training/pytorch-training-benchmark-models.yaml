@@ -1,14 +1,13 @@
 dockers:
-  - pull_tag: rocm/pytorch-training:v25.7
-    docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-training/v25.7/images/sha256-cc6fd840ab89cb81d926fc29eca6d075aee9875a55a522675a4b9231c9a0a712
+  - pull_tag: rocm/pytorch-training:v25.8
+    docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-training/v25.8/images/sha256-5082ae01d73fec6972b0d84e5dad78c0926820dcf3c19f301d6c8eb892e573c5
     components:
-      ROCm: 6.4.2
+      ROCm: 6.4.3
       PyTorch: 2.8.0a0+gitd06a406
       Python: 3.10.18
-      Transformer Engine: 2.2.0.dev0+94e53dd8
+      Transformer Engine: 2.2.0.dev0+a1e66aae
       Flash Attention: 3.0.0.post1
-      hipBLASLt: 1.1.0-4b9a52edfc
-      Triton: 3.3.0
+      hipBLASLt: 1.1.0-d1b517fc7a
 model_groups:
   - group: Meta Llama
     tag: llama
@@ -151,6 +150,15 @@ model_groups:
       url: https://huggingface.co/Qwen/Qwen2-7B
       precision: BF16
       training_modes: [finetune_fw, finetune_lora]
+  - group: Stable Diffusion
+    tag: sd
+    models:
+    - model: Stable Diffusion XL
+      mad_tag: pyt_huggingface_stable_diffusion_xl_2k_lora_finetuning
+      model_repo: SDXL
+      url: https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0
+      precision: BF16
+      training_modes: [finetune_lora]
   - group: Flux
     tag: flux
     models:
@@ -160,3 +168,11 @@ model_groups:
       url: https://huggingface.co/black-forest-labs/FLUX.1-dev
       precision: BF16
       training_modes: [pretrain]
+  - group: NCF
+    tag: ncf
+    models:
+    - model: NCF
+      mad_tag: pyt_ncf_training
+      model_repo:
+      url: https://github.com/NVIDIA/DeepLearningExamples/tree/master/PyTorch/Recommendation/NCF
+      precision: FP32

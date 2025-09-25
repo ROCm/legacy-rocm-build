@@ -27,7 +27,7 @@ with ROCm support:
   - Offers AMD-validated and community :ref:`Docker images <jax-docker-compat>`
     with ROCm and JAX preinstalled.
 
-  - ROCm JAX repository: `ROCm/jax <https://github.com/ROCm/jax>`_
+  - ROCm JAX repository: `ROCm/rocm-jax <https://github.com/ROCm/rocm-jax>`_
 
   - See the :doc:`ROCm JAX installation guide <rocm-install-on-linux:install/3rd-party/jax-install>`
     to get started.
@@ -90,75 +90,15 @@ For more use cases and recommendations, see `ROCm JAX blog posts <https://rocm.b
 Docker image compatibility
 ================================================================================
 
-.. |docker-icon| raw:: html
+AMD provides preconfigured Docker images with JAX and the ROCm backend.
+These images are published on `Docker Hub <https://hub.docker.com/r/rocm/jax>`__ and are the
+recommended way to get started with deep learning with JAX on ROCm.
+For ``jax-community`` images, see `rocm/jax-community
+<https://hub.docker.com/r/rocm/jax-community/tags>`__ on Docker Hub.
 
-   <i class="fab fa-docker"></i>
-
-AMD validates and publishes ready-made `ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax>`_
-with ROCm backends on Docker Hub. The following Docker image tags and
-associated inventories represent the latest JAX version from the official Docker Hub and are validated for
-`ROCm 6.4.2 <https://repo.radeon.com/rocm/apt/6.4.2/>`_. Click the |docker-icon|
-icon to view the image on Docker Hub.
-
-.. list-table:: JAX Docker image components
-    :header-rows: 1
-
-    * - Docker image
-      - JAX
-      - Linux
-      - Python
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4.2-jax0.4.35-py3.12/images/sha256-8918fa806a172c1a10eb2f57131eb31b5d7c8fa1656b8729fe7d3d736112de83"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
-
-      - `0.4.35 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.4.35>`_
-      - Ubuntu 24.04
-      - `3.12.10 <https://www.python.org/downloads/release/python-31210/>`_
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/jax/rocm6.4.2-jax0.4.35-py3.10/images/sha256-a394be13c67b7fc602216abee51233afd4b6cb7adaa57ca97e688fba82f9ad79"><i class="fab fa-docker fa-lg"></i> rocm/jax</a>
-
-      - `0.4.35 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.4.35>`_
-      - Ubuntu 22.04
-      - `3.10.17 <https://www.python.org/downloads/release/python-31017/>`_
-
-AMD publishes `Community ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax-community>`_
-with ROCm backends on Docker Hub. The following Docker image tags and
-associated inventories are tested for `ROCm 6.3.2 <https://repo.radeon.com/rocm/apt/6.3.2/>`_.
-
-.. list-table:: JAX community Docker image components
-    :header-rows: 1
-
-    * - Docker image
-      - JAX
-      - Linux
-      - Python
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/jax-community/rocm6.3.2-jax0.5.0-py3.12.8/images/sha256-25dfaa0183e274bd0a3554a309af3249c6f16a1793226cb5373f418e39d3146a"><i class="fab fa-docker fa-lg"></i> rocm/jax-community</a>
-
-      - `0.5.0 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.5.0>`_
-      - Ubuntu 22.04
-      - `3.12.8 <https://www.python.org/downloads/release/python-3128/>`_
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/jax-community/rocm6.3.2-jax0.5.0-py3.11.11/images/sha256-ff9baeca9067d13e6c279c911e5a9e5beed0817d24fafd424367cc3d5bd381d7"><i class="fab fa-docker fa-lg"></i> rocm/jax-community</a>
-
-      - `0.5.0 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.5.0>`_
-      - Ubuntu 22.04
-      - `3.11.11 <https://www.python.org/downloads/release/python-31111/>`_
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/jax-community/rocm6.3.2-jax0.5.0-py3.10.16/images/sha256-8bab484be1713655f74da51a191ed824bb9d03db1104fd63530a1ac3c37cf7b1"><i class="fab fa-docker fa-lg"></i> rocm/jax-community</a>
-
-      - `0.5.0 <https://github.com/ROCm/jax/releases/tag/rocm-jax-v0.5.0>`_
-      - Ubuntu 22.04
-      - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`_
+To find the right image tag, see the :ref:`JAX on ROCm installation
+documentation <rocm-install-on-linux:jax-docker-support>` for a list of
+available ``rocm/jax`` images.
 
 .. _key_rocm_libraries:
 
@@ -310,5 +250,54 @@ For a complete and up-to-date list of JAX public modules (for example, ``jax.num
   Since version 0.1.56, JAX has full support for ROCm, and the
   :ref:`Known issues and important notes <jax_comp_known_issues>` section
   contains details about limitations specific to the ROCm backend. The list of
-  JAX API modules is maintained by the JAX project and is subject to change. 
+  JAX API modules are maintained by the JAX project and is subject to change.
   Refer to the official Jax documentation for the most up-to-date information.
+
+Key features and enhancements for ROCm 7.0
+===============================================================================
+
+- Upgraded XLA backend: Integrates a newer XLA version, enabling better
+  optimizations, broader operator support, and potential performance gains.
+
+- RNN support: Native RNN support (including LSTMs via ``jax.experimental.rnn``)
+  now available on ROCm, aiding sequence model development.
+
+- Comprehensive linear algebra capabilities: Offers robust ``jax.linalg``
+  operations, essential for scientific and machine learning tasks.
+
+- Expanded AMD GPU architecture support: Provides ongoing support for gfx1101
+  GPUs and introduces support for gfx950 and gfx12xx GPUs.
+
+- Mixed FP8 precision support: Enables ``lax.dot_general`` operations with mixed FP8
+  types, offering pathways for memory and compute efficiency.
+
+- Streamlined PyPi packaging: Provides reliable PyPi wheels for JAX on ROCm,
+  simplifying the installation process.
+
+- Pallas experimental kernel development: Continued Pallas framework
+  enhancements for custom GPU kernels, including new intrinsics (specific
+  kernel behaviors under review).
+
+- Improved build system and CI: Enhanced ROCm build system and CI for greater
+  reliability and maintainability.
+
+- Enhanced distributed computing setup: Improved JAX setup in multi-GPU
+  distributed environments.
+
+.. _jax_comp_known_issues:
+
+Known issues and notes for ROCm 7.0
+===============================================================================
+
+- ``nn.dot_product_attention``: Certain configurations of ``jax.nn.dot_product_attention``
+  may cause segmentation faults, though the majority of use cases work correctly.
+
+- SVD with dynamic shapes: SVD on inputs with dynamic/symbolic shapes might result in an error.
+  SVD with static shapes is unaffected.
+
+- QR decomposition with symbolic shapes: QR decomposition operations may fail when using
+  symbolic/dynamic shapes in shape polymorphic contexts.
+
+- Pallas kernels: Specific advanced Pallas kernels may exhibit variations in
+  numerical output or resource usage. These are actively reviewed as part of
+  Pallas's experimental development.

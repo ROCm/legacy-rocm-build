@@ -79,7 +79,7 @@ jobs:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
         packageManager: ${{ job.packageManager }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
     - task: Bash@3
       displayName: Add lit to PATH
       inputs:

@@ -1,10 +1,17 @@
+:orphan:
+
 .. meta::
    :description: How to train a model using PyTorch for ROCm.
    :keywords: ROCm, AI, LLM, train, PyTorch, torch, Llama, flux, tutorial, docker
 
 **************************************
-Training a model with PyTorch for ROCm
+Training a model with PyTorch on ROCm
 **************************************
+
+.. note::
+
+   Primus with the PyTorch torchtitan backend is intended to supersede the :doc:`ROCm PyTorch training <pytorch-training>` workflow.
+   See :doc:`primus-pytorch` for details.
 
 PyTorch is an open-source machine learning framework that is widely used for
 model training with GPU-optimized components for transformer-based models.
@@ -45,30 +52,30 @@ vary by model -- select one to get started.
    .. raw:: html
 
       <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
-        <div class="row">
-          <div class="col-2 me-2 model-param-head">Model group</div>
-          <div class="row col-10">
-   {% for model_group in model_groups %}
-            <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
-   {% endfor %}
-          </div>
-        </div>
-
-        <div class="row mt-1">
-          <div class="col-2 me-2 model-param-head">Model variant</div>
-          <div class="row col-10">
-   {% for model_group in model_groups %}
-      {% set models = model_group.models %}
-      {% for model in models %}
-         {% if models|length % 3 == 0 %}
-            <div class="col-4 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
-         {% else %}
-            <div class="col-6 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
-         {% endif %}
+         <div class="row gx-0">
+            <div class="col-2 me-1 px-2 model-param-head">Model</div>
+            <div class="row col-10 pe-0">
+      {% for model_group in model_groups %}
+               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
-   {% endfor %}
-          </div>
-        </div>
+            </div>
+         </div>
+
+         <div class="row gx-0 pt-1">
+            <div class="col-2 me-1 px-2 model-param-head">Variant</div>
+            <div class="row col-10 pe-0">
+      {% for model_group in model_groups %}
+         {% set models = model_group.models %}
+         {% for model in models %}
+            {% if models|length % 3 == 0 %}
+               <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+            {% else %}
+               <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+            {% endif %}
+         {% endfor %}
+      {% endfor %}
+            </div>
+         </div>
       </div>
 
 
@@ -87,9 +94,11 @@ vary by model -- select one to get started.
       {% for model_group in model_groups %}
          {% set models = model_group.models %}
          {% for model in models %}
+         {% if model.training_modes %}
          * - {{ model.model }}
            - ``{{ model.training_modes | join('``, ``') }}``
 
+         {% endif %}
          {% endfor %}
       {% endfor %}
 
@@ -152,19 +161,22 @@ Run training
 
       .. tab-item:: MAD-integrated benchmarking
 
-         1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
-            directory and install the required packages on the host machine.
-
-            .. code-block:: shell
-
-               git clone https://github.com/ROCm/MAD
-               cd MAD
-               pip install -r requirements.txt
-
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
 
          .. container:: model-doc {{ model.mad_tag }}
+
+            The following run command is tailored to {{ model.model }}.
+            See :ref:`amd-pytorch-training-model-support` to switch to another available model.
+
+            1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
+               directory and install the required packages on the host machine.
+
+               .. code-block:: shell
+
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD
+                  pip install -r requirements.txt
 
             2. For example, use this command to run the performance benchmark test on the {{ model.model }} model
                using one node with the {{ model.precision }} data type on the host machine.
@@ -186,6 +198,17 @@ Run training
    {% endfor %}
 
       .. tab-item:: Standalone benchmarking
+
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
+
+         .. container:: model-doc {{ model.mad_tag }}
+
+            The following commands are tailored to {{ model.model }}.
+            See :ref:`amd-pytorch-training-model-support` to switch to another available model.
+
+      {% endfor %}
+   {% endfor %}
 
          .. rubric:: Download the Docker image and required packages
 
@@ -388,7 +411,7 @@ Run training
                .. note::
 
                   Currently, FLUX models are not supported out-of-the-box on {{ unified_docker.pull_tag }}.
-                  To use FLUX, refer to the previous version of the ``pytorch-training`` Docker: :doc:`previous-versions/pytorch-training-v25.6`
+                  To use FLUX, refer to ``rocm/pytorch-training`` Docker: :doc:`previous-versions/pytorch-training-v25.6`
 
                   Occasionally, downloading the Flux dataset might fail. In the event of this
                   error, manually download it from Hugging Face at

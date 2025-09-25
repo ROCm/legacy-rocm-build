@@ -14,16 +14,26 @@ completed as an indivisible unit, preventing race conditions where simultaneous
 access to the same memory location could lead to incorrect or undefined
 behavior.
 
-This document details the various support of atomic read-modify-write
-(atomicRMW) operations on gfx9, gfx10, gfx11, gfx12, MI100, MI200 and MI300 AMD
-GPUs. The atomics operation type behavior effected by the memory locations,
-memory granularity or scope of operations.
+This topic summarizes the support of atomic read-modify-write
+(atomicRMW) operations on AMD GPUs and accelerators. This includes gfx9, gfx10,
+gfx11, and gfx12 targets and the following series of Instinct™ series:
+
+- MI100
+
+- MI200
+
+- MI300
+
+- MI350 
+
+The atomics operation type behavior is affected by the memory locations, memory
+granularity, and scope of operations.
 
 Memory locations:
 
-- :ref:`Device memory <hip:device_memory>`, i.e. VRAM, the RAM on a discrete GPU
-  device or in framebuffer carveout for APUs. This includes peer-device memory
-  within an Infinity Fabric™ hive.
+- :ref:`Device memory <hip:device_memory>`, that is, VRAM, the RAM on a discrete
+  GPU device or in framebuffer carveout for APUs. This includes peer-device
+  memory within an Infinity Fabric™ hive.
 
 - :ref:`Host memory <hip:host_memory>`: in DRAM associated with the CPU (or
   peer device memory using PCIe® (PCI Express) peer-to-peer). This can be two sub-types:
@@ -69,10 +79,10 @@ Scopes of operations:
 Support summary
 ================================================================================
 
-AMD Instinct™ accelerators
+AMD Instinct accelerators
 --------------------------------------------------------------------------------
 
-**MI300**
+**MI300 and MI350 series**
 
 - All atomicRMW operations are forwarded out to the Infinity Fabric.
 - Infinity Fabric supports common integer and bitwise atomics, FP32 atomic add,
@@ -85,7 +95,7 @@ AMD Instinct™ accelerators
   It will seem like atomics to the wave, but the CPU sees it as a non-atomic
   load-op-store sequence. This downgrades system-scope atomics to device-scope.
 
-**MI200**
+**MI200 series**
 
 - L2 cache and Infinity Fabric both support common integer and bitwise atomics.
 - L2 cache supports FP32 atomic add, packed-FP16 atomic add, and FP64 add,

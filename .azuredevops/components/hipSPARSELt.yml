@@ -40,10 +40,12 @@ parameters:
     - gfortran
     - libgfortran5
     - libopenblas-dev
+    - liblapack-dev
 - name: pipModules
   type: object
   default:
     - joblib
+    - msgpack
 - name: rocmDependencies
   type: object
   default:
@@ -108,7 +110,7 @@ jobs:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
         packageManager: ${{ job.packageManager }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-latest.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
@@ -124,10 +126,13 @@ jobs:
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
           downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+  # NOTE: content between `---` is for transition support between old/new build systems
+  # and should be removed once transition is complete.
+  # -----------------------------
   # Build and install gtest and lapack
   # $(Pipeline.Workspace)/deps is a temporary folder for the build process
   # $(Pipeline.Workspace)/s/deps is part of the hipSPARSELt repo
-    - script: mkdir $(Pipeline.Workspace)/deps
+    - script: mkdir -p $(Pipeline.Workspace)/deps
       displayName: Create temp folder for external dependencies
   # hipSPARSELt already has a CMake script for external deps, so we can just run that
   # https://github.com/ROCm/hipSPARSELt/blob/develop/deps/CMakeLists.txt
@@ -143,22 +148,35 @@ jobs:
     - script: sudo make install
       displayName: Install hipSPARSELt external dependencies
       workingDirectory: $(Pipeline.Workspace)/deps
+  # -----------------------------
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
+        # NOTE: the following options are old build only 
+        # and can be removed after full transition to new build
+        # -DAMDGPU_TARGETS=${{ job.target }}
+        # -DCMAKE_Fortran_COMPILER=f95
+        # -DTensile_LOGIC=
+        # -DTensile_CPU_THREADS=
+        # -DTensile_LIBRARY_FORMAT=msgpack
+        # -DROCM_PATH=$(Agent.BuildDirectory)/rocm
+        # -DBUILD_CLIENTS_TESTS=ON
+        # -DBUILD_USE_LOCAL_TENSILE=OFF
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
-          -DCMAKE_Fortran_COMPILER=f95
+          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm"
+          -DGPU_TARGETS=${{ job.target }}
           -DAMDGPU_TARGETS=${{ job.target }}
+          -DCMAKE_Fortran_COMPILER=f95
           -DTensile_LOGIC=
           -DTensile_CPU_THREADS=
           -DTensile_LIBRARY_FORMAT=msgpack
-          -DCMAKE_PREFIX_PATH="$(Agent.BuildDirectory)/rocm"
           -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -DBUILD_CLIENTS_TESTS=ON
           -DBUILD_USE_LOCAL_TENSILE=OFF
+          -DHIPSPARSELT_ENABLE_FETCH=ON
           -GNinja
         ${{ if ne(parameters.sparseCheckoutDir, '') }}:
           cmakeSourceDir: $(Build.SourcesDirectory)/projects/hipsparselt

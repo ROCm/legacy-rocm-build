@@ -10,7 +10,7 @@ ROCm is a software stack, composed primarily of open-source software, that
 provides the tools for programming AMD Graphics Processing Units (GPUs), from
 low-level kernels to high-level end-user applications.
 
-.. image:: data/rocm-software-stack-6_4_0.jpg
+.. image:: data/rocm-software-stack-7_0_0.jpg
   :width: 800
   :alt: AMD's ROCm software stack and enabling technologies.
   :align: center
@@ -44,6 +44,10 @@ Machine Learning & Computer Vision
   ":doc:`rocDecode <rocdecode:index>`", "High-performance SDK for access to video decoding features on AMD GPUs"
   ":doc:`rocJPEG <rocjpeg:index>`", "Library for decoding JPG images on AMD GPUs"
   ":doc:`rocPyDecode <rocpydecode:index>`", "Provides access to rocDecode APIs in both Python and C/C++ languages"
+
+.. note::
+
+  `rocCV <https://rocm.docs.amd.com/projects/rocCV/en/latest/index.html>`_  is an efficient GPU-accelerated library for image pre- and post-processing. rocCV is in an early access state. Using it on production workloads is not recommended.
 
 Communication
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -1,325 +1,325 @@
-﻿Atomic,MI100,MI200 PCIe,MI200 A+A,MI300X,MI300A
-32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native
-32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native
-32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-64 bit float atomicAdd,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native
-64 bit float atomicMin,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native
-64 bit float atomicMax,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native
-16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native
-32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-64 bit float atomicAdd,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native
-64 bit float atomicMin,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native
-64 bit float atomicMax,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native
-16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native
-32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native
-32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native
-32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicSub,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicMin,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicMax,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicInc,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicDec,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicMin,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicMax,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-32 bit float atomicMin,❌ NOP,❌ NOP,✅ CAS,✅ CAS,✅ CAS
-32 bit float atomicMax,❌ NOP,❌ NOP,✅ CAS,✅ CAS,✅ CAS
-64 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-64 bit float atomicMin,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-64 bit float atomicMax,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-16bx2 bfloat162 atomicAdd,❌ NOP,❌ NOP,✅ CAS,✅ Native,✅ Native
-32 bit atoimcExch,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicOr,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicXor,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicExch,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicOr,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicXor,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicSub,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicMin,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicMax,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicInc,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicDec,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicMin,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicMax,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native
-32 bit float atomicMin,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade - CAS,✅ CAS
-32 bit float atomicMax,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade - CAS,✅ CAS
-64 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native
-64 bit float atomicMin,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native
-64 bit float atomicMax,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native
-16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native
-16bx2 bfloat162 atomicAdd,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade,✅ Native
-32 bit atoimcExch,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicOr,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicXor,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicExch,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicOr,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicXor,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native
-32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
-64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native
-16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native
-32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
-32 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicSub,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicMin,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicMax,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicInc,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicDec,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicMin,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicMax,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-32 bit float atomicMin,❌ NOP,❌ NOP,✅ CAS,✅ CAS,✅ CAS
-32 bit float atomicMax,❌ NOP,❌ NOP,✅ CAS,✅ CAS,✅ CAS
-64 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-64 bit float atomicMin,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-64 bit float atomicMax,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native
-16bx2 bfloat162 atomicAdd,❌ NOP,❌ NOP,✅ CAS,✅ Native,✅ Native
-32 bit atoimcExch,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicOr,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicXor,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicExch,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicOr,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-64 bit atomicXor,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
-32 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicSub,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicMin,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicMax,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicInc,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicDec,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicMin,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicMax,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native
-32 bit float atomicMin,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade - CAS,✅ CAS
-32 bit float atomicMax,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade - CAS,✅ CAS
-64 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native
-64 bit float atomicMin,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native
-64 bit float atomicMax,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native
-16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native
-16bx2 bfloat162 atomicAdd,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade,✅ Native
-32 bit atoimcExch,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicOr,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-32 bit atomicXor,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicExch,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicOr,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
-64 bit atomicXor,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native
+﻿Atomic,MI100,MI200 PCIe,MI200 A+A,MI300X series,MI300A,MI350X series
+32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native,✅ Native
+32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native,✅ Native
+32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+64 bit float atomicMin,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+64 bit float atomicMax,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native,✅ Native
+32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+64 bit float atomicMin,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+64 bit float atomicMax,✅ CAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native,✅ Native
+32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native,✅ Native
+32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native,✅ Native
+32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicSub,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMin,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMax,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicInc,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicDec,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMin,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMax,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+32 bit float atomicMin,❌ NOP,❌ NOP,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,❌ NOP,❌ NOP,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+64 bit float atomicMin,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+64 bit float atomicMax,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+16bx2 bfloat162 atomicAdd,❌ NOP,❌ NOP,✅ CAS,✅ Native,✅ Native,✅ Native
+32 bit atoimcExch,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicOr,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicXor,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicExch,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicOr,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicXor,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicSub,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicMin,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicMax,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicInc,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicDec,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicMin,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicMax,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit float atomicMin,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade - CAS,✅ CAS,⚠️ Scope Downgrade - CAS
+32 bit float atomicMax,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade - CAS,✅ CAS,⚠️ Scope Downgrade - CAS
+64 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit float atomicMin,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit float atomicMax,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+16bx2 bfloat162 atomicAdd,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atoimcExch,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicOr,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicXor,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicExch,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicOr,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicXor,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native,✅ Native
+32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicInc,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicDec,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMax,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicMin,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMin,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit float atomicMax,✅ CAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 half2 atomicAdd,✅ NoReturn,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+16bx2 bfloat162 atomicAdd,✅ CAS,✅ CAS,✅ CAS,✅ Native,✅ Native,✅ Native
+32 bit atoimcExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicExch,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicCAS,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicOr,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicXor,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicSub,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMin,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicMax,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicInc,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicDec,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMin,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicMax,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+32 bit float atomicMin,❌ NOP,❌ NOP,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+32 bit float atomicMax,❌ NOP,❌ NOP,✅ CAS,✅ CAS,✅ CAS,✅ CAS
+64 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+64 bit float atomicMin,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+64 bit float atomicMax,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native
+16bx2 bfloat162 atomicAdd,❌ NOP,❌ NOP,✅ CAS,✅ Native,✅ Native,✅ Native
+32 bit atoimcExch,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicOr,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicXor,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicExch,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicOr,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+64 bit atomicXor,❌ NOP,❌ NOP,✅ Native,✅ Native,✅ Native,✅ Native
+32 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicSub,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicMin,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicMax,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicInc,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicDec,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicAdd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicMin,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicMax,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit float atomicMin,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade - CAS,✅ CAS,⚠️ Scope Downgrade - CAS
+32 bit float atomicMax,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade - CAS,✅ CAS,⚠️ Scope Downgrade - CAS
+64 bit float atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit float atomicMin,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit float atomicMax,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+16bx2 half2 atomicAdd,❌ NOP,❌ NOP,❌ NOP,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+16bx2 bfloat162 atomicAdd,❌ NOP,❌ NOP,✅ CAS,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atoimcExch,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicOr,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+32 bit atomicXor,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicExch,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicCAS,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicAnd,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicOr,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade
+64 bit atomicXor,❌ NOP,❌ NOP,✅ Native,⚠️ Scope Downgrade,✅ Native,⚠️ Scope Downgrade

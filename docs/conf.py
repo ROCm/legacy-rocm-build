@@ -89,15 +89,15 @@ project = "ROCm Documentation"
 project_path = os.path.abspath(".").replace("\\", "/")
 author = "Advanced Micro Devices, Inc."
 copyright = "Copyright (c) 2025 Advanced Micro Devices, Inc. All rights reserved."
-version = "6.4.3"
-release = "6.4.3"
+version = "7.0.1"
+release = "7.0.1"
 setting_all_article_info = True
 all_article_info_os = ["linux", "windows"]
 all_article_info_author = ""
 
 # pages with specific settings
 article_pages = [
-    {"file": "about/release-notes", "os": ["linux"], "date": "2025-08-07"},
+    {"file": "about/release-notes", "os": ["linux"], "date": "2025-09-17"},
     {"file": "release/changelog", "os": ["linux"],},
     {"file": "compatibility/compatibility-matrix", "os": ["linux"]},
     {"file": "compatibility/ml-compatibility/pytorch-compatibility", "os": ["linux"]},
@@ -127,7 +127,9 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/megatron-lm-v25.4", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/megatron-lm-v25.5", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/megatron-lm-v25.6", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/megatron-lm-v25.7", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/megatron-lm-primus-migration-guide", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/primus-megatron-v25.7", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/primus-megatron", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/pytorch-training", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-history", "os": ["linux"]},
@@ -135,9 +137,13 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.4", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.5", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.6", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.7", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/benchmark-docker/primus-pytorch", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/benchmark-docker/pytorch-training", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/jax-maxtext-history", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/jax-maxtext-v25.4", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/jax-maxtext-v25.5", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/fine-tuning/index", "os": ["linux"]},
@@ -162,6 +168,8 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.9.0.1-20250702", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.9.1-20250702", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.9.1-20250715", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.10.0-20250812", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/sglang-history", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
 

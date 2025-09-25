@@ -5,15 +5,13 @@
    :keywords: ROCm, AI, LLM, train, Megatron-LM, megatron, Llama, tutorial, docker, torch
 
 ******************************************
-Training a model with Megatron-LM for ROCm
+Training a model with Megatron-LM on ROCm
 ******************************************
 
 .. caution::
 
-   The ROCm Megatron-LM framework now has limited support with this Docker
-   environment; it now focuses on Primus with Megatron-Core. See :doc:`primus-megatron`.
-
-   To learn how to migrate your existing workloads to Primus with Megatron-Core,
+   Primus with Megatron supersedes this ROCm Megatron-LM training workflow.
+   To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
    see :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 
 The `Megatron-LM framework for ROCm <https://github.com/ROCm/Megatron-LM>`_ is
@@ -70,32 +68,32 @@ workloads:
    {% set model_groups = data.model_groups %}
    .. raw:: html
 
-         <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
-           <div class="row">
-             <div class="col-2 me-2 model-param-head">Model</div>
-             <div class="row col-10">
+      <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
+         <div class="row gx-0">
+            <div class="col-2 me-1 px-2 model-param-head">Model</div>
+            <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
-               <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-3 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
-             </div>
-           </div>
+            </div>
+         </div>
 
-           <div class="row mt-1">
-             <div class="col-2 me-2 model-param-head">Model variant</div>
-             <div class="row col-10">
+         <div class="row gx-0 pt-1">
+            <div class="col-2 me-1 px-2 model-param-head">Variant</div>
+            <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
          {% set models = model_group.models %}
          {% for model in models %}
             {% if models|length % 3 == 0 %}
-               <div class="col-4 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+               <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
             {% else %}
-               <div class="col-6 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+               <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
             {% endif %}
          {% endfor %}
       {% endfor %}
-             </div>
-           </div>
+            </div>
          </div>
+      </div>
 
 .. note::
 
@@ -807,8 +805,15 @@ Single node training
       AC=none \
       SEQ_LEN=4096 \
       PAD_LEN=4096 \
-      TRAIN_ITERS=50 \
+      TRAIN_ITERS=20 \
       bash examples/deepseek_v2/train_deepseekv2.sh
+
+   .. note::
+
+      Note that DeepSeek-V2-Lite is experiencing instability due to GPU memory access fault
+      for large iterations.
+      For stability, it's recommended to use Primus for this workload.
+      See :doc:`primus-megatron`.
 
 .. container:: model-doc pyt_megatron_lm_train_mixtral-8x7b
 

@@ -2,24 +2,25 @@
    :description: How to train a model using Megatron-LM for ROCm.
    :keywords: ROCm, AI, LLM, train, Megatron-LM, megatron, Llama, tutorial, docker, torch
 
-**********************************************
-Training a model with Primus and Megatron-Core
-**********************************************
+********************************************
+Training a model with Primus and Megatron-LM
+********************************************
 
-`Primus <https://github.com/AMD-AIG-AIMA/Primus>`__ is a unified and flexible
+`Primus <https://github.com/AMD-AGI/Primus>`__ is a unified and flexible
 LLM training framework designed to streamline training. It streamlines LLM
 training on AMD Instinct accelerators using a modular, reproducible configuration paradigm.
-Primus is backend-agnostic and supports multiple training engines -- including Megatron-Core.
+Primus is backend-agnostic and supports multiple training engines -- including Megatron.
 
 .. note::
 
-   Primus with the Megatron-Core backend is intended to replace ROCm
-   Megatron-LM in this Dockerized training environment. To learn how to migrate
-   workloads from Megatron-LM to Primus with Megatron-Core, see
-   :doc:`previous-versions/megatron-lm-primus-migration-guide`.
+   Primus with Megatron supersedes the :doc:`ROCm Megatron-LM training <megatron-lm>` workflow.
+   To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
+   see :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 
 For ease of use, AMD provides a ready-to-use Docker image for MI300 series accelerators
-containing essential components for Primus and Megatron-Core.
+containing essential components for Primus and Megatron-LM. This Docker is powered by Primus
+Turbo optimizations for performance; this release adds support for Primus Turbo
+with optimized attention and grouped GEMM kernels.
 
 .. note::
 
@@ -55,32 +56,32 @@ vary by model -- select one to get started.
    {% set model_groups = data.model_groups %}
    .. raw:: html
 
-         <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
-           <div class="row">
-             <div class="col-2 me-2 model-param-head">Model</div>
-             <div class="row col-10">
+      <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
+         <div class="row gx-0">
+            <div class="col-2 me-1 px-2 model-param-head">Model</div>
+            <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
-               <div class="col-3 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-3 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
-             </div>
-           </div>
+            </div>
+         </div>
 
-           <div class="row mt-1">
-             <div class="col-2 me-2 model-param-head">Model variant</div>
-             <div class="row col-10">
+         <div class="row gx-0 pt-1">
+            <div class="col-2 me-1 px-2 model-param-head">Variant</div>
+            <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
          {% set models = model_group.models %}
          {% for model in models %}
             {% if models|length % 3 == 0 %}
-               <div class="col-4 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+               <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
             {% else %}
-               <div class="col-6 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+               <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
             {% endif %}
          {% endfor %}
       {% endfor %}
-             </div>
-           </div>
+            </div>
          </div>
+      </div>
 
 .. note::
 
@@ -151,8 +152,8 @@ system's configuration.
       docker start primus_training_env
       docker exec -it primus_training_env bash
 
-The Docker container hosts verified release tag ``v0.1.0-rc1`` of the `Primus
-<https://github.com/AMD-AIG-AIMA/Primus/tree/v0.1.0-rc1>`__ repository.
+The Docker container hosts verified commit ``927a717`` of the `Primus
+<https://github.com/AMD-AGI/Primus/tree/927a71702784347a311ca48fd45f0f308c6ef6dd>`__ repository.
 
 .. _amd-primus-megatron-lm-environment-setup:
 
@@ -160,7 +161,7 @@ Configuration
 =============
 
 Primus defines a training configuration in YAML for each model in
-`examples/megatron/configs <https://github.com/AMD-AIG-AIMA/Primus/tree/v0.1.0-rc1/examples/megatron/configs>`__.
+`examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/927a71702784347a311ca48fd45f0f308c6ef6dd/examples/megatron/configs>`__.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
@@ -205,17 +206,21 @@ You can use either mock data or real data for training.
 Tokenizer
 ---------
 
-In Primus, each model uses a tokenizer from Hugging Face. For example, Llama
-3.1 8B model uses ``tokenizer_model: meta-llama/Llama-3.1-8B`` and
-``tokenizer_type: Llama3Tokenizer`` defined in the `llama3.1-8B model
-<https://github.com/AMD-AIG-AIMA/Primus/tree/v0.1.0-rc1/primus/configs/models/megatron/llama3.1_8B.yaml>`__
-definition. As such, you need to set the ``HF_TOKEN`` environment variable with
+Set the ``HF_TOKEN`` environment variable with
 right permissions to access the tokenizer for each model.
 
 .. code-block:: bash
 
    # Export your HF_TOKEN in the workspace
    export HF_TOKEN=<your_hftoken>
+
+.. note::
+
+   In Primus, each model uses a tokenizer from Hugging Face. For example, Llama
+   3.1 8B model uses ``tokenizer_model: meta-llama/Llama-3.1-8B`` and
+   ``tokenizer_type: Llama3Tokenizer`` defined in the `llama3.1-8B model
+   <https://github.com/AMD-AGI/Primus/blob/927a71702784347a311ca48fd45f0f308c6ef6dd/examples/megatron/configs/llama3.1_8B-pretrain.yaml>`__
+   definition.
 
 .. _amd-primus-megatron-lm-run-training:
 
@@ -237,9 +242,11 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
    export HSA_NO_SCRATCH_RECLAIM=1
    export NVTE_CK_USES_BWD_V3=1
 
-Once setup is complete, run the appropriate training command.
-
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.3-70b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 3.3 70B.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
 
    To run pre-training for Llama 3.3 70B BF16, run:
 
@@ -252,6 +259,10 @@ Once setup is complete, run the appropriate training command.
           --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.1-8b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 3.1 8B.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
 
    To run pre-training for Llama 3.1 8B FP8, run:
 
@@ -271,6 +282,10 @@ Once setup is complete, run the appropriate training command.
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.1-70b
 
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 3.1 70B.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+
    To run pre-training for Llama 3.1 70B BF16, run:
 
    .. code-block:: shell
@@ -287,14 +302,17 @@ Once setup is complete, run the appropriate training command.
       bash ./examples/run_pretrain.sh \
           --train_iters 50 \
           --num_layers 40 \
-          --fp8 hybrid \
-          --no_fp8_weight_transpose_cache true
+          --fp8 hybrid
 
    .. note::
 
       Use two or more nodes to run the *full* Llama 70B model with FP8 precision.
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-2-7b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 2 7B.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
 
    To run pre-training for Llama 2 7B FP8, run:
 
@@ -314,6 +332,10 @@ Once setup is complete, run the appropriate training command.
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-2-70b
 
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 2 70B.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+
    To run pre-training for Llama 2 70B BF16, run:
 
    .. code-block:: shell
@@ -322,6 +344,10 @@ Once setup is complete, run the appropriate training command.
       bash ./examples/run_pretrain.sh --train_iters 50 
 
 .. container:: model-doc primus_pyt_megatron_lm_train_deepseek-v3-proxy
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to DeepSeek-V3.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
 
    To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy, 
    use the following command:
@@ -336,6 +362,10 @@ Once setup is complete, run the appropriate training command.
 
 .. container:: model-doc primus_pyt_megatron_lm_train_deepseek-v2-lite-16b
 
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to DeepSeek-V2-Lite.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+
    To run training on a single node for DeepSeek-V2-Lite (MoE with expert parallel),
    use the following command:
 
@@ -348,6 +378,10 @@ Once setup is complete, run the appropriate training command.
 
 .. container:: model-doc primus_pyt_megatron_lm_train_mixtral-8x7b
 
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Mixtral 8x7B.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+
    To run training on a single node for Mixtral 8x7B (MoE with expert parallel),
    use the following command:
 
@@ -358,7 +392,11 @@ Once setup is complete, run the appropriate training command.
 
 .. container:: model-doc primus_pyt_megatron_lm_train_mixtral-8x22b-proxy
 
-   To run training on a single node for Mixtral 8x7B (MoE with expert parallel) with 4-layer proxy,
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Mixtral 8x22B.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+
+   To run training on a single node for Mixtral 8x22B (MoE with expert parallel) with 4-layer proxy,
    use the following command:
 
    .. code-block:: shell
@@ -372,6 +410,10 @@ Once setup is complete, run the appropriate training command.
           --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_qwen2.5-7b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Qwen 2.5 7B.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
 
    To run training on a single node for Qwen 2.5 7B BF16, use the following
    command:
@@ -392,6 +434,10 @@ Once setup is complete, run the appropriate training command.
 
 .. container:: model-doc primus_pyt_megatron_lm_train_qwen2.5-72b
 
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Qwen 2.5 72B.
+   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+
    To run the training on a single node for Qwen 2.5 72B BF16, use the following command.
 
    .. code-block:: shell
@@ -403,7 +449,7 @@ Multi-node training examples
 ----------------------------
 
 To run training on multiple nodes, you can use the
-`run_slurm_pretrain.sh <https://github.com/AMD-AIG-AIMA/Primus/tree/v0.1.0-rc1/examples/run_slurm_pretrain.sh>`__
+`run_slurm_pretrain.sh <https://github.com/AMD-AGI/Primus/blob/927a71702784347a311ca48fd45f0f308c6ef6dd/examples/run_slurm_pretrain.sh>`__
 to launch the multi-node workload. Use the following steps to setup your environment:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
@@ -438,10 +484,9 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
       NNODES=8 EXP=examples/megatron/configs/llama3.3_70B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 4 \
+          --micro_batch_size 1 \
           --global_batch_size 256 \
           --recompute_num_layers 80 \
-          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
    To train Llama 3.3 70B BF16 on 8 nodes, run:
@@ -474,10 +519,9 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
       NNODES=8 EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 4 \
+          --micro_batch_size 1 \
           --global_batch_size 256 \
           --recompute_num_layers 80 \
-          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
    To train Llama 3.1 70B BF16 on 8 nodes, run:
@@ -507,10 +551,9 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
       NNODES=8 EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 10 \
-          --global_batch_size 640 \
+          --micro_batch_size 2 \
+          --global_batch_size 256 \
           --recompute_num_layers 80 \
-          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
    To train Llama 2 70B BF16 on 8 nodes, run:
@@ -542,10 +585,9 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
       NNODES=8 EXP=examples/megatron/configs/qwen2.5_72B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 8 \
-          --global_batch_size 512 \
+          --micro_batch_size 4 \
+          --global_batch_size 256 \
           --recompute_num_layers 80 \
-          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
 .. _amd-primus-megatron-lm-benchmark-test-vars:
@@ -590,6 +632,18 @@ recompute_granularity
 num_layers
   For using a reduced number of layers as with proxy models.
 
+Further reading
+===============
+
+- For an introduction to Primus, see `Primus: A Lightweight, Unified Training
+  Framework for Large Models on AMD GPUs <https://rocm.blogs.amd.com/software-tools-optimization/primus/README.html>`__.
+
+- To learn more about system settings and management practices to configure your system for
+  AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+
+- For a list of other ready-made Docker images for AI with ROCm, see
+  `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.
+
 Previous versions
 =================
 
@@ -598,5 +652,4 @@ of the ``ROCm/megatron-lm`` Docker image.
 
 This training environment now uses Primus with Megatron as the primary
 configuration. Limited support for the legacy ROCm Megatron-LM is still
-available. For instructions on using ROCm Megatron-LM, see the
-:doc:`megatron-lm` document.
+available; see the :doc:`megatron-lm` documentation.

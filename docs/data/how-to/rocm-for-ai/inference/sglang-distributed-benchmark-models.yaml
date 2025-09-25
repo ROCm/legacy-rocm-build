@@ -1,0 +1,32 @@
+dockers:
+  - pull_tag: lmsysorg/sglang:v0.5.2rc1-rocm700-mi30x
+    docker_hub_url: https://hub.docker.com/layers/lmsysorg/sglang/v0.5.2rc1-rocm700-mi30x/images/sha256-10c4ee502ddba44dd8c13325e6e03868bfe7f43d23d0a44780a8ee8b393f4729
+    components:
+      ROCm: 7.0.0
+      SGLang: v0.5.2rc1
+      pytorch-triton-rocm: 3.4.0+rocm7.0.0.gitf9e5bf54
+model_groups:
+  - group: Dense models
+    tag: dense-models
+    models:
+      - model: Llama 3.1 8B Instruct
+        model_repo: Llama-3.1-8B-Instruct
+        url: https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct
+      - model: Llama 3.1 405B FP8 KV
+        model_repo: Llama-3.1-405B-Instruct-FP8-KV
+        url: https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV
+      - model: Llama 3.3 70B FP8 KV
+        model_repo: amd-Llama-3.3-70B-Instruct-FP8-KV
+        url: https://huggingface.co/amd/Llama-3.3-70B-Instruct-FP8-KV
+      - model: Qwen3 32B
+        model_repo: Qwen3-32B
+        url: https://huggingface.co/Qwen/Qwen3-32B
+  - group: Small experts models
+    tag: small-experts-models
+    models:
+      - model: DeepSeek V3
+        model_repo: DeepSeek-V3
+        url: https://huggingface.co/deepseek-ai/DeepSeek-V3
+      - model: Mixtral 8x7B v0.1
+        model_repo: Mixtral-8x7B-v0.1
+        url: https://huggingface.co/mistralai/Mixtral-8x7B-v0.1

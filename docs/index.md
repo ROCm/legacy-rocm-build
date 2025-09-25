@@ -16,7 +16,7 @@ ROCm supports multiple programming languages and programming interfaces such as
 {doc}`HIP (Heterogeneous-Compute Interface for Portability)<hip:index>`, OpenCL,
 and OpenMP, as explained in the [Programming guide](./how-to/programming_guide.rst).
 
-If you're using AMD Radeon™ PRO or Radeon GPUs in a workstation setting with a display connected, review {doc}`Radeon-specific ROCm documentation<radeon:index>`.
+If you're using AMD Radeon GPUs or Ryzen APUs in a workstation setting with a display connected, review [ROCm on Radeon and Ryzen documentation](https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/index.html).
 
 ROCm documentation is organized into the following categories:
 
@@ -65,7 +65,7 @@ ROCm documentation is organized into the following categories:
 * [ROCm libraries](./reference/api-libraries.md)
 * [ROCm tools, compilers, and runtimes](./reference/rocm-tools.md)
 * [Accelerator and  GPU hardware specifications](./reference/gpu-arch-specs.rst)
-* [Precision support](./reference/precision-support.rst)
+* [Data types and precision support](./reference/precision-support.rst)
 * [Graph safe support](./reference/graph-safe-support.rst)
 <!-- markdownlint-enable MD051 -->
 :::

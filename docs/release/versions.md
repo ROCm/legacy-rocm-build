@@ -10,6 +10,8 @@
 
 | Version | Release date |
 | ------- | ------------ |
+| [7.0.1](https://rocm.docs.amd.com/en/docs-7.0.1/) | September 17, 2025 |
+| [7.0.0](https://rocm.docs.amd.com/en/docs-7.0.0/) | September 16, 2025 |
 | [6.4.3](https://rocm.docs.amd.com/en/docs-6.4.3/) | August 7, 2025 |
 | [6.4.2](https://rocm.docs.amd.com/en/docs-6.4.2/) | July 21, 2025 |
 | [6.4.1](https://rocm.docs.amd.com/en/docs-6.4.1/) | May 21, 2025 |

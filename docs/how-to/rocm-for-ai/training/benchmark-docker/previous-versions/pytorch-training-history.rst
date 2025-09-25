@@ -4,7 +4,7 @@
 PyTorch training performance testing version history
 ****************************************************
 
-This table lists previous versions of the ROCm Megatron-LM training Docker image for
+This table lists previous versions of the ROCm PyTorch training Docker image for
 inference performance testing. For detailed information about available models
 for benchmarking, see the version-specific documentation. You can find tagged
 previous releases of the ``ROCm/pytorch-training`` Docker image on `Docker Hub <https://hub.docker.com/r/rocm/pytorch-training/tags>`_.
@@ -16,12 +16,21 @@ previous releases of the ``ROCm/pytorch-training`` Docker image on `Docker Hub <
      - Components
      - Resources
 
+   * - v25.8 (latest)
+     - 
+       * ROCm 6.4.3
+       * PyTorch 2.8.0a0+gitd06a406
+     - 
+       * :doc:`Primus PyTorch Training documentation <../primus-pytorch>`
+       * :doc:`PyTorch training (legacy) documentation <../pytorch-training>`
+       * `Docker Hub <https://hub.docker.com/r/rocm/pytorch-training/tags>`__
+
    * - v25.7
      - 
        * ROCm 6.4.2
        * PyTorch 2.8.0a0+gitd06a406
      - 
-       * :doc:`Documentation <../pytorch-training>`
+       * :doc:`Documentation <pytorch-training-v25.7>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-training/v25.7/images/sha256-cc6fd840ab89cb81d926fc29eca6d075aee9875a55a522675a4b9231c9a0a712>`__
 
    * - v25.6

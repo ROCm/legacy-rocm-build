@@ -35,6 +35,40 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - GFXIP Major version
           - GFXIP Minor version
         *
+          - MI355X
+          - CDNA4
+          - gfx950
+          - 288
+          - 256 (32 per XCD)
+          - 64
+          - 160
+          - 256
+          - 32 (4 per XCD)
+          - 32
+          - 16 per 2 CUs
+          - 64 per 2 CUs
+          - 512
+          - 12.5
+          - 9
+          - 5
+        *
+          - MI350X
+          - CDNA4
+          - gfx950
+          - 288
+          - 256 (32 per XCD)
+          - 64
+          - 160
+          - 256
+          - 32 (4 per XCD)
+          - 32
+          - 16 per 2 CUs
+          - 64 per 2 CUs
+          - 512
+          - 12.5
+          - 9
+          - 5
+        *
           - MI325X
           - CDNA3
           - gfx942

@@ -23,8 +23,8 @@ subtrees:
     title: ROCm on Linux
   - url: https://rocm.docs.amd.com/projects/install-on-windows/en/latest/
     title: HIP SDK on Windows
-  - url: https://rocm.docs.amd.com/projects/radeon/en/latest/index.html
-    title: ROCm on Radeon GPUs
+  - url: https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/index.html
+    title: ROCm on Radeon and Ryzen
   - file: how-to/deep-learning-rocm.md
     title: Deep learning frameworks
     subtrees:
@@ -67,9 +67,9 @@ subtrees:
         subtrees:
         - entries:
           - file: how-to/rocm-for-ai/training/benchmark-docker/primus-megatron.rst
-            title: Train a model with Primus and Megatron-Core
-          - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.rst
-            title: Train a model with PyTorch
+            title: Train a model with Primus and Megatron-LM
+          - file: how-to/rocm-for-ai/training/benchmark-docker/primus-pytorch.rst
+            title: Train a model with Primus and PyTorch
           - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext.rst
             title: Train a model with JAX MaxText
           - file: how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry
@@ -106,6 +106,8 @@ subtrees:
             title: PyTorch inference performance testing
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang.rst
             title: SGLang inference performance testing
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-distributed.rst
+            title: SGLang distributed inference with Mooncake
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model
 
@@ -147,7 +149,7 @@ subtrees:
   - file: how-to/setting-cus
     title: Set the number of CUs
   - file: how-to/Bar-Memory.rst
-    title: Troubleshoot BAR access limitation  
+    title: Troubleshoot BAR access limitation
   - url: https://github.com/amd/rocm-examples
     title: ROCm examples
 
@@ -167,7 +169,9 @@ subtrees:
           - url: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf
             title: White paper
           - file: conceptual/gpu-arch/mi300-mi200-performance-counters.rst
-            title: MI300 and MI200 Performance counter
+            title: MI300 and MI200 performance counters
+          - file: conceptual/gpu-arch/mi350-performance-counters.rst
+            title: MI350 series performance counters
       - file: conceptual/gpu-arch/mi250.md
         title: MI250 microarchitecture
         subtrees:
@@ -202,7 +206,7 @@ subtrees:
   - file: reference/gpu-arch-specs.rst
   - file: reference/gpu-atomics-operation.rst
   - file: reference/precision-support.rst
-    title: Precision support
+    title: Data types and precision support
   - file: reference/graph-safe-support.rst
     title: Graph safe support
 

@@ -31,7 +31,7 @@ installed, run the following command:
    sudo apt install rocm-validation-suite
 
 See the `ROCm Validation Suite installation instructions <https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/latest/install/installation.html>`_,
-and `System validation tests <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/system-validation.html#system-validation-tests>`_
+and `System validation tests <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/common/system-validation.html>`_
 in the Instinct documentation for more detailed instructions.
 
 Benchmark, stress, and qualification tests
@@ -41,7 +41,7 @@ The GPU stress test runs various GEMM computations as workloads to stress the GP
 meets the configured target GFLOPS.
 
 Run the benchmark, stress, and qualification tests included with RVS. See the `Benchmark, stress, qualification
-<https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/system-validation.html#benchmark-stress-qualification>`_
+<https://instinct.docs.amd.com/projects/system-acceptance/en/latest/common/system-validation.html#benchmark-stress-qualification>`_
 section of the Instinct documentation for usage instructions.
 
 BabelStream test
@@ -53,7 +53,7 @@ BabelStream tests are included with the RVS package as part of the `BABEL module
 <https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/latest/conceptual/rvs-modules.html#babel-benchmark-test-babel-module>`_.
 
 For more information, see `Performance benchmarking
-<https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/performance-bench.html#babelstream-benchmarking-results>`_
+<https://instinct.docs.amd.com/projects/system-acceptance/en/latest/common/system-validation.html#babelstream>`_
 in the Instinct documentation.
 
 RCCL tests
