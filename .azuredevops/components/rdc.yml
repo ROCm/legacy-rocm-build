@@ -63,6 +63,7 @@ parameters:
     - rocprofiler
     - rocprofiler-register
     - rocprofiler-sdk
+    - rocRAND
     - ROCR-Runtime
 - name: rocmTestDependencies
   type: object
