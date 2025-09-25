@@ -52,6 +52,7 @@ parameters:
     - clr
     - hipBLAS-common
     - hipBLASLt
+    - hipRAND
     - llvm-project
     - rocBLAS
     - rocm-cmake
