@@ -35,6 +35,7 @@ parameters:
     - build-essential
     - cmake
     - git
+    - ninja-build
     - python3-pip
 - name: pipModules
   type: object
