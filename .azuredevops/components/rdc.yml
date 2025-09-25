@@ -1,10 +1,29 @@
 parameters:
+- name: componentName
+  type: string
+  default: rdc
 - name: checkoutRepo
   type: string
   default: 'self'
 - name: checkoutRef
   type: string
   default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
 # set to true if doing full build of ROCm stack
 # and dependencies are pulled from same pipeline
 - name: aggregatePipeline
@@ -74,7 +93,11 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rdc_build_${{ job.target }}
+  - job: ${{ parameters.componentName }}_build_${{ job.target }}
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -85,16 +108,22 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
+      parameters:
+        cmakeVersion: '3.25.0'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
         checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
         gpuTarget: ${{ job.target }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
   # Build grpc
     - task: Bash@3
       displayName: 'git clone grpc'
@@ -104,6 +133,7 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         cmakeBuildDir: $(Build.SourcesDirectory)/grpc/build
         cmakeSourceDir: $(Build.SourcesDirectory)/grpc
         installDir: $(Build.SourcesDirectory)/bin
@@ -117,6 +147,7 @@ jobs:
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
           -DGRPC_ROOT="$(Build.SourcesDirectory)/bin"
@@ -126,9 +157,12 @@ jobs:
           -DAMDGPU_TARGETS=${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
+        componentName: ${{ parameters.componentName }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
@@ -136,60 +170,64 @@ jobs:
         aptPackages: ${{ parameters.aptPackages }}
         gpuTarget: ${{ job.target }}
 
-- ${{ each job in parameters.jobMatrix.testJobs }}:
-  - job: rdc_test_${{ job.target }}
-    dependsOn: rdc_build_${{ job.target }}
-    condition:
-      and(succeeded(),
-        eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-        not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), variables['Build.DefinitionName'])),
-        eq(${{ parameters.aggregatePipeline }}, False)
-      )
-    variables:
-    - group: common
-    - template: /.azuredevops/variables-global.yml
-    - name: ROCM_PATH
-      value: $(Agent.BuildDirectory)/rocm
-    - name: ROCM_DIR
-      value: $(Agent.BuildDirectory)/rocm
-    pool: ${{ job.target }}_test_pool
-    workspace:
-      clean: all
-    steps:
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
-      parameters:
-        gpuTarget: ${{ job.target }}
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
-      parameters:
-        checkoutRef: ${{ parameters.checkoutRef }}
-        dependencyList: ${{ parameters.rocmTestDependencies }}
-        gpuTarget: ${{ job.target }}
-    - task: Bash@3
-      displayName: Setup test environment
-      inputs:
-        targetType: inline
-        script: |
-          sudo ln -s $(Agent.BuildDirectory)/rocm/bin/rdcd /usr/sbin/rdcd
-          echo $(Agent.BuildDirectory)/rocm/lib/rdc/grpc/lib | sudo tee /etc/ld.so.conf.d/grpc.conf
-          sudo ldconfig -v
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
-    - task: Bash@3
-      displayName: Test rdc
-      inputs:
-        targetType: inline
-        script: >-
-          $(Agent.BuildDirectory)/rocm/share/rdc/rdctst_tests/rdctst
-          --batch_mode
-          --start_rdcd
-          --unauth_comm
-    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
-      parameters:
-        aptPackages: ${{ parameters.aptPackages }}
-        environment: test
-        gpuTarget: ${{ job.target }}
-        extraPaths: /home/user/workspace/rocm/bin
+- ${{ if eq(parameters.unifiedBuild, False) }}:
+  - ${{ each job in parameters.jobMatrix.testJobs }}:
+    - job: ${{ parameters.componentName }}_test_${{ job.target }}
+      dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
+      condition:
+        and(succeeded(),
+          eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
+          eq(${{ parameters.aggregatePipeline }}, False)
+        )
+      variables:
+      - group: common
+      - template: /.azuredevops/variables-global.yml
+      - name: ROCM_PATH
+        value: $(Agent.BuildDirectory)/rocm
+      - name: ROCM_DIR
+        value: $(Agent.BuildDirectory)/rocm
+      pool: ${{ job.target }}_test_pool
+      workspace:
+        clean: all
+      steps:
+      - checkout: none
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+        parameters:
+          gpuTarget: ${{ job.target }}
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+        parameters:
+          checkoutRef: ${{ parameters.checkoutRef }}
+          dependencyList: ${{ parameters.rocmTestDependencies }}
+          gpuTarget: ${{ job.target }}
+          ${{ if parameters.triggerDownstreamJobs }}:
+              downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+      - task: Bash@3
+        displayName: Setup test environment
+        inputs:
+          targetType: inline
+          script: |
+            sudo ln -s $(Agent.BuildDirectory)/rocm/bin/rdcd /usr/sbin/rdcd
+            echo $(Agent.BuildDirectory)/rocm/lib/rdc/grpc/lib | sudo tee /etc/ld.so.conf.d/grpc.conf
+            sudo ldconfig -v
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      - task: Bash@3
+        displayName: Test rdc
+        inputs:
+          targetType: inline
+          script: >-
+            $(Agent.BuildDirectory)/rocm/share/rdc/rdctst_tests/rdctst
+            --batch_mode
+            --start_rdcd
+            --unauth_comm
+      - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+        parameters:
+          aptPackages: ${{ parameters.aptPackages }}
+          environment: test
+          gpuTarget: ${{ job.target }}
+          extraPaths: /home/user/workspace/rocm/bin
