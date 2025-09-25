@@ -35,6 +35,7 @@ parameters:
     - cmake
     - git
     - ninja-build
+    - python3-pip
 - name: rocmDependencies
   type: object
   default:
@@ -163,8 +164,8 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
-          testDir: $(Agent.BuildDirectory)
-          testExecutable: $(Agent.BuildDirectory)/rocm/share/hsa-amd-aqlprofile/run_tests.sh
+          testDir: $(Agent.BuildDirectory)/rocm/share/hsa-amd-aqlprofile/
+          testExecutable: run_tests.sh
           testParameters: ''
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
