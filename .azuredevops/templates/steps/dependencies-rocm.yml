@@ -135,8 +135,8 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     rdc:
-      pipelineId: 100
-      developBranch: amd-staging
+      pipelineId: 360
+      developBranch: develop
       hasGpuTarget: false
     rocAL:
       pipelineId: 151
