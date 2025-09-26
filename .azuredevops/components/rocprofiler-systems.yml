@@ -244,6 +244,12 @@ jobs:
             -DGPU_TARGETS=${{ job.target }}
             -GNinja
       - task: Bash@3
+        displayName: Find setup-env.sh location
+        inputs:
+          targetType: inline
+          script: find $(Agent.BuildDirectory)/s -name setup-env.sh
+          workingDirectory: $(Agent.BuildDirectory)/s
+      - task: Bash@3
         displayName: Set up rocprofiler-systems env
         inputs:
           targetType: inline
