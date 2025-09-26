@@ -253,8 +253,8 @@ jobs:
         displayName: List all files under rocprofiler-systems
         inputs:
           targetType: inline
-          script: ls -lR $(Agent.BuildDirectory)/s/rocm/share/rocprofiler-systems
-          workingDirectory: $(Agent.BuildDirectory)/s/rocm/share/rocprofiler-systems
+          script: ls -lR $(Agent.BuildDirectory)/s
+          workingDirectory: $(Agent.BuildDirectory)/s
       - task: Bash@3
         displayName: Set up rocprofiler-systems env
         inputs:
