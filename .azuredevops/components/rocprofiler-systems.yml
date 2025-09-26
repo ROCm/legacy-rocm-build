@@ -263,21 +263,15 @@ jobs:
           script: find $(Agent.BuildDirectory)/s -name '*test*'
           workingDirectory: $(Agent.BuildDirectory)/s
       - task: Bash@3
-        displayName: Find tests under rocprofiler-systems
-        inputs:
-          targetType: inline
-          script: find $(Agent.BuildDirectory)/rocprofiler-systems -name '*test*'
-          workingDirectory: $(Agent.BuildDirectory)/rocprofiler-systems
-      - task: Bash@3
         displayName: Set up rocprofiler-systems env
         inputs:
           targetType: inline
-          script: source $(Agent.BuildDirectory)/build/share/rocprofiler-systems/setup-env.sh
-          workingDirectory: $(Agent.BuildDirectory)/build/share/rocprofiler-systems
+          script: source $(Agent.BuildDirectory)/rocprofiler-systems/share/rocprofiler-systems/setup-env.sh
+          workingDirectory: $(Agent.BuildDirectory)/rocprofiler-systems/share/rocprofiler-systems
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
-          testDir: $(Agent.BuildDirectory)/rocprofiler-systems
+          testDir: $(Agent.BuildDirectory)/rocprofiler-systems/bin
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
         parameters:
           gpuTarget: ${{ job.target }}
