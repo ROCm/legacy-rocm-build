@@ -226,7 +226,7 @@ jobs:
             echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
         parameters:
-          cmakeBuildDir: $(Agent.BuildDirectory)/s/build
+          cmakeBuildDir: $(Agent.BuildDirectory)/s/rocm
           cmakeSourceDir: $(Agent.BuildDirectory)/s/projects/rocprofiler-systems
     # build flags reference: https://rocm.docs.amd.com/projects/omnitrace/en/latest/install/install.html
           extraBuildFlags: >-
@@ -250,11 +250,17 @@ jobs:
           script: find $(Agent.BuildDirectory)/s -name setup-env.sh
           workingDirectory: $(Agent.BuildDirectory)/s
       - task: Bash@3
+        displayName: List all files under rocprofiler-systems
+        inputs:
+          targetType: inline
+          script: ls -lR $(Agent.BuildDirectory)/s/rocm/share/rocprofiler-systems
+          workingDirectory: $(Agent.BuildDirectory)/s/rocm/share/rocprofiler-systems
+      - task: Bash@3
         displayName: Set up rocprofiler-systems env
         inputs:
           targetType: inline
-          script: source $(Agent.BuildDirectory)/s/setup-env.sh
-          workingDirectory: $(Agent.BuildDirectory)/s/build
+          script: source $(Agent.BuildDirectory)/s/rocm/share/rocprofiler-systems/setup-env.sh
+          workingDirectory: $(Agent.BuildDirectory)/s/rocm/share/rocprofiler-systems
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
