@@ -46,6 +46,10 @@ parameters:
       pipelineId: 115
       developBranch: aomp-dev
       hasGpuTarget: false
+    aqlprofile:
+      pipelineId: 365
+      developBranch: develop
+      hasGpuTarget: false
     clr:
       pipelineId: 335
       developBranch: develop
