@@ -264,7 +264,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
-          testDir: $(Agent.BuildDirectory)/s/build
+          testDir: $(Agent.BuildDirectory)/s/rocm/share/rocprofiler-systems
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
         parameters:
           gpuTarget: ${{ job.target }}
