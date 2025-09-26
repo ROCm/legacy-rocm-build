@@ -245,17 +245,11 @@ jobs:
             -DGPU_TARGETS=${{ job.target }}
             -GNinja
       - task: Bash@3
-        displayName: Find setup-env.sh location
-        inputs:
-          targetType: inline
-          script: find $(Agent.BuildDirectory)/s -name setup-env.sh
-          workingDirectory: $(Agent.BuildDirectory)/s
-      - task: Bash@3
         displayName: List all files under rocprofiler-systems
         inputs:
           targetType: inline
-          script: ls -lR $(Agent.BuildDirectory)/rocprofiler-systems
-          workingDirectory: $(Agent.BuildDirectory)/rocprofiler-systems
+          script: ls -lR $(Agent.BuildDirectory)/s
+          workingDirectory: $(Agent.BuildDirectory)/s
       - task: Bash@3
         displayName: Find tests
         inputs:
@@ -271,7 +265,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
-          testDir: $(Agent.BuildDirectory)/rocprofiler-systems/bin
+          testDir: $(Agent.BuildDirectory)/rocprofiler-systems/
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
         parameters:
           gpuTarget: ${{ job.target }}
