@@ -256,6 +256,12 @@ jobs:
           script: ls -lR $(Agent.BuildDirectory)/s
           workingDirectory: $(Agent.BuildDirectory)/s
       - task: Bash@3
+        displayName: Find tests
+        inputs:
+          targetType: inline
+          script: find $(Agent.BuildDirectory)/s -name '*test*'
+          workingDirectory: $(Agent.BuildDirectory)/s
+      - task: Bash@3
         displayName: Set up rocprofiler-systems env
         inputs:
           targetType: inline
