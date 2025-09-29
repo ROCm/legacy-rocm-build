@@ -21,7 +21,7 @@ previous releases of the ``ROCm/vllm`` Docker image on `Docker Hub <https://hub.
      -
        * ROCm 7.0.0
        * vLLM 0.10.2
-       * PyTorch 2.8.0
+       * PyTorch 2.9.0
      -
        * :doc:`Documentation <../vllm>`
        * `Docker Hub <https://hub.docker.com/r/rocm/vllm/tags>`__

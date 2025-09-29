@@ -25,7 +25,7 @@ It includes the following software components:
       {% for docker in dockers %}
       {% set jax_version = docker.components["JAX"] %}
 
-      .. tab-item:: JAX {{ jax_version }}
+      .. tab-item:: ``{{ docker.pull_tag }}``
          :sync: {{ docker.pull_tag }}
 
          .. list-table::
@@ -131,6 +131,28 @@ Environment setup
 This Docker image is optimized for specific model configurations outlined
 as follows. Performance can vary for other training workloads, as AMD
 doesn’t validate configurations and run conditions outside those described.
+
+Pull the Docker image
+---------------------
+
+Use the following command to pull the Docker image from Docker Hub.
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+
+   {% set dockers = data.dockers %}
+   .. tab-set::
+
+      {% for docker in dockers %}
+      {% set jax_version = docker.components["JAX"] %}
+
+      .. tab-item:: JAX {{ jax_version }}
+         :sync: {{ docker.pull_tag }}
+
+         .. code-block:: shell
+
+            docker pull {{ docker.pull_tag }}
+
+      {% endfor %}
 
 .. _amd-maxtext-multi-node-setup-v257:
 
