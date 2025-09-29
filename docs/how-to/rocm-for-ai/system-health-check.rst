@@ -75,8 +75,8 @@ This helps ensure optimal scaling for multi-accelerator tasks.
       make
 
 2. Run the suggested RCCL tests -- see `RCCL benchmarking
-   <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/performance-bench.html#rccl-benchmarking-results>`_
-   in the Instinct performance benchmarking documentation for instructions.
+   <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/network/rdma-benchmarking.html#rccl-benchmarking-results>`_
+   in the AMD Instinct customer acceptance guide.
 
 TransferBench test
 ==================

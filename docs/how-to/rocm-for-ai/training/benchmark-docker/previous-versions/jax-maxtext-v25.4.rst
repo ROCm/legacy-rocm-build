@@ -202,16 +202,14 @@ Getting started
 
 The following examples demonstrate how to get started with single node
 and multi-node training using the benchmarking scripts provided at
-`<https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/>`__.
+`<https://github.com/ROCm/maxtext/>`__.
 
 .. important::
 
    The provided scripts launch a Docker container and execute a benchmark. Ensure you run these commands outside of any existing Docker container.
 
 Before running any benchmarks, ensure the ``$HF_HOME`` environment variable is
-set correctly and points to your Hugging Face cache directory. Refer to the
-README at `<https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/>`__
-for more detailed instructions.
+set correctly and points to your Hugging Face cache directory.
 
 Single node training benchmarking examples
 ------------------------------------------

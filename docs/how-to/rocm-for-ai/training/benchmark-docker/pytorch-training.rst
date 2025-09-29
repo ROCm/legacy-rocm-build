@@ -299,28 +299,28 @@ Run training
                     - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`_ 3.2.0
 
                   * - ``torchdata``
-                    - `TorchData <https://pytorch.org/data/beta/index.html>`_
+                    - `TorchData <https://meta-pytorch.org/data/beta/index.html#torchdata>`__
 
                   * - ``tomli``
-                    - `Tomli <https://pypi.org/project/tomli/>`_
+                    - `Tomli <https://pypi.org/project/tomli/>`__
 
                   * - ``tiktoken``
-                    - `tiktoken <https://github.com/openai/tiktoken>`_
+                    - `tiktoken <https://github.com/openai/tiktoken>`__
 
                   * - ``blobfile``
-                    - `blobfile <https://pypi.org/project/blobfile/>`_
+                    - `blobfile <https://pypi.org/project/blobfile/>`__
 
                   * - ``tabulate``
-                    - `tabulate <https://pypi.org/project/tabulate/>`_
+                    - `tabulate <https://pypi.org/project/tabulate/>`__
 
                   * - ``wandb``
-                    - `Weights & Biases <https://github.com/wandb/wandb>`_
+                    - `Weights & Biases <https://github.com/wandb/wandb>`__
 
                   * - ``sentencepiece``
-                    - `SentencePiece <https://github.com/google/sentencepiece>`_ 0.2.0
+                    - `SentencePiece <https://github.com/google/sentencepiece>`__ 0.2.0
 
                   * - ``tensorboard``
-                    - `TensorBoard <https://www.tensorflow.org/tensorboard>`_ 2.18.0
+                    - `TensorBoard <https://www.tensorflow.org/tensorboard>`__ 2.18.0
 
             .. container:: model-doc pyt_train_flux
 
@@ -336,50 +336,50 @@ Run training
                     - `Hugging Face Accelerate <https://huggingface.co/docs/accelerate/en/index>`_
 
                   * - ``datasets``
-                    - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`_ 3.2.0
+                    - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`__ 3.2.0
 
                   * - ``sentencepiece``
-                    - `SentencePiece <https://github.com/google/sentencepiece>`_ 0.2.0
+                    - `SentencePiece <https://github.com/google/sentencepiece>`__ 0.2.0
 
                   * - ``tensorboard``
-                    - `TensorBoard <https://www.tensorflow.org/tensorboard>`_ 2.18.0
+                    - `TensorBoard <https://www.tensorflow.org/tensorboard>`__ 2.18.0
 
                   * - ``csvkit``
-                    - `csvkit <https://csvkit.readthedocs.io/en/latest/>`_ 2.0.1
+                    - `csvkit <https://csvkit.readthedocs.io/en/latest/>`__ 2.0.1
 
                   * - ``deepspeed``
-                    - `DeepSpeed <https://github.com/deepspeedai/DeepSpeed>`_ 0.16.2
+                    - `DeepSpeed <https://github.com/deepspeedai/DeepSpeed>`__ 0.16.2
 
                   * - ``diffusers``
-                    - `Hugging Face Diffusers <https://huggingface.co/docs/diffusers/en/index>`_ 0.31.0
+                    - `Hugging Face Diffusers <https://huggingface.co/docs/diffusers/en/index>`__ 0.31.0
 
                   * - ``GitPython``
-                    - `GitPython <https://github.com/gitpython-developers/GitPython>`_ 3.1.44
+                    - `GitPython <https://github.com/gitpython-developers/GitPython>`__ 3.1.44
 
                   * - ``opencv-python-headless``
-                    - `opencv-python-headless <https://pypi.org/project/opencv-python-headless/>`_ 4.10.0.84
+                    - `opencv-python-headless <https://pypi.org/project/opencv-python-headless/>`__ 4.10.0.84
 
                   * - ``peft``
-                    - `PEFT <https://huggingface.co/docs/peft/en/index>`_ 0.14.0
+                    - `PEFT <https://huggingface.co/docs/peft/en/index>`__ 0.14.0
 
                   * - ``protobuf``
-                    - `Protocol Buffers <https://github.com/protocolbuffers/protobuf>`_ 5.29.2
+                    - `Protocol Buffers <https://github.com/protocolbuffers/protobuf>`__ 5.29.2
 
                   * - ``pytest``
-                    - `PyTest <https://docs.pytest.org/en/stable/>`_ 8.3.4
+                    - `PyTest <https://docs.pytest.org/en/stable/>`__ 8.3.4
 
                   * - ``python-dotenv``
-                    - `python-dotenv <https://pypi.org/project/python-dotenv/>`_ 1.0.1
+                    - `python-dotenv <https://pypi.org/project/python-dotenv/>`__ 1.0.1
 
                   * - ``seaborn``
-                    - `Seaborn <https://seaborn.pydata.org/>`_ 0.13.2
+                    - `Seaborn <https://seaborn.pydata.org/>`__ 0.13.2
 
                   * - ``transformers``
-                    - `Transformers <https://huggingface.co/docs/transformers/en/index>`_ 4.47.0
+                    - `Transformers <https://huggingface.co/docs/transformers/en/index>`__ 4.47.0
 
             ``pytorch_benchmark_setup.sh`` downloads the following datasets from Hugging Face:
 
-            * `bghira/pseudo-camera-10k <https://huggingface.co/datasets/bghira/pseudo-camera-10k>`_
+            * `bghira/pseudo-camera-10k <https://huggingface.co/datasets/bghira/pseudo-camera-10k>`__
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
