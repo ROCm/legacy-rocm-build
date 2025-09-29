@@ -369,7 +369,7 @@ benchmark results:
                benchmark. Run them outside of any Docker container.
 
             1. Make sure ``$HF_HOME`` is set before running the test. See
-               `ROCm benchmarking <https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/readme.md>`__
+               `ROCm benchmarking <https://github.com/ROCm/MAD/blob/develop/scripts/jax-maxtext/gpu-rocm/readme.md>`__
                for more details on downloading the Llama models before running the
                benchmark.
 

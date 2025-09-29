@@ -338,7 +338,7 @@ with ROCm.
     * - Library
       - Description
 
-    * - `torchaudio <https://docs.pytorch.org/audio/stable/index.html>`_ 
+    * - `torchaudio <https://docs.pytorch.org/audio/stable/index.html>`_
       - Audio and signal processing library for PyTorch. Provides utilities for
         audio I/O, signal and data processing functions, datasets, model
         implementations, and application components for audio and speech
@@ -365,11 +365,11 @@ with ROCm.
         and popular datasets for natural language processing, including
         tokenization, vocabulary management, and text embeddings.
 
-        **Note:** ``torchtext`` does not implement ROCm-specific kernels. 
+        **Note:** ``torchtext`` does not implement ROCm-specific kernels.
         ROCm acceleration is provided through the underlying PyTorch framework
         and ROCm library integration. Only official release exists.
 
-    * - `torchdata <https://docs.pytorch.org/data/beta/index.html>`_
+    * - `torchdata <https://meta-pytorch.org/data/beta/index.html#torchdata>`_
       - Beta library of common modular data loading primitives for easily
         constructing flexible and performant data pipelines, with features still
         in prototype stage.
@@ -471,7 +471,7 @@ Known issues and notes for PyTorch 2.7 with ROCm 7.0
 ================================================================================
 
 - The ``matmul.allow_fp16_reduced_precision_reduction`` and
-  ``matmul.allow_bf16_reduced_precision_reduction`` options under 
-  ``torch.backends.cuda`` are not supported. As a result, 
+  ``matmul.allow_bf16_reduced_precision_reduction`` options under
+  ``torch.backends.cuda`` are not supported. As a result,
   reduced-precision reductions using FP16 or BF16 accumulation types are not
   available.
