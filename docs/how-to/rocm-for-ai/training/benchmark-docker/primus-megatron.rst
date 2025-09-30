@@ -8,16 +8,16 @@ Training a model with Primus and Megatron-LM
 
 `Primus <https://github.com/AMD-AGI/Primus>`__ is a unified and flexible
 LLM training framework designed to streamline training. It streamlines LLM
-training on AMD Instinct accelerators using a modular, reproducible configuration paradigm.
+training on AMD Instinct GPUs using a modular, reproducible configuration paradigm.
 Primus is backend-agnostic and supports multiple training engines -- including Megatron.
 
 .. note::
 
-   Primus with Megatron supersedes the :doc:`ROCm Megatron-LM training <megatron-lm>` workflow.
+   Primus with Megatron is designed to replace the :doc:`ROCm Megatron-LM training <megatron-lm>` workflow.
    To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
    see :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 
-For ease of use, AMD provides a ready-to-use Docker image for MI300 series accelerators
+For ease of use, AMD provides a ready-to-use Docker image for MI300 series GPUs
 containing essential components for Primus and Megatron-LM. This Docker is powered by Primus
 Turbo optimizations for performance; this release adds support for Primus Turbo
 with optimized attention and grouped GEMM kernels.
@@ -47,7 +47,7 @@ with optimized attention and grouped GEMM kernels.
 Supported models
 ================
 
-The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
+The following models are pre-optimized for performance on AMD Instinct MI300X series GPUs.
 Some instructions, commands, and training examples in this documentation might
 vary by model -- select one to get started.
 
@@ -114,7 +114,7 @@ system's configuration.
    =================
 
    Use the following instructions to set up the environment, configure the script to train models, and
-   reproduce the benchmark results on MI300X series accelerators with the ``{{ docker.pull_tag }}`` image.
+   reproduce the benchmark results on MI300X series GPUs with the ``{{ docker.pull_tag }}`` image.
 
    .. _amd-primus-megatron-lm-requirements:
 
@@ -229,7 +229,7 @@ Run training
 
 Use the following example commands to set up the environment, configure
 :ref:`key options <amd-primus-megatron-lm-benchmark-test-vars>`, and run training on
-MI300X series accelerators with the AMD Megatron-LM environment.
+MI300X series GPUs with the AMD Megatron-LM environment.
 
 Single node training
 --------------------
@@ -341,7 +341,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
    .. code-block:: shell
 
       EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
-      bash ./examples/run_pretrain.sh --train_iters 50 
+      bash ./examples/run_pretrain.sh --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_deepseek-v3-proxy
 
@@ -349,7 +349,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
    The following run commands are tailored to DeepSeek-V3.
    See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
 
-   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy, 
+   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy,
    use the following command:
 
    .. code-block:: shell
@@ -445,8 +445,13 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
       EXP=examples/megatron/configs/qwen2.5_72B-pretrain.yaml \
       bash examples/run_pretrain.sh --train_iters 50
 
+.. _amd-primus-megatron-multi-node-examples:
+
 Multi-node training examples
 ----------------------------
+
+Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your environment for multi-node
+training.
 
 To run training on multiple nodes, you can use the
 `run_slurm_pretrain.sh <https://github.com/AMD-AGI/Primus/blob/927a71702784347a311ca48fd45f0f308c6ef6dd/examples/run_slurm_pretrain.sh>`__
@@ -505,7 +510,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
    .. code-block:: shell
 
-      # Adjust the training parameters. For e.g., `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case 
+      # Adjust the training parameters. For e.g., `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case
       NNODES=8 EXP=examples/megatron/configs/llama3.1_8B-pretrain.yaml \
       bash ./examples/run_slurm_pretrain.sh \
           --global_batch_size 1024 \
@@ -540,7 +545,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
    .. code-block:: shell
 
-      # Adjust the training parameters. For e.g., `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case 
+      # Adjust the training parameters. For e.g., `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case
       NNODES=8 EXP=examples/megatron/configs/llama2_7B-pretrain.yaml bash ./examples/run_slurm_pretrain.sh --global_batch_size 2048 --fp8 hybrid
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-2-70b
@@ -639,7 +644,7 @@ Further reading
   Framework for Large Models on AMD GPUs <https://rocm.blogs.amd.com/software-tools-optimization/primus/README.html>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - For a list of other ready-made Docker images for AI with ROCm, see
   `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.

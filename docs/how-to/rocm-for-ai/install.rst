@@ -57,4 +57,4 @@ Next steps
 ==========
 
 After installing ROCm and your desired ML libraries -- and before running AI workloads -- conduct system health benchmarks
-to test the optimal performance of your AMD hardware. See :doc:`system-health-check` to get started.
+to test the optimal performance of your AMD hardware. See :doc:`system-setup/index` to get started.

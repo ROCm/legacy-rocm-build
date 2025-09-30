@@ -60,8 +60,15 @@ subtrees:
     - entries:
       - file: how-to/rocm-for-ai/install.rst
         title: Installation
-      - file: how-to/rocm-for-ai/system-health-check.rst
-        title: System health benchmarks
+      - file: how-to/rocm-for-ai/system-setup/index.rst
+        title: System setup
+        entries:
+        - file: how-to/rocm-for-ai/system-setup/prerequisite-system-validation.rst
+          title: System validation
+        - file: how-to/rocm-for-ai/system-setup/multi-node-setup.rst
+          title: Multi-node setup
+        - file: how-to/rocm-for-ai/system-setup/system-health-check.rst
+          title: System health benchmarks
       - file: how-to/rocm-for-ai/training/index.rst
         title: Training
         subtrees:

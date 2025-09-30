@@ -14,9 +14,9 @@ vLLM inference performance testing
 
    The `ROCm vLLM Docker <{{ docker.docker_hub_url }}>`_ image offers
    a prebuilt, optimized environment for validating large language model (LLM)
-   inference performance on AMD Instinct™ MI300X series accelerators. This ROCm vLLM
+   inference performance on AMD Instinct™ MI300X series GPUs. This ROCm vLLM
    Docker image integrates vLLM and PyTorch tailored specifically for MI300X series
-   accelerators and includes the following components:
+   GPUs and includes the following components:
 
    .. list-table::
       :header-rows: 1
@@ -31,7 +31,7 @@ vLLM inference performance testing
 
 With this Docker image, you can quickly test the :ref:`expected
 inference performance numbers <vllm-benchmark-performance-measurements-909>` for
-MI300X series accelerators.
+MI300X series GPUs.
 
 What's new
 ==========
@@ -101,7 +101,7 @@ Supported models
          See the `{{ model.model }} model card on Hugging Face <{{ model.url }}>`_ to learn more about your selected model.
          Some models require access authorization prior to use via an external license agreement through a third party.
       {% if model.precision == "float8" and model.model_repo.startswith("amd") %}
-         This model uses FP8 quantization via `AMD Quark <https://quark.docs.amd.com/latest/>`__ for efficient inference on AMD accelerators.
+         This model uses FP8 quantization via `AMD Quark <https://quark.docs.amd.com/latest/>`__ for efficient inference on AMD GPUs.
       {% endif %}
 
       {% endfor %}
@@ -121,7 +121,7 @@ page provides reference throughput and serving measurements for inferencing popu
    The performance data presented in
    `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
    only reflects the latest version of this inference benchmarking environment.
-   The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
+   The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X GPUs or ROCm software.
 
 System validation
 =================
@@ -423,7 +423,7 @@ Further reading
 - To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
   a brief introduction to vLLM and optimization strategies.

@@ -1,12 +1,14 @@
+:orphan:
+
 .. meta::
    :description: System health checks with RVS, RCCL tests, BabelStream, and TransferBench to validate AMD hardware performance running AI workloads.
    :keywords: gpu, accelerator, system, health, validation, bench, perf, performance, rvs, rccl, babel, mi300x, mi325x, flops, bandwidth, rbt, training, inference
 
 .. _rocm-for-ai-system-health-bench:
 
-************************
-System health benchmarks
-************************
+*****************************************
+System health benchmarks for AI workloads
+*****************************************
 
 Before running AI workloads, it is important to validate that your AMD hardware is configured correctly and is performing optimally. This topic outlines several system health benchmarks you can use to test key aspects like GPU compute capabilities (FLOPS), memory bandwidth, and interconnect performance. Many of these tests are part of the ROCm Validation Suite (RVS).
 
@@ -62,7 +64,7 @@ RCCL tests
 The ROCm Communication Collectives Library (RCCL) enables efficient multi-GPU
 communication. The `<https://github.com/ROCm/rccl-tests>`__ suite benchmarks
 the performance and verifies the correctness of these collective operations.
-This helps ensure optimal scaling for multi-accelerator tasks.
+This helps ensure optimal scaling for multi-GPU tasks.
 
 1. To get started, build RCCL-tests using the official instructions in the README at
    `<https://github.com/ROCm/rccl-tests?tab=readme-ov-file#build>`__ or use the

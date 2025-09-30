@@ -8,12 +8,12 @@ Training a model with Primus and PyTorch
 
 `Primus <https://github.com/AMD-AGI/Primus>`__ is a unified and flexible
 LLM training framework designed to streamline training. It streamlines LLM
-training on AMD Instinct accelerators using a modular, reproducible configuration paradigm.
+training on AMD Instinct GPUs using a modular, reproducible configuration paradigm.
 Primus now supports the PyTorch torchtitan backend.
 
 .. note::
 
-   Primus with the PyTorch torchtitan backend is intended to supersede the :doc:`ROCm PyTorch training <pytorch-training>` workflow.
+   Primus with the PyTorch torchtitan backend is designed to replace the :doc:`ROCm PyTorch training <pytorch-training>` workflow.
    See :doc:`pytorch-training` to see steps to run workloads without Primus.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
@@ -21,7 +21,7 @@ Primus now supports the PyTorch torchtitan backend.
    {% set dockers = data.dockers %}
    {% set docker = dockers[0] %}
    For ease of use, AMD provides a ready-to-use Docker image -- ``{{
-   docker.pull_tag }}`` -- for MI300X series accelerators containing essential
+   docker.pull_tag }}`` -- for MI300X series GPUs containing essential
    components for Primus and PyTorch training with
    Primus Turbo optimizations.
 
@@ -41,7 +41,7 @@ Primus now supports the PyTorch torchtitan backend.
 Supported models
 ================
 
-The following models are pre-optimized for performance on the AMD Instinct MI325X and MI300X accelerators.
+The following models are pre-optimized for performance on the AMD Instinct MI325X and MI300X GPUs.
 Some instructions, commands, and training recommendations in this documentation might
 vary by model -- select one to get started.
 
@@ -293,7 +293,7 @@ Further reading
 - To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - For a list of other ready-made Docker images for AI with ROCm, see
   `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.

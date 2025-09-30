@@ -10,20 +10,20 @@ Training a model with Megatron-LM on ROCm
 
 .. caution::
 
-   Primus with Megatron supersedes this ROCm Megatron-LM training workflow.
+   Primus with Megatron is designed to replace this ROCm Megatron-LM training workflow.
    To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
    see :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 
 The `Megatron-LM framework for ROCm <https://github.com/ROCm/Megatron-LM>`_ is
 a specialized fork of the robust Megatron-LM, designed to enable efficient
 training of large-scale language models on AMD GPUs. By leveraging AMD
-Instinct™ MI300X series accelerators, Megatron-LM delivers enhanced
+Instinct™ MI300X series GPUs, Megatron-LM delivers enhanced
 scalability, performance, and resource utilization for AI workloads. It is
 purpose-built to support models like Llama, DeepSeek, and Mixtral,
 enabling developers to train next-generation AI models more
 efficiently.
 
-AMD provides ready-to-use Docker images for MI300X series accelerators containing
+AMD provides ready-to-use Docker images for MI300X series GPUs containing
 essential components, including PyTorch, ROCm libraries, and Megatron-LM
 utilities. It contains the following software components to accelerate training
 workloads:
@@ -61,7 +61,7 @@ workloads:
    ================
 
    The following models are supported for training performance benchmarking with Megatron-LM and ROCm
-   on AMD Instinct MI300X series accelerators.
+   on AMD Instinct MI300X series GPUs.
    Some instructions, commands, and training recommendations in this documentation might
    vary by model -- select one to get started.
 
@@ -115,7 +115,7 @@ popular AI models.
    The performance data presented in
    `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`__
    only reflects the latest version of this training benchmarking environment.
-   The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
+   The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X GPUs or ROCm software.
 
 System validation
 =================
@@ -138,11 +138,11 @@ Environment setup
 =================
 
 Use the following instructions to set up the environment, configure the script to train models, and
-reproduce the benchmark results on MI300X series accelerators with the AMD Megatron-LM Docker
+reproduce the benchmark results on MI300X series GPUs with the AMD Megatron-LM Docker
 image.
 
 .. _amd-megatron-lm-requirements:
- 
+
 Download the Docker image
 -------------------------
 
@@ -152,7 +152,7 @@ Download the Docker image
    1. Use the following command to pull the Docker image from Docker Hub.
 
       {% if dockers|length > 1 %}
-      .. tab-set:: 
+      .. tab-set::
 
          {% for docker in data.dockers %}
          .. tab-item:: {{ docker.doc_name }}
@@ -281,25 +281,11 @@ Configuration
 
    See :ref:`Key options <amd-megatron-lm-benchmark-test-vars>` for more information on configuration options.
 
-Network interface
------------------
+Multi-node configuration
+------------------------
 
-Update the network interface in the script to match your system's network interface. To
-find your network interface, run the following (outside of any Docker container):
-
-.. code-block:: bash
-
-   ip a
-
-Look for an active interface that has an IP address in the same subnet as
-your other nodes. Then, update the following variables in the script, for
-example:
-
-.. code-block:: bash
-
-   export NCCL_SOCKET_IFNAME=ens50f0np0
-
-   export GLOO_SOCKET_IFNAME=ens50f0np0
+Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your environment for multi-node
+training. See :ref:`amd-megatron-lm-multi-node-examples` for example run commands.
 
 .. _amd-megatron-lm-tokenizer:
 
@@ -540,46 +526,6 @@ Download the dataset
 
    Ensure that the files are accessible inside the Docker container.
 
-Multi-node configuration
-------------------------
-
-If you're running multi-node training, update the following environment variables. They can
-also be passed as command line arguments. Refer to the following example configurations.
-
-* Change ``localhost`` to the master node's hostname:
-
-  .. code-block:: shell
-
-     MASTER_ADDR="${MASTER_ADDR:-localhost}"
-
-* Set the number of nodes you want to train on (for instance, ``2``, ``4``, ``8``):
-
-  .. code-block:: shell
-
-     NNODES="${NNODES:-1}"
-
-* Set the rank of each node (0 for master, 1 for the first worker node, and so on):
-
-  .. code-block:: shell
-
-     NODE_RANK="${NODE_RANK:-0}"
-
-* Set ``DATA_CACHE_PATH`` to a common directory accessible by all the nodes (for example, an
-  NFS directory) for multi-node runs:
-
-  .. code-block:: shell
-
-     DATA_CACHE_PATH=/root/cache # Set to a common directory for multi-node runs
-
-* For multi-node runs, make sure the correct network drivers are installed on the nodes. If
-  inside a Docker container, either install the drivers inside the Docker container or pass the network
-  drivers from the host while creating the Docker container.
-
-  .. code-block:: shell
-
-     # Specify which RDMA interfaces to use for communication
-     export NCCL_IB_HCA=rdma0,rdma1,rdma2,rdma3,rdma4,rdma5,rdma6,rdma7
-
 .. _amd-megatron-lm-run-training:
 
 Run training
@@ -587,7 +533,7 @@ Run training
 
 Use the following example commands to set up the environment, configure
 :ref:`key options <amd-megatron-lm-benchmark-test-vars>`, and run training on
-MI300X series accelerators with the AMD Megatron-LM environment.
+MI300X series GPUs with the AMD Megatron-LM environment.
 
 Single node training
 --------------------
@@ -612,7 +558,7 @@ Single node training
       FSDP=1 \
       MODEL_SIZE=70 \
       TOTAL_ITERS=50 \
-      bash examples/llama/train_llama3.sh 
+      bash examples/llama/train_llama3.sh
 
    .. note::
 
@@ -770,7 +716,7 @@ Single node training
 
 .. container:: model-doc pyt_megatron_lm_train_deepseek-v3-proxy
 
-   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy, 
+   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy,
    navigate to the Megatron-LM folder and use the following command.
 
    .. code-block:: shell
@@ -924,6 +870,8 @@ Single node training
           TOKENIZER_MODEL=Qwen/Qwen2.5-72B \
           RECOMPUTE_ACTIVATIONS=full \
           CKPT_FORMAT=torch_dist
+
+.. _amd-megatron-lm-multi-node-examples:
 
 Multi-node training examples
 ----------------------------
