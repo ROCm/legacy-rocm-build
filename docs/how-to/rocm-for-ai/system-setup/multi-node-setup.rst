@@ -225,7 +225,7 @@ inter-node parallelism.
 JAX MaxText
 -----------
 
-1. Download the desired multi-node benchmarking script from `<https://github.com/ROCm/maxtext/tree/main/benchmarks/gpu-rocm>`__.
+1. Download the desired multi-node benchmarking script from `<https://github.com/ROCm/MAD/tree/develop/scripts/jax-maxtext/gpu-rocm>`__.
 
    .. code-block:: shell
 
