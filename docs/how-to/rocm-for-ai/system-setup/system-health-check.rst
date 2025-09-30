@@ -64,7 +64,7 @@ RCCL tests
 The ROCm Communication Collectives Library (RCCL) enables efficient multi-GPU
 communication. The `<https://github.com/ROCm/rccl-tests>`__ suite benchmarks
 the performance and verifies the correctness of these collective operations.
-This helps ensure optimal scaling for multi-accelerator tasks.
+This helps ensure optimal scaling for multi-GPU tasks.
 
 1. To get started, build RCCL-tests using the official instructions in the README at
    `<https://github.com/ROCm/rccl-tests?tab=readme-ov-file#build>`__ or use the

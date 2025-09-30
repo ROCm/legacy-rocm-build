@@ -9,10 +9,10 @@ Multi-node setup for AI workloads
 *********************************
 
 AMD provides ready-to-use Docker images for AMD Instinct™ MI300X and MI325X
-accelerators containing ROCm-capable deep learning frameworks and essential
+GPUs containing ROCm-capable deep learning frameworks and essential
 software components. These Docker images can run and leverage multiple nodes if
 they are available. This page describes how to enable the multi-node training
-of AI workloads on AMD Instinct accelerators.
+of AI workloads on AMD Instinct GPUs.
 
 Prerequisites
 =============
