@@ -70,6 +70,7 @@ parameters:
     - hipBLAS-common
     - hipBLASLt
     - llvm-project
+    - rocm-cmake
     - rocminfo
     - rocprofiler-register
     - rocm_smi_lib

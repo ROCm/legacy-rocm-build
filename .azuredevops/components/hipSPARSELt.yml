@@ -54,6 +54,7 @@ parameters:
     - hipSPARSE
     - llvm-project
     - rocBLAS
+    - rocm-cmake
     - rocm_smi_lib
     - rocminfo
     - rocprofiler-register
@@ -67,6 +68,7 @@ parameters:
     - llvm-project
     - hipBLAS-common
     - hipBLASLt
+    - rocm-cmake
     - rocBLAS
     - rocminfo
     - rocprofiler-register
