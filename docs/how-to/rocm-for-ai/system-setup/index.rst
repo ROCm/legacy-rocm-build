@@ -13,25 +13,20 @@ Prerequisite system validation
 ==============================
 
 First, confirm that your system meets all software and hardware prerequisites.
-
-- See :doc:`prerequisite-system-validation`.
+See :doc:`prerequisite-system-validation`.
 
 Docker images for AMD Instinct accelerators
 ===========================================
 
 AMD provides prebuilt Docker images for AMD Instinct™ MI300X and MI325X
 accelerators. These images include ROCm-enabled deep learning frameworks and
-essential software components.
-
-- Supports both single-node and multi-node configurations
-- Ready for training and inference workloads out of the box
+essential software components. They support single-node and multi-node configurations
+and are ready for training and inference workloads out of the box.
 
 Multi-node training
 -------------------
 
-For instructions on enabling multi-node training:
-
-- See :doc:`multi-node-setup`.
+For instructions on enabling multi-node training, see :doc:`multi-node-setup`.
 
 System optimization and validation
 ==================================
@@ -42,6 +37,4 @@ operating at peak efficiency. Recommended steps include:
 - Disabling NUMA auto-balancing
 - Running system benchmarks to validate hardware performance
 
-For details on running system health checks:
-
-- See :doc:`system-health-check`.
+For details on running system health checks, see :doc:`system-health-check`.
