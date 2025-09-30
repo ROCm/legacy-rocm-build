@@ -19,13 +19,13 @@ Prerequisites
 
 Before starting, ensure your environment meets the following requirements:
 
-* **Multi-node networking**: your cluster should have a configured multi-node network. For setup
+* Multi-node networking: your cluster should have a configured multi-node network. For setup
   instructions, see the `Multi-node network configuration for AMD Instinct
   accelerators
   <https://instinct.docs.amd.com/projects/gpu-cluster-networking/en/latest/how-to/multi-node-config.html>`__
   guide in the Instinct documentation.
 
-* **ROCm Docker container** to simplify environment setup for AI workloads. See the following resources to get started:
+* ROCm Docker container to simplify environment setup for AI workloads. See the following resources to get started:
 
   * :doc:`Training a model with Megatron-LM and ROCm <../training/benchmark-docker/megatron-lm>`
 
