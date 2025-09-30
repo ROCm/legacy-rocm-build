@@ -6,7 +6,7 @@
 System setup for AI workloads on ROCm
 *************************************
 
-Before you begin training or inference on AMD Instinct™ accelerators, complete
+Before you begin training or inference on AMD Instinct™ GPUs, complete
 the following system setup and validation steps to ensure optimal performance.
 
 Prerequisite system validation
@@ -15,11 +15,11 @@ Prerequisite system validation
 First, confirm that your system meets all software and hardware prerequisites.
 See :doc:`prerequisite-system-validation`.
 
-Docker images for AMD Instinct accelerators
-===========================================
+Docker images for AMD Instinct GPUs
+===================================
 
 AMD provides prebuilt Docker images for AMD Instinct™ MI300X and MI325X
-accelerators. These images include ROCm-enabled deep learning frameworks and
+GPUs. These images include ROCm-enabled deep learning frameworks and
 essential software components. They support single-node and multi-node configurations
 and are ready for training and inference workloads out of the box.
 
