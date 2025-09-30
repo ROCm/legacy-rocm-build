@@ -142,7 +142,7 @@ reproduce the benchmark results on MI300X series accelerators with the AMD Megat
 image.
 
 .. _amd-megatron-lm-requirements:
- 
+
 Download the Docker image
 -------------------------
 
@@ -152,7 +152,7 @@ Download the Docker image
    1. Use the following command to pull the Docker image from Docker Hub.
 
       {% if dockers|length > 1 %}
-      .. tab-set:: 
+      .. tab-set::
 
          {% for docker in data.dockers %}
          .. tab-item:: {{ docker.doc_name }}
@@ -284,7 +284,7 @@ Configuration
 Multi-node configuration
 ------------------------
 
-Refer to :doc:`/how-to/rocm-for-ai/multi-node-setup` to configure your environment for multi-node
+Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your environment for multi-node
 training. See :ref:`amd-megatron-lm-multi-node-examples` for example run commands.
 
 .. _amd-megatron-lm-tokenizer:
@@ -558,7 +558,7 @@ Single node training
       FSDP=1 \
       MODEL_SIZE=70 \
       TOTAL_ITERS=50 \
-      bash examples/llama/train_llama3.sh 
+      bash examples/llama/train_llama3.sh
 
    .. note::
 
@@ -716,7 +716,7 @@ Single node training
 
 .. container:: model-doc pyt_megatron_lm_train_deepseek-v3-proxy
 
-   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy, 
+   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy,
    navigate to the Megatron-LM folder and use the following command.
 
    .. code-block:: shell

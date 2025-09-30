@@ -62,7 +62,7 @@ See the `Ethernet networking guide for AMD
 Instinct MI300X GPU clusters: Compiling Broadcom NIC software from source
 <https://docs.broadcom.com/doc/957608-AN2XX#page=81>`_ for more details.
 
-.. important:: 
+.. important::
 
    It is crucial to install the exact same version of the RoCE library that
    is installed on your host system. Also, ensure that the path to these
@@ -189,7 +189,7 @@ interfaces, then set:
 
   Alternatively, if you want to choose the RDMA interface automatically, you
   can use the following. This command will sort the RDMA interfaces and then
-  select the first eight RDMA interfaces. 
+  select the first eight RDMA interfaces.
 
   .. code-block:: bash
 
@@ -220,7 +220,7 @@ The following benchmarking examples demonstrate training a Llama 3 8B model
 across multiple 8-GPU nodes, using FSDP for intra-node parallelism and DP for
 inter-node parallelism.
 
-.. _rocm-for-ai-multi-node-setup-pyt-train-example:
+.. _rocm-for-ai-multi-node-setup-jax-train-example:
 
 JAX MaxText
 -----------
@@ -243,10 +243,6 @@ JAX MaxText
    .. code-block:: shell
 
       sbatch -N <num_nodes> llama3_8b_multinode.sh
-
-.. seealso::
-
-   See :ref:`Training a model with JAX MaxText <amd-maxtext-multi-node-examples>` for more examples and information.
 
 .. _rocm-for-ai-multi-node-setup-pyt-train-example:
 
@@ -300,13 +296,13 @@ Megatron-LM
       export IMAGE=docker.io/rocm/megatron-lm:latest OR your preferred image
       export DATA_CACHE_PATH=/nfs/mounted/repo
 
-      sbatch –N <num_nodes> examples/llama/train_llama_slurm.sh <MODEL_SIZE> <MBS> <GBS> <SEQ_LENGTH> <FSDP> <RECOMPUTE> 
+      sbatch –N <num_nodes> examples/llama/train_llama_slurm.sh <MODEL_SIZE> <MBS> <GBS> <SEQ_LENGTH> <FSDP> <RECOMPUTE>
 
 2. For example, to run a Llama 3 8B workload in BF16 precision, use the following command.
- 
+
    .. code-block:: shell
 
-      MODEL_NAME=llama3 sbatch –N 8 examples/llama/train_llama_slurm.sh 8 2 128 8192 0 0 
+      MODEL_NAME=llama3 sbatch –N 8 examples/llama/train_llama_slurm.sh 8 2 128 8192 0 0
       # Other parameters, such as TP, FP8 datatype, can be adjusted in the script.
 
 Further reading
