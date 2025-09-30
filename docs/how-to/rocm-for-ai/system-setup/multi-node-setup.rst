@@ -173,8 +173,8 @@ Set the RDMA interfaces to be used for communication. NICs can come from differe
 
    ibv_devices
 
-The command below gets the list of all RDMA/IB  devices and puts them in the
-comma separated form. If
+The command below gets the list of all RDMA/IB devices and puts them in a
+comma-separated format. If
 (``rdma0,rdma1,rdma2,rdma3,rdma4,rdma5,rdma6,rdma7``) are your RDMA
 interfaces, then set:
 
@@ -216,7 +216,7 @@ Mellanox NICs by automatically installing the required libraries and setting
 the necessary environment variables. For systems with Broadcom NICs, the
 scripts assume the host's RoCE library is located in the ``/opt`` directory.
 
-The following benchmarking examples demonstrate training a Llama 3 8B model
+The following benchmarking examples demonstrate the training of a Llama 3 8B model
 across multiple 8-GPU nodes, using FSDP for intra-node parallelism and DP for
 inter-node parallelism.
 
