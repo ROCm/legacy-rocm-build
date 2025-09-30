@@ -13,7 +13,7 @@ Primus is backend-agnostic and supports multiple training engines -- including M
 
 .. note::
 
-   Primus with Megatron supersedes the :doc:`ROCm Megatron-LM training <megatron-lm>` workflow.
+   Primus with Megatron is designed to replace the :doc:`ROCm Megatron-LM training <megatron-lm>` workflow.
    To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
    see :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 
@@ -341,7 +341,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
    .. code-block:: shell
 
       EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
-      bash ./examples/run_pretrain.sh --train_iters 50 
+      bash ./examples/run_pretrain.sh --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_deepseek-v3-proxy
 
@@ -349,7 +349,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
    The following run commands are tailored to DeepSeek-V3.
    See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
 
-   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy, 
+   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy,
    use the following command:
 
    .. code-block:: shell
@@ -510,7 +510,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
    .. code-block:: shell
 
-      # Adjust the training parameters. For e.g., `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case 
+      # Adjust the training parameters. For e.g., `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case
       NNODES=8 EXP=examples/megatron/configs/llama3.1_8B-pretrain.yaml \
       bash ./examples/run_slurm_pretrain.sh \
           --global_batch_size 1024 \
@@ -545,7 +545,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
    .. code-block:: shell
 
-      # Adjust the training parameters. For e.g., `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case 
+      # Adjust the training parameters. For e.g., `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case
       NNODES=8 EXP=examples/megatron/configs/llama2_7B-pretrain.yaml bash ./examples/run_slurm_pretrain.sh --global_batch_size 2048 --fp8 hybrid
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-2-70b

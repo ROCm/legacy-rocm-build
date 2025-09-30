@@ -249,6 +249,13 @@ JAX MaxText
 PyTorch training
 ----------------
 
+.. note::
+
+   The ROCm PyTorch Training Docker image now focuses on :doc:`Training a model
+   with Primus and PyTorch <../training/benchmark-docker/primus-pytorch>`. The
+   following example refers to the legacy workflow :ref:`Training a
+   model with PyTorch <amd-pytorch-training-multinode-examples>`.
+
 1. Download the ``run_multinode_train.sh`` benchmarking script from `<https://github.com/ROCm/MAD/tree/develop/scripts/pytorch_train>`__.
 
    .. code-block:: shell

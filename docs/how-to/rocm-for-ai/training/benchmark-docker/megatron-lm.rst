@@ -10,7 +10,7 @@ Training a model with Megatron-LM on ROCm
 
 .. caution::
 
-   Primus with Megatron supersedes this ROCm Megatron-LM training workflow.
+   Primus with Megatron is designed to replace this ROCm Megatron-LM training workflow.
    To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
    see :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 

@@ -13,7 +13,7 @@ Primus now supports the PyTorch torchtitan backend.
 
 .. note::
 
-   Primus with the PyTorch torchtitan backend is intended to supersede the :doc:`ROCm PyTorch training <pytorch-training>` workflow.
+   Primus with the PyTorch torchtitan backend is designed to replace the :doc:`ROCm PyTorch training <pytorch-training>` workflow.
    See :doc:`pytorch-training` to see steps to run workloads without Primus.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
