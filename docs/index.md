@@ -16,7 +16,7 @@ ROCm supports multiple programming languages and programming interfaces such as
 {doc}`HIP (Heterogeneous-Compute Interface for Portability)<hip:index>`, OpenCL,
 and OpenMP, as explained in the [Programming guide](./how-to/programming_guide.rst).
 
-If you're using AMD Radeon GPUs or Ryzen APUs in a workstation setting with a display connected, review [ROCm on Radeon and Ryzen documentation](https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/index.html).
+If you're using AMD Radeon GPUs or Ryzen APUs in a workstation setting with a display connected, review {doc}`ROCm on Radeon and Ryzen documentation<radeon:index>`.
 
 ROCm documentation is organized into the following categories:
 
@@ -29,7 +29,7 @@ ROCm documentation is organized into the following categories:
 
 * {doc}`ROCm on Linux <rocm-install-on-linux:reference/system-requirements>`
 * {doc}`HIP SDK on Windows <rocm-install-on-windows:reference/system-requirements>`
-* [ROCm on Radeon GPUs](https://rocm.docs.amd.com/projects/radeon/en/latest/index.html)
+* {doc}`ROCm on Radeon and Ryzen<radeon:index>`
 * {doc}`Deep learning frameworks </how-to/deep-learning-rocm>`
 * {doc}`Build from source </how-to/build-rocm>`
 :::

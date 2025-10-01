@@ -12,8 +12,7 @@ You can also refer to the :ref:`past versions of ROCm compatibility matrix<past-
 
 Accelerators and GPUs listed in the following table support compute workloads (no display
 information or graphics). If you’re using ROCm with AMD Radeon GPUs or Ryzen APUs for graphics
-workloads, see the `Use ROCm on Radeon and Ryzen
-<https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/index.html>`_ to verify
+workloads, see the :docs:`Use ROCm on Radeon and Ryzen <radeon:index.html>` to verify
 compatibility and system requirements.
 
 .. |br| raw:: html
