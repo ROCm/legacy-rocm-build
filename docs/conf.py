@@ -114,7 +114,10 @@ article_pages = [
 
     {"file": "how-to/rocm-for-ai/index", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/install", "os": ["linux"]},
-    {"file": "how-to/rocm-for-ai/system-health-check", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/system-setup/index", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/system-setup/multi-node-setup", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/system-setup/prerequisite-system-validation", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/system-setup/system-health-check", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/training/index", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/train-a-model", "os": ["linux"]},
