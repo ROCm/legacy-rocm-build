@@ -245,18 +245,6 @@ jobs:
             -DGPU_TARGETS=${{ job.target }}
             -GNinja
       - task: Bash@3
-        displayName: List all files under rocprofiler-systems
-        inputs:
-          targetType: inline
-          script: ls -lR $(Agent.BuildDirectory)/s
-          workingDirectory: $(Agent.BuildDirectory)/s
-      - task: Bash@3
-        displayName: Find tests
-        inputs:
-          targetType: inline
-          script: find $(Agent.BuildDirectory)/s -name '*test*'
-          workingDirectory: $(Agent.BuildDirectory)/s
-      - task: Bash@3
         displayName: Set up rocprofiler-systems env
         inputs:
           targetType: inline
