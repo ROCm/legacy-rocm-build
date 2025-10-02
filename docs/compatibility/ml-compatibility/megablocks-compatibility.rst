@@ -28,7 +28,7 @@ Supported devices
 ================================================================================
 
 - **Officially Supported**: AMD Instinct MI300X
-- **Partially Supported** (functionality or performance limitations): AMD Instinct MI250X, MI210X
+- **Partially Supported** (functionality or performance limitations): AMD Instinct MI250X, MI210
 
 Supported models and features
 ================================================================================

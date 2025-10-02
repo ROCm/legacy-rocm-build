@@ -16,7 +16,7 @@ for Large Language Model (LLM) inference that runs on both central processing un
 a simple, dependency-free setup. 
 
 The framework supports multiple quantization options, from 1.5-bit to 8-bit integers, 
-to speed up inference and reduce memory usage. Originally built as a CPU-first library, 
+to accelerate inference and reduce memory usage. Originally built as a CPU-first library, 
 llama.cpp is easy to integrate with other programming environments and is widely 
 adopted across diverse platforms, including consumer devices. 
 
@@ -40,12 +40,12 @@ with ROCm support:
 
 .. note::
 
-  llama.cpp is supported on ROCm 6.4.0.
+  llama.cpp is supported on ROCm 7.0.0 and ROCm 6.4.x.
 
 Supported devices
 ================================================================================
 
-**Officially Supported**: AMD Instinct™ MI300X, MI210
+**Officially Supported**: AMD Instinct™ MI300X, MI325X, MI210
 
 
 Use cases and recommendations
@@ -70,7 +70,7 @@ llama.cpp is also used in a range of real-world applications, including:
 For more use cases and recommendations, refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`__, 
 where you can search for llama.cpp examples and best practices to optimize your workloads on AMD GPUs.
 
-- The `Llama.cpp Meets Instinct: A New Era of Open-Source AI Acceleration <https://rocm.blogs.amd.com/ecosystems-and-partners/llama-cpp/README.html>`__, 
+- The `Llama.cpp Meets Instinct: A New Era of Open-Source AI Acceleration <https://rocm.blogs.amd.com/ecosystems-and-partners/llama-cpp/README.html>`__ 
   blog post outlines how the open-source llama.cpp framework enables efficient LLM inference—including interactive inference with ``llama-cli``, 
   server deployment with ``llama-server``, GGUF model preparation and quantization, performance benchmarking, and optimizations tailored for 
   AMD Instinct GPUs within the ROCm ecosystem. 
@@ -84,9 +84,9 @@ Docker image compatibility
 
    <i class="fab fa-docker"></i>
 
-AMD validates and publishes `ROCm llama.cpp Docker images <https://hub.docker.com/r/rocm/llama.cpp>`__
+AMD validates and publishes `ROCm llama.cpp Docker images <https://hub.docker.com/r/rocm/llama.cpp/tags>`__
 with ROCm backends on Docker Hub. The following Docker image tags and associated
-inventories were tested on `ROCm 6.4.0 <https://repo.radeon.com/rocm/apt/6.4/>`__.
+inventories represent the available llama.cpp versions from the official Docker Hub.
 Click |docker-icon| to view the image on Docker Hub.
 
 .. important::
@@ -105,7 +105,114 @@ Click |docker-icon| to view the image on Docker Hub.
       - Server Docker
       - Light Docker
       - llama.cpp
+      - ROCm
       - Ubuntu
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu24.04_full/images/sha256-a2ecd635eaa65bb289a9041330128677f3ae88bee6fee0597424b17e38d4903c"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu24.04_server/images/sha256-cb46b47df415addb5ceb6e6fdf0be70bf9d7f6863bbe6e10c2441ecb84246d52"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu24.04_light/images/sha256-8f8536eec4b05c0ff1c022f9fc6c527ad1c89e6c1ca0906e4d39e4de73edbde9"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
+      - `7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__
+      - 24.04
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu22.04_full/images/sha256-f36de2a3b03ae53e81c85422cb3780368c9891e1ac7884b04403a921fe2ea45d"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu22.04_server/images/sha256-df15e8ab11a6837cd3736644fec1e047465d49e37d610ab0b79df000371327df"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu22.04_light/images/sha256-4ea2d5bb7964f0ee3ea9b30ba7f343edd6ddfab1b1037669ca7eafad2e3c2bd7"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
+      - `7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__
+      - 22.04
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.3_ubuntu24.04_full/images/sha256-5960fc850024a8a76451f9eaadd89b7e59981ae9f393b407310c1ddf18892577"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.3_ubuntu24.04_server/images/sha256-1b79775d9f546065a6aaf9ca426e1dd4ed4de0b8f6ee83687758cc05af6538e6"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.3_ubuntu24.04_light/images/sha256-8f863c4c2857ae42bebd64e4f1a0a1e7cc3ec4503f243e32b4a4dcad070ec361"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
+      - `6.4.3 <https://repo.radeon.com/rocm/apt/6.4.3/>`__
+      - 24.04
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.3_ubuntu22.04_full/images/sha256-888879b3ee208f9247076d7984524b8d1701ac72611689e89854a1588bec9867"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.3_ubuntu22.04_server/images/sha256-90e4ff99a66743e33fd00728cd71a768588e5f5ef355aaa196669fe65ac70672"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.3_ubuntu22.04_light/images/sha256-bd447a049939cb99054f8fbf3f2352870fe906a75e2dc3339c845c08b9c53f9b"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
+      - `6.4.3 <https://repo.radeon.com/rocm/apt/6.4.3/>`__
+      - 22.04
+
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.2_ubuntu24.04_full/images/sha256-5b3a1bc4889c1fcade434b937fbf9cc1c22ff7dc0317c130339b0c9238bc88c4"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.2_ubuntu24.04_server/images/sha256-5228ff99d0f627a9032d668f4381b2e80dc1e301adc3e0821f26d8354b175271"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.2_ubuntu24.04_light/images/sha256-b12723b332a826a89b7252dddf868cbe4d1a869562fc4aa4032f59e1a683b968"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
+      - `6.4.2 <https://repo.radeon.com/rocm/apt/6.4.2/>`__
+      - 24.04
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.2_ubuntu22.04_full/images/sha256-cd6e21a6a73f59b35dd5309b09dd77654a94d783bf13a55c14eb8dbf8e9c2615"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.2_ubuntu22.04_server/images/sha256-c2b4689ab2c47e6626e8fea22d7a63eb03d47c0fde9f5ef8c9f158d15c423e58"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.2_ubuntu22.04_light/images/sha256-1acc28f29ed87db9cbda629cb29e1989b8219884afe05f9105522be929e94da4"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
+      - `6.4.2 <https://repo.radeon.com/rocm/apt/6.4.2/>`__
+      - 22.04
+
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.1_ubuntu24.04_full/images/sha256-2f8ae8a44510d96d52dea6cb398b224f7edeb7802df7ec488c6f63d206b3cdc9"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.1_ubuntu24.04_server/images/sha256-fece497ff9f4a28b12f645de52766941da8ead8471aa1ea84b61d4b4568e51f2"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.1_ubuntu24.04_light/images/sha256-3e14352fa6f8c6128b23cf9342531c20dbfb522550b626e09d83b260a1947022"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
+      - `6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__
+      - 24.04
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.1_ubuntu22.04_full/images/sha256-80763062ef0bec15038c35fd01267f1fc99a5dd171d4b48583cc668b15efad69"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.1_ubuntu22.04_server/images/sha256-db2a6c957555ed83b819bbc54aea884a93192da0fb512dae63d32e0dc4e8ab8f"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm6.4.1_ubuntu22.04_light/images/sha256-c6dbb07cc655fb079d5216e4b77451cb64a9daa0585d23b6fb8b32cb22021197"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
+      - `6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__
+      - 22.04
 
     * - .. raw:: html
 
@@ -117,40 +224,52 @@ Click |docker-icon| to view the image on Docker Hub.
 
            <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b5997_rocm6.4.0_ubuntu24.04_light/images/sha256-cc324e6faeedf0e400011f07b49d2dc41a16bae257b2b7befa0f4e2e97231320"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
       - `b5997 <https://github.com/ROCm/llama.cpp/tree/release/b5997>`__
+      - `6.4.0 <https://repo.radeon.com/rocm/apt/6.4/>`__
       - 24.04
+
 
 Key ROCm libraries for llama.cpp
 ================================================================================
 
 llama.cpp functionality on ROCm is determined by its underlying library
 dependencies. These ROCm components affect the capabilities, performance, and
-feature set available to developers.
+feature set available to developers. Ensure you have the required libraries for 
+your corresponding ROCm version.
 
 .. list-table::
     :header-rows: 1
 
     * - ROCm library
-      - Version
+      - ROCm 7.0.0 version
+      - ROCm 6.4.x version
       - Purpose
       - Usage
     * - `hipBLAS <https://github.com/ROCm/hipBLAS>`__
-      - :version-ref:`hipBLAS rocm_version`
+      - 3.0.0
+      - 2.4.0
       - Provides GPU-accelerated Basic Linear Algebra Subprograms (BLAS) for
         matrix and vector operations.
       - Supports operations such as matrix multiplication, matrix-vector
         products, and tensor contractions. Utilized in both dense and batched
         linear algebra operations.
     * - `hipBLASLt <https://github.com/ROCm/hipBLASLt>`__
-      - :version-ref:`hipBLASLt rocm_version`
+      - 1.0.0
+      - 0.12.0
       - hipBLASLt is an extension of the hipBLAS library, providing additional
         features like epilogues fused into the matrix multiplication kernel or
         use of integer tensor cores.
       - By setting the flag ``ROCBLAS_USE_HIPBLASLT``, you can dispatch hipblasLt
         kernels where possible.
     * - `rocWMMA <https://github.com/ROCm/rocWMMA>`__
-      - :version-ref:`rocWMMA rocm_version`
+      - 2.0.0
+      - 1.7.0
       - Accelerates warp-level matrix-multiply and matrix-accumulate to speed up matrix
         multiplication (GEMM) and accumulation operations with mixed precision
         support.
       - Can be used to enhance the flash attention performance on AMD compute, by enabling
         the flag during compile time.
+
+Previous versions
+===============================================================================
+See :doc:`rocm-install-on-linux:install/3rd-party/previous-versions/llama-cpp-history` to find documentation for previous releases
+of the ``ROCm/llama.cpp`` Docker image.
