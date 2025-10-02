@@ -4,9 +4,9 @@ Benchmark Llama 3 pre-training with Megatron-LM
 
 This page describes how to benchmark Llama 3 8B and 70B pre-training using the
 Megatron-LM framework. It includes configurations for both FP8 and BF16
-precision to measure throughput. The accompanying Docker image integrates ROCm
-7.0 with Megatron-LM -- and is tailored for AMD Instinct MI355X and MI350X
-accelerators. This benchmark does not support other accelerators.
+precision to measure throughput. The provided Docker image integrates ROCm
+7.0 with Megatron-LM -- and is supported on AMD Instinct MI355X and MI350X
+GPUs.
 
 Follow these steps to pull the required image, spin up the container with the
 appropriate options, download the model, and run the throughput test.

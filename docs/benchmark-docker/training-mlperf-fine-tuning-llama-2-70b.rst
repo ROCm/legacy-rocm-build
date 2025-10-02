@@ -6,9 +6,9 @@ This guide provides instructions to benchmark LoRA fine-tuning on the Llama 2
 70B model. The benchmark follows the MLPerf training submission for
 long-document summarization using the GovReport dataset.
 
-The accompanying Docker image integrates the `ROCm 7.0 <https://rocm.docs.amd.com/en/latest/>`__
-software stack and is optimized for AMD Instinct™ MI355X, MI350X, and MI300X
-series accelerators.
+The provided Docker image integrates the `ROCm 7.0 <https://rocm.docs.amd.com/en/latest/>`__
+software stack and is optimized for AMD Instinct MI355X, MI350X, MI325X, and MI300X
+GPUs.
 
 Pull the Docker image
 =====================
@@ -126,7 +126,7 @@ benchmark from your host machine.
    .. code-block:: shell
 
       # Use the appropriate config
-      source config_MI355X_1x8x1.sh  
+      source config_MI355X_1x8x1.sh
 
 3. To perform a single training run, use the following command.
 

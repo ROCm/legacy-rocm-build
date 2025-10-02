@@ -20,9 +20,9 @@ subtrees:
 - caption: Inference
   entries:
   - file: benchmark-docker/inference-vllm-llama-3.1-405b-fp4.rst
-    title: Llama 3.1 405B FP4 inference with vLLM
+    title: Llama 3.3/3.1 FP4 inference with vLLM
   - file: benchmark-docker/inference-vllm-llama-3.3-70b-fp8.rst
-    title: Llama 3.3 70B FP8 inference with vLLM
+    title: Llama 3.3/3.1 FP8 inference with vLLM
   - file: benchmark-docker/inference-vllm-deepseek-r1-fp8.rst
     title: DeepSeek R1 FP8 inference with vLLM
   - file: benchmark-docker/inference-vllm-gpt-oss-120b.rst

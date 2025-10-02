@@ -4,10 +4,9 @@ Benchmark Mixtral 8x7B pre-training with MaxText
 
 This page describes how to benchmark the Mixtral 8x7B pre-training using the
 MaxText framework. It includes configurations for both
-FP8 and BF16 precision to measure throughput. The accompanying Docker
+FP8 and BF16 precision to measure throughput. The provided Docker
 image integrates a ROCm 7.0 with MaxText
--- and is tailored for AMD Instinct MI355X and MI350X accelerators.
-This benchmark does not support other accelerators.
+-- and is supported on AMD Instinct MI355X and MI350X GPUs.
 
 Follow these steps to pull the required image, spin up the container with the
 appropriate options, download the model, and run the throughput test.
