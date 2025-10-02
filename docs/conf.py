@@ -110,6 +110,7 @@ article_pages = [
     {"file": "compatibility/ml-compatibility/taichi-compatibility", "os": ["linux"]},
     {"file": "compatibility/ml-compatibility/ray-compatibility", "os": ["linux"]},
     {"file": "compatibility/ml-compatibility/llama-cpp-compatibility", "os": ["linux"]},
+    {"file": "compatibility/ml-compatibility/flashinfer-compatibility", "os": ["linux"]},
     {"file": "how-to/deep-learning-rocm", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/index", "os": ["linux"]},

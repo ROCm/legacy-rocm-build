@@ -38,8 +38,9 @@ ROCm Version,7.0.1/7.0.0,6.4.3,6.4.2,6.4.1,6.4.0,6.3.3,6.3.2,6.3.1,6.3.0,6.2.4,6
       :doc:`DGL <../compatibility/ml-compatibility/dgl-compatibility>` [#dgl_compat-past-60]_,N/A,N/A,N/A,N/A,2.4.0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
       :doc:`Megablocks <../compatibility/ml-compatibility/megablocks-compatibility>` [#megablocks_compat-past-60]_,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0.7.0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
       :doc:`Taichi <../compatibility/ml-compatibility/taichi-compatibility>` [#taichi_compat-past-60]_,N/A,N/A,N/A,N/A,N/A,N/A,1.8.0b1,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-:doc:`Ray <../compatibility/ml-compatibility/ray-compatibility>` [#ray_compat-past-60]_,N/A,N/A,N/A,2.48.0.post0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-:doc:`llama.cpp <../compatibility/ml-compatibility/llama-cpp-compatibility>` [#llama-cpp_compat-past-60]_,N/A,N/A,N/A,N/A,b5997,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+      :doc:`Ray <../compatibility/ml-compatibility/ray-compatibility>` [#ray_compat-past-60]_,N/A,N/A,N/A,2.48.0.post0,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+      :doc:`llama.cpp <../compatibility/ml-compatibility/llama-cpp-compatibility>` [#llama-cpp_compat-past-60]_,b6356,b6356,b6356,b6356,b5997,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+      :doc:`FlashInfer <../compatibility/ml-compatibility/flashinfer-compatibility>` [#flashinfer_compat-past-60]_,N/A,N/A,N/A,v0.2.5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
       `ONNX Runtime <https://onnxruntime.ai/docs/build/eps.html#amd-migraphx>`_,1.22.0,1.20.0,1.20.0,1.20.0,1.20.0,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.17.3,1.14.1,1.14.1
 ,,,,,,,,,,,,,,,,,,,
       ,,,,,,,,,,,,,,,,,,,
