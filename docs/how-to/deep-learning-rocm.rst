@@ -128,6 +128,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/llama-cpp-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
         - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/llama-cpp-install.html#use-a-prebuilt-docker-image-with-llama-cpp-pre-installed>`__
+        - `ROCm Base Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/llama-cpp-install.html#build-your-own-docker-image>`__
       - .. raw:: html
 
           <a href="https://github.com/ROCm/llama.cpp"><i class="fab fa-github fa-lg"></i></a>
@@ -138,6 +139,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/flashinfer-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
         - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/flashinfer-install.html#use-a-prebuilt-docker-image-with-flashinfer-pre-installed>`__
+        - `ROCm Base Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/flashinfer-install.html#build-your-own-docker-image>`__
       - .. raw:: html
 
           <a href="https://github.com/ROCm/flashinfer"><i class="fab fa-github fa-lg"></i></a>
