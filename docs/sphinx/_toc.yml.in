@@ -49,6 +49,8 @@ subtrees:
         title: Ray compatibility
       - file: compatibility/ml-compatibility/llama-cpp-compatibility.rst
         title: llama.cpp compatibility
+      - file: compatibility/ml-compatibility/flashinfer-compatibility.rst
+        title: FlashInfer compatibility
   - file: how-to/build-rocm.rst
     title: Build ROCm from source
 
