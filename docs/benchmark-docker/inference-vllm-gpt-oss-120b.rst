@@ -32,20 +32,18 @@ download ahead of time. You will need:
 
 * Access granted to the specific model from your Hugging Face account
 
-.. tab-set::
+See the model card on Hugging Face at
+`openai/gpt-oss-120b <https://huggingface.co/openai/gpt-oss-120b>`__.
 
-   See the model card on Hugging Face at
-   `openai/gpt-oss-120b <https://huggingface.co/openai/gpt-oss-120b>`__.
+.. code-block:: shell
 
-   .. code-block:: shell
+   model=openai/gpt-oss-120b
 
-      model=openai/gpt-oss-120b
-
-      pip install huggingface_hub[cli] hf_transfer hf_xet
-      HF_HUB_ENABLE_HF_TRANSFER=1 \
-      HF_HOME=/data/huggingface-cache \
-      HF_TOKEN="<HF_TOKEN>" \ # Replace with your HF_TOKEN Hugging Face access token.
-      huggingface-cli download ${model} --exclude "original/*"
+   pip install huggingface_hub[cli] hf_transfer hf_xet
+   HF_HUB_ENABLE_HF_TRANSFER=1 \
+   HF_HOME=/data/huggingface-cache \
+   HF_TOKEN="<HF_TOKEN>" \ # Replace with your HF_TOKEN Hugging Face access token.
+   huggingface-cli download ${model} --exclude "original/*"
 
 Run the inference benchmark
 ===========================
