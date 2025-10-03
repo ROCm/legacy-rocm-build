@@ -105,21 +105,26 @@ system's configuration.
 
 .. _mi300x-amd-primus-megatron-lm-training:
 
+Environment setup
+=================
+
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
       {% set docker = dockers[0] %}
-
-   Environment setup
-   =================
 
    Use the following instructions to set up the environment, configure the script to train models, and
    reproduce the benchmark results on MI300X series GPUs with the ``{{ docker.pull_tag }}`` image.
 
    .. _amd-primus-megatron-lm-requirements:
 
-   Download the Docker image
-   -------------------------
+Pull the Docker image
+=====================
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+
+   {% set dockers = data.dockers %}
+      {% set docker = dockers[0] %}
 
    1. Use the following command to pull the Docker image from Docker Hub.
 
