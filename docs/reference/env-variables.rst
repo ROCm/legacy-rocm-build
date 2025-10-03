@@ -19,36 +19,6 @@ This page outlines commonly used environment variables across different componen
 including HIP and ROCR-Runtime. Understanding these variables can help streamline software development and
 execution in ROCm-based environments.
 
-Commonly used environment variables
-===================================
-
-The table below provides an overview of key environment variables used in the ROCm software stack.
-These variables configure various aspects of ROCm, such as specifying installation paths and
-selecting the target platform for applications running on AMD accelerators and GPUs.
-
-.. list-table::
-    :header-rows: 1
-    :widths: 70,30
-
-    * - Environment variable
-      - Value
-
-    * - | ``HIP_DIR``
-        | The path of the HIP SDK on Microsoft Windows. This variable is ignored, if ``HIP_PATH`` is set.
-      - Default: ``C:/hip``
-
-    * - | ``HIP_PATH``
-        | The path of the HIP SDK on Microsoft Windows.
-      - Default: ``C:/hip``
-
-    * - | ``HIP_PLATFORM``
-        | The platform targeted by HIP. If ``HIP_PLATFORM`` isn't set, then :doc:`HIPCC <hipcc:index>` attempts to auto-detect the platform, if it can find NVCC.
-      - ``amd``, ``nvidia``
-
-    * - | ``ROCM_PATH``
-        | The path of the installed ROCm software stack on Linux.
-      - Default: ``/opt/rocm``
-
 HIP environment variables
 =========================
 
