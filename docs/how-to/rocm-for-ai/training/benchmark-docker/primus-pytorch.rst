@@ -104,12 +104,12 @@ This Docker image is optimized for specific model configurations outlined
 below. Performance can vary for other training workloads, as AMD
 doesn’t test configurations and run conditions outside those described.
 
+Pull the Docker image
+=====================
+
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
 
    {% set unified_docker = data.dockers[0] %}
-
-   Pull the Docker image
-   =====================
 
    Use the following command to pull the `Docker image <{{ unified_docker.docker_hub_url }}>`_ from Docker Hub.
 
@@ -117,9 +117,12 @@ doesn’t test configurations and run conditions outside those described.
 
       docker pull {{ unified_docker.pull_tag }}
 
-   Run training
-   ============
+Run training
+============
 
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
+
+   {% set unified_docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
 
    Once the setup is complete, choose between the following two workflows to start benchmarking training.

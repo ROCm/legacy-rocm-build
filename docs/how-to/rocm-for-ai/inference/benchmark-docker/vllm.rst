@@ -138,13 +138,12 @@ To test for optimal performance, consult the recommended :ref:`System health ben
 <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
 system's configuration.
 
+Pull the Docker image
+=====================
+
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
-   {% set model_groups = data.model_groups %}
-
-   Pull the Docker image
-   =====================
 
    Download the `ROCm vLLM Docker image <{{ docker.docker_hub_url }}>`_.
    Use the following command to pull the Docker image from Docker Hub.
@@ -153,8 +152,13 @@ system's configuration.
 
       docker pull {{ docker.pull_tag }}
 
-   Benchmarking
-   ============
+Benchmarking
+============
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+
+   {% set docker = data.dockers[0] %}
+   {% set model_groups = data.model_groups %}
 
    Once the setup is complete, choose between two options to reproduce the
    benchmark results:
