@@ -24,11 +24,58 @@ HIP environment variables
 
 The following tables list the HIP environment variables:
 
+GPU isolation variables
+------------------------------------------------------
+
 .. remote-content::
    :repo: ROCm/HIP
-   :path: docs/data/env_variables_hip.rst
+   :path: docs/reference/env_variables/gpu_isolation_hip_env.rst
    :default_branch: docs/develop
    :tag_prefix: docs/
+
+
+Profiling variables
+------------------------------------------------------
+
+.. remote-content::
+   :repo: ROCm/HIP
+   :path: docs/reference/env_variables/profiling_hip_env.rst
+   :default_branch: docs/develop
+   :tag_prefix: docs/
+
+
+
+Debug variables
+------------------------------------------------------
+
+.. remote-content::
+   :repo: ROCm/HIP
+   :path: docs/reference/env_variables/debug_hip_env.rst
+   :default_branch: docs/develop
+   :tag_prefix: docs/
+
+
+
+Memory management related variables
+------------------------------------------------------
+
+.. remote-content::
+   :repo: ROCm/HIP
+   :path: docs/reference/env_variables/memory_management_hip_env.rst
+   :default_branch: docs/develop
+   :tag_prefix: docs/
+
+
+
+Other useful variables
+------------------------------------------------------
+
+.. remote-content::
+   :repo: ROCm/HIP
+   :path: docs/reference/env_variables/miscellaneous_hip_env.rst
+   :default_branch: docs/develop
+   :tag_prefix: docs/
+
 
 ROCR-Runtime environment variables
 ==================================
