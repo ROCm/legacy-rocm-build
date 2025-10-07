@@ -417,26 +417,31 @@ see the developer's guide at `<https://github.com/ROCm/vllm/blob/documentation/d
 Reproducing the Docker image
 ----------------------------
 
-To reproduce this ROCm/vLLM Docker image release, follow these steps:
+To reproduce this ROCm-enabled vLLM Docker image release, follow these steps:
 
-1. Clone the `vLLM repository <https://github.com/ROCm/vllm>`__.
-
-   .. code-block:: shell
-
-      git clone https://github.com/ROCm/vllm.git
-
-2. Checkout the specific release commit.
+1. Clone the `vLLM repository <https://github.com/vllm-project/vllm>`__.
 
    .. code-block:: shell
 
+      git clone https://github.com/vllm-project/vllm.git
       cd vllm
-      git checkout 790d22168820507f3105fef29596549378cfe399
 
-3. Build the Docker image. Replace ``vllm-rocm`` with your desired image tag.
+3. Build the Docker image.
 
-   .. code-block:: shell
+   .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
-      docker build -f docker/Dockerfile.rocm -t vllm-rocm .
+      {% set docker = data.dockers[0] %}
+      .. code-block:: shell
+
+         docker build -f docker/Dockerfile.rocm \
+             --build-arg REMOTE_VLLM=1 \
+             --build-arg VLLM_REPO=https://github.com/ROCm/vllm \
+             --build-arg VLLM_BRANCH="{{ docker.dockerfile.commit }}" \
+             -t vllm-rocm .
+
+   .. tip::
+
+      Replace ``vllm-rocm`` with your desired image tag.
 
 Further reading
 ===============

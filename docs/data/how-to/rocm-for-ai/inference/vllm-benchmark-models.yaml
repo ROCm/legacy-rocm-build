@@ -6,6 +6,8 @@ dockers:
       vLLM: 0.10.2 (0.11.0rc2.dev160+g790d22168.rocm700)
       PyTorch: 2.9.0a0+git1c57644
       hipBLASLt: 1.0.0
+    dockerfile:
+      commit: 790d221
 model_groups:
   - group: Meta Llama
     tag: llama
