@@ -7,7 +7,7 @@ dockers:
       PyTorch: 2.9.0a0+git1c57644
       hipBLASLt: 1.0.0
     dockerfile:
-      commit: 790d221
+      commit: 790d22168820507f3105fef29596549378cfe399
 model_groups:
   - group: Meta Llama
     tag: llama
