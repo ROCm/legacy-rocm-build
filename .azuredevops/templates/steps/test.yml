@@ -52,6 +52,7 @@ steps:
   inputs:
     targetType: inline
     script: |
+      export AMD_LOG_LEVEL=7
       ${{ iif(eq(parameters.os, 'almalinux8'), 'source /opt/rh/gcc-toolset-14/enable', '') }}
       ${{ parameters.testExecutable }} ${{ parameters.testParameters }} ${{ parameters.extraTestParameters }}
     workingDirectory: ${{ parameters.testDir }}
