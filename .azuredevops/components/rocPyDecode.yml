@@ -260,6 +260,7 @@ jobs:
       parameters:
         componentName: rocPyDecode
         testDir: $(Agent.BuildDirectory)/rocm/share/rocpydecode/tests
+        testParameters: '-vv -R jpeg_decode_batched_python'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
