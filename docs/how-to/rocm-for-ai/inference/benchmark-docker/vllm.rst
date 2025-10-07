@@ -426,7 +426,7 @@ To reproduce this ROCm-enabled vLLM Docker image release, follow these steps:
       git clone https://github.com/vllm-project/vllm.git
       cd vllm
 
-3. Build the Docker image.
+2. Use the following command to build the image directly from the specified commit.
 
    .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
