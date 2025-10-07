@@ -249,18 +249,11 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DGPU_TARGETS=${{ job.target }}
           .
-    - task: Bash@3
-      displayName: Setup AMD Log Level
-      inputs:
-        targetType: inline
-        script: |
-          export AMD_LOG_LEVEL=7
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
       parameters:
         componentName: rocPyDecode
         testDir: $(Agent.BuildDirectory)/rocm/share/rocpydecode/tests
-        testParameters: '-vv -R jpeg_decode_batched_python'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
