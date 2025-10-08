@@ -18,16 +18,20 @@ vLLM inference performance testing
    GPUs. This ROCm vLLM Docker image integrates vLLM and PyTorch tailored
    specifically for AMD data center GPUs and includes the following components:
 
-   .. list-table::
-      :header-rows: 1
+   .. tab-set::
 
-      * - Software component
-        - Version
+      .. tab-item:: {{ docker.pull_tag }}
 
-      {% for component_name, component_version in docker.components.items() %}
-      * - {{ component_name }}
-        - {{ component_version }}
-      {% endfor %}
+         .. list-table::
+            :header-rows: 1
+
+            * - Software component
+              - Version
+
+            {% for component_name, component_version in docker.components.items() %}
+            * - {{ component_name }}
+              - {{ component_version }}
+            {% endfor %}
 
 With this Docker image, you can quickly test the :ref:`expected
 inference performance numbers <vllm-benchmark-performance-measurements-930>` for
@@ -211,8 +215,9 @@ Benchmarking
                   cd MAD
                   pip install -r requirements.txt
 
-            2. Use this command to run the performance benchmark test on the `{{model.model}} <{{ model.url }}>`_ model
-               using one GPU with the :literal:`{{model.precision}}` data type on the host machine.
+            2. On the host machine, use this command to run the performance benchmark test on
+               the `{{model.model}} <{{ model.url }}>`_ model using one node with the
+               :literal:`{{model.precision}}` data type.
 
                .. code-block:: shell
 

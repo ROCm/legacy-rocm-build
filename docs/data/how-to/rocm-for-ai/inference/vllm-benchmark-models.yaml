@@ -1,6 +1,6 @@
 dockers:
-  - pull_tag: rocm/vllm:rocm7.0.0_vllm_0.10.2_20250930
-    docker_hub_url: https://hub.docker.com/r/rocm/vllm/tags
+  - pull_tag: rocm/vllm:rocm7.0.0_vllm_0.10.2_20251006
+    docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm7.0.0_vllm_0.10.2_20251006/images/sha256-94fd001964e1cf55c3224a445b1fb5be31a7dac302315255db8422d813edd7f5
     components:
       ROCm: 7.0.0
       vLLM: 0.10.2 (0.11.0rc2.dev160+g790d22168.rocm700)
