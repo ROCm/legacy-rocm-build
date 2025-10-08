@@ -37,8 +37,10 @@ parameters:
     - llvm-project
     - rocBLAS
     - rocFFT
+    - rocJPEG
     - rocPRIM
     - rocprofiler-register
+    - rocprofiler-sdk
     - ROCR-Runtime
     - rocRAND
     - rocSOLVER
@@ -65,7 +67,9 @@ parameters:
     - rocFFT
     - rocminfo
     - rocPRIM
+    - rocJPEG
     - rocprofiler-register
+    - rocprofiler-sdk
     - ROCR-Runtime
     - rocRAND
     - rocSOLVER
