@@ -48,9 +48,9 @@ xDiT video diffusion inference
             {% set models = model_group.models %}
             {% for model in models %}
                 {% if models|length % 3 == 0 %}
-                <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+                <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.model_name }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
                 {% else %}
-                <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+                <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.model_name }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
                 {% endif %}
             {% endfor %}
         {% endfor %}
@@ -61,7 +61,7 @@ xDiT video diffusion inference
     {% for model_group in model_groups %}
         {% for model in model_group.models %}
 
-    .. container:: model-doc {{model.mad_tag}}
+    .. container:: model-doc {{model.model_name}}
 
         .. note::
 
@@ -87,7 +87,7 @@ xDiT video diffusion inference
     {% for model_group in model_groups %}
         {% for model in model_group.models %}
 
-    .. container:: model-doc {{model.mad_tag}}
+    .. container:: model-doc {{model.model_name}}
 
         .. tab-set::
 
