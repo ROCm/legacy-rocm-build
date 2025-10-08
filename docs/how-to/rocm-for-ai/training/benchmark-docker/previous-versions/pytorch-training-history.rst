@@ -23,7 +23,8 @@ previous releases of the ``ROCm/pytorch-training`` Docker image on `Docker Hub <
      -
        * :doc:`Primus PyTorch Training documentation <../primus-pytorch>`
        * :doc:`PyTorch training (legacy) documentation <../pytorch-training>`
-       * `Docker Hub <https://hub.docker.com/r/rocm/primus/tags>`__
+       * `Docker Hub (gfx950) <https://hub.docker.com/layers/rocm/primus/v25.9_gfx950/images/sha256-1a198be32f49efd66d0ff82066b44bd99b3e6b04c8e0e9b36b2c481e13bff7b6>`__
+       * `Docker Hub (gfx942) <https://hub.docker.com/layers/rocm/primus/v25.9_gfx942/images/sha256-df6ab8f45b4b9ceb100fb24e19b2019a364e351ee3b324dbe54466a1d67f8357>`__
 
    * - v25.8
      -

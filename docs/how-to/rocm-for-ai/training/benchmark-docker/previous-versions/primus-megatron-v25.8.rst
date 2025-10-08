@@ -20,7 +20,7 @@ Primus is backend-agnostic and supports multiple training engines -- including M
 
 .. note::
 
-   Primus with Megatron is designed to replace the :doc:`ROCm Megatron-LM training <megatron-lm>` workflow.
+   Primus with Megatron is designed to replace the :doc:`ROCm Megatron-LM training <../megatron-lm>` workflow.
    To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
    see :doc:`megatron-lm-primus-migration-guide`.
 
@@ -664,4 +664,4 @@ of the ``ROCm/megatron-lm`` Docker image.
 
 This training environment now uses Primus with Megatron as the primary
 configuration. Limited support for the legacy ROCm Megatron-LM is still
-available; see the :doc:`megatron-lm` documentation.
+available; see the :doc:`../megatron-lm` documentation.

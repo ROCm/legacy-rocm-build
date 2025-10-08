@@ -20,8 +20,8 @@ Primus now supports the PyTorch torchtitan backend.
 
 .. note::
 
-   Primus with the PyTorch torchtitan backend is designed to replace the :doc:`ROCm PyTorch training <pytorch-training>` workflow.
-   See :doc:`pytorch-training` to see steps to run workloads without Primus.
+   Primus with the PyTorch torchtitan backend is designed to replace the :doc:`ROCm PyTorch training <../pytorch-training>` workflow.
+   See :doc:`../pytorch-training` to see steps to run workloads without Primus.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-pytorch-v25.8-benchmark-models.yaml
 
@@ -88,7 +88,7 @@ vary by model -- select one to get started.
 .. seealso::
 
    For additional workloads, including Llama 3.3, Llama 3.2, Llama 2, GPT OSS, Qwen, and Flux models,
-   see the documentation :doc:`pytorch-training` (without Primus)
+   see the documentation :doc:`../pytorch-training` (without Primus)
 
 .. _amd-primus-pytorch-performance-measurements-v258:
 
@@ -130,7 +130,7 @@ doesn’t test configurations and run conditions outside those described.
    {% set model_groups = data.model_groups %}
 
    Once the setup is complete, choose between the following two workflows to start benchmarking training.
-   For fine-tuning workloads and multi-node training examples, see :doc:`pytorch-training` (without Primus).
+   For fine-tuning workloads and multi-node training examples, see :doc:`../pytorch-training` (without Primus).
 
    .. tab-set::
 
