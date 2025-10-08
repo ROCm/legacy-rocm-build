@@ -1,5 +1,5 @@
 .. meta::
-   :description: Learn to validate diffusion model video generation on MI300X and MI355X accelerators using
+   :description: Learn to validate diffusion model video generation on MI300X, MI350X and MI355X accelerators using
                  prebuilt and optimized docker images.
    :keywords: xDiT, diffusion, video, video generation, validate, benchmark
 
@@ -15,7 +15,8 @@ xDiT video diffusion inference
     {% set model_groups = data.xdit_video_diffusion.model_groups%}
 
     The `amdsiloai/pytorch-xdit Docker <{{ docker.docker_hub_url }}>`_ image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
-    validating diffusion model video generation on AMD Instinct MI300X and MI355X series GPUs.
+    validating diffusion model video generation on gfx942 series (AMD Instinct™ MI300) and
+    gfx950 series (AMD Instinct™ MI350 and MI355) accelerators.
 
     Follow this guide to pull the required image, spin up a container, download the model and run a benchmark.
 
