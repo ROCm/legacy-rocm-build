@@ -43,6 +43,10 @@ parameters:
     - ninja-build
     - python3-pip
     - python3-venv
+    - googletest
+    - libgtest-dev
+    - libgmock-dev
+    - libboost-filesystem-dev
 - name: pipModules
   type: object
   default:
