@@ -96,20 +96,25 @@ xDiT video diffusion inference
 
             .. tab-item:: Standalone benchmarking
 
-                The following commands are optimized for {{ model.model }}.
+                The following commands are written for {{ model.model }}.
                 See :ref:`xdit-video-diffusion-supported-models` to switch to another available model.
 
-                .. rubric:: Launch the container
+                .. rubric:: Launch the container with mounted huggingface cache
 
-                Before running the container make sure to point your HF_HOME environment variable to your
-                Huggingface cache location.
+                If you already have an existing huggingface cache location on your system then you can make
+                this available to the container by first setting the HF_HOME environent variable
 
                 .. code-block:: shell
 
-                    export HF_HOME=<Your/HF/Cache/Location>
+                    export HF_HOME=/your/hf_cache/location
 
-                You can run model specific benchmarks by starting the
-                `Docker container <{{ docker.docker_hub_url }}>`_ as shown in the following snippet.
+                download the model using
+
+                .. code-block:: shell
+
+                    huggingface-cli download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
+
+                and launch the container with the following command
 
                 .. code-block:: shell
 
@@ -126,24 +131,21 @@ xDiT video diffusion inference
                         --privileged \
                         --shm-size 128G \
                         --name pytorch-xdit \
-                        -e CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7  \
+                        -e CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
                         -e HF_HOME=$HF_HOME \
                         -v $HF_HOME:$HF_HOME \
                         {{ docker.pull_tag }}
-
-                .. rubric:: Download model
-
-                If the cache does not contain the model run
-
-                .. code-block:: shell
-
-                    huggingface-cli download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
+                
+                This will mount the local cache to the container and make any downloaded
+                models available.
 
                 .. rubric:: Run model
 
+                To run benchmarks use the following command
+
                 .. code-block:: shell
                     {% if model.model == "Hunyuan Video" %}
-                        cd HunyuanVideo
+                        cd /app/HunyuanVideo
                         mkdir results
                         torchrun --nproc_per_node=8 run.py \
                             --model tencent/HunyuanVideo \
