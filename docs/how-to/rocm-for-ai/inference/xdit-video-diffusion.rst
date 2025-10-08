@@ -74,15 +74,18 @@ xDiT video diffusion inference
     Pull the Docker image
     ===================== 
 
-        .. code-block:: shell
+    For this tutorial it's recommended to use the following docker image, which can be pulled
+    with the command
 
-            docker pull amdsiloai/pytorch-xdit:v25.9
+    .. code-block:: shell
 
+        docker pull amdsiloai/pytorch-xdit:v25.9
 
     Validate and Benchmark
     ======================
 
-    Once the image has been downloaded follow these steps to run benchmarks and generate a video.
+    Once the image has been downloaded you can follow these steps to 
+    run benchmarks and generate a video.
 
     {% for model_group in model_groups %}
         {% for model in model_group.models %}

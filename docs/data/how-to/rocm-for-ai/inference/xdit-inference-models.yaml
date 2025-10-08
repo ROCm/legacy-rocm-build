@@ -1,7 +1,7 @@
 xdit_video_diffusion:
   docker:
     pull_tag: amdsiloai/pytorch-xdit:v25.9
-    docker_hub_url: https://hub.docker.com/r/amdsiloai/pytorch-xdit/tags
+    docker_hub_url: https://hub.docker.com/r/amdsiloai/pytorch-xdit
   model_groups:
     - group: Hunyuan Video
       tag: hunyuan
