@@ -2,7 +2,7 @@
 
 .. meta::
     :description: TensorFlow compatibility
-    :keywords: GPU, TensorFlow compatibility
+    :keywords: GPU, TensorFlow, deep learning, framework compatibility
 
 .. version-set:: rocm_version latest
 

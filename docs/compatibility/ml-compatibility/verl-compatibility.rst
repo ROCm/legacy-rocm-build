@@ -2,7 +2,7 @@
 
 .. meta::
    :description: verl compatibility
-   :keywords: GPU, verl compatibility
+   :keywords: GPU, verl, deep learning, framework compatibility
 
 .. version-set:: rocm_version latest
 
