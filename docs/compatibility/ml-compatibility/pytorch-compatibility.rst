@@ -16,8 +16,11 @@ using `MIOpen <https://github.com/ROCm/MIOpen>`__ and
 `RCCL <https://github.com/ROCm/rccl>`__ libraries.
 
 PyTorch provides two high-level features:
+
 - Tensor computation (like NumPy) with strong GPU acceleration
-- Deep neural networks built on a tape-based autograd system
+
+- Deep neural networks built on a tape-based autograd system (rapid computation 
+  of multiple partial derivatives or gradients)
 
 Support overview
 ================================================================================
