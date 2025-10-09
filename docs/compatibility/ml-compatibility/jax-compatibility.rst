@@ -2,7 +2,7 @@
 
 .. meta::
    :description: JAX compatibility
-   :keywords: GPU, JAX compatibility
+   :keywords: GPU, JAX, deep learning, framework compatibility
 
 .. version-set:: rocm_version latest
 
@@ -10,42 +10,38 @@
 JAX compatibility
 *******************************************************************************
 
-JAX provides a NumPy-like API, which combines automatic differentiation and the
-Accelerated Linear Algebra (XLA) compiler to achieve high-performance machine
-learning at scale.
+`JAX <https://docs.jax.dev/en/latest/notebooks/thinking_in_jax.html>`__ is a library 
+for array-oriented numerical computation (similar to NumPy), with automatic differentiation 
+and just-in-time (JIT) compilation to enable high-performance machine learning research.
 
-JAX uses composable transformations of Python and NumPy through just-in-time
-(JIT) compilation, automatic vectorization, and parallelization. To learn about
-JAX, including profiling and optimizations, see the official `JAX documentation
-<https://jax.readthedocs.io/en/latest/notebooks/quickstart.html>`_.
+JAX provides an API which combines automatic differentiation and the 
+Accelerated Linear Algebra (XLA) compiler to achieve high-performance machine 
+learning at scale. JAX uses composable transformations of Python and NumPy through 
+JIT compilation, automatic vectorization, and parallelization.
 
-ROCm support for JAX is upstreamed, and users can build the official source code
-with ROCm support:
+Support overview
+================================================================================
 
-- ROCm JAX release:
+- The ROCm-supported version of JAX is maintained in the official `https://github.com/ROCm/rocm-jax 
+  <https://github.com/ROCm/rocm-jax>`__ repository, which differs from the 
+  `https://github.com/jax-ml/jax <https://github.com/jax-ml/jax>`__ upstream repository.
 
-  - Offers AMD-validated and community :ref:`Docker images <jax-docker-compat>`
-    with ROCm and JAX preinstalled.
+- To get started and install JAX on ROCm, use the prebuilt :ref:`Docker images <jax-docker-compat>`, 
+  which include ROCm, JAX, and all required dependencies.
 
-  - ROCm JAX repository: `ROCm/rocm-jax <https://github.com/ROCm/rocm-jax>`_
+  - See the :doc:`ROCm JAX installation guide <rocm-install-on-linux:install/3rd-party/jax-install>` 
+    for installation and setup instructions.
 
-  - See the :doc:`ROCm JAX installation guide <rocm-install-on-linux:install/3rd-party/jax-install>`
-    to get started.
+  - You can also consult the upstream `Installation guide <https://jax.readthedocs.io/en/latest/installation.html#amd-gpu-linux>`__ 
+    for additional context.
 
-- Official JAX release:
+Version support
+--------------------------------------------------------------------------------
 
-  - Official JAX repository: `jax-ml/jax <https://github.com/jax-ml/jax>`_
-
-  - See the `AMD GPU (Linux) installation section
-    <https://jax.readthedocs.io/en/latest/installation.html#amd-gpu-linux>`_ in
-    the JAX documentation.
-
-.. note::
-
-   AMD releases official `ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax>`_
-   quarterly alongside new ROCm releases. These images undergo full AMD testing.
-   `Community ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax-community>`_
-   follow upstream JAX releases and use the latest available ROCm version.
+AMD releases official `ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax/tags>`_
+quarterly alongside new ROCm releases. These images undergo full AMD testing.
+`Community ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax-community/tags>`_
+follow upstream JAX releases and use the latest available ROCm version.
 
 Use cases and recommendations
 ================================================================================
@@ -90,9 +86,9 @@ For more use cases and recommendations, see `ROCm JAX blog posts <https://rocm.b
 Docker image compatibility
 ================================================================================
 
-AMD provides preconfigured Docker images with JAX and the ROCm backend.
-These images are published on `Docker Hub <https://hub.docker.com/r/rocm/jax>`__ and are the
-recommended way to get started with deep learning with JAX on ROCm.
+AMD validates and publishes `JAX images <https://hub.docker.com/r/rocm/jax/tags>`__
+with ROCm backends on Docker Hub.
+
 For ``jax-community`` images, see `rocm/jax-community
 <https://hub.docker.com/r/rocm/jax-community/tags>`__ on Docker Hub.
 

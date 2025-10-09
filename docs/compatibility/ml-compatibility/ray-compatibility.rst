@@ -1,8 +1,8 @@
 :orphan:
 
 .. meta::
-    :description: Ray deep learning framework compatibility
-    :keywords: GPU, Ray compatibility
+    :description: Ray compatibility
+    :keywords: GPU, Ray, deep learning, framework compatibility
 
 .. version-set:: rocm_version latest
 
@@ -19,36 +19,35 @@ simplifying machine learning computations.
 Ray is a general-purpose framework that runs many types of workloads efficiently. 
 Any Python application can be scaled with Ray, without extra infrastructure.
 
-ROCm support for Ray is upstreamed, and you can build the official source code
-with ROCm support: 
-
-- ROCm support for Ray is hosted in the official `https://github.com/ROCm/ray 
-  <https://github.com/ROCm/ray>`_ repository.
-
-- Due to independent compatibility considerations, this location differs from the 
-  `https://github.com/ray-project/ray <https://github.com/ray-project/ray>`_ upstream repository.
-
-- To install Ray, use the prebuilt :ref:`Docker image <ray-docker-compat>` 
-  which includes ROCm, Ray, and all required dependencies.
-
-  - See the :doc:`ROCm Ray installation guide <rocm-install-on-linux:install/3rd-party/ray-install>` 
-    for instructions to get started.
-
-  - See the `Installation section <https://docs.ray.io/en/latest/ray-overview/installation.html>`_ 
-    in the upstream Ray documentation.
-
-  - The Docker image provided is based on the upstream Ray `Daily Release (Nightly) wheels <https://docs.ray.io/en/latest/ray-overview/installation.html#daily-releases-nightlies>`__ 
-    corresponding to commit `005c372 <https://github.com/ray-project/ray/commit/005c372262e050d5745f475e22e64305fa07f8b8>`__.
-
-.. note::
-
-  Ray is supported on ROCm 6.4.1.
-
-Supported devices
+Support overview
 ================================================================================
 
-**Officially Supported**: AMD Instinct™ MI300X, MI210
+- The ROCm-supported version of Ray is maintained in the official `https://github.com/ROCm/ray 
+  <https://github.com/ROCm/ray>`__ repository, which differs from the 
+  `https://github.com/ray-project/ray <https://github.com/ray-project/ray>`__ upstream repository.
 
+- To get started and install Ray on ROCm, use the prebuilt :ref:`Docker image <ray-docker-compat>`, 
+  which includes ROCm, Ray, and all required dependencies.
+
+  - The Docker image provided is based on the upstream Ray `Daily Release (Nightly) wheels 
+    <https://docs.ray.io/en/latest/ray-overview/installation.html#daily-releases-nightlies>`__ 
+    corresponding to commit `005c372 <https://github.com/ray-project/ray/commit/005c372262e050d5745f475e22e64305fa07f8b8>`__.
+
+  - See the :doc:`ROCm Ray installation guide <rocm-install-on-linux:install/3rd-party/ray-install>` 
+    for installation and setup instructions.
+
+  - You can also consult the upstream `Installation guide <https://docs.ray.io/en/latest/ray-overview/installation.html>`__ 
+    for additional context.
+
+Version support
+--------------------------------------------------------------------------------
+
+Ray is supported on `ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__.
+
+Supported devices
+--------------------------------------------------------------------------------
+
+**Officially Supported**: AMD Instinct™ MI300X, MI210
 
 Use cases and recommendations
 ================================================================================
@@ -88,15 +87,15 @@ Docker image compatibility
 
 AMD validates and publishes ready-made `ROCm Ray Docker images <https://hub.docker.com/r/rocm/ray/tags>`__
 with ROCm backends on Docker Hub. The following Docker image tags and
-associated inventories represent the latest Ray version from the official Docker Hub and are validated for
-`ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`_. Click the |docker-icon|
-icon to view the image on Docker Hub.
+associated inventories represent the latest Ray version from the official Docker Hub.
+Click the |docker-icon| icon to view the image on Docker Hub.
 
 .. list-table::
     :header-rows: 1
     :class: docker-image-compatibility
 
     * - Docker image
+      - ROCm
       - Ray
       - Pytorch
       - Ubuntu
@@ -105,6 +104,7 @@ icon to view the image on Docker Hub.
     * - .. raw:: html
 
            <a href="https://hub.docker.com/layers/rocm/ray/ray-2.48.0.post0_rocm6.4.1_ubuntu24.04_py3.12_pytorch2.6.0/images/sha256-0d166fe6bdced38338c78eedfb96eff92655fb797da3478a62dd636365133cc0"><i class="fab fa-docker fa-lg"></i> rocm/ray</a>
+      - `6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__.
       - `2.48.0.post0 <https://github.com/ROCm/ray/tree/release/2.48.0.post0>`_
       - 2.6.0+git684f6f2
       - 24.04
