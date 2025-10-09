@@ -177,6 +177,9 @@ benchmark results:
          {% if model.mad_tag and "single-node" in model.doc_options %}
          .. tab-item:: MAD-integrated benchmarking
 
+            The following run command is tailored to {{ model.model }}.
+            See :ref:`amd-maxtext-model-support-v259` to switch to another available model.
+
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
 
@@ -204,6 +207,11 @@ benchmark results:
          {% endif %}
 
          .. tab-item:: Standalone benchmarking
+
+            The following commands are optimized for {{ model.model }}. See
+            :ref:`amd-maxtext-model-support-v259` to switch to another
+            available model. Some instructions and resources might not be
+            available for all models and configurations.
 
             .. rubric:: Download the Docker image and required scripts
 
@@ -274,6 +282,8 @@ benchmark results:
 
                   ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }}
 
+               For quantized training, run the script with the appropriate option for your Instinct GPU.
+
                .. tab-set::
 
                   .. tab-item:: MI355X and MI350X
@@ -284,13 +294,15 @@ benchmark results:
 
                         ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q fp8
 
+                  {% if model.model_repo not in ["Llama-3.1-70B", "Llama-3.3-70B"] %}
                   .. tab-item:: MI325X and MI300X
 
-                     For ``nanoo_fp8` quantized training on MI300X series GPUs, use the following command:
+                     For ``nanoo_fp8`` quantized training on MI300X series GPUs, use the following command:
 
                      .. code-block:: shell
 
                         ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q nanoo_fp8
+                  {% endif %}
 
             {% endif %}
             {% if model.multinode_training_script and "multi-node" in model.doc_options %}

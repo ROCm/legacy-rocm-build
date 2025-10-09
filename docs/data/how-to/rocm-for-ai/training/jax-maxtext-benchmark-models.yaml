@@ -11,29 +11,6 @@ model_groups:
   - group: Meta Llama
     tag: llama
     models:
-      - model: Llama 3.3 70B
-        mad_tag: jax_maxtext_train_llama-3.3-70b
-        model_repo: Llama-3.3-70B
-        precision: bf16
-        doc_options: ["single-node"]
-      - model: Llama 3.1 8B
-        mad_tag: jax_maxtext_train_llama-3.1-8b
-        model_repo: Llama-3.1-8B
-        precision: bf16
-        doc_options: ["single-node"]
-      - model: Llama 3.1 70B
-        mad_tag: jax_maxtext_train_llama-3.1-70b
-        model_repo: Llama-3.1-70B
-        precision: bf16
-        doc_options: ["single-node"]
-      - model: Llama 3 8B
-        mad_tag: jax_maxtext_train_llama-3-8b
-        multinode_training_script: llama3_8b_multinode.sh
-        doc_options: ["multi-node"]
-      - model: Llama 3 70B
-        mad_tag: jax_maxtext_train_llama-3-70b
-        multinode_training_script: llama3_70b_multinode.sh
-        doc_options: ["multi-node"]
       - model: Llama 2 7B
         mad_tag: jax_maxtext_train_llama-2-7b
         model_repo: Llama-2-7B
@@ -46,6 +23,29 @@ model_groups:
         precision: bf16
         multinode_training_script: llama2_70b_multinode.sh
         doc_options: ["single-node", "multi-node"]
+      - model: Llama 3 8B (multi-node)
+        mad_tag: jax_maxtext_train_llama-3-8b
+        multinode_training_script: llama3_8b_multinode.sh
+        doc_options: ["multi-node"]
+      - model: Llama 3 70B (multi-node)
+        mad_tag: jax_maxtext_train_llama-3-70b
+        multinode_training_script: llama3_70b_multinode.sh
+        doc_options: ["multi-node"]
+      - model: Llama 3.1 8B
+        mad_tag: jax_maxtext_train_llama-3.1-8b
+        model_repo: Llama-3.1-8B
+        precision: bf16
+        doc_options: ["single-node"]
+      - model: Llama 3.1 70B
+        mad_tag: jax_maxtext_train_llama-3.1-70b
+        model_repo: Llama-3.1-70B
+        precision: bf16
+        doc_options: ["single-node"]
+      - model: Llama 3.3 70B
+        mad_tag: jax_maxtext_train_llama-3.3-70b
+        model_repo: Llama-3.3-70B
+        precision: bf16
+        doc_options: ["single-node"]
   - group: DeepSeek
     tag: deepseek
     models:
