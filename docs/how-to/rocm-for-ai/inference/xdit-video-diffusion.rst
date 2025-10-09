@@ -185,7 +185,7 @@ xDiT video diffusion inference
 
                 .. code-block:: shell
                     {% if model.model == "Hunyuan Video" %}
-                        cd /app/HunyuanVideo
+                        cd /app/Hunyuanvideo
                         mkdir results
 
                         torchrun --nproc_per_node=8 run.py \
