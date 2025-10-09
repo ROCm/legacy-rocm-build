@@ -13,7 +13,7 @@ ROCm is an optimized fork of the upstream
 on AMD MI300X series GPUs.
 
 The MaxText for ROCm training Docker image
-provides a prebuilt environment for training on AMD Instinct MI300X and MI325X GPUs,
+provides a prebuilt environment for training on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs,
 including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
 It includes the following software components:
 
@@ -61,15 +61,15 @@ MaxText with on ROCm provides the following key features to train large language
 
 - Multi-node support
 
-- NANOO FP8 quantization support
+- NANOO FP8 (for MI300X series GPUs) and FP8 (for MI355X and MI350X) quantization support
 
-.. _amd-maxtext-model-support-v257:
+.. _amd-maxtext-model-support-v259:
 
 Supported models
 ================
 
-The following models are pre-optimized for performance on AMD Instinct MI300
-series GPUs. Some instructions, commands, and available training
+The following models are pre-optimized for performance on AMD Instinct
+GPUs. Some instructions, commands, and available training
 configurations in this documentation might vary by model -- select one to get
 started.
 
@@ -139,22 +139,13 @@ Use the following command to pull the Docker image from Docker Hub.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
 
-   {% set dockers = data.dockers %}
-   .. tab-set::
+   {% set docker = data.dockers[0] %}
 
-      {% for docker in dockers %}
-      {% set jax_version = docker.components["JAX"] %}
+   .. code-block:: shell
 
-      .. tab-item:: JAX {{ jax_version }}
-         :sync: {{ docker.pull_tag }}
+      docker pull {{ docker.pull_tag }}
 
-         .. code-block:: shell
-
-            docker pull {{ docker.pull_tag }}
-
-      {% endfor %}
-
-.. _amd-maxtext-multi-node-setup-v257:
+.. _amd-maxtext-multi-node-setup-v259:
 
 Multi-node configuration
 ------------------------
@@ -162,7 +153,7 @@ Multi-node configuration
 See :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your
 environment for multi-node training.
 
-.. _amd-maxtext-get-started-v257:
+.. _amd-maxtext-get-started-v259:
 
 Benchmarking
 ============
@@ -174,7 +165,7 @@ benchmark results:
 
    .. _vllm-benchmark-mad:
 
-   {% set dockers = data.dockers %}
+   {% set docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -219,17 +210,9 @@ benchmark results:
             Run the JAX MaxText benchmark tool independently by starting the
             Docker container as shown in the following snippet.
 
-            .. tab-set::
-               {% for docker in dockers %}
-               {% set jax_version = docker.components["JAX"] %}
+            .. code-block:: shell
 
-               .. tab-item:: JAX {{ jax_version }}
-                  :sync: {{ docker.pull_tag }}
-
-                  .. code-block:: shell
-
-                     docker pull {{ docker.pull_tag }}
-               {% endfor %}
+               docker pull {{ docker.pull_tag }}
 
             {% if model.model_repo and "single-node" in model.doc_options %}
             .. rubric:: Single node training
@@ -250,33 +233,25 @@ benchmark results:
 
             2. Launch the Docker container.
 
-               .. tab-set::
-                  {% for docker in dockers %}
-                  {% set jax_version = docker.components["JAX"] %}
+               .. code-block:: shell
 
-                  .. tab-item:: JAX {{ jax_version }}
-                     :sync: {{ docker.pull_tag }}
-
-                     .. code-block:: shell
-
-                        docker run -it \
-                            --device=/dev/dri \
-                            --device=/dev/kfd \
-                            --network host \
-                            --ipc host \
-                            --group-add video \
-                            --cap-add=SYS_PTRACE \
-                            --security-opt seccomp=unconfined \
-                            --privileged \
-                            -v $HOME:$HOME \
-                            -v $HOME/.ssh:/root/.ssh \
-                            -v $HF_HOME:/hf_cache \
-                            -e HF_HOME=/hf_cache \
-                            -e MAD_SECRETS_HFTOKEN=$MAD_SECRETS_HFTOKEN
-                            --shm-size 64G \
-                            --name training_env \
-                            {{ docker.pull_tag }}
-                  {% endfor %}
+                  docker run -it \
+                      --device=/dev/dri \
+                      --device=/dev/kfd \
+                      --network host \
+                      --ipc host \
+                      --group-add video \
+                      --cap-add=SYS_PTRACE \
+                      --security-opt seccomp=unconfined \
+                      --privileged \
+                      -v $HOME:$HOME \
+                      -v $HOME/.ssh:/root/.ssh \
+                      -v $HF_HOME:/hf_cache \
+                      -e HF_HOME=/hf_cache \
+                      -e MAD_SECRETS_HFTOKEN=$MAD_SECRETS_HFTOKEN
+                      --shm-size 64G \
+                      --name training_env \
+                      {{ docker.pull_tag }}
 
             3. In the Docker container, clone the ROCm MAD repository and navigate to the
                benchmark scripts directory at ``MAD/scripts/jax-maxtext``.
@@ -299,11 +274,23 @@ benchmark results:
 
                   ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }}
 
-               For quantized training, use the following command:
+               .. tab-set::
 
-               .. code-block:: shell
+                  .. tab-item:: MI355X and MI350X
 
-                  ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q nanoo_fp8
+                     For ``fp8`` quantized training on MI355X and MI350X GPUs, use the following command:
+
+                     .. code-block:: shell
+
+                        ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q fp8
+
+                  .. tab-item:: MI325X and MI300X
+
+                     For ``nanoo_fp8` quantized training on MI300X series GPUs, use the following command:
+
+                     .. code-block:: shell
+
+                        ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q nanoo_fp8
 
             {% endif %}
             {% if model.multinode_training_script and "multi-node" in model.doc_options %}
@@ -335,7 +322,7 @@ benchmark results:
          {% else %}
             .. rubric:: Multi-node training
 
-            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v257`
+            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v259`
             with an available `multi-node training script <https://github.com/ROCm/MAD/tree/develop/scripts/jax-maxtext/gpu-rocm>`__.
          {% endif %}
       {% endfor %}
