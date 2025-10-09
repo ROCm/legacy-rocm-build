@@ -108,6 +108,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        registerROCmPackages: true
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
       parameters:
         cmakeVersion: '3.25.0'
@@ -172,6 +173,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        registerROCmPackages: true
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
       parameters:
         cmakeVersion: '3.25.0'
