@@ -187,6 +187,7 @@ xDiT video diffusion inference
                     {% if model.model == "Hunyuan Video" %}
                         cd /app/HunyuanVideo
                         mkdir results
+
                         torchrun --nproc_per_node=8 run.py \
                             --model tencent/HunyuanVideo \
                             --prompt "In the large cage, two puppies were wagging their tails at each other." \
@@ -200,6 +201,7 @@ xDiT video diffusion inference
                     {% if model.model == "Wan2.1" %}
                         cd Wan2.1
                         mkdir results
+
                         torchrun --nproc_per_node=8 run.py \
                             --task i2v-14B \
                             --size 720*1280 --frame_num 81 \
@@ -215,6 +217,7 @@ xDiT video diffusion inference
                     {% if model.model == "Wan2.2" %}
                         cd Wan2.2
                         mkdir results
+
                         torchrun --nproc_per_node=8 run.py \
                             --task i2v-A14B \
                             --size 720*1280 --frame_num 81 \
@@ -227,6 +230,8 @@ xDiT video diffusion inference
                             --use_fp8_gemms --vae_dtype bfloat16 \
                             --compile
                     {% endif %}
+
+                The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% endif %}
 
         {% endfor %}
     {% endfor %}
