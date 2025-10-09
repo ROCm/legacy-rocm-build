@@ -15,7 +15,7 @@ xDiT video diffusion inference
     {% set model_groups = data.xdit_video_diffusion.model_groups%}
 
     The `amdsiloai/pytorch-xdit Docker <{{ docker.docker_hub_url }}>`_ image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
-    validating diffusion model video generation on gfx942 series (AMD Instinct™ MI300) and
+    benchmarking diffusion model video generation on gfx942 series (AMD Instinct™ MI300) and
     gfx950 series (AMD Instinct™ MI350 and MI355) accelerators.
 
     Follow this guide to pull the required image, spin up a container, download the model and run a benchmark.
@@ -99,45 +99,85 @@ xDiT video diffusion inference
                 The following commands are written for {{ model.model }}.
                 See :ref:`xdit-video-diffusion-supported-models` to switch to another available model.
 
-                .. rubric:: Launch the container with mounted huggingface cache
-
-                If you already have an existing huggingface cache location on your system then you can make
-                this available to the container by first setting the HF_HOME environent variable
-
-                .. code-block:: shell
-
-                    export HF_HOME=/your/hf_cache/location
-
-                download the model using
-
-                .. code-block:: shell
-
-                    huggingface-cli download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
-
-                and launch the container with the following command
-
-                .. code-block:: shell
-
-                    docker run \
-                        -it --rm \
-                        --cap-add=SYS_PTRACE \
-                        --security-opt seccomp=unconfined \
-                        --user root \
-                        --device=/dev/kfd \
-                        --device=/dev/dri \
-                        --group-add video \
-                        --ipc=host \
-                        --network host \
-                        --privileged \
-                        --shm-size 128G \
-                        --name pytorch-xdit \
-                        -e CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
-                        -e HF_HOME=$HF_HOME \
-                        -v $HF_HOME:$HF_HOME \
-                        {{ docker.pull_tag }}
+                .. rubric:: Choose Your Setup Method
                 
-                This will mount the local cache to the container and make any downloaded
-                models available.
+                You can either use an existing HuggingFace cache or download the model fresh inside the container.
+
+                .. tab-set::
+
+                    .. tab-item:: Option 1: Use Existing HuggingFace Cache 
+
+                        If you already have models downloaded on your host system, you can mount your existing cache.
+
+                        **Step 1:** Set your HuggingFace cache location
+
+                        .. code-block:: shell
+
+                            export HF_HOME=/your/hf_cache/location
+
+                        **Step 2:** Download the model (if not already cached)
+
+                        .. code-block:: shell
+
+                            huggingface-cli download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
+
+                        **Step 3:** Launch the container with mounted cache
+
+                        .. code-block:: shell
+
+                            docker run \
+                                -it --rm \
+                                --cap-add=SYS_PTRACE \
+                                --security-opt seccomp=unconfined \
+                                --user root \
+                                --device=/dev/kfd \
+                                --device=/dev/dri \
+                                --group-add video \
+                                --ipc=host \
+                                --network host \
+                                --privileged \
+                                --shm-size 128G \
+                                --name pytorch-xdit \
+                                -e CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
+                                -e HF_HOME=$HF_HOME \
+                                -v $HF_HOME:$HF_HOME \
+                                {{ docker.pull_tag }}
+
+                    .. tab-item:: Option 2: Download Inside Container
+
+                        If you prefer to keep the container self-contained or don't have an existing cache.
+
+                        **Step 1:** Launch the container
+
+                        .. code-block:: shell
+
+                            docker run \
+                                -it --rm \
+                                --cap-add=SYS_PTRACE \
+                                --security-opt seccomp=unconfined \
+                                --user root \
+                                --device=/dev/kfd \
+                                --device=/dev/dri \
+                                --group-add video \
+                                --ipc=host \
+                                --network host \
+                                --privileged \
+                                --shm-size 128G \
+                                --name pytorch-xdit \
+                                -e CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
+                                {{ docker.pull_tag }}
+
+
+
+                        **Step 2:** Inside the container, set theHuggingFae cache location and download the model
+
+                        .. code-block:: shell
+
+                            export HF_HOME=/your/hf_cache/location
+                            huggingface-cli download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
+
+                        .. warning::
+                            Models will be downloaded to the container's filesystem and will be lost when the container is removed unless you persist the data with a volume.
 
                 .. rubric:: Run model
 
