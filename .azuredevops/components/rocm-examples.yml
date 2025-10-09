@@ -14,9 +14,11 @@ parameters:
   type: object
   default:
     - cmake
+    - libdw-dev
     - libglfw3-dev
     - libmsgpack-dev
     - libtbb-dev
+    - libva-amdgpu-dev
     - ninja-build
     - python3-pip
 - name: rocmDependencies
@@ -35,6 +37,7 @@ parameters:
     - hipSPARSE
     - hipTensor
     - llvm-project
+    - MIOpen
     - rocBLAS
     - rocFFT
     - rocJPEG
