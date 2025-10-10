@@ -241,8 +241,6 @@ ROCm documentation continues to be updated to provide clearer and more comprehen
 
     For more information about the changes, see the [Changelog for the AI Developer Hub](https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/changelog.html).
 
-* ROCm components support a wide range of environment variables that can be used for testing, logging, debugging, experimental features, and more. The [rocBLAS](https://rocm.docs.amd.com/projects/rocBLAS/en/docs-7.0.2/reference/env-variables.html) and [RCCL](https://rocm.docs.amd.com/projects/rccl/en/docs-7.0.2/api-reference/env-variables.html) components have been updated with new environment variable content. 
-
 ## ROCm components
 
 The following table lists the versions of ROCm components for ROCm 7.0.2, including any version
