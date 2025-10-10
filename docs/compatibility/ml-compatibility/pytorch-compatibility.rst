@@ -73,9 +73,9 @@ Use cases and recommendations
 
 * The :doc:`Instinct MI300X workload optimization guide </how-to/rocm-for-ai/inference-optimization/workload>`
   provides detailed guidance on optimizing workloads for the AMD Instinct MI300X
-  accelerator using ROCm. This guide helps users achieve optimal performance for
+  GPU using ROCm. This guide helps users achieve optimal performance for
   deep learning and other high-performance computing tasks on the MI300X
-  accelerator.
+  GPU.
 
 * The :doc:`Inception with PyTorch documentation </conceptual/ai-pytorch-inception>`
   describes how PyTorch integrates with ROCm for AI workloads It outlines the

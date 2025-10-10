@@ -1,5 +1,5 @@
 .. meta::
-   :description: AMD Instinct accelerator, AMD Radeon PRO, and AMD Radeon GPU
+   :description: AMD Instinct GPU, AMD Radeon PRO, and AMD Radeon GPU
                  atomics operations information
    :keywords: Atomics operations, atomic bitwise functions, atomics add, atomics
               subtraction, atomics exchange, atomics min, atomics max
@@ -15,7 +15,7 @@ access to the same memory location could lead to incorrect or undefined
 behavior.
 
 This topic summarizes the support of atomic read-modify-write
-(atomicRMW) operations on AMD GPUs and accelerators. This includes gfx9, gfx10,
+(atomicRMW) operations on AMD GPUs. This includes gfx9, gfx10,
 gfx11, and gfx12 targets and the following series of Instinct™ series:
 
 - MI100
@@ -79,7 +79,7 @@ Scopes of operations:
 Support summary
 ================================================================================
 
-AMD Instinct accelerators
+AMD Instinct GPUs
 --------------------------------------------------------------------------------
 
 **MI300 and MI350 series**
@@ -272,10 +272,10 @@ The tables selectors or options are the following:
 - Second-level option:
 
   - "No PCIe atomics" means the system does not support PCIe atomics between
-    the accelerator and peer/host-memory.
+    the GPU and peer/host-memory.
 
   - "PCIe atomics" means the system supports PCIe atomics between the
-    accelerator and peer/host-memory.
+    GPU and peer/host-memory.
 
 - The third-level option is the memory granularity of the memory target.
 
@@ -306,11 +306,11 @@ The integer type atomic operations that are supported by different hardware.
 
   - Max
 
-AMD Instinct accelerators
+AMD Instinct GPUs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The integer type atomic operations that are supported by different AMD
-Instinct accelerators listed in the following table.
+Instinct GPUs listed in the following table.
 
 .. <!-- spellcheck-disable -->
 
@@ -481,11 +481,11 @@ The bitwise atomic operations that are supported by different hardware.
 
   128-bit bitwise Exchange and CAS are not supported on AMD GPUs
 
-AMD Instinct accelerators
+AMD Instinct GPUs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The bitwise atomic operations that are supported by different AMD Instinct
-accelerators listed in the following table.
+GPUs listed in the following table.
 
 .. <!-- spellcheck-disable -->
 
@@ -659,11 +659,11 @@ The float types atomic operations that are supported by different hardware.
 
   - Add
 
-AMD Instinct accelerators
+AMD Instinct GPUs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The float type atomic operations that are supported by different AMD Instinct
-accelerators listed in the following table.
+GPUs listed in the following table.
 
 .. <!-- spellcheck-disable -->
 

@@ -15,7 +15,7 @@
 :::{grid-item-card}
 **AMD Instinct MI300 series**
 
-Review hardware aspects of the AMD Instinct™ MI300 series of GPU accelerators and the CDNA™ 3
+Review hardware aspects of the AMD Instinct™ MI300 series of GPUs and the CDNA™ 3
 architecture.
 
 * [AMD Instinct™ MI300 microarchitecture](./gpu-arch/mi300.md)
@@ -28,7 +28,7 @@ architecture.
 :::{grid-item-card}
 **AMD Instinct MI200 series**
 
-Review hardware aspects of the AMD Instinct™ MI200 series of GPU accelerators and the CDNA™ 2
+Review hardware aspects of the AMD Instinct™ MI200 series of GPUs and the CDNA™ 2
 architecture.
 
 * [AMD Instinct™ MI250 microarchitecture](./gpu-arch/mi250.md)
@@ -41,7 +41,7 @@ architecture.
 :::{grid-item-card}
 **AMD Instinct MI100**
 
-Review hardware aspects of the AMD Instinct™ MI100 series of GPU accelerators and the CDNA™ 1
+Review hardware aspects of the AMD Instinct™ MI100 series of GPUs and the CDNA™ 1
 architecture.
 
 * [AMD Instinct™ MI100 microarchitecture](./gpu-arch/mi100.md)

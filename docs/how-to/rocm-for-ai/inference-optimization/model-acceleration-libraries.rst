@@ -526,7 +526,7 @@ follow these instructions:
    python -m pytest -v -rsx -s -W ignore::pytest.PytestCollectionWarning split_table_batched_embeddings_test.py
 
 To run the FBGEMM_GPU ``uvm`` test, use these commands. These tests only support the AMD MI210 and 
-more recent accelerators. 
+more recent GPUs. 
 
 .. code-block:: shell
 

@@ -6,7 +6,7 @@
 MI350 series performance counters
 ***********************************
 
-This topic lists and describes the hardware performance counters and derived metrics available on the AMD Instinct MI350 and MI355 accelerators. These counters are available for profiling using `ROCprofiler-SDK <https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/index.html>`_ and `ROCm Compute Profiler <https://rocm.docs.amd.com/projects/rocprofiler-compute/en/latest/>`_.
+This topic lists and describes the hardware performance counters and derived metrics available on the AMD Instinct MI350 and MI355 GPUs. These counters are available for profiling using `ROCprofiler-SDK <https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/index.html>`_ and `ROCm Compute Profiler <https://rocm.docs.amd.com/projects/rocprofiler-compute/en/latest/>`_.
 
 The following sections list the performance counters based on the IP blocks.
 

@@ -1,5 +1,5 @@
 .. meta::
-   :description: Learn how to validate LLM inference performance on MI300X accelerators using AMD MAD and the
+   :description: Learn how to validate LLM inference performance on MI300X GPUs using AMD MAD and the
                  ROCm PyTorch Docker image.
    :keywords: model, MAD, automation, dashboarding, validate, pytorch
 

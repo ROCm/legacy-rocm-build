@@ -17,12 +17,12 @@ Training a model with ROCm Megatron-LM
 
 The ROCm Megatron-LM framework is a specialized fork of the robust Megatron-LM, designed to
 enable efficient training of large-scale language models on AMD GPUs. By leveraging AMD Instinct™ MI300X
-accelerators, AMD Megatron-LM delivers enhanced scalability, performance, and resource utilization for AI
+GPUs, AMD Megatron-LM delivers enhanced scalability, performance, and resource utilization for AI
 workloads. It is purpose-built to :ref:`support models <amd-megatron-lm-model-support-24-12>`
 like Meta's Llama 2, Llama 3, and Llama 3.1, enabling developers to train next-generation AI models with greater
 efficiency. See the GitHub repository at `<https://github.com/ROCm/Megatron-LM>`__.
 
-For ease of use, AMD provides a ready-to-use Docker image for MI300X accelerators containing essential
+For ease of use, AMD provides a ready-to-use Docker image for MI300X GPUs containing essential
 components, including PyTorch, PyTorch Lightning, ROCm libraries, and Megatron-LM utilities. It contains the
 following software to accelerate training workloads:
 
@@ -69,7 +69,7 @@ Megatron-LM provides the following key features to train large language models e
 
 .. _amd-megatron-lm-model-support-24-12:
 
-The following models are pre-optimized for performance on the AMD Instinct MI300X accelerator.
+The following models are pre-optimized for performance on the AMD Instinct MI300X GPU.
 
 * Llama 2 7B
 
@@ -208,14 +208,14 @@ Use the following script to run the RCCL test for four MI300X GPU nodes. Modify 
 
 .. _mi300x-amd-megatron-lm-training-v2412:
 
-Start training on MI300X accelerators
+Start training on MI300X GPUs
 =====================================
 
 The pre-built ROCm Megatron-LM environment allows users to quickly validate system performance, conduct
 training benchmarks, and achieve superior performance for models like Llama 2 and Llama 3.1.
 
 Use the following instructions to set up the environment, configure the script to train models, and
-reproduce the benchmark results on the MI300X accelerators with the AMD Megatron-LM Docker
+reproduce the benchmark results on the MI300X GPUs with the AMD Megatron-LM Docker
 image.
 
 .. _amd-megatron-lm-requirements-v2412:
