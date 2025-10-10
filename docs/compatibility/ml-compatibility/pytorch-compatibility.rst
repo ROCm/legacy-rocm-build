@@ -407,7 +407,7 @@ with ROCm.
 
         **Note:** Only official release exists.
 
-Key features and enhancements for PyTorch 2.8 with ROCm 7.0
+Key features and enhancements for PyTorch 2.7/2.8 with ROCm 7.0
 ================================================================================
 
 - Enhanced TunableOp framework: Introduces ``tensorfloat32`` support for
@@ -467,7 +467,7 @@ Key features and enhancements for PyTorch 2.8 with ROCm 7.0
   network training or inference. For AMD platforms, ``amdclang++`` has been
   validated as the supported compiler for building these extensions.
 
-Known issues and notes for PyTorch 2.8 with ROCm 7.0
+Known issues and notes for PyTorch 2.7/2.8 with ROCm 7.0
 ================================================================================
 
 - The ``matmul.allow_fp16_reduced_precision_reduction`` and
