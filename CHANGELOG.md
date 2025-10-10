@@ -9,7 +9,7 @@ different versions of the ROCm software stack and its components.
 See the [ROCm 7.0.2 release notes](https://rocm.docs.amd.com/en/docs-7.0.2/about/release-notes.html#rocm-7-0-2-release-notes)
 for a complete overview of this release.
 
-### **AMD SMI** (26.0.1)
+### **AMD SMI** (26.0.2)
 
 #### Added
 
