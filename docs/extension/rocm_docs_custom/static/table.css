@@ -1,0 +1,35 @@
+html {
+  --rocm-docs-table-bg-color: var(--pst-color-background);
+  --rocm-docs-table-head-bg-color: var(--pst-color-surface);
+  /* --rocm-docs-table-border-radius: 2rem; */
+}
+
+html[data-theme="light"] {
+  --rocm-docs-table-border-color: var(--pst-gray-400);
+  --rocm-docs-table-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme="dark"] {
+  --rocm-docs-table-border-color: var(--pst-color-border);
+  --rocm-docs-table-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.rocm-docs-table {
+  /* border-radius: var(--rocm-docs-table-border-radius); */
+  box-shadow: var(--rocm-docs-table-shadow);
+}
+
+.rocm-docs-table thead th {
+  position: sticky;
+  top: 47px; /* 3rem (== 48px) causes a tiny gap */
+  box-shadow: inset 0 -2px var(--rocm-docs-table-border-color);
+}
+
+.rocm-docs-table th {
+  background-color: var(--rocm-docs-table-head-bg-color);
+  border: 2px solid var(--rocm-docs-table-border-color);
+}
+.rocm-docs-table td {
+  background-color: var(--rocm-docs-table-bg-color);
+  border: 2px solid var(--rocm-docs-table-border-color) !important;
+}
