@@ -87,6 +87,11 @@ xDiT video diffusion inference
     Once the image has been downloaded you can follow these steps to 
     run benchmarks and generate a video.
 
+    .. warning::
+        If your host/OS ROCm installation is below 6.4.2 (see with ``apt show rocm-libs``) you need to export
+        the ``HSA_NO_SCRATCH_RECLAIM=1`` environment variable inside the container, or the workload will crash.
+        If possible, ask your system administrator to upgrade ROCm.
+
     {% for model_group in model_groups %}
         {% for model in model_group.models %}
 
@@ -167,9 +172,7 @@ xDiT video diffusion inference
                                 -e CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
                                 {{ docker.pull_tag }}
 
-
-
-                        **Step 2:** Inside the container, set theHuggingFae cache location and download the model
+                        **Step 2:** Inside the container, set the HuggingFace cache location and download the model
 
                         .. code-block:: shell
 
@@ -212,7 +215,6 @@ xDiT video diffusion inference
                             --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
                             --offload_model 0 \
                             --use_fp8_gemms --vae_dtype bfloat16 \
-                            --compile
                     {% endif %}
                     {% if model.model == "Wan2.2" %}
                         cd Wan2.2
@@ -228,8 +230,11 @@ xDiT video diffusion inference
                             --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
                             --offload_model 0 \
                             --use_fp8_gemms --vae_dtype bfloat16 \
-                            --compile
                     {% endif %}
+
+            {% if model.model in ["Wan2.1", "Wan2.2"] %}
+                For additional performance improvements, consider adding the ``--compile`` flag to the above command. Note that this can significantly increase startup time on the first call.
+            {% endif %}
 
                 The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% endif %}
 
