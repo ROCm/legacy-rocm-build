@@ -28,4 +28,4 @@ training, fine-tuning, and inference. It leverages popular machine learning fram
 
 - :doc:`Deploying your model <deploy-your-model>`
 
-- :doc:`Diffusion model video generation <xdit-video-diffusion>`
+- :doc:`xDiT video inference <xdit-video-diffusion>`
