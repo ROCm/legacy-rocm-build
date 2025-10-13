@@ -63,8 +63,9 @@ xDiT video inference
 
     .. container:: model-doc {{model.model_name}}
 
-        See the `{{ model.model }} model card on Hugging Face <{{ model.url }}>`_ to learn more about your selected model.
-        Some models require access authorization before use via an external license agreement through a third party.
+        To learn more about your specific model see the `{{ model.model }} model card on Hugging Face <{{ model.url }}>`_ 
+        or visit the `GitHub page <{{ model.github }}>`_. Note that some models require access authorization before use via an
+        external license agreement through a third party.
 
         {% endfor %}
     {% endfor %}
@@ -78,6 +79,14 @@ xDiT video inference
     .. code-block:: shell
 
         docker pull amdsiloai/pytorch-xdit:v25.9
+
+    .. admonition:: Release notes for v25.9
+
+        - Initial release
+        - ROCm: 7.0.0rc
+        - Add support for gfx942 series (AMD Instinct™ MI300) and gfx950 series (AMD Instinct™ MI350 and MI355)
+        - Add support for Wan 2.1, Wan 2.2 and HunyanVideo with MIOpen optimizations
+
 
     Validate and Benchmark
     ======================
@@ -212,7 +221,7 @@ xDiT video inference
                             --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
                             --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
                             --offload_model 0 \
-                            --use_fp8_gemms --vae_dtype bfloat16 \
+                            --vae_dtype bfloat16
                     {% endif %}
                     {% if model.model == "Wan2.2" %}
                         cd Wan2.2
@@ -227,7 +236,7 @@ xDiT video inference
                             --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
                             --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
                             --offload_model 0 \
-                            --use_fp8_gemms --vae_dtype bfloat16 \
+                            --vae_dtype bfloat16
                     {% endif %}
 
             {% if model.model in ["Wan2.1", "Wan2.2"] %}
