@@ -3,9 +3,9 @@
                  prebuilt and optimized docker images.
    :keywords: xDiT, diffusion, video, video generation, validate, benchmark
 
-******************************
-xDiT video diffusion inference
-******************************
+********************************
+Diffusion model video generation
+********************************
 
 .. _xdit-video-diffusion:
 
