@@ -91,6 +91,7 @@ ChatGPT
 Cholesky
 CoRR
 Codespaces
+ComfyUI
 Commitizen
 CommonMark
 Concretized
@@ -195,6 +196,7 @@ GMI
 GNN
 GNNs
 GPG
+GPGPU
 GPR
 GPT
 GPU
@@ -237,7 +239,6 @@ HWS
 Haswell
 Higgs
 Huggingface
-Hunyuan
 HunyuanVideo
 HybridEngine
 Hyperparameters
@@ -332,6 +333,7 @@ MVFFR
 MXFP
 Makefile
 Makefiles
+ManyLinux
 Matplotlib
 Matrox
 MaxText
@@ -419,7 +421,6 @@ PEFT
 PEQT
 PIL
 PILImage
-PJRT
 PLDM
 POR
 PRNG
@@ -499,6 +500,7 @@ safetensors
 SBIOS
 SCA
 SDK
+SDKs
 SDMA
 SDPA
 SDRAM
@@ -545,6 +547,13 @@ TCI
 TCIU
 TCP
 TCR
+TTM
+TVM
+TheRock
+THREADGROUPS
+threadgroups
+TensorRT
+TensorFloat
 TF
 TFLOPS
 THREADGROUPS
@@ -981,6 +990,7 @@ rc
 rccl
 rdc
 rdma
+redhat
 reStructuredText
 reachability
 recommender
@@ -1035,6 +1045,8 @@ roctracer
 rst
 runtime
 runtimes
+ryzen
+ResNet
 sL
 scalability
 scalable
@@ -1104,7 +1116,8 @@ tqdm
 tracebacks
 txt
 uarch
-ud
+ubuntu
+uncached
 uncacheable
 uncached
 uncorrectable
@@ -1153,7 +1166,9 @@ writeback
 writebacks
 wrreq
 wzo
+xargs
 xDiT
+xdit
 xGMI
 xPacked
 xargs

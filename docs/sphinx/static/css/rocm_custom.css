@@ -1,10 +1,10 @@
 /* Override PyData Sphinx Theme default colors */
-html[data-theme='light'] {
-    --pst-color-table-row-hover-bg: #E2E8F0;
+html[data-theme="light"] {
+  --pst-color-table-row-hover-bg: #e2e8f0;
 }
 
-html[data-theme='dark'] {
-    --pst-color-table-row-hover-bg: #1E293B;
+html[data-theme="dark"] {
+  --pst-color-table-row-hover-bg: #1e293b;
 }
 
 a svg {
@@ -13,15 +13,4 @@ a svg {
 
 a svg:hover {
   color: var(--pst-color-link-hover);
-}
-
-/* Adds container for big tables, used for Compatibility Matrix */
-.format-big-table {
-    white-space: nowrap;
-}
-
-/* Darken horizontal rules for better section separation */
-hr {
-  border: 0;
-  border-top: 1px solid #999;
 }
