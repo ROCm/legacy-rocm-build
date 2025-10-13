@@ -40,8 +40,9 @@ parameters:
     - libboost-program-options-dev
     - libboost-filesystem-dev
     - libdivide-dev
-    - libopenblas-dev
+    - liblapack-dev
     - libmsgpack-dev
+    - libopenblas-dev
     - libyaml-cpp-dev
 - name: pipModules
   type: object
