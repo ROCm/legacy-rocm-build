@@ -50,6 +50,7 @@ parameters:
 - name: pipModules
   type: object
   default:
+    - msgpack
     - joblib
     - "packaging>=22.0"
     - pytest
