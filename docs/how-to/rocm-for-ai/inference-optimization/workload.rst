@@ -1,6 +1,6 @@
 .. meta::
-   :description: Learn about workload tuning on AMD Instinct MI300X accelerators for optimal performance.
-   :keywords: AMD, Instinct, MI300X, HPC, tuning, BIOS settings, NBIO, ROCm,
+   :description: Learn about workload tuning on AMD Instinct MI300X (and MI355X) accelerators for HPC and deep-learning workloads, with a self-contained vLLM performance section covering attention backends, AITER, Quick Reduce, parallelism, and engine/compilation tuning.
+   :keywords: AMD, Instinct, MI300X, MI355X, HPC, tuning, BIOS settings, NBIO, ROCm,
               environment variable, performance, HIP, Triton, PyTorch TunableOp, vLLM, RCCL,
               MIOpen, accelerator, GPU, resource utilization
 
@@ -9,16 +9,16 @@ AMD Instinct MI300X workload optimization
 *****************************************
 
 This document provides guidelines for optimizing the performance of AMD
-Instinct™ MI300X accelerators, with a particular focus on GPU kernel
-programming, high-performance computing (HPC), and deep learning operations
-using PyTorch. It delves into specific workloads such as
-:ref:`model inference <mi300x-vllm-optimization>`, offering strategies to
-enhance efficiency.
+Instinct™ MI300X accelerators (and notes where MI355X differs), with a focus on
+GPU-kernel programming, high-performance computing (HPC), and deep-learning
+operations using PyTorch and vLLM. It includes complete, self-contained guidance
+for :ref:`vLLM performance optimization <mi300x-vllm-optimization>`, including
+attention backends, AITER, Quick Reduce, parallelism on ROCm, and engine &
+compilation tuning.
 
-The following topics highlight :ref:`auto-tunable configurations <mi300x-auto-tune>`
-that streamline optimization as well as advanced techniques like
-:ref:`Triton kernel optimization <mi300x-triton-kernel-performance-optimization>` for
-meticulous tuning.
+The following topics highlight :ref:`auto-tunable configurations <mi300x-auto-tune>` as
+well as :ref:`Triton kernel optimization <mi300x-triton-kernel-performance-optimization>`
+for meticulous tuning.
 
 Workload tuning strategy
 ========================
@@ -85,23 +85,12 @@ automated strategies to more involved, hands-on optimization.
 Optimize model inference with vLLM
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-vLLM provides tools and techniques specifically designed for efficient model
-inference on AMD Instinct MI300X accelerators. See :ref:`fine-tuning-llms-vllm`
-for installation guidance. Optimizing performance with vLLM
-involves configuring tensor parallelism, leveraging advanced features, and
-ensuring efficient execution. Here’s how to optimize vLLM performance:
-
-* Tensor parallelism: Configure the
-  :ref:`tensor-parallel-size parameter <mi300x-vllm-multiple-gpus>` to distribute
-  tensor computations across multiple GPUs. Adjust parameters such as
-  ``batch-size``, ``input-len``, and ``output-len`` based on your workload.
-
-* Configuration for vLLM: Set :ref:`parameters <mi300x-vllm-optimization>`
-  according to workload requirements. Benchmark performance to understand
-  characteristics and identify bottlenecks.
-
-* Benchmarking and performance metrics: Measure latency and throughput to
-  evaluate performance.
+vLLM provides tools and techniques designed for efficient model inference on AMD
+Instinct MI300X accelerators. See :ref:`fine-tuning-llms-vllm` for installation
+guidance. Optimizing performance with vLLM involves configuring parallelism,
+choosing the right attention backend, leveraging advanced (ROCm-specific)
+features, and ensuring efficient execution. A complete, self-contained guide is
+provided in :ref:`vLLM performance optimization <mi300x-vllm-optimization>`.
 
 .. _mi300x-auto-tune:
 
@@ -120,8 +109,7 @@ characteristics. For example:
   your specific hardware.
 
 * Triton: Use :ref:`Triton’s auto-tuning features <mi300x-autotunable-kernel-config>`
-  to explore various kernel configurations and automatically select the
-  best-performing ones.
+  to explore various kernel configurations and select the best-performing ones.
 
 Manual tuning
 ^^^^^^^^^^^^^
@@ -333,375 +321,1095 @@ hardware counters are also included.
 vLLM performance optimization
 =============================
 
-vLLM is a high-throughput and memory efficient inference and serving engine for large language models that has gained traction in the AI community for
-its performance and ease of use. See :ref:`fine-tuning-llms-vllm` for a primer on vLLM with ROCm.
+This guide helps you maximize vLLM throughput and minimize latency on AMD MI300X/MI355X accelerators. Learn how to:
+
+* Enable **AITER** (AI Tensor Engine for ROCm) for speedups on LLM models
+* Configure **environment variables** for optimal HIP, RCCL, and Quick Reduce performance
+* Select the right **attention backend** for your workload (AITER MHA/MLA vs Triton)
+* Choose **parallelism strategies** (tensor, pipeline, data, expert) for multi-GPU deployments
+* Apply **quantization** (FP8/FP4) to reduce memory usage by 2-4× with minimal accuracy loss
+* Tune **engine arguments** (batch size, memory utilization, graph modes) for your use case
+* Benchmark and scale across **single-node** and **multi-node** configurations
 
 Performance environment variables
 ---------------------------------
 
-The following performance tips are not *specific* to vLLM -- they are general
-but relevant in this context. You can tune the following vLLM parameters to
-achieve optimal request latency and throughput performance.
+The following variables are generally useful for MI300X/MI355X and vLLM:
 
-* As described in `Environment variables (MI300X)
-  <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html#environment-variables>`_,
-  the environment variable ``HIP_FORCE_DEV_KERNARG`` can improve vLLM
-  performance. Set it to ``export HIP_FORCE_DEV_KERNARG=1``.
+* **HIP & math libraries**
 
-* Set the :ref:`RCCL environment variable <mi300x-rccl>` ``NCCL_MIN_NCHANNELS``
-  to ``112`` to increase the number of channels on MI300X to potentially improve
-  performance.
+  * ``export HIP_FORCE_DEV_KERNARG=1`` — improves kernel launch performance by forcing device kernel arguments. **Already set by default in vLLM ROCm Docker images.** Bare-metal users should set this manually.
+  * ``export TORCH_BLAS_PREFER_HIPBLASLT=1`` — explicitly prefers hipBLASLt over hipBLAS for GEMM operations. By default, PyTorch uses heuristics to choose the best BLAS library. Setting this can improve linear layer performance in some workloads.
 
-* Set the environment variable ``TORCH_BLAS_PREFER_HIPBLASLT=1`` to use hipBLASLt to improve performance.
+* **RCCL (collectives for multi-GPU)**
 
-Auto-tuning using PyTorch TunableOp
-------------------------------------
+  * ``export NCCL_MIN_NCHANNELS=112`` — increases RCCL channels from default (typically 32-64) to 112 on MI300X. **Only beneficial for multi-GPU distributed workloads** (tensor parallelism, pipeline parallelism). Single-GPU inference does not need this.
 
-Since vLLM is based on the PyTorch framework, PyTorch TunableOp can be used for auto-tuning. 
-You can run auto-tuning with TunableOp in two simple steps without modifying your code:
+AITER (AI Tensor Engine for ROCm) switches
+------------------------------------------
 
-* Enable TunableOp and tuning. Optionally, enable verbose mode:
+**AITER** (AI Tensor Engine for ROCm) provides ROCm-specific fused kernels optimized for MI300X/MI355X accelerators in vLLM V1.
 
-  .. code-block:: shell
+**How AITER flags work:**
 
-     PYTORCH_TUNABLEOP_ENABLED=1 PYTORCH_TUNABLEOP_VERBOSE=1 your_vllm_script.sh
+* ``VLLM_ROCM_USE_AITER`` is the **master switch** (defaults to **False/0**)
+* Individual feature flags (``VLLM_ROCM_USE_AITER_LINEAR``, ``VLLM_ROCM_USE_AITER_MOE``, etc.) default to **True** but only activate when the master switch is enabled
+* To enable a specific AITER feature, you must set **both** ``VLLM_ROCM_USE_AITER=1`` **and** the specific feature flag to ``1``
 
-* Enable TunableOp and disable tuning and measure.
+**Quick start examples:**
 
-  .. code-block:: shell
+.. code-block:: bash
 
-     PYTORCH_TUNABLEOP_ENABLED=1 PYTORCH_TUNABLEOP_TUNING=0 your_vllm_script.sh
+   # Enable all AITER optimizations (recommended for most workloads)
+   export VLLM_ROCM_USE_AITER=1
+   vllm serve MODEL_NAME
 
-Learn more about TunableOp in the :ref:`PyTorch TunableOp <mi300x-tunableop>` section.
+   # Enable only AITER Triton Prefill-Decode (split) attention
+   export VLLM_ROCM_USE_AITER=1
+   export VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1
+   export VLLM_ROCM_USE_AITER_MHA=0
+   vllm serve MODEL_NAME
 
-Performance tuning based on vLLM engine configurations
--------------------------------------------------------
+   # Disable AITER entirely (i.e, use vLLM Triton Unified Attention Kernel)
+   export VLLM_ROCM_USE_AITER=0
+   vllm serve MODEL_NAME
 
-The following subsections describe vLLM-specific configurations for performance tuning.
-You can tune the following vLLM parameters to achieve optimal performance.
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
 
-*  ``tensor_parallel_size``
+   * - Environment variable
+     - Description (default behavior)
 
-*  ``gpu_memory_utilization``
+   * - ``VLLM_ROCM_USE_AITER``
+     - **Master switch** to enable AITER kernels (**0/False** by default). All other ``VLLM_ROCM_USE_AITER_*`` flags require this to be set to ``1``.
 
-*  ``dtype``
+   * - ``VLLM_ROCM_USE_AITER_LINEAR``
+     - Use AITER quantization operators + GEMM for linear layers (defaults to **True** when AITER is on). Accelerates matrix multiplications in all transformer layers. **Recommended: keep enabled.**
 
-*  ``enforce_eager``
+   * - ``VLLM_ROCM_USE_AITER_MOE``
+     - Use AITER fused-MoE kernels (defaults to **True** when AITER is on). Accelerates Mixture-of-Experts routing and computation. **See detailed requirements below.**
 
-*  ``kv_cache_dtype``
+   * - ``VLLM_ROCM_USE_AITER_RMSNORM``
+     - Use AITER RMSNorm kernels (defaults to **True** when AITER is on). Accelerates normalization layers. **Recommended: keep enabled.**
 
-*  ``input_len``
+   * - ``VLLM_ROCM_USE_AITER_MLA``
+     - Use AITER Multi-head Latent Attention for supported models e.g. DeepSeek-V3/R1 (defaults to **True** when AITER is on). **See detailed requirements below.**
 
-*  ``output_len``
+   * - ``VLLM_ROCM_USE_AITER_MHA``
+     - Use AITER Multi-Head Attention kernels (defaults to **True** when AITER is on; set **0** to use Triton attention backends and Prefill-Decode attention backend instead). **See attention backend selection below.**
 
-*  ``max_num_seqs``
+   * - ``VLLM_ROCM_USE_AITER_UNIFIED_ATTENTION``
+     - Enable AITER's optimized unified attention kernel (defaults to **False**). Only takes effect when: (1) AITER is enabled, (2) unified attention mode is active (``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=0``), and (3) AITER MHA is disabled (``VLLM_ROCM_USE_AITER_MHA=0``). When disabled, falls back to vLLM's Triton unified attention.
 
-*  ``num_scheduler_steps``
+   * - ``VLLM_ROCM_USE_AITER_FP8BMM``
+     - Use AITER FP8 batched matmul (defaults to **True** when AITER is on). Fuses FP8 per-token quantization with batched GEMM (used in MLA models like DeepSeek-V3). **Requires MI300X/MI355X.**
 
-*  ``max_model_len``
+   * - ``VLLM_ROCM_USE_SKINNY_GEMM``
+     - Prefer skinny-GEMM kernel variants for small batch sizes (defaults to **True**). Improves performance when ``M`` dimension is small. **Recommended: keep enabled.**
 
-*  ``enable_chunked_prefill``
+   * - ``VLLM_ROCM_FP8_PADDING``
+     - Pad FP8 linear weight tensors to improve memory locality (defaults to **True**). Minor memory overhead for better performance.
 
-*  ``distributed_executor_backend``
+   * - ``VLLM_ROCM_MOE_PADDING``
+     - Pad MoE weight tensors for better memory access patterns (defaults to **True**). Same memory/performance tradeoff as FP8 padding.
 
-*  ``max_seq_len_to_capture``
+   * - ``VLLM_ROCM_CUSTOM_PAGED_ATTN``
+     - Use custom paged-attention decode kernel when Prefill-Decode attention backend is selected (defaults to **True**). **See attention backend selection below.**
 
-Refer to `vLLM documentation <https://docs.vllm.ai/en/latest/models/performance.html>`_
-for additional performance tips. :ref:`fine-tuning-llms-vllm` describes vLLM
-usage with ROCm.
+.. note::
 
-ROCm provides a prebuilt optimized Docker image for validating the performance
-of LLM inference with vLLM on MI300X series accelerators. The Docker image includes
-ROCm, vLLM, and PyTorch. For more information, see
-:doc:`/how-to/rocm-for-ai/inference/benchmark-docker/vllm`.
+   When ``VLLM_ROCM_USE_AITER=1``, most AITER component flags (LINEAR, MOE, RMSNORM, MLA, MHA, FP8BMM) automatically default to **True**. You typically only need to set the master switch ``VLLM_ROCM_USE_AITER=1`` to enable all optimizations.
 
-.. _mi300x-vllm-throughput-measurement:
+AITER MoE requirements (Mixtral, DeepSeek-V2/V3, Qwen-MoE models)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Evaluating performance by throughput measurement
--------------------------------------------------
+``VLLM_ROCM_USE_AITER_MOE`` enables AITER's optimized Mixture-of-Experts kernels, such as expert routing (topk selection) and expert computation for better performance.
 
-This tuning guide evaluates the performance of LLM inference workloads by measuring throughput in tokens per second (TPS). Throughput can be assessed using both real-world and synthetic data, depending on your evaluation goals.
+**Applicable models:**
 
-Refer to the benchmarking script located at ``benchmarks/benchmark_throughput.py`` in the `vLLM repository <https://github.com/ROCm/vllm/blob/main/benchmarks/benchmark_throughput.py>`_.
-Use this script to measure throughput effectively. You can assess throughput using real-world and synthetic data, depending on your evaluation goals.
+* Mixtral series: for example, Mixtral-8x7B / Mixtral-8x22B
+* Llama-4 family: for example, Llama-4-Scout-17B-16E / Llama-4-Maverick-17B-128E
+* DeepSeek family: DeepSeek-V2 / DeepSeek-V3 / DeepSeek-R1
+* Qwen family: Qwen1.5-MoE / Qwen2-MoE / Qwen2.5-MoE series
+* Other MoE architectures
 
-* For realistic performance evaluation, you can use datasets like Hugging Face's
-  ``ShareGPT_V3_unfiltered_cleaned_split.json``. This dataset includes real-world conversational
-  data, making it a good representation of typical use cases for language models. Download it using
-  the following command:
+**When to enable:**
 
-  .. code-block:: shell
+* **Enable (default):** For all MoE models on MI300X/MI355X for best throughput
+* **Disable:** Only for debugging or if you encounter numerical issues
+
+**Example usage:**
+
+.. code-block:: bash
+
+   # Standard MoE model (Mixtral)
+   VLLM_ROCM_USE_AITER=1 vllm serve mistralai/Mixtral-8x7B-Instruct-v0.1
+
+   # Hybrid MoE+MLA model (DeepSeek-V3) - requires both MOE and MLA flags
+   VLLM_ROCM_USE_AITER=1 vllm serve deepseek-ai/DeepSeek-V3 \
+       --block-size 1 --trust-remote-code \
+       --tensor-parallel-size 8
+
+AITER MLA requirements (DeepSeek-V3/R1 models)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``VLLM_ROCM_USE_AITER_MLA`` enables AITER MLA (Multi-head Latent Attention) optimization for supported models. Defaults to **True** when AITER is on.
+
+**Critical requirement:**
+
+* **Must** explicitly set ``--block-size 1``
+
+.. important::
+
+   If you omit ``--block-size 1``, vLLM will raise an error rather than defaulting to 1.
+
+**Applicable models:**
+
+* DeepSeek-V3 / DeepSeek-R1
+* DeepSeek-V2
+* Other models using multi-head latent attention (MLA) architecture
+
+**Example usage:**
+
+.. code-block:: bash
+
+   # DeepSeek-R1 with AITER MLA (requires 8 GPUs)
+   VLLM_ROCM_USE_AITER=1 vllm serve deepseek-ai/DeepSeek-R1 \
+       --block-size 1 --trust-remote-code \
+       --tensor-parallel-size 8
+
+Attention backend selection with AITER
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Understanding which attention backend to use helps optimize your deployment.
+
+**Quick Reference: Which Attention Backend Will I Get?**
+
+**Default Behavior (No Configuration)**
+
+Without setting any environment variables, vLLM uses:
+
+* **vLLM Triton Unified Attention** — A single Triton kernel handling both prefill and decode phases
+* Works on all ROCm platforms
+* Good baseline performance
+
+**Recommended: Enable AITER (Set VLLM_ROCM_USE_AITER=1)**
+
+When you enable AITER, the backend is automatically selected based on your model:
+
+.. code-block:: text
+
+   Is your model using MLA architecture? (DeepSeek-V3/R1/V2)
+   ├─ YES → AITER MLA Backend
+   │         • Requires --block-size 1
+   │         • Best performance for MLA models
+   │         • Automatically selected
+   │
+   └─ NO  → AITER MHA Backend
+             • For standard transformer models (Llama, Mistral, etc.)
+             • Optimized for MI300X/MI355X
+             • Automatically selected
+
+**Advanced: Manual Backend Selection**
+
+Most users won't need this, but you can override the defaults:
+
+.. list-table::
+   :widths: 40 60
+   :header-rows: 1
+
+   * - To Use This Backend
+     - Set These Flags
+
+   * - AITER MLA (MLA models only)
+     - ``VLLM_ROCM_USE_AITER=1`` (auto-selects for DeepSeek-V3/R1)
+
+   * - AITER MHA (standard models)
+     - ``VLLM_ROCM_USE_AITER=1`` (auto-selects for non-MLA models)
+
+   * - AITER Triton Prefill-Decode (split)
+     - | ``VLLM_ROCM_USE_AITER=1``
+       | ``VLLM_ROCM_USE_AITER_MHA=0``
+       | ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``
+
+   * - vLLM Triton Unified (default)
+     - ``VLLM_ROCM_USE_AITER=0`` (or unset)
+
+   * - AITER Unified Attention
+     - | ``VLLM_ROCM_USE_AITER=1``
+       | ``VLLM_ROCM_USE_AITER_MHA=0``
+       | ``VLLM_ROCM_USE_AITER_UNIFIED_ATTENTION=1``
+
+**Quick Start Examples:**
+
+.. code-block:: bash
+
+   # Recommended: Standard model with AITER (Llama, Mistral, Qwen, etc.)
+   VLLM_ROCM_USE_AITER=1 vllm serve meta-llama/Llama-3.3-70B-Instruct
+
+   # MLA model with AITER (DeepSeek-V3/R1)
+   VLLM_ROCM_USE_AITER=1 vllm serve deepseek-ai/DeepSeek-R1 \
+       --block-size 1 --trust-remote-code \
+       --tensor-parallel-size 8
+
+   # Advanced: Use Prefill-Decode split (for short input cases)
+   VLLM_ROCM_USE_AITER=1 \
+   VLLM_ROCM_USE_AITER_MHA=0 \
+   VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1 \
+   vllm serve meta-llama/Llama-3.3-70B-Instruct
+
+**Which Backend Should I Choose?**
+
+.. list-table::
+   :widths: 30 70
+   :header-rows: 1
+
+   * - Your Use Case
+     - Recommended Backend
+
+   * - **Standard transformer models** (Llama, Mistral, Qwen, Mixtral)
+     - **AITER MHA** (``VLLM_ROCM_USE_AITER=1``) — **Recommended for most workloads** on MI300X/MI355X. Provides optimized attention kernels for both prefill and decode phases.
+
+   * - **MLA models** (DeepSeek-V3/R1/V2)
+     - **AITER MLA** (auto-selected with ``VLLM_ROCM_USE_AITER=1``) — Required for optimal performance, must use ``--block-size 1``
+
+   * - **gpt-oss models** (gpt-oss-120b/20b)
+     - **AITER Unified Attention** (``VLLM_ROCM_USE_AITER=1``, ``VLLM_​ROCM_​USE_​AITER_​MHA=0``, ``VLLM_​ROCM_​USE_​AITER_​UNIFIED_​ATTENTION=1``) — Required for optimal performance
+
+  * - **Debugging or compatibility**
+     - **vLLM Triton Unified** (default with ``VLLM_ROCM_USE_AITER=0``) — Generic fallback, works everywhere
+
+**Important Notes:**
+
+* **AITER MHA and AITER MLA are mutually exclusive** — vLLM automatically detects MLA models and selects the appropriate backend
+* **For 95% of users:** Simply set ``VLLM_ROCM_USE_AITER=1`` and let vLLM choose the right backend
+* **When in doubt:** Start with AITER enabled (the recommended configuration) and profile your specific workload
+
+Backend choice quick recipes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* **Standard transformers (any prompt length):** Start with ``VLLM_ROCM_USE_AITER=1`` → AITER MHA. For CUDA graph modes, see architecture-specific guidance below (Dense vs MoE models have different optimal modes).
+* **Latency-sensitive chat (low TTFT):** keep ``--max-num-batched-tokens`` ≤ **8k–16k** with AITER.
+* **Streaming decode (low ITL):** raise ``--max-num-batched-tokens`` to **32k–64k**.
+* **Offline max throughput:** ``--max-num-batched-tokens`` ≥ **32k** with ``cudagraph_mode=FULL``.
+
+**How to Verify Which Backend is Active**
+
+Check vLLM's startup logs to confirm which attention backend is being used:
+
+.. code-block:: bash
+
+   # Start vLLM and check logs
+   VLLM_ROCM_USE_AITER=1 vllm serve meta-llama/Llama-3.3-70B-Instruct 2>&1 | grep -i attention
+
+**Expected log messages:**
+
+* AITER MHA: ``Using Aiter Flash Attention backend on V1 engine.``
+* AITER MLA: ``Using AITER MLA backend on V1 engine.``
+* vLLM Triton MLA: ``Using Triton MLA backend on V1 engine.``
+* vLLM Triton Unified: ``Using Triton Attention backend on V1 engine.``
+* AITER Triton Unified: ``Using Aiter Unified Attention backend on V1 engine.``
+* AITER Triton Prefill-Decode: ``Using Rocm Attention backend on V1 engine.``
+
+Attention backend technical details
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section provides technical details about vLLM's attention backends on ROCm.
+
+vLLM V1 on ROCm provides these attention implementations:
+
+1. **vLLM Triton Unified Attention** (default when AITER is **off**)
+
+   * Single unified Triton kernel handling both chunked prefill and decode phases
+   * Generic implementation that works across all ROCm platforms
+   * Good baseline performance
+   * Automatically selected when ``VLLM_ROCM_USE_AITER=0`` (or unset)
+   * Support GPT-OSS
+
+2. **AITER Triton Unified Attention** (advanced, requires manual configuration)
+
+   * AMD's optimized unified Triton kernel
+   * Enable with ``VLLM_ROCM_USE_AITER=1``, ``VLLM_ROCM_USE_AITER_MHA=0``, and ``VLLM_ROCM_USE_AITER_UNIFIED_ATTENTION=1``
+   * Only useful for specific workloads; most users should use AITER MHA instead
+   * Recommened this backend when running GPT-OSS.
+
+3. **AITER Triton Prefill–Decode Attention** (hybrid, MI300X-optimized)
+
+   * Enable with ``VLLM_ROCM_USE_AITER=1`` and ``VLLM_ROCM_USE_AITER_MHA=0`` and ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``
+   * Uses separate kernels for prefill and decode phases:
+
+     * **Prefill:** ``context_attention_fwd`` Triton kernel
+     * **Primary decode:** ``torch.ops._rocm_C.paged_attention`` (custom ROCm kernel optimized for head sizes 64/128, block sizes 16/32, GQA 1–16, context ≤131k; sliding window not supported)
+     * **Fallback decode:** ``kernel_paged_attention_2d`` Triton kernel when shapes don't meet primary decode requirements
+
+   * Usually better compared to unified Triton kernels (both vLLM and AITER variants)
+   * Performance vs AITER MHA varies: AITER MHA is typically faster overall, but Prefill-Decode split may win in short input scenarios
+   * The custom paged attention decode kernel is controlled by ``VLLM_ROCM_CUSTOM_PAGED_ATTN`` (default **True**)
+
+4. **AITER Multi-Head Attention (MHA)** (default when AITER is **on**)
+
+   * Controlled by ``VLLM_ROCM_USE_AITER_MHA`` (**1** = enabled)
+   * Best all-around performance for standard transformer models
+   * Automatically selected when ``VLLM_ROCM_USE_AITER=1`` and model is not MLA
+
+5. **vLLM Triton Multi-head Latent Attention (MLA)** (for DeepSeek-V3/R1/V2)
+   
+   * Automatically selected when ``VLLM_ROCM_USE_AITER=0`` (or unset)
+
+6. **AITER Multi-head Latent Attention (MLA)** (for DeepSeek-V3/R1/V2)
+
+   * Controlled by ``VLLM_ROCM_USE_AITER_MLA`` (**1** = enabled)
+   * Required for optimal performance on MLA architecture models
+   * Automatically selected when ``VLLM_ROCM_USE_AITER=1`` and model uses MLA
+   * Requires ``--block-size 1``
+
+Quick Reduce (large all-reduces on ROCm)
+-----------------------------------------
+
+**Quick Reduce** is an alternative to RCCL/custom all-reduce for **large** inputs (MI300-class GPUs).
+It supports FP16/BF16 as well as symmetric INT8/INT6/INT4 quantized all-reduce (group size 32).
+
+.. warning::
+
+   Quantization can affect accuracy. Validate quality before deploying.
+
+Control via:
+
+* ``VLLM_ROCM_QUICK_REDUCE_QUANTIZATION`` ∈ ``["NONE","FP","INT8","INT6","INT4"]`` (default ``NONE``).
+* ``VLLM_ROCM_QUICK_REDUCE_CAST_BF16_TO_FP16``: cast BF16 input to FP16 (``1/True`` by default for performance).
+* ``VLLM_ROCM_QUICK_REDUCE_MAX_SIZE_BYTES_MB``: cap the preset buffer (default ``NONE`` ≈ ``2048`` MB).
+
+Quick Reduce tends to help **throughput** at higher TP counts (e.g., 4–8) with many concurrent requests.
+
+Parallelism strategies (run vLLM on multiple GPUs)
+---------------------------------------------------
+
+vLLM supports the following parallelism strategies:
+
+1. Tensor parallelism
+2. Pipeline parallelism
+3. Data parallelism
+4. Expert parallelism
+
+For more details, see `Parallelism and scaling <https://docs.vllm.ai/en/stable/serving/parallelism_scaling.html>`_.
+
+**Choosing the right strategy:**
+
+* **Tensor Parallelism (TP)**: Use when model doesn't fit on one GPU. Prefer staying within a single XGMI island (≤8 GPUs on MI300X).
+* **Pipeline Parallelism (PP)**: Use for very large models across nodes. Set TP to GPUs per node, scale with PP across nodes.
+* **Data Parallelism (DP)**: Use when model fits on single GPU or TP group, and you need higher throughput. Combine with TP/PP for large models.
+* **Expert Parallelism (EP)**: Use for MoE models with ``--enable-expert-parallel``. More efficient than TP for MoE layers.
+
+Tensor parallelism
+^^^^^^^^^^^^^^^^^^
+
+Tensor parallelism splits each layer of the model weights across multiple GPUs when the model doesn't fit on a single GPU. This is primarily for memory capacity.
+
+**Use tensor parallelism when:**
+
+* Model does not fit on one GPU (OOM)
+* Need to enable larger batch sizes by distributing KV cache across GPUs
+
+**Examples:**
+
+.. code-block:: bash
+
+   # Tensor parallelism: Split model across 2 GPUs
+   vllm serve /path/to/model --dtype float16 --tensor-parallel-size 2
+
+   # Combining TP and two vLLM instance, each split across 2 GPUs (4 GPUs total)
+   CUDA_VISIBLE_DEVICES=0,1 vllm serve /path/to/model --dtype float16 --tensor-parallel-size 2 --port 8000
+   CUDA_VISIBLE_DEVICES=2,3 vllm serve /path/to/model --dtype float16 --tensor-parallel-size 2 --port 8001
+
+.. note::
+   **ROCm GPU visibility:** vLLM on ROCm reads ``CUDA_VISIBLE_DEVICES``. Keep ``HIP_VISIBLE_DEVICES`` unset to avoid conflicts.
+
+.. tip::
+   For structured data parallelism deployments with load balancing, see :ref:`data-parallelism-section`.
+
+Pipeline parallelism
+^^^^^^^^^^^^^^^^^^^^
+
+Pipeline parallelism splits the model's layers across multiple GPUs or nodes, with each GPU processing different layers sequentially. This is primarily used for multi-node deployments where the model is too large for a single node.
+
+**Use pipeline parallelism when:**
+
+* Model is too large for a single node (combine PP with TP)
+* GPUs on a node lack high-speed interconnect (e.g., no NVLink/XGMI) - PP may perform better than TP
+* GPU count doesn't evenly divide the model (PP supports uneven splits)
+
+**Common pattern for multi-node:**
+
+.. code-block:: bash
+
+   # 2 nodes × 8 GPUs = 16 GPUs total
+   # TP=8 per node, PP=2 across nodes
+   vllm serve meta-llama/Llama-3.1-405B-Instruct \
+       --tensor-parallel-size 8 \
+       --pipeline-parallel-size 2
+
+.. note::
+   **ROCm best practice:** On MI300X, prefer staying within a single XGMI island (≤8 GPUs) using TP only. Use PP when scaling beyond 8 GPUs or across nodes.
+
+.. _data-parallelism-section:
+
+Data parallelism
+^^^^^^^^^^^^^^^^
+
+Data parallelism replicates model weights across separate instances/GPUs to process independent batches of requests. This approach increases throughput by distributing the workload across multiple replicas.
+
+**Use data parallelism when:**
+
+* Model fits on one GPU, but you need higher request throughput
+* Scaling across multiple nodes horizontally
+* Combining with tensor parallelism (e.g., DP=2 + TP=4 = 8 GPUs total)
+
+**Quick start - single-node:**
+
+.. code-block:: bash
+
+   # Model fit in 1 GPU. Creates 2 model replicas (requires 2 GPUs)
+   vllm serve /path/to/model --data-parallel-size 2
+
+Choosing a load balancing strategy
+"""""""""""""""""""""""""""""""""""
+
+vLLM supports two modes for routing requests to DP ranks:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 35 35
+
+   * -
+     - **Internal LB** (recommended)
+     - **External LB**
+   * - **HTTP endpoints**
+     - 1 endpoint, vLLM routes internally
+     - N endpoints, you provide external router
+   * - **Single-node config**
+     - ``--data-parallel-size N``
+     - ``--data-parallel-size N --data-parallel-rank 0..N-1`` + different ports
+   * - **Multi-node config**
+     - ``--data-parallel-size``, ``--data-parallel-size-local``, ``--data-parallel-address``
+     - ``--data-parallel-size N --data-parallel-rank 0..N-1`` + ``--data-parallel-address``
+   * - **Client view**
+     - Single URL/port
+     - Multiple URLs/ports
+   * - **Load balancer**
+     - Built-in (vLLM handles)
+     - External (Nginx, Kong, K8s Service)
+   * - **Coordination**
+     - DP ranks sync via RPC (for MoE/MLA)
+     - DP ranks sync via RPC (for MoE/MLA)
+   * - **Best for**
+     - Most deployments (simpler)
+     - K8s/cloud environments with existing LB
+
+.. tip::
+   **Dense (non-MoE) models only:** You can run fully independent ``vllm serve`` instances without any DP flags, using your own load balancer. This avoids RPC coordination overhead entirely.
+
+For more technical details, see `vLLM Data Parallel Deployment <https://docs.vllm.ai/en/stable/serving/data_parallel_deployment.html>`_
+
+Data Parallel Attention (advanced)
+""""""""""""""""""""""""""""""""""
+
+For models with Multi-head Latent Attention (MLA) architecture like DeepSeek V2, V3, and R1, vLLM supports **Data Parallel Attention**,
+which provides request-level parallelism instead of model replication. This avoids KV cache duplication across tensor parallel ranks,
+significantly reducing memory usage and enabling larger batch sizes.
+
+**Key benefits for MLA models:**
+
+* Eliminates KV cache duplication when using tensor parallelism
+* Enables higher throughput for high-QPS serving scenarios
+* Better memory efficiency for large context windows
+
+**Usage with Expert Parallelism:**
+
+Data parallel attention works seamlessly with Expert Parallelism for MoE models:
+
+.. code-block:: bash
+
+   # DeepSeek-R1 with DP attention and expert parallelism
+   vllm serve deepseek-ai/DeepSeek-R1 \
+       --trust-remote-code \
+       --data-parallel-size 8 \
+       --enable-expert-parallel
+
+For more technical details, see `vLLM RFC #16037 <https://github.com/vllm-project/vllm/issues/16037>`_.
+
+Expert parallelism
+^^^^^^^^^^^^^^^^^^
+
+Expert parallelism (EP) distributes expert layers of Mixture-of-Experts (MoE) models across multiple GPUs,
+where tokens are routed to the GPUs holding the experts they need.
+
+**Performance considerations:**
+
+Expert parallelism is designed primarily for cross-node MoE deployments where high-bandwidth interconnects (like InfiniBand) between nodes make EP communication efficient. For single-node MI300X/MI355X deployments with XGMI connectivity, **tensor parallelism typically provides better performance** due to optimized all-to-all collectives on XGMI.
+
+**When to use EP:**
+
+* Multi-node MoE deployments with fast inter-node networking
+* Models with very large numbers of experts that benefit from expert distribution
+* Workloads where EP's reduced data movement outweighs communication overhead
+
+**Single-node recommendation:** For MI300X/MI355X within a single node (≤8 GPUs), prefer tensor parallelism over expert parallelism for MoE models to leverage XGMI's high bandwidth and low latency.
+
+**Basic usage:**
+
+.. code-block:: bash
+
+   # Enable expert parallelism for MoE models (DeepSeek example with 8 GPUs)
+   vllm serve deepseek-ai/DeepSeek-R1 \
+       --trust-remote-code \
+       --tensor-parallel-size 8 \
+       --enable-expert-parallel
+
+**Combining with Tensor Parallelism:**
+
+When EP is enabled alongside tensor parallelism:
+
+* Fused MoE layers use expert parallelism
+* Non-fused MoE layers use tensor parallelism
+
+**Combining with Data Parallelism:**
+
+EP works seamlessly with Data Parallel Attention for optimal memory efficiency in MLA+MoE models (e.g., DeepSeek V3):
+
+.. code-block:: bash
+
+   # DP attention + EP for DeepSeek-R1
+   vllm serve deepseek-ai/DeepSeek-R1 \
+       --trust-remote-code \
+       --data-parallel-size 8 \
+       --enable-expert-parallel
+
+Throughput benchmarking
+-----------------------
+
+This guide evaluates LLM inference by tokens per second (TPS). vLLM provides a
+built-in benchmark:
+
+.. code-block:: bash
+
+   # Synthetic or dataset-driven benchmark
+
+   vllm bench throughput --model /path/to/model [other args]
+
+* **Real-world dataset** (ShareGPT) example:
+
+  .. code-block:: bash
 
      wget https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json
 
-* For standardized benchmarking, you can set fixed input and output token
-  lengths. Synthetic prompts provide consistent benchmarking runs, making it
-  easier to compare performance across different models or configurations.
-  Additionally, a controlled environment simplifies analysis.
+     vllm bench throughput --model /path/to/model  --dataset /path/to/ShareGPT_V3_unfiltered_cleaned_split.json
 
-By balancing real-world data and synthetic data approaches, you can get a well-rounded understanding of model performance in varied scenarios.
+* **Synthetic**: set fixed ``--input-len`` and ``--output-len`` for reproducible runs.
 
-.. _mi300x-vllm-single-node:
+.. tip::
 
-Maximizing vLLM instances on a single node
-------------------------------------------
+   **Profiling checklist (ROCm)**
 
-The general guideline is to maximize per-node throughput by running as many vLLM instances as possible.
-However, running too many instances might lead to insufficient memory for the KV-cache, which can affect performance.
+   1. Fix your prompt distribution (ISL/OSL) and **vary one knob at a time** (graph mode, MBT).
+   2. Measure **TTFT**, **ITL**, and **TPS** together; don't optimize one in isolation.
+   3. Compare graph modes: **PIECEWISE** (balanced) vs **FULL**/``FULL_DECODE_ONLY`` (max throughput).
+   4. Sweep ``--max-num-batched-tokens`` around **8k–64k** to find your latency/throughput balance.
 
-The Instinct MI300X accelerator is equipped with 192GB of HBM3 memory capacity and bandwidth.
-For models that fit in one GPU -- to maximize the accumulated throughput -- you can run as many as eight vLLM instances
-simultaneously on one MI300X node (with eight GPUs). To do so, use the GPU isolation environment
-variable ``CUDA_VISIBLE_DEVICES``.
+Maximizing instances per node
+-----------------------------
 
-For example, this script runs eight instances of vLLM for throughput benchmarking at the same time
-with a model that can fit in one GPU:
+To maximize **per-node throughput**, run as many vLLM instances as model memory allows,
+balancing KV-cache capacity.
 
-.. code-block:: shell
+* **HBM capacities**: MI300X = 192 GB HBM3; MI355X = 288 GB HBM3E.
 
-   for i in $(seq 0 7);
-   do
-       CUDA_VISIBLE_DEVICES="$i" python3 /app/vllm/benchmarks/benchmark_throughput.py -tp 1 --dataset "/path/to/dataset/ShareGPT_V3_unfiltered_cleaned_split.json" --model /path/to/model &
-   done
+* Up to **eight** single-GPU vLLM instances can run in parallel on an 8×GPU node (one per GPU):
 
-The total throughput achieved by running ``N`` instances of vLLM is generally much higher than running a
-single vLLM instance across ``N`` GPUs simultaneously (that is, configuring ``tensor_parallel_size`` as N or
-using the ``-tp`` N option, where ``1 < N ≤ 8``).
+  .. code-block:: bash
 
-vLLM on MI300X accelerators can run a variety of model weights, including Llama 2 (7b, 13b, 70b), Llama 3 (8b, 70b), Qwen2 (7b, 72b), Mixtral-8x7b, Mixtral-8x22b, and so on.
-Notable configurations include Llama2-70b and Llama3-70b models on a single MI300X GPU, and the Llama3.1 405b model can fit on one single node with 8 MI300X GPUs.
+      for i in $(seq 0 7); do
+         CUDA_VISIBLE_DEVICES="$i" vllm bench throughput 
+         -tp 1 --model /path/to/model 
+         --dataset /path/to/ShareGPT_V3_unfiltered_cleaned_split.json &
+      done
 
-.. _mi300x-vllm-gpu-memory-utilization:
+Total throughput from **N** single-GPU instances usually exceeds one instance stretched across **N** GPUs (`-tp N`).
 
-Configure the gpu_memory_utilization parameter
-----------------------------------------------
+**Model coverage**: Llama 2 (7B/13B/70B), Llama 3 (8B/70B), Qwen2 (7B/72B), Mixtral-8x7B/8x22B, etc. Llama2‑70B
+and Llama3‑70B can fit a single MI300X/MI355X; Llama3.1‑405B fits on a single 8×MI300X/MI355X node.
 
-There are two ways to increase throughput by configuring ``gpu-memory-utilization`` parameter.
+Configure the ``gpu-memory-utilization`` parameter
+--------------------------------------------------
 
-1. Increase ``gpu-memory-utilization`` to improve the throughput for a single instance as long as
-   it does not incur HIP or CUDA Out Of Memory. The default ``gpu-memory-utilization`` is 0.9.
-   You can set it to ``>0.9`` and ``<1``.
+The ``--gpu-memory-utilization`` parameter controls the fraction of GPU memory reserved for the KV-cache. The default is **0.9** (90%).
 
-   For example, below benchmarking command set the ``gpu-memory-utilization`` as 0.98, or 98%.
+There are two strategies:
 
-   .. code-block:: shell
+1. **Increase** ``--gpu-memory-utilization`` to maximize throughput for a single instance (up to **0.95**).
+   Example:
 
-      /vllm-workspace/benchmarks/benchmark_throughput.py --gpu-memory-utilization 0.98 --input-len 1024 --output-len 128 --model /path/to/model
+   .. code-block:: bash
 
-2. Decrease ``gpu-memory-utilization`` to maximize the number of vLLM instances on the same GPU.
+      vllm serve meta-llama/Llama-3.3-70B-Instruct \
+         --gpu-memory-utilization 0.95 \
+         --max-model-len 8192 \
+         --port 8000
 
-   Specify GPU memory utilization to run as many instances of vLLM as possible on a single
-   GPU. However, too many instances can result in no memory for KV-cache. For small models, run
-   multiple instances of vLLM on the same GPU by specifying a smaller ``gpu-memory-utilization`` -- as
-   long as it would not cause HIP Out Of Memory. 
+2. **Decrease** to pack **multiple** instances on the same GPU (for small models like 7B/8B), keeping KV-cache viable:
 
-   For example, run two instances of the Llama3-8b model at the same time on a single GPU by specifying
-   ``--gpu-memory-utilization`` to 0.4 (40%) as follows (on GPU ``0``):
+   .. code-block:: bash
 
-   .. code-block:: shell
+      # Instance 1 on GPU 0
+      CUDA_VISIBLE_DEVICES=0 vllm serve meta-llama/Llama-3.1-8B-Instruct \
+         --gpu-memory-utilization 0.45 \
+         --max-model-len 4096 \
+         --port 8000
 
-      CUDA_VISIBLE_DEVICES=0 python3 /vllm-workspace/benchmarks/benchmark_throughput.py --gpu-memory-utilization 0.4 
-      --dataset "/path/to/dataset/ShareGPT_V3_unfiltered_cleaned_split.json" --model /path/to/model &
-
-      CUDA_VISIBLE_DEVICES=0 python3 /vllm-workspace/benchmarks/benchmark_throughput.py --gpu-memory-utilization 0.4 
-      --dataset "/path/to/dataset/ShareGPT_V3_unfiltered_cleaned_split.json" --model /path/to/model &
-
-See :ref:`vllm-engine-args` for other performance suggestions.
-
-.. _mi300x-vllm-multiple-gpus:
-
-Run vLLM on multiple GPUs
--------------------------
-
-The two main reasons to use multiple GPUs are:
-
-*  The model size is too big to run vLLM using one GPU as it results HIP Out of Memory.
-
-*  To achieve better latency when using a single GPU is not desirable.
-
-To run one vLLM instance on multiple GPUs, use the ``-tp`` or ``--tensor-parallel-size`` option to
-specify multiple GPUs. Optionally, use the ``CUDA_VISIBLE_DEVICES`` environment variable to specify
-the GPUs.
-
-For example, you can use two GPUs to start an API server on port 8000:
-
-.. code-block:: shell
-
-   python -m vllm.entrypoints.api_server --model /path/to/model --dtype
-   float16 -tp 2 --port 8000 &
-
-To achieve both latency and throughput performance for serving, you can run multiple API servers on
-different GPUs by specifying different ports for each server and use ``CUDA_VISIBLE_DEVICES`` to
-specify the GPUs for each server, for example:
-
-.. code-block:: shell
-
-   CUDA_VISIBLE_DEVICES=0,1 python -m vllm.entrypoints.api_server --model
-   /path/to/model --dtype float16 -tp 2 --port 8000 &
-
-   CUDA_VISIBLE_DEVICES=2,3 python -m vllm.entrypoints.api_server --model
-   /path/to/model --dtype float16 -tp 2 --port 8001 &
-
-Choose an attention backend
----------------------------
-
-vLLM on ROCm supports two attention backends, each suitable for different use cases and performance
-requirements:
-
-- **Triton Flash Attention** - For benchmarking, run vLLM scripts at
-  least once as a warm-up step so Triton can perform auto-tuning before
-  collecting benchmarking numbers. This is the default setting.
-
-- **Composable Kernel (CK) Flash Attention** - To use CK Flash Attention, specify
-  the environment variable as ``export VLLM_USE_TRITON_FLASH_ATTN=0``.
-
-
-Refer to :ref:`Model acceleration libraries <acceleration-flash-attention>`
-to learn more about Flash Attention with Triton or CK backends.
-
-.. _vllm-engine-args:
+      # Instance 2 on GPU 0
+      CUDA_VISIBLE_DEVICES=0 vllm serve meta-llama/Llama-Guard-3-8B \
+         --gpu-memory-utilization 0.45 \
+         --max-model-len 4096 \
+         --port 8001
 
 vLLM engine arguments
 ---------------------
 
-The following are configuration suggestions to potentially improve performance with vLLM. See
-`vLLM's engine arguments documentation <https://docs.vllm.ai/en/latest/serving/engine_args.html>`_
-for a full list of configurable engine arguments.
+Selected arguments that often help on ROCm. See `engine args docs <https://docs.vllm.ai/en/latest/serving/engine_args.html>`_ for the full list.
 
-Configure the max-num-seqs parameter
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Increase the ``max-num-seqs`` parameter from the default ``256`` to ``512`` (``--max-num-seqs
-512``). This increases the maximum number of sequences per iteration and can improve throughput.
-
-Use the float16 dtype
-^^^^^^^^^^^^^^^^^^^^^
-
-The default data type (``dtype``) is specified in the model’s configuration file. For instance, some models use ``torch.bfloat16`` as their default ``dtype``.
-Use float16 (``--dtype float16``) for better performance.
-
-Multi-step scheduling
-^^^^^^^^^^^^^^^^^^^^^
-
-Setting ``num-scheduler-steps`` for multi-step scheduling can increase performance. Set it between 10 to 15 (``--num-scheduler-steps 10``).
-
-Distributed executor backend
+Configure ``--max-num-seqs``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The vLLM supports two modes of distributed executor backend: ``ray`` and ``mp``. When using the `<https://github.com/ROCm/vllm>`__ fork, using the ``mp``
-backend (``--distributed_executor_backend mp``) is recommended.
+The default value is **1024** in vLLM V1 (increased from **256** in V0). This flag controls the maximum number of sequences processed per batch, directly affecting concurrency and memory usage.
 
-Graph mode max-seq-len-to-capture
+* **To increase throughput**: Raise to **2048** or **4096** if memory allows, enabling more sequences per iteration.
+* **To reduce memory usage**: Lower to **256** or **128** for large models or long-context generation. For example, set ``--max-num-seqs 128`` to reduce concurrency and lower memory requirements.
+
+In vLLM V1, KV-cache token requirements are computed as ``max-num-seqs * max-model-len``.
+
+Example usage:
+
+.. code-block:: bash
+
+   vllm serve <model> --max-num-seqs 128 --max-model-len 8192
+
+Configure ``--max-num-batched-tokens``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Chunked prefill is enabled by default** in vLLM V1.
+
+* Lower values improve **ITL** (less prefill interrupting decode).
+* Higher values improve **TTFT** (more prefill per batch).
+
+Defaults: **8192** for online serving, **16384** for offline. However, optimal values vary significantly by model size—smaller models can efficiently handle larger batch sizes. Setting it near ``--max-model-len`` mimics V0 behavior and often maximizes throughput.
+
+**Guidance:**
+
+* **Interactive (low TTFT)**: keep MBT ≤ **8k–16k**.
+* **Streaming (low ITL)**: MBT **16k–32k**.
+* **Offline max throughput**: MBT **≥32k** (diminishing TPS returns beyond ~32k).
+
+**Pattern:** Smaller/more efficient models benefit from larger batch sizes. MoE models with expert parallelism can handle very large batches efficiently.
+
+**Rule of thumb**
+
+* Push MBT **up** to trade TTFT↑ for ITL↓ and slightly higher TPS.
+* Pull MBT **down** to trade ITL↑ for TTFT↓ (interactive UX).
+
+Async scheduling
+^^^^^^^^^^^^^^^^
+
+``--async-scheduling`` (replaces deprecated ``num_scheduler_steps``) can improve throughput/ITL by trading off TTFT.
+Prefer **off** for latency-sensitive serving; **on** for offline batch throughput.
+
+CUDA graphs configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+CUDA graphs reduce kernel launch overhead by capturing and replaying GPU operations, improving inference throughput. Configure using ``--compilation-config '{"cudagraph_mode": "MODE"}'``.
+
+**Available modes:**
+
+* ``NONE`` — CUDA graphs disabled (debugging)
+* ``PIECEWISE`` — Attention stays eager, other ops use CUDA graphs (most compatible)
+* ``FULL`` — Full CUDA graphs for all batches (best for small models/prompts)
+* ``FULL_DECODE_ONLY`` — Full CUDA graphs only for decode (saves memory in prefill/decode split setups)
+* ``FULL_AND_PIECEWISE`` — **(default)** Full graphs for decode + piecewise for prefill (best performance, highest memory)
+
+**Default behavior:** V1 defaults to ``FULL_AND_PIECEWISE`` with piecewise compilation enabled; otherwise ``NONE``.
+
+**Backend compatibility:** Not all attention backends support all CUDA graph modes. Choose a mode your backend supports:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Attention backend
+     - CUDA graph support
+   * - vLLM/AITER Triton Unified Attention, vLLM Prefill-Decode Attention
+     - Full support (prefill + decode)
+   * - AITER MHA, AITER MLA
+     - Uniform batches only
+   * - vLLM Triton MLA
+     - Must exclude attention from graph — ``PIECEWISE`` required
+
+**Usage examples:**
+
+.. code-block:: bash
+
+   # Default (best performance, highest memory)
+   vllm serve meta-llama/Llama-3.1-8B-Instruct
+
+   # Decode-only graphs (lower memory, good for P/D split)
+   vllm serve meta-llama/Llama-3.1-8B-Instruct \
+     --compilation-config '{"cudagraph_mode": "FULL_DECODE_ONLY"}'
+
+   # Full graphs for offline throughput (small models)
+   vllm serve meta-llama/Llama-3.1-8B-Instruct \
+     --compilation-config '{"cudagraph_mode": "FULL"}'
+
+**Migration from legacy flags:**
+
+* ``use_cudagraph=False`` → ``NONE``
+* ``use_cudagraph=True, full_cuda_graph=False`` → ``PIECEWISE``
+* ``full_cuda_graph=True`` → ``FULL`` (with automatic fallback)
+
+Quantization support
+--------------------
+
+vLLM supports FP4/FP8 (4-bit/8-bit floating point) weight and activation quantization using hardware acceleration on the Instinct MI300X and MI355X. 
+Quantization of models with FP4/FP8 allows for a **2x-4x** reduction in model memory requirements and up to a **1.6x** 
+improvement in throughput with minimal impact on accuracy. 
+
+vLLM ROCm supports a variety of quantization demands: 
+
+1. On-the-fly quantization 
+
+2. Pre-quantized model through Quark and llm-compressor 
+
+Supported Quantization Methods
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+vLLM on ROCm supports the following quantization methods for AMD MI300 series and MI355X accelerators:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 15 15 20 30
+
+   * - Method
+     - Precision
+     - ROCm Support
+     - Memory Reduction
+     - Best Use Case
+   * - **FP8** (W8A8)
+     - 8-bit float
+     - ✅ Excellent
+     - 2× (50%)
+     - Production, balanced speed/accuracy
+   * - **PTPC-FP8**
+     - 8-bit float
+     - ✅ Excellent
+     - 2× (50%)
+     - High throughput, better than FP8
+   * - **AWQ**
+     - 4-bit int (W4A16)
+     - ✅ Good
+     - 4× (75%)
+     - Large models, memory-constrained
+   * - **GPTQ**
+     - 4-bit/8-bit int
+     - ✅ Good
+     - 2-4× (50-75%)
+     - Pre-quantized models available
+   * - **FP8 KV-cache**
+     - 8-bit float
+     - ✅ Excellent
+     - KV cache: 50%
+     - All inference workloads
+   * - **Quark (AMD)**
+     - FP8/MXFP4
+     - ✅ Optimized
+     - 2-4× (50-75%)
+     - AMD pre-quantized models
+   * - **compressed-tensors**
+     - W8A8 INT8/FP8
+     - ✅ Good
+     - 2× (50%)
+     - LLM Compressor models
+
+**Key:**
+
+- ✅ Excellent: Fully supported with optimized kernels
+- ✅ Good: Supported, may not have AMD-optimized kernels
+- ✅ Optimized: AMD-specific optimizations available
+
+Using Pre-quantized Models
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+AMD provides pre-quantized models optimized for ROCm. These models are ready to use with vLLM.
+
+**AMD Quark Quantized Models:**
+
+Available on `Hugging Face <https://huggingface.co/models?other=quark>`_:
+
+  * `Llama‑3.1‑8B‑Instruct‑FP8‑KV <https://huggingface.co/amd/Llama-3.1-8B-Instruct-FP8-KV>`__ (FP8 W8A8)
+  * `Llama‑3.1‑70B‑Instruct‑FP8‑KV <https://huggingface.co/amd/Llama-3.1-70B-Instruct-FP8-KV>`__ (FP8 W8A8)
+  * `Llama‑3.1‑405B‑Instruct‑FP8‑KV <https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV>`__ (FP8 W8A8)
+  * `Mixtral‑8x7B‑Instruct‑v0.1‑FP8‑KV <https://huggingface.co/amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV>`__ (FP8 W8A8)
+  * `Mixtral‑8x22B‑Instruct‑v0.1‑FP8‑KV <https://huggingface.co/amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV>`__ (FP8 W8A8)
+  * `Llama-3.3-70B-Instruct-MXFP4-Preview <https://huggingface.co/amd/Llama-3.3-70B-Instruct-MXFP4-Preview>`__ (MXFP4)
+  * `Llama-3.1-405B-Instruct-MXFP4-Preview <https://huggingface.co/amd/Llama-3.1-405B-Instruct-MXFP4-Preview>`__ (MXFP4)
+  * `DeepSeek-R1-0528-MXFP4-Preview <https://huggingface.co/amd/DeepSeek-R1-0528-MXFP4-Preview>`__ (MXFP4)
+
+**Quick Start:**
+
+.. code-block:: bash
+
+   # FP8 W8A8 Quark model
+   vllm serve amd/Llama-3.1-8B-Instruct-FP8-KV \
+      --dtype auto
+
+   # MXFP4 Quark model
+   vllm serve amd/Llama-3.3-70B-Instruct-MXFP4-Preview \
+      --dtype auto \
+      --tensor-parallel-size 1
+
+**Other Pre-quantized Models:**
+
+- **AWQ models**: `Hugging Face awq flag <https://huggingface.co/models?other=awq>`_
+- **GPTQ models**: `Hugging Face gptq flag <https://huggingface.co/models?other=gptq>`_
+- **LLM Compressor models**: `Hugging Face compressed-tensors flag <https://huggingface.co/models?other=compressed-tensors>`_
+
+On-the-fly Quantization
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+For models without pre-quantization, vLLM can quantize FP16/BF16 models at server startup.
+
+**Supported Methods:**
+
+- ``fp8``: Per-tensor FP8 weight and activation quantization
+- ``ptpc_fp8``: Per-token-activation per-channel-weight FP8 (better accuracy same FP8 speed). See `PTPC-FP8 on ROCm blog post <https://blog.vllm.ai/2025/02/24/ptpc-fp8-rocm.html>`_ for details
+
+**Usage:**
+
+.. code-block:: bash
+
+   # On-the-fly FP8 quantization
+   vllm serve meta-llama/Llama-3.1-8B-Instruct \
+      --quantization fp8 \
+      --dtype auto
+
+   # On-the-fly PTPC-FP8 (recommended as default)
+   vllm serve meta-llama/Llama-3.1-70B-Instruct \
+      --quantization ptpc_fp8 \
+      --dtype auto \
+      --tensor-parallel-size 4
+
+**Note:** On-the-fly quantization adds 2-5 minutes startup time but eliminates pre-quantization. For production with frequent restarts, use pre-quantized models.
+
+GPTQ
+^^^^
+
+GPTQ is a 4-bit/8-bit weight quantization method that compresses models with minimal accuracy loss. GPTQ
+is fully supported on ROCm via HIP-compiled kernels in vLLM.
+
+**ROCm Support Status:**
+
+- ✅ **Fully supported** - GPTQ kernels compile and run on ROCm via HIP
+- ✅ **Pre-quantized models work** with standard GPTQ kernels
+
+**Recommendation:** For AMD MI300X, **AWQ with Triton kernels** or **FP8 quantization** may provide better
+performance due to ROCm-specific optimizations, but GPTQ is a viable alternative.
+
+**Using Pre-quantized GPTQ Models:**
+
+.. code-block:: bash
+
+   # Using pre-quantized GPTQ model on ROCm
+   vllm serve RedHatAI/Meta-Llama-3.1-70B-Instruct-quantized.w4a16 \
+      --quantization gptq \
+      --dtype auto \
+      --tensor-parallel-size 1
+
+**Important Notes:**
+
+- **Kernel support:** GPTQ uses standard HIP-compiled kernels on ROCm
+- **Performance:** AWQ with Triton kernels may offer better throughput on AMD GPUs due to ROCm optimizations
+- **Compatibility:** GPTQ models from Hugging Face work on ROCm with standard performance
+- **Use case:** GPTQ is suitable when pre-quantized GPTQ models are readily available
+
+AWQ (Activation-aware Weight Quantization)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+AWQ (Activation-aware Weight Quantization) is a 4-bit weight quantization technique that provides excellent
+model compression with minimal accuracy loss (<1%). ROCm supports AWQ quantization on AMD MI300 series and
+MI355X accelerators with vLLM.
+
+**Using Pre-quantized AWQ Models:**
+
+Many AWQ-quantized models are available on Hugging Face. Use them directly with vLLM:
+
+.. code-block:: bash
+
+   # vLLM serve with AWQ model
+   VLLM_USE_TRITON_AWQ=1 \
+   vllm serve hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4 \
+      --quantization awq \
+      --tensor-parallel-size 1 \
+      --dtype auto 
+
+**Important Notes:**
+
+* **ROCm requirement:** Set ``VLLM_USE_TRITON_AWQ=1`` to enable Triton-based AWQ kernels on ROCm
+* **dtype parameter:** AWQ requires ``--dtype auto`` or ``--dtype float16``. The ``--dtype`` flag controls
+  the **activation dtype** (FP16/BF16 for computations), not the weight dtype. AWQ weights remain as INT4
+  (4-bit integers) as specified in the model's quantization config, but are dequantized to FP16/BF16 during
+  matrix multiplication operations.
+* **Group size:** 128 is recommended for optimal performance/accuracy balance
+* **Model compatibility:** AWQ is primarily tested on Llama, Mistral, and Qwen model families
+
+Quark (AMD Quantization Toolkit)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Maximum sequence length covered by CUDA graphs. In the default mode (where ``enforce_eager`` is ``False``), when a sequence has context length
-larger than this, vLLM engine falls back to eager mode. The default is 8192.
+AMD Quark is AMD's quantization toolkit optimized for ROCm. It supports FP8 W8A8, MXFP4, W8A8 INT8, and
+other quantization formats with native vLLM integration. The quantization format will automatically be inferred
+from the model config file, thus we can omit `--quantization quark`.
 
-When working with models that support long context lengths, set the parameter ``--max-seq-len-to-capture`` to 16384.
-See this `vLLM blog <https://blog.vllm.ai/2024/10/23/vllm-serving-amd.html>`__ for details.
+**Running Quark Models:**
 
-An example of long context length model is Qwen2-7b.
+.. code-block:: bash
 
-Whether to enable chunked prefill
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   # FP8 W8A8: Single GPU
+   vllm serve amd/Llama-3.1-8B-Instruct-FP8-KV \
+      --dtype auto \
+      --max-model-len 8192 \
+      --gpu-memory-utilization 0.90
 
-Another vLLM performance tip is to enable chunked prefill to improve
-throughput. Chunked prefill allows large prefills to be chunked into
-smaller chunks and batched together with decode requests.
+   # MXFP4: Extreme memory efficiency
+   vllm serve amd/Llama-3.3-70B-Instruct-MXFP4-Preview \
+      --dtype auto \
+      --tensor-parallel-size 1 \
+      --max-model-len 8192
 
-You can enable the feature by specifying ``--enable-chunked-prefill`` in the
-command line or setting ``enable_chunked_prefill=True`` in the LLM
-constructor. 
+**Key Features:**
 
-As stated in `vLLM's documentation, <https://docs.vllm.ai/en/latest/models/performance.html#chunked-prefill>`__,
-you can tune the performance by changing ``max_num_batched_tokens``. By
-default, it is set to 512 and optimized for ITL (inter-token latency).
-Smaller ``max_num_batched_tokens`` achieves better ITL because there are
-fewer prefills interrupting decodes.
-Higher ``max_num_batched_tokens`` achieves better TTFT (time to the first
-token) as you can put more prefill to the batch.
+- **FP8 models**: ~50% memory reduction, 2× compression
+- **MXFP4 models**: ~75% memory reduction, 4× compression
+- **Embedded scales**: Quark FP8-KV models include pre-calibrated KV-cache scales
+- **Hardware optimized**: Leverages AMD MI300 series FP8 acceleration
 
-You might experience noticeable throughput improvements when
-benchmarking on a single GPU or 8 GPUs using the vLLM throughput
-benchmarking script along with the ShareGPT dataset as input.
+For creating your own Quark-quantized models, see `Quark Documentation <https://quark.docs.amd.com/latest/>`_.
 
-In the case of fixed ``input-len``/``output-len``, for some configurations,
-enabling chunked prefill increases the throughput. For some other
-configurations, the throughput may be worse and elicit a need to tune
-parameter ``max_num_batched_tokens`` (for example, increasing ``max_num_batched_tokens`` value to 4096 or larger).
+FP8 `kv-cache` dtype
+^^^^^^^^^^^^^^^^^^^^
+
+FP8 KV-cache quantization reduces memory footprint by approximately 50%, enabling longer context lengths
+or higher concurrency. ROCm supports FP8 KV-cache with both ``fp8_e4m3`` and ``fp8_e5m2`` formats on
+AMD MI300 series and other CDNA™ accelerators.
+
+Use ``--kv-cache-dtype fp8`` to enable FP8 KV-cache quantization. For best accuracy, use calibrated
+scaling factors generated via `LLM Compressor <https://github.com/vllm-project/llm-compressor>`_.
+Without calibration, scales are calculated dynamically (``--calculate-kv-scales``) with minimal
+accuracy impact.
+
+
+**Quick Start (Dynamic Scaling):**
+
+.. code-block:: bash
+
+   # vLLM serve with dynamic FP8 KV-cache
+   vllm serve meta-llama/Llama-3.1-8B-Instruct \
+      --kv-cache-dtype fp8 \
+      --calculate-kv-scales \
+      --gpu-memory-utilization 0.90
+
+**Calibrated Scaling (Advanced):**
+
+For optimal accuracy, pre-calibrate KV-cache scales using representative data. The calibration process:
+
+#. Runs the model on calibration data (512+ samples recommended)
+#. Computes optimal FP8 quantization scales for key/value cache tensors
+#. Embeds these scales into the saved model as additional parameters
+#. vLLM loads the model and uses the embedded scales automatically when ``--kv-cache-dtype fp8`` is specified
+
+The quantized model can be used like any other model—the embedded scales are stored as part of the model weights.
+
+**Using pre-calibrated models:**
+
+AMD provides ready-to-use models with pre-calibrated FP8 KV cache scales:
+
+* `amd/Llama-3.1-8B-Instruct-FP8-KV <https://huggingface.co/amd/Llama-3.1-8B-Instruct-FP8-KV>`_
+* `amd/Llama-3.3-70B-Instruct-FP8-KV <https://huggingface.co/amd/Llama-3.3-70B-Instruct-FP8-KV>`_
+
+To verify a model has pre-calibrated KV cache scales, check ``config.json`` for:
+
+.. code-block:: json
+
+   "quantization_config": {
+     "kv_cache_scheme": "static"  // Indicates pre-calibrated scales are embedded
+   }
+
+**Creating your own calibrated model:**
+
+.. code-block:: bash
+
+   # 1. Install LLM Compressor
+   pip install llmcompressor
+
+   # 2. Run calibration script (see llm-compressor repo for full example)
+   python llama3_fp8_kv_example.py
+
+   # 3. Use calibrated model in vLLM
+   vllm serve ./Meta-Llama-3-8B-Instruct-FP8-KV \
+      --kv-cache-dtype fp8
+
+For detailed instructions and the complete calibration script, see the `FP8 KV Cache Quantization Guide <https://github.com/vllm-project/llm-compressor/blob/main/examples/quantization_kv_cache/README.md>`_.
+
+**Format Options:**
+
+- ``fp8`` or ``fp8_e4m3``: Higher precision (default, recommended)
+- ``fp8_e5m2``: Larger dynamic range, slightly lower precision
+
+Speculative decoding (experimental)
+-----------------------------------
+
+Recent vLLM versions add support for speculative decoding backends (e.g., Eagle‑v3). Evaluate for your model and latency/throughput goals.
+Speculative decoding is a technique to reduce latency when max number of concurrency is low. 
+Depending on the methods, the effective concurrency varies, e.g. 16 to 64.
+
+Example command:
+
+.. code-block:: bash
+
+   vllm serve meta-llama/Llama-3.1-8B-Instruct \
+      --trust-remote-code \
+      --swap-space 16 \
+      --disable-log-requests \
+      --tensor-parallel-size 1 \
+      --distributed-executor-backend mp \
+      --dtype float16 \
+      --quantization fp8 \
+      --kv-cache-dtype fp8 \
+      --no-enable-chunked-prefill \
+      --max-num-seqs 300 \
+      --max-num-batched-tokens 131072 \
+      --gpu-memory-utilization 0.8 \
+      --speculative_config '{"method": "eagle3", "model": "yuhuili/EAGLE3-LLaMA3.1-Instruct-8B", "num_speculative_tokens": 2, "draft_tensor_parallel_size": 1, "dtype": "float16"}' \
+      --port 8001
+
+Multi-node checklist & troubleshooting
+--------------------------------------
+
+1. Use ``--distributed-executor-backend ray`` across nodes to manage HIP-visible ranks and RCCL communicators. (Ray is the default for multi-node; explicitly setting this flag is optional.)
+2. Ensure ``/dev/shm`` is shared across ranks (Docker ``--shm-size``, Kubernetes ``emptyDir``), as RCCL uses shared memory for rendezvous.
+3. For GPUDirect RDMA, set ``RCCL_NET_GDR_LEVEL=2`` and verify links (``ibstat``). Requires supported NICs (e.g., ConnectX‑6+).
+4. Collect RCCL logs: ``RCCL_DEBUG=INFO`` and optionally ``RCCL_DEBUG_SUBSYS=INIT,GRAPH`` for init/graph stalls.
 
 .. note::
 
-   Chunked prefill is no longer recommended. See the vLLM blog: `Serving LLMs on AMD MI300X: Best Practices <https://blog.vllm.ai/2024/10/23/vllm-serving-amd.html>`_ (October 2024).
+   See also:
 
-Quantization support
----------------------
-
-Quantization reduces the precision of the model’s weights and activations, which significantly decreases the memory footprint.
-``fp8(w8a8)`` and ``AWQ`` quantization are supported for ROCm.
-
-FP8 quantization
-^^^^^^^^^^^^^^^^^
-
-`<https://github.com/ROCm/vllm>`__ supports FP8 (8-bit floating point) weight and activation quantization using hardware acceleration on the Instinct MI300X.
-Quantization of models with FP8 allows for a 2x reduction in model memory requirements and up to a 1.6x improvement in throughput with minimal impact on accuracy.
-
-AMD publishes Quark Quantized OCP FP8 models on Hugging Face. For example:
-
-* `Llama-3.1-8B-Instruct-FP8-KV <https://huggingface.co/amd/Llama-3.1-8B-Instruct-FP8-KV>`__
-* `Llama-3.1-70B-Instruct-FP8-KV <https://huggingface.co/amd/Llama-3.1-70B-Instruct-FP8-KV>`__
-* `Llama-3.1-405B-Instruct-FP8-KV <https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV>`__
-* `Mixtral-8x7B-Instruct-v0.1-FP8-KV <https://huggingface.co/amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV>`__
-* `Mixtral-8x22B-Instruct-v0.1-FP8-KV <https://huggingface.co/amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV>`__
-
-To enable vLLM benchmarking to run on fp8 quantized models, use the ``--quantization`` parameter with value ``fp8`` (``--quantization fp8``).
-
-AWQ quantization
-^^^^^^^^^^^^^^^^
-
-You can quantize your own models by installing AutoAWQ or picking one of the 400+ models on Hugging Face. Be aware that
-that AWQ support in vLLM is currently underoptimized.
-
-To enable vLLM to run on ``awq`` quantized models, using ``--quantization`` parameter with ``awq`` (``--quantization awq``).
-
-You can find more specifics in the `vLLM AutoAWQ documentation <https://docs.vllm.ai/en/stable/quantization/auto_awq.html>`_.
-
-fp8 kv-cached-dtype
-^^^^^^^^^^^^^^^^^^^^^^^
-
-Using ``fp8 kv-cache dtype`` can improve performance as it reduces the size
-of ``kv-cache``. As a result, it reduces the cost required for reading and
-writing the ``kv-cache``.
-
-To use this feature, specify ``--kv-cache-dtype`` as ``fp8``.
-
-To specify the quantization scaling config, use the
-``--quantization-param-path`` parameter. If the parameter is not specified,
-the default scaling factor of ``1`` is used, which can lead to less accurate
-results. To generate ``kv-cache`` scaling JSON file, see `FP8 KV
-Cache <https://github.com/vllm-project/llm-compressor/blob/main/examples/quantization_kv_cache/README.md>`__
-in the vLLM GitHub repository.
-
-Two sample Llama scaling configuration files are in vLLM for ``llama2-70b`` and
-``llama2-7b``.
-
-If building the vLLM using
-`Dockerfile.rocm <https://github.com/vllm-project/vllm/blob/main/docker/Dockerfile.rocm>`_
-for ``llama2-70b`` scale config, find the file at
-``/vllm-workspace/tests/fp8_kv/llama2-70b-fp8-kv/kv_cache_scales.json`` at
-runtime.
-
-Below is a sample command to run benchmarking with this feature enabled
-for the ``llama2-70b`` model:
-
-.. code-block:: shell
-
-   python3 /vllm-workspace/benchmarks/benchmark_throughput.py --model \
-   /path/to/llama2-70b-model --kv-cache-dtype "fp8" \
-   --quantization-param-path \
-   "/vllm-workspace/tests/fp8_kv/llama2-70b-fp8-kv/kv_cache_scales.json" \
-   --input-len 512 --output-len 256 --num-prompts 500
-
+   * vLLM how-to and performance: https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference-optimization/workload.html#vllm-performance-optimization
+   * vLLM benchmark Docker (with ROCm, PyTorch, vLLM): https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference/benchmark-docker/vllm.html
 
 .. _mi300x-tunableop:
 
@@ -946,33 +1654,33 @@ for details.
 
   .. code-block:: shell
 
-     HIP_FORCE_DEV_KERNARG=1  hipblaslt-bench --alpha 1 --beta 0 -r f16_r \
+     HIP_FORCE_DEV_KERNARG=1  hipblaslt-bench --alpha 1 --beta 0 -r f16_r \
      --a_type f16_r --b_type f8_r --compute_type f32_f16_r \
-     --initialization trig_float  --cold_iters 100 --iters 1000 --rotating 256
+     --initialization trig_float  --cold_iters 100 --iters 1000 --rotating 256
 
 * Example 2: Benchmark forward epilogues and backward epilogues
 
-  *  ``HIPBLASLT_EPILOGUE_RELU: "--activation_type relu";``
+  *  ``HIPBLASLT_EPILOGUE_RELU: "--activation_type relu";``
 
-  *  ``HIPBLASLT_EPILOGUE_BIAS: "--bias_vector";``
+  *  ``HIPBLASLT_EPILOGUE_BIAS: "--bias_vector";``
 
-  *  ``HIPBLASLT_EPILOGUE_RELU_BIAS: "--activation_type relu --bias_vector";``
+  *  ``HIPBLASLT_EPILOGUE_RELU_BIAS: "--activation_type relu --bias_vector";``
 
-  *  ``HIPBLASLT_EPILOGUE_GELU: "--activation_type gelu";``
+  *  ``HIPBLASLT_EPILOGUE_GELU: "--activation_type gelu";``
 
   *  ``HIPBLASLT_EPILOGUE_DGELU": --activation_type gelu --gradient";``
 
-  *  ``HIPBLASLT_EPILOGUE_GELU_BIAS: "--activation_type gelu --bias_vector";``
+  *  ``HIPBLASLT_EPILOGUE_GELU_BIAS: "--activation_type gelu --bias_vector";``
 
-  *  ``HIPBLASLT_EPILOGUE_GELU_AUX: "--activation_type gelu --use_e";``
+  *  ``HIPBLASLT_EPILOGUE_GELU_AUX: "--activation_type gelu --use_e";``
 
-  *  ``HIPBLASLT_EPILOGUE_GELU_AUX_BIAS: "--activation_type gelu --bias_vector --use_e";``
+  *  ``HIPBLASLT_EPILOGUE_GELU_AUX_BIAS: "--activation_type gelu --bias_vector --use_e";``
 
-  *  ``HIPBLASLT_EPILOGUE_DGELU_BGRAD: "--activation_type gelu --bias_vector --gradient";``
+  *  ``HIPBLASLT_EPILOGUE_DGELU_BGRAD: "--activation_type gelu --bias_vector --gradient";``
 
-  *  ``HIPBLASLT_EPILOGUE_BGRADA: "--bias_vector --gradient --bias_source a";``
+  *  ``HIPBLASLT_EPILOGUE_BGRADA: "--bias_vector --gradient --bias_source a";``
 
-  *  ``HIPBLASLT_EPILOGUE_BGRADB:  "--bias_vector --gradient --bias_source b";``
+  *  ``HIPBLASLT_EPILOGUE_BGRADB:  "--bias_vector --gradient --bias_source b";``
 
 
 hipBLASLt auto-tuning using hipblaslt-bench
@@ -1031,26 +1739,26 @@ The tuning tool is a two-step tool. It first runs the benchmark, then it creates
 
   .. code-block:: python
 
-     defaultBenchOptions = {"ProblemType": {
-         "TransposeA": 0,
-         "TransposeB": 0,
-         "ComputeInputDataType": "s",
-         "ComputeDataType": "s",
-         "DataTypeC": "s",
-         "DataTypeD": "s",
-         "UseBias": False
-     }, "TestConfig": {
-         "ColdIter": 20,
-         "Iter": 100,
-         "AlgoMethod": "all",
-         "RequestedSolutions": 2, # Only works in AlgoMethod heuristic
-         "SolutionIndex": None, # Only works in AlgoMethod index
-         "ApiMethod": "cpp",
-         "RotatingBuffer": 0,
-     }, "TuningParameters": {
-         "SplitK": [0]
-     }, "ProblemSizes": []}
-     defaultCreateLogicOptions = {}  # Currently unused
+     defaultBenchOptions = {"ProblemType": {
+         "TransposeA": 0,
+         "TransposeB": 0,
+         "ComputeInputDataType": "s",
+         "ComputeDataType": "s",
+         "DataTypeC": "s",
+         "DataTypeD": "s",
+         "UseBias": False
+     }, "TestConfig": {
+         "ColdIter": 20,
+         "Iter": 100,
+         "AlgoMethod": "all",
+         "RequestedSolutions": 2, # Only works in AlgoMethod heuristic
+         "SolutionIndex": None, # Only works in AlgoMethod index
+         "ApiMethod": "cpp",
+         "RotatingBuffer": 0,
+     }, "TuningParameters": {
+         "SplitK": [0]
+     }, "ProblemSizes": []}
+     defaultCreateLogicOptions = {}  # Currently unused
 
 * ``TestConfig``
    1. ``ColdIter``: This is number the warm-up iterations before starting the kernel benchmark.
@@ -1230,7 +1938,7 @@ command:
 
 .. code-block:: shell
 
-   merge.py original_dir new_tuned_yaml_dir output_dir 
+   merge.py original_dir new_tuned_yaml_dir output_dir 
 
 The following table describes the logic YAML files.
 
@@ -1833,7 +2541,7 @@ de-quantize the ``int4`` key-value from the ``int4`` data type to ``fp16``.
 
 From the IR snippet, you can see ``i32`` data is loaded from global memory to
 registers (``%190``). With a few element-wise operations in registers, it is
-stored in shared memory (``%269``) for the transpose operation (``%270``), which
+stored in shared memory (``%269``) for the transpose operation (``%270``), which
 needs data movement across different threads. With the transpose done, it is
 loaded from LDS to register again (``%276``), and with a few more
 element-wise operations, it is stored to LDS again (``%298``). The last step
@@ -1967,7 +2675,7 @@ something similar to the following:
    loaded at: [0x7fd4f100c000-0x7fd4f100e070]
 
 The kernel name and the code object file should be listed. In the
-example above, the kernel name is vector_add_assert_trap, but this might
+example above, the kernel name is vector_add_assert_trap, but this might
 also look like:
 
 .. code-block:: text
