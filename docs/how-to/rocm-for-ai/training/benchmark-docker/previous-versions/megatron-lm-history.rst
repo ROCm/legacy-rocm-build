@@ -19,6 +19,7 @@ previous releases of the ``ROCm/megatron-lm`` Docker image on `Docker Hub <https
    * - v25.9 (latest)
      -
        * ROCm 7.0.0
+       * Primus 0.3.0
        * PyTorch 2.9.0.dev20250821+rocm7.0.0.lw.git125803b7
      -
        * :doc:`Primus Megatron documentation <../primus-megatron>`
