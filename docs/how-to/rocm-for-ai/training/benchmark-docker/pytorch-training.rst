@@ -639,6 +639,11 @@ To launch the training job on a SLURM cluster for Llama 3.3 70B, run the followi
 
 Once the run is finished, you can find the log files in the ``result_torchtune/`` directory.
 
+Known issues
+============
+
+PyTorch Profiler may produce inaccurate traces when CPU activity profiling is enabled.
+
 Further reading
 ===============
 

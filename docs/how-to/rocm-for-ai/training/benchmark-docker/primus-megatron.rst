@@ -985,6 +985,11 @@ recompute_granularity
 num_layers
   For using a reduced number of layers as with proxy models.
 
+Known issues
+============
+
+PyTorch Profiler may produce inaccurate traces when CPU activity profiling is enabled.
+
 Further reading
 ===============
 

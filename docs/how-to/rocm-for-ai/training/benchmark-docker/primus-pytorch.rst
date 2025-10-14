@@ -540,6 +540,10 @@ tweak some configurations (such as batch sizes).
       {% endfor %}
    {% endfor %}
 
+Known issues
+============
+
+PyTorch Profiler may produce inaccurate traces when CPU activity profiling is enabled.
 
 
 Further reading

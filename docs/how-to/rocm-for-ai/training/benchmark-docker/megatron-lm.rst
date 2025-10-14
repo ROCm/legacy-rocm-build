@@ -1029,6 +1029,11 @@ The benchmark tests support the following sets of variables.
 ``RECOMPUTE_NUM_LAYERS``
   Number of layers used for checkpointing recompute.
 
+Known issues
+============
+
+PyTorch Profiler may produce inaccurate traces when CPU activity profiling is enabled.
+
 Previous versions
 =================
 
