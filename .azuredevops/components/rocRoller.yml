@@ -177,6 +177,8 @@ jobs:
       parameters:
         os: ${{ job.os }}
         multithreadFlag: '-j'
+        cmakeSourceDir: $(Agent.BuildDirectory)/sparse/shared/rocroller
+        cmakeBuildDir: $(Agent.BuildDirectory)/sparse/shared/rocroller/build
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;$(PytestCmakePath)
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
