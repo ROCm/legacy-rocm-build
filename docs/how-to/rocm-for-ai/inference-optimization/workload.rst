@@ -632,7 +632,7 @@ vLLM V1 on ROCm provides these attention implementations:
    * AMD's optimized unified Triton kernel
    * Enable with ``VLLM_ROCM_USE_AITER=1``, ``VLLM_ROCM_USE_AITER_MHA=0``, and ``VLLM_ROCM_USE_AITER_UNIFIED_ATTENTION=1``
    * Only useful for specific workloads; most users should use AITER MHA instead
-   * Recommened this backend when running GPT-OSS.
+   * Recommended this backend when running GPT-OSS.
 
 3. **AITER Triton Prefill–Decode Attention** (hybrid, MI300X-optimized)
 
