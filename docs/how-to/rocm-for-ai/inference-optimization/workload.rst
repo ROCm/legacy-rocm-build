@@ -9,7 +9,7 @@ AMD Instinct MI300X workload optimization
 *****************************************
 
 This document provides guidelines for optimizing the performance of AMD
-Instinct™ MI300X accelerators (and notes where MI355X differs), with a focus on
+Instinct™ MI300X GPUs (and notes where MI355X differs), with a focus on
 GPU-kernel programming, high-performance computing (HPC), and deep-learning
 operations using PyTorch and vLLM. It includes complete, self-contained guidance
 for :ref:`vLLM performance optimization <mi300x-vllm-optimization>`, including
