@@ -1,0 +1,23 @@
+variables:
+- group: common
+- template: /.azuredevops/variables-global.yml
+
+parameters:
+- name: cli11Version
+  type: string
+  default: "main"
+
+resources:
+  repositories:
+  - repository: pipelines_repo
+    type: github
+    endpoint: ROCm
+    name: ROCm/ROCm
+
+trigger: none
+pr: none
+
+jobs:
+  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/cli11lib.yml
+    parameters:
+      cli11Version: ${{ parameters.cli11Version }}
