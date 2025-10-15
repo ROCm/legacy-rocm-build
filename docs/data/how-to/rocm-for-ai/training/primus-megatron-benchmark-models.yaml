@@ -5,7 +5,7 @@ dockers:
     components: &docker_components
       ROCm: 7.0.0
       Primus: 0.3.0
-      Primus Turbo: 0.2.0
+      Primus Turbo: 0.1.1
       PyTorch: 2.9.0.dev20250821+rocm7.0.0.lw.git125803b7
       Python: "3.10"
       Transformer Engine: 2.2.0.dev0+54dd2bdc
