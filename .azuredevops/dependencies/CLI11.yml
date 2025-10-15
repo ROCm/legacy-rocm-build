@@ -5,7 +5,7 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
-- name: cli11Version
+- name: CLI11Version
   type: string
   default: ''
 - name: aptPackages
@@ -24,7 +24,7 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: cli11_${{ job.os }}
+  - job: CLI11_${{ job.os }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -44,10 +44,10 @@ jobs:
         packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - task: Bash@3
-      displayName: Clone cli11 ${{ parameters.cli11Version }}
+      displayName: Clone CLI11 ${{ parameters.CLI11Version }}
       inputs:
         targetType: inline
-        script: git clone https://github.com/CLIUtils/CLI11.git -b ${{ parameters.cli11Version }}
+        script: git clone https://github.com/CLIUtils/CLI11.git -b ${{ parameters.CLI11Version }}
         workingDirectory: $(Agent.BuildDirectory)
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
