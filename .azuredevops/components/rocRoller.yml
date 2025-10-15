@@ -140,6 +140,7 @@ jobs:
       parameters:
         dependencyList:
           - catch2
+          - cli11
           - fmtlib
           - gtest
           - libdivide

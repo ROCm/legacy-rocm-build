@@ -9,6 +9,7 @@ parameters:
   default:
     boost: 250
     catch2: 343
+    cli11: 367
     fmtlib: 341
     grpc: 72
     gtest: 73
