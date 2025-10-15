@@ -95,7 +95,7 @@ can take to reduce training time and memory usage through `automatic mixed preci
 
 See `Automatic mixed precision in PyTorch using AMD GPUs — ROCm Blogs
 <https://rocm.blogs.amd.com/artificial-intelligence/automatic-mixed-precision/README.html#automatic-mixed-precision-in-pytorch-using-amd-gpus>`_
-for more information about running AMP on an AMD GPU.
+for more information about running AMP on an AMD Instinct-series GPU.
 
 .. _rocm-for-ai-fine-tune:
 
