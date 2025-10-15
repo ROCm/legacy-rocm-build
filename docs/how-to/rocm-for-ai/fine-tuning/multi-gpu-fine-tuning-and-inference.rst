@@ -107,7 +107,7 @@ Now, it's important to adjust how you load the model. Add the ``device_map`` par
    (``"auto"``, ``"balanced"``, ``"balanced_low_0"``, ``"sequential"``).
 
    It's recommended to set the ``device_map`` parameter to ``“auto”`` to allow Accelerate to automatically and
-   efficiently allocate the model given the available resources (4 GPUs in this case).
+   efficiently allocate the model given the available resources (four GPUs in this case).
 
    When you have more GPU memory available than the model size, here is the difference between each ``device_map``
    option:
