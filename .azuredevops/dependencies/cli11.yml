@@ -52,8 +52,8 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
-        cmakeBuildDir: $(Agent.BuildDirectory)/cli11/build
-        cmakeSourceDir: $(Agent.BuildDirectory)/cli11
+        cmakeBuildDir: $(Agent.BuildDirectory)/CLI11/build
+        cmakeSourceDir: $(Agent.BuildDirectory)/CLI11
         useAmdclang: false
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
