@@ -1395,6 +1395,11 @@ Example command:
       --speculative_config '{"method": "eagle3", "model": "yuhuili/EAGLE3-LLaMA3.1-Instruct-8B", "num_speculative_tokens": 2, "draft_tensor_parallel_size": 1, "dtype": "float16"}' \
       --port 8001
 
+**Important Notes:**
+
+We have observed that more `num_speculative_tokens` causes less acceptance rate of draft model tokens, and loss in throughput. Suggest to set the `num_speculative_tokens` <= 2. 
+
+
 Multi-node checklist & troubleshooting
 --------------------------------------
 
