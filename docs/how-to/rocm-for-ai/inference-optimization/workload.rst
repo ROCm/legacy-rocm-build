@@ -449,7 +449,7 @@ Maximizing vLLM instances on a single node
 The general guideline is to maximize per-node throughput by running as many vLLM instances as possible.
 However, running too many instances might lead to insufficient memory for the KV-cache, which can affect performance.
 
-The Instinct MI300X GPU is equipped with 192GB of HBM3 memory capacity and bandwidth.
+The Instinct MI300X GPU is equipped with 192 GB of HBM3 memory capacity and bandwidth.
 For models that fit in one GPU -- to maximize the accumulated throughput -- you can run as many as eight vLLM instances
 simultaneously on one MI300X node (with eight GPUs). To do so, use the GPU isolation environment
 variable ``CUDA_VISIBLE_DEVICES``.
