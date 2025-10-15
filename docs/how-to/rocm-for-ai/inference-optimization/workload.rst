@@ -770,7 +770,12 @@ Data parallelism replicates model weights across separate instances/GPUs to proc
 .. code-block:: bash
 
    # Model fit in 1 GPU. Creates 2 model replicas (requires 2 GPUs)
-   vllm serve /path/to/model --data-parallel-size 2
+   VLLM_ALL2ALL_BACKEND="allgather_reducescatter" vllm serve /path/to/model \
+       --data-parallel-size 2 \
+       --disable-nccl-for-dp-synchronization
+
+.. tip::
+   For ROCm, currently use ``VLLM_ALL2ALL_BACKEND="allgather_reducescatter"`` and ``--disable-nccl-for-dp-synchronization`` with data parallelism.
 
 Choosing a load balancing strategy
 """""""""""""""""""""""""""""""""""
@@ -1155,9 +1160,9 @@ Available on `Hugging Face <https://huggingface.co/models?other=quark>`_:
   * `Llama‑3.1‑405B‑Instruct‑FP8‑KV <https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV>`__ (FP8 W8A8)
   * `Mixtral‑8x7B‑Instruct‑v0.1‑FP8‑KV <https://huggingface.co/amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV>`__ (FP8 W8A8)
   * `Mixtral‑8x22B‑Instruct‑v0.1‑FP8‑KV <https://huggingface.co/amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV>`__ (FP8 W8A8)
-  * `Llama-3.3-70B-Instruct-MXFP4-Preview <https://huggingface.co/amd/Llama-3.3-70B-Instruct-MXFP4-Preview>`__ (MXFP4)
-  * `Llama-3.1-405B-Instruct-MXFP4-Preview <https://huggingface.co/amd/Llama-3.1-405B-Instruct-MXFP4-Preview>`__ (MXFP4)
-  * `DeepSeek-R1-0528-MXFP4-Preview <https://huggingface.co/amd/DeepSeek-R1-0528-MXFP4-Preview>`__ (MXFP4)
+  * `Llama-3.3-70B-Instruct-MXFP4-Preview <https://huggingface.co/amd/Llama-3.3-70B-Instruct-MXFP4-Preview>`__ (MXFP4 for MI350/MI355)
+  * `Llama-3.1-405B-Instruct-MXFP4-Preview <https://huggingface.co/amd/Llama-3.1-405B-Instruct-MXFP4-Preview>`__ (MXFP4 for MI350/MI355)
+  * `DeepSeek-R1-0528-MXFP4-Preview <https://huggingface.co/amd/DeepSeek-R1-0528-MXFP4-Preview>`__ (MXFP4 for MI350/MI355)
 
 **Quick Start:**
 
@@ -1167,7 +1172,7 @@ Available on `Hugging Face <https://huggingface.co/models?other=quark>`_:
    vllm serve amd/Llama-3.1-8B-Instruct-FP8-KV \
       --dtype auto
 
-   # MXFP4 Quark model
+   # MXFP4 Quark model for MI350/MI355
    vllm serve amd/Llama-3.3-70B-Instruct-MXFP4-Preview \
       --dtype auto \
       --tensor-parallel-size 1
