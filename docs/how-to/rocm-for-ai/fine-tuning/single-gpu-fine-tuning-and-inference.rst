@@ -52,7 +52,7 @@ Setting up the base implementation environment
 
       ============================ ROCm System Management Interface ============================
       ====================================== Product Info ======================================
-      GPU[0]          : Card series:          AMD Instinct MI300X OAM
+      GPU[0]          : Card Series:          AMD Instinct MI300X OAM
       GPU[0]          : Card model:           0x74a1
       GPU[0]          : Card vendor:          Advanced Micro Devices, Inc. [AMD/ATI]
       GPU[0]          : Card SKU:             MI3SRIOV

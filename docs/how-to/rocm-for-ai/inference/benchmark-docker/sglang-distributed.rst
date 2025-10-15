@@ -22,7 +22,7 @@ improved efficiency and throughput.
    `SGLang <https://docs.sglang.ai>`__ is a high-performance inference and
    serving engine for large language models (LLMs) and vision models. The
    ROCm-enabled `SGLang base Docker image <{{ docker.docker_hub_url }}>`__
-   bundles SGLang with PyTorch, which is optimized for AMD Instinct MI300X series
+   bundles SGLang with PyTorch, which is optimized for AMD Instinct MI300X Series
    GPUs. It includes the following software components:
 
    .. list-table::
@@ -37,7 +37,7 @@ improved efficiency and throughput.
       {% endfor %}
 
 The following guides on setting up and running SGLang and Mooncake for disaggregated
-distributed inference on a Slurm cluster using AMD Instinct MI300X series GPUs backed by
+distributed inference on a Slurm cluster using AMD Instinct MI300X Series GPUs backed by
 Mellanox CX-7 NICs.
 
 Prerequisites
@@ -236,7 +236,7 @@ Further reading
 - See the base upstream Docker image on `Docker Hub <https://hub.docker.com/layers/lmsysorg/sglang/v0.5.2rc1-rocm700-mi30x/images/sha256-10c4ee502ddba44dd8c13325e6e03868bfe7f43d23d0a44780a8ee8b393f4729>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`__.
+  MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`__.
 
 - For application performance optimization strategies for HPC and AI workloads,
   including inference with vLLM, see :doc:`/how-to/rocm-for-ai/inference-optimization/workload`.

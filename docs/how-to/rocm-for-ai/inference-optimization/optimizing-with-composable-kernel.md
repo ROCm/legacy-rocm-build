@@ -102,7 +102,7 @@ struct AddRelu
 
 #### Tunable parameters  
 
-The CK instance includes a series of tunable template parameters to control the parallel granularity of the workload to achieve load balancing on different hardware platforms.
+The CK instance includes a Series of tunable template parameters to control the parallel granularity of the workload to achieve load balancing on different hardware platforms.
 
 These parameters include Block Size, M/N/K Per Block, M/N per XDL, AK1, BK1, etc.
 
@@ -164,7 +164,7 @@ The CK library contains many fundamental instances that implement different func
 
 Second, consider whether the format of input data meets your actual calculation needs. For SQ models, the 8-bit integer data format (INT8) is applied for matrix calculations.
 
-Third, consider the platform for implementing CK instances. The instances suffixed with `xdl` only run on AMD Instinct GPUs after being compiled and cannot run on Radeon-series GPUs. This is due to the underlying device-specific instruction sets for implementing these basic instances.
+Third, consider the platform for implementing CK instances. The instances suffixed with `xdl` only run on AMD Instinct GPUs after being compiled and cannot run on Radeon-Series GPUs. This is due to the underlying device-specific instruction sets for implementing these basic instances.
 
 Here, we use [DeviceBatchedGemmMultiD_Xdl](https://github.com/ROCm/composable_kernel/tree/develop/example/24_batched_gemm) as the fundamental instance to implement the functionalities in the previous table.
 

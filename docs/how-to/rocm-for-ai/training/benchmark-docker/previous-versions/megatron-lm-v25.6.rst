@@ -16,13 +16,13 @@ Training a model with Megatron-LM for ROCm
 The `Megatron-LM framework for ROCm <https://github.com/ROCm/Megatron-LM>`__ is
 a specialized fork of the robust Megatron-LM, designed to enable efficient
 training of large-scale language models on AMD GPUs. By leveraging AMD
-Instinct™ MI300X series GPUs, Megatron-LM delivers enhanced
+Instinct™ MI300X Series GPUs, Megatron-LM delivers enhanced
 scalability, performance, and resource utilization for AI workloads. It is
 purpose-built to support models like Llama, DeepSeek, and Mixtral,
 enabling developers to train next-generation AI models more
 efficiently.
 
-AMD provides ready-to-use Docker images for MI300X series GPUs containing
+AMD provides ready-to-use Docker images for MI300X Series GPUs containing
 essential components, including PyTorch, ROCm libraries, and Megatron-LM
 utilities. It contains the following software components to accelerate training
 workloads:
@@ -65,7 +65,7 @@ workloads:
 
    .. _amd-megatron-lm-model-support-v256:
 
-   The following models are pre-optimized for performance on AMD Instinct MI300X series GPUs.
+   The following models are pre-optimized for performance on AMD Instinct MI300X Series GPUs.
 
    Supported models
    ================
@@ -147,7 +147,7 @@ Environment setup
 =================
 
 Use the following instructions to set up the environment, configure the script to train models, and
-reproduce the benchmark results on MI300X series GPUs with the AMD Megatron-LM Docker
+reproduce the benchmark results on MI300X Series GPUs with the AMD Megatron-LM Docker
 image.
 
 .. _amd-megatron-lm-requirements-v256:
@@ -589,7 +589,7 @@ Run training
 
 Use the following example commands to set up the environment, configure
 :ref:`key options <amd-megatron-lm-benchmark-test-vars-v256>`, and run training on
-MI300X series GPUs with the AMD Megatron-LM environment.
+MI300X Series GPUs with the AMD Megatron-LM environment.
 
 Single node training
 --------------------

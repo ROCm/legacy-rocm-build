@@ -18,8 +18,8 @@ vLLM inference performance testing
 
    The `ROCm vLLM Docker <{{ unified_docker.docker_hub_url }}>`_ image offers
    a prebuilt, optimized environment for validating large language model (LLM)
-   inference performance on AMD Instinct™ MI300X series GPUs. This ROCm vLLM
-   Docker image integrates vLLM and PyTorch tailored specifically for MI300X series
+   inference performance on AMD Instinct™ MI300X Series GPUs. This ROCm vLLM
+   Docker image integrates vLLM and PyTorch tailored specifically for MI300X Series
    GPUs and includes the following components:
 
    * `ROCm {{ unified_docker.rocm_version }} <https://github.com/ROCm/ROCm>`_
@@ -32,7 +32,7 @@ vLLM inference performance testing
 
    With this Docker image, you can quickly test the :ref:`expected
    inference performance numbers <vllm-benchmark-performance-measurements-v083>` for
-   MI300X series GPUs.
+   MI300X Series GPUs.
 
    .. _vllm-benchmark-available-models-v083:
 
@@ -327,7 +327,7 @@ Further reading
   see `<https://github.com/ROCm/vllm/tree/main/benchmarks>`_.
 
 - To learn more about system settings and management practices to configure your system for
-  MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
+  MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
 
 - To learn how to run community models from Hugging Face on AMD GPUs, see
   :doc:`Running models from Hugging Face </how-to/rocm-for-ai/inference/hugging-face-models>`.

@@ -411,7 +411,7 @@ for additional performance tips. :ref:`fine-tuning-llms-vllm` describes vLLM
 usage with ROCm.
 
 ROCm provides a prebuilt optimized Docker image for validating the performance
-of LLM inference with vLLM on MI300X series GPUs. The Docker image includes
+of LLM inference with vLLM on MI300X Series GPUs. The Docker image includes
 ROCm, vLLM, and PyTorch. For more information, see
 :doc:`/how-to/rocm-for-ai/inference/benchmark-docker/vllm`.
 
@@ -1460,7 +1460,7 @@ low-latency AMD Infinity Fabric™ links (red lines) to form a fully connected
 
 .. figure:: ../../../data/shared/mi300-node-level-arch.png
 
-   MI300 series node-level architecture showing 8 fully interconnected MI300X
+   MI300 Series node-level architecture showing 8 fully interconnected MI300X
    OAM modules connected to (optional) PCIe switches via re-timers and HGX
    connectors.
 

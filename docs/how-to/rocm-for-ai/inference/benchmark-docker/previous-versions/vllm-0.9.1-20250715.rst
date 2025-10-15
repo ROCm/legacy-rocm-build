@@ -23,8 +23,8 @@ vLLM inference performance testing
 
    The `ROCm vLLM Docker <{{ unified_docker.docker_hub_url }}>`_ image offers
    a prebuilt, optimized environment for validating large language model (LLM)
-   inference performance on AMD Instinct™ MI300X series GPUs. This ROCm vLLM
-   Docker image integrates vLLM and PyTorch tailored specifically for MI300X series
+   inference performance on AMD Instinct™ MI300X Series GPUs. This ROCm vLLM
+   Docker image integrates vLLM and PyTorch tailored specifically for MI300X Series
    GPUs and includes the following components:
 
    .. list-table::
@@ -47,7 +47,7 @@ vLLM inference performance testing
 
 With this Docker image, you can quickly test the :ref:`expected
 inference performance numbers <vllm-benchmark-performance-measurements-715>` for
-MI300X series GPUs.
+MI300X Series GPUs.
 
 What's new
 ==========
@@ -429,7 +429,7 @@ Further reading
 - To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  AMD Instinct MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - For application performance optimization strategies for HPC and AI workloads,
   including inference with vLLM, see :doc:`/how-to/rocm-for-ai/inference-optimization/workload`.

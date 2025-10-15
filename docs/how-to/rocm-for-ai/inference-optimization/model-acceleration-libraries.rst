@@ -45,7 +45,7 @@ ROCm provides two different implementations of Flash Attention 2 modules. They c
          # Install from source
          git clone https://github.com/ROCm/flash-attention.git
          cd flash-attention/
-         GPU_ARCHS=gfx942 python setup.py install #MI300 series
+         GPU_ARCHS=gfx942 python setup.py install #MI300 Series
 
       Hugging Face Transformers can easily deploy the CK Flash Attention 2 module by passing an argument
       ``attn_implementation="flash_attention_2"`` in the ``from_pretrained`` class.

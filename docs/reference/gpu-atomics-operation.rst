@@ -16,7 +16,7 @@ behavior.
 
 This topic summarizes the support of atomic read-modify-write
 (atomicRMW) operations on AMD GPUs. This includes gfx9, gfx10,
-gfx11, and gfx12 targets and the following series of Instinct™ series:
+gfx11, and gfx12 targets and the following Series of Instinct™ Series:
 
 - MI100
 
@@ -82,7 +82,7 @@ Support summary
 AMD Instinct GPUs
 --------------------------------------------------------------------------------
 
-**MI300 and MI350 series**
+**MI300 and MI350 Series**
 
 - All atomicRMW operations are forwarded out to the Infinity Fabric.
 - Infinity Fabric supports common integer and bitwise atomics, FP32 atomic add,
@@ -95,7 +95,7 @@ AMD Instinct GPUs
   It will seem like atomics to the wave, but the CPU sees it as a non-atomic
   load-op-store sequence. This downgrades system-scope atomics to device-scope.
 
-**MI200 series**
+**MI200 Series**
 
 - L2 cache and Infinity Fabric both support common integer and bitwise atomics.
 - L2 cache supports FP32 atomic add, packed-FP16 atomic add, and FP64 add,
@@ -215,7 +215,7 @@ AMD gfx generic targets
 GPUs atomics support
 ================================================================================
 
-This section presents a series of tables that show the level of atomic
+This section presents a Series of tables that show the level of atomic
 operations support for the different hardware devices described above, and
 different datatypes, different operations and different scopes.
 

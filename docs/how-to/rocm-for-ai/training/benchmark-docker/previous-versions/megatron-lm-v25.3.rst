@@ -15,7 +15,7 @@ Training a model with Megatron-LM for ROCm
 
 The Megatron-LM framework for ROCm is a specialized fork of the robust Megatron-LM,
 designed to enable efficient training of large-scale language models on AMD
-GPUs. By leveraging AMD Instinct™ MI300X series GPUs, Megatron-LM delivers
+GPUs. By leveraging AMD Instinct™ MI300X Series GPUs, Megatron-LM delivers
 enhanced scalability, performance, and resource utilization for AI workloads.
 It is purpose-built to support models like Llama 2, Llama 3, Llama 3.1, and
 DeepSeek, enabling developers to train next-generation AI models more
@@ -345,7 +345,7 @@ can expect the container to perform in the model configurations described in
 the following section, but other configurations are not validated by AMD.
 
 Use the following instructions to set up the environment, configure the script
-to train models, and reproduce the benchmark results on MI300X series
+to train models, and reproduce the benchmark results on MI300X Series
 GPUs with the AMD Megatron-LM Docker image.
 
 .. tab-set::

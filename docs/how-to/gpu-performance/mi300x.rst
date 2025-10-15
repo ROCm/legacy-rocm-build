@@ -19,9 +19,9 @@ superior performance.
   your AMD Instinct MI300X system for performance.
 
 * :doc:`/how-to/rocm-for-ai/inference-optimization/workload` covers steps to
-  optimize the performance of AMD Instinct MI300X series GPUs for HPC
+  optimize the performance of AMD Instinct MI300X Series GPUs for HPC
   and deep learning operations.
 
 * :doc:`/how-to/rocm-for-ai/inference/benchmark-docker/vllm` introduces a preconfigured
   environment for LLM inference, designed to help you test performance with
-  popular models on AMD Instinct MI300X series GPUs.
+  popular models on AMD Instinct MI300X Series GPUs.

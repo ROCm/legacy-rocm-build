@@ -15,7 +15,7 @@ SGLang inference performance testing DeepSeek-R1-Distill-Qwen-32B
    `SGLang <https://docs.sglang.ai>`__ is a high-performance inference and
    serving engine for large language models (LLMs) and vision models. The
    ROCm-enabled `SGLang Docker image <{{ docker.docker_hub_url }}>`__
-   bundles SGLang with PyTorch, optimized for AMD Instinct MI300X series
+   bundles SGLang with PyTorch, optimized for AMD Instinct MI300X Series
    GPUs. It includes the following software components:
 
    .. list-table::
@@ -255,7 +255,7 @@ Further reading
 - To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`__.
+  MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`__.
 
 - For application performance optimization strategies for HPC and AI workloads,
   including inference with vLLM, see :doc:`/how-to/rocm-for-ai/inference-optimization/workload`.

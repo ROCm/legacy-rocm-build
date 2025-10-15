@@ -46,7 +46,7 @@ In DDP training, each process or worker owns a replica of the model and processe
 
 See the following developer blogs for more in-depth explanations and examples.
 
-*  `Multi GPU training with DDP — PyTorch Tutorials <https://pytorch.org/tutorials/beginner/ddp_series_multigpu.html>`_
+*  `Multi GPU training with DDP — PyTorch Tutorials <https://pytorch.org/tutorials/beginner/ddp_Series_multigpu.html>`_
 
 *  `Building a decoder transformer model on AMD GPUs — ROCm Blogs
    <https://rocm.blogs.amd.com/artificial-intelligence/decoder-transformer/README.html#distributed-training-on-multiple-gpus>`_
@@ -95,7 +95,7 @@ can take to reduce training time and memory usage through `automatic mixed preci
 
 See `Automatic mixed precision in PyTorch using AMD GPUs — ROCm Blogs
 <https://rocm.blogs.amd.com/artificial-intelligence/automatic-mixed-precision/README.html#automatic-mixed-precision-in-pytorch-using-amd-gpus>`_
-for more information about running AMP on an AMD Instinct-series GPU.
+for more information about running AMP on an AMD Instinct-Series GPU.
 
 .. _rocm-for-ai-fine-tune:
 

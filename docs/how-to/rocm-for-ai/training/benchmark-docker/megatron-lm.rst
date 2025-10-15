@@ -17,13 +17,13 @@ Training a model with Megatron-LM on ROCm
 The `Megatron-LM framework for ROCm <https://github.com/ROCm/Megatron-LM>`_ is
 a specialized fork of the robust Megatron-LM, designed to enable efficient
 training of large-scale language models on AMD GPUs. By leveraging AMD
-Instinct™ MI300X series GPUs, Megatron-LM delivers enhanced
+Instinct™ MI300X Series GPUs, Megatron-LM delivers enhanced
 scalability, performance, and resource utilization for AI workloads. It is
 purpose-built to support models like Llama, DeepSeek, and Mixtral,
 enabling developers to train next-generation AI models more
 efficiently.
 
-AMD provides ready-to-use Docker images for MI300X series GPUs containing
+AMD provides ready-to-use Docker images for MI300X Series GPUs containing
 essential components, including PyTorch, ROCm libraries, and Megatron-LM
 utilities. It contains the following software components to accelerate training
 workloads:
@@ -61,7 +61,7 @@ workloads:
    ================
 
    The following models are supported for training performance benchmarking with Megatron-LM and ROCm
-   on AMD Instinct MI300X series GPUs.
+   on AMD Instinct MI300X Series GPUs.
    Some instructions, commands, and training recommendations in this documentation might
    vary by model -- select one to get started.
 
@@ -138,7 +138,7 @@ Environment setup
 =================
 
 Use the following instructions to set up the environment, configure the script to train models, and
-reproduce the benchmark results on MI300X series GPUs with the AMD Megatron-LM Docker
+reproduce the benchmark results on MI300X Series GPUs with the AMD Megatron-LM Docker
 image.
 
 .. _amd-megatron-lm-requirements:
@@ -533,7 +533,7 @@ Run training
 
 Use the following example commands to set up the environment, configure
 :ref:`key options <amd-megatron-lm-benchmark-test-vars>`, and run training on
-MI300X series GPUs with the AMD Megatron-LM environment.
+MI300X Series GPUs with the AMD Megatron-LM environment.
 
 Single node training
 --------------------

@@ -180,7 +180,7 @@ subtrees:
           - file: conceptual/gpu-arch/mi300-mi200-performance-counters.rst
             title: MI300 and MI200 performance counters
           - file: conceptual/gpu-arch/mi350-performance-counters.rst
-            title: MI350 series performance counters
+            title: MI350 Series performance counters
       - file: conceptual/gpu-arch/mi250.md
         title: MI250 microarchitecture
         subtrees:

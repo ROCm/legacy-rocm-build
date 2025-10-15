@@ -30,8 +30,8 @@ visual effects in film and gaming, and general-purpose computing.
 
 Supported devices and features
 ===============================================================================
-There is support through the ROCm software stack for all Taichi GPU features on AMD Instinct MI250X and MI210X series GPUs with the exception of Taichi’s GPU rendering system, CGUI.
-AMD Instinct MI300X series GPUs will be supported by November.
+There is support through the ROCm software stack for all Taichi GPU features on AMD Instinct MI250X and MI210X Series GPUs with the exception of Taichi’s GPU rendering system, CGUI.
+AMD Instinct MI300X Series GPUs will be supported by November.
 
 .. _taichi-recommendations:
 

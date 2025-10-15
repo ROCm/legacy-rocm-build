@@ -21,7 +21,7 @@ Primus now supports the PyTorch torchtitan backend.
    {% set dockers = data.dockers %}
    {% set docker = dockers[0] %}
    For ease of use, AMD provides a ready-to-use Docker image -- ``{{
-   docker.pull_tag }}`` -- for MI300X series GPUs containing essential
+   docker.pull_tag }}`` -- for MI300X Series GPUs containing essential
    components for Primus and PyTorch training with
    Primus Turbo optimizations.
 
@@ -296,7 +296,7 @@ Further reading
 - To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  AMD Instinct MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - For a list of other ready-made Docker images for AI with ROCm, see
   `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.

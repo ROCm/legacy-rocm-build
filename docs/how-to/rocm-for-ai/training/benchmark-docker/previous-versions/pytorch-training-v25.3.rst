@@ -248,7 +248,7 @@ can expect the container to perform in the model configurations described in
 the following section, but other configurations are not validated by AMD.
 
 Use the following instructions to set up the environment, configure the script
-to train models, and reproduce the benchmark results on MI300X series
+to train models, and reproduce the benchmark results on MI300X Series
 GPUs with the AMD PyTorch training Docker image.
 
 Once your environment is set up, use the following commands and examples to start benchmarking.
