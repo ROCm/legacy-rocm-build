@@ -1,15 +1,15 @@
 .. meta::
-   :description: Learn about workload tuning on AMD Instinct MI300X (and MI355X) accelerators for HPC and deep-learning workloads, with a self-contained vLLM performance section covering attention backends, AITER, Quick Reduce, parallelism, and engine/compilation tuning.
+   :description: Learn about workload tuning on AMD Instinct MI300X (and MI355X) GPUs for HPC and deep-learning workloads, with a self-contained vLLM performance section covering attention backends, AITER, Quick Reduce, parallelism, and engine/compilation tuning.
    :keywords: AMD, Instinct, MI300X, MI355X, HPC, tuning, BIOS settings, NBIO, ROCm,
               environment variable, performance, HIP, Triton, PyTorch TunableOp, vLLM, RCCL,
-              MIOpen, accelerator, GPU, resource utilization
+              MIOpen, GPU, resource utilization
 
 *****************************************
 AMD Instinct MI300X workload optimization
 *****************************************
 
 This document provides guidelines for optimizing the performance of AMD
-Instinct™ MI300X accelerators (and notes where MI355X differs), with a focus on
+Instinct™ MI300X GPUs (and notes where MI355X differs), with a focus on
 GPU-kernel programming, high-performance computing (HPC), and deep-learning
 operations using PyTorch and vLLM. It includes complete, self-contained guidance
 for :ref:`vLLM performance optimization <mi300x-vllm-optimization>`, including
@@ -25,7 +25,7 @@ Workload tuning strategy
 
 By following a structured approach, you can systematically address
 performance issues and enhance the efficiency of your workloads on AMD Instinct
-MI300X accelerators.
+MI300X GPUs.
 
 Measure the current workload
 ----------------------------
@@ -86,7 +86,7 @@ Optimize model inference with vLLM
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 vLLM provides tools and techniques designed for efficient model inference on AMD
-Instinct MI300X accelerators. See :ref:`fine-tuning-llms-vllm` for installation
+Instinct MI300X . See :ref:`fine-tuning-llms-vllm` for installation
 guidance. Optimizing performance with vLLM involves configuring parallelism,
 choosing the right attention backend, leveraging advanced (ROCm-specific)
 features, and ensuring efficient execution. A complete, self-contained guide is
@@ -227,7 +227,7 @@ benchmarking process.
 
 With AMD's profiling tools, developers are able to gain important insight into how efficiently their application is
 using hardware resources and effectively diagnose potential bottlenecks contributing to poor performance. Developers
-working with AMD Instinct accelerators have multiple tools depending on their specific profiling needs; these include:
+working with AMD Instinct GPUs have multiple tools depending on their specific profiling needs; these include:
 
 * :ref:`ROCProfiler <mi300x-rocprof>`
 
@@ -245,11 +245,11 @@ metrics, commonly called *performance counters*. These counters quantify the per
 showcasing which pieces of the computational pipeline and memory hierarchy are being utilized.
 
 Your ROCm installation contains a script or executable command called ``rocprof`` which provides the ability to list all
-available hardware counters for your specific accelerator or GPU, and run applications while collecting counters during
+available hardware counters for your specific GPU or GPU, and run applications while collecting counters during
 their execution.
 
 This ``rocprof`` utility also depends on the :doc:`ROCTracer and ROC-TX libraries <roctracer:index>`, giving it the
-ability to collect timeline traces of the accelerator software stack as well as user-annotated code regions.
+ability to collect timeline traces of the GPU software stack as well as user-annotated code regions.
 
 .. note::
 
@@ -264,16 +264,16 @@ ROCm Compute Profiler
 ^^^^^^^^^^^^^^^^^^^^^
 
 :doc:`ROCm Compute Profiler <rocprofiler-compute:index>` is a system performance profiler for high-performance computing (HPC) and
-machine learning (ML) workloads using Instinct accelerators. Under the hood, ROCm Compute Profiler uses
+machine learning (ML) workloads using Instinct GPUs. Under the hood, ROCm Compute Profiler uses
 :ref:`ROCProfiler <mi300x-rocprof>` to collect hardware performance counters. The ROCm Compute Profiler tool performs
 system profiling based on all approved hardware counters for Instinct
-accelerator architectures. It provides high level performance analysis features including System Speed-of-Light, IP
+GPU architectures. It provides high level performance analysis features including System Speed-of-Light, IP
 block Speed-of-Light, Memory Chart Analysis, Roofline Analysis, Baseline Comparisons, and more.
 
 ROCm Compute Profiler takes the guesswork out of profiling by removing the need to provide text input files with lists of counters
 to collect and analyze raw CSV output files as is the case with ROCProfiler. Instead, ROCm Compute Profiler automates the collection
 of all available hardware counters in one command and provides graphical interfaces to help users understand and
-analyze bottlenecks and stressors for their computational workloads on AMD Instinct accelerators.
+analyze bottlenecks and stressors for their computational workloads on AMD Instinct GPUs.
 
 .. note::
 
@@ -321,7 +321,7 @@ hardware counters are also included.
 vLLM performance optimization
 =============================
 
-This guide helps you maximize vLLM throughput and minimize latency on AMD MI300X/MI355X accelerators. Learn how to:
+This guide helps you maximize vLLM throughput and minimize latency on AMD MI300X/MI355X GPUs. Learn how to:
 
 * Enable **AITER** (AI Tensor Engine for ROCm) for speedups on LLM models
 * Configure **environment variables** for optimal HIP, RCCL, and Quick Reduce performance
@@ -348,7 +348,7 @@ The following variables are generally useful for MI300X/MI355X and vLLM:
 AITER (AI Tensor Engine for ROCm) switches
 ------------------------------------------
 
-**AITER** (AI Tensor Engine for ROCm) provides ROCm-specific fused kernels optimized for MI300X/MI355X accelerators in vLLM V1.
+**AITER** (AI Tensor Engine for ROCm) provides ROCm-specific fused kernels optimized for MI300X/MI355X GPUs in vLLM V1.
 
 **How AITER flags work:**
 
@@ -1088,7 +1088,7 @@ vLLM ROCm supports a variety of quantization demands:
 Supported Quantization Methods
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-vLLM on ROCm supports the following quantization methods for AMD MI300 series and MI355X accelerators:
+vLLM on ROCm supports the following quantization methods for AMD MI300 series and MI355X GPUs:
 
 .. list-table::
    :header-rows: 1
@@ -1241,7 +1241,7 @@ AWQ (Activation-aware Weight Quantization)
 
 AWQ (Activation-aware Weight Quantization) is a 4-bit weight quantization technique that provides excellent
 model compression with minimal accuracy loss (<1%). ROCm supports AWQ quantization on AMD MI300 series and
-MI355X accelerators with vLLM.
+MI355X GPUs with vLLM.
 
 **Using Pre-quantized AWQ Models:**
 
@@ -1303,7 +1303,7 @@ FP8 `kv-cache` dtype
 
 FP8 KV-cache quantization reduces memory footprint by approximately 50%, enabling longer context lengths
 or higher concurrency. ROCm supports FP8 KV-cache with both ``fp8_e4m3`` and ``fp8_e5m2`` formats on
-AMD MI300 series and other CDNA™ accelerators.
+AMD MI300 series and other CDNA™ GPUs.
 
 Use ``--kv-cache-dtype fp8`` to enable FP8 KV-cache quantization. For best accuracy, use calibrated
 scaling factors generated via `LLM Compressor <https://github.com/vllm-project/llm-compressor>`_.
@@ -1624,7 +1624,7 @@ ROCm library tuning involves optimizing the performance of routine computational
 operations (such as ``GEMM``) provided by ROCm libraries like
 :ref:`hipBLASLt <mi300x-hipblaslt>`, :ref:`Composable Kernel <mi300x-ck>`,
 :ref:`MIOpen <mi300x-miopen>`, and :ref:`RCCL <mi300x-rccl>`. This tuning aims
-to maximize efficiency and throughput on Instinct MI300X accelerators to gain 
+to maximize efficiency and throughput on Instinct MI300X GPUs to gain 
 improved application performance.
 
 .. _mi300x-library-gemm:
@@ -2158,7 +2158,7 @@ you can only use a fraction of the potential bandwidth on the node.
 The following figure shows an
 :doc:`MI300X node-level architecture </conceptual/gpu-arch/mi300>` of a
 system with AMD EPYC processors in a dual-socket configuration and eight
-AMD Instinct MI300X accelerators. The MI300X OAMs attach to the host system via
+AMD Instinct MI300X GPUs. The MI300X OAMs attach to the host system via
 PCIe Gen 5 x16 links (yellow lines). The GPUs use seven high-bandwidth,
 low-latency AMD Infinity Fabric™ links (red lines) to form a fully connected
 8-GPU system.
@@ -2360,7 +2360,7 @@ Auto-tunable kernel configuration involves adjusting memory access and computati
 resources assigned to each compute unit. It encompasses the usage of
 :ref:`LDS <mi300x-cu-fig>`, register, and task scheduling on a compute unit.
 
-The accelerator or GPU contains global memory, local data share (LDS), and
+The GPU contains global memory, local data share (LDS), and
 registers. Global memory has high access latency, but is large. LDS access has
 much lower latency, but is smaller. It is a fast on-CU software-managed memory
 that can be used to efficiently share data between all work items in a block.
@@ -2373,11 +2373,11 @@ Register access is the fastest yet smallest among the three.
    Schematic representation of a CU in the CDNA2 or CDNA3 architecture.
 
 The following is a list of kernel arguments used for tuning performance and
-resource allocation on AMD accelerators, which helps in optimizing the
+resource allocation on AMD GPUs, which helps in optimizing the
 efficiency and throughput of various computational kernels.
 
 ``num_stages=n``
-   Adjusts the number of pipeline stages for different types of kernels. On AMD accelerators, set ``num_stages``
+   Adjusts the number of pipeline stages for different types of kernels. On AMD GPUs, set ``num_stages``
    according to the following rules:
 
    * For kernels with a single GEMM, set to ``2``.
@@ -2404,15 +2404,15 @@ efficiency and throughput of various computational kernels.
    * The occupancy of the kernel is limited by VGPR usage, and
 
    * The current VGPR usage is only a few above a boundary in
-     :ref:`Occupancy related to VGPR usage in an Instinct MI300X accelerator <mi300x-occupancy-vgpr-table>`.
+     :ref:`Occupancy related to VGPR usage in an Instinct MI300X GPU <mi300x-occupancy-vgpr-table>`.
 
 .. _mi300x-occupancy-vgpr-table:
 
 .. figure:: ../../../data/shared/occupancy-vgpr.png
-   :alt: Occupancy related to VGPR usage in an Instinct MI300X accelerator.
+   :alt: Occupancy related to VGPR usage in an Instinct MI300X GPU.
    :align: center
 
-   Occupancy related to VGPRs usage on an Instinct MI300X accelerator
+   Occupancy related to VGPRs usage on an Instinct MI300X GPU
 
 For example, according to the table, each Execution Unit (EU) has 512 available
 VGPRs, which are allocated in blocks of 16. If the current VGPR usage is 170,
@@ -2437,7 +2437,7 @@ VGPR usage so that it might fit 3 waves per EU.
 
    -  ``matrix_instr_nonkdim = 32``: ``mfma_32x32`` is used.
 
-   For GEMM kernels on an MI300X accelerator, ``mfma_16x16`` typically outperforms ``mfma_32x32``, even for large
+   For GEMM kernels on an MI300X GPU, ``mfma_16x16`` typically outperforms ``mfma_32x32``, even for large
    tile/GEMM sizes.
 
 
@@ -2456,7 +2456,7 @@ the number of CUs a kernel can distribute its task across.
 
    XCD-level system architecture showing 40 compute units,
    each with 32 KB L1 cache, a unified compute system with 4 ACE compute
-   accelerators, shared 4MB of L2 cache, and a hardware scheduler (HWS).
+   GPUs, shared 4MB of L2 cache, and a hardware scheduler (HWS).
 
 You can query hardware resources with the command ``rocminfo`` in the
 ``/opt/rocm/bin`` directory. For instance, query the number of CUs, number of
