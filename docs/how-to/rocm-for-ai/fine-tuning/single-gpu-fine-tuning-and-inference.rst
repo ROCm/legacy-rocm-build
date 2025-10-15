@@ -503,7 +503,7 @@ Let's look at achieving model inference using these types of models.
 
 If using multiple GPUs, see
 :ref:`Multi-accelerator fine-tuning and inference <fine-tuning-llms-multi-gpu-hugging-face-accelerate>` to explore
-popular libraries that simplify fine-tuning and inference in a multiple GPU system.
+popular libraries that simplify fine-tuning and inference in a multiple-GPU system.
 
 Read more about inference frameworks like vLLM and Hugging Face TGI in
 :doc:`LLM inference frameworks <../inference/llm-inference-frameworks>`.
