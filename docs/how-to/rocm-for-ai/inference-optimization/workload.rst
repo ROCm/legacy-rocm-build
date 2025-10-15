@@ -448,7 +448,7 @@ AITER MoE requirements (Mixtral, DeepSeek-V2/V3, Qwen-MoE models)
 
    # Hybrid MoE+MLA model (DeepSeek-V3) - requires both MOE and MLA flags
    VLLM_ROCM_USE_AITER=1 vllm serve deepseek-ai/DeepSeek-V3 \
-       --block-size 1 --trust-remote-code \
+       --block-size 1 \
        --tensor-parallel-size 8
 
 AITER MLA requirements (DeepSeek-V3/R1 models)
@@ -476,7 +476,7 @@ AITER MLA requirements (DeepSeek-V3/R1 models)
 
    # DeepSeek-R1 with AITER MLA (requires 8 GPUs)
    VLLM_ROCM_USE_AITER=1 vllm serve deepseek-ai/DeepSeek-R1 \
-       --block-size 1 --trust-remote-code \
+       --block-size 1 \
        --tensor-parallel-size 8
 
 Attention backend selection with AITER
@@ -550,7 +550,7 @@ Most users won't need this, but you can override the defaults:
 
    # MLA model with AITER (DeepSeek-V3/R1)
    VLLM_ROCM_USE_AITER=1 vllm serve deepseek-ai/DeepSeek-R1 \
-       --block-size 1 --trust-remote-code \
+       --block-size 1 \
        --tensor-parallel-size 8
 
    # Advanced: Use Prefill-Decode split (for short input cases)
@@ -831,10 +831,10 @@ Data parallel attention works seamlessly with Expert Parallelism for MoE models:
 .. code-block:: bash
 
    # DeepSeek-R1 with DP attention and expert parallelism
-   vllm serve deepseek-ai/DeepSeek-R1 \
-       --trust-remote-code \
+   VLLM_ALL2ALL_BACKEND="allgather_reducescatter" vllm serve deepseek-ai/DeepSeek-R1 \
        --data-parallel-size 8 \
-       --enable-expert-parallel
+       --enable-expert-parallel \
+       --disable-nccl-for-dp-synchronization
 
 For more technical details, see `vLLM RFC #16037 <https://github.com/vllm-project/vllm/issues/16037>`_.
 
@@ -862,7 +862,6 @@ Expert parallelism is designed primarily for cross-node MoE deployments where hi
 
    # Enable expert parallelism for MoE models (DeepSeek example with 8 GPUs)
    vllm serve deepseek-ai/DeepSeek-R1 \
-       --trust-remote-code \
        --tensor-parallel-size 8 \
        --enable-expert-parallel
 
@@ -880,10 +879,10 @@ EP works seamlessly with Data Parallel Attention for optimal memory efficiency i
 .. code-block:: bash
 
    # DP attention + EP for DeepSeek-R1
-   vllm serve deepseek-ai/DeepSeek-R1 \
-       --trust-remote-code \
+   VLLM_ALL2ALL_BACKEND="allgather_reducescatter" vllm serve deepseek-ai/DeepSeek-R1 \
        --data-parallel-size 8 \
-       --enable-expert-parallel
+       --enable-expert-parallel \
+       --disable-nccl-for-dp-synchronization
 
 Throughput benchmarking
 -----------------------
