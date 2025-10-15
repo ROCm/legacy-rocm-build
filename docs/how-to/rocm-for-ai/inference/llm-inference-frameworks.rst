@@ -199,7 +199,7 @@ Install TGI
 
    .. tab-item:: TGI on a multi-accelerator system
 
-      2. Inside the container, launch a model using TGI server on multiple GPUs (4 in this case).
+      2. Inside the container, launch a model using TGI server on multiple GPUs (four in this case).
 
          .. code-block:: shell
 
