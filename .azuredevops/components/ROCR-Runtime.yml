@@ -37,6 +37,7 @@ parameters:
     - libdrm-dev
     - libelf-dev
     - libnuma-dev
+    - libsimde-dev
     - ninja-build
     - pkg-config
 - name: rocmDependencies

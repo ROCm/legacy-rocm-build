@@ -77,6 +77,14 @@ Ubuntu versions.
           QMP, and classic vector computers.
 
       * -
+        - `Grid <https://github.com/amd/InfinityHub-CI/tree/main/grid/>`_
+        - Grid is a library for lattice QCD calculations that employs a high-level data parallel
+          approach while using a number of techniques to target multiple types of parallelism.
+          The library currently supports MPI, OpenMP, and short vector parallelism. The SIMD
+          instruction sets covered include SSE, AVX, AVX2, FMA4, IMCI, and AVX512. Recent
+          releases expanded this support to include GPU offloading.
+
+      * -
         - `MILC <https://github.com/amd/InfinityHub-CI/tree/main/milc/>`_
         - The MILC Code is a set of research codes developed by MIMD Lattice Computation
           (MILC) collaboration for doing simulations of four dimensional SU(3) lattice gauge
@@ -149,24 +157,6 @@ Ubuntu versions.
           accelerators to SX-Aurora vector processors.
 
       * -
-        - `nekRS <https://github.com/amd/InfinityHub-CI/tree/main/nekrs>`_
-        - nekRS is an open-source Navier Stokes solver based on the spectral element
-          method targeting classical processors and accelerators like GPUs.
-
-      * -
-        - `OpenFOAM <https://github.com/amd/InfinityHub-CI/tree/main/openfoam>`_
-        - OpenFOAM is a free, open-source computational fluid dynamics (CFD)
-          tool developed primarily by OpenCFD Ltd. It has a large user
-          base across most areas of engineering and science, from both commercial and
-          academic organizations. OpenFOAM has extensive features to solve
-          anything from complex fluid flows involving chemical reactions, turbulence, and
-          heat transfer, to acoustics, solid mechanics, and electromagnetics.
-
-      * -
-        - `PeleC <https://github.com/amd/InfinityHub-CI/tree/main/pelec>`_
-        - PeleC is an adaptive mesh refinement(AMR) solver for compressible reacting flows.
-
-      * -
         - `Simcenter Star-CCM+ <https://github.com/amd/InfinityHub-CI/tree/main/siemens-star-ccm>`_
         - Simcenter Star-CCM+ is a comprehensive computational fluid dynamics (CFD) and multiphysics
           simulation tool developed by Siemens Digital Industries Software. It is designed to
@@ -198,15 +188,6 @@ Ubuntu versions.
           code generation and Just-In-time (JIT) compilation based on symbolic equations
           defined in SymPy to create and execute highly optimized Finite Difference stencil
           kernels on multiple computer platforms.
-
-      * -
-        - `ECHELON <https://github.com/amd/InfinityHub-CI/tree/main/srt-echelon>`_
-        - ECHELON by Stone Ridge Technology is a reservoir simulation tool. With
-          fast processing, it retains precise accuracy and preserves legacy simulator results.
-          Faster reservoir simulation enables reservoir engineers to produce many realizations,
-          address larger models, and use advanced physics. It opens new workflows based on
-          ensemble methodologies for history matching and forecasting that yield
-          increased accuracy and more predictive results.
 
       * - Benchmark
         - `rocHPL <https://github.com/amd/InfinityHub-CI/tree/main/rochpl>`_
@@ -240,6 +221,10 @@ Ubuntu versions.
         - Base container for GPU-aware MPI with ROCm for HPC applications. This
           project provides a boilerplate for building and running a Docker
           container with ROCm supporting GPU-aware MPI implementations using MPICH.
+
+      * - 
+        - `AMD ROCm with Conda Environment Container <https://github.com/amd/InfinityHub-CI/tree/main/conda-rocm-environment>`_
+        - Container recipe that uses the `base-gpu-mpi-rocm-docker` as the base and adds Conda. The container can be used as a base for applications that require conda applications.
       
       * -
         - `Kokkos <https://github.com/amd/InfinityHub-CI/tree/main/kokkos>`_
@@ -259,14 +244,6 @@ Ubuntu versions.
           from the Mako templating engine.
 
       * -
-        - `PETSc <https://github.com/amd/InfinityHub-CI/tree/main/petsc>`_
-        - Portable, Extensible Toolkit for Scientific Computation (PETSc) is a suite of data structures
-          and routines for the scalable (parallel) solution of scientific applications modeled by partial
-          differential equations. It supports MPI, GPUs through CUDA, HIP, and OpenCL,
-          as well as hybrid MPI-GPU parallelism. It also supports the NEC-SX Tsubasa Vector Engine.
-          PETSc also includes the Toolkit for Advanced Optimization (TAO) library.
-
-      * -
         - `RAJA <https://github.com/amd/InfinityHub-CI/tree/main/raja>`_
         - RAJA is a library of C++ software abstractions, primarily developed at Lawrence
           Livermore National Laboratory (LLNL), that enables architecture and programming
@@ -277,5 +254,10 @@ Ubuntu versions.
         - The Trilinos Project is an effort to develop algorithms and enabling technologies
           within an object-oriented software framework for the solution of large-scale,
           complex multi-physics engineering and scientific problems.
+
+      * -
+        - `VLLM <https://github.com/amd/InfinityHub-CI/tree/main/vllm>`_
+        - The VLLM project helps to build a Dockerfile for performance testing of the LLAMA2 applications.
+          This Dockerfile uses a base install that includes Ubuntu 20.04, ROCm 6.1.2 and Python 3.9. The container can host the LLAMA2 applications (LLMs) and requires some large input files for testing.
 
 To learn about ROCm for AI applications, see :doc:`../rocm-for-ai/index`.

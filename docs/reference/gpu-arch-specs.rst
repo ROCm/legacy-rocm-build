@@ -629,6 +629,24 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 12
           - 0
         *
+          - Radeon RX 9060
+          - RDNA4
+          - gfx1200
+          - 8
+          - 28
+          - 32 or 64
+          - 128
+          - 32
+          - 4
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0
+        *
           - Radeon RX 7900 XTX
           - RDNA3
           - gfx1100
