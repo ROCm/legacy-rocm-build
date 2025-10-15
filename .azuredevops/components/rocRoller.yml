@@ -37,6 +37,7 @@ parameters:
     - git
     - ninja-build
     - wget
+    - libblas-dev
     - libboost-program-options-dev
     - libboost-filesystem-dev
     - libcli11-dev
