@@ -39,6 +39,7 @@ parameters:
     - wget
     - libboost-program-options-dev
     - libboost-filesystem-dev
+    - libcli11-dev
     - libdivide-dev
     - liblapack-dev
     - libmsgpack-dev
