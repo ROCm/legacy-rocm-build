@@ -18,6 +18,6 @@ trigger: none
 pr: none
 
 jobs:
-  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/cli11lib.yml
+  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/cli11.yml
     parameters:
       cli11Version: ${{ parameters.cli11Version }}
