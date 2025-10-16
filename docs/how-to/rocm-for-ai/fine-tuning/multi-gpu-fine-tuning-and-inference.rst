@@ -3,11 +3,11 @@
    :keywords: ROCm, LLM, fine-tuning, usage, tutorial, multi-GPU, distributed, inference, accelerators, PyTorch, HuggingFace, torchtune
 
 *****************************************************
-Fine-tuning and inference using multiple accelerators
+Fine-tuning and inference using multiple GPUs
 *****************************************************
 
 This section explains how to fine-tune a model on a multi-accelerator system. See
-:doc:`Single-accelerator fine-tuning <single-gpu-fine-tuning-and-inference>` for a single accelerator or GPU setup.
+:doc:`Single-accelerator fine-tuning <single-gpu-fine-tuning-and-inference>` for a single GPU setup.
 
 .. _fine-tuning-llms-multi-gpu-env:
 
@@ -20,7 +20,7 @@ This section was tested using the following hardware and software environment.
    :stub-columns: 1
 
    * - Hardware
-     - 4 AMD Instinct MI300X accelerators
+     - 4 AMD Instinct MI300X GPUs
 
    * - Software
      - ROCm 6.1, Ubuntu 22.04, PyTorch 2.1.2, Python 3.10
@@ -40,13 +40,13 @@ Setting up the base implementation environment
    :doc:`PyTorch installation guide <rocm-install-on-linux:install/3rd-party/pytorch-install>`. For consistent
    installation, it’s recommended to use official ROCm prebuilt Docker images with the framework pre-installed.
 
-#. In the Docker container, check the availability of ROCM-capable accelerators using the following command.
+#. In the Docker container, check the availability of ROCm-capable GPUs using the following command.
 
    .. code-block:: shell
 
       rocm-smi --showproductname
 
-#. Check that your accelerators are available to PyTorch.
+#. Check that your GPUs are available to PyTorch.
 
    .. code-block:: python
 
@@ -66,7 +66,7 @@ Setting up the base implementation environment
 .. tip::
 
    During training and inference, you can check the memory usage by running the ``rocm-smi`` command in your terminal.
-   This tool helps you see shows which accelerators or GPUs are involved.
+   This tool helps you see shows which GPUs are involved.
 
 
 .. _fine-tuning-llms-multi-gpu-hugging-face-accelerate:
@@ -74,9 +74,9 @@ Setting up the base implementation environment
 Hugging Face Accelerate for fine-tuning and inference
 ===========================================================
 
-`Hugging Face Accelerate <https://huggingface.co/docs/accelerate/en/index>`_ is a library that simplifies turning raw
-PyTorch code for a single accelerator into code for multiple accelerators for LLM fine-tuning and inference. It is
-integrated with `Transformers <https://huggingface.co/docs/transformers/en/index>`_ allowing you to scale your PyTorch
+`Hugging Face Accelerate <https://huggingface.co/docs/accelerate/en/index>`__ is a library that simplifies turning raw
+PyTorch code for a single GPU into code for multiple GPUs for LLM fine-tuning and inference. It is
+integrated with `Transformers <https://huggingface.co/docs/transformers/en/index>`__, so you can scale your PyTorch
 code while maintaining performance and flexibility.
 
 As a brief example of model fine-tuning and inference using multiple GPUs, let's use Transformers and load in the Llama
@@ -107,7 +107,7 @@ Now, it's important to adjust how you load the model. Add the ``device_map`` par
    (``"auto"``, ``"balanced"``, ``"balanced_low_0"``, ``"sequential"``).
 
    It's recommended to set the ``device_map`` parameter to ``“auto”`` to allow Accelerate to automatically and
-   efficiently allocate the model given the available resources (4 accelerators in this case).
+   efficiently allocate the model given the available resources (four GPUs in this case).
 
    When you have more GPU memory available than the model size, here is the difference between each ``device_map``
    option:
@@ -130,8 +130,8 @@ After loading the model in this way, the model is fully ready to use the resourc
 torchtune for fine-tuning and inference
 =============================================
 
-`torchtune <https://pytorch.org/torchtune/main/>`_ is a PyTorch-native library for easy single and multi-accelerator or
-GPU model fine-tuning and inference with LLMs.
+`torchtune <https://pytorch.org/torchtune/main/>`_ is a PyTorch-native library for easy single and multi-GPU 
+model fine-tuning and inference with LLMs.
 
 #. Install torchtune using pip.
 

@@ -7,14 +7,14 @@ Using ROCm for HPC
 ******************
 
 The ROCm open-source software stack is optimized to extract high-performance
-computing (HPC) workload performance from AMD Instinct™ accelerators
+computing (HPC) workload performance from AMD Instinct™ GPUs
 while maintaining compatibility with industry software frameworks.
 
 ROCm enhances support and access for developers by providing streamlined and
 improved tools that significantly increase productivity. Being open-source, ROCm
 fosters innovation, differentiation, and collaboration within the developer
 community, making it a powerful and accessible solution for leveraging the full
-potential of AMD accelerators' capabilities in diverse computational
+potential of AMD GPUs' capabilities in diverse computational
 applications.
 
 * For more information, see :doc:`What is ROCm? <../../what-is-rocm>`.
@@ -24,7 +24,7 @@ applications.
   and operating system support.
 
 Some of the most popular HPC frameworks are part of the ROCm platform, including
-those to help parallelize operations across multiple accelerators and servers,
+those to help parallelize operations across multiple GPUs and servers,
 handle memory hierarchies, and solve linear systems.
 
 .. image:: ../../data/how-to/rocm-for-hpc/hpc-stack-2024_6_20.png
@@ -38,7 +38,7 @@ science, genomics, geophysics, molecular dynamics, and physics computing.
 
 Refer to the resources in the following table for instructions on building,
 running, and deploying these applications on ROCm-capable systems with AMD
-Instinct accelerators. Each build container provides parameters to specify
+Instinct GPUs. Each build container provides parameters to specify
 different source code branches, release versions of ROCm, OpenMPI, UCX, and
 Ubuntu versions.
 
@@ -96,7 +96,7 @@ Ubuntu versions.
       * - 
         - `QUDA <https://github.com/amd/InfinityHub-CI/tree/main/quda>`_
         - Library designed for efficient lattice QCD computations on
-          accelerators. It includes optimized Dirac operators and a variety of
+          GPUs. It includes optimized Dirac operators and a variety of
           fermion solvers and conjugate gradient (CG) implementations, enhancing
           performance and accuracy in lattice QCD simulations.
 

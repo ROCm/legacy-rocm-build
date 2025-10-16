@@ -4116,7 +4116,7 @@ memory partition modes upon an invalid argument return from memory partition mod
 
 - JSON output plugin for `rocprofv2`. The JSON file matches Google Trace Format making it easy to load on Perfetto, Chrome tracing, or Speedscope. For Speedscope, use `--disable-json-data-flows` option as speedscope doesn't work with data flows.
 - `--no-serialization` flag to disable kernel serialization when `rocprofv2` is in counter collection mode. This allows `rocprofv2` to avoid deadlock when profiling certain programs in counter collection mode.
-- `FP64_ACTIVE` and `ENGINE_ACTIVE` metrics to AMD Instinct MI300 accelerator
+- `FP64_ACTIVE` and `ENGINE_ACTIVE` metrics to AMD Instinct MI300 GPU
 - New HIP APIs with struct defined inside union.
 - Early checks to confirm the eligibility of ELF file in ATT plugin
 - Support for kernel name filtering in `rocprofv2`
@@ -4140,18 +4140,18 @@ memory partition modes upon an invalid argument return from memory partition mod
 
 #### Resolved issues
 
-- Bandwidth measurement in AMD Instinct MI300 accelerator
+- Bandwidth measurement in AMD Instinct MI300 GPU
 - Perfetto plugin issue of `roctx` trace not getting displayed
 - `--help` for counter collection
 - Signal management issues in `queue.cpp`
 - Perfetto tracks for multi-GPU
 - Perfetto plugin usage with `rocsys`
 - Incorrect number of columns in the output CSV files for counter collection and kernel tracing
-- The ROCProfiler hang issue when running kernel trace, thread trace, or counter collection on Iree benchmark for AMD Instinct MI300 accelerator
+- The ROCProfiler hang issue when running kernel trace, thread trace, or counter collection on Iree benchmark for AMD Instinct MI300 GPU
 - Build errors thrown during parsing of unions
 - The system hang caused while running `--kernel-trace` with Perfetto for certain applications
 - Missing profiler records issue caused while running `--trace-period`
-- The hang issue of `ProfilerAPITest` of `runFeatureTests` on AMD Instinct MI300 accelerator
+- The hang issue of `ProfilerAPITest` of `runFeatureTests` on AMD Instinct MI300 GPU
 - Segmentation fault on Navi32
 
 
@@ -5548,7 +5548,7 @@ See [issue #3499](https://github.com/ROCm/ROCm/issues/3499) on GitHub.
   intermediary script to call the application with the necessary arguments, then call the script with Omniperf. This
   issue is fixed in a future release of Omniperf. See [#347](https://github.com/ROCm/rocprofiler-compute/issues/347).
 
-- Omniperf might not work with AMD Instinct MI300 accelerators out of the box, resulting in the following error:
+- Omniperf might not work with AMD Instinct MI300 GPUs out of the box, resulting in the following error:
   "*ERROR gfx942 is not enabled rocprofv1. Available profilers include: ['rocprofv2']*". As a workaround, add the
   environment variable `export ROCPROF=rocprofv2`.
 
@@ -5664,7 +5664,7 @@ See [issue #3498](https://github.com/ROCm/ROCm/issues/3498) on GitHub.
 
 #### Optimized
 
-* Improved performance of Level 1 `dot_batched` and `dot_strided_batched` for all precisions. Performance enhanced by 6 times for bigger problem sizes, as measured on an Instinct MI210 accelerator.
+* Improved performance of Level 1 `dot_batched` and `dot_strided_batched` for all precisions. Performance enhanced by 6 times for bigger problem sizes, as measured on an Instinct MI210 GPU.
 
 #### Removed
 

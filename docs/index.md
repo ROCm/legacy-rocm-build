@@ -8,7 +8,7 @@ myst:
 # AMD ROCm documentation
 
 ROCm is an open-source software platform optimized to extract HPC and AI workload
-performance from AMD Instinct accelerators and AMD Radeon GPUs while maintaining
+performance from AMD Instinct GPUs and AMD Radeon GPUs while maintaining
 compatibility with industry software frameworks. For more information, see
 [What is ROCm?](./what-is-rocm.rst)
 
@@ -64,7 +64,7 @@ ROCm documentation is organized into the following categories:
 <!-- markdownlint-disable MD051 -->
 * [ROCm libraries](./reference/api-libraries.md)
 * [ROCm tools, compilers, and runtimes](./reference/rocm-tools.md)
-* [Accelerator and  GPU hardware specifications](./reference/gpu-arch-specs.rst)
+* [GPU hardware specifications](./reference/gpu-arch-specs.rst)
 * [Data types and precision support](./reference/precision-support.rst)
 * [Graph safe support](./reference/graph-safe-support.rst)
 <!-- markdownlint-enable MD051 -->

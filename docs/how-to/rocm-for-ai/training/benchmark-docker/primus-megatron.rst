@@ -17,7 +17,7 @@ Primus is backend-agnostic and supports multiple training engines -- including M
    To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
    see :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 
-For ease of use, AMD provides a ready-to-use Docker image for MI300 series GPUs
+For ease of use, AMD provides a ready-to-use Docker image for MI300 Series GPUs
 containing essential components for Primus and Megatron-LM. This Docker is powered by Primus
 Turbo optimizations for performance; this release adds support for Primus Turbo
 with optimized attention and grouped GEMM kernels.
@@ -47,7 +47,7 @@ with optimized attention and grouped GEMM kernels.
 Supported models
 ================
 
-The following models are pre-optimized for performance on AMD Instinct MI300X series GPUs.
+The following models are pre-optimized for performance on AMD Instinct MI300X Series GPUs.
 Some instructions, commands, and training examples in this documentation might
 vary by model -- select one to get started.
 
@@ -114,7 +114,7 @@ Environment setup
       {% set docker = dockers[0] %}
 
    Use the following instructions to set up the environment, configure the script to train models, and
-   reproduce the benchmark results on MI300X series GPUs with the ``{{ docker.pull_tag }}`` image.
+   reproduce the benchmark results on MI300X Series GPUs with the ``{{ docker.pull_tag }}`` image.
 
    .. _amd-primus-megatron-lm-requirements:
 
@@ -234,7 +234,7 @@ Run training
 
 Use the following example commands to set up the environment, configure
 :ref:`key options <amd-primus-megatron-lm-benchmark-test-vars>`, and run training on
-MI300X series GPUs with the AMD Megatron-LM environment.
+MI300X Series GPUs with the AMD Megatron-LM environment.
 
 Single node training
 --------------------
@@ -649,7 +649,7 @@ Further reading
   Framework for Large Models on AMD GPUs <https://rocm.blogs.amd.com/software-tools-optimization/primus/README.html>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  AMD Instinct MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - For a list of other ready-made Docker images for AI with ROCm, see
   `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.

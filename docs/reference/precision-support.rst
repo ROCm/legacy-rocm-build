@@ -9,7 +9,7 @@
 Data types and precision support
 *************************************************************
 
-This topic summarizes the data types supported on AMD GPUs and accelerators and
+This topic summarizes the data types supported on AMD GPUs and
 ROCm libraries, along with corresponding :doc:`HIP <hip:index>` data types.
 
 Integral types

@@ -10,7 +10,7 @@ Running models from Hugging Face
 transformer models. Hugging Face models and tools significantly enhance productivity, performance, and accessibility in
 developing and deploying AI solutions.
 
-This section describes how to run popular community transformer models from Hugging Face on AMD accelerators and GPUs.
+This section describes how to run popular community transformer models from Hugging Face on AMD GPUs.
 
 .. _rocm-for-ai-hugging-face-transformers:
 
@@ -62,11 +62,11 @@ Using Hugging Face with Optimum-AMD
 
 Optimum-AMD is the interface between Hugging Face libraries and the ROCm software stack.
 
-For a deeper dive into using Hugging Face libraries on AMD accelerators and GPUs, refer to the
+For a deeper dive into using Hugging Face libraries on AMD GPUs, refer to the
 `Optimum-AMD <https://huggingface.co/docs/optimum/main/en/amd/amdgpu/overview>`_ page on Hugging Face for guidance on
 using Flash Attention 2, GPTQ quantization and the ONNX Runtime integration.
 
-Hugging Face libraries natively support AMD Instinct accelerators. For other
+Hugging Face libraries natively support AMD Instinct GPUs. For other
 :doc:`ROCm-capable hardware <rocm-install-on-linux:reference/system-requirements>`, support is currently not
 validated, but most features are expected to work without issues.
 
@@ -139,7 +139,7 @@ To enable `GPTQ <https://arxiv.org/abs/2210.17323>`_, hosted wheels are availabl
 
       pip install auto-gptq --no-build-isolation --extra-index-url https://huggingface.github.io/autogptq-index/whl/rocm573/
 
-   Or, to install from source for AMD accelerators supporting ROCm, specify the ``ROCM_VERSION`` environment variable.
+   Or, to install from source for AMD GPUs supporting ROCm, specify the ``ROCM_VERSION`` environment variable.
 
    .. code-block:: shell
 
