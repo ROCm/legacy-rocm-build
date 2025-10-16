@@ -417,7 +417,7 @@ Key features and enhancements for PyTorch 2.7 with ROCm 7.0
 
 - Expanded GPU architecture support: Provides optimized support for newer GPU
   architectures, including gfx1200 and gfx1201 with preferred hipBLASLt backend
-  selection, along with improvements for gfx950 and gfx1100 series of GPUs.
+  selection, along with improvements for gfx950 and gfx1100 Series GPUs.
 
 - Advanced Triton Integration: AOTriton 0.10b introduces official support for
   gfx950 and gfx1201, along with experimental support for gfx1101, gfx1151,
