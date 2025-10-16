@@ -520,6 +520,7 @@ UAC
 UC
 UCC
 UCX
+ud
 UE
 UIF
 UMC
@@ -829,6 +830,7 @@ pallas
 parallelization
 parallelizing
 param
+params
 parameterization
 passthrough
 pe
@@ -1036,6 +1038,8 @@ writebacks
 wrreq
 wzo
 xargs
+xdit
+xDiT
 xGMI
 xPacked
 xz
