@@ -5,7 +5,7 @@ parameters:
 - name: checkoutRef
   type: string
   default: ''
-- name: yaml-cppVersion
+- name: yamlcppVersion
   type: string
   default: ''
 - name: aptPackages
@@ -24,7 +24,7 @@ parameters:
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: yaml-cpp_${{ job.os }}
+  - job: yamlcpp_${{ job.os }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
@@ -44,10 +44,10 @@ jobs:
         packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - task: Bash@3
-      displayName: Clone yaml-cpp ${{ parameters.yaml-cppVersion }}
+      displayName: Clone yaml-cpp ${{ parameters.yamlcppVersion }}
       inputs:
         targetType: inline
-        script: git clone  https://github.com/jbeder/yaml-cpp.git -b ${{ parameters.yaml-cppVersion }}
+        script: git clone  https://github.com/jbeder/yaml-cpp.git -b ${{ parameters.yamlcppVersion }}
         workingDirectory: $(Agent.BuildDirectory)
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
