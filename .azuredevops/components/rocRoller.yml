@@ -39,7 +39,6 @@ parameters:
     - liblapack-dev
     - libmsgpack-dev
     - libopenblas-dev
-    - libyaml-cpp-dev
     - ninja-build
 - name: pipModules
   type: object
@@ -141,6 +140,7 @@ jobs:
           - gtest
           - libdivide
           - spdlog
+          - yaml-cpp
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
