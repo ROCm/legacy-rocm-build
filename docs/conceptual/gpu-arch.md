@@ -15,7 +15,7 @@
 :::{grid-item-card}
 **AMD Instinct MI300 Series**
 
-Review hardware aspects of the AMD Instinct™ MI300 Series of GPUs and the CDNA™ 3
+Review hardware aspects of the AMD Instinct™ MI300 Series GPUs and the CDNA™ 3
 architecture.
 
 * [AMD Instinct™ MI300 microarchitecture](./gpu-arch/mi300.md)
