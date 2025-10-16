@@ -55,7 +55,7 @@ jobs:
         os: ${{ job.os }}
         cmakeBuildDir: $(Agent.BuildDirectory)/fmt/build
         cmakeSourceDir: $(Agent.BuildDirectory)/fmt
-        useAmdclang: false
+        useAmdclang: true
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -DFMT_SYSTEM_HEADERS=ON
