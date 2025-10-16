@@ -40,7 +40,7 @@ Setting up the base implementation environment
    :doc:`PyTorch installation guide <rocm-install-on-linux:install/3rd-party/pytorch-install>`. For consistent
    installation, it’s recommended to use official ROCm prebuilt Docker images with the framework pre-installed.
 
-#. In the Docker container, check the availability of ROCM-capable GPUs using the following command.
+#. In the Docker container, check the availability of ROCm-capable GPUs using the following command.
 
    .. code-block:: shell
 
