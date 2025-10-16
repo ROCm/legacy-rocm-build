@@ -57,6 +57,9 @@ jobs:
         useAmdclang: true
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
+          -DYAML_CPP_BUILD_TOOLS=OFF
+          -DYAML_BUILD_SHARED_LIBS=OFF
+          -DYAML_CPP_INSTALL=ON
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
