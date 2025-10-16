@@ -54,7 +54,7 @@ jobs:
         os: ${{ job.os }}
         cmakeBuildDir: $(Agent.BuildDirectory)/yaml-cpp/build
         cmakeSourceDir: $(Agent.BuildDirectory)/yaml-cpp
-        useAmdclang: true
+        useAmdclang: false
         extraBuildFlags: >-
           -DCMAKE_BUILD_TYPE=Release
           -DYAML_CPP_BUILD_TOOLS=OFF
