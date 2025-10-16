@@ -54,8 +54,13 @@ jobs:
         os: ${{ job.os }}
         cmakeBuildDir: $(Agent.BuildDirectory)/yaml-cpp/build
         cmakeSourceDir: $(Agent.BuildDirectory)/yaml-cpp
-        useAmdclang: false
+        useAmdclang: true
         extraBuildFlags: >-
+          -DCMAKE_INCLUDE_PATH=$(Agent.BuildDirectory)/rocm/llvm/include
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+          -DAMDGPU_TARGETS=${{ job.target }}
+          -DGPU_TARGETS=${{ job.target }}
           -DCMAKE_BUILD_TYPE=Release
           -DYAML_CPP_BUILD_TOOLS=OFF
           -DYAML_BUILD_SHARED_LIBS=OFF
