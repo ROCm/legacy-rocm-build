@@ -102,7 +102,7 @@ struct AddRelu
 
 #### Tunable parameters  
 
-The CK instance includes a Series of tunable template parameters to control the parallel granularity of the workload to achieve load balancing on different hardware platforms.
+The CK instance includes a series of tunable template parameters to control the parallel granularity of the workload to achieve load balancing on different hardware platforms.
 
 These parameters include Block Size, M/N/K Per Block, M/N per XDL, AK1, BK1, etc.
 
