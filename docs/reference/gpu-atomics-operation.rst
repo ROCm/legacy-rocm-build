@@ -215,7 +215,7 @@ AMD gfx generic targets
 GPUs atomics support
 ================================================================================
 
-This section presents a Series of tables that show the level of atomic
+This section presents a series of tables that show the level of atomic
 operations support for the different hardware devices described above, and
 different datatypes, different operations and different scopes.
 
