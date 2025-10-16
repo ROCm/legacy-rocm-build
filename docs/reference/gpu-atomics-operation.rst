@@ -16,7 +16,7 @@ behavior.
 
 This topic summarizes the support of atomic read-modify-write
 (atomicRMW) operations on AMD GPUs. This includes gfx9, gfx10,
-gfx11, and gfx12 targets and the following Series of Instinct™ Series:
+gfx11, and gfx12 targets and the following Instinct™ Series:
 
 - MI100
 
