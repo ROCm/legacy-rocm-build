@@ -33,19 +33,14 @@ parameters:
   type: object
   default:
     - ccache
-    - cmake
     - git
-    - ninja-build
-    - wget
-    - libblas-dev
     - libboost-program-options-dev
     - libboost-filesystem-dev
-    - libcli11-dev
-    - libdivide-dev
     - liblapack-dev
     - libmsgpack-dev
     - libopenblas-dev
     - libyaml-cpp-dev
+    - ninja-build
 - name: pipModules
   type: object
   default:
