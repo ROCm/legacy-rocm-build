@@ -14,6 +14,11 @@ parameters:
     - cmake
     - git
     - ninja-build
+- name: rocmDependencies
+  type: object
+  default:
+    - aomp
+    - clr
 
 - name: jobMatrix
   type: object
