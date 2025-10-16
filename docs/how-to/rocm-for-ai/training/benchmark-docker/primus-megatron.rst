@@ -116,9 +116,6 @@ system's configuration.
 Environment setup
 =================
 
-Environment setup
-=================
-
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
    Use the following instructions to set up the environment, configure the script to train models, and
