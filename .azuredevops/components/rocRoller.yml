@@ -156,8 +156,8 @@ jobs:
           cd $(Agent.BuildDirectory)/temp-deps
           git clone https://github.com/Reference-LAPACK/lapack-release -b lapack-3.9.1 lapack
           cd lapack
-          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCBLAS=ON -DLAPACKE=OFF -DBUILD_TESTING=OFF -DCMAKE_INSTALL_LIBDIR=lib -B build -S .
-          cmake --build build --parallel --target install
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCBLAS=ON -DLAPACKE=OFF -DBUILD_TESTING=OFF -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=OFF -B build -S .
+          sudo cmake --build build --parallel --target install
     - script: |
         mkdir -p $(CCACHE_DIR)
         echo "##vso[task.prependpath]/usr/lib/ccache"
