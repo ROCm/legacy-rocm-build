@@ -17,6 +17,7 @@ parameters:
     lapack: 69
     libdivide: 342
     spdlog: 340
+    yaml-cpp: 368
 
 steps:
 - ${{ each dependency in parameters.dependencyList }}:
