@@ -4,9 +4,123 @@ This page is a historical overview of changes made to ROCm components. This
 consolidated changelog documents key modifications and improvements across
 different versions of the ROCm software stack and its components.
 
+## ROCm 7.0.2
+
+See the [ROCm 7.0.2 release notes](https://rocm.docs.amd.com/en/docs-7.0.2/about/release-notes.html#rocm-7-0-2-release-notes)
+for a complete overview of this release.
+
+### **AMD SMI** (26.0.2)
+
+#### Added
+
+* Added `bad_page_threshold_exceeded` field to `amd-smi static --ras`, which compares retired pages count against bad page threshold. This field displays `True` if retired pages exceed the threshold, `False` if within threshold, or `N/A` if threshold data is unavailable. Note that `sudo` is required to have the `bad_page_threshold_exceeded` field populated.
+
+#### Removed
+
+* Removed gpuboard and baseboard temperatures enums in amdsmi Python Library.
+    * `AmdSmiTemperatureType` had issues with referencing the correct attribute. As such, the following duplicate enums have been removed:
+        - `AmdSmiTemperatureType.GPUBOARD_NODE_FIRST`
+        - `AmdSmiTemperatureType.GPUBOARD_VR_FIRST`
+        - `AmdSmiTemperatureType.BASEBOARD_FIRST`
+
+#### Resolved Issues
+
+* Fixed `attribute error` in `amd-smi monitor` on Linux Guest systems, where the violations argument caused CLI to break.
+* Fixed certain output in `amd-smi monitor` when GPUs are partitioned.  
+  * It fixes the amd-smi monitor such as: `amd-smi monitor -Vqt`, `amd-smi monitor -g 0 -Vqt -w 1`, `amd-smi monitor -Vqt --file /tmp/test1`, etc. These commands will now be able to display as normal in partitioned GPU scenarios.
+
+* Fixed an issue where using `amd-smi ras --folder <folder_name>` was forcing the created folder's name to be lowercase. This fix also allows all string input options to be case insensitive.
+
+* Fixed an issue of some processes not being detected by AMD SMI despite making use of KFD resources. This fix, with the addition of KFD Fallback for process detection, ensures that all KFD processes will be detected.
+
+* Multiple CPER issues were fixed.  
+  - Issue of being unable to query for additional CPERs after 20 were generated on a single device.
+  - Issue where the RAS HBM CRC read was failing due to an incorrect AFID value.
+  - Issue where RAS injections were not consistently producing related CPERs.
+
+### **HIP** (7.0.2)
+
+#### Added
+
+* Support for the `hipMemAllocationTypeUncached` flag, enabling developers to allocate uncached memory. This flag is now supported in the following APIs:
+    - `hipMemGetAllocationGranularity` determines the recommended allocation granularity for uncached memory.
+    - `hipMemCreate` allocates memory with uncached properties.
+
+#### Resolved issues
+
+* A compilation failure affecting applications that compile kernels using `hiprtc` with the compiler option `std=c++11`.
+* A permission-related error occurred during the execution of `hipLaunchHostFunc`. This API is now supported and permitted to run during stream capture, aligning its behavior with CUDA.
+* A numerical error during graph capture of kernels that rely on a remainder in `globalWorkSize`, in frameworks like MIOpen and PyTorch, where the grid size is not a multiple of the block size. To ensure correct replay behavior, HIP runtime now stores this remainder in `hip::GraphKernelNode` during `hipExtModuleLaunchKernel` capture, enabling accurate execution and preventing corruption.
+* A page fault occurred during viewport rendering while running the file undo.blend in Blender. The issue was resolved by the HIP runtime, which reused the same context during image creation.
+* Resolved a segmentation fault in `gpu_metrics`, which is used in threshold logic for command submission patches to GPU device(s) during CPU synchronization.
+
+### **hipBLAS** (3.0.2)
+ 
+#### Added
+ 
+* Enabled support for gfx1150, gfx1151, gfx1200, and gfx1201 AMD hardware.
+
+### **RCCL** (2.26.6)
+
+#### Added
+
+* Enabled double-buffering in `reduceCopyPacks` to trigger pipelining, especially to overlap bf16 arithmetic.
+* Added `--force-reduce-pipeline` as an option that can be passed to the `install.sh` script. Passing this option will enable software-triggered pipelining `bfloat16` reductions (that is, `all_reduce`, `reduce_scatter`, and `reduce`).
+
+### **rocBLAS** (5.0.2)
+ 
+#### Added
+ 
+* Enabled gfx1150 and gfx1151.
+* The `ROCBLAS_USE_HIPBLASLT_BATCHED` variable to independently control the batched hipblaslt backend. Set `ROCBLAS_USE_HIPBLASLT_BATCHED=0` to disable batched GEMM use of the hipblaslt backend.
+
+#### Resolved issues
+ 
+* Set the imaginary portion of the main diagonal of the output matrix to zero in syrk and herk.
+
+### **ROCdbgapi** (0.77.4)
+
+#### Added
+
+* ROCdbgapi documentation link in the README.md file.
+
+### **ROCm Systems Profiler** (1.1.1)
+
+#### Resolved issues
+
+* Fixed an issue where ROC-TX ranges were displayed as two separate events instead of a single spanning event.
+
+### **rocPRIM** (4.0.1)
+
+#### Resolved issues
+
+* Fixed compilation issue when using `rocprim::texture_cache_iterator`.
+* Fixed a HIP version check used to determine whether `hipStreamLegacy` is supported. This resolves runtime errors that occur when `hipStreamLegacy` is used in ROCm 7.0.0 and later.
+
+### **rocSPARSE** (4.0.3)
+
+#### Resolved issues
+
+* Fixed an issue causing premature deallocation of internal buffers while still in use.
+
+### **rocSOLVER** (3.30.1)
+
+#### Optimized
+
+Improved the performance of:
+
+* LARFT and downstream functions such as GEQRF and ORMTR.
+* LARF and downstream functions such as GEQR2.
+* ORMTR and downstream functions such as SYEVD.
+* GEQR2 and downstream functions such as GEQRF.
+
+## ROCm 7.0.1
+
+ROCm 7.0.1 is a quality release that resolves the existing issue. There is no change in component from the previous ROCm 7.0.0 release. See the [ROCm 7.0.1 release notes](https://rocm.docs.amd.com/en/docs-7.0.1/about/release-notes.html#rocm-7-0-1-release-notes) for a complete overview of this release.
+
 ## ROCm 7.0.0
 
-See the [ROCm 7.0.0 release notes](https://rocm-stg.amd.com/en/latest/about/release-notes.html#rocm-7-0-0-release-notes)
+See the [ROCm 7.0.0 release notes](https://rocm.docs.amd.com/en/docs-7.0.0/about/release-notes.html#rocm-7-0-0-release-notes)
 for a complete overview of this release.
 
 ### **AMD SMI** (26.0.0)
@@ -798,11 +912,15 @@ HIP runtime has the following functional improvements which improves runtime per
 * Compatibility with NCCL 2.25.1.
 * Compatibility with NCCL 2.26.6.
 
+#### Optimized
+* Improved the performance of the `FP8` Sum operation by upcasting to `FP16`.
+
 #### Resolved issues
 
 * Resolved an issue when using more than 64 channels when multiple collectives are used in the same `ncclGroup()` call.
 * Fixed unit test failures in tests ending with the `ManagedMem` and `ManagedMemGraph` suffixes.
 * Fixed a suboptimal algorithmic switching point for AllReduce on the AMD Instinct MI300X.
+* Fixed broken functionality within the LL protocol on gfx950 by disabling inlining of LLGenericOp kernels.
 * Fixed the known issue "When splitting a communicator using `ncclCommSplit` in some GPU configurations, MSCCL initialization can cause a segmentation fault" with a design change to use `comm` instead of `rank` for `mscclStatus`. The global map for `comm` to `mscclStatus` is still not thread safe but should be explicitly handled by mutexes for read-write operations. This is tested for correctness, but there is a plan to use a thread-safe map data structure in an upcoming release.
 
 ### **rocAL** (2.3.0)
@@ -3998,7 +4116,7 @@ memory partition modes upon an invalid argument return from memory partition mod
 
 - JSON output plugin for `rocprofv2`. The JSON file matches Google Trace Format making it easy to load on Perfetto, Chrome tracing, or Speedscope. For Speedscope, use `--disable-json-data-flows` option as speedscope doesn't work with data flows.
 - `--no-serialization` flag to disable kernel serialization when `rocprofv2` is in counter collection mode. This allows `rocprofv2` to avoid deadlock when profiling certain programs in counter collection mode.
-- `FP64_ACTIVE` and `ENGINE_ACTIVE` metrics to AMD Instinct MI300 accelerator
+- `FP64_ACTIVE` and `ENGINE_ACTIVE` metrics to AMD Instinct MI300 GPU
 - New HIP APIs with struct defined inside union.
 - Early checks to confirm the eligibility of ELF file in ATT plugin
 - Support for kernel name filtering in `rocprofv2`
@@ -4022,18 +4140,18 @@ memory partition modes upon an invalid argument return from memory partition mod
 
 #### Resolved issues
 
-- Bandwidth measurement in AMD Instinct MI300 accelerator
+- Bandwidth measurement in AMD Instinct MI300 GPU
 - Perfetto plugin issue of `roctx` trace not getting displayed
 - `--help` for counter collection
 - Signal management issues in `queue.cpp`
 - Perfetto tracks for multi-GPU
 - Perfetto plugin usage with `rocsys`
 - Incorrect number of columns in the output CSV files for counter collection and kernel tracing
-- The ROCProfiler hang issue when running kernel trace, thread trace, or counter collection on Iree benchmark for AMD Instinct MI300 accelerator
+- The ROCProfiler hang issue when running kernel trace, thread trace, or counter collection on Iree benchmark for AMD Instinct MI300 GPU
 - Build errors thrown during parsing of unions
 - The system hang caused while running `--kernel-trace` with Perfetto for certain applications
 - Missing profiler records issue caused while running `--trace-period`
-- The hang issue of `ProfilerAPITest` of `runFeatureTests` on AMD Instinct MI300 accelerator
+- The hang issue of `ProfilerAPITest` of `runFeatureTests` on AMD Instinct MI300 GPU
 - Segmentation fault on Navi32
 
 
@@ -5430,7 +5548,7 @@ See [issue #3499](https://github.com/ROCm/ROCm/issues/3499) on GitHub.
   intermediary script to call the application with the necessary arguments, then call the script with Omniperf. This
   issue is fixed in a future release of Omniperf. See [#347](https://github.com/ROCm/rocprofiler-compute/issues/347).
 
-- Omniperf might not work with AMD Instinct MI300 accelerators out of the box, resulting in the following error:
+- Omniperf might not work with AMD Instinct MI300 GPUs out of the box, resulting in the following error:
   "*ERROR gfx942 is not enabled rocprofv1. Available profilers include: ['rocprofv2']*". As a workaround, add the
   environment variable `export ROCPROF=rocprofv2`.
 
@@ -5546,7 +5664,7 @@ See [issue #3498](https://github.com/ROCm/ROCm/issues/3498) on GitHub.
 
 #### Optimized
 
-* Improved performance of Level 1 `dot_batched` and `dot_strided_batched` for all precisions. Performance enhanced by 6 times for bigger problem sizes, as measured on an Instinct MI210 accelerator.
+* Improved performance of Level 1 `dot_batched` and `dot_strided_batched` for all precisions. Performance enhanced by 6 times for bigger problem sizes, as measured on an Instinct MI210 GPU.
 
 #### Removed
 

@@ -60,7 +60,7 @@ accelerate training workloads:
    ================
 
    The following models are supported for training performance benchmarking with Megatron-LM and ROCm
-   on AMD Instinct MI300X series GPUs.
+   on AMD Instinct MI300X Series GPUs.
    Some instructions, commands, and training recommendations in this documentation might
    vary by model -- select one to get started.
 
@@ -137,7 +137,7 @@ Environment setup
 =================
 
 Use the following instructions to set up the environment, configure the script to train models, and
-reproduce the benchmark results on MI300X series GPUs with the AMD Megatron-LM Docker
+reproduce the benchmark results on MI300X Series GPUs with the AMD Megatron-LM Docker
 image.
 
 .. _amd-megatron-lm-requirements:
@@ -502,7 +502,7 @@ Run training
 
 Use the following example commands to set up the environment, configure
 :ref:`key options <amd-megatron-lm-benchmark-test-vars>`, and run training on
-MI300X series GPUs with the AMD Megatron-LM environment.
+MI300X Series GPUs with the AMD Megatron-LM environment.
 
 Single node training
 --------------------

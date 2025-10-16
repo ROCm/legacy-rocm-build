@@ -77,6 +77,7 @@ jobs:
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/rocm/llvm
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
           -DROCM_PATH=$(Agent.BuildDirectory)/rocm
           -DCMAKE_BUILD_TYPE=Release
           -DHIPTENSOR_BUILD_TESTS=ON

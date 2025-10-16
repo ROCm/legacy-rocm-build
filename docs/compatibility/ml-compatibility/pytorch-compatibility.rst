@@ -73,9 +73,9 @@ Use cases and recommendations
 
 * The :doc:`Instinct MI300X workload optimization guide </how-to/rocm-for-ai/inference-optimization/workload>`
   provides detailed guidance on optimizing workloads for the AMD Instinct MI300X
-  accelerator using ROCm. This guide helps users achieve optimal performance for
+  GPU using ROCm. This guide helps users achieve optimal performance for
   deep learning and other high-performance computing tasks on the MI300X
-  accelerator.
+  GPU.
 
 * The :doc:`Inception with PyTorch documentation </conceptual/ai-pytorch-inception>`
   describes how PyTorch integrates with ROCm for AI workloads It outlines the
@@ -417,7 +417,7 @@ Key features and enhancements for PyTorch 2.7 with ROCm 7.0
 
 - Expanded GPU architecture support: Provides optimized support for newer GPU
   architectures, including gfx1200 and gfx1201 with preferred hipBLASLt backend
-  selection, along with improvements for gfx950 and gfx1100 series GPUs.
+  selection, along with improvements for gfx950 and gfx1100 Series GPUs.
 
 - Advanced Triton Integration: AOTriton 0.10b introduces official support for
   gfx950 and gfx1201, along with experimental support for gfx1101, gfx1151,

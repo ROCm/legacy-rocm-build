@@ -10,7 +10,7 @@ Deep learning frameworks provide environments for machine learning, training, fi
 
 ROCm offers a complete ecosystem for developing and running deep learning applications efficiently. It also provides ROCm-compatible versions of popular frameworks and libraries, such as PyTorch, TensorFlow, JAX, and others.
 
-The AMD ROCm organization actively contributes to open-source development and collaborates closely with framework organizations. This collaboration ensures that framework-specific optimizations effectively leverage AMD GPUs and accelerators.
+The AMD ROCm organization actively contributes to open-source development and collaborates closely with framework organizations. This collaboration ensures that framework-specific optimizations effectively leverage AMD GPUs.
 
 The table below summarizes information about ROCm-enabled deep learning frameworks. It includes details on ROCm compatibility and third-party tool support, installation steps and options, and links to GitHub resources. For a complete list of supported framework versions on ROCm, see the :doc:`Compatibility matrix <../compatibility/compatibility-matrix>` topic.
 
@@ -128,9 +128,21 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/llama-cpp-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
         - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/llama-cpp-install.html#use-a-prebuilt-docker-image-with-llama-cpp-pre-installed>`__
+        - `ROCm Base Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/llama-cpp-install.html#build-your-own-docker-image>`__
       - .. raw:: html
 
           <a href="https://github.com/ROCm/llama.cpp"><i class="fab fa-github fa-lg"></i></a>
+
+    * - `FlashInfer <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/flashinfer-compatibility.html>`__
+      - .. raw:: html
+
+          <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/flashinfer-install.html"><i class="fas fa-link fa-lg"></i></a>
+      - 
+        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/flashinfer-install.html#use-a-prebuilt-docker-image-with-flashinfer-pre-installed>`__
+        - `ROCm Base Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/flashinfer-install.html#build-your-own-docker-image>`__
+      - .. raw:: html
+
+          <a href="https://github.com/ROCm/flashinfer"><i class="fab fa-github fa-lg"></i></a>
 
 Learn how to use your ROCm deep learning environment for training, fine-tuning, inference, and performance optimization
 through the following guides.

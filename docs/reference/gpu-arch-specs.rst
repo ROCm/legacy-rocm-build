@@ -1,17 +1,17 @@
 .. meta::
-   :description: AMD Instinct™ accelerator, AMD Radeon PRO™, and AMD Radeon™ GPU architecture information
+   :description: AMD Instinct™ GPU, AMD Radeon PRO™, and AMD Radeon™ GPU architecture information
    :keywords: Instinct, Radeon, accelerator, GCN, CDNA, RDNA, GPU, architecture, VRAM, Compute Units, Cache, Registers, LDS, Register File
 
-Accelerator and GPU hardware specifications
+GPU hardware specifications
 ===========================================
 
-The following tables provide an overview of the hardware specifications for AMD Instinct™ accelerators, and AMD Radeon™ PRO and Radeon™ GPUs.
+The following tables provide an overview of the hardware specifications for AMD Instinct™ GPUs, and AMD Radeon™ PRO and Radeon™ GPUs.
 
 For more information about ROCm hardware compatibility, see the ROCm `Compatibility matrix <https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html>`_.
 
 .. tab-set::
 
-  .. tab-item:: AMD Instinct accelerators
+  .. tab-item:: AMD Instinct GPUs
 
     .. list-table::
         :header-rows: 1
@@ -616,6 +616,24 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - gfx1200
           - 16
           - 32
+          - 32 or 64
+          - 128
+          - 32
+          - 4
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0
+        *
+          - Radeon RX 9060
+          - RDNA4
+          - gfx1200
+          - 8
+          - 28
           - 32 or 64
           - 128
           - 32
