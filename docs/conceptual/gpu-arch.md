@@ -41,7 +41,7 @@ architecture.
 :::{grid-item-card}
 **AMD Instinct MI100**
 
-Review hardware aspects of the AMD Instinct™ MI100 Series of GPUs and the CDNA™ 1
+Review hardware aspects of the AMD Instinct™ MI100 Series GPUs and the CDNA™ 1
 architecture.
 
 * [AMD Instinct™ MI100 microarchitecture](./gpu-arch/mi100.md)
