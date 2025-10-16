@@ -58,7 +58,7 @@ jobs:
         os: ${{ job.os }}
         cmakeBuildDir: $(Agent.BuildDirectory)/spdlog/build
         cmakeSourceDir: $(Agent.BuildDirectory)/spdlog
-        useAmdclang: false
+        useAmdclang: true
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/vendor
           -DCMAKE_BUILD_TYPE=Release
