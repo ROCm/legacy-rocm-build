@@ -88,7 +88,8 @@ xDiT video inference
         - Add support for Wan 2.1, Wan 2.2 and HunyanVideo with MIOpen optimizations
 
     .. admonition:: OOB Tuning
-        Currently only MI300X has been tuned. Other gfx942 variants might not perform optimally out-of-the-box.
+
+        Currently only MI300X has been tuned for in the gfx942 series. Other variants might not perform optimally out-of-the-box.
 
     Validate and Benchmark
     ======================
