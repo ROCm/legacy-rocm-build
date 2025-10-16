@@ -3,7 +3,7 @@ variables:
 - template: /.azuredevops/variables-global.yml
 
 parameters:
-- name: yaml-cppVersion
+- name: yamlcppVersion
   type: string
   default: "0.8.0"
 
@@ -18,7 +18,7 @@ trigger: none
 pr: none
 
 jobs:
-  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/yaml-cpp.yml
+  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/yamlcpp.yml
     parameters:
-      yaml-cppVersion: ${{ parameters.yaml-cppVersion }}
+      yamlcppVersion: ${{ parameters.yamlcppVersion }}
       
