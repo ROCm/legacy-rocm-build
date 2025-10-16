@@ -36,9 +36,7 @@ parameters:
     - git
     - libboost-program-options-dev
     - libboost-filesystem-dev
-    - liblapack-dev
     - libmsgpack-dev
-    - libopenblas-dev
     - libyaml-cpp-dev
     - ninja-build
 - name: pipModules
@@ -149,6 +147,18 @@ jobs:
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+    - task: Bash@3
+      displayName: Build and install LAPACK
+      inputs:
+        targetType: inline
+        script: |
+          mkdir -p $(Agent.BuildDirectory)/temp-deps
+          cd $(Agent.BuildDirectory)/temp-deps
+          git clone https://github.com/Reference-LAPACK/lapack-release -b lapack-3.9.1 lapack
+          cd lapack
+          cmake -DCMAKE_INSTALL_PREFIX=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCBLAS=ON -DLAPACKE=OFF -DBUILD_TESTING=OFF -DCMAKE_INSTALL_LIBDIR=lib -B build -S .
+          cmake --build build --parallel --target install
+          sudo make install
     - script: |
         mkdir -p $(CCACHE_DIR)
         echo "##vso[task.prependpath]/usr/lib/ccache"
