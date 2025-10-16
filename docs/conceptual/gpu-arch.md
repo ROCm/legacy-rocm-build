@@ -28,7 +28,7 @@ architecture.
 :::{grid-item-card}
 **AMD Instinct MI200 Series**
 
-Review hardware aspects of the AMD Instinct™ MI200 Series of GPUs and the CDNA™ 2
+Review hardware aspects of the AMD Instinct™ MI200 Series GPUs and the CDNA™ 2
 architecture.
 
 * [AMD Instinct™ MI250 microarchitecture](./gpu-arch/mi250.md)
