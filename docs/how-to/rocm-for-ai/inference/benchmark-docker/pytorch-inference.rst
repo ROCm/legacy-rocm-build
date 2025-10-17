@@ -1,5 +1,5 @@
 .. meta::
-   :description: Learn how to validate LLM inference performance on MI300X accelerators using AMD MAD and the
+   :description: Learn how to validate LLM inference performance on MI300X GPUs using AMD MAD and the
                  ROCm PyTorch Docker image.
    :keywords: model, MAD, automation, dashboarding, validate, pytorch
 
@@ -15,7 +15,7 @@ PyTorch inference performance testing
    {% set model_groups = data.pytorch_inference_benchmark.model_groups %}
 
    The `ROCm PyTorch Docker <https://hub.docker.com/r/rocm/pytorch/tags>`_ image offers a prebuilt,
-   optimized environment for testing model inference performance on AMD Instinct™ MI300X series
+   optimized environment for testing model inference performance on AMD Instinct™ MI300X Series
    GPUs. This guide demonstrates how to use the AMD Model Automation and Dashboarding (MAD)
    tool with the ROCm PyTorch container to test inference performance on various models efficiently.
 
@@ -175,7 +175,7 @@ Further reading
 - To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  AMD Instinct MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - For application performance optimization strategies for HPC and AI workloads,
   including inference with vLLM, see :doc:`../../inference-optimization/workload`.

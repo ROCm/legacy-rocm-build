@@ -60,7 +60,7 @@ Installing vLLM
                vllm-rocm \
                bash
 
-      3. Inside the container, start the API server to run on a single accelerator on port 8000 using the following command.
+      3. Inside the container, start the API server to run on a single GPU on port 8000 using the following command.
 
          .. code-block:: shell
 
@@ -113,7 +113,7 @@ Installing vLLM
             python -m vllm.entrypoints.api_server --model /app/model --dtype float16 -tp 2 --port 8000 &
 
       4. To run multiple instances of API Servers, specify different ports for each server, and use ``ROCR_VISIBLE_DEVICES`` to
-         isolate each instance to a different accelerator.
+         isolate each instance to a different GPU.
 
          For example, to run two API servers, one on port 8000 using GPU 0 and 1, one on port 8001 using GPU 2 and 3, use a
          a command like the following.
@@ -140,7 +140,7 @@ Installing vLLM
    See :ref:`mi300x-vllm-optimization` for performance optimization tips.
 
    ROCm provides a prebuilt optimized Docker image for validating the performance of LLM inference with vLLM
-   on the MI300X accelerator. The Docker image includes ROCm, vLLM, and PyTorch.
+   on the MI300X GPU. The Docker image includes ROCm, vLLM, and PyTorch.
    For more information, see :doc:`/how-to/rocm-for-ai/inference/benchmark-docker/vllm`.
 
 .. _fine-tuning-llms-tgi:
@@ -178,7 +178,7 @@ Install TGI
    .. tab-item:: TGI on a single-accelerator system
       :sync: single
 
-      2. Inside the container, launch a model using TGI server on a single accelerator.
+      2. Inside the container, launch a model using TGI server on a single GPU.
 
          .. code-block:: shell
 
@@ -199,7 +199,7 @@ Install TGI
 
    .. tab-item:: TGI on a multi-accelerator system
 
-      2. Inside the container, launch a model using TGI server on multiple accelerators (4 in this case).
+      2. Inside the container, launch a model using TGI server on multiple GPUs (four in this case).
 
          .. code-block:: shell
 

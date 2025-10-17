@@ -70,7 +70,7 @@ parameters:
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: rccl_build_${{ job.target }}
-    timeoutInMinutes: 90
+    timeoutInMinutes: 120
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml

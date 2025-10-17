@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
     <remote name="rocm-org" fetch="https://github.com/ROCm/" />
-    <default revision="refs/tags/rocm-7.0.1"
+    <default revision="refs/tags/rocm-7.0.2"
      remote="rocm-org"
      sync-c="true"
      sync-j="4" />
@@ -41,7 +41,6 @@
     <project groups="mathlibs" name="MIVisionX" />
     <project groups="mathlibs" name="ROCmValidationSuite" />
     <project groups="mathlibs" name="composable_kernel" />
-    <project groups="mathlibs" name="hipSOLVER" />
     <project groups="mathlibs" name="hipTensor" />
     <project groups="mathlibs" name="hipfort" />
     <project groups="mathlibs" name="rccl" />
@@ -57,7 +56,6 @@
     <project groups="mathlibs" name="rocm-libraries" />
     <project groups="mathlibs" name="rocPyDecode" />
     <project groups="mathlibs" name="rocSHMEM" />
-    <project groups="mathlibs" name="rocSOLVER" />
     <project groups="mathlibs" name="rocWMMA" />
     <project groups="mathlibs" name="rocm-cmake" />
     <project groups="mathlibs" name="rpp" />
