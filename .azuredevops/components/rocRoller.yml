@@ -158,7 +158,7 @@ jobs:
           cd lapack
           cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCBLAS=ON -DLAPACKE=OFF -DBUILD_TESTING=OFF -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=OFF -B build -S .
           cmake --build build --parallel
-          sudo /usr/local/bin/cmake --install build
+          sudo -E cmake --install build
     - script: |
         mkdir -p $(CCACHE_DIR)
         echo "##vso[task.prependpath]/usr/lib/ccache"
