@@ -6,12 +6,6 @@
 Training a model with JAX MaxText on ROCm
 ******************************************
 
-MaxText is a high-performance, open-source framework built on the Google JAX
-machine learning library to train LLMs at scale. The MaxText framework for
-ROCm is an optimized fork of the upstream
-`<https://github.com/AI-Hypercomputer/maxtext>`__ enabling efficient AI workloads
-on AMD MI300X Series GPUs.
-
 The MaxText for ROCm training Docker image
 provides a prebuilt environment for training on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs,
 including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
