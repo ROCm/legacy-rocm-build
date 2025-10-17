@@ -326,7 +326,7 @@ hardware counters are also included.
 vLLM performance optimization
 =============================
 
-This guide helps you maximize vLLM throughput and minimize latency on AMD MI300X/MI355X GPUs. Learn how to:
+This guide helps you maximize vLLM throughput and minimize latency on AMD MI300X/MI325X/MI355X GPUs. Learn how to:
 
 * Enable **AITER** (AI Tensor Engine for ROCm) for speedups on LLM models
 * Configure **environment variables** for optimal HIP, RCCL, and Quick Reduce performance
