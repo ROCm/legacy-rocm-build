@@ -34,6 +34,7 @@ parameters:
   default:
     - ccache
     - git
+    - gfortran
     - libboost-program-options-dev
     - libboost-filesystem-dev
     - libmsgpack-dev
