@@ -1,6 +1,6 @@
 .. meta::
-   :description: Learn about workload tuning on AMD Instinct MI300X (and MI355X) GPUs for HPC and deep-learning workloads, with a self-contained vLLM performance section covering attention backends, AITER, Quick Reduce, parallelism, and engine/compilation tuning.
-   :keywords: AMD, Instinct, MI300X, MI355X, HPC, tuning, BIOS settings, NBIO, ROCm,
+   :description: Learn about workload tuning on AMD Instinct MI300X GPUs for optimal performance.
+   :keywords: AMD, Instinct, MI300X, HPC, tuning, BIOS settings, NBIO, ROCm,
               environment variable, performance, HIP, Triton, PyTorch TunableOp, vLLM, RCCL,
               MIOpen, GPU, resource utilization
 
@@ -9,12 +9,11 @@ AMD Instinct MI300X workload optimization
 *****************************************
 
 This document provides guidelines for optimizing the performance of AMD
-Instinct™ MI300X GPUs (and notes where MI355X differs), with a focus on
-GPU-kernel programming, high-performance computing (HPC), and deep-learning
-operations using PyTorch and vLLM. It includes complete, self-contained guidance
-for :ref:`vLLM performance optimization <mi300x-vllm-optimization>`, including
-attention backends, AITER, Quick Reduce, parallelism on ROCm, and engine &
-compilation tuning.
+Instinct™ MI300X GPUs, with a particular focus on GPU kernel
+programming, high-performance computing (HPC), and deep learning operations
+using PyTorch. It delves into specific workloads such as
+:ref:`model inference <mi300x-vllm-optimization>`, offering strategies to
+enhance efficiency.
 
 The following topics highlight :ref:`auto-tunable configurations <mi300x-auto-tune>` as
 well as :ref:`Triton kernel optimization <mi300x-triton-kernel-performance-optimization>`
@@ -85,12 +84,18 @@ automated strategies to more involved, hands-on optimization.
 Optimize model inference with vLLM
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-vLLM provides tools and techniques designed for efficient model inference on AMD
-Instinct MI300X . See :ref:`fine-tuning-llms-vllm` for installation
-guidance. Optimizing performance with vLLM involves configuring parallelism,
-choosing the right attention backend, leveraging advanced (ROCm-specific)
-features, and ensuring efficient execution. A complete, self-contained guide is
-provided in :ref:`vLLM performance optimization <mi300x-vllm-optimization>`.
+vLLM provides tools and techniques specifically designed for efficient model
+inference on AMD Instinct MI300X GPUs. See :ref:`fine-tuning-llms-vllm`
+for installation guidance. Optimizing performance with vLLM
+involves configuring tensor parallelism, leveraging advanced features, and
+ensuring efficient execution. Here’s how to optimize vLLM performance:
+
+* Configuration for vLLM: Set :ref:`parameters <mi300x-vllm-optimization>`
+  according to workload requirements. Benchmark performance to understand
+  characteristics and identify bottlenecks.
+
+* Benchmarking and performance metrics: Measure latency and throughput to
+  evaluate performance.
 
 .. _mi300x-auto-tune:
 
@@ -245,7 +250,7 @@ metrics, commonly called *performance counters*. These counters quantify the per
 showcasing which pieces of the computational pipeline and memory hierarchy are being utilized.
 
 Your ROCm installation contains a script or executable command called ``rocprof`` which provides the ability to list all
-available hardware counters for your specific GPU or GPU, and run applications while collecting counters during
+available hardware counters for your specific GPU, and run applications while collecting counters during
 their execution.
 
 This ``rocprof`` utility also depends on the :doc:`ROCTracer and ROC-TX libraries <roctracer:index>`, giving it the
@@ -420,6 +425,10 @@ AITER (AI Tensor Engine for ROCm) switches
 .. note::
 
    When ``VLLM_ROCM_USE_AITER=1``, most AITER component flags (LINEAR, MOE, RMSNORM, MLA, MHA, FP8BMM) automatically default to **True**. You typically only need to set the master switch ``VLLM_ROCM_USE_AITER=1`` to enable all optimizations.
+   ROCm provides a prebuilt optimized Docker image for validating the performance
+   of LLM inference with vLLM on MI300X Series GPUs. The Docker image includes
+   ROCm, vLLM, and PyTorch. For more information, see
+   :doc:`/how-to/rocm-for-ai/inference/benchmark-docker/vllm`.
 
 AITER MoE requirements (Mixtral, DeepSeek-V2/V3, Qwen-MoE models)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2177,7 +2186,7 @@ low-latency AMD Infinity Fabric™ links (red lines) to form a fully connected
 
 .. figure:: ../../../data/shared/mi300-node-level-arch.png
 
-   MI300 series node-level architecture showing 8 fully interconnected MI300X
+   MI300 Series node-level architecture showing 8 fully interconnected MI300X
    OAM modules connected to (optional) PCIe switches via re-timers and HGX
    connectors.
 

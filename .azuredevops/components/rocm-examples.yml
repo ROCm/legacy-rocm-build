@@ -17,7 +17,9 @@ parameters:
     - libdw-dev
     - libglfw3-dev
     - libmsgpack-dev
+    - libopencv-dev
     - libtbb-dev
+    - libtiff-dev
     - libva-amdgpu-dev
     - ninja-build
     - python3-pip
@@ -50,6 +52,7 @@ parameters:
     - rocSPARSE
     - rocThrust
     - rocWMMA
+    - rpp
 - name: rocmTestDependencies
   type: object
   default:
@@ -66,6 +69,7 @@ parameters:
     - hipSPARSE
     - hipTensor
     - llvm-project
+    - MIOpen
     - rocBLAS
     - rocFFT
     - rocminfo
@@ -80,6 +84,7 @@ parameters:
     - rocThrust
     - roctracer
     - rocWMMA
+    - rpp
 
 - name: jobMatrix
   type: object

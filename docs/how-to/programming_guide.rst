@@ -25,7 +25,7 @@ execute on AMD GPUs while maintaining compatibility with CUDA-based systems.
 OpenCL (Open Computing Language) is an open standard for cross-platform,
 parallel programming of diverse processors. ROCm supports OpenCL for developers
 who want to use standard frameworks across different hardware platforms,
-including CPUs, GPUs, and other accelerators. For more information, see
+including CPUs, GPUs, and APUs. For more information, see
 `OpenCL <https://www.khronos.org/opencl/>`_.
 
 Python bindings can be found at https://github.com/ROCm/hip-python.

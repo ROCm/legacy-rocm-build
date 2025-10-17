@@ -699,7 +699,7 @@ The problem occurs when attempting to debug a program that contains code that ru
  
 The ROCR Debug Agent might also become unresponsive when attempting to capture data from a program that is experiencing queue errors, memory faults, or other triggering events.
  
-For a detailed workaround, see the [Installation troubleshooting](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/install-faq.html#issue-10-rocm-debugging-tools-might-become-unresponsive-in-selinux-enabled-distributions) documentation. This issue will be fixed in a future ROCm release.
+For a detailed workaround, see the [Installation troubleshooting](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/install-faq.html#issue-10-rocm-debugging-tools-might-become-unresponsive-in-selinux-enabled-distributions) documentation. This issue will be fixed in a future ROCm release. See [GitHub issue #5498](https://github.com/ROCm/ROCm/issues/5498).
 
 ### MIGraphX Python API will fail when running on Python 3.13
 
@@ -708,11 +708,11 @@ Applications using the MIGraphX Python API will fail when running on Python 3.13
 ```
 ls -l /opt/rocm-7.0.0/lib/libmigraphx_py_*.so
 ```
-The issue will be resolved in a future ROCm release.
+The issue will be resolved in a future ROCm release. See [GitHub issue #5500](https://github.com/ROCm/ROCm/issues/5500).
 
 ### Applications using OpenCV might fail due to package incompatibility between the OS
 
-OpenCV packages built on Ubuntu 24.04 are incompatible with Debian 13 due to a version conflict. As a result, applications, tests, and samples that use OpenCV might fail. To avoid the version conflict, rebuild OpenCV with the version corresponding to Debian 13, then rebuild MIVisionX on top of it. As a workaround, rebuild OpenCV from source, followed by the application that uses OpenCV. This issue will be fixed in a future ROCm release.
+OpenCV packages built on Ubuntu 24.04 are incompatible with Debian 13 due to a version conflict. As a result, applications, tests, and samples that use OpenCV might fail. To avoid the version conflict, rebuild OpenCV with the version corresponding to Debian 13, then rebuild MIVisionX on top of it. As a workaround, rebuild OpenCV from source, followed by the application that uses OpenCV. This issue will be fixed in a future ROCm release. See [GitHub issue #5501](https://github.com/ROCm/ROCm/issues/5501).
 
 ## ROCm upcoming changes
 

@@ -1,24 +1,39 @@
 dockers:
-  - pull_tag: rocm/pytorch-training:v25.8
-    docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-training/v25.8/images/sha256-5082ae01d73fec6972b0d84e5dad78c0926820dcf3c19f301d6c8eb892e573c5
-    components:
-      ROCm: 6.4.3
-      PyTorch: 2.8.0a0+gitd06a406
-      Python: 3.10.18
-      Transformer Engine: 2.2.0.dev0+a1e66aae
-      Flash Attention: 3.0.0.post1
-      hipBLASLt: 1.1.0-d1b517fc7a
+  MI355X and MI350X:
+    pull_tag: rocm/primus:v25.9_gfx950
+    docker_hub_url: https://hub.docker.com/layers/rocm/primus/v25.9_gfx950/images/sha256-1a198be32f49efd66d0ff82066b44bd99b3e6b04c8e0e9b36b2c481e13bff7b6
+    components: &docker_components
+      ROCm: 7.0.0
+      Primus: 0.3.0
+      Primus Turbo: 0.1.1
+      PyTorch: 2.9.0.dev20250821+rocm7.0.0.lw.git125803b7
+      Python: "3.10"
+      Transformer Engine: 2.2.0.dev0+54dd2bdc
+      Flash Attention: 2.8.3
+      hipBLASLt: 911283acd1
+      Triton: 3.4.0+rocm7.0.0.git56765e8c
+      RCCL: 2.26.6
+  MI325X and MI300X:
+    pull_tag: rocm/primus:v25.9_gfx942
+    docker_hub_url: https://hub.docker.com/layers/rocm/primus/v25.9_gfx942/images/sha256-df6ab8f45b4b9ceb100fb24e19b2019a364e351ee3b324dbe54466a1d67f8357
+    components: *docker_components
 model_groups:
   - group: Meta Llama
     tag: llama
     models:
     - model: Llama 3.1 8B
       mad_tag: primus_pyt_train_llama-3.1-8b
-      model_repo: Llama-3.1-8B
+      model_repo: meta-llama/Llama-3.1-8B
       url: https://huggingface.co/meta-llama/Llama-3.1-8B
       precision: BF16
+      config_file:
+        bf16: "./llama3_8b_fsdp_bf16.toml"
+        fp8: "./llama3_8b_fsdp_fp8.toml"
     - model: Llama 3.1 70B
       mad_tag: primus_pyt_train_llama-3.1-70b
-      model_repo: Llama-3.1-70B
+      model_repo: meta-llama/Llama-3.1-70B
       url: https://huggingface.co/meta-llama/Llama-3.1-70B
       precision: BF16
+      config_file:
+        bf16: "./llama3_70b_fsdp_bf16.toml"
+        fp8: "./llama3_70b_fsdp_fp8.toml"

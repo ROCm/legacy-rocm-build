@@ -9,13 +9,13 @@ myst:
 
 The AMD ROCm Composable Kernel (CK) library provides a programming model for writing performance-critical kernels for machine learning workloads. It generates a general-purpose kernel during the compilation phase through a C++ template, enabling developers to achieve operation fusions on different data precisions.
 
-This article gives a high-level overview of CK General Matrix Multiplication (GEMM) kernel based on the design example of `03_gemm_bias_relu`. It also outlines the steps to construct the kernel and run it. Moreover, the article provides a detailed implementation of running SmoothQuant quantized INT8 models on AMD Instinct MI300X accelerators using CK.
+This article gives a high-level overview of CK General Matrix Multiplication (GEMM) kernel based on the design example of `03_gemm_bias_relu`. It also outlines the steps to construct the kernel and run it. Moreover, the article provides a detailed implementation of running SmoothQuant quantized INT8 models on AMD Instinct MI300X GPUs using CK.
 
 ## High-level overview: a CK GEMM instance
 
 GEMM is a fundamental block in linear algebra, machine learning, and deep neural networks. It is defined as the operation:
 {math}`E = α \times (A \times B) + β \times (D)`, with A and B as matrix inputs, α and β as scalar inputs, and D as a pre-existing matrix.
-Take the commonly used linear transformation in a fully connected layer as an example. These terms correspond to input activation (A), weight (B), bias (D), and output (E), respectively. The example employs a `DeviceGemmMultipleD_Xdl_CShuffle` struct from CK library as the fundamental instance to explore the compute capability of AMD Instinct accelerators for the computation of GEMM. The implementation of the instance contains two phases:
+Take the commonly used linear transformation in a fully connected layer as an example. These terms correspond to input activation (A), weight (B), bias (D), and output (E), respectively. The example employs a `DeviceGemmMultipleD_Xdl_CShuffle` struct from CK library as the fundamental instance to explore the compute capability of AMD Instinct GPUs for the computation of GEMM. The implementation of the instance contains two phases:
 
 - [Template parameter definition](#template-parameter-definition)
 - [Instantiating and running the templated kernel](#instantiating-and-running-the-templated-kernel)
@@ -108,7 +108,7 @@ These parameters include Block Size, M/N/K Per Block, M/N per XDL, AK1, BK1, etc
 
 - Block Size determines the number of threads in the thread block.
 - M/N/K Per Block determines the size of tile that each thread block is responsible for calculating.
-- M/N Per XDL refers to M/N size for Instinct accelerator Matrix Fused Multiply Add (MFMA) instructions operating on a per-wavefront basis.
+- M/N Per XDL refers to M/N size for Instinct GPU Matrix Fused Multiply Add (MFMA) instructions operating on a per-wavefront basis.
 - A/B K1 is related to the data type. It can be any value ranging from 1 to K Per Block. To achieve the optimal load/store performance, 128bit per load is suggested. In addition, the A/B loading parameters must be changed accordingly to match the A/B K1 value; otherwise, it will result in compilation errors.
 
 Conditions for achieving computational load balancing on different hardware platforms can vary.
@@ -133,7 +133,7 @@ Templated kernel launching consists of kernel instantiation, making arguments by
 
 ## Developing fused INT8 kernels for SmoothQuant models
 
-[SmoothQuant](https://github.com/mit-han-lab/smoothquant) (SQ) is a quantization algorithm that enables an INT8 quantization of both weights and activations for all the matrix multiplications in LLM. The required GPU kernel functionalities used to accelerate the inference of SQ models on Instinct accelerators are shown in the following table.
+[SmoothQuant](https://github.com/mit-han-lab/smoothquant) (SQ) is a quantization algorithm that enables an INT8 quantization of both weights and activations for all the matrix multiplications in LLM. The required GPU kernel functionalities used to accelerate the inference of SQ models on Instinct GPUs are shown in the following table.
 
 :::{table} Functionalities used to implement SmoothQuant model inference.
 
@@ -164,7 +164,7 @@ The CK library contains many fundamental instances that implement different func
 
 Second, consider whether the format of input data meets your actual calculation needs. For SQ models, the 8-bit integer data format (INT8) is applied for matrix calculations.
 
-Third, consider the platform for implementing CK instances. The instances suffixed with `xdl` only run on AMD Instinct accelerators after being compiled and cannot run on Radeon-series GPUs. This is due to the underlying device-specific instruction sets for implementing these basic instances.
+Third, consider the platform for implementing CK instances. The instances suffixed with `xdl` only run on AMD Instinct GPUs after being compiled and cannot run on Radeon-Series GPUs. This is due to the underlying device-specific instruction sets for implementing these basic instances.
 
 Here, we use [DeviceBatchedGemmMultiD_Xdl](https://github.com/ROCm/composable_kernel/tree/develop/example/24_batched_gemm) as the fundamental instance to implement the functionalities in the previous table.
 
@@ -435,7 +435,7 @@ The implementation architecture of running SmoothQuant models on MI300X GPUs is 
  ### Figure 7
 ================ -->
 ```{figure} ../../../data/how-to/llm-fine-tuning-optimization/ck-inference_flow.jpg
-The implementation architecture of running SmoothQuant models on AMD MI300X accelerators.
+The implementation architecture of running SmoothQuant models on AMD MI300X GPUs.
 ```
 
 For the target [SQ quantized model](https://huggingface.co/mit-han-lab/opt-13b-smoothquant), each decoder layer contains three major components: attention calculation, layer normalization, and linear transformation in fully connected layers.  The corresponding implementation classes for these components are:
@@ -447,21 +447,21 @@ For the target [SQ quantized model](https://huggingface.co/mit-han-lab/opt-13b-s
  These classes' underlying implementation logits will harness the functions in previous table. Note that for the example, the `LayerNormQ` module is implemented by the torch native module.
 
 Testing environment:
-The hardware platform used for testing equips with 256 AMD EPYC 9534 64-Core Processor, 8 AMD Instinct MI300X accelerators and 1.5T memory. The testing was done in a publicly available Docker image from Docker Hub:
+The hardware platform used for testing equips with 256 AMD EPYC 9534 64-Core Processor, 8 AMD Instinct MI300X GPUs and 1.5T memory. The testing was done in a publicly available Docker image from Docker Hub:
 [`rocm/pytorch:rocm6.1_ubuntu22.04_py3.10_pytorch_2.1.2`](https://hub.docker.com/layers/rocm/pytorch/rocm6.1_ubuntu22.04_py3.10_pytorch_2.1.2/images/sha256-f6ea7cee8aae299c7f6368187df7beed29928850c3929c81e6f24b34271d652b)
 
 The tested models are OPT-1.3B, 2.7B, 6.7B and 13B FP16 models and the corresponding SmoothQuant INT8 OPT models were obtained from Hugging Face.
 
 Note that since the default values were used for the tunable parameters of the fundamental instance, the performance of the INT8 kernel is suboptimal.
 
-Figure 8 shows the performance comparisons between the original FP16 and the SmoothQuant-quantized INT8 models on a single MI300X accelerator. The GPU memory footprints of SmoothQuant-quantized models are significantly reduced. It also indicates the per-sample inference latency is significantly reduced for all SmoothQuant-quantized OPT models (illustrated in (b)). Notably, the performance of the CK instance-based INT8 kernel steadily improves with an increase in model size.
+Figure 8 shows the performance comparisons between the original FP16 and the SmoothQuant-quantized INT8 models on a single MI300X GPU. The GPU memory footprints of SmoothQuant-quantized models are significantly reduced. It also indicates the per-sample inference latency is significantly reduced for all SmoothQuant-quantized OPT models (illustrated in (b)). Notably, the performance of the CK instance-based INT8 kernel steadily improves with an increase in model size.
 
 <!-- 
 ================
  ### Figure 8
 ================ -->
 ```{figure} ../../../data/how-to/llm-fine-tuning-optimization/ck-comparisons.jpg
-Performance comparisons between the original FP16 and the SmoothQuant-quantized INT8 models on a single MI300X accelerator.
+Performance comparisons between the original FP16 and the SmoothQuant-quantized INT8 models on a single MI300X GPU.
 ```
 
 For accuracy comparisons between the original FP16 and INT8 models, the evaluation is done by using the first 1,000 samples from the LAMBADA dataset's validation set. We employ the same Last Token Prediction Accuracy method introduced in [SmoothQuant Real-INT8 Inference for PyTorch](https://github.com/mit-han-lab/smoothquant/blob/main/examples/smoothquant_opt_real_int8_demo.ipynb) as our evaluation metric. The comparison results are shown in Table 2.
@@ -482,4 +482,4 @@ CK provides a rich set of template parameters for generating flexible accelerate
 
 CK supports multiple instruction sets of AMD Instinct GPUs, operator fusion and different data precisions. Its composability helps users quickly construct operator performance verification.
 
-With CK, you can build more effective AI applications with higher flexibility and better performance on different AMD accelerator platforms.
+With CK, you can build more effective AI applications with higher flexibility and better performance on different AMD GPU platforms.

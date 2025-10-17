@@ -79,7 +79,7 @@ Use cases and recommendations
 
 * The `MI300X workload optimization guide <https://rocm.docs.amd.com/en/latest/how-to/tuning-guides/mi300x/workload.html>`_
   provides detailed guidance on optimizing workloads for the AMD Instinct MI300X
-  accelerator using ROCm. The page is aimed at helping users achieve optimal
+  GPU using ROCm. The page is aimed at helping users achieve optimal
   performance for deep learning and other high-performance computing tasks on
   the MI300X GPU.
 
