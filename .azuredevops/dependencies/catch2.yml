@@ -56,6 +56,7 @@ jobs:
         cmakeSourceDir: $(Agent.BuildDirectory)/Catch2
         useAmdclang: false
         extraBuildFlags: >-
+          -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
           -DCMAKE_BUILD_TYPE=Release
           -GNinja
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
