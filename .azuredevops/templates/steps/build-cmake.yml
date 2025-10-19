@@ -57,6 +57,28 @@ parameters:
 steps:
 # create workingDirectory if it does not exist and change into it
 # call cmake from within that directory using $cmakeArgs as its parameters
+- script: |
+    echo export PATH="/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)" > my-env
+    echo export MANPATH="/opt/rh/gcc-toolset-14/root/usr/share/man:$(MANPATH)" >> my-env
+    echo export INFOPATH="/opt/rh/gcc-toolset-14/root/usr/share/info:$(INFOPATH)" >> my-env
+    echo export PCP_DIR="/opt/rh/gcc-toolset-14/root" >> my-env
+    echo export LD_LIBRARY_PATH="/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)" >> my-env
+    echo export PKG_CONFIG_PATH="/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)" >> my-env
+    echo set(CMAKE_SHARED_LINKER_FLAGS_INIT "-L\${AGENT_BUILDDIRECTORY}/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/) > ci-toolchain.cmake
+    echo set(CMAKE_EXE_LINKER_FLAGS_INIT "-L\${AGENT_BUILDDIRECTORY}/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/ >> ci-toolchain.cmake
+    echo set(CMAKE_CXX_FLAGS_INIT="--gcc-toolchain=/opt/rh/gcc-toolset-14/root")
+  displayName: '${{parameters.componentName }} CMake Env'
+  condition: eq(parameters.os, 'almalinux8')
+    env:
+  inputs:
+    workingDirectory: ${{ parameters.cmakeBuildDir }}
+    cmakeArgs: >-
+      ${{ parameters.extraBuildFlags }}
+      ${{ iif(parameters.customInstallPath, join('', format('-DCMAKE_INSTALL_PREFIX={0}', parameters.installDir)), '') }}
+      ${{ iif(eq(parameters.os, 'almalinux8'),  }}
+      ${{ iif(eq(parameters.os, 'almalinux8'), format('-DCMAKE_EXE_LINKER_FLAGS="-L{0}/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"', variables['Agent.BuildDirectory']), '') }}
+      ${{ iif(eq(parameters.os, 'almalinux8'), , '') }}
+      ${{ parameters.cmakeSourceDir }}
 - task: CMake@1
   displayName: '${{parameters.componentName }} CMake Flags'
   ${{ if eq(parameters.os, 'almalinux8')}}:
