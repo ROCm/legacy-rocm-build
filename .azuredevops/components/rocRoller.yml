@@ -193,6 +193,7 @@ jobs:
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;$(PytestCmakePath)
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+          -DCMAKE_Fortran_COMPILER=gfortran
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
           -DCMAKE_C_COMPILER_LAUNCHER=ccache
           -DAMDGPU_TARGETS=${{ job.target }}
