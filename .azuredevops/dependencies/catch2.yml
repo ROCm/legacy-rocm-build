@@ -56,9 +56,6 @@ jobs:
         cmakeSourceDir: $(Agent.BuildDirectory)/Catch2
         useAmdclang: true
         extraBuildFlags: >-
-          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
-          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
-          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
           -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
           -DCMAKE_BUILD_TYPE=Release
           -GNinja
