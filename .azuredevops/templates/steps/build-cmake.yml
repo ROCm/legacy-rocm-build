@@ -70,9 +70,10 @@ steps:
   inputs:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
     cmakeArgs: >-
-      ${{ iif(eq(parameters.os, 'almalinux8'), format('-DCMAKE_SHARED_LINKER_FLAGS="-L{0}/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"', variables['Agent.BuildDirectory']), '') }}
       ${{ parameters.extraBuildFlags }}
       ${{ iif(parameters.customInstallPath, join('', format('-DCMAKE_INSTALL_PREFIX={0}', parameters.installDir)), '') }}
+      ${{ iif(eq(parameters.os, 'almalinux8'), format('-DCMAKE_SHARED_LINKER_FLAGS="-L{0}/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"', variables['Agent.BuildDirectory']), '') }}
+      ${{ iif(eq(parameters.os, 'almalinux8'), format('-DCMAKE_EXE_LINKER_FLAGS="-L{0}/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"', variables['Agent.BuildDirectory']), '') }}
       ${{ iif(eq(parameters.os, 'almalinux8'), '-DCMAKE_CXX_FLAGS=\"--gcc-toolchain=/opt/rh/gcc-toolset-14/root\"', '') }}
       ${{ parameters.cmakeSourceDir }}
 - ${{ if parameters.printDiskSpace }}:
