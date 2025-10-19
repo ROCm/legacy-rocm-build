@@ -59,6 +59,8 @@ jobs:
           -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
           -DCMAKE_BUILD_TYPE=Release
           -GNinja
+          --trace-expand
+          --debug-output
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         os: ${{ job.os }}
