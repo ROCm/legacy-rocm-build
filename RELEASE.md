@@ -232,7 +232,7 @@ which include the Integrated Firmware Image (IFWI).
 				<p>Not applicable</p>
 			</td>
 			<td rowspan="2" style="vertical-align: middle;">
-						<p>01.25.15.02</p>
+						<p>01.25.15.04</p>
 						<p>01.25.13.09</p>
 			</td>
 		</tr>

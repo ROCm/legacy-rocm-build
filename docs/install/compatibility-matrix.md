@@ -134,7 +134,7 @@ Future preview release will expand hardware and operating system coverage.
 				<p>Supported PLDM bundle (firmware) versions</p>
 			</th>
 			<td>
-				<p>01.25.15.02, 01.25.13.09</p>
+				<p>01.25.15.04, 01.25.13.09</p>
 			</td>
 		</tr>
 	</tbody>
@@ -190,7 +190,7 @@ Future preview release will expand hardware and operating system coverage.
 				<p>Supported PLDM bundle (firmware) versions</p>
 			</th>
 			<td>
-				<p>01.25.15.02, 01.25.13.09</p>
+				<p>01.25.15.04, 01.25.13.09</p>
 			</td>
 		</tr>
 	</tbody>
