@@ -49,15 +49,6 @@ jobs:
         targetType: inline
         script: | 
             git clone https://github.com/catchorg/Catch2.git -b ${{ parameters.catch2Version }}
-            prepend_file="Catch2/CMakeLists.txt"
-            tmp_file=$(mktemp)
-            cat <<'EOF' > "$tmp_file"
-execute_process(COMMAND ${CMAKE_COMMAND} -E environment
-                OUTPUT_VARIABLE ENV_OUTPUT)
-message(STATUS "Environment variables:\n${ENV_OUTPUT}")
-EOF
-            cat "$prepend_file" >> "$tmp_file"
-            mv "$tmp_file" "$prepend_file"
         workingDirectory: $(Agent.BuildDirectory)
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
