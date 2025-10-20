@@ -75,10 +75,3 @@ steps:
   env:
     AGENT_BUILDDIRECTORY: $(Agent.BuildDirectory)
   displayName: '${{parameters.componentName }} CMake Env'
-- task: CMake@1
-  displayName: '${{parameters.componentName }} CMake Flags'
-  inputs:
-    workingDirectory: ${{ parameters.cmakeBuildDir }}
-    cmakeArgs: >-
-      ${{ iif(parameters.customInstallPath, format('-DCMAKE_INSTALL_PREFIX={0}', parameters.installDir), '') }}
-      ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
