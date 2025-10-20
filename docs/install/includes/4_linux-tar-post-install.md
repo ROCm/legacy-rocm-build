@@ -19,7 +19,6 @@
    ```
 
    ```{eval-rst}
-
    .. dropdown:: Example output of ``rocminfo``
 
       .. code-block:: shell-session
@@ -38,7 +37,7 @@
          XNACK enabled:           NO
          DMAbuf Support:          YES
          VMM Support:             YES
-     
+
          ==========               
          HSA Agents               
          ==========               
@@ -52,4 +51,3 @@
 
          [output truncated]
    ```
-

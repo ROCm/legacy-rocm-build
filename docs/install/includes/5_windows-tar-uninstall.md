@@ -1,13 +1,13 @@
 1. Delete the `C:\TheRock\build` and its contents.
 
-2. Delete the environment variables. For example, using Powershell as an administrator:
+2. Delete the environment variables. For example, using PowerShell as an administrator:
 
-  ```powershell
-  [Environment]::SetEnvironmentVariable("HIP_PATH", $null, "Machine")
-  [Environment]::SetEnvironmentVariable("HIP_DEVICE_LIB_PATH", $null, "Machine")
-  [Environment]::SetEnvironmentVariable("HIP_PLATFORM", $null, "Machine")
-  [Environment]::SetEnvironmentVariable("LLVM_PATH", $null, "Machine")
-  ```
+   ```powershell
+   [Environment]::SetEnvironmentVariable("HIP_PATH", $null, "Machine")
+   [Environment]::SetEnvironmentVariable("HIP_DEVICE_LIB_PATH", $null, "Machine")
+   [Environment]::SetEnvironmentVariable("HIP_PLATFORM", $null, "Machine")
+   [Environment]::SetEnvironmentVariable("LLVM_PATH", $null, "Machine")
+   ```
 
 3. Remove the following paths from your PATH environment variable using your system settings GUI.
 
