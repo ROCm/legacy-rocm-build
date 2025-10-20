@@ -26,15 +26,9 @@ source software compilers, debuggers, and libraries. ROCm is fully integrated in
 
 ## Getting and Building ROCm from Source
 
-Please use [TheRock](https://github.com/ROCm/TheRock) build system to build ROCm from source.
+Please use [TheRock](https://github.com/ROCm/TheRock/tree/release/therock-7.9) build system to build ROCm from source.
 
 ## ROCm documentation
-
-This repository contains the [manifest file](https://gerrit.googlesource.com/git-repo/+/HEAD/docs/manifest-format.md)
-for ROCm releases, changelogs, and release information.
-
-The `default.xml` file contains information for all repositories and the associated commit used to build
-the current ROCm release; `default.xml` uses the [Manifest Format repository](https://gerrit.googlesource.com/git-repo/).
 
 Source code for our documentation is located in the `/docs` folder of most ROCm repositories. The
 `develop` branch of our repositories contains content for the next ROCm release.
