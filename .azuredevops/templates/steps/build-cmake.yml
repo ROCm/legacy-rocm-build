@@ -88,7 +88,7 @@ steps:
 # equivalent to running make $cmakeTargetDir from $cmakeBuildDir
 # i.e., cd $cmakeBuildDir; make $cmakeTargetDir
 - task: CMake@1
-  ${{ if and( eq(parameters.os, 'almalinux8'), eq(parameters.consolidateBuildAndInstall , true)) }}:
+  ${{ if eq(parameters.consolidateBuildAndInstall, true) }}:
     displayName: '${{ parameters.componentName }} CMake Build and Install'
   ${{ else }}:
     displayName: '${{ parameters.componentName }} CMake Build'
@@ -110,7 +110,7 @@ steps:
     displayName: Disk space after build
 # equivalent to running make $cmakeTarget from $cmakeBuildDir
 # e.g., make install
-- ${{ if and(eq(parameters.installEnabled, true), or(ne(parameters.os, 'almalinux8'), eq(parameters.consolidateBuildAndInstall, false))) }}:
+- ${{ if and(eq(parameters.installEnabled, true), eq(parameters.consolidateBuildAndInstall, false)) }}:
   - task: CMake@1
     displayName: '${{parameters.componentName }} ${{ parameters.cmakeTarget }}'
     inputs:
