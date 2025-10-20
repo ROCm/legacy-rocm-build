@@ -59,7 +59,7 @@ message(STATUS "Environment variables:\n${ENV_OUTPUT}")
 EOF
         cat "$prepend_file" >> "$tmp_file"
         mv "$tmp_file" "$prepend_file"
-  displayName: 'Prepend CMake environment snippet to file'
+      displayName: 'Prepend CMake environment snippet to file'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
