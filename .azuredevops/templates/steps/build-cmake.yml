@@ -69,9 +69,9 @@ steps:
       echo "##vso[task.setvariable variable=LD_LIBRARY_PATH]$LD_LIBRARY_PATH:/opt/rh/gcc-toolset-14/root/usr/lib"
       echo "##vso[task.setvariable variable=PKG_CONFIG_PATH]$PKG_CONFIG_PATH:/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig"
       echo "##vso[task.setvariable variable=CMAKE_TOOLCHAIN_FILE]$AGENT_BUILDDIRECTORY/ci-toolchain.cmake"
-      echo set(CMAKE_SHARED_LINKER_FLAGS_INIT -L$AGENT_BUILDDIRECTORY/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/) > ci-toolchain.cmake
-      echo set(CMAKE_EXE_LINKER_FLAGS_INIT -L$AGENT_BUILDDIRECTORY/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/) >> ci-toolchain.cmake
-      echo set(CMAKE_CXX_FLAGS_INIT="--gcc-toolchain=/opt/rh/gcc-toolset-14/root") >> ci-toolchain.cmake
+      echo "set(CMAKE_SHARED_LINKER_FLAGS_INIT -L$AGENT_BUILDDIRECTORY/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/)" > ci-toolchain.cmake
+      echo "set(CMAKE_EXE_LINKER_FLAGS_INIT -L$AGENT_BUILDDIRECTORY/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/)" >> ci-toolchain.cmake
+      echo "set(CMAKE_CXX_FLAGS_INIT="--gcc-toolchain=/opt/rh/gcc-toolset-14/root")" >> ci-toolchain.cmake
     env:
       AGENT_BUILDDIRECTORY: $(Agent.BuildDirectory)
     displayName: '${{parameters.componentName }} CMake Env'
