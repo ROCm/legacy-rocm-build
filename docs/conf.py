@@ -158,7 +158,7 @@ html_theme_options = {
         "install/compatibility-matrix": ["selector-toc2"],
     }
 }
-html_title = f"AMD ROCm {ROCM_VERSION}"
+html_title = f"AMD ROCm {ROCM_VERSION} preview"
 
 numfig = False
 suppress_warnings = ["autosectionlabel.*"]
