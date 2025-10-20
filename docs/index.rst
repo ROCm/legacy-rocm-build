@@ -2,9 +2,9 @@
    :description: Learn what ROCm is – AMD's open software stack for GPU programming, including runtimes, compilers, libraries, and tools for Linux and Windows.
    :keywords: ROCm, AMD, GPU computing, ROCm Core SDK, ROCm components, TheRock, ROCm architecture, HPC, AI, machine learning, ROCm runtime
 
-****************************
-AMD ROCm 7.9.0 documentation
-****************************
+**********************
+AMD ROCm 7.9.0 preview
+**********************
 
 AMD ROCm is an open, modular, and high‑performance GPU software ecosystem —
 built collaboratively with the community, maintained transparently, and
