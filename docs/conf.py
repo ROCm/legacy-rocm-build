@@ -122,13 +122,15 @@ external_toc_path = "./sphinx/_toc.yml"
 # Register Sphinx extensions and static assets
 sys.path.append(str(DOCS_DIR / "extension"))
 
-# html_static_path = ["sphinx/static/css", "extension/how-to/rocm-for-ai/inference"]
+html_static_path = ["sphinx/static"]
+# "sphinx/static/css", "extension/how-to/rocm-for-ai/inference"]
 # html_css_files = [
     # "rocm_custom.css",
     # "rocm_rn.css",
     # "dynamic_picker.css",
     # "vllm-benchmark.css",
 # ]
+html_js_files = ["version-history-link.js"]
 templates_path = ["extension/rocm_docs_custom/templates", "extension/templates"]
 
 extensions = [
