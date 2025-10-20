@@ -30,6 +30,7 @@ additional licenses. Please review individual repositories for more information.
 | [aomp](https://github.com/ROCm/aomp/) | [Apache 2.0](https://github.com/ROCm/aomp/blob/aomp-dev/LICENSE) |
 | [aomp-extras](https://github.com/ROCm/aomp-extras/) | [MIT](https://github.com/ROCm/aomp-extras/blob/aomp-dev/LICENSE) |
 | [AQLprofile](https://github.com/rocm/aqlprofile/) | [MIT](https://github.com/ROCm/aqlprofile/blob/amd-staging/LICENSE.md) |
+| [Cluster Validation Suite](https://github.com/ROCm/cvs) | [MIT](https://github.com/ROCm/cvs/blob/main/LICENSE) |
 | [Code Object Manager (Comgr)](https://github.com/ROCm/llvm-project/tree/amd-staging/amd/comgr) | [The University of Illinois/NCSA](https://github.com/ROCm/llvm-project/blob/amd-staging/amd/comgr/LICENSE.txt) |
 | [Composable Kernel](https://github.com/ROCm/composable_kernel) | [MIT](https://github.com/ROCm/composable_kernel/blob/develop/LICENSE) |
 | [half](https://github.com/ROCm/half/) | [MIT](https://github.com/ROCm/half/blob/rocm/LICENSE.txt) |
