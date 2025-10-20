@@ -1,6 +1,6 @@
 1. Delete the `C:\TheRock\build` and its contents.
 
-2. Delete the environment variables. For example, using Powershell as an administrator:
+2. Delete the environment variables. For example, using PowerShell as an administrator:
 
   ```powershell
   [Environment]::SetEnvironmentVariable("HIP_PATH", $null, "Machine")
