@@ -558,28 +558,28 @@ future releases.
                 <p>Runtime and compilers</p>
             </td>
             <td>
-                <a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/hip">
+                <a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/hip">
                     HIP
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/HIPIFY">
+                <a href="https://github.com/ROCm/HIPIFY/tree/therock-7.9.0">
                     HIPIFY
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/llvm-project">
+                <a href="https://github.com/ROCm/llvm-project/tree/therock-7.9.0">
                     LLVM
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/rocr-runtime">
+                <a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocr-runtime">
                     ROCr Runtime
                 </a>
             </td>
@@ -589,14 +589,14 @@ future releases.
                 <p>Control and monitoring</p>
             </td>
             <td>
-                <a href="https://github.com/ROCm/amdsmi">
+                <a href="https://github.com/ROCm/amdsmi/tree/therock-7.9.0">
                     AMD SMI
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/rocminfo">
+                <a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocminfo">
                     rocminfo
                 </a>
             </td>
@@ -606,14 +606,14 @@ future releases.
                 <p>System utilities, profiling, and debugging</p>
             </td>
             <td>
-                <a href="https://github.com/ROCm/rocm-cmake">
+                <a href="https://github.com/ROCm/rocm-cmake/tree/therock-7.9.0">
                     ROCm CMake
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/rocprofiler-sdk">
+                <a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocprofiler-sdk">
                     ROCprofiler-SDK
                 </a>
             </td>
@@ -623,105 +623,105 @@ future releases.
                 <p>Math and compute libraries</p>
             </td>
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocblas">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocblas">
                     rocBLAS
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblas">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipblas">
                     hipBLAS
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblaslt">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipblaslt">
                     hipBLASLt
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocfft">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocfft">
                     rocFFT
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipfft">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipfft">
                     hipFFT
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocrand">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocrand">
                     rocRAND
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hiprand">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hiprand">
                     hipRAND
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsolver">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocsolver">
                     rocSOLVER
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsolver">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipsolver">
                     hipSOLVER
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocsparse">
                     rocSPARSE
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsparse">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipsparse">
                     hipSPARSE
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocprim">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocprim">
                     rocPRIM
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocthrust">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocthrust">
                     rocThrust
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipcub">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipcub">
                     hipCUB
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/miopen">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/miopen">
                     MIOpen
                 </a>
             </td>
@@ -731,7 +731,7 @@ future releases.
                 <p>Communication libraries</p>
             </td>
             <td>
-                <a href="https://github.com/rocm/rccl">
+                <a href="https://github.com/rocm/rccl/tree/therock-7.9.0">
                     RCCL
                 </a>
             </td>
@@ -762,7 +762,7 @@ future releases.
                 <p>Runtime and compilers</p>
             </td>
             <td>
-                <a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/hip">
+                <a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/hip">
                     HIP
                 </a>
             </td>
@@ -783,7 +783,7 @@ future releases.
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/rocr-runtime">
+                <a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocr-runtime">
                     ROCr Runtime
                 </a>
             </td>
@@ -800,7 +800,7 @@ future releases.
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/rocminfo">
+                <a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocminfo">
                     rocminfo
                 </a>
             </td>
@@ -817,7 +817,7 @@ future releases.
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/rocprofiler-sdk">
+                <a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocprofiler-sdk">
                     ROCprofiler-SDK
                 </a>
             </td>
@@ -827,98 +827,98 @@ future releases.
                 <p>Math and compute libraries</p>
             </td>
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocblas">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocblas">
                     rocBLAS
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblas">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipblas">
                     hipBLAS
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblaslt">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipblaslt">
                     hipBLASLt
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocfft">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocfft">
                     rocFFT
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipfft">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipfft">
                     hipFFT
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocrand">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocrand">
                     rocRAND
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hiprand">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hiprand">
                     hipRAND
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsolver">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocsolver">
                     rocSOLVER
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsolver">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipsolver">
                     hipSOLVER
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocsparse">
                     rocSPARSE
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsparse">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipsparse">
                     hipSPARSE
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocprim">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocprim">
                     rocPRIM
                 </a>
             </td>
         </tr>
         <tr class="row-even">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocthrust">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocthrust">
                     rocThrust
                 </a>
             </td>
         </tr>
         <tr class="row-odd">
             <td>
-                <a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipcub">
+                <a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipcub">
                     hipCUB
                 </a>
             </td>
@@ -958,7 +958,7 @@ future releases.
 				<p>Runtime and compilers</p>
 			</td>
 			<td>
-				<a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/hip">HIP</a>
+				<a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/hip">HIP</a>
 			</td>
 		</tr>
 		<tr class="row-odd">
@@ -984,72 +984,72 @@ future releases.
 				<p>Math and compute libraries</p>
 			</td>
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocblas">rocBLAS</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocblas">rocBLAS</a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblas">hipBLAS</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipblas">hipBLAS</a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblaslt">hipBLASLt</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipblaslt">hipBLASLt</a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocfft">rocFFT</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocfft">rocFFT</a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipfft">hipFFT</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipfft">hipFFT</a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocrand">rocRAND</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocrand">rocRAND</a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hiprand">hipRAND</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hiprand">hipRAND</a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsolver">rocSOLVER</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocsolver">rocSOLVER</a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsolver">hipSOLVER</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipsolver">hipSOLVER</a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse">rocSPARSE</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocsparse">rocSPARSE</a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsparse">hipSPARSE</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipsparse">hipSPARSE</a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocprim">rocPRIM</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocprim">rocPRIM</a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocthrust">rocThrust</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocthrust">rocThrust</a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipcub">hipCUB</a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipcub">hipCUB</a>
 			</td>
 		</tr>
 	</tbody>
