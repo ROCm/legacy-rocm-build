@@ -14,7 +14,9 @@ Preview: ROCm Core SDK and TheRock Build System
 
 This page consists mostly of key references to `TheRock's README
 <https://github.com/ROCm/TheRock?tab=readme-ov-file#building-from-source>`__
-which provides up-to-date build instructions and guidance for supported
+and `supporting development guides
+<https://github.com/ROCm/TheRock/blob/main/README.md#development-manuals>`__
+which provide up-to-date build instructions and guidance for supported
 platforms.
 
 .. tip::
