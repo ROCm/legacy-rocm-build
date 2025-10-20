@@ -60,46 +60,26 @@ steps:
 - script: |
     cd ${AGENT_BUILDDIRECTORY}
     pwd
-    echo export PATH="/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)" > my-env
-    echo export MANPATH="/opt/rh/gcc-toolset-14/root/usr/share/man:$(MANPATH)" >> my-env
-    echo export INFOPATH="/opt/rh/gcc-toolset-14/root/usr/share/info:$(INFOPATH)" >> my-env
-    echo export PCP_DIR="/opt/rh/gcc-toolset-14/root" >> my-env
-    echo export LD_LIBRARY_PATH="/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)" >> my-env
-    echo export PKG_CONFIG_PATH="/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)" >> my-env
+    echo "##vso[task.setvariable variable=PATH]$PATH:/opt/rh/gcc-toolset-14/root/usr/bin"
+    echo "##vso[task.setvariable variable=MANPATH]$MANPATH:/opt/rh/gcc-toolset-14/root/usr/share/man"
+    echo "##vso[task.setvariable variable=INFOPATH]$INFOPATH:/opt/rh/gcc-toolset-14/root/usr/share/info"
+    echo "##vso[task.setvariable variable=PCP_DIR]/opt/rh/gcc-toolset-14/root"
+    echo "##vso[task.setvariable variable=LD_LIBRARY_PATH]$LD_LIBRARY_PATH:/opt/rh/gcc-toolset-14/root/usr/lib64"
+    echo "##vso[task.setvariable variable=LD_LIBRARY_PATH]$LD_LIBRARY_PATH:/opt/rh/gcc-toolset-14/root/usr/lib"
+    echo "##vso[task.setvariable variable=PKG_CONFIG_PATH]$PKG_CONFIG_PATH:/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig"
+    echo "##vso[task.setvariable variable=CMAKE_TOOLCHAIN_FILE]${AGENT_BUILDDIRECTORY}/ci-toolchain.cmake"
     echo set(CMAKE_SHARED_LINKER_FLAGS_INIT "-L\${AGENT_BUILDDIRECTORY}/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/) > ci-toolchain.cmake
     echo set(CMAKE_EXE_LINKER_FLAGS_INIT "-L\${AGENT_BUILDDIRECTORY}/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/ >> ci-toolchain.cmake
     echo set(CMAKE_CXX_FLAGS_INIT="--gcc-toolchain=/opt/rh/gcc-toolset-14/root") >> ci-toolchain.cmake
   displayName: '${{parameters.componentName }} CMake Env'
   condition: eq(parameters.os, 'almalinux8')
-    env:
-  inputs:
-    workingDirectory: ${{ parameters.cmakeBuildDir }}
-    cmakeArgs: >-
-      ${{ parameters.extraBuildFlags }}
-      ${{ iif(parameters.customInstallPath, join('', format('-DCMAKE_INSTALL_PREFIX={0}', parameters.installDir)), '') }}
-      ${{ iif(eq(parameters.os, 'almalinux8'),  }}
-      ${{ iif(eq(parameters.os, 'almalinux8'), format('-DCMAKE_EXE_LINKER_FLAGS="-L{0}/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"', variables['Agent.BuildDirectory']), '') }}
-      ${{ iif(eq(parameters.os, 'almalinux8'), , '') }}
-      ${{ parameters.cmakeSourceDir }}
 - task: CMake@1
   displayName: '${{parameters.componentName }} CMake Flags'
-  ${{ if eq(parameters.os, 'almalinux8')}}:
-    env:
-      PATH: "/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)"
-      MANPATH: "/opt/rh/gcc-toolset-14/root/usr/share/man:$(MANPATH)"
-      INFOPATH: "/opt/rh/gcc-toolset-14/root/usr/share/info:$(INFOPATH)"
-      PCP_DIR: "/opt/rh/gcc-toolset-14/root"
-      LD_LIBRARY_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)"
-      PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
   inputs:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
     cmakeArgs: >-
-      ${{ parameters.extraBuildFlags }}
       ${{ iif(parameters.customInstallPath, join('', format('-DCMAKE_INSTALL_PREFIX={0}', parameters.installDir)), '') }}
-      ${{ iif(eq(parameters.os, 'almalinux8'), format('-DCMAKE_TOOLCHAIN_FILE=variables['Agent.BuildDirectory']), '') }}
-      ${{ iif(eq(parameters.os, 'almalinux8'), format('-DCMAKE_EXE_LINKER_FLAGS="-L{0}/rocm/lib64 -L/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/"', variables['Agent.BuildDirectory']), '') }}
-      ${{ iif(eq(parameters.os, 'almalinux8'), '-DCMAKE_CXX_FLAGS=\"--gcc-toolchain=/opt/rh/gcc-toolset-14/root\"', '') }}
-      ${{ parameters.cmakeSourceDir }}
+      ${{ parameters.extraBuildFlags }} ${{ parameters.cmakeSourceDir }}
 - ${{ if parameters.printDiskSpace }}:
   - script: df -h
     displayName: Disk space before build
@@ -110,14 +90,6 @@ steps:
     displayName: '${{ parameters.componentName }} CMake Build and Install'
   ${{ else }}:
     displayName: '${{ parameters.componentName }} CMake Build'
-  ${{ if eq(parameters.os, 'almalinux8')}}:
-    env:
-      PATH: "/opt/rh/gcc-toolset-14/root/usr/bin:$(PATH)"
-      MANPATH: "/opt/rh/gcc-toolset-14/root/usr/share/man:$(MANPATH)"
-      INFOPATH: "/opt/rh/gcc-toolset-14/root/usr/share/info:$(INFOPATH)"
-      PCP_DIR: "/opt/rh/gcc-toolset-14/root"
-      LD_LIBRARY_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64:/opt/rh/gcc-toolset-14/root/usr/lib:$(LD_LIBRARY_PATH)"
-      PKG_CONFIG_PATH: "/opt/rh/gcc-toolset-14/root/usr/lib64/pkgconfig:$(PKG_CONFIG_PATH)"
   inputs:
     workingDirectory: ${{ parameters.cmakeBuildDir }}
     ${{ if eq(parameters.os, 'almalinux8') }}:
