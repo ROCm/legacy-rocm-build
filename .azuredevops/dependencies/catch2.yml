@@ -52,7 +52,6 @@ jobs:
     - script: |
         prepend_file="Catch2/CMakeLists.txt"
         tmp_file=$(mktemp)
-        # Write the snippet to the temp file
         cat <<'EOF' > "$tmp_file"
 execute_process(COMMAND ${CMAKE_COMMAND} -E environment
                 OUTPUT_VARIABLE ENV_OUTPUT)
