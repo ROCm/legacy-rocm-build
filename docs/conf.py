@@ -22,72 +22,72 @@ def copy_rtd_file(src_path: Path, dest_path: Path):
     print(f"📁 Copied {src_path} → {dest_path}")
 
 
-compat_matrix_src = DOCS_DIR / "compatibility" / "compatibility-matrix-historical-6.0.csv" # fmt: skip
-compat_matrix_dest = ROOT_DIR / "_readthedocs" / "html" / "downloads" / "compatibility-matrix-historical-6.0.csv"  # fmt: skip
-copy_rtd_file(compat_matrix_src, compat_matrix_dest)
+# compat_matrix_src = DOCS_DIR / "compatibility" / "compatibility-matrix-historical-6.0.csv" # fmt: skip
+# compat_matrix_dest = ROOT_DIR / "_readthedocs" / "html" / "downloads" / "compatibility-matrix-historical-6.0.csv"  # fmt: skip
+# copy_rtd_file(compat_matrix_src, compat_matrix_dest)
 
 gh_release_path = ROOT_DIR / "RELEASE.md"
 rtd_release_path = DOCS_DIR / "about" / "release-notes.md"
 copy_rtd_file(gh_release_path, rtd_release_path)
 
-gh_changelog_path = ROOT_DIR / "CHANGELOG.md"
-rtd_changelog_path = DOCS_DIR / "release" / "changelog.md"
-copy_rtd_file(gh_changelog_path, rtd_changelog_path)
+# gh_changelog_path = ROOT_DIR / "CHANGELOG.md"
+# rtd_changelog_path = DOCS_DIR / "release" / "changelog.md"
+# copy_rtd_file(gh_changelog_path, rtd_changelog_path)
 
 
 # Mark the consolidated changelog as orphan to prevent Sphinx from warning about missing toctree entries
-with open(rtd_changelog_path, "r+", encoding="utf-8") as file:
-    content = file.read()
-    file.seek(0)
-    file.write(":orphan:\n" + content)
+# with open(rtd_changelog_path, "r+", encoding="utf-8") as file:
+#     content = file.read()
+#     file.seek(0)
+#     file.write(":orphan:\n" + content)
+#
+# # Replace GitHub-style [!ADMONITION]s with Sphinx-compatible ```{admonition} blocks
+# with open(rtd_changelog_path, "r", encoding="utf-8") as file:
+#     lines = file.readlines()
+#
+#     modified_lines = []
+#     in_admonition_section = False
+#
+#     # Map for matching the specific admonition type to its corresponding Sphinx markdown syntax
+#     admonition_types = {
+#         "> [!NOTE]": "```{note}",
+#         "> [!TIP]": "```{tip}",
+#         "> [!IMPORTANT]": "```{important}",
+#         "> [!WARNING]": "```{warning}",
+#         "> [!CAUTION]": "```{caution}",
+#     }
+#
+#     for line in lines:
+#         if any(line.startswith(k) for k in admonition_types):
+#             for key in admonition_types:
+#                 if line.startswith(key):
+#                     modified_lines.append(admonition_types[key] + "\n")
+#                     break
+#             in_admonition_section = True
+#         elif in_admonition_section:
+#             if line.strip() == "":
+#                 # If we encounter an empty line, close the admonition section
+#                 modified_lines.append("```\n\n")  # Close the admonition block
+#                 in_admonition_section = False
+#             else:
+#                 modified_lines.append(line.lstrip("> "))
+#         else:
+#             modified_lines.append(line)
+#
+#     # In case the file ended while still in a admonition section, close it
+#     if in_admonition_section:
+#         modified_lines.append("```")
+#
+#     file.close()
+#
+#     with open(rtd_changelog_path, "w", encoding="utf-8") as file:
+#         file.writelines(modified_lines)
 
-# Replace GitHub-style [!ADMONITION]s with Sphinx-compatible ```{admonition} blocks
-with open(rtd_changelog_path, "r", encoding="utf-8") as file:
-    lines = file.readlines()
-
-    modified_lines = []
-    in_admonition_section = False
-
-    # Map for matching the specific admonition type to its corresponding Sphinx markdown syntax
-    admonition_types = {
-        "> [!NOTE]": "```{note}",
-        "> [!TIP]": "```{tip}",
-        "> [!IMPORTANT]": "```{important}",
-        "> [!WARNING]": "```{warning}",
-        "> [!CAUTION]": "```{caution}",
-    }
-
-    for line in lines:
-        if any(line.startswith(k) for k in admonition_types):
-            for key in admonition_types:
-                if line.startswith(key):
-                    modified_lines.append(admonition_types[key] + "\n")
-                    break
-            in_admonition_section = True
-        elif in_admonition_section:
-            if line.strip() == "":
-                # If we encounter an empty line, close the admonition section
-                modified_lines.append("```\n\n")  # Close the admonition block
-                in_admonition_section = False
-            else:
-                modified_lines.append(line.lstrip("> "))
-        else:
-            modified_lines.append(line)
-
-    # In case the file ended while still in a admonition section, close it
-    if in_admonition_section:
-        modified_lines.append("```")
-
-    file.close()
-
-    with open(rtd_changelog_path, "w", encoding="utf-8") as file:
-        file.writelines(modified_lines)
-
-matrix_path = os.path.join("compatibility", "compatibility-matrix-historical-6.0.csv")
-rtd_path = os.path.join("..", "_readthedocs", "html", "downloads")
-if not os.path.exists(rtd_path):
-    os.makedirs(rtd_path)
-shutil.copy2(matrix_path, rtd_path)
+# matrix_path = os.path.join("compatibility", "compatibility-matrix-historical-6.0.csv")
+# rtd_path = os.path.join("..", "_readthedocs", "html", "downloads")
+# if not os.path.exists(rtd_path):
+#     os.makedirs(rtd_path)
+# shutil.copy2(matrix_path, rtd_path)
 
 latex_engine = "xelatex"
 latex_elements = {
@@ -122,13 +122,13 @@ external_toc_path = "./sphinx/_toc.yml"
 # Register Sphinx extensions and static assets
 sys.path.append(str(DOCS_DIR / "extension"))
 
-html_static_path = ["sphinx/static/css", "extension/how-to/rocm-for-ai/inference"]
-html_css_files = [
-    "rocm_custom.css",
-    "rocm_rn.css",
+# html_static_path = ["sphinx/static/css", "extension/how-to/rocm-for-ai/inference"]
+# html_css_files = [
+    # "rocm_custom.css",
+    # "rocm_rn.css",
     # "dynamic_picker.css",
     # "vllm-benchmark.css",
-]
+# ]
 templates_path = ["extension/rocm_docs_custom/templates", "extension/templates"]
 
 extensions = [
@@ -136,16 +136,16 @@ extensions = [
     "rocm_docs_custom.selector",
     "rocm_docs_custom.table",
     "rocm_docs_custom.icon",
-    "sphinx_reredirects",
-    "sphinx_sitemap",
-    "sphinxcontrib.datatemplates",
-    "version-ref",
-    "csv-to-list-table",
+    # "sphinx_reredirects",
+    # "sphinx_sitemap",
+    # "sphinxcontrib.datatemplates",
+    # "version-ref",
+    # "csv-to-list-table",
 ]
 
-compatibility_matrix_file = str(
-    DOCS_DIR / "compatibility/compatibility-matrix-historical-6.0.csv"
-)
+# compatibility_matrix_file = str(
+#     DOCS_DIR / "compatibility/compatibility-matrix-historical-6.0.csv"
+# )
 
 external_projects_current_project = "rocm"
 html_theme = "rocm_docs_theme"
@@ -163,30 +163,30 @@ html_title = f"AMD ROCm {ROCM_VERSION}"
 numfig = False
 suppress_warnings = ["autosectionlabel.*"]
 
-html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "https://rocm-stg.amd.com/")
-html_context = {
-    "project_path": {project_path},
-    "gpu_type": [
-        ("AMD Instinct accelerators", "intrinsic"),
-        ("AMD gfx families", "gfx"),
-        ("NVIDIA families", "nvidia"),
-    ],
-    "atomics_type": [("HW atomics", "hw-atomics"), ("CAS emulation", "cas-atomics")],
-    "pcie_type": [("No PCIe atomics", "nopcie"), ("PCIe atomics", "pcie")],
-    "memory_type": [
-        ("Device DRAM", "device-dram"),
-        ("Migratable Host DRAM", "migratable-host-dram"),
-        ("Pinned Host DRAM", "pinned-host-dram"),
-    ],
-    "granularity_type": [
-        ("Coarse-grained", "coarse-grained"),
-        ("Fine-grained", "fine-grained"),
-    ],
-    "scope_type": [("Device", "device"), ("System", "system")],
-}
+# html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "https://rocm-stg.amd.com/")
+# html_context = {
+#     "project_path": {project_path},
+#     "gpu_type": [
+#         ("AMD Instinct accelerators", "intrinsic"),
+#         ("AMD gfx families", "gfx"),
+#         ("NVIDIA families", "nvidia"),
+#     ],
+#     "atomics_type": [("HW atomics", "hw-atomics"), ("CAS emulation", "cas-atomics")],
+#     "pcie_type": [("No PCIe atomics", "nopcie"), ("PCIe atomics", "pcie")],
+#     "memory_type": [
+#         ("Device DRAM", "device-dram"),
+#         ("Migratable Host DRAM", "migratable-host-dram"),
+#         ("Pinned Host DRAM", "pinned-host-dram"),
+#     ],
+#     "granularity_type": [
+#         ("Coarse-grained", "coarse-grained"),
+#         ("Fine-grained", "fine-grained"),
+#     ],
+#     "scope_type": [("Device", "device"), ("System", "system")],
+# }
 if os.environ.get("READTHEDOCS", "") == "True":
     html_context["READTHEDOCS"] = True
 
 # temporary settings to speed up docs build for faster iteration
-external_projects_remote_repository = ""
-external_toc_exclude_missing = True
+# external_projects_remote_repository = ""
+# external_toc_exclude_missing = True
