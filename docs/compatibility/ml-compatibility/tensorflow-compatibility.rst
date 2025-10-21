@@ -12,7 +12,7 @@ TensorFlow compatibility
 
 `TensorFlow <https://www.tensorflow.org/>`__ is an open-source library for
 solving machine learning, deep learning, and AI problems. It can solve many
-problems across different sectors and industries but primarily focuses on
+problems across different sectors and industries, but primarily focuses on
 neural network training and inference. It is one of the most popular deep 
 learning frameworks and is very active in open-source development.
 

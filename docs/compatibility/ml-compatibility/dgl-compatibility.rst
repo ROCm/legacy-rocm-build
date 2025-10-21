@@ -10,7 +10,7 @@
 DGL compatibility
 ********************************************************************************
 
-Deep Graph Library `(DGL) <https://www.dgl.ai/>`_ is an easy-to-use, high-performance, and scalable 
+Deep Graph Library (`DGL <https://www.dgl.ai/>`__) is an easy-to-use, high-performance, and scalable 
 Python package for deep learning on graphs. DGL is framework agnostic, meaning 
 that if a deep graph model is a component in an end-to-end application, the rest of 
 the logic is implemented using PyTorch.  

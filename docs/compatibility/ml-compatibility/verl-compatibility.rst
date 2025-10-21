@@ -10,7 +10,7 @@
 verl compatibility
 *******************************************************************************
 
-Volcano Engine Reinforcement Learning for LLMs `(verl) <https://verl.readthedocs.io/en/latest/>`__  
+Volcano Engine Reinforcement Learning for LLMs (`verl <https://verl.readthedocs.io/en/latest/>`__)  
 is a reinforcement learning framework designed for large language models (LLMs). 
 verl offers a scalable, open-source fine-tuning solution by using a hybrid programming model 
 that makes it easy to define and run complex post-training dataflows efficiently. 
