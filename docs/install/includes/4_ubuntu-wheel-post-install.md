@@ -6,7 +6,6 @@
    ```
 
    ```{eval-rst}
-
    .. dropdown:: Example output of ``rocminfo``
 
       .. code-block:: shell-session

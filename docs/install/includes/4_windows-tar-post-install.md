@@ -5,7 +5,6 @@ hipinfo
 ```
 
 ```{eval-rst}
-
 .. dropdown:: Example output of ``hipinfo``
 
    .. code-block:: shell-session
@@ -20,4 +19,3 @@ hipinfo
 
       [output truncated]
 ```
-

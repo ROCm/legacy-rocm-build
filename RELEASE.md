@@ -343,7 +343,7 @@ Expect future releases in this stream to expand the list of components.
 				<p>Runtime and compilers</p>
 			</td>
 			<td>
-				<a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/hip"><p>HIP</p></a>
+				<a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/hip"><p>HIP</p></a>
 			</td>
 			<td rowspan="3" style="vertical-align: middle;">
 				<p>Linux and Windows</p>
@@ -351,17 +351,17 @@ Expect future releases in this stream to expand the list of components.
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/HIPIFY"><p>HIPIFY</p></a>
+				<a href="https://github.com/ROCm/HIPIFY/tree/therock-7.9.0"><p>HIPIFY</p></a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/llvm-project"><p>LLVM</p></a>
+				<a href="https://github.com/ROCm/llvm-project/tree/therock-7.9.0"><p>LLVM</p></a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/rocr-runtime"><p>ROCr Runtime</p></a>
+				<a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocr-runtime"><p>ROCr Runtime</p></a>
 			</td>
 			<td>
 				<p>Linux</p>
@@ -372,7 +372,7 @@ Expect future releases in this stream to expand the list of components.
 				<p>Control and monitoring</p>
 			</td>
 			<td>
-				<a href="https://github.com/ROCm/amdsmi"><p>AMD SMI</p></a>
+				<a href="https://github.com/ROCm/amdsmi/tree/therock-7.9.0"><p>AMD SMI</p></a>
 			</td>
 			<td rowspan="2" style="vertical-align: middle;">
 				<p>Linux</p>
@@ -380,7 +380,7 @@ Expect future releases in this stream to expand the list of components.
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/rocminfo"><p>rocminfo</p></a>
+				<a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocminfo"><p>rocminfo</p></a>
 			</td>
 		</tr>
 		<tr class="row-even">
@@ -388,7 +388,7 @@ Expect future releases in this stream to expand the list of components.
 				<p>System utilities, profiling, and debugging</p>
 			</td>
 			<td>
-				<a href="https://github.com/ROCm/rocm-cmake"><p>ROCm CMake</p></a>
+				<a href="https://github.com/ROCm/rocm-cmake/tree/therock-7.9.0"><p>ROCm CMake</p></a>
 			</td>
 			<td>
 				<p>Linux and Windows</p>
@@ -396,7 +396,7 @@ Expect future releases in this stream to expand the list of components.
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-systems/tree/develop/projects/rocprofiler-sdk"><p>ROCprofiler-SDK</p></a>
+				<a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocprofiler-sdk"><p>ROCprofiler-SDK</p></a>
 			</td>
 			<td style="vertical-align: middle;">
 				<p>Linux</p>
@@ -407,7 +407,7 @@ Expect future releases in this stream to expand the list of components.
 				<p>Math and compute libraries</p>
 			</td>
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocblas"><p>rocBLAS</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocblas"><p>rocBLAS</p></a>
 			</td>
 			<td rowspan="14" style="vertical-align: middle;">
 				<p>Linux and Windows</p>
@@ -415,72 +415,72 @@ Expect future releases in this stream to expand the list of components.
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblas"><p>hipBLAS</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipblas"><p>hipBLAS</p></a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblaslt"><p>hipBLASLt</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipblaslt"><p>hipBLASLt</p></a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocfft"><p>rocFFT</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocfft"><p>rocFFT</p></a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipfft"><p>hipFFT</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipfft"><p>hipFFT</p></a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocrand"><p>rocRAND</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocrand"><p>rocRAND</p></a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hiprand"><p>hipRAND</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hiprand"><p>hipRAND</p></a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsolver"><p>rocSOLVER</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocsolver"><p>rocSOLVER</p></a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsolver"><p>hipSOLVER</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipsolver"><p>hipSOLVER</p></a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse"><p>rocSPARSE</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocsparse"><p>rocSPARSE</p></a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsparse"><p>hipSPARSE</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipsparse"><p>hipSPARSE</p></a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocprim"><p>rocPRIM</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocprim"><p>rocPRIM</p></a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocthrust"><p>rocThrust</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/rocthrust"><p>rocThrust</p></a>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipcub"><p>hipCUB</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/hipcub"><p>hipCUB</p></a>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<a href="https://github.com/ROCm/rocm-libraries/tree/develop/projects/miopen"><p>MIOpen</p></a>
+				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/miopen"><p>MIOpen</p></a>
 			</td>
 			<td>
 				<p>Linux<br>Instinct GPUs only</p>

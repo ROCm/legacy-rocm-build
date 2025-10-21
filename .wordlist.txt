@@ -36,6 +36,7 @@ Arb
 Autocast
 BARs
 BatchNorm
+BKC
 BLAS
 BMC
 BabelStream
@@ -79,6 +80,7 @@ CentOS
 ChatGPT
 CoRR
 Codespaces
+ComfyUI
 Commitizen
 CommonMark
 Concretized
@@ -177,6 +179,7 @@ GLXT
 Gloo
 GMI
 GPG
+GPGPU
 GPR
 GPT
 GPU
@@ -295,6 +298,7 @@ MVAPICH
 MVFFR
 Makefile
 Makefiles
+ManyLinux
 Matplotlib
 Matrox
 MaxText
@@ -375,6 +379,7 @@ perf
 PEQT
 PIL
 PILImage
+PLDM
 POR
 PRNG
 PRs
@@ -439,6 +444,7 @@ SBIOS
 SCA
 ScaledGEMM
 SDK
+SDKs
 SDMA
 SDPA
 SDRAM
@@ -485,6 +491,7 @@ TCIU
 TCP
 TCR
 TVM
+TheRock
 THREADGROUPS
 threadgroups
 TensorRT
@@ -877,6 +884,7 @@ radeon
 rccl
 rdc
 rdma
+redhat
 reStructuredText
 redirections
 refactorization
@@ -929,6 +937,7 @@ roctracer
 rst
 runtime
 runtimes
+ryzen
 ResNet
 sL
 scalability
@@ -990,6 +999,7 @@ tracebacks
 txt
 TopK
 uarch
+ubuntu
 uncached
 uncacheable
 uncorrectable

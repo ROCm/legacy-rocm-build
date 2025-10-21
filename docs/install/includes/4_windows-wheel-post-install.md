@@ -5,7 +5,6 @@
    ```
 
    ```{eval-rst}
-
    .. dropdown:: Example output of ``hipinfo``
 
       .. code-block:: shell-session
@@ -20,7 +19,6 @@
 
          [output truncated]
    ```
-
 
 2. Inspect your ROCm installation in your Python environment.
 
