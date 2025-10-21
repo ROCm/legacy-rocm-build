@@ -147,7 +147,7 @@ function updateTOC2OptionsList() {
 
   // Get only visible selector groups
   const groups = Array.from(document.querySelectorAll(GROUP_QUERY)).filter(
-    (g) => g.offsetParent !== null
+    (g) => g.offsetParent !== null,
   );
 
   if (groups.length === 0) {
@@ -164,7 +164,7 @@ function updateTOC2OptionsList() {
   groups.forEach((group) => {
     // ✅ Find group heading span
     const headingSpan = group.querySelector(
-      ".rocm-docs-selector-group-heading-text"
+      ".rocm-docs-selector-group-heading-text",
     );
     const headingText = headingSpan
       ? headingSpan.textContent.trim()
@@ -172,9 +172,13 @@ function updateTOC2OptionsList() {
 
     // Find currently selected option
     const selectedOption = group.querySelector(`.${SELECTED_CLASS}`);
-    const optionText = selectedOption
-      ? selectedOption.textContent.trim()
-      : "(none selected)";
+    let optionText = "(none selected)";
+    if (selectedOption) {
+      const clone = selectedOption.cloneNode(true);
+      // Remove all <i> elements
+      clone.querySelectorAll("i, svg").forEach((el) => el.remove());
+      optionText = clone.innerHTML.trim();
+    }
 
     // Build list item
     const li = document.createElement("li");
@@ -209,7 +213,8 @@ function updateTOC2ContentsList() {
   visibleHeaders.forEach((h) => {
     const level = parseInt(h.tagName.substring(1), 10);
     const li = document.createElement("li");
-    li.className = `nav-item toc-entry toc-${h.tagName.toLowerCase()} rocm-docs-selector-toc2-item`;
+    li.className =
+      `nav-item toc-entry toc-${h.tagName.toLowerCase()} rocm-docs-selector-toc2-item`;
 
     const a = document.createElement("a");
     a.className = "reference internal nav-link";

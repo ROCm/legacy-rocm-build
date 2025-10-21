@@ -113,6 +113,7 @@ class SelectorOption(nodes.General, nodes.Element):
 
     @staticmethod
     def visit_html(translator, node):
+        label = node["label"]
         value = node["value"]
         disable_when_attr = kv_to_data_attr("disable-when", node["disable-when"])
         default = node["default"]
@@ -132,6 +133,7 @@ class SelectorOption(nodes.General, nodes.Element):
                 role="radio"
                 aria-checked="false"
             >
+                <span>{label}</span>
             """.strip()
         )
 
@@ -167,10 +169,10 @@ class SelectorOptionDirective(SphinxDirective):
         node["icon"] = self.options.get("icon")
 
         # Content replaces label if provided
-        if self.content:
-            self.state.nested_parse(self.content, self.content_offset, node)
-        else:
-            node += nodes.Text(label)
+        # if self.content:
+        #     self.state.nested_parse(self.content, self.content_offset, node)
+        # else:
+        #     node += nodes.Text(label)
         return [node]
 
 class SelectedContent(nodes.General, nodes.Element):

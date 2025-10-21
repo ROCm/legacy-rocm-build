@@ -148,16 +148,37 @@ Windows.
    b. Navigate to ``http://127.0.0.1:8188`` in your web browser. You might need to
       replace `8188` with the appropriate port number.
 
-      .. image:: /data/comfyui.png
+      .. image:: /data/comfyui/comfyui-main.png
          :align: center
 
-   c. Search for the "Chroma1 Radiance text to image" template.
+   c. Search for one of the following templates and download any missing
+      models.
 
-      - Select **Template** → **Images** → **Chroma1_radiance**.
-      - Download any missing required models.
+      .. tab-set::
 
-      .. image:: /data/comfyui-missing-models.png
-         :align: center
+         .. tab-item:: SD3.5 Simple
+
+            Select **Template** → **Model Filter** → **SD3.5** → **SD3.5 Simple**
+
+            .. image:: /data/comfyui/sd3_5-simple-card.png
+               :align: center
+
+            Download any missing required models.
+
+            .. image:: /data/comfyui/sd3_5-missing-models.png
+               :align: center
+
+         .. tab-item:: Chroma1 Radiance text to image
+
+            Select **Template** → **Model Filter** → **Chroma** → **Chroma1 Radiance text to image**
+
+            .. image:: /data/comfyui/chroma1-radiance-tti-card.png
+               :align: center
+
+            Download any missing required models.
+
+            .. image:: /data/comfyui/chroma1-radiance-tti-missing-models.png
+               :align: center
 
    d. Click the **Run** button.
 
