@@ -326,42 +326,42 @@ hardware counters are also included.
 vLLM performance optimization
 =============================
 
-This guide helps you maximize vLLM throughput and minimize latency on AMD MI300X/MI325X/MI355X GPUs. Learn how to:
+This guide helps you maximize vLLM throughput and minimize latency on AMD Instinct MI300X/MI325X/MI355X GPUs. Learn how to:
 
-* Enable **AITER** (AI Tensor Engine for ROCm) for speedups on LLM models
-* Configure **environment variables** for optimal HIP, RCCL, and Quick Reduce performance
-* Select the right **attention backend** for your workload (AITER MHA/MLA vs Triton)
-* Choose **parallelism strategies** (tensor, pipeline, data, expert) for multi-GPU deployments
-* Apply **quantization** (FP8/FP4) to reduce memory usage by 2-4× with minimal accuracy loss
-* Tune **engine arguments** (batch size, memory utilization, graph modes) for your use case
-* Benchmark and scale across **single-node** and **multi-node** configurations
+* Enable **AITER** (AI Tensor Engine for ROCm) for speedups on LLM models.
+* Configure **environment variables** for optimal HIP, RCCL, and Quick Reduce performance.
+* Select the right **attention backend** for your workload (AITER MHA/MLA vs Triton).
+* Choose **parallelism strategies** (tensor, pipeline, data, expert) for multi-GPU deployments.
+* Apply **quantization** (``FP8``/``FP4``) to reduce memory usage by 2-4× with minimal accuracy loss.
+* Tune **engine arguments** (batch size, memory utilization, graph modes) for your use case.
+* Benchmark and scale across **single-node** and **multi-node** configurations.
 
 Performance environment variables
 ---------------------------------
 
-The following variables are generally useful for MI300X/MI355X and vLLM:
+The following variables are generally useful for Instinct MI300X/MI355X GPUs and vLLM:
 
-* **HIP & math libraries**
+* **HIP and math libraries**
 
   * ``export HIP_FORCE_DEV_KERNARG=1`` — improves kernel launch performance by forcing device kernel arguments. **Already set by default in vLLM ROCm Docker images.** Bare-metal users should set this manually.
   * ``export TORCH_BLAS_PREFER_HIPBLASLT=1`` — explicitly prefers hipBLASLt over hipBLAS for GEMM operations. By default, PyTorch uses heuristics to choose the best BLAS library. Setting this can improve linear layer performance in some workloads.
 
 * **RCCL (collectives for multi-GPU)**
 
-  * ``export NCCL_MIN_NCHANNELS=112`` — increases RCCL channels from default (typically 32-64) to 112 on MI300X. **Only beneficial for multi-GPU distributed workloads** (tensor parallelism, pipeline parallelism). Single-GPU inference does not need this.
+  * ``export NCCL_MIN_NCHANNELS=112`` — increases RCCL channels from default (typically 32-64) to 112 on the Instinct MI300X. **Only beneficial for multi-GPU distributed workloads** (tensor parallelism, pipeline parallelism). Single-GPU inference does not need this.
 
 AITER (AI Tensor Engine for ROCm) switches
 ------------------------------------------
 
-**AITER** (AI Tensor Engine for ROCm) provides ROCm-specific fused kernels optimized for MI300X/MI355X GPUs in vLLM V1.
+**AITER** (AI Tensor Engine for ROCm) provides ROCm-specific fused kernels optimized for Instinct MI300X/MI355X GPUs in vLLM V1.
 
-**How AITER flags work:**
+How AITER flags work:
 
-* ``VLLM_ROCM_USE_AITER`` is the **master switch** (defaults to **False/0**)
-* Individual feature flags (``VLLM_ROCM_USE_AITER_LINEAR``, ``VLLM_ROCM_USE_AITER_MOE``, etc.) default to **True** but only activate when the master switch is enabled
+* ``VLLM_ROCM_USE_AITER`` is the master switch (defaults to ``False``/``0``)
+* Individual feature flags (``VLLM_ROCM_USE_AITER_LINEAR``, ``VLLM_ROCM_USE_AITER_MOE``, etc.) default to ``True`` but only activate when the master switch is enabled
 * To enable a specific AITER feature, you must set **both** ``VLLM_ROCM_USE_AITER=1`` **and** the specific feature flag to ``1``
 
-**Quick start examples:**
+Quick start examples:
 
 .. code-block:: bash
 
@@ -387,10 +387,10 @@ AITER (AI Tensor Engine for ROCm) switches
      - Description (default behavior)
 
    * - ``VLLM_ROCM_USE_AITER``
-     - **Master switch** to enable AITER kernels (**0/False** by default). All other ``VLLM_ROCM_USE_AITER_*`` flags require this to be set to ``1``.
+     - **Master switch** to enable AITER kernels (``0``/``False`` by default). All other ``VLLM_ROCM_USE_AITER_*`` flags require this to be set to ``1``.
 
    * - ``VLLM_ROCM_USE_AITER_LINEAR``
-     - Use AITER quantization operators + GEMM for linear layers (defaults to **True** when AITER is on). Accelerates matrix multiplications in all transformer layers. **Recommended: keep enabled.**
+     - Use AITER quantization operators + GEMM for linear layers (defaults to ``True`` when AITER is on). Accelerates matrix multiplications in all transformer layers. **Recommended: keep enabled.**
 
    * - ``VLLM_ROCM_USE_AITER_MOE``
      - Use AITER fused-MoE kernels (defaults to **True** when AITER is on). Accelerates Mixture-of-Experts routing and computation. **See detailed requirements below.**
@@ -399,35 +399,37 @@ AITER (AI Tensor Engine for ROCm) switches
      - Use AITER RMSNorm kernels (defaults to **True** when AITER is on). Accelerates normalization layers. **Recommended: keep enabled.**
 
    * - ``VLLM_ROCM_USE_AITER_MLA``
-     - Use AITER Multi-head Latent Attention for supported models e.g. DeepSeek-V3/R1 (defaults to **True** when AITER is on). **See detailed requirements below.**
+     - Use AITER Multi-head Latent Attention for supported models, for example, DeepSeek-V3/R1 (defaults to **True** when AITER is on). **See detailed requirements below.**
 
    * - ``VLLM_ROCM_USE_AITER_MHA``
-     - Use AITER Multi-Head Attention kernels (defaults to **True** when AITER is on; set **0** to use Triton attention backends and Prefill-Decode attention backend instead). **See attention backend selection below.**
+     - Use AITER Multi-Head Attention kernels (defaults to ``True`` when AITER is on; set to ``0`` to use Triton attention backends and Prefill-Decode attention backend instead). **See attention backend selection below.**
 
    * - ``VLLM_ROCM_USE_AITER_UNIFIED_ATTENTION``
-     - Enable AITER's optimized unified attention kernel (defaults to **False**). Only takes effect when: (1) AITER is enabled, (2) unified attention mode is active (``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=0``), and (3) AITER MHA is disabled (``VLLM_ROCM_USE_AITER_MHA=0``). When disabled, falls back to vLLM's Triton unified attention.
+     - Enable AITER's optimized unified attention kernel (defaults to **False**). Only takes effect when: AITER is enabled; unified attention mode is active (``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=0``); and AITER MHA is disabled (``VLLM_ROCM_USE_AITER_MHA=0``). When disabled, falls back to vLLM's Triton unified attention.
 
    * - ``VLLM_ROCM_USE_AITER_FP8BMM``
-     - Use AITER FP8 batched matmul (defaults to **True** when AITER is on). Fuses FP8 per-token quantization with batched GEMM (used in MLA models like DeepSeek-V3). **Requires MI300X/MI355X.**
+     - Use AITER ``FP8`` batched matmul (defaults to **True** when AITER is on). Fuses ``FP8`` per-token quantization with batched GEMM (used in MLA models like DeepSeek-V3). **Requires an Instinct MI300X/MI355X GPU.**
 
    * - ``VLLM_ROCM_USE_SKINNY_GEMM``
      - Prefer skinny-GEMM kernel variants for small batch sizes (defaults to **True**). Improves performance when ``M`` dimension is small. **Recommended: keep enabled.**
 
    * - ``VLLM_ROCM_FP8_PADDING``
-     - Pad FP8 linear weight tensors to improve memory locality (defaults to **True**). Minor memory overhead for better performance.
+     - Pad ``FP8`` linear weight tensors to improve memory locality (defaults to **True**). Minor memory overhead for better performance.
 
    * - ``VLLM_ROCM_MOE_PADDING``
-     - Pad MoE weight tensors for better memory access patterns (defaults to **True**). Same memory/performance tradeoff as FP8 padding.
+     - Pad MoE weight tensors for better memory access patterns (defaults to **True**). Same memory/performance tradeoff as ``FP8`` padding.
 
    * - ``VLLM_ROCM_CUSTOM_PAGED_ATTN``
      - Use custom paged-attention decode kernel when Prefill-Decode attention backend is selected (defaults to **True**). **See attention backend selection below.**
 
 .. note::
 
-   When ``VLLM_ROCM_USE_AITER=1``, most AITER component flags (LINEAR, MOE, RMSNORM, MLA, MHA, FP8BMM) automatically default to **True**. You typically only need to set the master switch ``VLLM_ROCM_USE_AITER=1`` to enable all optimizations.
-   ROCm provides a prebuilt optimized Docker image for validating the performance
-   of LLM inference with vLLM on MI300X Series GPUs. The Docker image includes
-   ROCm, vLLM, and PyTorch. For more information, see
+   When ``VLLM_ROCM_USE_AITER=1``, most AITER component flags (``LINEAR``, ``MOE``,
+   ``RMSNORM``, ``MLA``, ``MHA``, ``FP8BMM``) automatically default to ``True``. You typically
+   only need to set the master switch ``VLLM_ROCM_USE_AITER=1`` to enable all
+   optimizations. ROCm provides a prebuilt optimized Docker image for
+   validating the performance of LLM inference with vLLM on MI300X Series GPUs.
+   The Docker image includes ROCm, vLLM, and PyTorch. For more information, see
    :doc:`/how-to/rocm-for-ai/inference/benchmark-docker/vllm`.
 
 AITER MoE requirements (Mixtral, DeepSeek-V2/V3, Qwen-MoE models)
@@ -443,12 +445,12 @@ AITER MoE requirements (Mixtral, DeepSeek-V2/V3, Qwen-MoE models)
 * Qwen family: Qwen1.5-MoE / Qwen2-MoE / Qwen2.5-MoE series
 * Other MoE architectures
 
-**When to enable:**
+When to enable:
 
-* **Enable (default):** For all MoE models on MI300X/MI355X for best throughput
+* **Enable (default):** For all MoE models on the Instinct MI300X/MI355X for best throughput
 * **Disable:** Only for debugging or if you encounter numerical issues
 
-**Example usage:**
+Example usage:
 
 .. code-block:: bash
 
@@ -465,7 +467,7 @@ AITER MLA requirements (DeepSeek-V3/R1 models)
 
 ``VLLM_ROCM_USE_AITER_MLA`` enables AITER MLA (Multi-head Latent Attention) optimization for supported models. Defaults to **True** when AITER is on.
 
-**Critical requirement:**
+Critical requirement:
 
 * **Must** explicitly set ``--block-size 1``
 
@@ -473,13 +475,13 @@ AITER MLA requirements (DeepSeek-V3/R1 models)
 
    If you omit ``--block-size 1``, vLLM will raise an error rather than defaulting to 1.
 
-**Applicable models:**
+Applicable models:
 
 * DeepSeek-V3 / DeepSeek-R1
 * DeepSeek-V2
 * Other models using multi-head latent attention (MLA) architecture
 
-**Example usage:**
+Example usage:
 
 .. code-block:: bash
 
@@ -493,9 +495,9 @@ Attention backend selection with AITER
 
 Understanding which attention backend to use helps optimize your deployment.
 
-**Quick Reference: Which Attention Backend Will I Get?**
+Quick reference: Which attention backend will I get?
 
-**Default Behavior (No Configuration)**
+Default behavior (no configuration)
 
 Without setting any environment variables, vLLM uses:
 
@@ -503,7 +505,7 @@ Without setting any environment variables, vLLM uses:
 * Works on all ROCm platforms
 * Good baseline performance
 
-**Recommended: Enable AITER (Set VLLM_ROCM_USE_AITER=1)**
+**Recommended: Enable AITER (set ``VLLM_ROCM_USE_AITER=1``)**
 
 When you enable AITER, the backend is automatically selected based on your model:
 
@@ -517,10 +519,10 @@ When you enable AITER, the backend is automatically selected based on your model
    │
    └─ NO  → AITER MHA Backend
              • For standard transformer models (Llama, Mistral, etc.)
-             • Optimized for MI300X/MI355X
+             • Optimized for Instinct MI300X/MI355X
              • Automatically selected
 
-**Advanced: Manual Backend Selection**
+Advanced: Manual backend selection
 
 Most users won't need this, but you can override the defaults:
 
@@ -528,8 +530,8 @@ Most users won't need this, but you can override the defaults:
    :widths: 40 60
    :header-rows: 1
 
-   * - To Use This Backend
-     - Set These Flags
+   * - To use this backend
+     - Set these flags
 
    * - AITER MLA (MLA models only)
      - ``VLLM_ROCM_USE_AITER=1`` (auto-selects for DeepSeek-V3/R1)
@@ -550,7 +552,7 @@ Most users won't need this, but you can override the defaults:
        | ``VLLM_ROCM_USE_AITER_MHA=0``
        | ``VLLM_ROCM_USE_AITER_UNIFIED_ATTENTION=1``
 
-**Quick Start Examples:**
+Quick start examples:
 
 .. code-block:: bash
 
@@ -568,17 +570,17 @@ Most users won't need this, but you can override the defaults:
    VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1 \
    vllm serve meta-llama/Llama-3.3-70B-Instruct
 
-**Which Backend Should I Choose?**
+Which backend should I choose?
 
 .. list-table::
    :widths: 30 70
    :header-rows: 1
 
-   * - Your Use Case
-     - Recommended Backend
+   * - Your use case
+     - Recommended backend
 
    * - **Standard transformer models** (Llama, Mistral, Qwen, Mixtral)
-     - **AITER MHA** (``VLLM_ROCM_USE_AITER=1``) — **Recommended for most workloads** on MI300X/MI355X. Provides optimized attention kernels for both prefill and decode phases.
+     - **AITER MHA** (``VLLM_ROCM_USE_AITER=1``) — **Recommended for most workloads** on Instinct MI300X/MI355X. Provides optimized attention kernels for both prefill and decode phases.
 
    * - **MLA models** (DeepSeek-V3/R1/V2)
      - **AITER MLA** (auto-selected with ``VLLM_ROCM_USE_AITER=1``) — Required for optimal performance, must use ``--block-size 1``
@@ -589,7 +591,7 @@ Most users won't need this, but you can override the defaults:
   * - **Debugging or compatibility**
      - **vLLM Triton Unified** (default with ``VLLM_ROCM_USE_AITER=0``) — Generic fallback, works everywhere
 
-**Important Notes:**
+**Important notes:**
 
 * **AITER MHA and AITER MLA are mutually exclusive** — vLLM automatically detects MLA models and selects the appropriate backend
 * **For 95% of users:** Simply set ``VLLM_ROCM_USE_AITER=1`` and let vLLM choose the right backend
@@ -603,7 +605,7 @@ Backend choice quick recipes
 * **Streaming decode (low ITL):** raise ``--max-num-batched-tokens`` to **32k–64k**.
 * **Offline max throughput:** ``--max-num-batched-tokens`` ≥ **32k** with ``cudagraph_mode=FULL``.
 
-**How to Verify Which Backend is Active**
+**How to verify which backend is active**
 
 Check vLLM's startup logs to confirm which attention backend is being used:
 
@@ -634,23 +636,23 @@ vLLM V1 on ROCm provides these attention implementations:
    * Generic implementation that works across all ROCm platforms
    * Good baseline performance
    * Automatically selected when ``VLLM_ROCM_USE_AITER=0`` (or unset)
-   * Support GPT-OSS
+   * Supports GPT-OSS
 
 2. **AITER Triton Unified Attention** (advanced, requires manual configuration)
 
-   * AMD's optimized unified Triton kernel
-   * Enable with ``VLLM_ROCM_USE_AITER=1``, ``VLLM_ROCM_USE_AITER_MHA=0``, and ``VLLM_ROCM_USE_AITER_UNIFIED_ATTENTION=1``
-   * Only useful for specific workloads; most users should use AITER MHA instead
+   * The AMD optimized unified Triton kernel
+   * Enable with ``VLLM_ROCM_USE_AITER=1``, ``VLLM_ROCM_USE_AITER_MHA=0``, and ``VLLM_ROCM_USE_AITER_UNIFIED_ATTENTION=1``.
+   * Only useful for specific workloads. Most users should use AITER MHA instead.
    * Recommended this backend when running GPT-OSS.
 
-3. **AITER Triton Prefill–Decode Attention** (hybrid, MI300X-optimized)
+3. **AITER Triton Prefill–Decode Attention** (hybrid, Instinct MI300X-optimized)
 
-   * Enable with ``VLLM_ROCM_USE_AITER=1`` and ``VLLM_ROCM_USE_AITER_MHA=0`` and ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``
+   * Enable with ``VLLM_ROCM_USE_AITER=1``, ``VLLM_ROCM_USE_AITER_MHA=0``, and ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``
    * Uses separate kernels for prefill and decode phases:
 
-     * **Prefill:** ``context_attention_fwd`` Triton kernel
-     * **Primary decode:** ``torch.ops._rocm_C.paged_attention`` (custom ROCm kernel optimized for head sizes 64/128, block sizes 16/32, GQA 1–16, context ≤131k; sliding window not supported)
-     * **Fallback decode:** ``kernel_paged_attention_2d`` Triton kernel when shapes don't meet primary decode requirements
+     * **Prefill**: ``context_attention_fwd`` Triton kernel
+     * **Primary decode**: ``torch.ops._rocm_C.paged_attention`` (custom ROCm kernel optimized for head sizes 64/128, block sizes 16/32, GQA 1–16, context ≤131k; sliding window not supported)
+     * **Fallback decode**: ``kernel_paged_attention_2d`` Triton kernel when shapes don't meet primary decode requirements
 
    * Usually better compared to unified Triton kernels (both vLLM and AITER variants)
    * Performance vs AITER MHA varies: AITER MHA is typically faster overall, but Prefill-Decode split may win in short input scenarios
@@ -668,7 +670,7 @@ vLLM V1 on ROCm provides these attention implementations:
 
 6. **AITER Multi-head Latent Attention (MLA)** (for DeepSeek-V3/R1/V2)
 
-   * Controlled by ``VLLM_ROCM_USE_AITER_MLA`` (**1** = enabled)
+   * Controlled by ``VLLM_ROCM_USE_AITER_MLA`` (``1`` = enabled)
    * Required for optimal performance on MLA architecture models
    * Automatically selected when ``VLLM_ROCM_USE_AITER=1`` and model uses MLA
    * Requires ``--block-size 1``
@@ -689,7 +691,7 @@ Control via:
 * ``VLLM_ROCM_QUICK_REDUCE_CAST_BF16_TO_FP16``: cast BF16 input to FP16 (``1/True`` by default for performance).
 * ``VLLM_ROCM_QUICK_REDUCE_MAX_SIZE_BYTES_MB``: cap the preset buffer (default ``NONE`` ≈ ``2048`` MB).
 
-Quick Reduce tends to help **throughput** at higher TP counts (e.g., 4–8) with many concurrent requests.
+Quick Reduce tends to help **throughput** at higher TP counts (for example, 4–8) with many concurrent requests.
 
 Parallelism strategies (run vLLM on multiple GPUs)
 ---------------------------------------------------
@@ -705,7 +707,7 @@ For more details, see `Parallelism and scaling <https://docs.vllm.ai/en/stable/s
 
 **Choosing the right strategy:**
 
-* **Tensor Parallelism (TP)**: Use when model doesn't fit on one GPU. Prefer staying within a single XGMI island (≤8 GPUs on MI300X).
+* **Tensor Parallelism (TP)**: Use when model doesn't fit on one GPU. Prefer staying within a single XGMI island (≤8 GPUs on the Instinct MI300X).
 * **Pipeline Parallelism (PP)**: Use for very large models across nodes. Set TP to GPUs per node, scale with PP across nodes.
 * **Data Parallelism (DP)**: Use when model fits on single GPU or TP group, and you need higher throughput. Combine with TP/PP for large models.
 * **Expert Parallelism (EP)**: Use for MoE models with ``--enable-expert-parallel``. More efficient than TP for MoE layers.
@@ -759,7 +761,7 @@ Pipeline parallelism splits the model's layers across multiple GPUs or nodes, wi
        --pipeline-parallel-size 2
 
 .. note::
-   **ROCm best practice:** On MI300X, prefer staying within a single XGMI island (≤8 GPUs) using TP only. Use PP when scaling beyond 8 GPUs or across nodes.
+   **ROCm best practice**: On the Instinct MI300X, prefer staying within a single XGMI island (≤8 GPUs) using TP only. Use PP when scaling beyond eight GPUs or across nodes.
 
 .. _data-parallelism-section:
 
@@ -772,7 +774,7 @@ Data parallelism replicates model weights across separate instances/GPUs to proc
 
 * Model fits on one GPU, but you need higher request throughput
 * Scaling across multiple nodes horizontally
-* Combining with tensor parallelism (e.g., DP=2 + TP=4 = 8 GPUs total)
+* Combining with tensor parallelism (for example, DP=2 + TP=4 = 8 GPUs total)
 
 **Quick start - single-node:**
 
@@ -860,7 +862,7 @@ where tokens are routed to the GPUs holding the experts they need.
 
 **Performance considerations:**
 
-Expert parallelism is designed primarily for cross-node MoE deployments where high-bandwidth interconnects (like InfiniBand) between nodes make EP communication efficient. For single-node MI300X/MI355X deployments with XGMI connectivity, **tensor parallelism typically provides better performance** due to optimized all-to-all collectives on XGMI.
+Expert parallelism is designed primarily for cross-node MoE deployments where high-bandwidth interconnects (like InfiniBand) between nodes make EP communication efficient. For single-node Instinct MI300X/MI355X deployments with XGMI connectivity, tensor parallelism typically provides better performance due to optimized all-to-all collectives on XGMI.
 
 **When to use EP:**
 
@@ -868,7 +870,7 @@ Expert parallelism is designed primarily for cross-node MoE deployments where hi
 * Models with very large numbers of experts that benefit from expert distribution
 * Workloads where EP's reduced data movement outweighs communication overhead
 
-**Single-node recommendation:** For MI300X/MI355X within a single node (≤8 GPUs), prefer tensor parallelism over expert parallelism for MoE models to leverage XGMI's high bandwidth and low latency.
+**Single-node recommendation:** For Instinct MI300X/MI355X within a single node (≤8 GPUs), prefer tensor parallelism over expert parallelism for MoE models to leverage XGMI's high bandwidth and low latency.
 
 **Basic usage:**
 
@@ -888,7 +890,7 @@ When EP is enabled alongside tensor parallelism:
 
 **Combining with Data Parallelism:**
 
-EP works seamlessly with Data Parallel Attention for optimal memory efficiency in MLA+MoE models (e.g., DeepSeek V3):
+EP works seamlessly with Data Parallel Attention for optimal memory efficiency in MLA+MoE models (for example, DeepSeek V3):
 
 .. code-block:: bash
 
@@ -947,9 +949,9 @@ balancing KV-cache capacity.
          --dataset /path/to/ShareGPT_V3_unfiltered_cleaned_split.json &
       done
 
-Total throughput from **N** single-GPU instances usually exceeds one instance stretched across **N** GPUs (`-tp N`).
+Total throughput from **N** single-GPU instances usually exceeds one instance stretched across **N** GPUs (``-tp N``).
 
-**Model coverage**: Llama 2 (7B/13B/70B), Llama 3 (8B/70B), Qwen2 (7B/72B), Mixtral-8x7B/8x22B, etc. Llama2‑70B
+**Model coverage**: Llama 2 (7B/13B/70B), Llama 3 (8B/70B), Qwen2 (7B/72B), Mixtral-8x7B/8x22B, and others Llama2‑70B
 and Llama3‑70B can fit a single MI300X/MI355X; Llama3.1‑405B fits on a single 8×MI300X/MI355X node.
 
 Configure the ``gpu-memory-utilization`` parameter
@@ -990,7 +992,7 @@ vLLM engine arguments
 
 Selected arguments that often help on ROCm. See `engine args docs <https://docs.vllm.ai/en/latest/serving/engine_args.html>`_ for the full list.
 
-Configure ``--max-num-seqs``
+Configure --max-num-seqs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The default value is **1024** in vLLM V1 (increased from **256** in V0). This flag controls the maximum number of sequences processed per batch, directly affecting concurrency and memory usage.
@@ -1006,7 +1008,7 @@ Example usage:
 
    vllm serve <model> --max-num-seqs 128 --max-model-len 8192
 
-Configure ``--max-num-batched-tokens``
+Configure --max-num-batched-tokens
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Chunked prefill is enabled by default** in vLLM V1.
@@ -1014,7 +1016,7 @@ Configure ``--max-num-batched-tokens``
 * Lower values improve **ITL** (less prefill interrupting decode).
 * Higher values improve **TTFT** (more prefill per batch).
 
-Defaults: **8192** for online serving, **16384** for offline. However, optimal values vary significantly by model size—smaller models can efficiently handle larger batch sizes. Setting it near ``--max-model-len`` mimics V0 behavior and often maximizes throughput.
+Defaults: **8192** for online serving, **16384** for offline. However, optimal values vary significantly by model size. Smaller models can efficiently handle larger batch sizes. Setting it near ``--max-model-len`` mimics V0 behavior and often maximizes throughput.
 
 **Guidance:**
 
@@ -1095,14 +1097,14 @@ improvement in throughput with minimal impact on accuracy.
 
 vLLM ROCm supports a variety of quantization demands: 
 
-1. On-the-fly quantization 
+* On-the-fly quantization 
 
-2. Pre-quantized model through Quark and llm-compressor 
+* Pre-quantized model through Quark and llm-compressor 
 
-Supported Quantization Methods
+Supported quantization methods
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-vLLM on ROCm supports the following quantization methods for AMD MI300 series and MI355X GPUs:
+vLLM on ROCm supports the following quantization methods for the AMD Instinct MI300 series and Instinct MI355X GPUs:
 
 .. list-table::
    :header-rows: 1
@@ -1110,9 +1112,9 @@ vLLM on ROCm supports the following quantization methods for AMD MI300 series an
 
    * - Method
      - Precision
-     - ROCm Support
-     - Memory Reduction
-     - Best Use Case
+     - ROCm support
+     - Memory reduction
+     - Best use case
    * - **FP8** (W8A8)
      - 8-bit float
      - ✅ Excellent
@@ -1122,7 +1124,7 @@ vLLM on ROCm supports the following quantization methods for AMD MI300 series an
      - 8-bit float
      - ✅ Excellent
      - 2× (50%)
-     - High throughput, better than FP8
+     - High throughput, better than ``FP8``
    * - **AWQ**
      - 4-bit int (W4A16)
      - ✅ Good
@@ -1139,12 +1141,12 @@ vLLM on ROCm supports the following quantization methods for AMD MI300 series an
      - KV cache: 50%
      - All inference workloads
    * - **Quark (AMD)**
-     - FP8/MXFP4
+     - ``FP8``/``MXFP4``
      - ✅ Optimized
      - 2-4× (50-75%)
      - AMD pre-quantized models
    * - **compressed-tensors**
-     - W8A8 INT8/FP8
+     - W8A8 ``INT8``/``FP8``
      - ✅ Good
      - 2× (50%)
      - LLM Compressor models
@@ -1152,7 +1154,7 @@ vLLM on ROCm supports the following quantization methods for AMD MI300 series an
 **Key:**
 
 - ✅ Excellent: Fully supported with optimized kernels
-- ✅ Good: Supported, may not have AMD-optimized kernels
+- ✅ Good: Supported, might not have AMD-optimized kernels
 - ✅ Optimized: AMD-specific optimizations available
 
 Using Pre-quantized Models
@@ -1160,7 +1162,7 @@ Using Pre-quantized Models
 
 AMD provides pre-quantized models optimized for ROCm. These models are ready to use with vLLM.
 
-**AMD Quark Quantized Models:**
+**AMD Quark Quantized models**:
 
 Available on `Hugging Face <https://huggingface.co/models?other=quark>`_:
 
@@ -1173,7 +1175,7 @@ Available on `Hugging Face <https://huggingface.co/models?other=quark>`_:
   * `Llama-3.1-405B-Instruct-MXFP4-Preview <https://huggingface.co/amd/Llama-3.1-405B-Instruct-MXFP4-Preview>`__ (MXFP4 for MI350/MI355)
   * `DeepSeek-R1-0528-MXFP4-Preview <https://huggingface.co/amd/DeepSeek-R1-0528-MXFP4-Preview>`__ (MXFP4 for MI350/MI355)
 
-**Quick Start:**
+**Quick start**:
 
 .. code-block:: bash
 
@@ -1186,21 +1188,21 @@ Available on `Hugging Face <https://huggingface.co/models?other=quark>`_:
       --dtype auto \
       --tensor-parallel-size 1
 
-**Other Pre-quantized Models:**
+**Other pre-quantized models**:
 
 - **AWQ models**: `Hugging Face awq flag <https://huggingface.co/models?other=awq>`_
 - **GPTQ models**: `Hugging Face gptq flag <https://huggingface.co/models?other=gptq>`_
 - **LLM Compressor models**: `Hugging Face compressed-tensors flag <https://huggingface.co/models?other=compressed-tensors>`_
 
-On-the-fly Quantization
+On-the-fly quantization
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-For models without pre-quantization, vLLM can quantize FP16/BF16 models at server startup.
+For models without pre-quantization, vLLM can quantize ``FP16``/``BF16`` models at server startup.
 
-**Supported Methods:**
+**Supported methods**:
 
-- ``fp8``: Per-tensor FP8 weight and activation quantization
-- ``ptpc_fp8``: Per-token-activation per-channel-weight FP8 (better accuracy same FP8 speed). See `PTPC-FP8 on ROCm blog post <https://blog.vllm.ai/2025/02/24/ptpc-fp8-rocm.html>`_ for details
+- ``fp8``: Per-tensor ``FP8`` weight and activation quantization
+- ``ptpc_fp8``: Per-token-activation per-channel-weight ``FP8`` (better accuracy same ``FP8`` speed). See `PTPC-FP8 on ROCm blog post <https://blog.vllm.ai/2025/02/24/ptpc-fp8-rocm.html>`_ for details
 
 **Usage:**
 
@@ -1217,7 +1219,7 @@ For models without pre-quantization, vLLM can quantize FP16/BF16 models at serve
       --dtype auto \
       --tensor-parallel-size 4
 
-**Note:** On-the-fly quantization adds 2-5 minutes startup time but eliminates pre-quantization. For production with frequent restarts, use pre-quantized models.
+**Note**: On-the-fly quantization adds two to five minutes of startup time but eliminates pre-quantization. For production with frequent restarts, use pre-quantized models.
 
 GPTQ
 ^^^^
@@ -1225,15 +1227,15 @@ GPTQ
 GPTQ is a 4-bit/8-bit weight quantization method that compresses models with minimal accuracy loss. GPTQ
 is fully supported on ROCm via HIP-compiled kernels in vLLM.
 
-**ROCm Support Status:**
+**ROCm support status**:
 
 - ✅ **Fully supported** - GPTQ kernels compile and run on ROCm via HIP
 - ✅ **Pre-quantized models work** with standard GPTQ kernels
 
-**Recommendation:** For AMD MI300X, **AWQ with Triton kernels** or **FP8 quantization** may provide better
+**Recommendation**: For the AMD Instinct MI300X, **AWQ with Triton kernels** or **FP8 quantization** might provide better
 performance due to ROCm-specific optimizations, but GPTQ is a viable alternative.
 
-**Using Pre-quantized GPTQ Models:**
+**Using pre-quantized GPTQ models**:
 
 .. code-block:: bash
 
@@ -1243,10 +1245,10 @@ performance due to ROCm-specific optimizations, but GPTQ is a viable alternative
       --dtype auto \
       --tensor-parallel-size 1
 
-**Important Notes:**
+Important notes:
 
 - **Kernel support:** GPTQ uses standard HIP-compiled kernels on ROCm
-- **Performance:** AWQ with Triton kernels may offer better throughput on AMD GPUs due to ROCm optimizations
+- **Performance:** AWQ with Triton kernels might offer better throughput on AMD GPUs due to ROCm optimizations
 - **Compatibility:** GPTQ models from Hugging Face work on ROCm with standard performance
 - **Use case:** GPTQ is suitable when pre-quantized GPTQ models are readily available
 
@@ -1254,10 +1256,10 @@ AWQ (Activation-aware Weight Quantization)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 AWQ (Activation-aware Weight Quantization) is a 4-bit weight quantization technique that provides excellent
-model compression with minimal accuracy loss (<1%). ROCm supports AWQ quantization on AMD MI300 series and
+model compression with minimal accuracy loss (<1%). ROCm supports AWQ quantization on the AMD Instinct MI300 series and
 MI355X GPUs with vLLM.
 
-**Using Pre-quantized AWQ Models:**
+**Using pre-quantized AWQ models:**
 
 Many AWQ-quantized models are available on Hugging Face. Use them directly with vLLM:
 
@@ -1274,18 +1276,18 @@ Many AWQ-quantized models are available on Hugging Face. Use them directly with 
 
 * **ROCm requirement:** Set ``VLLM_USE_TRITON_AWQ=1`` to enable Triton-based AWQ kernels on ROCm
 * **dtype parameter:** AWQ requires ``--dtype auto`` or ``--dtype float16``. The ``--dtype`` flag controls
-  the **activation dtype** (FP16/BF16 for computations), not the weight dtype. AWQ weights remain as INT4
-  (4-bit integers) as specified in the model's quantization config, but are dequantized to FP16/BF16 during
+  the **activation dtype** (``FP16``/``BF16`` for computations), not the weight dtype. AWQ weights remain as INT4
+  (4-bit integers) as specified in the model's quantization config, but are dequantized to ``FP16``/``BF16`` during
   matrix multiplication operations.
 * **Group size:** 128 is recommended for optimal performance/accuracy balance
 * **Model compatibility:** AWQ is primarily tested on Llama, Mistral, and Qwen model families
 
-Quark (AMD Quantization Toolkit)
+Quark (AMD quantization toolkit)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-AMD Quark is AMD's quantization toolkit optimized for ROCm. It supports FP8 W8A8, MXFP4, W8A8 INT8, and
+AMD Quark is the AMD quantization toolkit optimized for ROCm. It supports ``FP8 W8A8``, ``MXFP4``, ``W8A8 INT8``, and
 other quantization formats with native vLLM integration. The quantization format will automatically be inferred
-from the model config file, thus we can omit `--quantization quark`.
+from the model config file, so you can omit ``--quantization quark``.
 
 **Running Quark Models:**
 
@@ -1308,24 +1310,24 @@ from the model config file, thus we can omit `--quantization quark`.
 - **FP8 models**: ~50% memory reduction, 2× compression
 - **MXFP4 models**: ~75% memory reduction, 4× compression
 - **Embedded scales**: Quark FP8-KV models include pre-calibrated KV-cache scales
-- **Hardware optimized**: Leverages AMD MI300 series FP8 acceleration
+- **Hardware optimized**: Leverages the AMD Instinct MI300 series ``FP8`` acceleration
 
 For creating your own Quark-quantized models, see `Quark Documentation <https://quark.docs.amd.com/latest/>`_.
 
-FP8 `kv-cache` dtype
+FP8 kv-cache dtype
 ^^^^^^^^^^^^^^^^^^^^
 
 FP8 KV-cache quantization reduces memory footprint by approximately 50%, enabling longer context lengths
 or higher concurrency. ROCm supports FP8 KV-cache with both ``fp8_e4m3`` and ``fp8_e5m2`` formats on
-AMD MI300 series and other CDNA™ GPUs.
+AMD Instinct MI300 series and other CDNA™ GPUs.
 
-Use ``--kv-cache-dtype fp8`` to enable FP8 KV-cache quantization. For best accuracy, use calibrated
+Use ``--kv-cache-dtype fp8`` to enable ``FP8`` KV-cache quantization. For best accuracy, use calibrated
 scaling factors generated via `LLM Compressor <https://github.com/vllm-project/llm-compressor>`_.
 Without calibration, scales are calculated dynamically (``--calculate-kv-scales``) with minimal
 accuracy impact.
 
 
-**Quick Start (Dynamic Scaling):**
+**Quick start (dynamic scaling)**:
 
 .. code-block:: bash
 
@@ -1335,20 +1337,20 @@ accuracy impact.
       --calculate-kv-scales \
       --gpu-memory-utilization 0.90
 
-**Calibrated Scaling (Advanced):**
+**Calibrated scaling (advanced)**:
 
 For optimal accuracy, pre-calibrate KV-cache scales using representative data. The calibration process:
 
 #. Runs the model on calibration data (512+ samples recommended)
-#. Computes optimal FP8 quantization scales for key/value cache tensors
+#. Computes optimal ``FP8`` quantization scales for key/value cache tensors
 #. Embeds these scales into the saved model as additional parameters
 #. vLLM loads the model and uses the embedded scales automatically when ``--kv-cache-dtype fp8`` is specified
 
-The quantized model can be used like any other model—the embedded scales are stored as part of the model weights.
+The quantized model can be used like any other model. The embedded scales are stored as part of the model weights.
 
 **Using pre-calibrated models:**
 
-AMD provides ready-to-use models with pre-calibrated FP8 KV cache scales:
+AMD provides ready-to-use models with pre-calibrated ``FP8`` KV cache scales:
 
 * `amd/Llama-3.1-8B-Instruct-FP8-KV <https://huggingface.co/amd/Llama-3.1-8B-Instruct-FP8-KV>`_
 * `amd/Llama-3.3-70B-Instruct-FP8-KV <https://huggingface.co/amd/Llama-3.3-70B-Instruct-FP8-KV>`_
@@ -1377,7 +1379,7 @@ To verify a model has pre-calibrated KV cache scales, check ``config.json`` for:
 
 For detailed instructions and the complete calibration script, see the `FP8 KV Cache Quantization Guide <https://github.com/vllm-project/llm-compressor/blob/main/examples/quantization_kv_cache/README.md>`_.
 
-**Format Options:**
+**Format options**:
 
 - ``fp8`` or ``fp8_e4m3``: Higher precision (default, recommended)
 - ``fp8_e5m2``: Larger dynamic range, slightly lower precision
@@ -1385,9 +1387,9 @@ For detailed instructions and the complete calibration script, see the `FP8 KV C
 Speculative decoding (experimental)
 -----------------------------------
 
-Recent vLLM versions add support for speculative decoding backends (e.g., Eagle‑v3). Evaluate for your model and latency/throughput goals.
+Recent vLLM versions add support for speculative decoding backends (for example, Eagle‑v3). Evaluate for your model and latency/throughput goals.
 Speculative decoding is a technique to reduce latency when max number of concurrency is low. 
-Depending on the methods, the effective concurrency varies, e.g. 16 to 64.
+Depending on the methods, the effective concurrency varies, for example, from 16 to 64.
 
 Example command:
 
@@ -1409,17 +1411,17 @@ Example command:
       --speculative_config '{"method": "eagle3", "model": "yuhuili/EAGLE3-LLaMA3.1-Instruct-8B", "num_speculative_tokens": 2, "draft_tensor_parallel_size": 1, "dtype": "float16"}' \
       --port 8001
 
-**Important Notes:**
+**Important notes**:
 
-We have observed that more `num_speculative_tokens` causes less acceptance rate of draft model tokens, and loss in throughput. Suggest to set the `num_speculative_tokens` <= 2. 
+We have observed that more ``num_speculative_tokens`` causes less acceptance rate of draft model tokens and a decline in throughput. As a workaround, set `num_speculative_tokens` to <= 2. 
 
 
-Multi-node checklist & troubleshooting
+Multi-node checklist and troubleshooting
 --------------------------------------
 
-1. Use ``--distributed-executor-backend ray`` across nodes to manage HIP-visible ranks and RCCL communicators. (Ray is the default for multi-node; explicitly setting this flag is optional.)
+1. Use ``--distributed-executor-backend ray`` across nodes to manage HIP-visible ranks and RCCL communicators. (``ray`` is the default for multi-node. Explicitly setting this flag is optional.)
 2. Ensure ``/dev/shm`` is shared across ranks (Docker ``--shm-size``, Kubernetes ``emptyDir``), as RCCL uses shared memory for rendezvous.
-3. For GPUDirect RDMA, set ``RCCL_NET_GDR_LEVEL=2`` and verify links (``ibstat``). Requires supported NICs (e.g., ConnectX‑6+).
+3. For GPUDirect RDMA, set ``RCCL_NET_GDR_LEVEL=2`` and verify links (``ibstat``). Requires supported NICs (for example, ConnectX‑6+).
 4. Collect RCCL logs: ``RCCL_DEBUG=INFO`` and optionally ``RCCL_DEBUG_SUBSYS=INIT,GRAPH`` for init/graph stalls.
 
 .. note::
