@@ -15,13 +15,13 @@ Training a model with Megatron-LM for ROCm
 
 The Megatron-LM framework for ROCm is a specialized fork of the robust Megatron-LM,
 designed to enable efficient training of large-scale language models on AMD
-GPUs. By leveraging AMD Instinct™ MI300X series accelerators, Megatron-LM delivers
+GPUs. By leveraging AMD Instinct™ MI300X Series GPUs, Megatron-LM delivers
 enhanced scalability, performance, and resource utilization for AI workloads.
 It is purpose-built to support models like Llama 2, Llama 3, Llama 3.1, and
 DeepSeek, enabling developers to train next-generation AI models more
 efficiently. See the GitHub repository at `<https://github.com/ROCm/Megatron-LM>`__.
 
-AMD provides a ready-to-use Docker image for MI300X accelerators containing
+AMD provides a ready-to-use Docker image for MI300X GPUs containing
 essential components, including PyTorch, ROCm libraries, and Megatron-LM
 utilities. It contains the following software components to accelerate training
 workloads:
@@ -69,7 +69,7 @@ Megatron-LM provides the following key features to train large language models e
 
 .. _amd-megatron-lm-model-support-25-3:
 
-The following models are pre-optimized for performance on the AMD Instinct MI300X accelerator.
+The following models are pre-optimized for performance on the AMD Instinct MI300X GPU.
 
 * Llama 2 7B
 
@@ -123,7 +123,7 @@ The pre-built ROCm Megatron-LM environment allows users to quickly validate syst
 training benchmarks, and achieve superior performance for models like Llama 3.1, Llama 2, and DeepSeek V2.
 
 Use the following instructions to set up the environment, configure the script to train models, and
-reproduce the benchmark results on the MI300X accelerators with the AMD Megatron-LM Docker
+reproduce the benchmark results on the MI300X GPUs with the AMD Megatron-LM Docker
 image.
 
 .. _amd-megatron-lm-requirements-v253:
@@ -334,7 +334,7 @@ Multi-node training
         inside a Docker, either install the drivers inside the Docker container or pass the network
         drivers from the host while creating the Docker container.
 
-Start training on AMD Instinct accelerators
+Start training on AMD Instinct GPUs
 ===========================================
 
 The prebuilt Megatron-LM with ROCm training environment allows users to quickly validate
@@ -345,8 +345,8 @@ can expect the container to perform in the model configurations described in
 the following section, but other configurations are not validated by AMD.
 
 Use the following instructions to set up the environment, configure the script
-to train models, and reproduce the benchmark results on MI300X series
-accelerators with the AMD Megatron-LM Docker image.
+to train models, and reproduce the benchmark results on MI300X Series
+GPUs with the AMD Megatron-LM Docker image.
 
 .. tab-set::
 

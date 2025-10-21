@@ -1,6 +1,6 @@
 .. meta::
    :description: Multi-node setup for AI training
-   :keywords: gpu, accelerator, system, health, validation, bench, perf, performance, rvs, rccl, babel, mi300x, mi325x, flops, bandwidth, rbt, training
+   :keywords: gpu, system, health, validation, bench, perf, performance, rvs, rccl, babel, mi300x, mi325x, flops, bandwidth, rbt, training
 
 .. _rocm-for-ai-multi-node-setup:
 
@@ -21,7 +21,7 @@ Before starting, ensure your environment meets the following requirements:
 
 * Multi-node networking: your cluster should have a configured multi-node network. For setup
   instructions, see the `Multi-node network configuration for AMD Instinct
-  accelerators
+  GPUs
   <https://instinct.docs.amd.com/projects/gpu-cluster-networking/en/latest/how-to/multi-node-config.html>`__
   guide in the Instinct documentation.
 
@@ -54,8 +54,8 @@ Compile and install the RoCE library
 
 If you're using Broadcom NICs, you need to compile and install the RoCE (RDMA
 over Converged Ethernet) library. See `RoCE cluster network configuration guide
-for AMD Instinct accelerators
-<https://instinct.docs.amd.com/projects/gpu-cluster-networking/en/latest/how-to/roce-network-config.html#roce-cluster-network-configuration-guide-for-amd-instinct-accelerators>`__
+for AMD Instinct GPUs
+<https://instinct.docs.amd.com/projects/gpu-cluster-networking/en/latest/how-to/roce-network-config.html>`__
 for more information.
 
 See the `Ethernet networking guide for AMD
@@ -315,6 +315,6 @@ Megatron-LM
 Further reading
 ===============
 
-* `Multi-node network configuration for AMD Instinct accelerators <https://instinct.docs.amd.com/projects/gpu-cluster-networking/en/latest/how-to/multi-node-config.html>`__
+* `Multi-node network configuration for AMD Instinct GPUs <https://instinct.docs.amd.com/projects/gpu-cluster-networking/en/latest/how-to/multi-node-config.html>`__
 
 * `Ethernet networking guide for AMD Instinct MI300X GPU clusters: Compiling Broadcom NIC software from source <https://docs.broadcom.com/doc/957608-AN2XX#page=81>`__

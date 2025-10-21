@@ -679,6 +679,7 @@ detections
 dev
 devicelibs
 devsel
+dgl
 dimensionality
 disambiguates
 distro

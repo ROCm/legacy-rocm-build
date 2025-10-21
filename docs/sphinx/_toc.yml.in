@@ -97,9 +97,9 @@ subtrees:
             subtrees:
             - entries:
               - file: how-to/rocm-for-ai/fine-tuning/single-gpu-fine-tuning-and-inference.rst
-                title: Use a single accelerator
+                title: Use a single GPU
               - file: how-to/rocm-for-ai/fine-tuning/multi-gpu-fine-tuning-and-inference.rst
-                title: Use multiple accelerators
+                title: Use multiple GPUs
 
       - file: how-to/rocm-for-ai/inference/index.rst
         title: Inference
@@ -180,7 +180,7 @@ subtrees:
           - file: conceptual/gpu-arch/mi300-mi200-performance-counters.rst
             title: MI300 and MI200 performance counters
           - file: conceptual/gpu-arch/mi350-performance-counters.rst
-            title: MI350 series performance counters
+            title: MI350 Series performance counters
       - file: conceptual/gpu-arch/mi250.md
         title: MI250 microarchitecture
         subtrees:

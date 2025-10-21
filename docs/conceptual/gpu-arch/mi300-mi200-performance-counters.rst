@@ -1,16 +1,16 @@
 .. meta::
-  :description: MI300 and MI200 series performance counters and metrics
+  :description: MI300 and MI200 Series performance counters and metrics
   :keywords: MI300, MI200, performance counters, command processor counters
 
 ***************************************************************************************************
-MI300 and MI200 series performance counters and metrics
+MI300 and MI200 Series performance counters and metrics
 ***************************************************************************************************
 
 This document lists and describes the hardware performance counters and derived metrics available
 for the AMD Instinct™ MI300 and MI200 GPU. You can also access this information using the
 :doc:`ROCprofiler-SDK <rocprofiler-sdk:how-to/using-rocprofv3>`.
 
-MI300 and MI200 series performance counters
+MI300 and MI200 Series performance counters
 ===============================================================
 
 Series performance counters include the following categories:
@@ -27,7 +27,7 @@ The following sections provide additional details for each category.
 
 .. note::
 
-  Preliminary validation of all MI300 and MI200 series performance counters is in progress. Those with
+  Preliminary validation of all MI300 and MI200 Series performance counters is in progress. Those with
   an asterisk (*) require further evaluation.
 
 .. _command-processor-counters:
@@ -171,7 +171,7 @@ Instruction mix
   "``SQ_INSTS_SMEM``", "Instr", "Number of scalar memory instructions issued"
   "``SQ_INSTS_SMEM_NORM``", "Instr", "Number of scalar memory instructions normalized to match ``smem_level`` issued"
   "``SQ_INSTS_FLAT``", "Instr", "Number of flat instructions issued"
-  "``SQ_INSTS_FLAT_LDS_ONLY``", "Instr", "**MI200 series only** Number of FLAT instructions that read/write only from/to LDS issued. Works only if ``EARLY_TA_DONE`` is enabled."
+  "``SQ_INSTS_FLAT_LDS_ONLY``", "Instr", "**MI200 Series only** Number of FLAT instructions that read/write only from/to LDS issued. Works only if ``EARLY_TA_DONE`` is enabled."
   "``SQ_INSTS_LDS``", "Instr", "Number of LDS instructions issued **(MI200: includes flat; MI300: does not include flat)**"
   "``SQ_INSTS_GDS``", "Instr", "Number of global data share instructions issued"
   "``SQ_INSTS_EXP_GDS``", "Instr", "Number of EXP and global data share instructions excluding skipped export instructions issued"
@@ -396,9 +396,9 @@ Texture cache per pipe counters
   "``TCP_UTCL1_TRANSLATION_MISS[n]``", "Req", "Number of unified translation cache (L1) translation misses", "0-15"
   "``TCP_UTCL1_PERMISSION_MISS[n]``", "Req", "Number of unified translation cache (L1) permission misses", "0-15"
   "``TCP_TOTAL_CACHE_ACCESSES[n]``", "Req", "Number of vector L1d cache accesses including hits and misses", "0-15"
-  "``TCP_TCP_LATENCY[n]``", "Cycles", "**MI200 series only** Accumulated wave access latency to vL1D over all wavefronts", "0-15"
-  "``TCP_TCC_READ_REQ_LATENCY[n]``", "Cycles", "**MI200 series only** Total vL1D to L2 request latency over all wavefronts for reads and atomics with return", "0-15"
-  "``TCP_TCC_WRITE_REQ_LATENCY[n]``", "Cycles", "**MI200 series only** Total vL1D to L2 request latency over all wavefronts for writes and atomics without return", "0-15"
+  "``TCP_TCP_LATENCY[n]``", "Cycles", "**MI200 Series only** Accumulated wave access latency to vL1D over all wavefronts", "0-15"
+  "``TCP_TCC_READ_REQ_LATENCY[n]``", "Cycles", "**MI200 Series only** Total vL1D to L2 request latency over all wavefronts for reads and atomics with return", "0-15"
+  "``TCP_TCC_WRITE_REQ_LATENCY[n]``", "Cycles", "**MI200 Series only** Total vL1D to L2 request latency over all wavefronts for writes and atomics without return", "0-15"
   "``TCP_TCC_READ_REQ[n]``", "Req", "Number of read requests to L2 cache", "0-15"
   "``TCP_TCC_WRITE_REQ[n]``", "Req", "Number of write requests to L2 cache", "0-15"
   "``TCP_TCC_ATOMIC_WITH_RET_REQ[n]``", "Req", "Number of atomic requests to L2 cache with return", "0-15"
@@ -560,7 +560,7 @@ Note the following:
   ``TCC_TAG_STALL[n]``, probes can stall the pipeline at a variety of places. There is no single point that
   can accurately measure the total stalls
 
-MI300 and MI200 series derived metrics list
+MI300 and MI200 Series derived metrics list
 ==============================================================
 
 .. csv-table::

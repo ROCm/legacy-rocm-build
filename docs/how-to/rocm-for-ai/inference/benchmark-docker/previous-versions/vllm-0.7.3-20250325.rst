@@ -1,7 +1,7 @@
 :orphan:
 
 .. meta::
-   :description: Learn how to validate LLM inference performance on MI300X accelerators using AMD MAD and the
+   :description: Learn how to validate LLM inference performance on MI300X GPUs using AMD MAD and the
                  ROCm vLLM Docker image.
    :keywords: model, MAD, automation, dashboarding, validate
 
@@ -23,9 +23,9 @@ vLLM inference performance testing
 
    The `ROCm vLLM Docker <{{ unified_docker.docker_hub_url }}>`_ image offers
    a prebuilt, optimized environment for validating large language model (LLM)
-   inference performance on AMD Instinct™ MI300X series accelerator. This ROCm vLLM
-   Docker image integrates vLLM and PyTorch tailored specifically for MI300X series
-   accelerators and includes the following components:
+   inference performance on AMD Instinct™ MI300X Series GPU. This ROCm vLLM
+   Docker image integrates vLLM and PyTorch tailored specifically for MI300X Series
+   GPUs and includes the following components:
 
    * `ROCm {{ unified_docker.rocm_version }} <https://github.com/ROCm/ROCm>`_
 
@@ -37,7 +37,7 @@ vLLM inference performance testing
 
    With this Docker image, you can quickly test the :ref:`expected
    inference performance numbers <vllm-benchmark-performance-measurements-v073>` for
-   MI300X series accelerators.
+   MI300X Series GPUs.
 
    .. _vllm-benchmark-available-models-v073:
 
@@ -110,7 +110,7 @@ vLLM inference performance testing
       The performance data presented in
       `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`_
       only reflects the :doc:`latest version of this inference benchmarking environment <../vllm>`.
-      The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
+      The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X GPUs or ROCm software.
 
    Advanced features and known issues
    ==================================
@@ -122,7 +122,7 @@ vLLM inference performance testing
    ===============
 
    Use the following procedures to reproduce the benchmark results on an
-   MI300X accelerator with the prebuilt vLLM Docker image.
+   MI300X GPU with the prebuilt vLLM Docker image.
 
    .. _vllm-benchmark-get-started:
 
@@ -311,7 +311,7 @@ Further reading
   see `<https://github.com/ROCm/vllm/tree/main/benchmarks>`_.
 
 - To learn more about system settings and management practices to configure your system for
-  MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
+  MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
 
 - To learn how to run community models from Hugging Face on AMD GPUs, see
   :doc:`Running models from Hugging Face </how-to/rocm-for-ai/inference/hugging-face-models>`.
