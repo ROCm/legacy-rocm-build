@@ -50,12 +50,12 @@ hardware configuration.
 ````{selector} Ryzen APU
 :key: ryzen-arch
 
-```{selector-option} Ryzen AI Max PRO 300 Series
+```{selector-option} Ryzen AI Max+ PRO 395<br>Ryzen AI Max PRO 390, 385, 380
 :value: ryzen-ai-max-pro
 :width: 7
 ```
 
-```{selector-option} Ryzen AI Max 300 Series
+```{selector-option} Ryzen AI Max+ 395<br>Ryzen AI Max 390, 385
 :value: ryzen-ai-max
 :width: 5
 ```

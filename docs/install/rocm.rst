@@ -72,11 +72,11 @@ operating systems and compatible AMD devices, see the :doc:`Compatibility matrix
    .. selector:: Ryzen APU
       :key: ryzen
 
-      .. selector-option:: Ryzen AI Max+ PRO 395, 390, 385, 380
+      .. selector-option:: Ryzen AI Max+ PRO 395<br>Ryzen AI Max PRO 390, 385, 380
          :value: ryzen-ai-max-pro
          :width: 7
 
-      .. selector-option:: Ryzen AI Max 395, 390, 385
+      .. selector-option:: Ryzen AI Max+ 395<br>Ryzen AI Max 390, 385
          :value: ryzen-ai-max
          :width: 5
 
