@@ -101,6 +101,7 @@ jobs:
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        consolidateBuildAndInstall: true 
         extraBuildFlags: >-
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/bin/hipcc
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/bin/hipcc
