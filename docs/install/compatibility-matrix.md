@@ -76,7 +76,7 @@ hardware configuration.
 ````
 `````
 
-### Hardware, software, and firmware requirements
+## Hardware, software, and firmware requirements
 
 ROCm depends on a coordinated stack of compatible firmware, driver, and user
 space components. Maintaining version alignment between these layers ensures

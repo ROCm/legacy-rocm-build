@@ -37,7 +37,7 @@
          XNACK enabled:           NO
          DMAbuf Support:          YES
          VMM Support:             YES
-     
+
          ==========               
          HSA Agents               
          ==========               
@@ -51,4 +51,3 @@
 
          [output truncated]
    ```
-

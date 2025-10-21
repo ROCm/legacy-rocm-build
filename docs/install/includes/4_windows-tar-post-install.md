@@ -19,4 +19,3 @@ hipinfo
 
       [output truncated]
 ```
-
