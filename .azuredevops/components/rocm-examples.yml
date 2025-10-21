@@ -17,7 +17,6 @@ parameters:
     - libdw-dev
     - libglfw3-dev
     - libmsgpack-dev
-    - libomp-dev
     - libopencv-dev
     - libtbb-dev
     - libtiff-dev
@@ -31,7 +30,10 @@ parameters:
   type: object
   default:
     - AMDMIGraphX
+    - aomp
+    - aomp-extras
     - clr
+    - composable_kernel
     - hipBLAS
     - hipBLAS-common
     - hipBLASLt
@@ -45,6 +47,7 @@ parameters:
     - llvm-project
     - MIOpen
     - MIVisionX
+    - rocALUTION
     - rocBLAS
     - rocDecode
     - rocFFT
@@ -63,7 +66,10 @@ parameters:
   type: object
   default:
     - AMDMIGraphX
+    - aomp
+    - aomp-extras
     - clr
+    - composable_kernel
     - hipBLAS
     - hipBLAS-common
     - hipBLASLt
@@ -77,6 +83,7 @@ parameters:
     - llvm-project
     - MIOpen
     - MIVisionX
+    - rocALUTION
     - rocBLAS
     - rocDecode
     - rocFFT
