@@ -56,7 +56,7 @@ Use cases and recommendations
   (RLHF) are discussed in the `Reinforcement Learning from Human Feedback on AMD 
   GPUs with verl and ROCm Integration <https://rocm.blogs.amd.com/artificial-intelligence/verl-large-scale/README.html>`__ 
   blog. The blog post outlines how the Volcano Engine Reinforcement Learning 
-  (verl) framework integrates with AMD's ROCm platform to optimize training on 
+  (verl) framework integrates with the AMD ROCm platform to optimize training on 
   Instinct™ MI300X GPUs. The guide details the process of building a Docker image, 
   setting up single-node and multi-node training environments, and highlights 
   performance benchmarks demonstrating improved throughput and convergence accuracy. 

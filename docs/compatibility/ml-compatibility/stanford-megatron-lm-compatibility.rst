@@ -15,9 +15,9 @@ by NVIDIA at `https://github.com/NVIDIA/Megatron-LM <https://github.com/NVIDIA/M
 It is designed to train massive transformer-based language models efficiently by model 
 and data parallelism. 
 
-It provides efficient tensor, pipeline and sequence based model parallelism for 
+It provides efficient tensor, pipeline, and sequence-based model parallelism for 
 pre-training transformer-based language models such as GPT (Decoder Only), BERT 
-(Encoder Only) and T5 (Encoder-Decoder). 
+(Encoder Only), and T5 (Encoder-Decoder). 
 
 Support overview
 ================================================================================

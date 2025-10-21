@@ -10,7 +10,7 @@
 Megablocks compatibility
 ********************************************************************************
 
-`Megablocks <https://github.com/databricks/megablocks>`__ is a light-weight library 
+`Megablocks <https://github.com/databricks/megablocks>`__ is a lightweight library 
 for mixture-of-experts `(MoE) <https://huggingface.co/blog/moe>`__ training. 
 The core of the system is efficient "dropless-MoE" and standard MoE layers. 
 Megablocks is integrated with `https://github.com/stanford-futuredata/Megatron-LM 

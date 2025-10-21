@@ -10,14 +10,14 @@
 DGL compatibility
 ********************************************************************************
 
-Deep Graph Library `(DGL) <https://www.dgl.ai/>`_ is an easy-to-use, high-performance and scalable 
+Deep Graph Library `(DGL) <https://www.dgl.ai/>`_ is an easy-to-use, high-performance, and scalable 
 Python package for deep learning on graphs. DGL is framework agnostic, meaning 
-if a deep graph model is a component in an end-to-end application, and the rest of 
+that if a deep graph model is a component in an end-to-end application, the rest of 
 the logic is implemented using PyTorch.  
 
 DGL provides a high-performance graph object that can reside on either CPUs or GPUs. 
 It bundles structural data features for better control and provides a variety of functions 
-for computing with graph objects including efficient and customizable message passing 
+for computing with graph objects, including efficient and customizable message passing 
 primitives for Graph Neural Networks.
 
 Support overview
@@ -44,7 +44,7 @@ DGL is supported on `ROCm 6.4.0 <https://repo.radeon.com/rocm/apt/6.4/>`__.
 Supported devices
 --------------------------------------------------------------------------------
 
-- **Officially Supported**: AMD Instinct™ MI300X (through hipblaslt)
+- **Officially Supported**: AMD Instinct™ MI300X (through `hipBLASlt <https://rocm.docs.amd.com/projects/hipBLASLt/en/latest/index.html>`__)
 - **Partially Supported**: AMD Instinct™ MI250X
 
 .. _dgl-recommendations:
@@ -53,7 +53,7 @@ Use cases and recommendations
 ================================================================================
 
 DGL can be used for Graph Learning, and building popular graph models like  
-GAT, GCN and GraphSage. Using these we can support a variety of use-cases such as:
+GAT, GCN, and GraphSage. Using these models, a variety of use cases are supported:
 
 - Recommender systems
 - Network Optimization and Analysis
@@ -143,7 +143,7 @@ Key ROCm libraries for DGL
 ================================================================================
 
 DGL on ROCm depends on specific libraries that affect its features and performance.
-Using the DGL Docker container or building it with the provided docker file or a ROCm base image is recommended.
+Using the DGL Docker container or building it with the provided Docker file or a ROCm base image is recommended.
 If you prefer to build it yourself, ensure the following dependencies are installed:
 
 .. list-table:: 
@@ -258,9 +258,9 @@ Instead of listing them all, support is grouped into the following categories to
 Unsupported features
 ================================================================================
 
-* Graphbolt
-* Partial TF32 Support (MI250x only)
-* Kineto/ ROCTracer integration
+* GraphBolt
+* Partial TF32 Support (MI250X only)
+* Kineto/ROCTracer integration
 
 
 Unsupported functions

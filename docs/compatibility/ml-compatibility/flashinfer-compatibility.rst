@@ -11,7 +11,7 @@ FlashInfer compatibility
 ********************************************************************************
 
 `FlashInfer <https://docs.flashinfer.ai/index.html>`__ is a library and kernel generator 
-for Large Language Models (LLMs) that provides high-performance implementation of graphics 
+for Large Language Models (LLMs) that provides a high-performance implementation of graphics 
 processing units (GPUs) kernels. FlashInfer focuses on LLM serving and inference, as well 
 as advanced performance across diverse scenarios.
 

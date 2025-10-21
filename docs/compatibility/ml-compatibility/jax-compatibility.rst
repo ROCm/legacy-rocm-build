@@ -14,7 +14,7 @@ JAX compatibility
 for array-oriented numerical computation (similar to NumPy), with automatic differentiation 
 and just-in-time (JIT) compilation to enable high-performance machine learning research.
 
-JAX provides an API which combines automatic differentiation and the 
+JAX provides an API that combines automatic differentiation and the 
 Accelerated Linear Algebra (XLA) compiler to achieve high-performance machine 
 learning at scale. JAX uses composable transformations of Python and NumPy through 
 JIT compilation, automatic vectorization, and parallelization.
@@ -67,7 +67,7 @@ Use cases and recommendations
 * The `Distributed fine-tuning with JAX on AMD GPUs <https://rocm.blogs.amd.com/artificial-intelligence/distributed-sft-jax/README.html>`_
   outlines the process of fine-tuning a Bidirectional Encoder Representations
   from Transformers (BERT)-based large language model (LLM) using JAX for a text
-  classification task. The blog post discuss techniques for parallelizing the
+  classification task. The blog post discusses techniques for parallelizing the
   fine-tuning across multiple AMD GPUs and assess the model's performance on a
   holdout dataset. During the fine-tuning, a BERT-base-cased transformer model
   and the General Language Understanding Evaluation (GLUE) benchmark dataset was
@@ -230,7 +230,7 @@ The ROCm supported data types in JAX are collected in the following table.
 
 .. note::
 
-  JAX data type support is effected by the :ref:`key_rocm_libraries` and it's
+  JAX data type support is affected by the :ref:`key_rocm_libraries` and it's
   collected on :doc:`ROCm data types and precision support <rocm:reference/precision-support>`
   page.
 

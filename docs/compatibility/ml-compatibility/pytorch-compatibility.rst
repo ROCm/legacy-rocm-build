@@ -80,7 +80,7 @@ Use cases and recommendations
   accelerator.
 
 * The :doc:`Inception with PyTorch documentation </conceptual/ai-pytorch-inception>`
-  describes how PyTorch integrates with ROCm for AI workloads It outlines the
+  describes how PyTorch integrates with ROCm for AI workloads. It outlines the
   use of PyTorch on the ROCm platform and focuses on efficiently leveraging AMD
   GPU hardware for training and inference tasks in AI applications.
 
