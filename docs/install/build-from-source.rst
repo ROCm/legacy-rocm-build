@@ -63,7 +63,6 @@ from source involves these stages:
 4. After a successful build, the outputs are available for use in downstream
    tasks. To learn more about build outputs, see the relevant `TheRock
    documentation <https://github.com/ROCm/TheRock/blob/main/docs/development/artifacts.md>`__.
-
    Common post-build tasks include:
 
    * Using ``build/dist/rocm``: When the build completes, you should have a
@@ -71,13 +70,13 @@ from source involves these stages:
      tarballs <https://github.com/ROCm/TheRock/blob/main/RELEASES.md#using-installed-tarballs>`__
      for more information.
 
-   * Building Python packages: Given artifacts directories ``build/artifacts``,
-     re-layout them for distribution as Python packages. See `Building Python
-     packages <https://github.com/ROCm/TheRock/blob/main/docs/packaging/python_packaging.md#building-packages>`__.
+   * Building Python packages: Prepare the build artifacts for distribution as
+     Python packages. See `Building Python packages
+     <https://github.com/ROCm/TheRock/blob/main/docs/packaging/python_packaging.md#building-packages>`__.
 
-     * Building PyTorch: Compile PyTorch against a build of the ROCm Core SDK.
-       See the `PyTorch build instructions
-       <https://github.com/ROCm/TheRock/tree/main/external-builds/pytorch#build-instructions>`__.
+  * Building PyTorch: Build a compatible PyTorch version against ROCm wheels.
+    See the `PyTorch build instructions
+    <https://github.com/ROCm/TheRock/tree/main/external-builds/pytorch#build-instructions>`__.
 
 .. _build-from-src-plat-setup:
 
