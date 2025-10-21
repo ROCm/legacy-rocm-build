@@ -74,9 +74,9 @@ from source involves these stages:
      Python packages. See `Building Python packages
      <https://github.com/ROCm/TheRock/blob/main/docs/packaging/python_packaging.md#building-packages>`__.
 
-  * Building PyTorch: Build a compatible PyTorch version against ROCm wheels.
-    See the `PyTorch build instructions
-    <https://github.com/ROCm/TheRock/tree/main/external-builds/pytorch#build-instructions>`__.
+v  * Building PyTorch: Build a compatible PyTorch version against ROCm wheels.
+v    See the `PyTorch build instructions
+v    <https://github.com/ROCm/TheRock/tree/main/external-builds/pytorch#build-instructions>`__.
 
 .. _build-from-src-plat-setup:
 
