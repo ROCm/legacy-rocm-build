@@ -22,8 +22,10 @@ platforms.
 .. tip::
 
    Building from source is recommended only if you need custom builds or are
-   contributing to ROCm development. For most users, installing from official
-   AMD releases is faster and easier.
+   contributing to ROCm development. See `TheRock's development guide
+   <https://github.com/ROCm/TheRock/blob/main/docs/development/development_guide.md#therock-development-guide>`__.
+
+   For most users, installing from official AMD releases is faster and easier.
    See :doc:`rocm` for installation instructions.
 
 Prerequisites
@@ -41,6 +43,8 @@ following resources:
 High-level build process
 ========================
 
+For an overview of the build architecture, start with TheRock's `development guide
+<https://github.com/ROCm/TheRock/blob/main/docs/development/development_guide.md>`__.
 While specific commands vary by platform, the general workflow for building
 from source involves these stages:
 
@@ -56,10 +60,24 @@ from source involves these stages:
    can be a time- and resource-intensive process. See `CMake build usage
    <https://github.com/ROCm/TheRock/blob/main/README.md#cmake-build-usage>`__.
 
-4. Install the artifacts: See `Installing artifacts
-   <https://github.com/ROCm/TheRock/blob/main/docs/development/installing_artifacts.md>`__.
-   To learn more about, the TheRock build artifacts, see `Build artifacts
-   <https://github.com/ROCm/TheRock/blob/main/docs/development/artifacts.md>`__.
+4. After a successful build, the outputs are available for use in downstream
+   tasks. To learn more about build outputs, see the relevant `TheRock
+   documentation <https://github.com/ROCm/TheRock/blob/main/docs/development/artifacts.md>`__.
+
+   Common post-build tasks include:
+
+   * Using ``build/dist/rocm``: When the build completes, you should have a
+     build of ROCm in the ``build/dist/rocm/`` directory. See `Using installed
+     tarballs <https://github.com/ROCm/TheRock/blob/main/RELEASES.md#using-installed-tarballs>`__
+     for more information.
+
+   * Building Python packages: Given artifacts directories ``build/artifacts``,
+     re-layout them for distribution as Python packages. See `Building Python
+     packages <https://github.com/ROCm/TheRock/blob/main/docs/packaging/python_packaging.md#building-packages>`__.
+
+     * Building PyTorch: Compile PyTorch against a build of the ROCm Core SDK.
+       See the `PyTorch build instructions
+       <https://github.com/ROCm/TheRock/tree/main/external-builds/pytorch#build-instructions>`__.
 
 .. _build-from-src-plat-setup:
 
