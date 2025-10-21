@@ -50,12 +50,12 @@ hardware configuration.
 ````{selector} Ryzen APU
 :key: ryzen-arch
 
-```{selector-option} Ryzen AI Max+ PRO 395, 390, 385, 380
+```{selector-option} Ryzen AI Max PRO 300 Series
 :value: ryzen-ai-max-pro
 :width: 7
 ```
 
-```{selector-option} Ryzen AI Max 395, 390, 385
+```{selector-option} Ryzen AI Max 300 Series
 :value: ryzen-ai-max
 :width: 5
 ```
@@ -324,10 +324,10 @@ Future preview release will expand hardware and operating system coverage.
 	<tbody>
 		<tr class="row-odd">
 			<th class="head" style="width: 50%">
-				<p>AMD Ryzen AI Max+ PRO 300 Series</p>
+				<p>AMD Ryzen AI Max PRO 300 Series</p>
 			</th>
 			<td>
-				<p>Ryzen AI Max+ PRO 395, 390, 385, 380</p>
+				<p>Ryzen AI Max+ PRO 395, Ryzen AI Max 390, 385, 380</p>
 			</td>
 		</tr>
 		<tr class="row-even">
@@ -371,10 +371,10 @@ Future preview release will expand hardware and operating system coverage.
 	<tbody>
 		<tr class="row-odd">
 			<th class="head" style="width: 50%">
-				<p>AMD Ryzen AI Max+ PRO 300 Series</p>
+				<p>AMD Ryzen AI Max PRO 300 Series</p>
 			</th>
 			<td>
-				<p>Ryzen AI Max PRO 395, 390, 385, 380</p>
+				<p>Ryzen AI Max+ PRO 395, Ryzen AI Max 390, 385, 380</p>
 			</td>
 		</tr>
 		<tr class="row-even">
@@ -423,7 +423,7 @@ Future preview release will expand hardware and operating system coverage.
 				<p>AMD Ryzen AI Max 300 Series</p>
 			</th>
 			<td>
-				<p>Ryzen AI Max 395, 390, 385</p>
+				<p>Ryzen AI Max+ 395, Ryzen AI Max 390, 385</p>
 			</td>
 		</tr>
 		<tr class="row-even">
@@ -470,7 +470,7 @@ Future preview release will expand hardware and operating system coverage.
 				<p>AMD Ryzen AI Max 300 Series</p>
 			</th>
 			<td>
-				<p>Ryzen AI Max 395, 390, 385</p>
+				<p>Ryzen AI Max+ 395, Ryzen AI Max 390, 385</p>
 			</td>
 		</tr>
 		<tr class="row-even">

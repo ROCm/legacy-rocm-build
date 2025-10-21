@@ -51,7 +51,7 @@ In terms of package compatibility, ROCm 7.9.0 diverges from the existing ROCm
 
 ### 7.9.0 support
 
-* **Hardware support**: Builds are limited to AMD Instinct MI350 Series GPUs, MI300 Series GPUs and APUs, Ryzen AI Max+ PRO 300 Series APUs, and Ryzen AI Max 300 Series APUs. See [Supported hardware and operating systems](#supported-hardware-and-operating-systems).
+* **Hardware support**: Builds are limited to AMD Instinct MI350 Series GPUs, MI300 Series GPUs and APUs, Ryzen AI Max PRO 300 Series APUs, and Ryzen AI Max 300 Series APUs. See [Supported hardware and operating systems](#supported-hardware-and-operating-systems).
 * **Packaging format**: RPM and Debian packages are not available in this initial release. Instead, Python wheels and tarballs are provided. See the [ROCm 7.9.0 installation instructions](/install/rocm).
 * **Software components**: Some components of the ROCm Core SDK are not yet
   available in this release. Additional components are planned to be introduced in
@@ -141,13 +141,13 @@ support coverage.
 		</tr>
 		<tr class="row-even">
 			<th class="stub">
-				<p>Ryzen AI Max+ PRO 300 Series</p>
+				<p>Ryzen AI Max PRO 300 Series</p>
 			</th>
 			<td>
 						<p>Ryzen AI Max+ PRO 395</p>
-						<p>Ryzen AI Max+ PRO 390</p>
-						<p>Ryzen AI Max+ PRO 385</p>
-						<p>Ryzen AI Max+ PRO 380</p>
+						<p>Ryzen AI Max PRO 390</p>
+						<p>Ryzen AI Max PRO 385</p>
+						<p>Ryzen AI Max PRO 380</p>
 			</td>
 			<td>
 				<p>RDNA3.5</p>
@@ -164,7 +164,7 @@ support coverage.
 				<p>Ryzen AI Max 300 Series</p>
 			</th>
 			<td>
-						<p>Ryzen AI Max 395</p>
+						<p>Ryzen AI Max+ 395</p>
 						<p>Ryzen AI Max 390</p>
 						<p>Ryzen AI Max 385</p>
 			</td>
@@ -283,22 +283,22 @@ which include the Integrated Firmware Image (IFWI).
 		</tr>
 		<tr class="row-even">
 			<td>
-				<p>Ryzen AI Max+ PRO 390</p>
+				<p>Ryzen AI Max PRO 390</p>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<p>Ryzen AI Max+ PRO 385</p>
+				<p>Ryzen AI Max PRO 385</p>
 			</td>
 		</tr>
 		<tr class="row-even">
 			<td>
-				<p>Ryzen AI Max+ PRO 380</p>
+				<p>Ryzen AI Max PRO 380</p>
 			</td>
 		</tr>
 		<tr class="row-odd">
 			<td>
-				<p>Ryzen AI Max 395</p>
+				<p>Ryzen AI Max+ 395</p>
 			</td>
 		</tr>
 		<tr class="row-even">
