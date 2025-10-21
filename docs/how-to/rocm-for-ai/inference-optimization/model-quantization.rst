@@ -7,7 +7,7 @@ Model quantization techniques
 *****************************
 
 Quantization reduces the model size compared to its native full-precision version, making it easier to fit large models
-onto accelerators or GPUs with limited memory usage. This section explains how to perform LLM quantization using AMD Quark, GPTQ
+onto GPUs with limited memory usage. This section explains how to perform LLM quantization using AMD Quark, GPTQ
 and bitsandbytes on AMD Instinct hardware.
 
 .. _quantize-llms-quark:
@@ -311,7 +311,7 @@ ExLlama-v2 support
 ExLlama is a Python/C++/CUDA implementation of the Llama model that is
 designed for faster inference with 4-bit GPTQ weights. The ExLlama
 kernel is activated by default when users create a ``GPTQConfig`` object. To
-boost inference speed even further on Instinct accelerators, use the ExLlama-v2
+boost inference speed even further on Instinct GPUs, use the ExLlama-v2
 kernels by configuring the ``exllama_config`` parameter as the following.
 
 .. code-block:: python
@@ -332,7 +332,7 @@ The `ROCm-aware bitsandbytes <https://github.com/ROCm/bitsandbytes>`_ library is
 a lightweight Python wrapper around CUDA custom functions, in particular 8-bit optimizer, matrix multiplication, and
 8-bit and 4-bit quantization functions. The library includes quantization primitives for 8-bit and 4-bit operations
 through ``bitsandbytes.nn.Linear8bitLt`` and ``bitsandbytes.nn.Linear4bit`` and 8-bit optimizers through the
-``bitsandbytes.optim`` module. These modules are supported on AMD Instinct accelerators.
+``bitsandbytes.optim`` module. These modules are supported on AMD Instinct GPUs.
 
 Installing bitsandbytes
 -----------------------

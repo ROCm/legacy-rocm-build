@@ -6,9 +6,9 @@
 Scaling model training
 **********************
 
-To train a large-scale model like OpenAI GPT-2 or Meta Llama 2 70B, a single accelerator or GPU cannot store all the
-model parameters required for training. This immense scale presents a fundamental challenge: no single GPU or
-accelerator can simultaneously store and process the entire model's parameters during training. PyTorch
+To train a large-scale model like OpenAI GPT-2 or Meta Llama 2 70B, a single GPU cannot store all the
+model parameters required for training. This immense scale presents a fundamental challenge: no single GPU
+can simultaneously store and process the entire model's parameters during training. PyTorch
 provides an answer to this computational constraint through its distributed training frameworks.
 
 .. _rocm-for-ai-pytorch-distributed:
@@ -26,9 +26,9 @@ Features in ``torch.distributed`` are categorized into three main components:
 - `Collective communication <https://pytorch.org/docs/stable/distributed.html>`_
 
 In this topic, the focus is on the distributed data-parallelism strategy as it’s the most popular. To get started with DDP,
-you need to first understand how to coordinate the model and its training data across multiple accelerators or GPUs.
+you need to first understand how to coordinate the model and its training data across multiple GPUs.
 
-The DDP workflow on multiple accelerators or GPUs is as follows:
+The DDP workflow on multiple GPUs is as follows:
 
 #. Split the current global training batch into small local batches on each GPU. For instance, if you have 8 GPUs and
    the global batch is set at 32 samples, each of the 8 GPUs will have a local batch size of 4 samples.
@@ -46,7 +46,7 @@ In DDP training, each process or worker owns a replica of the model and processe
 
 See the following developer blogs for more in-depth explanations and examples.
 
-*  `Multi GPU training with DDP — PyTorch Tutorials <https://pytorch.org/tutorials/beginner/ddp_series_multigpu.html>`_
+*  `Multi GPU training with DDP — PyTorch Tutorials <https://pytorch.org/tutorials/beginner/ddp_Series_multigpu.html>`_
 
 *  `Building a decoder transformer model on AMD GPUs — ROCm Blogs
    <https://rocm.blogs.amd.com/artificial-intelligence/decoder-transformer/README.html#distributed-training-on-multiple-gpus>`_
@@ -82,7 +82,7 @@ the training pillar.
 
 See `Pre-training a large language model with Megatron-DeepSpeed on multiple AMD GPUs
 <https://rocm.blogs.amd.com/artificial-intelligence/megatron-deepspeed-pretrain/README.html>`_ for a detailed example of
-training with DeepSpeed on an AMD accelerator or GPU.
+training with DeepSpeed on an AMD GPU.
 
 .. _rocm-for-ai-automatic-mixed-precision:
 
@@ -95,7 +95,7 @@ can take to reduce training time and memory usage through `automatic mixed preci
 
 See `Automatic mixed precision in PyTorch using AMD GPUs — ROCm Blogs
 <https://rocm.blogs.amd.com/artificial-intelligence/automatic-mixed-precision/README.html#automatic-mixed-precision-in-pytorch-using-amd-gpus>`_
-for more information about running AMP on an AMD accelerator.
+for more information about running AMP on an AMD Instinct-Series GPU.
 
 .. _rocm-for-ai-fine-tune:
 
@@ -107,7 +107,7 @@ example, LoRA, QLoRA, PEFT, and FSDP.
 
 Learn more about challenges and solutions for model fine-tuning in :doc:`../fine-tuning/index`.
 
-The following developer blogs showcase examples of fine-tuning a model on an AMD accelerator or GPU.
+The following developer blogs showcase examples of fine-tuning a model on an AMD GPU.
 
 * Fine-tuning Llama2 with LoRA
 
