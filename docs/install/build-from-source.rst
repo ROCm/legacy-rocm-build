@@ -14,17 +14,17 @@ Preview: ROCm Core SDK and TheRock Build System
 
 This page consists mostly of key references to `TheRock's README
 <https://github.com/ROCm/TheRock?tab=readme-ov-file#building-from-source>`__
-and `supporting development guides
+and `supporting development manuals
 <https://github.com/ROCm/TheRock/blob/main/README.md#development-manuals>`__
 which provide up-to-date build instructions and guidance for supported
-platforms.
+platforms. See `TheRock Development Guide
+<https://github.com/ROCm/TheRock/blob/main/docs/development/development_guide.md#therock-development-guide>`__
+to learn about the overall build architecture.
 
 .. tip::
 
    Building from source is recommended only if you need custom builds or are
-   contributing to ROCm development. See `TheRock's development guide
-   <https://github.com/ROCm/TheRock/blob/main/docs/development/development_guide.md#therock-development-guide>`__.
-
+   contributing to ROCm development.
    For most users, installing from official AMD releases is faster and easier.
    See :doc:`rocm` for installation instructions.
 
@@ -74,9 +74,9 @@ from source involves these stages:
      Python packages. See `Building Python packages
      <https://github.com/ROCm/TheRock/blob/main/docs/packaging/python_packaging.md#building-packages>`__.
 
-v  * Building PyTorch: Build a compatible PyTorch version against ROCm wheels.
-v    See the `PyTorch build instructions
-v    <https://github.com/ROCm/TheRock/tree/main/external-builds/pytorch#build-instructions>`__.
+   * Building PyTorch: Build a compatible PyTorch version against ROCm wheels.
+     See the `PyTorch build instructions
+     <https://github.com/ROCm/TheRock/tree/main/external-builds/pytorch#build-instructions>`__.
 
 .. _build-from-src-plat-setup:
 
