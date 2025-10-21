@@ -185,7 +185,7 @@ GPT
 GPU
 GPU's
 GPUs
-Graphbolt
+GraphBolt
 GraphSage
 GRBM
 GRE
