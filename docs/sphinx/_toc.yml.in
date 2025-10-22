@@ -134,6 +134,8 @@ subtrees:
             title: Profile and debug
           - file: how-to/rocm-for-ai/inference-optimization/workload.rst
             title: Workload optimization
+          - file: how-to/rocm-for-ai/inference-optimization/vllm-optimization.rst
+            title: vLLM V1 performance optimization
 
       - url: https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/
         title: AI tutorials
