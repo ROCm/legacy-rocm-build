@@ -99,12 +99,14 @@ execution.
 
 .. seealso::
 
-   See :doc:`vllm-optimization`.
+   See :doc:`vllm-optimization` to learn more about vLLM performance
+   optimization techniques.
 
 .. _mi300x-auto-tune:
 
 Auto-tunable configurations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Auto-tunable configurations can significantly streamline performance
 optimization by automatically adjusting parameters based on workload
 characteristics. For example:
@@ -324,6 +326,22 @@ hardware counters are also included.
    :width: 800
 
    ROCm Systems Profiler timeline trace example.
+
+vLLM performance optimization
+=============================
+
+vLLM is a high-throughput and memory efficient inference and serving engine for
+large language models that has gained traction in the AI community for its
+performance and ease of use. See :doc:`vllm-optimization`, where you'll learn
+how to:
+
+* Enable AITER (AI Tensor Engine for ROCm) to speed up on LLM models.
+* Configure environment variables for optimal HIP, RCCL, and Quick Reduce performance.
+* Select the right attention backend for your workload (AITER MHA/MLA vs. Triton).
+* Choose parallelism strategies (tensor, pipeline, data, expert) for multi-GPU deployments.
+* Apply quantization (``FP8``/``FP4``) to reduce memory usage by 2-4× with minimal accuracy loss.
+* Tune engine arguments (batch size, memory utilization, graph modes) for your use case.
+* Benchmark and scale across single-node and multi-node configurations.
 
 .. _mi300x-tunableop:
 
