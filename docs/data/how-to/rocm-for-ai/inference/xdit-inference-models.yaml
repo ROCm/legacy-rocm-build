@@ -2,6 +2,17 @@ xdit_video_diffusion:
   docker:
     pull_tag: amdsiloai/pytorch-xdit:v25.9
     docker_hub_url: https://hub.docker.com/r/amdsiloai/pytorch-xdit
+    ROCm: 7.0.0rc
+    components:
+      TheRock: 7afbe45
+      rccl: 9b04b2a
+      composable_kernel: b7a806f
+      rocm-libraries: f104555
+      rocm-systems: 25922d0
+      torch: 2.10.0a0+git3caf6da
+      torchvision: 0.22.0a0+966da7e
+      triton: 3.5.0+gitea06d636
+       
   model_groups:
     - group: Hunyuan Video
       tag: hunyuan

@@ -17,6 +17,23 @@ xDiT video inference
    The `amdsiloai/pytorch-xdit Docker <{{ docker.docker_hub_url }}>`_ image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
    benchmarking diffusion model video generation on
    AMD Instinct™ MI355X, MI350X (gfx950), and MI300X GPUs.
+   The image runs ROCm `{{docker.ROCm}}` based on `TheRock <https://github.com/ROCm/TheRock>`_
+   and includes the following components:
+
+   .. tab-set::
+
+      .. tab-item:: {{ docker.pull_tag }}
+
+         .. list-table::
+            :header-rows: 1
+
+            * - Software component
+              - Version
+
+            {% for component_name, component_version in docker.components.items() %}
+            * - {{ component_name }}
+              - {{ component_version }}
+            {% endfor %}
 
 Follow this guide to pull the required image, spin up a container, download the model, and run a benchmark.
 
