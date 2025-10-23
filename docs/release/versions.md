@@ -8,7 +8,7 @@
 
 | Version | Release date |
 | ------- | ------------ |
-| [7.9.0](https://rocm.docs.amd.com/en/docs-7.9.0/) | October 20, 2025 |
+| [7.9.0](https://rocm.docs.amd.com/en/7.9.0-preview/) | October 20, 2025 |
 
 ```{important}
 ROCm 7.9.0 introduces a versioning discontinuity following

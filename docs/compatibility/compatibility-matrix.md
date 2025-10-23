@@ -1,6 +1,6 @@
 # ROCm compatibility matrix
 
-To plan your [ROCm 7.9.0 installation](rocm), use the following selector to
+To plan your [ROCm 7.9.0 installation](/install/rocm), use the following selector to
 view ROCm compatibility and system requirements information for your AMD
 hardware configuration.
 
@@ -806,19 +806,12 @@ future releases.
             </td>
         </tr>
         <tr class="row-even">
-            <td rowspan="2">
+            <td>
                 <p>System utilities, profiling, and debugging</p>
             </td>
             <td>
                 <a href="https://github.com/ROCm/rocm-cmake">
                     ROCm CMake
-                </a>
-            </td>
-        </tr>
-        <tr class="row-odd">
-            <td>
-                <a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocprofiler-sdk">
-                    ROCprofiler-SDK
                 </a>
             </td>
         </tr>

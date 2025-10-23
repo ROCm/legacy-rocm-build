@@ -38,7 +38,7 @@ following resources:
 * `Environment setup guide
   <https://github.com/ROCm/TheRock/blob/main/docs/environment_setup_guide.md>`__
 
-* :doc:`compatibility-matrix`
+* :doc:`/compatibility/compatibility-matrix`
 
 High-level build process
 ========================

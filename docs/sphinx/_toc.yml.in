@@ -8,7 +8,7 @@ subtrees:
   - entries:
       - file: about/release-notes.md
         title: Release notes
-      - file: install/compatibility-matrix.md
+      - file: compatibility/compatibility-matrix.md
         title: Compatibility matrix
   - caption: Installation
     entries:

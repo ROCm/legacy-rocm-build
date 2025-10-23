@@ -20,7 +20,7 @@ Before beginning, ensure your system meets these requirements:
 
 - ROCm 7.9.0: A working ROCm installation (if not already installed via pip, this guide covers the setup)
 
-Review the :doc:`ROCm 7.9.0 compatibility <compatibility-matrix>` information.
+Review the :doc:`ROCm 7.9.0 compatibility </compatibility/compatibility-matrix>` information.
 
 .. _790-install-pyt:
 
