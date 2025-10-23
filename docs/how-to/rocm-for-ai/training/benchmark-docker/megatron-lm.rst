@@ -14,7 +14,7 @@ Training a model with Megatron-LM on ROCm
    <https://hub.docker.com/r/rocm/megatron-lm/>`__ Docker Hub registry will be
    deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
    The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
-   including Megatron-LM, `torchtitan, and torchtune <primus-pytorch>`__.
+   including Megatron-LM and :doc:`torchtitan <primus-pytorch>`.
 
    Primus with Megatron is designed to replace this ROCm Megatron-LM training workflow.
    To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
