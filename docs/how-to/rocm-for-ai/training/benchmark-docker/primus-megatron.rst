@@ -18,7 +18,7 @@ model training. Performance acceleration is powered by `Primus Turbo
    <https://hub.docker.com/r/rocm/megatron-lm/>`__ Docker Hub registry will be
    deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
    The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
-   including Megatron-LM, `torchtitan, and torchtune <primus-pytorch>`__.
+   including Megatron-LM and :doc:`torchtitan <primus-pytorch>`.
 
    Primus with Megatron is designed to replace the :doc:`ROCm Megatron-LM
    training <megatron-lm>` workflow. To learn how to migrate workloads from
@@ -183,7 +183,7 @@ Configuration
 =============
 
 Primus defines a training configuration in YAML for each model in
-`examples/megatron/configs <https://github.com/AMD-AGI/rss/tree/e16b27bf6c1b2798f38848fc574fee60d9a9b902/examples/megatron/configs>`__.
+`examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/e16b27bf6c1b2798f38848fc574fee60d9a9b902/examples/megatron/configs>`__.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
