@@ -8,7 +8,7 @@ Install AMD ROCm 7.9.0
 Use the following selector to choose your installation method for your
 supported AMD GPU or APU and operating system. For information about supported
 operating systems and compatible AMD devices, see the :doc:`Compatibility matrix
-<compatibility-matrix>`.
+</compatibility/compatibility-matrix>`.
 
 .. selector:: AMD product family
    :key: plat

@@ -157,7 +157,7 @@ html_theme_options = {
     "secondary_sidebar_items": {
         "**": ["page-toc"],
         "install/rocm": ["selector-toc2"],
-        "install/compatibility-matrix": ["selector-toc2"],
+        "compatibility/compatibility-matrix": ["selector-toc2"],
     }
 }
 html_title = f"AMD ROCm {ROCM_VERSION} preview"

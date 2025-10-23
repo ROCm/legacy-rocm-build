@@ -399,7 +399,7 @@ Expect future releases in this stream to expand the list of components.
 				<a href="https://github.com/ROCm/rocm-systems/tree/therock-7.9.0/projects/rocprofiler-sdk"><p>ROCprofiler-SDK</p></a>
 			</td>
 			<td style="vertical-align: middle;">
-				<p>Linux</p>
+				<p>Linux (Instinct GPUs only)</p>
 			</td>
 		</tr>
 		<tr class="row-odd">
@@ -483,7 +483,7 @@ Expect future releases in this stream to expand the list of components.
 				<a href="https://github.com/ROCm/rocm-libraries/tree/therock-7.9.0/projects/miopen"><p>MIOpen</p></a>
 			</td>
 			<td>
-				<p>Linux<br>Instinct GPUs only</p>
+				<p>Linux (Instinct GPUs only)</p>
 			</td>
 		</tr>
 		<tr class="row-odd">
