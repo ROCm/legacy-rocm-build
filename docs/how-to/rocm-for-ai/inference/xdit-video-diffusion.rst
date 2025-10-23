@@ -85,6 +85,21 @@ vary by model -- select one to get started.
        {% endfor %}
    {% endfor %}
 
+System validation
+=================
+
+Before running AI workloads, it's important to validate that your AMD hardware is configured
+correctly and performing optimally.
+
+If you have already validated your system settings, including aspects like NUMA auto-balancing, you
+can skip this step. Otherwise, complete the procedures in the :ref:`System validation and
+optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
+before starting.
+
+To test for optimal performance, consult the recommended :ref:`System health benchmarks
+<rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
+system's configuration.
+
 Pull the Docker image
 =====================
 
