@@ -22,7 +22,7 @@
 * {doc}`rocminfo <rocminfo:index>`
 * {doc}`ROCm SMI <rocm_smi_lib:index>`
 * {doc}`ROCm Validation Suite <rocmvalidationsuite:index>`
-* {doc}`Cluster Validation Suite <clustervalidationsuite:index>`
+* {doc}`Cluster Validation Suite <cvs:index>`
 :::
 
 :::{grid-item-card} Performance
