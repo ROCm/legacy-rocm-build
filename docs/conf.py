@@ -122,7 +122,6 @@ external_toc_path = "./sphinx/_toc.yml"
 # Register Sphinx extensions and static assets
 sys.path.append(str(DOCS_DIR / "extension"))
 
-html_static_path = ["sphinx/static"]
 # "sphinx/static/css", "extension/how-to/rocm-for-ai/inference"]
 # html_css_files = [
     # "rocm_custom.css",
@@ -130,7 +129,6 @@ html_static_path = ["sphinx/static"]
     # "dynamic_picker.css",
     # "vllm-benchmark.css",
 # ]
-html_js_files = ["version-history-link.js"]
 templates_path = ["extension/rocm_docs_custom/templates", "extension/templates"]
 
 extensions = [
@@ -152,7 +150,17 @@ extensions = [
 external_projects_current_project = "rocm"
 html_theme = "rocm_docs_theme"
 html_theme_options = {
-    "flavor": "rocm-docs-home",
+    "flavor": "generic",
+    "header_title": "ROCm™ 7.9.0 Preview",
+    "header_link": "https://rocm.docs.amd.com/en/7.9.0-preview/index.html",
+    "version_list_link": "https://rocm.docs.amd.com/en/7.9.0-preview/release/versions.html",
+    "nav_secondary_items": {
+        "GitHub": "https://github.com/ROCm/ROCm",
+        "Community": "https://github.com/ROCm/ROCm/discussions",
+        "Blogs": "https://rocm.blogs.amd.com/",
+        "Instinct™ Docs": "https://instinct.docs.amd.com/",
+        "Support": "https://github.com/ROCm/ROCm/issues/new/choose",
+    },
     "link_main_doc": False,
     "secondary_sidebar_items": {
         "**": ["page-toc"],
