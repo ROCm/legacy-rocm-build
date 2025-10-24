@@ -107,7 +107,7 @@ System Management
   ":doc:`rocminfo <rocminfo:index>`", "Reports system information"
   ":doc:`ROCm SMI <rocm_smi_lib:index>`", "C library for Linux that provides a user space interface for applications to monitor and control GPU applications"
   ":doc:`ROCm Validation Suite <rocmvalidationsuite:index>`", "Detects and troubleshoots common problems affecting AMD GPUs running in a high-performance computing environment"
-  ":doc:`Cluster Validation Suite <clustervalidationsuite:index>`", "CVS is a collection of test scripts that validate AMD AI clusters. Use CVS to verify cluster health, GPU/CPU node health, Host OS configuration checks, and NIC validations."
+  ":doc:`Cluster Validation Suite <cvs:index>`", "CVS is a collection of test scripts that validate AMD AI clusters. Use CVS to verify cluster health, GPU/CPU node health, Host OS configuration checks, and NIC validations."
 
 Performance
 ^^^^^^^^^^^
