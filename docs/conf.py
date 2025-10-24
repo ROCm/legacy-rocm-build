@@ -154,6 +154,13 @@ html_theme_options = {
     "header_title": "ROCm™ 7.9.0 Preview",
     "header_link": "https://rocm.docs.amd.com/en/7.9.0-preview/index.html",
     "version_list_link": "https://rocm.docs.amd.com/en/7.9.0-preview/release/versions.html",
+    "nav_secondary_items": {
+        "GitHub": "https://github.com/ROCm/ROCm",
+        "Community": "https://github.com/ROCm/ROCm/discussions",
+        "Blogs": "https://rocm.blogs.amd.com/",
+        "Instinct™ Docs": "https://instinct.docs.amd.com/",
+        "Support": "https://github.com/ROCm/ROCm/issues/new/choose",
+    },
     "link_main_doc": False,
     "secondary_sidebar_items": {
         "**": ["page-toc"],
