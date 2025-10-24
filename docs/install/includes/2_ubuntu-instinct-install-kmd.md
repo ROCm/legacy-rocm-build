@@ -1,4 +1,4 @@
-For information about driver compatibility, see the {doc}`compatibility/compatibility-matrix`.
+For information about driver compatibility, see the {doc}`/compatibility/compatibility-matrix`.
 
 For information about the AMD GPU driver installation, see the
 [Ubuntu native
