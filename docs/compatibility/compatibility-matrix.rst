@@ -123,7 +123,7 @@ compatibility and system requirements.
       :doc:`rocminfo <rocminfo:index>`,1.0.0,1.0.0,1.0.0
       :doc:`ROCm SMI <rocm_smi_lib:index>`,7.8.0,7.8.0,7.5.0
       :doc:`ROCm Validation Suite <rocmvalidationsuite:index>`,1.2.0,1.2.0,1.1.0
-      :doc:`Cluster Validation Suite <clustervalidationsuite:index>`,1.0.0,1.0.0,N/A
+      :doc:`Cluster Validation Suite <cvs:index>`,1.0.0,1.0.0,N/A
       ,,,
       PERFORMANCE TOOLS,,,
       :doc:`ROCm Bandwidth Test <rocm_bandwidth_test:index>`,2.6.0,2.6.0,1.4.0
