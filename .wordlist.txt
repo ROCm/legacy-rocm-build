@@ -213,6 +213,7 @@ Higgs
 href
 Hyperparameters
 Huggingface
+Hunyuan
 IB
 ICD
 ICT
@@ -872,6 +873,7 @@ querySelectorAll
 queueing
 qwen
 radeon
+rc
 rccl
 rdc
 rdma
