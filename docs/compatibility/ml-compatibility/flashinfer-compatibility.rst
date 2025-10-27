@@ -1,8 +1,8 @@
 :orphan:
 
 .. meta::
-    :description: FlashInfer deep learning framework compatibility
-    :keywords: GPU, LLM, FlashInfer, compatibility
+    :description: FlashInfer compatibility
+    :keywords: GPU, LLM, FlashInfer, deep learning, framework compatibility
 
 .. version-set:: rocm_version latest
 
@@ -11,7 +11,7 @@ FlashInfer compatibility
 ********************************************************************************
 
 `FlashInfer <https://docs.flashinfer.ai/index.html>`__ is a library and kernel generator 
-for Large Language Models (LLMs) that provides high-performance implementation of graphics 
+for Large Language Models (LLMs) that provides a high-performance implementation of graphics 
 processing units (GPUs) kernels. FlashInfer focuses on LLM serving and inference, as well 
 as advanced performance across diverse scenarios.
 
@@ -25,28 +25,30 @@ offers high-performance LLM-specific operators, with easy integration through Py
   For the latest feature compatibility matrix, refer to the ``README`` of the 
   `https://github.com/ROCm/flashinfer <https://github.com/ROCm/flashinfer>`__ repository.
 
-Support for the ROCm port of FlashInfer is available as follows:
+Support overview
+================================================================================
 
-- ROCm support for FlashInfer is hosted in the `https://github.com/ROCm/flashinfer 
-  <https://github.com/ROCm/flashinfer>`__ repository. This location differs from the 
-  `https://github.com/flashinfer-ai/flashinfer <https://github.com/flashinfer-ai/flashinfer>`_ 
+- The ROCm-supported version of FlashInfer is maintained in the official `https://github.com/ROCm/flashinfer 
+  <https://github.com/ROCm/flashinfer>`__ repository, which differs from the 
+  `https://github.com/flashinfer-ai/flashinfer <https://github.com/flashinfer-ai/flashinfer>`__ 
   upstream repository.
 
-- To install FlashInfer, use the prebuilt :ref:`Docker image <flashinfer-docker-compat>`, 
-  which includes ROCm, FlashInfer, and all required dependencies.
+- To get started and install FlashInfer on ROCm, use the prebuilt :ref:`Docker images <flashinfer-docker-compat>`, 
+  which include ROCm, FlashInfer, and all required dependencies.
 
   - See the :doc:`ROCm FlashInfer installation guide <rocm-install-on-linux:install/3rd-party/flashinfer-install>` 
-    to install and get started.
+    for installation and setup instructions.
 
-  - See the `Installation guide <https://docs.flashinfer.ai/installation.html>`__ 
-    in the upstream FlashInfer documentation.
+  - You can also consult the upstream `Installation guide <https://docs.flashinfer.ai/installation.html>`__ 
+    for additional context.
 
-.. note::
+Version support
+--------------------------------------------------------------------------------
 
-  Flashinfer is supported on ROCm 6.4.1.
+FlashInfer is supported on `ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__.
 
 Supported devices
-================================================================================
+--------------------------------------------------------------------------------
 
 **Officially Supported**: AMD Instinct™ MI300X
 
@@ -78,10 +80,9 @@ Docker image compatibility
 
    <i class="fab fa-docker"></i>
 
-AMD validates and publishes `ROCm FlashInfer images <https://hub.docker.com/r/rocm/flashinfer/tags>`__
-with ROCm and Pytorch backends on Docker Hub. The following Docker image tags and associated
-inventories represent the FlashInfer version from the official Docker Hub.
-The Docker images have been validated for `ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__.
+AMD validates and publishes `FlashInfer images <https://hub.docker.com/r/rocm/flashinfer/tags>`__
+with ROCm backends on Docker Hub. The following Docker image tag and associated
+inventories represent the latest available FlashInfer version from the official Docker Hub. 
 Click |docker-icon| to view the image on Docker Hub.
 
 .. list-table:: 

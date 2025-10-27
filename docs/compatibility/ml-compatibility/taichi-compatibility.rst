@@ -2,7 +2,7 @@
 
 .. meta::
     :description: Taichi compatibility
-    :keywords: GPU, Taichi compatibility
+    :keywords: GPU, Taichi, deep learning, framework compatibility
 
 .. version-set:: rocm_version latest
 
@@ -19,28 +19,52 @@ Taichi is widely used across various domains, including real-time physical simul
 numerical computing, augmented reality, artificial intelligence, computer vision, robotics, 
 visual effects in film and gaming, and general-purpose computing.
 
-* ROCm support for Taichi is hosted in the official `https://github.com/ROCm/taichi <https://github.com/ROCm/taichi>`_ repository.
-* Due to independent compatibility considerations, this location differs from the `https://github.com/taichi-dev <https://github.com/taichi-dev>`_ upstream repository.
-* Use the prebuilt :ref:`Docker image <taichi-docker-compat>` with ROCm, PyTorch, and Taichi preinstalled.
-* See the :doc:`ROCm Taichi installation guide <rocm-install-on-linux:install/3rd-party/taichi-install>` to install and get started.
+Support overview
+================================================================================
 
-.. note::
+- The ROCm-supported version of Taichi is maintained in the official `https://github.com/ROCm/taichi 
+  <https://github.com/ROCm/taichi>`__ repository, which differs from the 
+  `https://github.com/taichi-dev/taichi <https://github.com/taichi-dev/taichi>`__ upstream repository.
 
-	Taichi is supported on ROCm 6.3.2.
+- To get started and install Taichi on ROCm, use the prebuilt :ref:`Docker image <taichi-docker-compat>`, 
+  which includes ROCm, Taichi, and all required dependencies.
 
-Supported devices and features
-===============================================================================
-There is support through the ROCm software stack for all Taichi GPU features on AMD Instinct MI250X and MI210X Series GPUs with the exception of Taichi’s GPU rendering system, CGUI.
-AMD Instinct MI300X Series GPUs will be supported by November.
+  - See the :doc:`ROCm Taichi installation guide <rocm-install-on-linux:install/3rd-party/taichi-install>` 
+    for installation and setup instructions.
+
+  - You can also consult the upstream `Installation guide <https://github.com/taichi-dev/taichi>`__ 
+    for additional context.
+
+Version support
+--------------------------------------------------------------------------------
+
+Taichi is supported on `ROCm 6.3.2 <https://repo.radeon.com/rocm/apt/6.3.2/>`__.
+
+Supported devices
+--------------------------------------------------------------------------------
+
+- **Officially Supported**: AMD Instinct™ MI250X, MI210X (with the exception of Taichi’s GPU rendering system, CGUI)
+- **Upcoming Support**: AMD Instinct™ MI300X
 
 .. _taichi-recommendations:
 
 Use cases and recommendations
 ================================================================================
-To fully leverage Taichi's performance capabilities in compute-intensive tasks, it is best to adhere to specific coding patterns and utilize Taichi decorators. 
-A collection of example use cases is available in the `https://github.com/ROCm/taichi_examples <https://github.com/ROCm/taichi_examples>`_ repository, 
-providing practical insights and foundational knowledge for working with the Taichi programming language. 
-You can also refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`_ to search for Taichi examples and best practices to optimize your workflows on AMD GPUs.
+
+* The `Accelerating Parallel Programming in Python with Taichi Lang on AMD GPUs 
+  <https://rocm.blogs.amd.com/artificial-intelligence/taichi/README.html>`__
+  blog highlights Taichi as an open-source programming language designed for high-performance 
+  numerical computation, particularly in domains like real-time physical simulation, 
+  artificial intelligence, computer vision, robotics, and visual effects. Taichi 
+  is embedded in Python and uses just-in-time (JIT) compilation frameworks like 
+  LLVM to optimize execution on GPUs and CPUs. The blog emphasizes the versatility 
+  of Taichi in enabling complex simulations and numerical algorithms, making 
+  it ideal for developers working on compute-intensive tasks. Developers are 
+  encouraged to follow recommended coding patterns and utilize Taichi decorators 
+  for performance optimization, with examples available in the `https://github.com/ROCm/taichi_examples 
+  <https://github.com/ROCm/taichi_examples>`_ repository. Prebuilt Docker images 
+  integrating ROCm, PyTorch, and Taichi are provided for simplified installation 
+  and deployment, making it easier to leverage Taichi for advanced computational workloads.
 
 .. _taichi-docker-compat:
 
@@ -52,9 +76,8 @@ Docker image compatibility
    <i class="fab fa-docker"></i>
 
 AMD validates and publishes ready-made `ROCm Taichi Docker images <https://hub.docker.com/r/rocm/taichi/tags>`_
-with ROCm backends on Docker Hub. The following Docker image tags and associated inventories 
+with ROCm backends on Docker Hub. The following Docker image tag and associated inventories 
 represent the latest Taichi version from the official Docker Hub.
-The Docker images have been validated for `ROCm 6.3.2 <https://rocm.docs.amd.com/en/docs-6.3.2/about/release-notes.html>`_. 
 Click |docker-icon| to view the image on Docker Hub.
 
 .. list-table:: 

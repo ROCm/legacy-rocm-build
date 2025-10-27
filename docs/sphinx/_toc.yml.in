@@ -117,6 +117,8 @@ subtrees:
             title: SGLang inference performance testing
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-distributed.rst
             title: SGLang distributed inference with Mooncake
+          - file: how-to/rocm-for-ai/inference/xdit-video-diffusion.rst
+            title: xDiT video inference
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model
 
@@ -134,6 +136,8 @@ subtrees:
             title: Profile and debug
           - file: how-to/rocm-for-ai/inference-optimization/workload.rst
             title: Workload optimization
+          - file: how-to/rocm-for-ai/inference-optimization/vllm-optimization.rst
+            title: vLLM V1 performance optimization
 
       - url: https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/
         title: AI tutorials

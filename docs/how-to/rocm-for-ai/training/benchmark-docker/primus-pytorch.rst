@@ -17,7 +17,7 @@ Primus now supports the PyTorch torchtitan backend.
    <https://hub.docker.com/r/rocm/pytorch-training/>`__ Docker Hub registry will be
    deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
    The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
-   including `Megatron-LM <primus-megatron>`__, torchtitan, and torchtune.
+   including torchtitan and :doc:`Megatron-LM <primus-megatron>`.
 
    Primus with the PyTorch torchtitan backend is designed to replace the
    :doc:`ROCm PyTorch training <pytorch-training>` workflow. See
