@@ -220,7 +220,6 @@ href
 Hyperparameters
 HybridEngine
 Huggingface
-Hunyuan
 IB
 ICD
 ICT
@@ -532,7 +531,6 @@ UAC
 UC
 UCC
 UCX
-ud
 UE
 UIF
 UMC
@@ -844,7 +842,6 @@ pallas
 parallelization
 parallelizing
 param
-params
 parameterization
 passthrough
 pe
@@ -891,7 +888,6 @@ querySelectorAll
 queueing
 qwen
 radeon
-rc
 rccl
 rdc
 rdma
@@ -1056,8 +1052,6 @@ writebacks
 wrreq
 wzo
 xargs
-xdit
-xDiT
 xGMI
 xPacked
 xz
