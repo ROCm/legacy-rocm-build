@@ -104,7 +104,7 @@ jobs:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
           - ${{ build }}_${{ job.os }}_${{ job.target }}
-    timeoutInMinutes: 90
+    timeoutInMinutes: 120
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml

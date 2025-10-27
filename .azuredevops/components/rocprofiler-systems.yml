@@ -226,8 +226,11 @@ jobs:
             echo "##vso[task.prependpath]$(Agent.BuildDirectory)/rocm/llvm/bin"
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
         parameters:
+          cmakeSourceDir: $(Agent.BuildDirectory)/s/projects/rocprofiler-systems
     # build flags reference: https://rocm.docs.amd.com/projects/omnitrace/en/latest/install/install.html
           extraBuildFlags: >-
+            -DCMAKE_INSTALL_PREFIX=$(Agent.BuildDirectory)/rocprofiler-systems
+            -DROCPROFSYS_USE_PYTHON=ON
             -DROCPROFSYS_BUILD_TESTING=ON
             -DROCPROFSYS_BUILD_DYNINST=ON
             -DROCPROFSYS_BUILD_LIBUNWIND=ON
@@ -245,11 +248,13 @@ jobs:
         displayName: Set up rocprofiler-systems env
         inputs:
           targetType: inline
-          script: source share/rocprofiler-systems/setup-env.sh
-          workingDirectory: build
+          script: source $(Agent.BuildDirectory)/rocprofiler-systems/share/rocprofiler-systems/setup-env.sh
+          workingDirectory: $(Agent.BuildDirectory)/rocprofiler-systems/share/rocprofiler-systems
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
+          testDir: $(Agent.BuildDirectory)/s/build/tests/
+          testParameters: '--output-on-failure'
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
         parameters:
           gpuTarget: ${{ job.target }}

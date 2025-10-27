@@ -45,7 +45,7 @@ ROCm provides two different implementations of Flash Attention 2 modules. They c
          # Install from source
          git clone https://github.com/ROCm/flash-attention.git
          cd flash-attention/
-         GPU_ARCHS=gfx942 python setup.py install #MI300 series
+         GPU_ARCHS=gfx942 python setup.py install #MI300 Series
 
       Hugging Face Transformers can easily deploy the CK Flash Attention 2 module by passing an argument
       ``attn_implementation="flash_attention_2"`` in the ``from_pretrained`` class.
@@ -526,7 +526,7 @@ follow these instructions:
    python -m pytest -v -rsx -s -W ignore::pytest.PytestCollectionWarning split_table_batched_embeddings_test.py
 
 To run the FBGEMM_GPU ``uvm`` test, use these commands. These tests only support the AMD MI210 and 
-more recent accelerators. 
+more recent GPUs. 
 
 .. code-block:: shell
 

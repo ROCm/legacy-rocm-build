@@ -19,7 +19,7 @@ model training with GPU-optimized components for transformer-based models.
 The `PyTorch for ROCm training Docker <https://hub.docker.com/layers/rocm/pytorch-training/v25.5/images/sha256-d47850a9b25b4a7151f796a8d24d55ea17bba545573f0d50d54d3852f96ecde5>`_
 (``rocm/pytorch-training:v25.5``) image
 provides a prebuilt optimized environment for fine-tuning and pretraining a
-model on AMD Instinct MI325X and MI300X accelerators. It includes the following
+model on AMD Instinct MI325X and MI300X GPUs. It includes the following
 software components to accelerate training workloads:
 
 +--------------------------+--------------------------------+
@@ -45,7 +45,7 @@ software components to accelerate training workloads:
 Supported models
 ================
 
-The following models are pre-optimized for performance on the AMD Instinct MI325X and MI300X accelerators.
+The following models are pre-optimized for performance on the AMD Instinct MI325X and MI300X GPUs.
 
 * Llama 3.3 70B
 
@@ -79,7 +79,7 @@ popular AI models.
    The performance data presented in
    `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`_
    should not be interpreted as the peak performance achievable by AMD
-   Instinct MI325X and MI300X accelerators or ROCm software.
+   Instinct MI325X and MI300X GPUs or ROCm software.
 
 System validation
 =================

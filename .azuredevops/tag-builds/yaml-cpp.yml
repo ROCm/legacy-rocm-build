@@ -1,0 +1,24 @@
+variables:
+- group: common
+- template: /.azuredevops/variables-global.yml
+
+parameters:
+- name: yamlcppVersion
+  type: string
+  default: "0.8.0"
+
+resources:
+  repositories:
+  - repository: pipelines_repo
+    type: github
+    endpoint: ROCm
+    name: ROCm/ROCm
+
+trigger: none
+pr: none
+
+jobs:
+  - template: ${{ variables.CI_DEPENDENCIES_PATH }}/yamlcpp.yml
+    parameters:
+      yamlcppVersion: ${{ parameters.yamlcppVersion }}
+      

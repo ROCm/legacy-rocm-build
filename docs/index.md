@@ -8,7 +8,7 @@ myst:
 # AMD ROCm documentation
 
 ROCm is an open-source software platform optimized to extract HPC and AI workload
-performance from AMD Instinct accelerators and AMD Radeon GPUs while maintaining
+performance from AMD Instinct GPUs and AMD Radeon GPUs while maintaining
 compatibility with industry software frameworks. For more information, see
 [What is ROCm?](./what-is-rocm.rst)
 
@@ -16,7 +16,7 @@ ROCm supports multiple programming languages and programming interfaces such as
 {doc}`HIP (Heterogeneous-Compute Interface for Portability)<hip:index>`, OpenCL,
 and OpenMP, as explained in the [Programming guide](./how-to/programming_guide.rst).
 
-If you're using AMD Radeon™ PRO or Radeon GPUs in a workstation setting with a display connected, review {doc}`Radeon-specific ROCm documentation<radeon:index>`.
+If you're using AMD Radeon GPUs or Ryzen APUs in a workstation setting with a display connected, review {doc}`ROCm on Radeon and Ryzen documentation<radeon:index>`.
 
 ROCm documentation is organized into the following categories:
 
@@ -29,7 +29,7 @@ ROCm documentation is organized into the following categories:
 
 * {doc}`ROCm on Linux <rocm-install-on-linux:reference/system-requirements>`
 * {doc}`HIP SDK on Windows <rocm-install-on-windows:reference/system-requirements>`
-* [ROCm on Radeon GPUs](https://rocm.docs.amd.com/projects/radeon/en/latest/index.html)
+* {doc}`ROCm on Radeon and Ryzen<radeon:index>`
 * {doc}`Deep learning frameworks </how-to/deep-learning-rocm>`
 * {doc}`Build from source </how-to/build-rocm>`
 :::
@@ -64,7 +64,7 @@ ROCm documentation is organized into the following categories:
 <!-- markdownlint-disable MD051 -->
 * [ROCm libraries](./reference/api-libraries.md)
 * [ROCm tools, compilers, and runtimes](./reference/rocm-tools.md)
-* [Accelerator and  GPU hardware specifications](./reference/gpu-arch-specs.rst)
+* [GPU hardware specifications](./reference/gpu-arch-specs.rst)
 * [Data types and precision support](./reference/precision-support.rst)
 * [Graph safe support](./reference/graph-safe-support.rst)
 <!-- markdownlint-enable MD051 -->

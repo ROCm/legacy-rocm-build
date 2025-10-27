@@ -14,9 +14,17 @@ parameters:
   type: object
   default:
     - cmake
+    - libdw-dev
     - libglfw3-dev
     - libmsgpack-dev
+    - libomp-dev
+    - libopencv-dev
     - libtbb-dev
+    - libtiff-dev
+    - libva-amdgpu-dev
+    - libavcodec-dev
+    - libavformat-dev
+    - libavutil-dev
     - ninja-build
     - python3-pip
 - name: rocmDependencies
@@ -35,16 +43,22 @@ parameters:
     - hipSPARSE
     - hipTensor
     - llvm-project
+    - MIOpen
+    - MIVisionX
     - rocBLAS
+    - rocDecode
     - rocFFT
+    - rocJPEG
     - rocPRIM
     - rocprofiler-register
+    - rocprofiler-sdk
     - ROCR-Runtime
     - rocRAND
     - rocSOLVER
     - rocSPARSE
     - rocThrust
     - rocWMMA
+    - rpp
 - name: rocmTestDependencies
   type: object
   default:
@@ -61,11 +75,16 @@ parameters:
     - hipSPARSE
     - hipTensor
     - llvm-project
+    - MIOpen
+    - MIVisionX
     - rocBLAS
+    - rocDecode
     - rocFFT
     - rocminfo
     - rocPRIM
+    - rocJPEG
     - rocprofiler-register
+    - rocprofiler-sdk
     - ROCR-Runtime
     - rocRAND
     - rocSOLVER
@@ -73,6 +92,7 @@ parameters:
     - rocThrust
     - roctracer
     - rocWMMA
+    - rpp
 
 - name: jobMatrix
   type: object
@@ -101,6 +121,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        registerROCmPackages: true
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
       parameters:
         cmakeVersion: '3.25.0'
@@ -165,6 +186,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        registerROCmPackages: true
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
       parameters:
         cmakeVersion: '3.25.0'

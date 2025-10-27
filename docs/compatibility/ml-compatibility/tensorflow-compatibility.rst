@@ -2,7 +2,7 @@
 
 .. meta::
     :description: TensorFlow compatibility
-    :keywords: GPU, TensorFlow compatibility
+    :keywords: GPU, TensorFlow, deep learning, framework compatibility
 
 .. version-set:: rocm_version latest
 
@@ -12,37 +12,33 @@ TensorFlow compatibility
 
 `TensorFlow <https://www.tensorflow.org/>`__ is an open-source library for
 solving machine learning, deep learning, and AI problems. It can solve many
-problems across different sectors and industries but primarily focuses on
-neural network training and inference. It is one of the most popular and
-in-demand frameworks and is very active in open-source contribution and
-development.
+problems across different sectors and industries, but primarily focuses on
+neural network training and inference. It is one of the most popular deep 
+learning frameworks and is very active in open-source development.
+
+Support overview
+================================================================================
+
+- The ROCm-supported version of TensorFlow is maintained in the official `https://github.com/ROCm/tensorflow-upstream 
+  <https://github.com/ROCm/tensorflow-upstream>`__ repository, which differs from the 
+  `https://github.com/tensorflow/tensorflow <https://github.com/tensorflow/tensorflow>`__ upstream repository.
+
+- To get started and install TensorFlow on ROCm, use the prebuilt :ref:`Docker images <tensorflow-docker-compat>`, 
+  which include ROCm, TensorFlow, and all required dependencies.
+
+  - See the :doc:`ROCm TensorFlow installation guide <rocm-install-on-linux:install/3rd-party/tensorflow-install>` 
+    for installation and setup instructions.
+
+  - You can also consult the `TensorFlow API versions <https://www.tensorflow.org/versions>`__ list 
+    for additional context.
+
+Version support
+--------------------------------------------------------------------------------
 
 The `official TensorFlow repository <http://github.com/tensorflow/tensorflow>`__
 includes full ROCm support. AMD maintains a TensorFlow `ROCm repository
 <http://github.com/rocm/tensorflow-upstream>`__ in order to quickly add bug
-fixes, updates, and support for the latest ROCM versions.
-
-- ROCm TensorFlow release:
-
-  - Offers :ref:`Docker images <tensorflow-docker-compat>` with
-    ROCm and TensorFlow pre-installed.
-
-  - ROCm TensorFlow repository: `<https://github.com/ROCm/tensorflow-upstream>`__
-
-  - See the :doc:`ROCm TensorFlow installation guide <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
-    to get started.
-
-- Official TensorFlow release:
-
-  - Official TensorFlow repository: `<https://github.com/tensorflow/tensorflow>`__
-
-  - See the `TensorFlow API versions <https://www.tensorflow.org/versions>`__ list.
-
-  .. note::
-
-     The official TensorFlow documentation does not cover ROCm support. Use the
-     ROCm documentation for installation instructions for Tensorflow on ROCm.
-     See :doc:`rocm-install-on-linux:install/3rd-party/tensorflow-install`.
+fixes, updates, and support for the latest ROCm versions.
 
 .. _tensorflow-docker-compat:
 

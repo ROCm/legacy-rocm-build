@@ -1,188 +1,316 @@
 dockers:
-  - pull_tag: rocm/vllm:rocm6.4.1_vllm_0.10.1_20250909
-    docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm6.4.1_vllm_0.10.1_20250909/images/sha256-1113268572e26d59b205792047bea0e61e018e79aeadceba118b7bf23cb3715c
+  - pull_tag: rocm/vllm:rocm7.0.0_vllm_0.10.2_20251006
+    docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm7.0.0_vllm_0.10.2_20251006/images/sha256-94fd001964e1cf55c3224a445b1fb5be31a7dac302315255db8422d813edd7f5
     components:
-      ROCm: 6.4.1
-      vLLM: 0.10.1 (0.10.1rc2.dev409+g0b6bf6691.rocm641)
-      PyTorch: 2.7.0+gitf717b2a
-      hipBLASLt: 0.15
+      ROCm: 7.0.0
+      vLLM: 0.10.2 (0.11.0rc2.dev160+g790d22168.rocm700)
+      PyTorch: 2.9.0a0+git1c57644
+      hipBLASLt: 1.0.0
+    dockerfile:
+      commit: 790d22168820507f3105fef29596549378cfe399
 model_groups:
   - group: Meta Llama
     tag: llama
     models:
-    - model: Llama 3.1 8B
-      mad_tag: pyt_vllm_llama-3.1-8b
-      model_repo: meta-llama/Llama-3.1-8B-Instruct
-      url: https://huggingface.co/meta-llama/Llama-3.1-8B
-      precision: float16
-      config:
-        tp: 1
-        dtype: auto
-        kv_cache_dtype: auto
-        max_seq_len_to_capture: 131072
-        max_num_batched_tokens: 131072
-        max_model_len: 8192
-    - model: Llama 3.1 70B
-      mad_tag: pyt_vllm_llama-3.1-70b
-      model_repo: meta-llama/Llama-3.1-70B-Instruct
-      url: https://huggingface.co/meta-llama/Llama-3.1-70B-Instruct
-      precision: float16
-      config:
-        tp: 8
-        dtype: auto
-        kv_cache_dtype: auto
-        max_seq_len_to_capture: 131072
-        max_num_batched_tokens: 131072
-        max_model_len: 8192
-    - model: Llama 3.1 405B
-      mad_tag: pyt_vllm_llama-3.1-405b
-      model_repo: meta-llama/Llama-3.1-405B-Instruct
-      url: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct
-      precision: float16
-      config:
-        tp: 8
-        dtype: auto
-        kv_cache_dtype: auto
-        max_seq_len_to_capture: 131072
-        max_num_batched_tokens: 131072
-        max_model_len: 8192
-    - model: Llama 2 70B
-      mad_tag: pyt_vllm_llama-2-70b
-      model_repo: meta-llama/Llama-2-70b-chat-hf
-      url: https://huggingface.co/meta-llama/Llama-2-70b-chat-hf
-      precision: float16
-      config:
-        tp: 8
-        dtype: auto
-        kv_cache_dtype: auto
-        max_seq_len_to_capture: 4096
-        max_num_batched_tokens: 4096
-        max_model_len: 4096
-    - model: Llama 3.1 8B FP8
-      mad_tag: pyt_vllm_llama-3.1-8b_fp8
-      model_repo: amd/Llama-3.1-8B-Instruct-FP8-KV
-      url: https://huggingface.co/amd/Llama-3.1-8B-Instruct-FP8-KV
-      precision: float8
-      config:
-        tp: 1
-        dtype: auto
-        kv_cache_dtype: fp8
-        max_seq_len_to_capture: 131072
-        max_num_batched_tokens: 131072
-        max_model_len: 8192
-    - model: Llama 3.1 70B FP8
-      mad_tag: pyt_vllm_llama-3.1-70b_fp8
-      model_repo: amd/Llama-3.1-70B-Instruct-FP8-KV
-      url: https://huggingface.co/amd/Llama-3.1-70B-Instruct-FP8-KV
-      precision: float8
-      config:
-        tp: 8
-        dtype: auto
-        kv_cache_dtype: fp8
-        max_seq_len_to_capture: 131072
-        max_num_batched_tokens: 131072
-        max_model_len: 8192
-    - model: Llama 3.1 405B FP8
-      mad_tag: pyt_vllm_llama-3.1-405b_fp8
-      model_repo: amd/Llama-3.1-405B-Instruct-FP8-KV
-      url: https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV
-      precision: float8
-      config:
-        tp: 8
-        dtype: auto
-        kv_cache_dtype: fp8
-        max_seq_len_to_capture: 131072
-        max_num_batched_tokens: 131072
-        max_model_len: 8192
+      - model: Llama 2 70B
+        mad_tag: pyt_vllm_llama-2-70b
+        model_repo: meta-llama/Llama-2-70b-chat-hf
+        url: https://huggingface.co/meta-llama/Llama-2-70b-chat-hf
+        precision: float16
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 4096
+          max_model_len: 4096
+      - model: Llama 3.1 8B
+        mad_tag: pyt_vllm_llama-3.1-8b
+        model_repo: meta-llama/Llama-3.1-8B-Instruct
+        url: https://huggingface.co/meta-llama/Llama-3.1-8B
+        precision: float16
+        config:
+          tp: 1
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 131072
+          max_model_len: 8192
+      - model: Llama 3.1 8B FP8
+        mad_tag: pyt_vllm_llama-3.1-8b_fp8
+        model_repo: amd/Llama-3.1-8B-Instruct-FP8-KV
+        url: https://huggingface.co/amd/Llama-3.1-8B-Instruct-FP8-KV
+        precision: float8
+        config:
+          tp: 1
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_batched_tokens: 131072
+          max_model_len: 8192
+      - model: Llama 3.1 405B
+        mad_tag: pyt_vllm_llama-3.1-405b
+        model_repo: meta-llama/Llama-3.1-405B-Instruct
+        url: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct
+        precision: float16
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 131072
+          max_model_len: 8192
+      - model: Llama 3.1 405B FP8
+        mad_tag: pyt_vllm_llama-3.1-405b_fp8
+        model_repo: amd/Llama-3.1-405B-Instruct-FP8-KV
+        url: https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV
+        precision: float8
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_batched_tokens: 131072
+          max_model_len: 8192
+      - model: Llama 3.1 405B MXFP4
+        mad_tag: pyt_vllm_llama-3.1-405b_fp4
+        model_repo: amd/Llama-3.1-405B-Instruct-MXFP4-Preview
+        url: https://huggingface.co/amd/Llama-3.1-405B-Instruct-MXFP4-Preview
+        precision: float4
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_batched_tokens: 131072
+          max_model_len: 8192
+      - model: Llama 3.3 70B
+        mad_tag: pyt_vllm_llama-3.3-70b
+        model_repo: meta-llama/Llama-3.3-70B-Instruct
+        url: https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
+        precision: float16
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 131072
+          max_model_len: 8192
+      - model: Llama 3.3 70B FP8
+        mad_tag: pyt_vllm_llama-3.3-70b_fp8
+        model_repo: amd/Llama-3.3-70B-Instruct-FP8-KV
+        url: https://huggingface.co/amd/Llama-3.3-70B-Instruct-FP8-KV
+        precision: float8
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_batched_tokens: 131072
+          max_model_len: 8192
+      - model: Llama 3.3 70B MXFP4
+        mad_tag: pyt_vllm_llama-3.3-70b_fp4
+        model_repo: amd/Llama-3.3-70B-Instruct-MXFP4-Preview
+        url: https://huggingface.co/amd/Llama-3.3-70B-Instruct-MXFP4-Preview
+        precision: float4
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_batched_tokens: 131072
+          max_model_len: 8192
+      - model: Llama 4 Scout 17Bx16E
+        mad_tag: pyt_vllm_llama-4-scout-17b-16e
+        model_repo: meta-llama/Llama-4-Scout-17B-16E-Instruct
+        url: https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct
+        precision: float16
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 32768
+          max_model_len: 8192
+      - model: Llama 4 Maverick 17Bx128E
+        mad_tag: pyt_vllm_llama-4-maverick-17b-128e
+        model_repo: meta-llama/Llama-4-Maverick-17B-128E-Instruct
+        url: https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct
+        precision: float16
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 32768
+          max_model_len: 8192
+      - model: Llama 4 Maverick 17Bx128E FP8
+        mad_tag: pyt_vllm_llama-4-maverick-17b-128e_fp8
+        model_repo: meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
+        url: https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
+        precision: float8
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_batched_tokens: 131072
+          max_model_len: 8192
+  - group: DeepSeek
+    tag: deepseek
+    models:
+      - model: DeepSeek R1 0528 FP8
+        mad_tag: pyt_vllm_deepseek-r1
+        model_repo: deepseek-ai/DeepSeek-R1-0528
+        url: https://huggingface.co/deepseek-ai/DeepSeek-R1-0528
+        precision: float8
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_seqs: 1024
+          max_num_batched_tokens: 131072
+          max_model_len: 8192
+  - group: OpenAI GPT OSS
+    tag: gpt-oss
+    models:
+      - model: GPT OSS 20B
+        mad_tag: pyt_vllm_gpt-oss-20b
+        model_repo: openai/gpt-oss-20b
+        url: https://huggingface.co/openai/gpt-oss-20b
+        precision: bfloat16
+        config:
+          tp: 1
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 8192
+          max_model_len: 8192
+      - model: GPT OSS 120B
+        mad_tag: pyt_vllm_gpt-oss-120b
+        model_repo: openai/gpt-oss-120b
+        url: https://huggingface.co/openai/gpt-oss-120b
+        precision: bfloat16
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 8192
+          max_model_len: 8192
   - group: Mistral AI
     tag: mistral
     models:
-    - model: Mixtral MoE 8x7B
-      mad_tag: pyt_vllm_mixtral-8x7b
-      model_repo: mistralai/Mixtral-8x7B-Instruct-v0.1
-      url: https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1
-      precision: float16
-      config:
-        tp: 8
-        dtype: auto
-        kv_cache_dtype: auto
-        max_seq_len_to_capture: 32768
-        max_num_batched_tokens: 32768
-        max_model_len: 8192
-    - model: Mixtral MoE 8x22B
-      mad_tag: pyt_vllm_mixtral-8x22b
-      model_repo: mistralai/Mixtral-8x22B-Instruct-v0.1
-      url: https://huggingface.co/mistralai/Mixtral-8x22B-Instruct-v0.1
-      precision: float16
-      config:
-        tp: 8
-        dtype: auto
-        kv_cache_dtype: auto
-        max_seq_len_to_capture: 65536
-        max_num_batched_tokens: 65536
-        max_model_len: 8192
-    - model: Mixtral MoE 8x7B FP8
-      mad_tag: pyt_vllm_mixtral-8x7b_fp8
-      model_repo: amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV
-      url: https://huggingface.co/amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV
-      precision: float8
-      config:
-        tp: 8
-        dtype: auto
-        kv_cache_dtype: fp8
-        max_seq_len_to_capture: 32768
-        max_num_batched_tokens: 32768
-        max_model_len: 8192
-    - model: Mixtral MoE 8x22B FP8
-      mad_tag: pyt_vllm_mixtral-8x22b_fp8
-      model_repo: amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV
-      url: https://huggingface.co/amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV
-      precision: float8
-      config:
-        tp: 8
-        dtype: auto
-        kv_cache_dtype: fp8
-        max_seq_len_to_capture: 65536
-        max_num_batched_tokens: 65536
-        max_model_len: 8192
+      - model: Mixtral MoE 8x7B
+        mad_tag: pyt_vllm_mixtral-8x7b
+        model_repo: mistralai/Mixtral-8x7B-Instruct-v0.1
+        url: https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1
+        precision: float16
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 32768
+          max_model_len: 8192
+      - model: Mixtral MoE 8x7B FP8
+        mad_tag: pyt_vllm_mixtral-8x7b_fp8
+        model_repo: amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV
+        url: https://huggingface.co/amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV
+        precision: float8
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_batched_tokens: 32768
+          max_model_len: 8192
+      - model: Mixtral MoE 8x22B
+        mad_tag: pyt_vllm_mixtral-8x22b
+        model_repo: mistralai/Mixtral-8x22B-Instruct-v0.1
+        url: https://huggingface.co/mistralai/Mixtral-8x22B-Instruct-v0.1
+        precision: float16
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 65536
+          max_model_len: 8192
+      - model: Mixtral MoE 8x22B FP8
+        mad_tag: pyt_vllm_mixtral-8x22b_fp8
+        model_repo: amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV
+        url: https://huggingface.co/amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV
+        precision: float8
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_batched_tokens: 65536
+          max_model_len: 8192
   - group: Qwen
     tag: qwen
     models:
-    - model: QwQ-32B
-      mad_tag: pyt_vllm_qwq-32b
-      model_repo: Qwen/QwQ-32B
-      url: https://huggingface.co/Qwen/QwQ-32B
-      precision: float16
-      config:
-        tp: 1
-        dtype: auto
-        kv_cache_dtype: auto
-        max_seq_len_to_capture: 131072
-        max_num_batched_tokens: 131072
-        max_model_len: 8192
-    - model: Qwen3 30B A3B
-      mad_tag: pyt_vllm_qwen3-30b-a3b
-      model_repo: Qwen/Qwen3-30B-A3B
-      url: https://huggingface.co/Qwen/Qwen3-30B-A3B
-      precision: float16
-      config:
-        tp: 1
-        dtype: auto
-        kv_cache_dtype: auto
-        max_seq_len_to_capture: 32768
-        max_num_batched_tokens: 32768
-        max_model_len: 8192
+      - model: Qwen3 8B
+        mad_tag: pyt_vllm_qwen3-8b
+        model_repo: Qwen/Qwen3-8B
+        url: https://huggingface.co/Qwen/Qwen3-8B
+        precision: float16
+        config:
+          tp: 1
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 40960
+          max_model_len: 8192
+      - model: Qwen3 32B
+        mad_tag: pyt_vllm_qwen3-32b
+        model_repo: Qwen/Qwen3-32b
+        url: https://huggingface.co/Qwen/Qwen3-32B
+        precision: float16
+        config:
+          tp: 1
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 40960
+          max_model_len: 8192
+      - model: Qwen3 30B A3B
+        mad_tag: pyt_vllm_qwen3-30b-a3b
+        model_repo: Qwen/Qwen3-30B-A3B
+        url: https://huggingface.co/Qwen/Qwen3-30B-A3B
+        precision: float16
+        config:
+          tp: 1
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 40960
+          max_model_len: 8192
+      - model: Qwen3 30B A3B FP8
+        mad_tag: pyt_vllm_qwen3-30b-a3b_fp8
+        model_repo: Qwen/Qwen3-30B-A3B-FP8
+        url: https://huggingface.co/Qwen/Qwen3-30B-A3B-FP8
+        precision: float16
+        config:
+          tp: 1
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_batched_tokens: 40960
+          max_model_len: 8192
+      - model: Qwen3 235B A22B
+        mad_tag: pyt_vllm_qwen3-235b-a22b
+        model_repo: Qwen/Qwen3-235B-A22B
+        url: https://huggingface.co/Qwen/Qwen3-235B-A22B
+        precision: float16
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 40960
+          max_model_len: 8192
+      - model: Qwen3 235B A22B FP8
+        mad_tag: pyt_vllm_qwen3-235b-a22b_fp8
+        model_repo: Qwen/Qwen3-235B-A22B-FP8
+        url: https://huggingface.co/Qwen/Qwen3-235B-A22B-FP8
+        precision: float8
+        config:
+          tp: 8
+          dtype: auto
+          kv_cache_dtype: fp8
+          max_num_batched_tokens: 40960
+          max_model_len: 8192
   - group: Microsoft Phi
     tag: phi
     models:
-    - model: Phi-4
-      mad_tag: pyt_vllm_phi-4
-      model_repo: microsoft/phi-4
-      url: https://huggingface.co/microsoft/phi-4
-      config:
-        tp: 1
-        dtype: auto
-        kv_cache_dtype: auto
-        max_seq_len_to_capture: 16384
-        max_num_batched_tokens: 16384
-        max_model_len: 8192
+      - model: Phi-4
+        mad_tag: pyt_vllm_phi-4
+        model_repo: microsoft/phi-4
+        url: https://huggingface.co/microsoft/phi-4
+        precision: float16
+        config:
+          tp: 1
+          dtype: auto
+          kv_cache_dtype: auto
+          max_num_batched_tokens: 16384
+          max_model_len: 8192

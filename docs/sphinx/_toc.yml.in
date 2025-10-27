@@ -23,8 +23,8 @@ subtrees:
     title: ROCm on Linux
   - url: https://rocm.docs.amd.com/projects/install-on-windows/en/latest/
     title: HIP SDK on Windows
-  - url: https://rocm.docs.amd.com/projects/radeon/en/latest/index.html
-    title: ROCm on Radeon GPUs
+  - url: https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/index.html
+    title: ROCm on Radeon and Ryzen
   - file: how-to/deep-learning-rocm.md
     title: Deep learning frameworks
     subtrees:
@@ -49,6 +49,8 @@ subtrees:
         title: Ray compatibility
       - file: compatibility/ml-compatibility/llama-cpp-compatibility.rst
         title: llama.cpp compatibility
+      - file: compatibility/ml-compatibility/flashinfer-compatibility.rst
+        title: FlashInfer compatibility
   - file: how-to/build-rocm.rst
     title: Build ROCm from source
 
@@ -60,8 +62,15 @@ subtrees:
     - entries:
       - file: how-to/rocm-for-ai/install.rst
         title: Installation
-      - file: how-to/rocm-for-ai/system-health-check.rst
-        title: System health benchmarks
+      - file: how-to/rocm-for-ai/system-setup/index.rst
+        title: System setup
+        entries:
+        - file: how-to/rocm-for-ai/system-setup/prerequisite-system-validation.rst
+          title: System validation
+        - file: how-to/rocm-for-ai/system-setup/multi-node-setup.rst
+          title: Multi-node setup
+        - file: how-to/rocm-for-ai/system-setup/system-health-check.rst
+          title: System health benchmarks
       - file: how-to/rocm-for-ai/training/index.rst
         title: Training
         subtrees:
@@ -88,9 +97,9 @@ subtrees:
             subtrees:
             - entries:
               - file: how-to/rocm-for-ai/fine-tuning/single-gpu-fine-tuning-and-inference.rst
-                title: Use a single accelerator
+                title: Use a single GPU
               - file: how-to/rocm-for-ai/fine-tuning/multi-gpu-fine-tuning-and-inference.rst
-                title: Use multiple accelerators
+                title: Use multiple GPUs
 
       - file: how-to/rocm-for-ai/inference/index.rst
         title: Inference
@@ -108,6 +117,8 @@ subtrees:
             title: SGLang inference performance testing
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-distributed.rst
             title: SGLang distributed inference with Mooncake
+          - file: how-to/rocm-for-ai/inference/xdit-video-diffusion.rst
+            title: xDiT video inference
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model
 
@@ -125,6 +136,8 @@ subtrees:
             title: Profile and debug
           - file: how-to/rocm-for-ai/inference-optimization/workload.rst
             title: Workload optimization
+          - file: how-to/rocm-for-ai/inference-optimization/vllm-optimization.rst
+            title: vLLM V1 performance optimization
 
       - url: https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/
         title: AI tutorials
@@ -171,7 +184,7 @@ subtrees:
           - file: conceptual/gpu-arch/mi300-mi200-performance-counters.rst
             title: MI300 and MI200 performance counters
           - file: conceptual/gpu-arch/mi350-performance-counters.rst
-            title: MI350 series performance counters
+            title: MI350 Series performance counters
       - file: conceptual/gpu-arch/mi250.md
         title: MI250 microarchitecture
         subtrees:

@@ -46,6 +46,10 @@ parameters:
       pipelineId: 115
       developBranch: aomp-dev
       hasGpuTarget: false
+    aqlprofile:
+      pipelineId: 365
+      developBranch: develop
+      hasGpuTarget: false
     clr:
       pipelineId: 335
       developBranch: develop
@@ -135,8 +139,8 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     rdc:
-      pipelineId: 100
-      developBranch: amd-staging
+      pipelineId: 360
+      developBranch: develop
       hasGpuTarget: false
     rocAL:
       pipelineId: 151
@@ -219,12 +223,12 @@ parameters:
       developBranch: develop
       hasGpuTarget: false
     rocprofiler-sdk:
-      pipelineId: 246
-      developBranch: amd-staging
+      pipelineId: 347
+      developBranch: develop
       hasGpuTarget: true
     rocprofiler-systems:
-      pipelineId: 255
-      developBranch: amd-staging
+      pipelineId: 345
+      developBranch: develop
       hasGpuTarget: true
     rocPyDecode:
       pipelineId: 239

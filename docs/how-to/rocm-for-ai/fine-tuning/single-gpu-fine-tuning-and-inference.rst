@@ -3,12 +3,11 @@
    :keywords: ROCm, LLM, fine-tuning, usage, tutorial, single-GPU, LoRA, PEFT, inference, SFTTrainer
 
 ****************************************************
-Fine-tuning and inference using a single accelerator
+Fine-tuning and inference using a single GPU
 ****************************************************
 
 This section explains model fine-tuning and inference techniques on a single-accelerator system. See
-:doc:`Multi-accelerator fine-tuning <multi-gpu-fine-tuning-and-inference>` for a setup with multiple accelerators or
-GPUs.
+:doc:`Multi-accelerator fine-tuning <multi-gpu-fine-tuning-and-inference>` for a setup with multiple GPUs.
 
 .. _fine-tuning-llms-single-gpu-env:
 
@@ -21,7 +20,7 @@ This section was tested using the following hardware and software environment.
    :stub-columns: 1
 
    * - Hardware
-     - AMD Instinct MI300X accelerator
+     - AMD Instinct MI300X GPU
 
    * - Software
      - ROCm 6.1, Ubuntu 22.04, PyTorch 2.1.2, Python 3.10
@@ -41,7 +40,7 @@ Setting up the base implementation environment
    :doc:`PyTorch installation guide <rocm-install-on-linux:install/3rd-party/pytorch-install>`. For a consistent
    installation, it’s recommended to use official ROCm prebuilt Docker images with the framework pre-installed.
 
-#. In the Docker container, check the availability of ROCm-capable accelerators using the following command.
+#. In the Docker container, check the availability of ROCm-capable GPUs using the following command.
 
    .. code-block:: shell
 
@@ -53,14 +52,14 @@ Setting up the base implementation environment
 
       ============================ ROCm System Management Interface ============================
       ====================================== Product Info ======================================
-      GPU[0]          : Card series:          AMD Instinct MI300X OAM
+      GPU[0]          : Card Series:          AMD Instinct MI300X OAM
       GPU[0]          : Card model:           0x74a1
       GPU[0]          : Card vendor:          Advanced Micro Devices, Inc. [AMD/ATI]
       GPU[0]          : Card SKU:             MI3SRIOV
       ==========================================================================================
       ================================== End of ROCm SMI Log ===================================
 
-#. Check that your accelerators are available to PyTorch.
+#. Check that your GPUs are available to PyTorch.
 
    .. code-block:: python
 
@@ -502,9 +501,9 @@ Let's look at achieving model inference using these types of models.
          # Token generation
          print(pipe("What is a large language model?")[0]["generated_text"])
 
-If using multiple accelerators, see
+If using multiple GPUs, see
 :ref:`Multi-accelerator fine-tuning and inference <fine-tuning-llms-multi-gpu-hugging-face-accelerate>` to explore
-popular libraries that simplify fine-tuning and inference in a multi-accelerator system.
+popular libraries that simplify fine-tuning and inference in a multiple-GPU system.
 
 Read more about inference frameworks like vLLM and Hugging Face TGI in
 :doc:`LLM inference frameworks <../inference/llm-inference-frameworks>`.

@@ -1,6 +1,6 @@
 .. meta::
    :description: Learn about AMD hardware optimization for HPC-specific and workstation workloads.
-   :keywords: high-performance computing, HPC, Instinct accelerators, Radeon,
+   :keywords: high-performance computing, HPC, Instinct GPUs, Radeon,
               tuning, tuning guide, AMD, ROCm
 
 *******************

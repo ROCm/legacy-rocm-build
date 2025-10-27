@@ -1,4 +1,4 @@
-﻿Atomic,MI100,MI200 PCIe,MI200 A+A,MI300X series,MI300A,MI350X series
+﻿Atomic,MI100,MI200 PCIe,MI200 A+A,MI300X Series,MI300A,MI350X Series
 32 bit atomicAdd,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
 32 bit atomicSub,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native
 32 bit atomicMin,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native,✅ Native

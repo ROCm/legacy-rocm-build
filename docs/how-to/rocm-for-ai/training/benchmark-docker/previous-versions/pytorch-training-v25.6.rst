@@ -18,7 +18,7 @@ model training with GPU-optimized components for transformer-based models.
 
 The `PyTorch for ROCm training Docker <https://hub.docker.com/layers/rocm/pytorch-training/v25.6/images/sha256-a4cea3c493a4a03d199a3e81960ac071d79a4a7a391aa9866add3b30a7842661>`_
 (``rocm/pytorch-training:v25.6``) image provides a prebuilt optimized environment for fine-tuning and pretraining a
-model on AMD Instinct MI325X and MI300X accelerators. It includes the following software components to accelerate
+model on AMD Instinct MI325X and MI300X GPUs. It includes the following software components to accelerate
 training workloads:
 
 +--------------------------+--------------------------------+
@@ -44,7 +44,7 @@ training workloads:
 Supported models
 ================
 
-The following models are pre-optimized for performance on the AMD Instinct MI325X and MI300X accelerators.
+The following models are pre-optimized for performance on the AMD Instinct MI325X and MI300X GPUs.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.6-benchmark-models.yaml
 
@@ -99,7 +99,7 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
       The performance data presented in
       `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8deaeb413-item-21cea50186-tab>`_
       should not be interpreted as the peak performance achievable by AMD
-      Instinct MI325X and MI300X accelerators or ROCm software.
+      Instinct MI325X and MI300X GPUs or ROCm software.
 
    System validation
    =================
@@ -444,7 +444,7 @@ Further reading
 - To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - For a list of other ready-made Docker images for AI with ROCm, see
   `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.

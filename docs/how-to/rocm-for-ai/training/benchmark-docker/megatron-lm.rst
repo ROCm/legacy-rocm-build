@@ -10,37 +10,38 @@ Training a model with Megatron-LM on ROCm
 
 .. caution::
 
-   Primus with Megatron supersedes this ROCm Megatron-LM training workflow.
+   For a unified training solution on AMD GPUs with ROCm, the `rocm/megatron-lm
+   <https://hub.docker.com/r/rocm/megatron-lm/>`__ Docker Hub registry will be
+   deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
+   The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
+   including Megatron-LM and :doc:`torchtitan <primus-pytorch>`.
+
+   Primus with Megatron is designed to replace this ROCm Megatron-LM training workflow.
    To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
    see :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 
 The `Megatron-LM framework for ROCm <https://github.com/ROCm/Megatron-LM>`_ is
 a specialized fork of the robust Megatron-LM, designed to enable efficient
 training of large-scale language models on AMD GPUs. By leveraging AMD
-Instinct™ MI300X series accelerators, Megatron-LM delivers enhanced
-scalability, performance, and resource utilization for AI workloads. It is
+Instinct™ GPUs, Megatron-LM delivers enhanced scalability, performance, and
+resource utilization for AI workloads. It is
 purpose-built to support models like Llama, DeepSeek, and Mixtral,
 enabling developers to train next-generation AI models more
 efficiently.
 
-AMD provides ready-to-use Docker images for MI300X series accelerators containing
-essential components, including PyTorch, ROCm libraries, and Megatron-LM
-utilities. It contains the following software components to accelerate training
-workloads:
-
-.. note::
-
-   This Docker environment is based on Python 3.10 and Ubuntu 22.04. For an alternative environment with
-   Python 3.12 and Ubuntu 24.04, see the :doc:`previous ROCm Megatron-LM v25.6 Docker release <previous-versions/megatron-lm-v25.6>`.
+AMD provides ready-to-use Docker images for MI355X, MI350X, MI325X, and MI300X
+GPUs containing essential components, including PyTorch, ROCm libraries, and
+Megatron-LM utilities. It contains the following software components to
+accelerate training workloads:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/megatron-lm-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
    .. tab-set::
 
-      {% for docker in dockers %}
-      .. tab-item:: ``{{ docker.pull_tag }}``
-         :sync: {{ docker.pull_tag }}
+   {% for supported_gpus, docker in dockers.items() %}
+      .. tab-item:: {{ supported_gpus }}
+         :sync: {{ supported_gpus }}
 
          .. list-table::
             :header-rows: 1
@@ -51,17 +52,15 @@ workloads:
             {% for component_name, component_version in docker.components.items() %}
             * - {{ component_name }}
               - {{ component_version }}
-
             {% endfor %}
-      {% endfor %}
-
+   {% endfor %}
    .. _amd-megatron-lm-model-support:
 
    Supported models
    ================
 
    The following models are supported for training performance benchmarking with Megatron-LM and ROCm
-   on AMD Instinct MI300X series accelerators.
+   on AMD Instinct MI300X Series GPUs.
    Some instructions, commands, and training recommendations in this documentation might
    vary by model -- select one to get started.
 
@@ -115,7 +114,7 @@ popular AI models.
    The performance data presented in
    `Performance results with AMD ROCm software <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html>`__
    only reflects the latest version of this training benchmarking environment.
-   The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X accelerators or ROCm software.
+   The listed measurements should not be interpreted as the peak performance achievable by AMD Instinct MI325X and MI300X GPUs or ROCm software.
 
 System validation
 =================
@@ -138,11 +137,11 @@ Environment setup
 =================
 
 Use the following instructions to set up the environment, configure the script to train models, and
-reproduce the benchmark results on MI300X series accelerators with the AMD Megatron-LM Docker
+reproduce the benchmark results on MI300X Series GPUs with the AMD Megatron-LM Docker
 image.
 
 .. _amd-megatron-lm-requirements:
- 
+
 Download the Docker image
 -------------------------
 
@@ -151,33 +150,24 @@ Download the Docker image
    {% set dockers = data.dockers %}
    1. Use the following command to pull the Docker image from Docker Hub.
 
-      {% if dockers|length > 1 %}
-      .. tab-set:: 
+      .. tab-set::
 
-         {% for docker in data.dockers %}
-         .. tab-item:: {{ docker.doc_name }}
-            :sync: {{ docker.pull_tag }}
+         {% for supported_gpus, docker in dockers.items() %}
+         .. tab-item:: {{ supported_gpus }}
+            :sync: {{ supported_gpus }}
 
             .. code-block:: shell
 
                docker pull {{ docker.pull_tag }}
-
          {% endfor %}
-      {% elif dockers|length == 1 %}
-      {% set docker = dockers[0] %}
-      .. code-block:: shell
 
-         docker pull {{ docker.pull_tag }}
-
-      {% endif %}
    2. Launch the Docker container.
 
-      {% if dockers|length > 1 %}
       .. tab-set::
 
-         {% for docker in dockers %}
-         .. tab-item:: {{ docker.doc_name }}
-            :sync: {{ docker.pull_tag }}
+         {% for supported_gpus, docker in dockers.items() %}
+         .. tab-item:: {{ supported_gpus }}
+            :sync: {{ supported_gpus }}
 
             .. code-block:: shell
 
@@ -195,28 +185,7 @@ Download the Docker image
                    --shm-size 128G \
                    --name megatron_training_env \
                    {{ docker.pull_tag }}
-
          {% endfor %}
-      {% elif dockers|length == 1 %}
-      {% set docker = dockers[0] %}
-      .. code-block:: shell
-
-         docker run -it \
-             --device /dev/dri \
-             --device /dev/kfd \
-             --device /dev/infiniband \
-             --network host --ipc host \
-             --group-add video \
-             --cap-add SYS_PTRACE \
-             --security-opt seccomp=unconfined \
-             --privileged \
-             -v $HOME:$HOME \
-             -v $HOME/.ssh:/root/.ssh \
-             --shm-size 128G \
-             --name megatron_training_env \
-             {{ docker.pull_tag }}
-
-      {% endif %}
 
 3. Use these commands if you exit the ``megatron_training_env`` container and need to return to it.
 
@@ -234,8 +203,8 @@ Download the Docker image
       pip uninstall megatron-core
       pip install -e .
 
-The Docker container hosts
-`<https://github.com/ROCm/Megatron-LM/tree/rocm_dev>`__ at verified commit ``e8e9edc``.
+The Docker container hosts a verified commit of
+`<https://github.com/ROCm/Megatron-LM/tree/rocm_dev>`__.
 
 .. _amd-megatron-lm-environment-setup:
 
@@ -281,25 +250,11 @@ Configuration
 
    See :ref:`Key options <amd-megatron-lm-benchmark-test-vars>` for more information on configuration options.
 
-Network interface
------------------
+Multi-node configuration
+------------------------
 
-Update the network interface in the script to match your system's network interface. To
-find your network interface, run the following (outside of any Docker container):
-
-.. code-block:: bash
-
-   ip a
-
-Look for an active interface that has an IP address in the same subnet as
-your other nodes. Then, update the following variables in the script, for
-example:
-
-.. code-block:: bash
-
-   export NCCL_SOCKET_IFNAME=ens50f0np0
-
-   export GLOO_SOCKET_IFNAME=ens50f0np0
+Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your environment for multi-node
+training. See :ref:`amd-megatron-lm-multi-node-examples` for example run commands.
 
 .. _amd-megatron-lm-tokenizer:
 
@@ -540,46 +495,6 @@ Download the dataset
 
    Ensure that the files are accessible inside the Docker container.
 
-Multi-node configuration
-------------------------
-
-If you're running multi-node training, update the following environment variables. They can
-also be passed as command line arguments. Refer to the following example configurations.
-
-* Change ``localhost`` to the master node's hostname:
-
-  .. code-block:: shell
-
-     MASTER_ADDR="${MASTER_ADDR:-localhost}"
-
-* Set the number of nodes you want to train on (for instance, ``2``, ``4``, ``8``):
-
-  .. code-block:: shell
-
-     NNODES="${NNODES:-1}"
-
-* Set the rank of each node (0 for master, 1 for the first worker node, and so on):
-
-  .. code-block:: shell
-
-     NODE_RANK="${NODE_RANK:-0}"
-
-* Set ``DATA_CACHE_PATH`` to a common directory accessible by all the nodes (for example, an
-  NFS directory) for multi-node runs:
-
-  .. code-block:: shell
-
-     DATA_CACHE_PATH=/root/cache # Set to a common directory for multi-node runs
-
-* For multi-node runs, make sure the correct network drivers are installed on the nodes. If
-  inside a Docker container, either install the drivers inside the Docker container or pass the network
-  drivers from the host while creating the Docker container.
-
-  .. code-block:: shell
-
-     # Specify which RDMA interfaces to use for communication
-     export NCCL_IB_HCA=rdma0,rdma1,rdma2,rdma3,rdma4,rdma5,rdma6,rdma7
-
 .. _amd-megatron-lm-run-training:
 
 Run training
@@ -587,7 +502,7 @@ Run training
 
 Use the following example commands to set up the environment, configure
 :ref:`key options <amd-megatron-lm-benchmark-test-vars>`, and run training on
-MI300X series accelerators with the AMD Megatron-LM environment.
+MI300X Series GPUs with the AMD Megatron-LM environment.
 
 Single node training
 --------------------
@@ -612,7 +527,7 @@ Single node training
       FSDP=1 \
       MODEL_SIZE=70 \
       TOTAL_ITERS=50 \
-      bash examples/llama/train_llama3.sh 
+      bash examples/llama/train_llama3.sh
 
    .. note::
 
@@ -626,31 +541,73 @@ Single node training
    To run training on a single node for Llama 3.1 8B FP8, navigate to the Megatron-LM folder and use the
    following command.
 
-   .. code-block:: shell
+   .. tab-set::
 
-      TEE_OUTPUT=1 \
-      MBS=2 \
-      BS=128 \
-      TP=1 \
-      TE_FP8=1 \
-      SEQ_LENGTH=8192 \
-      MODEL_SIZE=8 \
-      TOTAL_ITERS=50 \
-      bash examples/llama/train_llama3.sh
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            TEE_OUTPUT=1 \
+            MBS=4 \
+            BS=512 \
+            TP=1 \
+            TE_FP8=1 \
+            SEQ_LENGTH=8192 \
+            MODEL_SIZE=8 \
+            TOTAL_ITERS=10 \
+            GEMM_TUNING=0 \
+            bash examples/llama/train_llama3.sh
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            TEE_OUTPUT=1 \
+            MBS=2 \
+            BS=128 \
+            TP=1 \
+            TE_FP8=1 \
+            SEQ_LENGTH=8192 \
+            MODEL_SIZE=8 \
+            TOTAL_ITERS=50 \
+            bash examples/llama/train_llama3.sh
 
    For Llama 3.1 8B BF16, use the following command:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      TEE_OUTPUT=1 \
-      MBS=2 \
-      BS=128 \
-      TP=1 \
-      TE_FP8=0 \
-      SEQ_LENGTH=8192 \
-      MODEL_SIZE=8 \
-      TOTAL_ITERS=50 \
-      bash examples/llama/train_llama3.sh
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            TEE_OUTPUT=1 \
+            MBS=4 \
+            BS=512 \
+            TP=1 \
+            TE_FP8=0 \
+            SEQ_LENGTH=8192 \
+            MODEL_SIZE=8 \
+            TOTAL_ITERS=10 \
+            GEMM_TUNING=1 \
+            bash examples/llama/train_llama3.sh
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            TEE_OUTPUT=1 \
+            MBS=2 \
+            BS=128 \
+            TP=1 \
+            TE_FP8=0 \
+            SEQ_LENGTH=8192 \
+            MODEL_SIZE=8 \
+            TOTAL_ITERS=50 \
+            bash examples/llama/train_llama3.sh
 
 .. container:: model-doc pyt_megatron_lm_train_llama-3.1-70b
 
@@ -679,29 +636,60 @@ Single node training
       parallelism, MCore's distributed optimizer, gradient accumulation fusion,
       or FP16.
 
-.. container:: model-doc pyt_megatron_lm_train_llama-3.1-70b-proxy
-
-   To run the training on a single node for Llama 3.1 70B with proxy, use the following command.
-
-   .. code-block:: shell
-
-      CKPT_FORMAT=torch_dist \
-      TEE_OUTPUT=1 \
-      RECOMPUTE=1 \
-      MBS=3 \
-      BS=24 \
-      TP=1 \
-      TE_FP8=1 \
-      SEQ_LENGTH=8192 \
-      MODEL_SIZE=70 \
-      FSDP=1 \
-      TOTAL_ITERS=10 \
-      NUM_LAYERS=40 \
-      bash examples/llama/train_llama3.sh
+   To run the training on a single node for Llama 3.1 70B FP8, use the
+   following command.
 
    .. note::
 
-      Use two or more nodes to run the *full* Llama 70B model with FP8 precision.
+      The MI300X configuration uses a proxy model. On MI300X GPUs, use two or more nodes
+      to run the full Llama 3.1 70B model with FP8 precision. MI355X and MI350X GPUs
+      can support the full 70B model with FP8 precision on a single node.
+
+   .. tab-set::
+
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            CKPT_FORMAT=torch_dist \
+            TEE_OUTPUT=1 \
+            RECOMPUTE=1 \
+            MBS=3 \
+            BS=24 \
+            TP=1 \
+            TE_FP8=1 \
+            SEQ_LENGTH=8192 \
+            MODEL_SIZE=70 \
+            FSDP=1 \
+            TOTAL_ITERS=10 \
+            bash examples/llama/train_llama3.sh
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            FP8_WEIGHT_TRANSPOSE_CACHE=0 \
+            CKPT_FORMAT=torch_dist \
+            TEE_OUTPUT=1 \
+            RECOMPUTE=1 \
+            MBS=3 \
+            BS=24 \
+            TP=1 \
+            TE_FP8=1 \
+            SEQ_LENGTH=8192 \
+            MODEL_SIZE=70 \
+            FSDP=1 \
+            TOTAL_ITERS=10 \
+            NUM_LAYERS=40 \
+            bash examples/llama/train_llama3.sh
+
+   .. note::
+
+      The MI300X configuration uses a proxy model. On MI300X GPUs, use two or more nodes
+      to run the full Llama 3.1 70B model with FP8 precision. MI355X and MI350X GPUs
+      can support the full 70B model with FP8 precision on a single node.
 
    .. note::
 
@@ -770,7 +758,7 @@ Single node training
 
 .. container:: model-doc pyt_megatron_lm_train_deepseek-v3-proxy
 
-   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy, 
+   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy,
    navigate to the Megatron-LM folder and use the following command.
 
    .. code-block:: shell
@@ -925,6 +913,8 @@ Single node training
           RECOMPUTE_ACTIVATIONS=full \
           CKPT_FORMAT=torch_dist
 
+.. _amd-megatron-lm-multi-node-examples:
+
 Multi-node training examples
 ----------------------------
 
@@ -1038,6 +1028,11 @@ The benchmark tests support the following sets of variables.
 
 ``RECOMPUTE_NUM_LAYERS``
   Number of layers used for checkpointing recompute.
+
+Known issues
+============
+
+PyTorch Profiler may produce inaccurate traces when CPU activity profiling is enabled.
 
 Previous versions
 =================

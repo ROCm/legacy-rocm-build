@@ -1,5 +1,5 @@
 .. meta::
-   :description: How to configure MI300X accelerators to fully leverage their capabilities and achieve optimal performance.
+   :description: How to configure MI300X GPUs to fully leverage their capabilities and achieve optimal performance.
    :keywords: ROCm, AI, machine learning, MI300X, LLM, usage, tutorial, optimization, tuning
 
 **************************************
@@ -7,11 +7,11 @@ AMD Instinct MI300X performance guides
 **************************************
 
 The following performance guides provide essential guidance on the necessary
-steps to properly `configure your system for AMD Instinct™ MI300X accelerators
+steps to properly `configure your system for AMD Instinct™ MI300X GPUs
 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 They include detailed instructions on system settings and application
 :doc:`workload tuning </how-to/rocm-for-ai/inference-optimization/workload>` to
-help you leverage the maximum capabilities of these accelerators and achieve
+help you leverage the maximum capabilities of these GPUs and achieve
 superior performance.
 
 * `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`__
@@ -19,9 +19,9 @@ superior performance.
   your AMD Instinct MI300X system for performance.
 
 * :doc:`/how-to/rocm-for-ai/inference-optimization/workload` covers steps to
-  optimize the performance of AMD Instinct MI300X series accelerators for HPC
+  optimize the performance of AMD Instinct MI300X Series GPUs for HPC
   and deep learning operations.
 
 * :doc:`/how-to/rocm-for-ai/inference/benchmark-docker/vllm` introduces a preconfigured
   environment for LLM inference, designed to help you test performance with
-  popular models on AMD Instinct MI300X series accelerators.
+  popular models on AMD Instinct MI300X Series GPUs.

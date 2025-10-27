@@ -17,10 +17,10 @@ MaxText is a high-performance, open-source framework built on the Google JAX
 machine learning library to train LLMs at scale. The MaxText framework for
 ROCm is an optimized fork of the upstream
 `<https://github.com/AI-Hypercomputer/maxtext>`__ enabling efficient AI workloads
-on AMD MI300X series accelerators.
+on AMD MI300X Series GPUs.
 
 The MaxText for ROCm training Docker (``rocm/jax-training:maxtext-v25.4``) image
-provides a prebuilt environment for training on AMD Instinct MI300X and MI325X accelerators,
+provides a prebuilt environment for training on AMD Instinct MI300X and MI325X GPUs,
 including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
 It includes the following software components:
 
@@ -53,7 +53,7 @@ MaxText provides the following key features to train large language models effic
 
 .. _amd-maxtext-model-support-v254:
 
-The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
+The following models are pre-optimized for performance on AMD Instinct MI300X Series GPUs.
 
 * Llama 3.1 8B
 
@@ -202,16 +202,14 @@ Getting started
 
 The following examples demonstrate how to get started with single node
 and multi-node training using the benchmarking scripts provided at
-`<https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/>`__.
+`<https://github.com/ROCm/maxtext/>`__.
 
 .. important::
 
    The provided scripts launch a Docker container and execute a benchmark. Ensure you run these commands outside of any existing Docker container.
 
 Before running any benchmarks, ensure the ``$HF_HOME`` environment variable is
-set correctly and points to your Hugging Face cache directory. Refer to the
-README at `<https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/>`__
-for more detailed instructions.
+set correctly and points to your Hugging Face cache directory.
 
 Single node training benchmarking examples
 ------------------------------------------

@@ -1,12 +1,14 @@
+:orphan:
+
 .. meta::
    :description: System health checks with RVS, RCCL tests, BabelStream, and TransferBench to validate AMD hardware performance running AI workloads.
    :keywords: gpu, accelerator, system, health, validation, bench, perf, performance, rvs, rccl, babel, mi300x, mi325x, flops, bandwidth, rbt, training, inference
 
 .. _rocm-for-ai-system-health-bench:
 
-************************
-System health benchmarks
-************************
+*****************************************
+System health benchmarks for AI workloads
+*****************************************
 
 Before running AI workloads, it is important to validate that your AMD hardware is configured correctly and is performing optimally. This topic outlines several system health benchmarks you can use to test key aspects like GPU compute capabilities (FLOPS), memory bandwidth, and interconnect performance. Many of these tests are part of the ROCm Validation Suite (RVS).
 
@@ -62,7 +64,7 @@ RCCL tests
 The ROCm Communication Collectives Library (RCCL) enables efficient multi-GPU
 communication. The `<https://github.com/ROCm/rccl-tests>`__ suite benchmarks
 the performance and verifies the correctness of these collective operations.
-This helps ensure optimal scaling for multi-accelerator tasks.
+This helps ensure optimal scaling for multi-GPU tasks.
 
 1. To get started, build RCCL-tests using the official instructions in the README at
    `<https://github.com/ROCm/rccl-tests?tab=readme-ov-file#build>`__ or use the
@@ -75,8 +77,8 @@ This helps ensure optimal scaling for multi-accelerator tasks.
       make
 
 2. Run the suggested RCCL tests -- see `RCCL benchmarking
-   <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/performance-bench.html#rccl-benchmarking-results>`_
-   in the Instinct performance benchmarking documentation for instructions.
+   <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/network/rdma-benchmarking.html#rccl-benchmarking-results>`_
+   in the AMD Instinct customer acceptance guide.
 
 TransferBench test
 ==================
@@ -90,7 +92,7 @@ GPUs, which can impact end-to-end latency.
 .. _healthcheck-install-transferbench:
 
 1. To get started, use the instructions in the `TransferBench documentation
-   <https://rocm.docs.amd.com/projects/TransferBench/en/latest/install/install.html#install-transferbench>`_
+   <https://rocm.docs.amd.com/projects/TransferBench/en/latest/install/install.html#install-transferbench>`__
    or use the following commands:
 
    .. code:: shell
@@ -100,5 +102,5 @@ GPUs, which can impact end-to-end latency.
       CC=hipcc make
 
 2. Run the suggested TransferBench tests -- see `TransferBench benchmarking
-   <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/performance-bench.html#transferbench-benchmarking-results>`_
+   <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/common/system-validation.html#transferbench>`__
    in the Instinct performance benchmarking documentation for instructions.

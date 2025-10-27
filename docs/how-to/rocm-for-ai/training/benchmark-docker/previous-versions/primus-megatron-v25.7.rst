@@ -15,7 +15,7 @@ Training a model with Primus and Megatron-LM
 
 `Primus <https://github.com/AMD-AGI/Primus>`__ is a unified and flexible
 LLM training framework designed to streamline training. It streamlines LLM
-training on AMD Instinct accelerators using a modular, reproducible configuration paradigm.
+training on AMD Instinct GPUs using a modular, reproducible configuration paradigm.
 Primus is backend-agnostic and supports multiple training engines -- including Megatron.
 
 .. note::
@@ -25,7 +25,7 @@ Primus is backend-agnostic and supports multiple training engines -- including M
    workloads from Megatron-LM to Primus with Megatron, see
    :doc:`megatron-lm-primus-migration-guide`.
 
-For ease of use, AMD provides a ready-to-use Docker image for MI300 series accelerators
+For ease of use, AMD provides a ready-to-use Docker image for MI300 Series GPUs
 containing essential components for Primus and Megatron-LM.
 
 .. note::
@@ -53,7 +53,7 @@ containing essential components for Primus and Megatron-LM.
 Supported models
 ================
 
-The following models are pre-optimized for performance on AMD Instinct MI300X series accelerators.
+The following models are pre-optimized for performance on AMD Instinct MI300X Series GPUs.
 Some instructions, commands, and training examples in this documentation might
 vary by model -- select one to get started.
 
@@ -120,7 +120,7 @@ system's configuration.
    =================
 
    Use the following instructions to set up the environment, configure the script to train models, and
-   reproduce the benchmark results on MI300X series accelerators with the ``{{ docker.pull_tag }}`` image.
+   reproduce the benchmark results on MI300X Series GPUs with the ``{{ docker.pull_tag }}`` image.
 
    .. _amd-primus-megatron-lm-requirements-v257:
 
@@ -231,7 +231,7 @@ Run training
 
 Use the following example commands to set up the environment, configure
 :ref:`key options <amd-primus-megatron-lm-benchmark-test-vars>`, and run training on
-MI300X series accelerators with the AMD Megatron-LM environment.
+MI300X Series GPUs with the AMD Megatron-LM environment.
 
 Single node training
 --------------------

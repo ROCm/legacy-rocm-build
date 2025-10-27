@@ -6,14 +6,8 @@
 Training a model with JAX MaxText on ROCm
 ******************************************
 
-MaxText is a high-performance, open-source framework built on the Google JAX
-machine learning library to train LLMs at scale. The MaxText framework for
-ROCm is an optimized fork of the upstream
-`<https://github.com/AI-Hypercomputer/maxtext>`__ enabling efficient AI workloads
-on AMD MI300X series accelerators.
-
 The MaxText for ROCm training Docker image
-provides a prebuilt environment for training on AMD Instinct MI300X and MI325X accelerators,
+provides a prebuilt environment for training on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs,
 including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
 It includes the following software components:
 
@@ -25,7 +19,7 @@ It includes the following software components:
       {% for docker in dockers %}
       {% set jax_version = docker.components["JAX"] %}
 
-      .. tab-item:: JAX {{ jax_version }}
+      .. tab-item:: ``{{ docker.pull_tag }}``
          :sync: {{ docker.pull_tag }}
 
          .. list-table::
@@ -61,15 +55,15 @@ MaxText with on ROCm provides the following key features to train large language
 
 - Multi-node support
 
-- NANOO FP8 quantization support
+- NANOO FP8 (for MI300X series GPUs) and FP8 (for MI355X and MI350X) quantization support
 
-.. _amd-maxtext-model-support-v257:
+.. _amd-maxtext-model-support-v259:
 
 Supported models
 ================
 
-The following models are pre-optimized for performance on AMD Instinct MI300
-series accelerators. Some instructions, commands, and available training
+The following models are pre-optimized for performance on AMD Instinct
+GPUs. Some instructions, commands, and available training
 configurations in this documentation might vary by model -- select one to get
 started.
 
@@ -132,89 +126,28 @@ This Docker image is optimized for specific model configurations outlined
 as follows. Performance can vary for other training workloads, as AMD
 doesn’t validate configurations and run conditions outside those described.
 
-.. _amd-maxtext-multi-node-setup-v257:
+Pull the Docker image
+---------------------
 
-Multi-node setup
-----------------
+Use the following command to pull the Docker image from Docker Hub.
 
-For multi-node environments, ensure you have all the necessary packages for
-your network device, such as, RDMA. If you're not using a multi-node setup
-with RDMA, skip ahead to :ref:`amd-maxtext-get-started-v257`.
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
 
-1. Install the following packages to build and install the RDMA driver.
+   {% set docker = data.dockers[0] %}
 
    .. code-block:: shell
 
-      sudo apt install iproute2 -y
-      sudo apt install -y linux-headers-"$(uname-r)" libelf-dev
-      sudo apt install -y gcc make libtool autoconf librdmacm-dev rdmacm-utils infiniband-diags ibverbs-utils perftest ethtool libibverbs-dev rdma-core strace libibmad5 libibnetdisc5 ibverbs-providers libibumad-dev libibumad3 libibverbs1 libnl-3-dev libnl-route-3-dev
+      docker pull {{ docker.pull_tag }}
 
-   Refer to your NIC manufacturer's documentation for further steps on
-   compiling and installing the RoCE driver. For example, for Broadcom,
-   see `Compiling Broadcom NIC software from source <https://docs.broadcom.com/doc/957608-AN2XX#G3.484341>`_
-   in `Ethernet networking guide for AMD Instinct MI300X GPU clusters <https://docs.broadcom.com/doc/957608-AN2XX>`_.
+.. _amd-maxtext-multi-node-setup-v259:
 
-2. Set the following environment variables.
+Multi-node configuration
+------------------------
 
-   a. Master address
+See :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your
+environment for multi-node training.
 
-      Change ``localhost`` to the master node's resolvable hostname or IP address:
-
-      .. code-block:: bash
-
-         export MASTER_ADDR="${MASTER_ADDR:-localhost}"
-
-   b. Number of nodes
-
-      Set the number of nodes you want to train on (for example, ``2``, ``4``, or ``8``):
-
-      .. code-block:: bash
-
-         export NNODES="${NNODES:-1}"
-
-   c. Node ranks
-
-      Set the rank of each node (``0`` for master, ``1`` for the first worker node, and so on)
-      Node ranks should be unique across all nodes in the cluster.
-
-      .. code-block:: bash
-
-         export NODE_RANK="${NODE_RANK:-0}"
-
-   d. Network interface
-
-      Update the network interface in the script to match your system's network interface. To
-      find your network interface, run the following (outside of any Docker container):
-
-      .. code-block:: bash
-
-         ip a
-
-      Look for an active interface with an IP address in the same subnet as
-      your other nodes. Then, update the following variable in the script, for
-      example:
-
-      .. code-block:: bash
-
-         export NCCL_SOCKET_IFNAME=ens50f0np0
-
-      This variable specifies which network interface to use for inter-node communication.
-      Setting this variable to the incorrect interface can result in communication failures
-      or significantly reduced performance.
-
-   e. RDMA interface
-
-      Ensure the :ref:`required packages <amd-maxtext-multi-node-setup-v257>` are installed on all nodes.
-      Then, set the RDMA interfaces to use for communication.
-
-      .. code-block:: bash
-
-         # If using Broadcom NIC
-         export NCCL_IB_HCA=rdma0,rdma1,rdma2,rdma3,rdma4,rdma5,rdma6,rdma7
-         # If using Mellanox NIC
-         export NCCL_IB_HCA=mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_5,mlx5_8,mlx5_9
-
-.. _amd-maxtext-get-started-v257:
+.. _amd-maxtext-get-started-v259:
 
 Benchmarking
 ============
@@ -226,7 +159,7 @@ benchmark results:
 
    .. _vllm-benchmark-mad:
 
-   {% set dockers = data.dockers %}
+   {% set docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -237,6 +170,9 @@ benchmark results:
 
          {% if model.mad_tag and "single-node" in model.doc_options %}
          .. tab-item:: MAD-integrated benchmarking
+
+            The following run command is tailored to {{ model.model }}.
+            See :ref:`amd-maxtext-model-support-v259` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -266,22 +202,19 @@ benchmark results:
 
          .. tab-item:: Standalone benchmarking
 
+            The following commands are optimized for {{ model.model }}. See
+            :ref:`amd-maxtext-model-support-v259` to switch to another
+            available model. Some instructions and resources might not be
+            available for all models and configurations.
+
             .. rubric:: Download the Docker image and required scripts
 
             Run the JAX MaxText benchmark tool independently by starting the
             Docker container as shown in the following snippet.
 
-            .. tab-set::
-               {% for docker in dockers %}
-               {% set jax_version = docker.components["JAX"] %}
+            .. code-block:: shell
 
-               .. tab-item:: JAX {{ jax_version }}
-                  :sync: {{ docker.pull_tag }}
-
-                  .. code-block:: shell
-
-                     docker pull {{ docker.pull_tag }}
-               {% endfor %}
+               docker pull {{ docker.pull_tag }}
 
             {% if model.model_repo and "single-node" in model.doc_options %}
             .. rubric:: Single node training
@@ -302,33 +235,25 @@ benchmark results:
 
             2. Launch the Docker container.
 
-               .. tab-set::
-                  {% for docker in dockers %}
-                  {% set jax_version = docker.components["JAX"] %}
+               .. code-block:: shell
 
-                  .. tab-item:: JAX {{ jax_version }}
-                     :sync: {{ docker.pull_tag }}
-
-                     .. code-block:: shell
-
-                        docker run -it \
-                            --device=/dev/dri \
-                            --device=/dev/kfd \
-                            --network host \
-                            --ipc host \
-                            --group-add video \
-                            --cap-add=SYS_PTRACE \
-                            --security-opt seccomp=unconfined \
-                            --privileged \
-                            -v $HOME:$HOME \
-                            -v $HOME/.ssh:/root/.ssh \
-                            -v $HF_HOME:/hf_cache \
-                            -e HF_HOME=/hf_cache \
-                            -e MAD_SECRETS_HFTOKEN=$MAD_SECRETS_HFTOKEN
-                            --shm-size 64G \
-                            --name training_env \
-                            {{ docker.pull_tag }}
-                  {% endfor %}
+                  docker run -it \
+                      --device=/dev/dri \
+                      --device=/dev/kfd \
+                      --network host \
+                      --ipc host \
+                      --group-add video \
+                      --cap-add=SYS_PTRACE \
+                      --security-opt seccomp=unconfined \
+                      --privileged \
+                      -v $HOME:$HOME \
+                      -v $HOME/.ssh:/root/.ssh \
+                      -v $HF_HOME:/hf_cache \
+                      -e HF_HOME=/hf_cache \
+                      -e MAD_SECRETS_HFTOKEN=$MAD_SECRETS_HFTOKEN
+                      --shm-size 64G \
+                      --name training_env \
+                      {{ docker.pull_tag }}
 
             3. In the Docker container, clone the ROCm MAD repository and navigate to the
                benchmark scripts directory at ``MAD/scripts/jax-maxtext``.
@@ -351,11 +276,27 @@ benchmark results:
 
                   ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }}
 
-               For quantized training, use the following command:
+               For quantized training, run the script with the appropriate option for your Instinct GPU.
 
-               .. code-block:: shell
+               .. tab-set::
 
-                  ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q nanoo_fp8
+                  .. tab-item:: MI355X and MI350X
+
+                     For ``fp8`` quantized training on MI355X and MI350X GPUs, use the following command:
+
+                     .. code-block:: shell
+
+                        ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q fp8
+
+                  {% if model.model_repo not in ["Llama-3.1-70B", "Llama-3.3-70B"] %}
+                  .. tab-item:: MI325X and MI300X
+
+                     For ``nanoo_fp8`` quantized training on MI300X series GPUs, use the following command:
+
+                     .. code-block:: shell
+
+                        ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} -q nanoo_fp8
+                  {% endif %}
 
             {% endif %}
             {% if model.multinode_training_script and "multi-node" in model.doc_options %}
@@ -369,7 +310,7 @@ benchmark results:
                benchmark. Run them outside of any Docker container.
 
             1. Make sure ``$HF_HOME`` is set before running the test. See
-               `ROCm benchmarking <https://github.com/ROCm/maxtext/blob/main/benchmarks/gpu-rocm/readme.md>`__
+               `ROCm benchmarking <https://github.com/ROCm/MAD/blob/develop/scripts/jax-maxtext/gpu-rocm/readme.md>`__
                for more details on downloading the Llama models before running the
                benchmark.
 
@@ -387,7 +328,7 @@ benchmark results:
          {% else %}
             .. rubric:: Multi-node training
 
-            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v257`
+            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v259`
             with an available `multi-node training script <https://github.com/ROCm/MAD/tree/develop/scripts/jax-maxtext/gpu-rocm>`__.
          {% endif %}
       {% endfor %}
@@ -399,7 +340,7 @@ Further reading
 - To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  AMD Instinct MI300X series accelerators, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - For a list of other ready-made Docker images for AI with ROCm, see
   `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.
