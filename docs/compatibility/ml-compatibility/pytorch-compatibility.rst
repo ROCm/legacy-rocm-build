@@ -443,10 +443,6 @@ Key features and enhancements for PyTorch 2.7 with ROCm 7.0
   ROCm-specific test conditions, and enhanced unit test coverage for Flash
   Attention and Memory Efficient operations.
 
-- Build system and infrastructure improvements: Provides updated CentOS Stream 9
-  support, improved Docker configuration, migration to public MAGMA repository,
-  and enhanced QA automation scripts for PyTorch unit testing.
-
 - Composable Kernel (CK) updates: Features updated CK submodule integration with
   the latest optimizations and performance improvements for core mathematical
   operations.
