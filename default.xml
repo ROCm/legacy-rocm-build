@@ -53,7 +53,18 @@
         hipFFT hipRAND hipSPARSE hipSPARSELt
         MIOpen rocBLAS rocFFT rocPRIM rocRAND
         rocSPARSE rocThrust Tensile -->
-    <project groups="mathlibs" name="rocm-libraries" />
+    <project groups="mathlibs" name="rocm-libraries">
+        <linkfile src="projects/hipcub" dest="hipCUB"/>
+        <linkfile src="projects/rocprim" dest="rocPRIM"/>
+        <linkfile src="projects/hiprand" dest="hipRAND"/>
+        <linkfile src="projects/rocrand" dest="rocRAND"/>
+        <linkfile src="projects/rocthrust" dest="rocThrust"/>
+        <linkfile src="projects/hipblas-common" dest="hipBLAS-common"/>
+        <linkfile src="projects/hipblaslt" dest="hipBLASLt"/>
+        <linkfile src="projects/rocblas" dest="rocBLAS"/>
+        <linkfile src="projects/hipsparselt" dest="hipSPARSELt"/>
+        <linkfile src="projects/rocsparse" dest="rocSPARSE"/>
+    </project>
     <project groups="mathlibs" name="rocPyDecode" />
     <project groups="mathlibs" name="rocSHMEM" />
     <project groups="mathlibs" name="rocWMMA" />
