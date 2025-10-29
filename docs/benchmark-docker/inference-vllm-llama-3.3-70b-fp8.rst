@@ -13,11 +13,11 @@ appropriate options, download the model, and run the throughput test.
 Pull the Docker image
 =====================
 
-Use the following command to pull the `Docker image <https://hub.docker.com/r/rocm/7.0/tags>`__.
+Use the following command to pull the `Docker image <https://hub.docker.com/r/rocm/7.x-preview/tags>`__.
 
 .. code-block:: shell
 
-   docker pull rocm/7.0:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250927_rc1
+   docker pull rocm/7.x-preview:rocm7.2_preview_ubuntu_22.04_vlm_0.10.1_instinct_20251029
 
 Download the model
 ==================
@@ -92,7 +92,7 @@ Run the inference benchmark
         -e HF_HOME=/data/huggingface-cache \
         -e HF_HUB_OFFLINE=1 \
         --name vllm-server \
-        rocm/7.0:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250927_rc1
+        rocm/7.x-preview:rocm7.2_preview_ubuntu_22.04_vlm_0.10.1_instinct_20251029
 
 2. Start the server. On MI300X and MI325X GPUs, include ``--dtype float16`` in your ``vllm serve`` arguments.
    This is not necessary on MI350X and MI355X GPUs.
