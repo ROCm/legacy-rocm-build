@@ -7,49 +7,57 @@ Training a model with Primus and Megatron-LM
 ********************************************
 
 `Primus <https://github.com/AMD-AGI/Primus>`__ is a unified and flexible
-LLM training framework designed to streamline training. It streamlines LLM
-training on AMD Instinct GPUs using a modular, reproducible configuration paradigm.
-Primus is backend-agnostic and supports multiple training engines -- including Megatron.
+training framework for AMD Instinct GPUs designed to support multiple training
+engine backends -- including Megatron -- to deliver scalable, high-performance
+model training. Performance acceleration is powered by `Primus Turbo
+<https://github.com/AMD-AGI/Primus-Turbo>`__ and ROCm libraries.
 
 .. note::
 
-   Primus with Megatron is designed to replace the :doc:`ROCm Megatron-LM training <megatron-lm>` workflow.
-   To learn how to migrate workloads from Megatron-LM to Primus with Megatron,
-   see :doc:`previous-versions/megatron-lm-primus-migration-guide`.
+   For a unified training solution on AMD GPUs with ROCm, the `rocm/megatron-lm
+   <https://hub.docker.com/r/rocm/megatron-lm/>`__ Docker Hub registry will be
+   deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
+   The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
+   including Megatron-LM, `torchtitan, and torchtune <primus-pytorch>`__.
 
-For ease of use, AMD provides a ready-to-use Docker image for MI300 Series GPUs
-containing essential components for Primus and Megatron-LM. This Docker is powered by Primus
-Turbo optimizations for performance; this release adds support for Primus Turbo
-with optimized attention and grouped GEMM kernels.
+   Primus with Megatron is designed to replace the :doc:`ROCm Megatron-LM
+   training <megatron-lm>` workflow. To learn how to migrate workloads from
+   Megatron-LM to Primus with Megatron, see
+   :doc:`previous-versions/megatron-lm-primus-migration-guide`.
 
-.. note::
-
-   This Docker environment is based on Python 3.10 and Ubuntu 22.04. For an alternative environment with
-   Python 3.12 and Ubuntu 24.04, see the :doc:`previous ROCm Megatron-LM v25.6 Docker release <previous-versions/megatron-lm-v25.6>`.
+AMD provides a ready-to-use Docker images for MI355X, MI350X,
+MI325X, and MI300X GPUs containing essential components for Primus, ROCm, and
+Megatron-LM.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
-   {% set docker = dockers[0] %}
-   .. list-table::
-      :header-rows: 1
+   .. tab-set::
 
-      * - Software component
-        - Version
+   {% for supported_gpus, docker in dockers.items() %}
+      .. tab-item:: {{ supported_gpus }}
+         :sync: {{ supported_gpus }}
 
-      {% for component_name, component_version in docker.components.items() %}
-      * - {{ component_name }}
-        - {{ component_version }}
-      {% endfor %}
+         .. list-table::
+            :header-rows: 1
 
-.. _amd-primus-megatron-lm-model-support:
+            * - Software component
+              - Version
+
+            {% for component_name, component_version in docker.components.items() %}
+            * - {{ component_name }}
+              - {{ component_version }}
+            {% endfor %}
+   {% endfor %}
+
+.. _amd-primus-megatron-lm-model-support-v259:
 
 Supported models
 ================
 
-The following models are pre-optimized for performance on AMD Instinct MI300X Series GPUs.
-Some instructions, commands, and training examples in this documentation might
-vary by model -- select one to get started.
+The following models are pre-optimized for performance on AMD Instinct GPUs.
+Some instructions, commands, and training examples in this documentation
+might vary by model -- select one to get started.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
@@ -103,52 +111,61 @@ To test for optimal performance, consult the recommended :ref:`System health ben
 <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
 system's configuration.
 
-.. _mi300x-amd-primus-megatron-lm-training:
+.. _mi300x-amd-primus-megatron-lm-training-v259:
 
 Environment setup
 =================
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
-   {% set dockers = data.dockers %}
-      {% set docker = dockers[0] %}
-
    Use the following instructions to set up the environment, configure the script to train models, and
-   reproduce the benchmark results on MI300X Series GPUs with the ``{{ docker.pull_tag }}`` image.
+   reproduce the benchmark results on AMD Instinct GPUs.
 
-   .. _amd-primus-megatron-lm-requirements:
+.. _amd-primus-megatron-lm-requirements-v259:
 
 Pull the Docker image
-=====================
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
-      {% set docker = dockers[0] %}
 
-   1. Use the following command to pull the Docker image from Docker Hub.
+   1. Pull the appropriate Docker image for your AMD GPU architecture from Docker Hub.
 
-      .. code-block:: shell
+      .. tab-set::
 
-         docker pull {{ docker.pull_tag }}
+         {% for supported_gpus, docker in dockers.items() %}
+         .. tab-item:: {{ supported_gpus }}
+            :sync: {{ supported_gpus }}
+
+            .. code-block:: shell
+
+               docker pull {{ docker.pull_tag }}
+         {% endfor %}
 
    2. Launch the Docker container.
 
-      .. code-block:: shell
+      .. tab-set::
 
-         docker run -it \
-             --device /dev/dri \
-             --device /dev/kfd \
-             --device /dev/infiniband \
-             --network host --ipc host \
-             --group-add video \
-             --cap-add SYS_PTRACE \
-             --security-opt seccomp=unconfined \
-             --privileged \
-             -v $HOME:$HOME \
-             --shm-size 128G \
-             --name primus_training_env \
-             {{ docker.pull_tag }}
+         {% for supported_gpus, docker in dockers.items() %}
+         .. tab-item:: {{ supported_gpus }}
+            :sync: {{ supported_gpus }}
+
+            .. code-block:: shell
+
+               docker run -it \
+                   --device /dev/dri \
+                   --device /dev/kfd \
+                   --device /dev/infiniband \
+                   --network host --ipc host \
+                   --group-add video \
+                   --cap-add SYS_PTRACE \
+                   --security-opt seccomp=unconfined \
+                   --privileged \
+                   -v $HOME:$HOME \
+                   --shm-size 128G \
+                   --name primus_training_env \
+                   {{ docker.pull_tag }}
+         {% endfor %}
 
 3. Use these commands if you exit the ``primus_training_env`` container and need to return to it.
 
@@ -157,16 +174,16 @@ Pull the Docker image
       docker start primus_training_env
       docker exec -it primus_training_env bash
 
-The Docker container hosts verified commit ``927a717`` of the `Primus
-<https://github.com/AMD-AGI/Primus/tree/927a71702784347a311ca48fd45f0f308c6ef6dd>`__ repository.
+The Docker container hosts verified commit ``e16b27b`` of the `Primus
+<https://github.com/AMD-AGI/Primus/tree/e16b27b>`__ repository.
 
-.. _amd-primus-megatron-lm-environment-setup:
+.. _amd-primus-megatron-lm-environment-setup-v259:
 
 Configuration
 =============
 
 Primus defines a training configuration in YAML for each model in
-`examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/927a71702784347a311ca48fd45f0f308c6ef6dd/examples/megatron/configs>`__.
+`examples/megatron/configs <https://github.com/AMD-AGI/rss/tree/e16b27bf6c1b2798f38848fc574fee60d9a9b902/examples/megatron/configs>`__.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
@@ -175,8 +192,9 @@ Primus defines a training configuration in YAML for each model in
       {% for model in model_group.models %}
    .. container:: model-doc {{ model.mad_tag }}
 
-      To update training parameters for {{ model.model }}, you can update ``examples/megatron/configs/{{ model.config_name }}``.
-      Note that training configuration YAML files for other models follow this naming convention.
+      For example, to update training parameters for {{ model.model }}, you can
+      update ``examples/megatron/configs/{{ model.config_name }}``. Training
+      configuration YAML files for other models follow this naming convention.
 
       {% endfor %}
    {% endfor %}
@@ -206,7 +224,7 @@ You can use either mock data or real data for training.
 
   Ensure that the files are accessible inside the Docker container.
 
-.. _amd-primus-megatron-lm-tokenizer:
+.. _amd-primus-megatron-lm-tokenizer-v259:
 
 Tokenizer
 ---------
@@ -224,17 +242,17 @@ right permissions to access the tokenizer for each model.
    In Primus, each model uses a tokenizer from Hugging Face. For example, Llama
    3.1 8B model uses ``tokenizer_model: meta-llama/Llama-3.1-8B`` and
    ``tokenizer_type: Llama3Tokenizer`` defined in the `llama3.1-8B model
-   <https://github.com/AMD-AGI/Primus/blob/927a71702784347a311ca48fd45f0f308c6ef6dd/examples/megatron/configs/llama3.1_8B-pretrain.yaml>`__
+   <https://github.com/AMD-AGI/Primus/blob/e16b27bf6c1b2798f38848fc574fee60d9a9b902/examples/megatron/configs/llama3.1_8B-pretrain.yaml>`__
    definition.
 
-.. _amd-primus-megatron-lm-run-training:
+.. _amd-primus-megatron-lm-run-training-v259:
 
 Run training
 ============
 
 Use the following example commands to set up the environment, configure
 :ref:`key options <amd-primus-megatron-lm-benchmark-test-vars>`, and run training on
-MI300X Series GPUs with the AMD Megatron-LM environment.
+AMD Instinct GPUs using Primus with the Megatron backend.
 
 Single node training
 --------------------
@@ -251,206 +269,464 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.3 70B.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To run pre-training for Llama 3.3 70B BF16, run:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/llama3.3_70B-pretrain.yaml \
-      bash ./examples/run_pretrain.sh \
-          --micro_batch_size 2 \
-          --global_batch_size 16 \
-          --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama3.3_70B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --micro_batch_size 6 \
+                --global_batch_size 48 \
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama3.3_70B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --micro_batch_size 2 \
+                --global_batch_size 16
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.1-8b
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.1 8B.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To run pre-training for Llama 3.1 8B FP8, run:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/llama3.1_8B-pretrain.yaml \
-      bash ./examples/run_pretrain.sh \
-          --train_iters 50 \
-          --fp8 hybrid
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama3.1_8B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --fp8 hybrid \
+                --micro_batch_size 4 \
+                --global_batch_size 512 \
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama3.1_8B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --fp8 hybrid
 
    For Llama 3.1 8B BF16, use the following command:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/llama3.1_8B-pretrain.yaml \
-      bash ./examples/run_pretrain.sh --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama3.1_8B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --micro_batch_size 4 \
+                --global_batch_size 512 \
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama3.1_8B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.1-70b
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.1 70B.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To run pre-training for Llama 3.1 70B BF16, run:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
-      bash ./examples/run_pretrain.sh \
-           --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
 
-   To run the training on a single node for Llama 3.1 70B FP8 with proxy, use the following command:
+         .. code-block:: shell
 
-   .. code-block:: shell
+            EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                 --train_iters 50 \
+                 --micro_batch_size 4 \
+                 --global_batch_size 32
 
-      EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
-      bash ./examples/run_pretrain.sh \
-          --train_iters 50 \
-          --num_layers 40 \
-          --fp8 hybrid
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                 --train_iters 50
+
+   To run the training on a single node for Llama 3.1 70B FP8, use the following command.
 
    .. note::
 
-      Use two or more nodes to run the *full* Llama 70B model with FP8 precision.
+      The MI300X configuration uses a proxy model. On MI300X GPUs, use two or more nodes
+      to run the full Llama 3.1 70B model with FP8 precision. MI355X and MI350X GPUs
+      can support the full 70B model with FP8 precision on a single node.
+
+   .. tab-set::
+
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --fp8 hybrid \
+                --no_fp8_weight_transpose_cache true \
+                --micro_batch_size 3 \
+                --global_batch_size 24
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --num_layers 40 \
+                --fp8 hybrid \
+                --no_fp8_weight_transpose_cache true
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-2-7b
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 2 7B.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To run pre-training for Llama 2 7B FP8, run:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/llama2_7B-pretrain.yaml \
-      bash ./examples/run_pretrain.sh \
-          --train_iters 50 \
-          --fp8 hybrid
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama2_7B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --fp8 hybrid \
+                --micro_batch_size 13 \
+                --global_batch_size 416
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama2_7B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --fp8 hybrid
 
    To run pre-training for Llama 2 7B BF16, run:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/llama2_7B-pretrain.yaml \
-      bash ./examples/run_pretrain.sh --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama2_7B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --micro_batch_size 10 \
+                --global_batch_size 640
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama2_7B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-2-70b
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 2 70B.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To run pre-training for Llama 2 70B BF16, run:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
-      bash ./examples/run_pretrain.sh --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50 \
+                --micro_batch_size 17 \
+                --global_batch_size 272
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
+            bash ./examples/run_pretrain.sh \
+                --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_deepseek-v3-proxy
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to DeepSeek-V3.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
-   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) with 3-layer proxy,
+   To run training on a single node for DeepSeek-V3 (MoE with expert parallel) BF16 with 3-layer proxy,
    use the following command:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/deepseek_v3-pretrain.yaml \
-      bash examples/run_pretrain.sh \
-          --num_layers 3 \
-          --moe_layer_freq 1 \
-          --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/deepseek_v3-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --num_layers 3 \
+                --moe_layer_freq 1 \
+                --train_iters 50 \
+                --micro_batch_size 8 \
+                --global_batch_size 64
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/deepseek_v3-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --num_layers 3 \
+                --moe_layer_freq 1 \
+                --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_deepseek-v2-lite-16b
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to DeepSeek-V2-Lite.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
-   To run training on a single node for DeepSeek-V2-Lite (MoE with expert parallel),
+   To run training on a single node for DeepSeek-V2-Lite (MoE with expert parallel) BF16,
    use the following command:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/deepseek_v2_lite-pretrain.yaml \
-      bash examples/run_pretrain.sh \
-          --global_batch_size 256 \
-          --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/deepseek_v2_lite-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50 \
+                --micro_batch_size 12 \
+                --global_batch_size 768
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/deepseek_v2_lite-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50 \
+                --global_batch_size 256
 
 .. container:: model-doc primus_pyt_megatron_lm_train_mixtral-8x7b
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Mixtral 8x7B.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To run training on a single node for Mixtral 8x7B (MoE with expert parallel),
    use the following command:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/mixtral_8x7B_v0.1-pretrain.yaml \
-      bash examples/run_pretrain.sh --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/mixtral_8x7B_v0.1-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50 \
+                --micro_batch_size 4 \
+                --global_batch_size 256
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/mixtral_8x7B_v0.1-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_mixtral-8x22b-proxy
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Mixtral 8x22B.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
-   To run training on a single node for Mixtral 8x22B (MoE with expert parallel) with 4-layer proxy,
+   To run training on a single node for Mixtral 8x22B BF16 (MoE with expert parallel) 4-layer proxy,
    use the following command:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/mixtral_8x22B_v0.1-pretrain.yaml \
-      bash examples/run_pretrain.sh \
-          --num_layers 4 \
-          --pipeline_model_parallel_size 1 \
-          --micro_batch_size 1 \
-          --global_batch_size 16 \
-          --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/mixtral_8x22B_v0.1-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50 \
+                --num_layers 4 \
+                --pipeline_model_parallel_size 1 \
+                --micro_batch_size 2 \
+                --global_batch_size 16
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/mixtral_8x22B_v0.1-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50 \
+                --num_layers 4 \
+                --pipeline_model_parallel_size 1 \
+                --micro_batch_size 1 \
+                --global_batch_size 16
 
 .. container:: model-doc primus_pyt_megatron_lm_train_qwen2.5-7b
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Qwen 2.5 7B.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To run training on a single node for Qwen 2.5 7B BF16, use the following
    command:
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/qwen2.5_7B-pretrain.yaml \
-      bash examples/run_pretrain.sh --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/qwen2.5_7B-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50 \
+                --micro_batch_size 16 \
+                --global_batch_size 768
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/qwen2.5_7B-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50
 
    For FP8, use the following command.
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/qwen2.5_7B-pretrain.yaml \
-      bash examples/run_pretrain.sh \
-          --train_iters 50 \
-          --fp8 hybrid
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/qwen2.5_7B-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50 \
+                --fp8 hybrid
+                --micro_batch_size 20 \
+                --global_batch_size 800
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/qwen2.5_7B-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50 \
+                --fp8 hybrid
 
 .. container:: model-doc primus_pyt_megatron_lm_train_qwen2.5-72b
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Qwen 2.5 72B.
-   See :ref:`amd-primus-megatron-lm-model-support` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To run the training on a single node for Qwen 2.5 72B BF16, use the following command.
 
-   .. code-block:: shell
+   .. tab-set::
 
-      EXP=examples/megatron/configs/qwen2.5_72B-pretrain.yaml \
-      bash examples/run_pretrain.sh --train_iters 50
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
 
-.. _amd-primus-megatron-multi-node-examples:
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/qwen2.5_72B-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50 \
+                --micro_batch_size 16 \
+                --global_batch_size 256
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            EXP=examples/megatron/configs/qwen2.5_72B-pretrain.yaml \
+            bash examples/run_pretrain.sh \
+                --train_iters 50
+
+.. _amd-primus-megatron-multi-node-examples-v259:
 
 Multi-node training examples
 ----------------------------
@@ -459,25 +735,33 @@ Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure y
 training.
 
 To run training on multiple nodes, you can use the
-`run_slurm_pretrain.sh <https://github.com/AMD-AGI/Primus/blob/927a71702784347a311ca48fd45f0f308c6ef6dd/examples/run_slurm_pretrain.sh>`__
+`run_slurm_pretrain.sh <https://github.com/AMD-AGI/Primus/blob/main/examples/run_slurm_pretrain.sh>`__
 to launch the multi-node workload. Use the following steps to setup your environment:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
-   {% set docker = dockers[0] %}
+   .. tab-set::
 
-   .. code-block:: shell
+      {% for supported_gpus, docker in dockers.items() %}
+      .. tab-item:: {{ supported_gpus }}
+         :sync: {{ supported_gpus }}
 
-      cd /workspace/Primus/
-      export DOCKER_IMAGE={{ docker.pull_tag }}
-      export HF_TOKEN=<your_HF_token>
-      export HSA_NO_SCRATCH_RECLAIM=1
-      export NVTE_CK_USES_BWD_V3=1
-      export NCCL_IB_HCA=<your_NCCL_IB_HCA> # specify which RDMA interfaces to use for communication
-      export NCCL_SOCKET_IFNAME=<your_NCCL_SOCKET_IFNAME> # your Network Interface
-      export GLOO_SOCKET_IFNAME=<your_GLOO_SOCKET_IFNAME> # your Network Interface
-      export NCCL_IB_GID_INDEX=3 # Set InfiniBand GID index for NCCL communication. Default is 3 for ROCE
+         .. code-block:: shell
+
+            git clone --recurse-submodules https://github.com/AMD-AGI/Primus.git
+            cd Primus
+            git checkout e16b27b
+
+            export DOCKER_IMAGE={{ docker.pull_tag }}
+            export HF_TOKEN=<your_HF_token>
+            export HSA_NO_SCRATCH_RECLAIM=1
+            export NVTE_CK_USES_BWD_V3=1
+            export NCCL_IB_HCA=<your_NCCL_IB_HCA> # specify which RDMA interfaces to use for communication
+            export NCCL_SOCKET_IFNAME=<your_NCCL_SOCKET_IFNAME> # your Network Interface
+            export GLOO_SOCKET_IFNAME=<your_GLOO_SOCKET_IFNAME> # your Network Interface
+            export NCCL_IB_GID_INDEX=3 # Set InfiniBand GID index for NCCL communication. Default is 3 for ROCE
+      {% endfor %}
 
 .. note::
 
@@ -485,122 +769,180 @@ to launch the multi-node workload. Use the following steps to setup your environ
    * If ``NCCL_IB_HCA`` and ``NCCL_SOCKET_IFNAME`` are not set, Primus will try to auto-detect. However, since NICs can vary accross different cluster, it is encouraged to explicitly export your NCCL parameters for the cluster.
    * To find your network interface, you can use ``ip a``.
    * To find RDMA interfaces, you can use ``ibv_devices`` to get the list of all the RDMA/IB  devices.
-
-.. container:: model-doc primus_pyt_megatron_lm_train_llama-3.3-70b
-
-   To train Llama 3.3 70B FP8 on 8 nodes, run:
-
-   .. code-block:: shell
-
-      NNODES=8 EXP=examples/megatron/configs/llama3.3_70B-pretrain.yaml \
-      bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 1 \
-          --global_batch_size 256 \
-          --recompute_num_layers 80 \
-          --fp8 hybrid
-
-   To train Llama 3.3 70B BF16 on 8 nodes, run:
-
-   .. code-block:: shell
-
-      NNODES=8 EXP=examples/megatron/configs/llama3.3_70B-pretrain.yaml \
-      bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 1 \
-          --global_batch_size 256 \
-          --recompute_num_layers 12
+   * Remember to set ``DOCKER_IMAGE`` and ``HF_TOKEN`` (see :ref:`amd-primus-megatron-lm-tokenizer-v259`) as appropriate.
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.1-8b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 3.1 8B.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To train Llama 3.1 8B FP8 on 8 nodes, run:
 
    .. code-block:: shell
 
-      # Adjust the training parameters. For e.g., `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case
-      NNODES=8 EXP=examples/megatron/configs/llama3.1_8B-pretrain.yaml \
+      # Adjust the training parameters.
+      # For example, `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case.
+      NNODES=8 \
+      EXP=examples/megatron/configs/llama3.1_8B-pretrain.yaml \
       bash ./examples/run_slurm_pretrain.sh \
           --global_batch_size 1024 \
           --fp8 hybrid
 
+.. container:: model-doc primus_pyt_megatron_lm_train_llama-2-7b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 2 7B.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
+
+   To train Llama 2 7B FP8 on 8 nodes, run:
+
+   .. code-block:: shell
+
+      # Adjust the training parameters.
+      # For example, `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case.
+      NNODES=8 \
+      EXP=examples/megatron/configs/llama2_7B-pretrain.yaml \
+      bash ./examples/run_slurm_pretrain.sh \
+          --global_batch_size 2048 \
+          --fp8 hybrid
+
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.1-70b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 3.1 70B.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To train Llama 3.1 70B FP8 on 8 nodes, run:
 
    .. code-block:: shell
 
-      NNODES=8 EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
+      # Adjust the training parameters.
+      # For example, `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case.
+      NNODES=8 \
+      EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 1 \
+          --micro_batch_size 4 \
           --global_batch_size 256 \
           --recompute_num_layers 80 \
+          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
    To train Llama 3.1 70B BF16 on 8 nodes, run:
 
    .. code-block:: shell
 
-      NNODES=8 EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
+      NNODES=8 \
+      EXP=examples/megatron/configs/llama3.1_70B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
           --micro_batch_size 1 \
           --global_batch_size 256 \
           --recompute_num_layers 12
 
-.. container:: model-doc primus_pyt_megatron_lm_train_llama-2-7b
-
-   To train Llama 2 8B FP8 on 8 nodes, run:
-
-   .. code-block:: shell
-
-      # Adjust the training parameters. For e.g., `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case
-      NNODES=8 EXP=examples/megatron/configs/llama2_7B-pretrain.yaml bash ./examples/run_slurm_pretrain.sh --global_batch_size 2048 --fp8 hybrid
-
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-2-70b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 2 70B.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To train Llama 2 70B FP8 on 8 nodes, run:
 
    .. code-block:: shell
 
-      NNODES=8 EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
+      # Adjust the training parameters.
+      # For example, `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case.
+      NNODES=8 \
+      EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 2 \
-          --global_batch_size 256 \
+          --micro_batch_size 10 \
+          --global_batch_size 640 \
           --recompute_num_layers 80 \
+          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
    To train Llama 2 70B BF16 on 8 nodes, run:
 
    .. code-block:: shell
 
-      NNODES=8 EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
+      NNODES=8 \
+      EXP=examples/megatron/configs/llama2_70B-pretrain.yaml \
       bash ./examples/run_slurm_pretrain.sh \
           --micro_batch_size 2 \
           --global_batch_size 1536 \
           --recompute_num_layers 12
 
+.. container:: model-doc primus_pyt_megatron_lm_train_llama-3.3-70b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 3.3 70B.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
+
+   To train Llama 3.3 70B FP8 on 8 nodes, run:
+
+   .. code-block:: shell
+
+      # Adjust the training parameters.
+      # For example, `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case
+      NNODES=8 \
+      EXP=examples/megatron/configs/llama3.3_70B-pretrain.yaml \
+      bash examples/run_slurm_pretrain.sh \
+          --micro_batch_size 4 \
+          --global_batch_size 256 \
+          --recompute_num_layers 80 \
+          --no_fp8_weight_transpose_cache true \
+          --fp8 hybrid
+
+   To train Llama 3.3 70B BF16 on 8 nodes, run:
+
+   .. code-block:: shell
+
+      NNODES=8 \
+      EXP=examples/megatron/configs/llama3.3_70B-pretrain.yaml \
+      bash examples/run_slurm_pretrain.sh \
+          --micro_batch_size 1 \
+          --global_batch_size 256 \
+          --recompute_num_layers 12
+
 .. container:: model-doc primus_pyt_megatron_lm_train_mixtral-8x7b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 2 70B.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
 
    To train Mixtral 8x7B BF16 on 8 nodes, run:
 
    .. code-block:: shell
 
-      NNODES=8 EXP=examples/megatron/configs/mixtral_8x7B_v0.1-pretrain.yaml \
+      # Adjust the training parameters.
+      # For example, `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case
+      NNODES=8 \
+      EXP=examples/megatron/configs/mixtral_8x7B_v0.1-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
           --micro_batch_size 2 \
           --global_batch_size 256
 
 .. container:: model-doc primus_pyt_megatron_lm_train_qwen2.5-72b
 
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 2 70B.
+   See :ref:`amd-primus-megatron-lm-model-support-v259` to switch to another available model.
+
    To train Qwen2.5 72B FP8 on 8 nodes, run:
 
    .. code-block:: shell
 
-      NNODES=8 EXP=examples/megatron/configs/qwen2.5_72B-pretrain.yaml \
+      # Adjust the training parameters.
+      # For example, `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case
+      NNODES=8 \
+      EXP=examples/megatron/configs/qwen2.5_72B-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
-          --micro_batch_size 4 \
-          --global_batch_size 256 \
+          --micro_batch_size 8 \
+          --global_batch_size 512 \
           --recompute_num_layers 80 \
+          --no_fp8_weight_transpose_cache true \
           --fp8 hybrid
 
-.. _amd-primus-megatron-lm-benchmark-test-vars:
+.. _amd-primus-megatron-lm-benchmark-test-vars-v259:
 
 Key options
 -----------
@@ -641,6 +983,11 @@ recompute_granularity
 
 num_layers
   For using a reduced number of layers as with proxy models.
+
+Known issues
+============
+
+PyTorch Profiler may produce inaccurate traces when CPU activity profiling is enabled.
 
 Further reading
 ===============

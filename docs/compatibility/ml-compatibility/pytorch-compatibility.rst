@@ -360,15 +360,6 @@ with ROCm.
         popular datasets, model architectures, and common image transformations
         for computer vision applications.
 
-    * - `torchtext <https://docs.pytorch.org/text/stable/index.html>`_
-      - Text processing library for PyTorch. Provides data processing utilities
-        and popular datasets for natural language processing, including
-        tokenization, vocabulary management, and text embeddings.
-
-        **Note:** ``torchtext`` does not implement ROCm-specific kernels.
-        ROCm acceleration is provided through the underlying PyTorch framework
-        and ROCm library integration. Only official release exists.
-
     * - `torchdata <https://meta-pytorch.org/data/beta/index.html#torchdata>`_
       - Beta library of common modular data loading primitives for easily
         constructing flexible and performant data pipelines, with features still
@@ -407,7 +398,18 @@ with ROCm.
 
         **Note:** Only official release exists.
 
-Key features and enhancements for PyTorch 2.7 with ROCm 7.0
+Key features and enhancements for PyTorch 2.8 with ROCm 7.1
+================================================================================
+
+- MIOpen deep learning optimizations: Further optimized NHWC BatchNorm feature.
+
+- Added float8 support for the DeepSpeed extension, allowing for decreased
+  memory footprint and increased throughput in training and inference workloads.
+
+- ``torch.nn.functional.scaled_dot_product_attention`` now calling optimized
+  flash attention kernel automatically.
+
+Key features and enhancements for PyTorch 2.7/2.8 with ROCm 7.0
 ================================================================================
 
 - Enhanced TunableOp framework: Introduces ``tensorfloat32`` support for
@@ -442,10 +444,6 @@ Key features and enhancements for PyTorch 2.7 with ROCm 7.0
   ROCm-specific test conditions, and enhanced unit test coverage for Flash
   Attention and Memory Efficient operations.
 
-- Build system and infrastructure improvements: Provides updated CentOS Stream 9
-  support, improved Docker configuration, migration to public MAGMA repository,
-  and enhanced QA automation scripts for PyTorch unit testing.
-
 - Composable Kernel (CK) updates: Features updated CK submodule integration with
   the latest optimizations and performance improvements for core mathematical
   operations.
@@ -467,7 +465,7 @@ Key features and enhancements for PyTorch 2.7 with ROCm 7.0
   network training or inference. For AMD platforms, ``amdclang++`` has been
   validated as the supported compiler for building these extensions.
 
-Known issues and notes for PyTorch 2.7 with ROCm 7.0
+Known issues and notes for PyTorch 2.7/2.8 with ROCm 7.0 and ROCm 7.1
 ================================================================================
 
 - The ``matmul.allow_fp16_reduced_precision_reduction`` and

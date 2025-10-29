@@ -1,21 +1,14 @@
 dockers:
-  MI355X and MI350X:
-    pull_tag: rocm/megatron-lm:v25.9_gfx950
-    docker_hub_url: https://hub.docker.com/layers/rocm/megatron-lm/v25.9_gfx950/images/sha256-1a198be32f49efd66d0ff82066b44bd99b3e6b04c8e0e9b36b2c481e13bff7b6
-    components: &docker_components
-      ROCm: 7.0.0
-      Primus: aab4234
-      PyTorch: 2.9.0.dev20250821+rocm7.0.0.lw.git125803b7
+  - pull_tag: rocm/megatron-lm:v25.8_py310
+    docker_hub_url: https://hub.docker.com/layers/rocm/megatron-lm/v25.8_py310/images/sha256-50fc824361054e445e86d5d88d5f58817f61f8ec83ad4a7e43ea38bbc4a142c0
+    components:
+      ROCm: 6.4.3
+      PyTorch: 2.8.0a0+gitd06a406
       Python: "3.10"
       Transformer Engine: 2.2.0.dev0+54dd2bdc
-      Flash Attention: 2.8.3
-      hipBLASLt: 911283acd1
-      Triton: 3.4.0+rocm7.0.0.git56765e8c
-      RCCL: 2.26.6
-  MI325X and MI300X:
-    pull_tag: rocm/megatron-lm:v25.9_gfx942
-    docker_hub_url: https://hub.docker.com/layers/rocm/megatron-lm/v25.9_gfx942/images/sha256-df6ab8f45b4b9ceb100fb24e19b2019a364e351ee3b324dbe54466a1d67f8357
-    components: *docker_components
+      hipBLASLt: d1b517fc7a
+      Triton: 3.3.0
+      RCCL: 2.22.3
 model_groups:
   - group: Meta Llama
     tag: llama
@@ -26,6 +19,8 @@ model_groups:
         mad_tag: pyt_megatron_lm_train_llama-3.1-8b
       - model: Llama 3.1 70B
         mad_tag: pyt_megatron_lm_train_llama-3.1-70b
+      - model: Llama 3.1 70B (proxy)
+        mad_tag: pyt_megatron_lm_train_llama-3.1-70b-proxy
       - model: Llama 2 7B
         mad_tag: pyt_megatron_lm_train_llama-2-7b
       - model: Llama 2 70B

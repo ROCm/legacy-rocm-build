@@ -12,14 +12,14 @@ subtrees:
   - file: compatibility/compatibility-matrix.rst
     title: Compatibility matrix
     entries:
-    - url: https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html
+    - url: https://rocm.docs.amd.com/projects/install-on-linux-internal/en/latest/reference/system-requirements.html
       title: Linux system requirements
     - url: https://rocm.docs.amd.com/projects/install-on-windows/en/${branch}/reference/system-requirements.html
       title: Windows system requirements
 
 - caption: Install
   entries:
-  - url: https://rocm.docs.amd.com/projects/install-on-linux/en/${branch}/
+  - url: https://rocm.docs.amd.com/projects/install-on-linux-internal/en/latest/
     title: ROCm on Linux
   - url: https://rocm.docs.amd.com/projects/install-on-windows/en/latest/
     title: HIP SDK on Windows

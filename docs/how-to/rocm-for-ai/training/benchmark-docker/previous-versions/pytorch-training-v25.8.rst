@@ -5,7 +5,7 @@
    :keywords: ROCm, AI, LLM, train, PyTorch, torch, Llama, flux, tutorial, docker
 
 **************************************
-Training a model with PyTorch for ROCm
+Training a model with PyTorch on ROCm
 **************************************
 
 .. caution::
@@ -16,7 +16,7 @@ Training a model with PyTorch for ROCm
 PyTorch is an open-source machine learning framework that is widely used for
 model training with GPU-optimized components for transformer-based models.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.7-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.8-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
    {% set docker = dockers[0] %}
@@ -36,7 +36,7 @@ model training with GPU-optimized components for transformer-based models.
         - {{ component_version }}
       {% endfor %}
 
-.. _amd-pytorch-training-model-support-v257:
+.. _amd-pytorch-training-model-support:
 
 Supported models
 ================
@@ -45,7 +45,7 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
 Some instructions, commands, and training recommendations in this documentation might
 vary by model -- select one to get started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.7-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.8-benchmark-models.yaml
 
    {% set unified_docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
@@ -56,7 +56,7 @@ vary by model -- select one to get started.
             <div class="col-2 me-1 px-2 model-param-head">Model</div>
             <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
-               <div class="col-3 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
             </div>
          </div>
@@ -79,7 +79,7 @@ vary by model -- select one to get started.
       </div>
 
 
-   .. _amd-pytorch-training-supported-training-modes-v257:
+   .. _amd-pytorch-training-supported-training-modes:
 
    The following table lists supported training modes per model.
 
@@ -94,9 +94,11 @@ vary by model -- select one to get started.
       {% for model_group in model_groups %}
          {% set models = model_group.models %}
          {% for model in models %}
+         {% if model.training_modes %}
          * - {{ model.model }}
            - ``{{ model.training_modes | join('``, ``') }}``
 
+         {% endif %}
          {% endfor %}
       {% endfor %}
 
@@ -109,7 +111,7 @@ vary by model -- select one to get started.
          unlisted fine-tuning methods by using an existing file in the
          ``/workspace/torchtune/recipes/configs`` directory as a template.
 
-.. _amd-pytorch-training-performance-measurements-v257:
+.. _amd-pytorch-training-performance-measurements:
 
 Performance measurements
 ========================
@@ -148,7 +150,7 @@ doesn’t test configurations and run conditions outside those described.
 Run training
 ============
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.7-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.8-benchmark-models.yaml
 
    {% set unified_docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
@@ -159,19 +161,22 @@ Run training
 
       .. tab-item:: MAD-integrated benchmarking
 
-         1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
-            directory and install the required packages on the host machine.
-
-            .. code-block:: shell
-
-               git clone https://github.com/ROCm/MAD
-               cd MAD
-               pip install -r requirements.txt
-
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
 
          .. container:: model-doc {{ model.mad_tag }}
+
+            The following run command is tailored to {{ model.model }}.
+            See :ref:`amd-pytorch-training-model-support` to switch to another available model.
+
+            1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
+               directory and install the required packages on the host machine.
+
+               .. code-block:: shell
+
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD
+                  pip install -r requirements.txt
 
             2. For example, use this command to run the performance benchmark test on the {{ model.model }} model
                using one node with the {{ model.precision }} data type on the host machine.
@@ -193,6 +198,17 @@ Run training
    {% endfor %}
 
       .. tab-item:: Standalone benchmarking
+
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
+
+         .. container:: model-doc {{ model.mad_tag }}
+
+            The following commands are tailored to {{ model.model }}.
+            See :ref:`amd-pytorch-training-model-support` to switch to another available model.
+
+      {% endfor %}
+   {% endfor %}
 
          .. rubric:: Download the Docker image and required packages
 
@@ -283,28 +299,28 @@ Run training
                     - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`_ 3.2.0
 
                   * - ``torchdata``
-                    - `TorchData <https://pytorch.org/data/beta/index.html>`_
+                    - `TorchData <https://meta-pytorch.org/data/beta/index.html#torchdata>`__
 
                   * - ``tomli``
-                    - `Tomli <https://pypi.org/project/tomli/>`_
+                    - `Tomli <https://pypi.org/project/tomli/>`__
 
                   * - ``tiktoken``
-                    - `tiktoken <https://github.com/openai/tiktoken>`_
+                    - `tiktoken <https://github.com/openai/tiktoken>`__
 
                   * - ``blobfile``
-                    - `blobfile <https://pypi.org/project/blobfile/>`_
+                    - `blobfile <https://pypi.org/project/blobfile/>`__
 
                   * - ``tabulate``
-                    - `tabulate <https://pypi.org/project/tabulate/>`_
+                    - `tabulate <https://pypi.org/project/tabulate/>`__
 
                   * - ``wandb``
-                    - `Weights & Biases <https://github.com/wandb/wandb>`_
+                    - `Weights & Biases <https://github.com/wandb/wandb>`__
 
                   * - ``sentencepiece``
-                    - `SentencePiece <https://github.com/google/sentencepiece>`_ 0.2.0
+                    - `SentencePiece <https://github.com/google/sentencepiece>`__ 0.2.0
 
                   * - ``tensorboard``
-                    - `TensorBoard <https://www.tensorflow.org/tensorboard>`_ 2.18.0
+                    - `TensorBoard <https://www.tensorflow.org/tensorboard>`__ 2.18.0
 
             .. container:: model-doc pyt_train_flux
 
@@ -320,50 +336,50 @@ Run training
                     - `Hugging Face Accelerate <https://huggingface.co/docs/accelerate/en/index>`_
 
                   * - ``datasets``
-                    - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`_ 3.2.0
+                    - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`__ 3.2.0
 
                   * - ``sentencepiece``
-                    - `SentencePiece <https://github.com/google/sentencepiece>`_ 0.2.0
+                    - `SentencePiece <https://github.com/google/sentencepiece>`__ 0.2.0
 
                   * - ``tensorboard``
-                    - `TensorBoard <https://www.tensorflow.org/tensorboard>`_ 2.18.0
+                    - `TensorBoard <https://www.tensorflow.org/tensorboard>`__ 2.18.0
 
                   * - ``csvkit``
-                    - `csvkit <https://csvkit.readthedocs.io/en/latest/>`_ 2.0.1
+                    - `csvkit <https://csvkit.readthedocs.io/en/latest/>`__ 2.0.1
 
                   * - ``deepspeed``
-                    - `DeepSpeed <https://github.com/deepspeedai/DeepSpeed>`_ 0.16.2
+                    - `DeepSpeed <https://github.com/deepspeedai/DeepSpeed>`__ 0.16.2
 
                   * - ``diffusers``
-                    - `Hugging Face Diffusers <https://huggingface.co/docs/diffusers/en/index>`_ 0.31.0
+                    - `Hugging Face Diffusers <https://huggingface.co/docs/diffusers/en/index>`__ 0.31.0
 
                   * - ``GitPython``
-                    - `GitPython <https://github.com/gitpython-developers/GitPython>`_ 3.1.44
+                    - `GitPython <https://github.com/gitpython-developers/GitPython>`__ 3.1.44
 
                   * - ``opencv-python-headless``
-                    - `opencv-python-headless <https://pypi.org/project/opencv-python-headless/>`_ 4.10.0.84
+                    - `opencv-python-headless <https://pypi.org/project/opencv-python-headless/>`__ 4.10.0.84
 
                   * - ``peft``
-                    - `PEFT <https://huggingface.co/docs/peft/en/index>`_ 0.14.0
+                    - `PEFT <https://huggingface.co/docs/peft/en/index>`__ 0.14.0
 
                   * - ``protobuf``
-                    - `Protocol Buffers <https://github.com/protocolbuffers/protobuf>`_ 5.29.2
+                    - `Protocol Buffers <https://github.com/protocolbuffers/protobuf>`__ 5.29.2
 
                   * - ``pytest``
-                    - `PyTest <https://docs.pytest.org/en/stable/>`_ 8.3.4
+                    - `PyTest <https://docs.pytest.org/en/stable/>`__ 8.3.4
 
                   * - ``python-dotenv``
-                    - `python-dotenv <https://pypi.org/project/python-dotenv/>`_ 1.0.1
+                    - `python-dotenv <https://pypi.org/project/python-dotenv/>`__ 1.0.1
 
                   * - ``seaborn``
-                    - `Seaborn <https://seaborn.pydata.org/>`_ 0.13.2
+                    - `Seaborn <https://seaborn.pydata.org/>`__ 0.13.2
 
                   * - ``transformers``
-                    - `Transformers <https://huggingface.co/docs/transformers/en/index>`_ 4.47.0
+                    - `Transformers <https://huggingface.co/docs/transformers/en/index>`__ 4.47.0
 
             ``pytorch_benchmark_setup.sh`` downloads the following datasets from Hugging Face:
 
-            * `bghira/pseudo-camera-10k <https://huggingface.co/datasets/bghira/pseudo-camera-10k>`_
+            * `bghira/pseudo-camera-10k <https://huggingface.co/datasets/bghira/pseudo-camera-10k>`__
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -395,7 +411,7 @@ Run training
                .. note::
 
                   Currently, FLUX models are not supported out-of-the-box on {{ unified_docker.pull_tag }}.
-                  To use FLUX, refer to the previous version of the ``pytorch-training`` Docker: :doc:`pytorch-training-v25.6`
+                  To use FLUX, refer to ``rocm/pytorch-training`` Docker: :doc:`pytorch-training-v25.6`
 
                   Occasionally, downloading the Flux dataset might fail. In the event of this
                   error, manually download it from Hugging Face at
@@ -440,7 +456,7 @@ Run training
 
             To start the fine-tuning benchmark, use the following command with the
             appropriate options. See the following list of options and their descriptions.
-            See :ref:`supported training modes <amd-pytorch-training-supported-training-modes-v257>`.
+            See :ref:`supported training modes <amd-pytorch-training-supported-training-modes>`.
 
             .. code-block:: shell
 
@@ -505,8 +521,13 @@ Run training
 
             For examples of benchmarking commands, see `<https://github.com/ROCm/MAD/tree/develop/benchmark/pytorch_train#benchmarking-examples>`__.
 
+.. _amd-pytorch-training-multinode-examples:
+
 Multi-node training
 -------------------
+
+Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your environment for multi-node
+training. See :ref:`rocm-for-ai-multi-node-setup-pyt-train-example` for example Slurm run commands.
 
 Pre-training
 ~~~~~~~~~~~~
@@ -555,7 +576,7 @@ Further reading
 - To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
 
 - To learn more about system settings and management practices to configure your system for
-  AMD Instinct MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  AMD Instinct MI300X series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
 
 - For a list of other ready-made Docker images for AI with ROCm, see
   `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`_.

@@ -10,44 +10,54 @@ Training a model with PyTorch on ROCm
 
 .. note::
 
-   Primus with the PyTorch torchtitan backend is designed to replace :doc:`ROCm PyTorch training <pytorch-training>` workflow.
+   For a unified training solution on AMD GPUs with ROCm, the `rocm/pytorch-training
+   <https://hub.docker.com/r/rocm/pytorch-training/>`__ Docker Hub registry will be
+   deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
+   The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
+   including `Megatron-LM <primus-megatron>`__, torchtitan, and torchtune.
+
    See :doc:`primus-pytorch` for details.
 
 PyTorch is an open-source machine learning framework that is widely used for
 model training with GPU-optimized components for transformer-based models.
+The PyTorch for ROCm training Docker image provides a prebuilt optimized
+environment for fine-tuning and pretraining a model on AMD Instinct MI325X
+and MI300X GPUs. It includes the following software components to accelerate
+training workloads:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
-   {% set docker = dockers[0] %}
-   The `PyTorch for ROCm training Docker <{{ docker.docker_hub_url }}>`__
-   (``{{ docker.pull_tag }}``) image provides a prebuilt optimized environment for fine-tuning and pretraining a
-   model on AMD Instinct MI325X and MI300X GPUs. It includes the following software components to accelerate
-   training workloads:
+   .. tab-set::
 
-   .. list-table::
-      :header-rows: 1
+   {% for supported_gpus, docker in dockers.items() %}
+      .. tab-item:: {{ supported_gpus }}
+         :sync: {{ supported_gpus }}
 
-      * - Software component
-        - Version
+         .. list-table::
+            :header-rows: 1
 
-      {% for component_name, component_version in docker.components.items() %}
-      * - {{ component_name }}
-        - {{ component_version }}
-      {% endfor %}
+            * - Software component
+              - Version
 
-.. _amd-pytorch-training-model-support:
+            {% for component_name, component_version in docker.components.items() %}
+            * - {{ component_name }}
+              - {{ component_version }}
+            {% endfor %}
+   {% endfor %}
+
+.. _amd-pytorch-training-model-support-v259:
 
 Supported models
 ================
 
-The following models are pre-optimized for performance on the AMD Instinct MI325X and MI300X GPUs.
-Some instructions, commands, and training recommendations in this documentation might
-vary by model -- select one to get started.
+The following models are pre-optimized for performance on the AMD Instinct
+MI355X, MI350X, MI325X, and MI300X GPUs. Some instructions, commands, and
+training recommendations in this documentation might vary by model -- select
+one to get started.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
 
-   {% set unified_docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
    .. raw:: html
 
@@ -78,11 +88,13 @@ vary by model -- select one to get started.
          </div>
       </div>
 
+.. _amd-pytorch-training-supported-training-modes-v259:
 
-   .. _amd-pytorch-training-supported-training-modes:
+The following table lists supported training modes per model.
 
-   The following table lists supported training modes per model.
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
 
+   {% set model_groups = data.model_groups %}
    .. dropdown:: Supported training modes
 
       .. list-table::
@@ -111,7 +123,7 @@ vary by model -- select one to get started.
          unlisted fine-tuning methods by using an existing file in the
          ``/workspace/torchtune/recipes/configs`` directory as a template.
 
-.. _amd-pytorch-training-performance-measurements:
+.. _amd-pytorch-training-performance-measurements-v259:
 
 Performance measurements
 ========================
@@ -152,7 +164,7 @@ Run training
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
 
-   {% set unified_docker = data.dockers[0] %}
+   {% set dockers = data.dockers %}
    {% set model_groups = data.model_groups %}
 
    Once the setup is complete, choose between two options to start benchmarking training:
@@ -167,7 +179,7 @@ Run training
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-pytorch-training-model-support` to switch to another available model.
+            See :ref:`amd-pytorch-training-model-support-v259` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -205,7 +217,7 @@ Run training
          .. container:: model-doc {{ model.mad_tag }}
 
             The following commands are tailored to {{ model.model }}.
-            See :ref:`amd-pytorch-training-model-support` to switch to another available model.
+            See :ref:`amd-pytorch-training-model-support-v259` to switch to another available model.
 
       {% endfor %}
    {% endfor %}
@@ -214,28 +226,42 @@ Run training
 
          1. Use the following command to pull the Docker image from Docker Hub.
 
-            .. code-block:: shell
+            .. tab-set::
 
-               docker pull {{ unified_docker.pull_tag }}
+               {% for supported_gpus, docker in dockers.items() %}
+               .. tab-item:: {{ supported_gpus }}
+                  :sync: {{ supported_gpus }}
 
-         2. Run the Docker container.
+                  .. code-block:: shell
 
-            .. code-block:: shell
+                     docker pull {{ docker.pull_tag }}
+               {% endfor %}
 
-               docker run -it \
-                   --device /dev/dri \
-                   --device /dev/kfd \
-                   --network host \
-                   --ipc host \
-                   --group-add video \
-                   --cap-add SYS_PTRACE \
-                   --security-opt seccomp=unconfined \
-                   --privileged \
-                   -v $HOME:$HOME \
-                   -v $HOME/.ssh:/root/.ssh \
-                   --shm-size 64G \
-                   --name training_env \
-                   {{ unified_docker.pull_tag }}
+         2. Launch the Docker container.
+
+            .. tab-set::
+
+               {% for supported_gpus, docker in dockers.items() %}
+               .. tab-item:: {{ supported_gpus }}
+                  :sync: {{ supported_gpus }}
+
+                  .. code-block:: shell
+
+                     docker run -it \
+                         --device /dev/dri \
+                         --device /dev/kfd \
+                         --network host \
+                         --ipc host \
+                         --group-add video \
+                         --cap-add SYS_PTRACE \
+                         --security-opt seccomp=unconfined \
+                         --privileged \
+                         -v $HOME:$HOME \
+                         -v $HOME/.ssh:/root/.ssh \
+                         --shm-size 64G \
+                         --name training_env \
+                         {{ docker.pull_tag }}
+               {% endfor %}
 
             Use these commands if you exit the ``training_env`` container and need to return to it.
 
@@ -379,7 +405,7 @@ Run training
 
             ``pytorch_benchmark_setup.sh`` downloads the following datasets from Hugging Face:
 
-            * `bghira/pseudo-camera-10k <https://huggingface.co/datasets/bghira/pseudo-camera-10k>`__
+            * `frank-chieng/chinese_architecture_siheyuan <https://huggingface.co/datasets/frank-chieng/chinese_architecture_siheyuan>`__
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -410,7 +436,7 @@ Run training
 
                .. note::
 
-                  Currently, FLUX models are not supported out-of-the-box on {{ unified_docker.pull_tag }}.
+                  Currently, FLUX models are not supported out-of-the-box on this Docker.
                   To use FLUX, refer to ``rocm/pytorch-training`` Docker: :doc:`previous-versions/pytorch-training-v25.6`
 
                   Occasionally, downloading the Flux dataset might fail. In the event of this
@@ -419,6 +445,49 @@ Run training
                   and save it to `/workspace/FluxBenchmark`. This ensures that the test script can access
                   the required dataset.
             {% endif %}
+
+            .. list-table::
+               :header-rows: 1
+
+               * - Name
+                 - Options
+                 - Description
+
+               {% for mode in available_modes %}
+               * - {% if loop.first %}``$training_mode``{% endif %}
+                 - ``{{ mode }}``
+                 - {{ training_mode_descs[mode] }}
+               {% endfor %}
+
+               * - ``$datatype``
+                 - ``BF16``{% if model.mad_tag == "pyt_train_llama-3.1-8b" %} or ``FP8``{% endif %}
+                 - Only Llama 3.1 8B supports FP8 precision.
+
+               * - ``$sequence_length``
+                 - Sequence length for the language model.
+                 - Between 2048 and 8192. 8192 by default.
+         {% endif %}
+
+         {% set training_modes = model.training_modes %}
+         {% set training_mode_descs = {
+            "posttrain": "Benchmark post-training.",
+         } %}
+         {% set available_modes = training_modes | select("in", ["posttrain"]) | list %}
+         {% if available_modes %}
+
+         .. container:: model-doc {{ model.mad_tag }}
+
+            .. rubric:: Post-training
+
+            To start the post-training benchmark, use the following command with the
+            appropriate options. See the following list of options and their descriptions.
+
+            .. code-block:: shell
+
+               ./pytorch_benchmark_report.sh -t {% if available_modes | length == 1 %}{{ available_modes[0] }}{% else %}$training_mode{% endif %} \
+                   -m {{ model.model_repo }} \
+                   -p $datatype \
+                   -s $sequence_length
 
             .. list-table::
                :header-rows: 1
@@ -456,7 +525,7 @@ Run training
 
             To start the fine-tuning benchmark, use the following command with the
             appropriate options. See the following list of options and their descriptions.
-            See :ref:`supported training modes <amd-pytorch-training-supported-training-modes>`.
+            See :ref:`supported training modes <amd-pytorch-training-supported-training-modes-v259>`.
 
             .. code-block:: shell
 
@@ -521,7 +590,7 @@ Run training
 
             For examples of benchmarking commands, see `<https://github.com/ROCm/MAD/tree/develop/benchmark/pytorch_train#benchmarking-examples>`__.
 
-.. _amd-pytorch-training-multinode-examples:
+.. _amd-pytorch-training-multinode-examples-v259:
 
 Multi-node training
 -------------------
@@ -569,6 +638,11 @@ To launch the training job on a SLURM cluster for Llama 3.3 70B, run the followi
    * Set the ``mounting_paths`` inside the SLURM script.
 
 Once the run is finished, you can find the log files in the ``result_torchtune/`` directory.
+
+Known issues
+============
+
+PyTorch Profiler may produce inaccurate traces when CPU activity profiling is enabled.
 
 Further reading
 ===============
