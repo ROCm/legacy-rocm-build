@@ -2,7 +2,7 @@ xdit_video_diffusion:
   docker:
     pull_tag: amdsiloai/pytorch-xdit:v25.9
     docker_hub_url: https://hub.docker.com/r/amdsiloai/pytorch-xdit
-    ROCm: 7.0.0rc
+    ROCm: 7.9.0
     components:
       TheRock: 7afbe45
       rccl: 9b04b2a
