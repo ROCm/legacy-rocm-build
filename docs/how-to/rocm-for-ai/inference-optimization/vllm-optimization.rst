@@ -46,6 +46,8 @@ The following variables are generally useful for Instinct MI300X/MI355X GPUs and
     multi-GPU distributed workloads** (tensor parallelism, pipeline
     parallelism). Single-GPU inference does not need this.
 
+.. _vllm-optimization-aiter-switches:
+
 AITER (AI Tensor Engine for ROCm) switches
 ==========================================
 
