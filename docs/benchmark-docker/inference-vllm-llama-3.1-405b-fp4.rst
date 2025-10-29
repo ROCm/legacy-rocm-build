@@ -14,11 +14,11 @@ appropriate options, download the model, and run the throughput test.
 Pull the Docker image
 =====================
 
-Use the following command to pull the `Docker image <https://hub.docker.com/r/rocm/7.0/tags>`__.
+Use the following command to pull the `Docker image <https://hub.docker.com/r/rocm/7.x-preview/tags>`__.
 
 .. code-block:: shell
 
-   docker pull rocm/7.0:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250927_rc1
+   docker pull rocm/7.x-preview:rocm7.2_preview_ubuntu_22.04_vlm_0.10.1_instinct_20251029
 
 Download the model
 ==================
@@ -91,7 +91,7 @@ Run the inference benchmark
         -e HF_HOME=/data/huggingface-cache \
         -e HF_HUB_OFFLINE=1 \
         --name vllm-server \
-        rocm/7.0:rocm7.0_ubuntu_22.04_vllm_0.10.1_instinct_20250927_rc1
+        rocm/7.x-preview:rocm7.2_preview_ubuntu_22.04_vlm_0.10.1_instinct_20251029
 
 2. Start the server.
 
@@ -119,10 +119,10 @@ Run the inference benchmark
       max_num_batched_tokens=131072 # Smaller values may result in better TTFT but worse TPOT / throughput.
       tensor_parallel_size=8
 
-      # At high concurrency (> 16 for input length 1024, > 4 for input length 8192)
+      # The following setting is recommended for most configurations:
       export VLLM_TRITON_FP4_GEMM_USE_ASM=1
 
-      # At low concurrency (<= 16 for input length 1024, <= 4 for input length 8192),
+      # For tensor parallelism >1 at low concurrency (<= 16 for input length 1024, <= 4 for input length 8192),
       # uncomment these lines:
       # export VLLM_TRITON_FP4_GEMM_USE_ASM=0
       # export VLLM_ROCM_USE_AITER_TRITON_BF16_GEMM=0
