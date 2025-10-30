@@ -40,10 +40,8 @@ Follow this guide to pull the required image, spin up a container, download the 
 What's new
 ==========
 
-- Initial release
-- ROCm: 7.0.0rc
-- Added support for AMD Instinct™ MI355X, MI350X (gfx950), and MI300X (gfx942) GPUs.
-- Added support for Wan 2.1, Wan 2.2 and Hunyuan Video models with MIOpen optimizations.
+- (Preview) Flux support
+- TF32 GEMM support for Wan workloads
 
 .. _xdit-video-diffusion-supported-models:
 
@@ -137,12 +135,6 @@ Validate and benchmark
 Once the image has been downloaded you can follow these steps to
 run benchmarks and generate a video.
 
-.. warning::
-
-   If your host/OS ROCm installation is below 6.4.2 (see with ``apt show rocm-libs``) you need to export
-   the ``HSA_NO_SCRATCH_RECLAIM=1`` environment variable inside the container, or the workload will crash.
-   If possible, ask your system administrator to upgrade ROCm.
-
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
    {% for model_group in model_groups %}
@@ -205,9 +197,11 @@ You can either use an existing Hugging Face cache or download the model fresh in
                       --privileged \
                       --shm-size 128G \
                       --name pytorch-xdit \
+                      -e HSA_NO_SCRATCH_RECLAIM=1 \
+                      -e OMP_NUM_THREADS=16 \
                       -e CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
-                      -e HF_HOME=$HF_HOME \
-                      -v $HF_HOME:$HF_HOME \
+                      -e HF_HOME=/app/huggingface_models \
+                      -v $HF_HOME:/app/huggingface_models \
                       {{ docker.pull_tag }}
 
          .. tab-item:: Option 2: Download inside container
@@ -231,6 +225,8 @@ You can either use an existing Hugging Face cache or download the model fresh in
                       --privileged \
                       --shm-size 128G \
                       --name pytorch-xdit \
+                      -e HSA_NO_SCRATCH_RECLAIM=1 \
+                      -e OMP_NUM_THREADS=16 \
                       -e CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
                       {{ docker.pull_tag }}
 
@@ -238,7 +234,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
 
                .. code-block:: shell
 
-                  export HF_HOME=/your/hf_cache/location
+                  export HF_HOME=/app/huggingface_models
                   huggingface-cli download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
 
                .. warning::
