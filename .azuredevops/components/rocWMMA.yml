@@ -141,9 +141,9 @@ jobs:
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
-    - job: rocWMMA_test_${{ job.target }}
+    - job: ${{ parameters.componentName }}_test_${{ job.target }}
       timeoutInMinutes: 270
-      dependsOn: rocWMMA_build_${{ job.target }}
+      dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
       condition:
         and(succeeded(),
           eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
