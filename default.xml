@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
     <remote name="rocm-org" fetch="https://github.com/ROCm/" />
-    <default revision="refs/tags/rocm-7.0.2"
+    <default revision="refs/tags/rocm-7.1.0"
      remote="rocm-org"
      sync-c="true"
      sync-j="4" />
@@ -9,25 +9,10 @@
     <project name="ROCK-Kernel-Driver" />
     <project name="ROCR-Runtime" />
     <project name="amdsmi" />
-    <project name="aqlprofile" />
-    <project name="rdc" />
     <project name="rocm_bandwidth_test" />
-    <project name="rocm_smi_lib" />
-    <project name="rocm-core" />
     <project name="rocm-examples" />
-    <project name="rocminfo" />
-    <project name="rocprofiler" />
-    <project name="rocprofiler-register" />
-    <project name="rocprofiler-sdk" />
-    <project name="rocprofiler-compute" />
-    <project name="rocprofiler-systems" />
-    <project name="roctracer" />
 <!--HIP Projects-->
-    <project name="hip" />
-    <project name="hip-tests" />
     <project name="HIPIFY" />
-    <project name="clr" />
-    <project name="hipother" />
 <!-- The following projects are all associated with the AMDGPU LLVM compiler -->
     <project name="half" />
     <project name="llvm-project" />
@@ -54,6 +39,12 @@
         MIOpen rocBLAS rocFFT rocPRIM rocRAND
         rocSPARSE rocThrust Tensile -->
     <project groups="mathlibs" name="rocm-libraries" />
+    <!-- The following components have been migrated to rocm-systems:
+        aqlprofile clr hip hip-tests hipother
+        rdc rocm-core rocm_smi_lib rocminfo rocprofiler-compute 
+        rocprofiler-register rocprofiler-sdk rocprofiler-systems 
+        rocprofiler rocr-runtime roctracer -->
+    <project groups="mathlibs" name="rocm-systems" />
     <project groups="mathlibs" name="rocPyDecode" />
     <project groups="mathlibs" name="rocSHMEM" />
     <project groups="mathlibs" name="rocWMMA" />
