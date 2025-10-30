@@ -76,9 +76,9 @@ vary by model -- select one to get started.
             {% set models = model_group.models %}
             {% for model in models %}
                 {% if models|length % 3 == 0 %}
-                <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.model_name }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+                <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.page_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
                 {% else %}
-                <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.model_name }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+                <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.page_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
                 {% endif %}
             {% endfor %}
         {% endfor %}
@@ -89,7 +89,7 @@ vary by model -- select one to get started.
    {% for model_group in model_groups %}
        {% for model in model_group.models %}
 
-   .. container:: model-doc {{model.model_name}}
+   .. container:: model-doc {{ model.page_tag }}
 
       .. note::
 
@@ -140,7 +140,7 @@ run benchmarks and generate a video.
    {% for model_group in model_groups %}
      {% for model in model_group.models %}
 
-   .. container:: model-doc {{model.model_name}}
+   .. container:: model-doc {{model.page_tag}}
 
       The following commands are written for {{ model.model }}.
       See :ref:`xdit-video-diffusion-supported-models` to switch to another available model.
@@ -160,7 +160,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
 
    {% for model_group in model_groups %}
      {% for model in model_group.models %}
-   .. container:: model-doc {{model.model_name}}
+   .. container:: model-doc {{model.page_tag}}
 
       .. tab-set::
 
@@ -252,7 +252,7 @@ Run inference
    {% for model_group in model_groups %}
      {% for model in model_group.models %}
 
-   .. container:: model-doc {{ model.model_name }}
+   .. container:: model-doc {{ model.page_tag }}
 
       To run the benchmarks for {{ model.model }}, use the following command:
 
@@ -284,7 +284,9 @@ Run inference
              --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
              --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
              --offload_model 0 \
-             --vae_dtype bfloat16
+             --vae_dtype bfloat16 \
+             --allow_tf32 \
+             --compile
        {% endif %}
        {% if model.model == "Wan2.2" %}
          cd Wan2.2
@@ -299,14 +301,35 @@ Run inference
              --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
              --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
              --offload_model 0 \
-             --vae_dtype bfloat16
+             --vae_dtype bfloat16 \
+             --allow_tf32 \
+             --compile
        {% endif %}
 
-      {% if model.model in ["Wan2.1", "Wan2.2"] %}
-      For additional performance improvements, consider adding the ``--compile`` flag to the above command. Note that this can significantly increase startup time on the first call.
-      {% endif %}
+       {% if model.model == "FLUX.1" %}
+         cd Flux
+         mkdir results
 
-      The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% endif %}
+         torchrun --nproc_per_node=8 /app/Flux/run.py \
+            --model black-forest-labs/FLUX.1-dev \
+            --batch_size 1 \
+            --seed 42 \
+            --prompt "A small cat" \
+            --height 1024 \
+            --width 1024 \
+            --num_inference_steps 25 \
+            --max_sequence_length 256 \
+            --warmup_steps 5 \
+            --no_use_resolution_binning \
+            --n_repetitions 1 \
+            --ulysses_degree 8 \
+            --use_torch_compile \
+            --benchmark_output_directory results
+       {% endif %}
+
+      The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% elif model.model == "FLUX.1" %}results/timing.json{% endif %}
+
+      {% if model.model == "FLUX.1" %}You may also use ``run_usp.py`` which implements USP without modifying the default diffusers pipeline. {% endif %}
 
       {% endfor %}
     {% endfor %}
