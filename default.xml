@@ -7,7 +7,6 @@
      sync-j="4" />
 <!--list of projects for ROCm-->
     <project name="ROCK-Kernel-Driver" />
-    <project name="ROCR-Runtime" />
     <project name="amdsmi" />
     <project name="rocm_bandwidth_test" />
     <project name="rocm-examples" />
