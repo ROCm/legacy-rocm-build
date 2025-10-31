@@ -322,7 +322,7 @@ Run inference
             --no_use_resolution_binning \
             --ulysses_degree 8 \
             --use_torch_compile \
-            --num_repetitions 50 \
+            --num_repetitions 1 \
             --benchmark_output_directory results
 
        {% endif %}
