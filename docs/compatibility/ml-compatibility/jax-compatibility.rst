@@ -47,6 +47,15 @@ with ROCm support:
    `Community ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax-community>`_
    follow upstream JAX releases and use the latest available ROCm version.
 
+JAX Plugin-PJRT with JAX/JAXLIB Compatibility
+================================================================================
++------------------------------+-------+-------+
+| JAX Plugin-PJRT / JAX-JAXLIB | 0.6.0 | 0.6.2 |
++==============================+=======+=======+
+| 0.6.0                        | X     | X     |
++------------------------------+-------+-------+
+
+
 Use cases and recommendations
 ================================================================================
 
