@@ -92,7 +92,7 @@ GPUs, which can impact end-to-end latency.
 .. _healthcheck-install-transferbench:
 
 1. To get started, use the instructions in the `TransferBench documentation
-   <https://rocm.docs.amd.com/projects/TransferBench/en/latest/install/install.html#install-transferbench>`_
+   <https://rocm.docs.amd.com/projects/TransferBench/en/latest/install/install.html#install-transferbench>`__
    or use the following commands:
 
    .. code:: shell
@@ -102,5 +102,5 @@ GPUs, which can impact end-to-end latency.
       CC=hipcc make
 
 2. Run the suggested TransferBench tests -- see `TransferBench benchmarking
-   <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/mi300x/performance-bench.html#transferbench-benchmarking-results>`_
+   <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/common/system-validation.html#transferbench>`__
    in the Instinct performance benchmarking documentation for instructions.

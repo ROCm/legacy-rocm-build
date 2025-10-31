@@ -21,13 +21,19 @@ parameters:
     - libtbb-dev
     - libtiff-dev
     - libva-amdgpu-dev
+    - libavcodec-dev
+    - libavformat-dev
+    - libavutil-dev
     - ninja-build
     - python3-pip
 - name: rocmDependencies
   type: object
   default:
     - AMDMIGraphX
+    - aomp
+    - aomp-extras
     - clr
+    - composable_kernel
     - hipBLAS
     - hipBLAS-common
     - hipBLASLt
@@ -40,7 +46,10 @@ parameters:
     - hipTensor
     - llvm-project
     - MIOpen
+    - MIVisionX
+    - rocALUTION
     - rocBLAS
+    - rocDecode
     - rocFFT
     - rocJPEG
     - rocPRIM
@@ -57,7 +66,10 @@ parameters:
   type: object
   default:
     - AMDMIGraphX
+    - aomp
+    - aomp-extras
     - clr
+    - composable_kernel
     - hipBLAS
     - hipBLAS-common
     - hipBLASLt
@@ -70,7 +82,10 @@ parameters:
     - hipTensor
     - llvm-project
     - MIOpen
+    - MIVisionX
+    - rocALUTION
     - rocBLAS
+    - rocDecode
     - rocFFT
     - rocminfo
     - rocPRIM

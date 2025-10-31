@@ -46,7 +46,7 @@ In DDP training, each process or worker owns a replica of the model and processe
 
 See the following developer blogs for more in-depth explanations and examples.
 
-*  `Multi GPU training with DDP — PyTorch Tutorials <https://pytorch.org/tutorials/beginner/ddp_Series_multigpu.html>`_
+*  `Multi GPU training with DDP — PyTorch Tutorials <https://docs.pytorch.org/tutorials/beginner/ddp_series_multigpu.html>`__
 
 *  `Building a decoder transformer model on AMD GPUs — ROCm Blogs
    <https://rocm.blogs.amd.com/artificial-intelligence/decoder-transformer/README.html#distributed-training-on-multiple-gpus>`_

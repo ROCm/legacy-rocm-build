@@ -27,6 +27,7 @@ ASICs
 ASan
 ASAN
 ASm
+Async
 ATI
 atomicRMW
 AddressSanitizer
@@ -34,6 +35,7 @@ AlexNet
 Andrej
 Arb
 Autocast
+autograd
 BARs
 BatchNorm
 BLAS
@@ -86,9 +88,11 @@ Conda
 ConnectX
 CountOnes
 CuPy
+customizable
 da
 Dashboarding
 Dataloading
+dataflows
 DBRX
 DDR
 DF
@@ -130,6 +134,7 @@ ELMo
 ENDPGM
 EPYC
 ESXi
+EP
 EoS
 etcd
 fas
@@ -181,8 +186,9 @@ GPR
 GPT
 GPU
 GPU's
+GPUDirect
 GPUs
-Graphbolt
+GraphBolt
 GraphSage
 GRBM
 GRE
@@ -212,6 +218,7 @@ Haswell
 Higgs
 href
 Hyperparameters
+HybridEngine
 Huggingface
 Hunyuan
 IB
@@ -299,6 +306,7 @@ Makefiles
 Matplotlib
 Matrox
 MaxText
+MBT
 Megablocks
 Megatrends
 Megatron
@@ -308,6 +316,7 @@ Meta's
 Miniconda
 MirroredStrategy
 Mixtral
+MLA
 MosaicML
 MoEs
 Mooncake
@@ -350,6 +359,7 @@ OFED
 OMM
 OMP
 OMPI
+OOM
 OMPT
 OMPX
 ONNX
@@ -395,6 +405,7 @@ Profiler's
 PyPi
 Pytest
 PyTorch
+QPS
 Qcycles
 Qwen
 RAII
@@ -671,6 +682,7 @@ denoised
 denoises
 denormalize
 dequantization
+dequantized
 dequantizes
 deserializers
 detections
@@ -786,6 +798,7 @@ linalg
 linearized
 linter
 linux
+llm
 llvm
 lm
 localscratch
@@ -837,6 +850,7 @@ passthrough
 pe
 perfcounter
 performant
+piecewise
 perl
 pragma
 pre
@@ -984,6 +998,7 @@ tokenizer
 tokenizes
 toolchain
 toolchains
+topk
 toolset
 toolsets
 torchtitan
@@ -1011,6 +1026,7 @@ USM
 UTCL
 UTIL
 utils
+UX
 vL
 variational
 vdi

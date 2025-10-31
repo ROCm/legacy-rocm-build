@@ -1,8 +1,8 @@
 :orphan:
 
 .. meta::
-    :description: llama.cpp deep learning framework compatibility
-    :keywords: GPU, GGML, llama.cpp compatibility
+    :description: llama.cpp compatibility
+    :keywords: GPU, GGML, llama.cpp, deep learning, framework compatibility
 
 .. version-set:: rocm_version latest
 
@@ -20,33 +20,32 @@ to accelerate inference and reduce memory usage. Originally built as a CPU-first
 llama.cpp is easy to integrate with other programming environments and is widely 
 adopted across diverse platforms, including consumer devices. 
 
-ROCm support for llama.cpp is upstreamed, and you can build the official source code
-with ROCm support:
-
-- ROCm support for llama.cpp is hosted in the official `https://github.com/ROCm/llama.cpp 
-  <https://github.com/ROCm/llama.cpp>`_ repository.
-
-- Due to independent compatibility considerations, this location differs from the 
-  `https://github.com/ggml-org/llama.cpp <https://github.com/ggml-org/llama.cpp>`_ upstream repository.
-
-- To install llama.cpp, use the prebuilt :ref:`Docker image <llama-cpp-docker-compat>`, 
-  which includes ROCm, llama.cpp, and all required dependencies.
-
-  - See the :doc:`ROCm llama.cpp installation guide <rocm-install-on-linux:install/3rd-party/llama-cpp-install>` 
-    to install and get started.
-
-  - See the `Installation guide <https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md#hip>`__ 
-    in the upstream llama.cpp documentation.
-
-.. note::
-
-  llama.cpp is supported on ROCm 7.0.0 and ROCm 6.4.x.
-
-Supported devices
+Support overview
 ================================================================================
 
-**Officially Supported**: AMD Instinct™ MI300X, MI325X, MI210
+- The ROCm-supported version of llama.cpp is maintained in the official `https://github.com/ROCm/llama.cpp 
+  <https://github.com/ROCm/llama.cpp>`__ repository, which differs from the 
+  `https://github.com/ggml-org/llama.cpp <https://github.com/ggml-org/llama.cpp>`__ upstream repository.
 
+- To get started and install llama.cpp on ROCm, use the prebuilt :ref:`Docker images <llama-cpp-docker-compat>`, 
+  which include ROCm, llama.cpp, and all required dependencies.
+
+  - See the :doc:`ROCm llama.cpp installation guide <rocm-install-on-linux:install/3rd-party/llama-cpp-install>` 
+    for installation and setup instructions.
+
+  - You can also consult the upstream `Installation guide <https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md>`__ 
+    for additional context.
+
+Version support
+--------------------------------------------------------------------------------
+
+llama.cpp is supported on `ROCm 7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__ and 
+`ROCm 6.4.x <https://repo.radeon.com/rocm/apt/6.4/>`__.
+
+Supported devices
+--------------------------------------------------------------------------------
+
+**Officially Supported**: AMD Instinct™ MI300X, MI325X, MI210
 
 Use cases and recommendations
 ================================================================================
@@ -84,9 +83,9 @@ Docker image compatibility
 
    <i class="fab fa-docker"></i>
 
-AMD validates and publishes `ROCm llama.cpp Docker images <https://hub.docker.com/r/rocm/llama.cpp/tags>`__
+AMD validates and publishes `llama.cpp images <https://hub.docker.com/r/rocm/llama.cpp/tags>`__
 with ROCm backends on Docker Hub. The following Docker image tags and associated
-inventories represent the available llama.cpp versions from the official Docker Hub.
+inventories represent the latest available llama.cpp versions from the official Docker Hub.
 Click |docker-icon| to view the image on Docker Hub.
 
 .. important::

@@ -164,7 +164,7 @@ compatibility and system requirements.
 .. [#ol-710-mi300x] **For ROCm 7.1.x** - Oracle Linux 10 and 9 are supported only on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs. Oracle Linux 8 is supported only on AMD Instinct MI300X GPU.
 .. [#ol-700-mi300x] **For ROCm 7.0.x** - Oracle Linux 10 and 9 are supported only on AMD Instinct MI355X, MI350X, and MI300X GPUs. Oracle Linux 8 is supported only on AMD Instinct MI300X GPU.
 .. [#ol-mi300x] **Prior ROCm 7.0.0** - Oracle Linux is supported only on AMD Instinct MI300X GPUs.
-.. [#db-710-mi300x] **For ROCm 7.1.x** - Debian 13 is supported only on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs.
+.. [#db-710-mi300x] **For ROCm 7.1.x** - Debian 13 is supported only on AMD Instinct MI325X and MI300X GPUs.
 .. [#db12-710] **For ROCm 7.1.x** - Debian 12 is supported only on AMD Instinct MI325X, MI300X, MI300A, MI250X, MI250, and MI210 GPUs.
 .. [#db-mi300x] **For ROCm 7.0.2** - Debian 13 is supported only on AMD Instinct MI300X GPUs.
 .. [#az-mi300x] Starting ROCm 6.4.0, Azure Linux 3.0 is supported only on AMD Instinct MI300X and AMD Radeon PRO V710 GPUs.
@@ -270,7 +270,7 @@ Expand for full historical view of:
    .. [#ol-710-mi300x-past-60] **For ROCm 7.1.x** - Oracle Linux 10 and 9 are supported only on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs. Oracle Linux 8 is supported only on AMD Instinct MI300X GPU.
    .. [#ol-700-mi300x-past-60] **For ROCm 7.0.x** - Oracle Linux 10 and 9 are supported only on AMD Instinct MI355X, MI350X, and MI300X GPUs. Oracle Linux 8 is supported only on AMD Instinct MI300X GPU.
    .. [#mi300x-past-60] **Prior ROCm 7.0.0** - Oracle Linux is supported only on AMD Instinct MI300X GPUs.
-   .. [#db-710-mi300x-past-60] **For ROCm 7.1.x** - Debian 13 is supported only on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs.
+   .. [#db-710-mi300x-past-60] **For ROCm 7.1.x** - Debian 13 is supported only on AMD Instinct MI325X and MI300X GPUs.
    .. [#db12-710-past-60] **For ROCm 7.1.x** - Debian 12 is supported only on AMD Instinct MI325X, MI300X, MI300A, MI250X, MI250, and MI210 GPUs.
    .. [#db-mi300x-past-60] **For ROCm 7.0.2** - Debian 13 is supported only on AMD Instinct MI300X GPUs.
    .. [#single-node-past-60] **Prior to ROCm 7.0.0** - Debian 12 is supported only on AMD Instinct MI300X GPUs for single-node functionality.

@@ -79,27 +79,27 @@ parameters:
   type: object
   default:
     buildJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
     testJobs:
-      - gfx942:
-        target: gfx942
-      - gfx90a:
-        target: gfx90a
+      - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx90a }
 
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
-  - job: rocprofiler_sdk_build_${{ job.target }}
+  - job: rocprofiler_sdk_build_${{ job.os }}_${{ job.target }}
     ${{ if parameters.buildDependsOn }}:
       dependsOn:
         - ${{ each build in parameters.buildDependsOn }}:
-          - ${{ build }}_${{ job.target }}
+          - ${{ build }}_${{ job.os}}_${{ job.target }}
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
     pool: ${{ variables.MEDIUM_BUILD_POOL }}
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
     workspace:
       clean: all
     steps:
@@ -107,6 +107,7 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
         registerROCmPackages: true
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
@@ -118,6 +119,7 @@ jobs:
       parameters:
         checkoutRef: ${{ parameters.checkoutRef }}
         dependencyList: ${{ parameters.rocmDependencies }}
+        os: ${{ job.os }}
         gpuTarget: ${{ job.target }}
         aggregatePipeline: ${{ parameters.aggregatePipeline }}
         ${{ if parameters.triggerDownstreamJobs }}:
@@ -132,6 +134,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: ${{ parameters.componentName }}
+        os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
           -DROCPROFILER_BUILD_TESTS=ON
@@ -143,6 +146,7 @@ jobs:
       parameters:
         componentName: ${{ parameters.componentName }}
         sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+        os: ${{ job.os }}
         gpuTarget: ${{ job.target }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
@@ -158,8 +162,8 @@ jobs:
 
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
-    - job: rocprofiler_sdk_test_${{ job.target }}
-      dependsOn: rocprofiler_sdk_build_${{ job.target }}
+    - job: rocprofiler_sdk_test_${{ job.os }}_${{ job.target }}
+      dependsOn: rocprofiler_sdk_build_${{ job.os }}_${{ job.target }}
       condition:
         and(succeeded(),
           eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
@@ -177,6 +181,7 @@ jobs:
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
           pipModules: ${{ parameters.pipModules }}
+          packageManager: ${{ job.packageManager }}
           registerROCmPackages: true
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
@@ -188,6 +193,7 @@ jobs:
         parameters:
           checkoutRef: ${{ parameters.checkoutRef }}
           dependencyList: ${{ parameters.rocmDependencies }}
+          os: ${{ job.os }}
           gpuTarget: ${{ job.target }}
           ${{ if parameters.triggerDownstreamJobs }}:
               downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
@@ -202,6 +208,7 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
         parameters:
           componentName: ${{ parameters.componentName }}
+          os: ${{ job.os }}
           extraBuildFlags: >-
             -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm
             -DROCPROFILER_BUILD_TESTS=ON
@@ -213,7 +220,8 @@ jobs:
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
-          testDir: $(Agent.BuildDirectory)/s/build
+          os: ${{ job.os }}
+          testDir: $(Agent.BuildDirectory)/build
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}

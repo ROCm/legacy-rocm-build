@@ -2,7 +2,7 @@
 
 .. meta::
     :description: PyTorch compatibility
-    :keywords: GPU, PyTorch compatibility
+    :keywords: GPU, PyTorch, deep learning, framework compatibility
 
 .. version-set:: rocm_version latest
 
@@ -15,40 +15,42 @@ deep learning. PyTorch on ROCm provides mixed-precision and large-scale training
 using `MIOpen <https://github.com/ROCm/MIOpen>`__ and
 `RCCL <https://github.com/ROCm/rccl>`__ libraries.
 
-ROCm support for PyTorch is upstreamed into the official PyTorch repository. Due
-to independent compatibility considerations, this results in two distinct
-release cycles for PyTorch on ROCm:
+PyTorch provides two high-level features:
 
-- ROCm PyTorch release:
+- Tensor computation (like NumPy) with strong GPU acceleration
 
-  - Provides the latest version of ROCm but might not necessarily support the
-    latest stable PyTorch version.
+- Deep neural networks built on a tape-based autograd system (rapid computation 
+  of multiple partial derivatives or gradients)
 
-  - Offers :ref:`Docker images <pytorch-docker-compat>` with ROCm and PyTorch
-    preinstalled.
+Support overview
+================================================================================
 
-  - ROCm PyTorch repository: `<https://github.com/ROCm/pytorch>`__
+ROCm support for PyTorch is upstreamed into the official PyTorch repository. 
+ROCm development is aligned with the stable release of PyTorch, while upstream 
+PyTorch testing uses the stable release of ROCm to maintain consistency:
 
-  - See the :doc:`ROCm PyTorch installation guide <rocm-install-on-linux:install/3rd-party/pytorch-install>`
-    to get started.
+- The ROCm-supported version of PyTorch is maintained in the official `https://github.com/ROCm/pytorch 
+  <https://github.com/ROCm/pytorch>`__ repository, which differs from the 
+  `https://github.com/pytorch/pytorch <https://github.com/pytorch/pytorch>`__ upstream repository.
 
-- Official PyTorch release:
+- To get started and install PyTorch on ROCm, use the prebuilt :ref:`Docker images <pytorch-docker-compat>`, 
+  which include ROCm, PyTorch, and all required dependencies.
 
-  - Provides the latest stable version of PyTorch  but might not necessarily
-    support the latest ROCm version.
+  - See the :doc:`ROCm PyTorch installation guide <rocm-install-on-linux:install/3rd-party/pytorch-install>` 
+    for installation and setup instructions.
 
-  - Official PyTorch repository: `<https://github.com/pytorch/pytorch>`__
-
-  - See the `Nightly and latest stable version installation guide <https://pytorch.org/get-started/locally/>`__
-    or `Previous versions <https://pytorch.org/get-started/previous-versions/>`__
-    to get started.
+  - You can also consult the upstream `Installation guide <https://pytorch.org/get-started/locally/>`__ or 
+    `Previous versions <https://pytorch.org/get-started/previous-versions/>`__ for additional context.
 
 PyTorch includes tooling that generates HIP source code from the CUDA backend.
 This approach allows PyTorch to support ROCm without requiring manual code
 modifications. For more information, see :doc:`HIPIFY <hipify:index>`.
 
-ROCm development is aligned with the stable release of PyTorch, while upstream
-PyTorch testing uses the stable release of ROCm to maintain consistency.
+Version support
+--------------------------------------------------------------------------------
+
+AMD releases official `ROCm PyTorch Docker images <https://hub.docker.com/r/rocm/pytorch/tags>`_
+quarterly alongside new ROCm releases. These images undergo full AMD testing.
 
 .. _pytorch-recommendations:
 
@@ -78,7 +80,7 @@ Use cases and recommendations
   GPU.
 
 * The :doc:`Inception with PyTorch documentation </conceptual/ai-pytorch-inception>`
-  describes how PyTorch integrates with ROCm for AI workloads It outlines the
+  describes how PyTorch integrates with ROCm for AI workloads. It outlines the
   use of PyTorch on the ROCm platform and focuses on efficiently leveraging AMD
   GPU hardware for training and inference tasks in AI applications.
 
@@ -89,9 +91,8 @@ For more use cases and recommendations, see `ROCm PyTorch blog posts <https://ro
 Docker image compatibility
 ================================================================================
 
-AMD provides preconfigured Docker images with PyTorch and the ROCm backend.
-These images are published on `Docker Hub <https://hub.docker.com/r/rocm/pytorch>`__ and are the
-recommended way to get started with deep learning with PyTorch on ROCm.
+AMD validates and publishes `PyTorch images <https://hub.docker.com/r/rocm/pytorch/tags>`__
+with ROCm backends on Docker Hub.
 
 To find the right image tag, see the :ref:`PyTorch on ROCm installation
 documentation <rocm-install-on-linux:pytorch-docker-support>` for a list of
