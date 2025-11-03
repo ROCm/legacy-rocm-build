@@ -46,6 +46,8 @@ The following is summary of notable changes since the :doc:`previous ROCm/vLLM D
 
 * Fixed ``rms_norm`` segfault issue with Qwen 3 235B.
 
+* Known performance degradation on Llama 4 models due to `an upstream vLLM issue <https://github.com/vllm-project/vllm/issues/26320>`_.
+
 .. _vllm-benchmark-supported-models-1024:
 
 Supported models
@@ -402,6 +404,10 @@ Advanced usage
 
 For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
 see the developer's guide at `<https://github.com/ROCm/vllm/blob/documentation/docs/dev-docker/README.md>`__.
+
+.. note::
+
+   If you’re using this Docker image on other AMD GPUs such as AMD Instinct MI200 Series or Radeon, add ``export VLLM_ROCM_USE_AITER=0`` to your command, since AITER is only supported on gfx942 and gfx950 architectures.
 
 Reproducing the Docker image
 ----------------------------
