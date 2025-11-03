@@ -14,18 +14,32 @@ parameters:
   type: object
   default:
     - cmake
+    - libavcodec-dev
+    - libavformat-dev
+    - libavutil-dev
     - libdw-dev
     - libglfw3-dev
     - libmsgpack-dev
     - libopencv-dev
+    - libprotoc-dev
     - libtbb-dev
     - libtiff-dev
     - libva-amdgpu-dev
-    - libavcodec-dev
-    - libavformat-dev
-    - libavutil-dev
+    - libva2-amdgpu
+    - mesa-amdgpu-va-drivers
     - ninja-build
+    - protobuf-compiler
     - python3-pip
+- name: pipModules
+  type: object
+  default:
+    - future==1.0.0
+    - google==3.0.0
+    - protobuf==3.12.4
+    - pytz==2022.1
+    - nnef==1.0.7
+    - numpy==1.23
+    - onnx==1.12.0
 - name: rocmDependencies
   type: object
   default:
@@ -33,6 +47,7 @@ parameters:
     - aomp
     - aomp-extras
     - clr
+    - half
     - composable_kernel
     - hipBLAS
     - hipBLAS-common
@@ -47,6 +62,7 @@ parameters:
     - llvm-project
     - MIOpen
     - MIVisionX
+    - rccl
     - rocALUTION
     - rocBLAS
     - rocDecode
@@ -69,6 +85,7 @@ parameters:
     - aomp
     - aomp-extras
     - clr
+    - half
     - composable_kernel
     - hipBLAS
     - hipBLAS-common
@@ -83,6 +100,7 @@ parameters:
     - llvm-project
     - MIOpen
     - MIVisionX
+    - rccl
     - rocALUTION
     - rocBLAS
     - rocDecode
