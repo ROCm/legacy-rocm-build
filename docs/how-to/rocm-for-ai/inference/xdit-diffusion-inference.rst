@@ -14,10 +14,9 @@ xDiT diffusion inference
    {% set docker = data.xdit_diffusion_inference.docker %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
 
-   The `amdsiloai/pytorch-xdit Docker <{{ docker.docker_hub_url }}>`_ image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
-   benchmarking diffusion model video and image generation on
-   AMD Instinct™ MI355X, MI350X (gfx950), and MI300X GPUs.
-   The image runs ROCm `{{docker.ROCm}}` based on `TheRock <https://github.com/ROCm/TheRock>`_
+   The `amdsiloai/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
+   benchmarking diffusion model video and image generation on gfx942 and gfx950 series (AMD Instinct™ MI300X, MI308X, MI325X and MI350X, MI355X) GPUs.
+   The image runs ROCm **{{docker.ROCm}}** (preview) based on `TheRock <https://github.com/ROCm/TheRock>`_
    and includes the following components:
 
    .. tab-set::
@@ -36,12 +35,15 @@ xDiT diffusion inference
             {% endfor %}
 
 Follow this guide to pull the required image, spin up a container, download the model, and run a benchmark.
+All preview and development releases are available at `amdsiloai/pytorch-xdit <https://hub.docker.com/r/amdsiloai/pytorch-xdit>`_. 
+Production releases will be published under `rocm/pytorch-xdit` once available.
 
 What's new
 ==========
 
-- (Preview) Flux support
-- TF32 GEMM support for Wan workloads
+- First official xDiT Docker Release for Diffusion Inference.
+- Supports gfx942 and gfx950 series (AMD Instinct™ MI300X, MI308X, MI325X and MI350X, MI355X).
+- Support Wan 2.1, Wan 2.2, HunyanVideo and Flux workloads.
 
 .. _xdit-video-diffusion-supported-models:
 
@@ -122,7 +124,7 @@ Pull the Docker image
 
    {% set docker = data.xdit_diffusion_inference.docker %}
 
-   For this tutorial, it's recommended to use the ``{{ docker.pull_tag }}`` Docker image.
+   For this tutorial, it's recommended to use the latest ``{{ docker.pull_tag }}`` Docker image.
    Pull the image using the following command:
 
    .. code-block:: shell
@@ -133,7 +135,7 @@ Validate and benchmark
 ======================
 
 Once the image has been downloaded you can follow these steps to
-run benchmarks and generate a video.
+run benchmarks and generate outputs.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
