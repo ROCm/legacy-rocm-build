@@ -1266,6 +1266,8 @@ For a historical overview of ROCm component updates, see the {doc}`ROCm consolid
 
 * MI300A/X L2-Fabric 64B read counter may display negative values - The rocprof-compute metric 17.6.1 (Read 64B) can report negative values due to incorrect calculation when TCC_BUBBLE_sum + TCC_EA0_RDREQ_32B_sum exceeds TCC_EA0_RDREQ_sum.
   * A workaround has been implemented using max(0, calculated_value) to prevent negative display values while the root cause is under investigation.
+* The profile mode crashes when `--format-rocprof-output json` is selected.
+    * As a workaround, this option should either not be provided or should be set to `csv` instead of `json`. This issue does not affect the profiling results since both `csv` and `json` output formats lead to the same profiling data.  
 
 ### **ROCm Data Center Tool** (1.2.0)
 
@@ -1385,7 +1387,7 @@ As of ROCm 7.0, the internal error state is cleared on each call to `hipGetLastE
 
 #### Added
 
-* Hybrid computation support for existing routines: STEQR
+* Hybrid computation support for existing STEQR routines.
 
 #### Optimized
 
@@ -1483,6 +1485,18 @@ Applications using the MIGraphX Python API will fail when running on Python 3.13
 ls -l /opt/rocm-7.0.0/lib/libmigraphx_py_*.so
 ```
 The issue will be resolved in a future ROCm release. See [GitHub issue #5500](https://github.com/ROCm/ROCm/issues/5500).
+
+### rocprofv3 fails on RPM-based OS with Python 3.10 (and later)
+
+On RPM-based operating systems (such as RHEL 8), the `rocprofv3` tool fails with Python 3.10 and later due to missing ROCPD bindings. As a workaround, use Python 3.6 if you need to use the `rocprofv3` tool with ROCm 7.1.0. This issue will be fixed in a future ROCm release. See [GitHub issue #5606](https://github.com/ROCm/ROCm/issues/5606).
+
+### ROCgdb might fail on SR-IOV guest VMs
+
+ROCgdb might fail when running the `step-schedlock-spurious-waves.exp` test case on SR-IOV guest virtual machines (VMs). As a workaround, avoid running an inferior in ROCgdb if a background process is already heavily utilizing the GPU. The issue is currently under investigation and will be fixed in a future ROCm release. See [GitHub issue #5607](https://github.com/ROCm/ROCm/issues/5607).
+
+### Issue uninstalling ROCm Bandwidth Test using amdgpu-install script
+
+Due to a missing `rocm-core` dependency from the ROCm Bandwidth Test, you can't cleanly uninstall ROCm Bandwidth Test using the `amdgpu-install` script. As a workaround, uninstall ROCm Bandwidth Test manually, using the native package managers. For more information, see [Installation via native package manager](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/install-methods/package-manager-index.html). The issue will be fixed in a future ROCm release. See [GitHub issue #5611](https://github.com/ROCm/ROCm/issues/5611).
 
 ## ROCm resolved issues
 

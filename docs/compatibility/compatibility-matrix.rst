@@ -66,8 +66,8 @@ compatibility and system requirements.
       `UCX <https://github.com/ROCm/ucx>`_,>=1.17.0,>=1.17.0,>=1.15.0
       ,,,
       THIRD PARTY ALGORITHM,.. _thirdpartyalgorithm-support-compatibility-matrix:,,
-      Thrust,2.6.0,2.6.0,2.5.0
-      CUB,2.6.0,2.6.0,2.5.0
+      Thrust,2.8.5,2.6.0,2.5.0
+      CUB,2.8.5,2.6.0,2.5.0
       ,,,
       DRIVER & USER SPACE [#kfd_support]_,.. _kfd-userspace-support-compatibility-matrix:,,
       :doc:`AMD GPU Driver <rocm-install-on-linux:reference/user-kernel-space-compat-matrix>`,"30.20.0, 30.10.2, |br| 30.10.1 [#driver_patch]_, 30.10, 6.4.x","30.10.2, 30.10.1 [#driver_patch]_, |br| 30.10, 6.4.x, 6.3.x","6.4.x, 6.3.x, 6.2.x, 6.1.x"
@@ -113,7 +113,7 @@ compatibility and system requirements.
       :doc:`rocThrust <rocthrust:index>`,4.1.0,4.0.0,3.3.0
       ,,,
       SUPPORT LIBS,,,
-      `hipother <https://github.com/ROCm/hipother>`_,7.1.25414,7.0.51831,6.4.43482
+      `hipother <https://github.com/ROCm/hipother>`_,7.1.25424,7.0.51831,6.4.43482
       `rocm-core <https://github.com/ROCm/rocm-core>`_,7.1.0,7.0.2,6.4.0
       `ROCT-Thunk-Interface <https://github.com/ROCm/ROCT-Thunk-Interface>`_,N/A [#ROCT-rocr]_,N/A [#ROCT-rocr]_,N/A [#ROCT-rocr]_
       ,,,
@@ -143,13 +143,13 @@ compatibility and system requirements.
       COMPILERS,.. _compilers-support-compatibility-matrix:,,
       `clang-ocl <https://github.com/ROCm/clang-ocl>`_,N/A,N/A,N/A
       :doc:`hipCC <hipcc:index>`,1.1.1,1.1.1,1.1.1
-      `Flang <https://github.com/ROCm/flang>`_,20.0.025413,20.0.0.25385,19.0.0.25133
-      :doc:`llvm-project <llvm-project:index>`,20.0.025413,20.0.0.25385,19.0.0.25133
-      `OpenMP <https://github.com/ROCm/llvm-project/tree/amd-staging/openmp>`_,20.0.025413,20.0.0.25385,19.0.0.25133
+      `Flang <https://github.com/ROCm/flang>`_,20.0.025425,20.0.0.25385,19.0.0.25133
+      :doc:`llvm-project <llvm-project:index>`,20.0.025425,20.0.0.25385,19.0.0.25133
+      `OpenMP <https://github.com/ROCm/llvm-project/tree/amd-staging/openmp>`_,20.0.025425,20.0.0.25385,19.0.0.25133
       ,,,
       RUNTIMES,.. _runtime-support-compatibility-matrix:,,
-      :doc:`AMD CLR <hip:understand/amd_clr>`,7.1.25414,7.0.51831,6.4.43482
-      :doc:`HIP <hip:index>`,7.1.25414,7.0.51831,6.4.43482
+      :doc:`AMD CLR <hip:understand/amd_clr>`,7.1.25424,7.0.51831,6.4.43482
+      :doc:`HIP <hip:index>`,7.1.25424,7.0.51831,6.4.43482
       `OpenCL Runtime <https://github.com/ROCm/clr/tree/develop/opencl>`_,2.0.0,2.0.0,2.0.0
       :doc:`ROCr Runtime <rocr-runtime:index>`,1.18.0,1.18.0,1.15.0
 

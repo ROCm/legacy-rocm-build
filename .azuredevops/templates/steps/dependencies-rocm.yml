@@ -263,7 +263,7 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     rocWMMA:
-      pipelineId: 109
+      pipelineId: 370
       developBranch: develop
       hasGpuTarget: true
     rpp:
