@@ -9,6 +9,7 @@ parameters:
   default:
     boost: 250
     catch2: 343
+    cli11: 367
     fmtlib: 341
     grpc: 72
     gtest: 73
@@ -16,6 +17,7 @@ parameters:
     lapack: 69
     libdivide: 342
     spdlog: 340
+    yaml-cpp: 368
 
 steps:
 - ${{ each dependency in parameters.dependencyList }}:

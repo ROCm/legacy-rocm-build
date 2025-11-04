@@ -1,0 +1,285 @@
+parameters:
+- name: componentName
+  type: string
+  default: rocRoller
+- name: checkoutRepo
+  type: string
+  default: 'self'
+- name: checkoutRef
+  type: string
+  default: ''
+# monorepo related parameters
+- name: sparseCheckoutDir
+  type: string
+  default: ''
+- name: triggerDownstreamJobs
+  type: boolean
+  default: false
+- name: downstreamAggregateNames
+  type: string
+  default: ''
+- name: buildDependsOn
+  type: object
+  default: null
+- name: unifiedBuild
+  type: boolean
+  default: false
+# set to true if doing full build of ROCm stack
+# and dependencies are pulled from same pipeline
+- name: aggregatePipeline
+  type: boolean
+  default: false
+- name: aptPackages
+  type: object
+  default:
+    - ccache
+    - gfortran
+    - git
+    - libboost-program-options-dev
+    - libboost-filesystem-dev
+    - liblapack-dev
+    - libmsgpack-dev
+    - libopenblas-dev
+    - libyaml-cpp-dev
+    - ninja-build
+- name: pipModules
+  type: object
+  default:
+    - black
+    - flake8
+    - msgpack
+    - pandas
+    - pytest
+    - pytest-cmake
+    - pytest-cov
+    - pytest-mock
+    - scipy
+    - pyyaml
+    - joblib
+    - --upgrade
+- name: rocmDependencies
+  type: object
+  default:
+    - aomp
+    - clr
+    - llvm-project
+    - rocm-cmake
+    - rocminfo
+    - ROCR-Runtime
+    - rocprofiler-register
+- name: rocmTestDependencies
+  type: object
+  default:
+    - aomp
+    - clr
+    - llvm-project
+    - rocminfo
+    - rocm_smi_lib
+    - rocprofiler-register
+    - ROCR-Runtime
+    - roctracer
+
+- name: jobMatrix
+  type: object
+  default:
+    buildJobs:
+      - { pool: rocm-ci_ultra_build_pool, os: ubuntu2204, packageManager: apt, target: gfx942 }
+      - { pool: rocm-ci_medium_build_pool, os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - { pool: rocm-ci_ultra_build_pool, os: almalinux8, packageManager: dnf, target: gfx942 }
+      - { pool: rocm-ci_medium_build_pool, os: almalinux8, packageManager: dnf, target: gfx90a }
+    #testJobs:
+    #  - { os: ubuntu2204, packageManager: apt, target: gfx942 }
+    #  - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+#- name: downstreamComponentMatrix
+#  type: object
+#  default:
+#    - hipBLASLt:
+#      name: hipBLASLt
+#      sparseCheckoutDir: projects/hipblaslt
+#      skipUnifiedBuild: 'false'
+#      buildDependsOn:
+#        - rocRoller_build
+
+jobs:
+- ${{ each job in parameters.jobMatrix.buildJobs }}:
+  - job: rocroller_build_${{ job.os }}_${{ job.target }}
+    timeoutInMinutes: 120
+    ${{ if parameters.buildDependsOn }}:
+      dependsOn:
+        - ${{ each build in parameters.buildDependsOn }}:
+          - ${{ build }}_${{ job.os }}
+    variables:
+    - group: common
+    - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
+    pool:
+      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    ${{ if eq(job.os, 'almalinux8') }}:
+      container:
+        image: rocmexternalcicd.azurecr.io/manylinux228:latest
+        endpoint: ContainerService3
+    workspace:
+      clean: all
+    steps:
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+      parameters:
+        aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
+        packageManager: ${{ job.packageManager }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
+      parameters:
+        checkoutRepo: ${{ parameters.checkoutRepo }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-vendor.yml
+      parameters:
+        dependencyList:
+          - catch2
+          - cli11
+          - fmtlib
+          - gtest
+          - libdivide
+          - spdlog
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+      parameters:
+        checkoutRef: ${{ parameters.checkoutRef }}
+        dependencyList: ${{ parameters.rocmDependencies }}
+        os: ${{ job.os }}
+        aggregatePipeline: ${{ parameters.aggregatePipeline }}
+        ${{ if parameters.triggerDownstreamJobs }}:
+            downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+    - task: Bash@3
+      displayName: Build and install LAPACK
+      inputs:
+        targetType: inline
+        script: |
+          mkdir -p $(Agent.BuildDirectory)/temp-deps
+          cd $(Agent.BuildDirectory)/temp-deps
+          git clone https://github.com/Reference-LAPACK/lapack-release -b lapack-3.9.1 lapack
+          cd lapack
+          cmake -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCBLAS=ON -DLAPACKE=OFF -DBUILD_TESTING=OFF -DCMAKE_INSTALL_LIBDIR=lib -DBUILD_SHARED_LIBS=OFF -B build -S .
+          cmake --build build --parallel
+          cd build
+          sudo make install
+    - script: |
+        mkdir -p $(CCACHE_DIR)
+        echo "##vso[task.prependpath]/usr/lib/ccache"
+      displayName: Update path for ccache
+    - task: Cache@2
+      displayName: Ccache caching
+      inputs:
+        key: rocRoller | ${{ job.os }} | ${{ job.target }} | $(DAY_STRING) | $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+        path: $(CCACHE_DIR)
+        restoreKeys: |
+          rocRoller | ${{ job.os }} | ${{ job.target }} | $(DAY_STRING)
+          rocRoller | ${{ job.os }} | ${{ job.target }}
+          rocRoller | ${{ job.os }}
+    - task: Bash@3
+      displayName: Add paths for CMake and Python site-packages binaries
+      inputs:
+        targetType: inline
+        script: |
+          USER_BASE=$(python3 -m site --user-base)
+          echo "##vso[task.prependpath]$USER_BASE/bin"
+          echo "##vso[task.setvariable variable=PytestCmakePath]$USER_BASE/share/Pytest/cmake"
+        displayName: Set cmake configure paths
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
+      parameters:
+        os: ${{ job.os }}
+        multithreadFlag: '-j'
+        cmakeSourceDir: $(Agent.BuildDirectory)/sparse/shared/rocroller
+        cmakeBuildDir: $(Agent.BuildDirectory)/sparse/shared/rocroller/build
+        extraBuildFlags: >-
+          -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor;$(PytestCmakePath)
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+          -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache
+          -DAMDGPU_TARGETS=${{ job.target }}
+          -DGPU_TARGETS=${{ job.target }}
+          -DROCROLLER_ENABLE_FETCH=OFF
+          -GNinja
+          --trace-expand
+          --debug-output
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/manifest.yml
+      parameters:
+        componentName: ${{ parameters.componentName }}
+        sparseCheckoutDir: ${{ parameters.sparseCheckoutDir }}
+        os: ${{ job.os }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
+      parameters:
+        os: ${{ job.os }}
+        componentName: ${{ parameters.componentName }}
+        gpuTarget: ${{ job.target }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-links.yml
+
+# - ${{ if eq(parameters.unifiedBuild, False) }}:
+#   - ${{ each job in parameters.jobMatrix.testJobs }}:
+#     - job: ${{ parameters.componentName }}_test_${{ job.os }}_${{ job.target }}
+#       timeoutInMinutes: 300
+#       dependsOn: ${{ parameters.componentName }}_build_${{ job.os }}_${{ job.target }}
+#       condition:
+#         and(succeeded(),
+#           eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
+#           not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
+#           eq(${{ parameters.aggregatePipeline }}, False)
+#         )
+#       variables:
+#       - group: common
+#       - template: /.azuredevops/variables-global.yml
+#       - name: ROCM_PATH
+#         value: $(Agent.BuildDirectory)/rocm
+#       pool: ${{ job.target }}_test_pool
+#       workspace:
+#         clean: all
+#       steps:
+#       - checkout: none
+#       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
+#         parameters:
+#           aptPackages: ${{ parameters.aptPackages }}
+#           pipModules: ${{ parameters.pipModules }}
+#       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
+#       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/local-artifact-download.yml
+#         parameters:
+#           preTargetFilter: ${{ parameters.componentName }}
+#           os: ${{ job.os }}
+#           gpuTarget: ${{ job.target }}
+#       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-aqlprofile.yml
+#         parameters:
+#           os: ${{ job.os }}
+#       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-rocm.yml
+#         parameters:
+#           checkoutRef: ${{ parameters.checkoutRef }}
+#           dependencyList: ${{ parameters.rocmTestDependencies }}
+#           os: ${{ job.os }}
+#           gpuTarget: ${{ job.target }}
+#           ${{ if parameters.triggerDownstreamJobs }}:
+#             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
+#       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+#       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+#         parameters:
+#           componentName: ${{ parameters.componentName }}
+#           os: ${{ job.os }}
+#           testDir: '$(Agent.BuildDirectory)/rocm/bin'
+#           testExecutable: './rocroller-tests-catch'
+#           testParameters: '--reporter junit::out=./test_output.xml'
+#       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
+#         parameters:
+#           aptPackages: ${{ parameters.aptPackages }}
+#           pipModules: ${{ parameters.pipModules }}
+#           environment: test
+#           gpuTarget: ${{ job.target }}
+
+#- ${{ if parameters.triggerDownstreamJobs }}:
+#  - ${{ each component in parameters.downstreamComponentMatrix }}:
+#    - ${{ if not(and(parameters.unifiedBuild, eq(component.skipUnifiedBuild, 'true'))) }}:
+#      - template: /.azuredevops/components/${{ component.name }}.yml@pipelines_repo
+#        parameters:
+#          checkoutRepo: ${{ parameters.checkoutRepo }}
+#          sparseCheckoutDir: ${{ component.sparseCheckoutDir }}
+#          buildDependsOn: ${{ component.buildDependsOn }}
+#          downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}+${{ parameters.componentName }}
+#          triggerDownstreamJobs: true
+#          unifiedBuild: ${{ parameters.unifiedBuild }}

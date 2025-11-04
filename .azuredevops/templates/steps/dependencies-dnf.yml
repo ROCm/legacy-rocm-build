@@ -26,6 +26,7 @@ parameters:
   type: object
   default:
     bison: bison
+    catch2: catch-devel
     ccache: ccache
     cmake: cmake
     cuda-toolkit-12-9: cuda-compiler-12-9 cuda-toolkit-12-9
@@ -44,6 +45,7 @@ parameters:
     libbabeltrace-dev: libbabeltrace-devel
     libbison-dev: bison-devel
     libboost-program-options-dev: boost-devel
+    libdivide-dev: libdivide-devel
     # note: libdrm-amdgpu1 is not available in dnf
     libdrm-dev: libdrm-devel
     libdrm-amdgpu-dev: libdrm-amdgpu-devel
@@ -54,6 +56,7 @@ parameters:
     libfftw3-dev: fftw-devel
     libfmt-dev: fmt-devel
     libgmp-dev: gmp-devel
+    libgtest-dev:  gtest-devel
     liblapack-dev: lapack-devel
     liblzma-dev: xz-devel
     libmpfr-dev: mpfr-devel
@@ -63,12 +66,14 @@ parameters:
     libopenblas-dev: openblas-devel
     libopenmpi-dev: openmpi-devel
     libpci-dev: libpciaccess-devel
+    libspdlog-dev: spdlog-devel
     libssl-dev: openssl-devel
     # note: libstdc++-devel is in the base packages list
     libsystemd-dev: systemd-devel
     libtool: libtool
     # note: libudev-dev is part of systemd-devel
     libva-amdgpu-dev: libva-amdgpu-devel
+    libyaml-cpp-dev: yaml-cpp-devel
     mesa-amdgpu-va-drivers: mesa-amdgpu-va-drivers
     mesa-common-dev: mesa-libGL-devel
     ncurses-dev: ncurses-devel
