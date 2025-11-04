@@ -43,7 +43,7 @@ What's new
 
 - First official xDiT Docker Release for Diffusion Inference.
 - Supports gfx942 and gfx950 series (AMD Instinct™ MI300X, MI308X, MI325X and MI350X, MI355X).
-- Support Wan 2.1, Wan 2.2, HunyanVideo and Flux workloads.
+- Support Wan 2.1, Wan 2.2, HunyuanVideo and Flux workloads.
 
 .. _xdit-video-diffusion-supported-models:
 

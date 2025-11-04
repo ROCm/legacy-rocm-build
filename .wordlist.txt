@@ -221,6 +221,7 @@ Hyperparameters
 HybridEngine
 Huggingface
 Hunyuan
+HunyuanVideo
 IB
 ICD
 ICT
