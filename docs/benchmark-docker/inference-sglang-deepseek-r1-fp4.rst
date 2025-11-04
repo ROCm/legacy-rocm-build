@@ -58,7 +58,7 @@ Run the inference benchmark
           --device=/dev/kfd \
           --device=/dev/dri \
           -e SGLANG_USE_AITER=1 \
-          rocm/7.0-preview:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm7.0-mi35x-20250915
+          rocm/7.0:rocm7.0_ubuntu_22.04_sgl-dev-v0.5.2-rocm7.0-mi35x-20250915
 
 2. Start the server.
 
