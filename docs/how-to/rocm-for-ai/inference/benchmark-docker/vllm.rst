@@ -407,7 +407,7 @@ see the developer's guide at `<https://github.com/ROCm/vllm/blob/documentation/d
 
 .. note::
 
-   If you’re using this Docker image on other AMD GPUs such as AMD Instinct MI200 Series or Radeon, add ``export VLLM_ROCM_USE_AITER=0`` to your command, since AITER is only supported on gfx942 and gfx950 architectures.
+   If you’re using this Docker image on other AMD GPUs such as the AMD Instinct MI200 Series or Radeon, add ``export VLLM_ROCM_USE_AITER=0`` to your command, since AITER is only supported on gfx942 and gfx950 architectures.
 
 Reproducing the Docker image
 ----------------------------
