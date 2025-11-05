@@ -131,6 +131,11 @@ jobs:
         script: |
           USER_BASE=$(python3 -m site --user-base)
           echo "##vso[task.prependpath]$USER_BASE/bin"
+    - task: Bash@3
+      displayName: libelf hack
+      inputs:
+        targetType: inline
+        script: cp $(Agent.BuildDirectory)/s/cmake/Modules/Findlibelf.cmake $(Agent.BuildDirectory)/s/cmake/Modules/FindLibElf.cmake
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         componentName: ${{ parameters.componentName }}
