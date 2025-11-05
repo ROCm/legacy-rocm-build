@@ -17,4 +17,4 @@ on:
 jobs:
   call-workflow-passing-data:
     name: Documentation
-    uses: ROCm/rocm-docs-core/.github/workflows/linting.yml@develop
+    uses: ROCm/rocm-docs-core/.github/workflows/linting.yml@makrdown_linting_version_check
