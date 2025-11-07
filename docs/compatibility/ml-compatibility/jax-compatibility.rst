@@ -47,8 +47,10 @@ with ROCm support:
    `Community ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax-community>`_
    follow upstream JAX releases and use the latest available ROCm version.
 
-JAX Plugin-PJRT with JAX/JAXLIB Compatibility
+JAX Plugin-PJRT with JAX/JAXLIB compatibility
 ================================================================================
+
+Portable JIT Runtime (PJRT) is an open, stable interface for device runtime and compiler. The table below shows the compatibility between the JAX Plugin–PJRT (column) and JAX/JAXLIB (row).
 +------------------------------+-------+-------+
 | JAX Plugin-PJRT / JAX-JAXLIB | 0.6.0 | 0.6.2 |
 +==============================+=======+=======+
