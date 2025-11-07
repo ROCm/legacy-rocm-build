@@ -115,7 +115,7 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     hipTensor:
-      pipelineId: 105
+      pipelineId: 374
       developBranch: develop
       hasGpuTarget: true
     llvm-project:
