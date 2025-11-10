@@ -84,6 +84,8 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/dgl-install.html"><i class="fas fa-link fa-lg"></i></a>
       - 
         - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/dgl-install.html#use-a-prebuilt-docker-image-with-dgl-pre-installed>`__
+        - `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/dgl-install.html#use-a-wheels-package>`__
+
       - .. raw:: html
 
           <a href="https://github.com/ROCm/dgl"><i class="fab fa-github fa-lg"></i></a> 
