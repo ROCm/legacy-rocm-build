@@ -183,7 +183,7 @@ compatibility and system requirements.
 .. [#mi100-710-os] **For ROCM 7.1.x** - AMD Instinct MI100 GPUs (gfx908) only supports Ubuntu 24.04.3, Ubuntu 22.04.5, RHEL 10.0, RHEL 9.6, RHEL 9.4, RHEL 8.10, and SLES 15 SP7.
 .. [#mi100-os] **For ROCm 7.0.x** - AMD Instinct MI100 GPUs (gfx908) only supports Ubuntu 24.04.3, Ubuntu 22.04.5, RHEL 10.0, RHEL 9.6, RHEL 9.4, and RHEL 8.10.
 .. [#tf-mi350] TensorFlow 2.17.1 is not supported on AMD Instinct MI350 Series GPUs. Use TensorFlow 2.19.1 or 2.18.1 with MI350 Series GPUs instead.
-.. [#dgl_compat] DGL is supported only on ROCm 6.4.0.
+.. [#dgl_compat] DGL is supported only on ROCm 7.0.0, ROCm 6.4.3 and ROCm 6.4.0.
 .. [#llama-cpp_compat] llama.cpp is supported only on ROCm 7.0.0 and ROCm 6.4.x.
 .. [#mi325x_KVM] For AMD Instinct MI325X KVM SR-IOV users, do not use AMD GPU Driver (amdgpu) 30.20.0.
 .. [#driver_patch] AMD GPU Driver (amdgpu) 30.10.1 is a quality release that resolves an issue identified in the 30.10 release. There are no other significant changes or feature additions in ROCm 7.0.1 from ROCm 7.0.0. AMD GPU Driver (amdgpu) 30.10.1 is compatible with ROCm 7.0.1 and ROCm 7.0.0.
@@ -304,7 +304,7 @@ Expand for full historical view of:
    .. [#tf-mi350-past-60] TensorFlow 2.17.1 is not supported on AMD Instinct MI350 Series GPUs. Use TensorFlow 2.19.1 or 2.18.1 with MI350 Series GPUs instead.
    .. [#verl_compat-past-60] verl is supported only on ROCm 6.2.0.
    .. [#stanford-megatron-lm_compat-past-60] Stanford Megatron-LM is supported only on ROCm 6.3.0.
-   .. [#dgl_compat-past-60] DGL is supported only on ROCm 6.4.0.
+   .. [#dgl_compat-past-60] DGL is supported only on ROCm 7.0.0, ROCm 6.4.3 and ROCm 6.4.0.
    .. [#megablocks_compat-past-60] Megablocks is supported only on ROCm 6.3.0.
    .. [#taichi_compat-past-60] Taichi is supported only on ROCm 6.3.2.
    .. [#ray_compat-past-60] Ray is supported only on ROCm 6.4.1.
