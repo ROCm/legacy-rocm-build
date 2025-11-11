@@ -695,7 +695,9 @@ There are two strategies:
 vLLM engine arguments
 =====================
 
-Selected arguments that often help on ROCm. See `engine args docs <https://docs.vllm.ai/en/latest/serving/engine_args.html>`_ for the full list.
+Selected arguments that often help on ROCm. See `Engine Arguments
+<https://docs.vllm.ai/en/stable/configuration/engine_args.html>`__ in the vLLM
+documentation for the full list.
 
 Configure --max-num-seqs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
