@@ -67,7 +67,7 @@ Quick start examples:
    export VLLM_ROCM_USE_AITER=1
    vllm serve MODEL_NAME
 
-   # Enable only AITER Triton Prefill-Decode (split) attention
+   # Enable AITER Fused MoE and enable Triton Prefill-Decode (split) attention
    export VLLM_ROCM_USE_AITER=1
    export VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1
    export VLLM_ROCM_USE_AITER_MHA=0
@@ -244,13 +244,16 @@ Most users won't need this, but you can override the defaults:
    * - AITER MHA (standard models)
      - ``VLLM_ROCM_USE_AITER=1`` (auto-selects for non-MLA models)
 
-   * - AITER Triton Prefill-Decode (split)
+   * - vLLM Triton Unified (default)
+     - ``VLLM_ROCM_USE_AITER=0`` (or unset)
+
+   * - Triton Prefill-Decode (split) without AITER
+     - | ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``
+
+   * - Triton Prefill-Decode (split) along with AITER Fused-MoE
      - | ``VLLM_ROCM_USE_AITER=1``
        | ``VLLM_ROCM_USE_AITER_MHA=0``
        | ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``
-
-   * - vLLM Triton Unified (default)
-     - ``VLLM_ROCM_USE_AITER=0`` (or unset)
 
    * - AITER Unified Attention
      - | ``VLLM_ROCM_USE_AITER=1``
@@ -269,11 +272,11 @@ Most users won't need this, but you can override the defaults:
        --block-size 1 \
        --tensor-parallel-size 8
 
-   # Advanced: Use Prefill-Decode split (for short input cases)
+   # Advanced: Use Prefill-Decode split (for short input cases) with AITER Fused-MoE
    VLLM_ROCM_USE_AITER=1 \
    VLLM_ROCM_USE_AITER_MHA=0 \
    VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1 \
-   vllm serve meta-llama/Llama-3.3-70B-Instruct
+   vllm serve meta-llama/Llama-4-Scout-17B-16E
 
 **Which backend should I choose?**
 
@@ -352,14 +355,14 @@ vLLM V1 on ROCm provides these attention implementations:
 
 3. **AITER Triton Prefill–Decode Attention** (hybrid, Instinct MI300X-optimized)
 
-   * Enable with ``VLLM_ROCM_USE_AITER=1``, ``VLLM_ROCM_USE_AITER_MHA=0``, and ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``
+   * Enable with ``VLLM_V1_USE_PREFILL_DECODE_ATTENTION=1``
    * Uses separate kernels for prefill and decode phases:
 
      * **Prefill**: ``context_attention_fwd`` Triton kernel
      * **Primary decode**: ``torch.ops._rocm_C.paged_attention`` (custom ROCm kernel optimized for head sizes 64/128, block sizes 16/32, GQA 1–16, context ≤131k; sliding window not supported)
      * **Fallback decode**: ``kernel_paged_attention_2d`` Triton kernel when shapes don't meet primary decode requirements
 
-   * Usually better compared to unified Triton kernels (both vLLM and AITER variants)
+   * Usually better compared to unified Triton kernels
    * Performance vs AITER MHA varies: AITER MHA is typically faster overall, but Prefill-Decode split may win in short input scenarios
    * The custom paged attention decode kernel is controlled by ``VLLM_ROCM_CUSTOM_PAGED_ATTN`` (default **True**)
 
