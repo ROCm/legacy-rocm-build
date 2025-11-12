@@ -152,6 +152,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DGPU_TARGETS=${{ job.target }}
           -DAMDGPU_TARGETS=${{ job.target }}
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake/hip
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm
           -DHALF_INCLUDE_DIR=$(Agent.BuildDirectory)/rocm/include
@@ -217,6 +218,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DGPU_TARGETS=${{ job.target }}
           -DAMDGPU_TARGETS=${{ job.target }}
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake/hip
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm
           -DHALF_INCLUDE_DIR=$(Agent.BuildDirectory)/rocm/include
