@@ -99,7 +99,6 @@ latex_elements = {
 }
 
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "rocm.docs.amd.com")
-html_context = {}
 
 # configurations for PDF output by Read the Docs
 project = "ROCm Documentation"
