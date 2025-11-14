@@ -109,6 +109,8 @@ jobs:
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
+    - name: ROCM_PATH
+      value: $(Agent.BuildDirectory)/rocm
     pool:
       vmImage: ${{ variables.BASE_BUILD_POOL }}
     workspace:
