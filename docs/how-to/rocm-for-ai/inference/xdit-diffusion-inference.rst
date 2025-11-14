@@ -14,7 +14,7 @@ xDiT diffusion inference
    {% set docker = data.xdit_diffusion_inference.docker %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
 
-   The `amdsiloai/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
+   The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
    benchmarking diffusion model video and image generation on gfx942 and gfx950 series (AMD Instinct™ MI300X, MI308X, MI325X and MI350X, MI355X) GPUs.
    The image runs ROCm **{{docker.ROCm}}** (preview) based on `TheRock <https://github.com/ROCm/TheRock>`_
    and includes the following components:
@@ -35,8 +35,7 @@ xDiT diffusion inference
             {% endfor %}
 
 Follow this guide to pull the required image, spin up a container, download the model, and run a benchmark.
-All preview and development releases are available at `amdsiloai/pytorch-xdit <https://hub.docker.com/r/amdsiloai/pytorch-xdit>`_. 
-Production releases will be published under `rocm/pytorch-xdit` once available.
+For preview and development releases, see `amdsiloai/pytorch-xdit <https://hub.docker.com/r/amdsiloai/pytorch-xdit>`_.
 
 What's new
 ==========

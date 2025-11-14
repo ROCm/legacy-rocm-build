@@ -1,7 +1,7 @@
 xdit_diffusion_inference:
   docker:
-    pull_tag: amdsiloai/pytorch-xdit
-    docker_hub_url: https://hub.docker.com/r/amdsiloai/pytorch-xdit
+    pull_tag: rocm/pytorch-xdit:v25.10
+    docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
     ROCm: 7.9.0
     components:
       TheRock: 7afbe45
