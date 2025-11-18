@@ -216,6 +216,7 @@ Higgs
 href
 Hyperparameters
 Huggingface
+HunyuanVideo
 IB
 ICD
 ICT
@@ -1046,6 +1047,8 @@ writebacks
 wrreq
 wzo
 xargs
+xDiT
+xdit
 xGMI
 xPacked
 xz

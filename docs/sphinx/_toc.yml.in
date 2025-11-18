@@ -20,3 +20,5 @@ subtrees:
     entries:
       - file: install/pytorch-comfyui
         title: Install PyTorch and ComfyUI
+      - file: rocm-for-ai/xdit-diffusion-inference
+        title: xDiT diffusion inference
