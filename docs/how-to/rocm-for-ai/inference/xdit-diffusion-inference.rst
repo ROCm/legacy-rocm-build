@@ -255,82 +255,113 @@ Run inference
 
    .. container:: model-doc {{ model.page_tag }}
 
-      To run the benchmarks for {{ model.model }}, use the following command:
+      .. tab-set::
 
-      .. code-block:: shell
-       {% if model.model == "Hunyuan Video" %}
-         cd /app/Hunyuanvideo
-         mkdir results
+         .. tab-item:: MAD-integrated benchmarking
 
-         torchrun --nproc_per_node=8 run.py \
-             --model tencent/HunyuanVideo \
-             --prompt "In the large cage, two puppies were wagging their tails at each other." \
-             --height 720 --width 1280 --num_frames 129 \
-             --num_inference_steps 50 --warmup_steps 1 --n_repeats 1 \
-             --ulysses_degree 8 \
-             --enable_tiling --enable_slicing \
-             --use_torch_compile \
-             --bench_output results
-       {% endif %}
-       {% if model.model == "Wan2.1" %}
-         cd Wan2.1
-         mkdir results
+            1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
+               directory and install the required packages on the host machine.
 
-         torchrun --nproc_per_node=8 run.py \
-             --task i2v-14B \
-             --size 720*1280 --frame_num 81 \
-             --ckpt_dir "${HF_HOME}/hub/models--Wan-AI--Wan2.1-I2V-14B-720P/snapshots/8823af45fcc58a8aa999a54b04be9abc7d2aac98/" \
-             --image "/app/Wan2.1/examples/i2v_input.JPG" \
-             --ulysses_size 8 --ring_size 1 \
-             --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
-             --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
-             --offload_model 0 \
-             --vae_dtype bfloat16 \
-             --allow_tf32 \
-             --compile
-       {% endif %}
-       {% if model.model == "Wan2.2" %}
-         cd Wan2.2
-         mkdir results
+               .. code-block:: shell
 
-         torchrun --nproc_per_node=8 run.py \
-             --task i2v-A14B \
-             --size 720*1280 --frame_num 81 \
-             --ckpt_dir "${HF_HOME}/hub/models--Wan-AI--Wan2.2-I2V-A14B/snapshots/206a9ee1b7bfaaf8f7e4d81335650533490646a3/" \
-             --image "/app/Wan2.2/examples/i2v_input.JPG" \
-             --ulysses_size 8 --ring_size 1 \
-             --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
-             --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
-             --offload_model 0 \
-             --vae_dtype bfloat16 \
-             --allow_tf32 \
-             --compile
-       {% endif %}
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD
+                  pip install -r requirements.txt
 
-       {% if model.model == "FLUX.1" %}
-         cd Flux
-         mkdir results
+            2. On the host machine, use this command to run the performance benchmark test on
+               the `{{model.model}} <{{ model.url }}>`_ model using one node.
 
-         torchrun --nproc_per_node=8 /app/Flux/run.py \
-            --model black-forest-labs/FLUX.1-dev \
-            --seed 42 \
-            --prompt "A small cat" \
-            --height 1024 \
-            --width 1024 \
-            --num_inference_steps 25 \
-            --max_sequence_length 256 \
-            --warmup_steps 5 \
-            --no_use_resolution_binning \
-            --ulysses_degree 8 \
-            --use_torch_compile \
-            --num_repetitions 1 \
-            --benchmark_output_directory results
+               .. code-block:: shell
 
-       {% endif %}
+                  export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
+                  madengine run \
+                      --tags {{model.mad_tag}} \
+                      --keep-model-dir \
+                      --live-output
+                     
+            MAD launches a Docker container with the name
+            ``container_ci-{{model.mad_tag}}``. The throughput and serving reports of the
+            model are collected in the following paths: ``{{ model.mad_tag }}_throughput.csv``
+            and ``{{ model.mad_tag }}_serving.csv``.
 
-      The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% elif model.model == "FLUX.1" %}results/timing.json{% endif %}
+         .. tab-item:: Standalone benchmarking
 
-      {% if model.model == "FLUX.1" %}You may also use ``run_usp.py`` which implements USP without modifying the default diffusers pipeline. {% endif %}
+            To run the benchmarks for {{ model.model }}, use the following command:
+
+            .. code-block:: shell
+            {% if model.model == "Hunyuan Video" %}
+               cd /app/Hunyuanvideo
+               mkdir results
+
+               torchrun --nproc_per_node=8 run.py \
+                  --model tencent/HunyuanVideo \
+                  --prompt "In the large cage, two puppies were wagging their tails at each other." \
+                  --height 720 --width 1280 --num_frames 129 \
+                  --num_inference_steps 50 --warmup_steps 1 --n_repeats 1 \
+                  --ulysses_degree 8 \
+                  --enable_tiling --enable_slicing \
+                  --use_torch_compile \
+                  --bench_output results
+            {% endif %}
+            {% if model.model == "Wan2.1" %}
+               cd Wan2.1
+               mkdir results
+
+               torchrun --nproc_per_node=8 run.py \
+                  --task i2v-14B \
+                  --size 720*1280 --frame_num 81 \
+                  --ckpt_dir "${HF_HOME}/hub/models--Wan-AI--Wan2.1-I2V-14B-720P/snapshots/8823af45fcc58a8aa999a54b04be9abc7d2aac98/" \
+                  --image "/app/Wan2.1/examples/i2v_input.JPG" \
+                  --ulysses_size 8 --ring_size 1 \
+                  --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
+                  --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
+                  --offload_model 0 \
+                  --vae_dtype bfloat16 \
+                  --allow_tf32 \
+                  --compile
+            {% endif %}
+            {% if model.model == "Wan2.2" %}
+               cd Wan2.2
+               mkdir results
+
+               torchrun --nproc_per_node=8 run.py \
+                  --task i2v-A14B \
+                  --size 720*1280 --frame_num 81 \
+                  --ckpt_dir "${HF_HOME}/hub/models--Wan-AI--Wan2.2-I2V-A14B/snapshots/206a9ee1b7bfaaf8f7e4d81335650533490646a3/" \
+                  --image "/app/Wan2.2/examples/i2v_input.JPG" \
+                  --ulysses_size 8 --ring_size 1 \
+                  --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
+                  --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
+                  --offload_model 0 \
+                  --vae_dtype bfloat16 \
+                  --allow_tf32 \
+                  --compile
+            {% endif %}
+
+            {% if model.model == "FLUX.1" %}
+               cd Flux
+               mkdir results
+
+               torchrun --nproc_per_node=8 /app/Flux/run.py \
+                  --model black-forest-labs/FLUX.1-dev \
+                  --seed 42 \
+                  --prompt "A small cat" \
+                  --height 1024 \
+                  --width 1024 \
+                  --num_inference_steps 25 \
+                  --max_sequence_length 256 \
+                  --warmup_steps 5 \
+                  --no_use_resolution_binning \
+                  --ulysses_degree 8 \
+                  --use_torch_compile \
+                  --num_repetitions 1 \
+                  --benchmark_output_directory results
+
+            {% endif %}
+
+            The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% elif model.model == "FLUX.1" %}results/timing.json{% endif %}
+
+            {% if model.model == "FLUX.1" %}You may also use ``run_usp.py`` which implements USP without modifying the default diffusers pipeline. {% endif %}
 
       {% endfor %}
     {% endfor %}
