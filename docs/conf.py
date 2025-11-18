@@ -115,6 +115,7 @@ all_article_info_author = ""
 # pages with specific settings
 article_pages = [
     {"file": "about/release-notes", "date": GA_DATE},
+    {"file": "rocm-for-ai/xdit-diffusion-inference", "os": ["linux"]},
 ]
 
 external_toc_path = "./sphinx/_toc.yml"
@@ -136,9 +137,9 @@ extensions = [
     "rocm_docs_custom.selector",
     "rocm_docs_custom.table",
     "rocm_docs_custom.icon",
+    "sphinxcontrib.datatemplates",
     # "sphinx_reredirects",
     # "sphinx_sitemap",
-    # "sphinxcontrib.datatemplates",
     # "version-ref",
     # "csv-to-list-table",
 ]
@@ -170,6 +171,9 @@ html_theme_options = {
     }
 }
 html_title = f"AMD ROCm {ROCM_VERSION} preview"
+html_static_path = ["sphinx/static/css", "sphinx/static/js"]
+html_css_files = ["vllm-benchmark.css"]
+html_js_files = ["vllm-benchmark.js"]
 
 numfig = False
 suppress_warnings = ["autosectionlabel.*"]
