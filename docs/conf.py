@@ -8,6 +8,7 @@ import os
 import shutil
 import sys
 from pathlib import Path
+from subprocess import run
 
 gh_release_path = os.path.join("..", "RELEASE.md")
 gh_changelog_path = os.path.join("..", "CHANGELOG.md")
@@ -83,6 +84,9 @@ html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "rocm.docs.amd.com")
 html_context = {"docs_header_version": "7.1.0"}
 if os.environ.get("READTHEDOCS", "") == "True":
     html_context["READTHEDOCS"] = True
+
+# Check if the branch is a docs/ branch
+official_branch = run(["git", "rev-parse", "--abbrev-ref", "HEAD"], capture_output=True, text=True).stdout.find("docs/")
 
 # configurations for PDF output by Read the Docs
 project = "ROCm Documentation"
@@ -202,7 +206,7 @@ external_toc_path = "./sphinx/_toc.yml"
 # Add the _extensions directory to Python's search path
 sys.path.append(str(Path(__file__).parent / 'extension'))
 
-extensions = ["rocm_docs", "sphinx_reredirects", "sphinx_sitemap", "sphinxcontrib.datatemplates", "version-ref", "csv-to-list-table"]
+extensions = ["rocm_docs", "sphinx_reredirects", "sphinx_sitemap", "sphinxcontrib.datatemplates", "remote-content", "version-ref", "csv-to-list-table"]
 
 compatibility_matrix_file = str(Path(__file__).parent / 'compatibility/compatibility-matrix-historical-6.0.csv')
 
@@ -215,6 +219,10 @@ html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "https://rocm-stg.amd
 html_context = {"docs_header_version": "7.1.0"}
 if os.environ.get("READTHEDOCS", "") == "True":
     html_context["READTHEDOCS"] = True
+
+html_context["official_branch"] = official_branch
+html_context["version"] = version
+html_context["release"] = release
 
 html_theme = "rocm_docs_theme"
 html_theme_options = {"flavor": "rocm-docs-home"}

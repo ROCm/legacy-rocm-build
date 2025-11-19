@@ -216,6 +216,8 @@ subtrees:
     title: ROCm tools, compilers, and runtimes
   - file: reference/gpu-arch-specs.rst
   - file: reference/gpu-atomics-operation.rst
+  - file: reference/env-variables.rst
+    title: Environment variables
   - file: reference/precision-support.rst
     title: Data types and precision support
   - file: reference/graph-safe-support.rst

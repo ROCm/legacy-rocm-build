@@ -34,7 +34,7 @@ Runtime
 
 ```{code-block} shell
 :caption: Example to expose the 1. device and a device based on UUID.
-export ROCR_VISIBLE_DEVICES="0,GPU-DEADBEEFDEADBEEF"
+export ROCR_VISIBLE_DEVICES="0,GPU-4b2c1a9f-8d3e-6f7a-b5c9-2e4d8a1f6c3b"
 ```
 
 ### `GPU_DEVICE_ORDINAL`
