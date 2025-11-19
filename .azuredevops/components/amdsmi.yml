@@ -103,7 +103,7 @@ jobs:
       condition:
         and(succeeded(),
           eq(variables['ENABLE_${{ upper(job.target) }}_TESTS'], 'true'),
-          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), ${{ parameters.componentName }})),
+          not(containsValue(split(variables['DISABLED_${{ upper(job.target) }}_TESTS'], ','), '${{ parameters.componentName }}')),
           eq(${{ parameters.aggregatePipeline }}, False)
         )
       variables:
