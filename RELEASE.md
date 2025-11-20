@@ -388,7 +388,7 @@ Expect future releases in this stream to expand the list of components.
 				<p>System utilities, profiling, and debugging</p>
 			</td>
 			<td>
-				<a href="https://github.com/ROCm/rocm-cmake/tree/therock-7.9.0"><p>ROCm CMake</p></a>
+				<a href="https://github.com/ROCm/rocm-cmake/tree/release/therock-7.9"><p>ROCm CMake</p></a>
 			</td>
 			<td>
 				<p>Linux and Windows</p>

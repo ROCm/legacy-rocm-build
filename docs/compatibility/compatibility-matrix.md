@@ -606,7 +606,7 @@ future releases.
                 <p>System utilities, profiling, and debugging</p>
             </td>
             <td>
-                <a href="https://github.com/ROCm/rocm-cmake/tree/therock-7.9.0">
+                <a href="https://github.com/ROCm/rocm-cmake/tree/release/therock-7.9">
                     ROCm CMake
                 </a>
             </td>
