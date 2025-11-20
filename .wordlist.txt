@@ -255,6 +255,7 @@ Intersphinx
 Intra
 Ioffe
 JAX's
+JAXLIB
 Jinja
 JSON
 Jupyter
@@ -390,6 +391,7 @@ perf
 PEQT
 PIL
 PILImage
+PJRT
 POR
 PRNG
 PRs
