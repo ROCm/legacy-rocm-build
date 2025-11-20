@@ -50,7 +50,7 @@ with ROCm support:
 JAX Plugin-PJRT with JAX/JAXLIB compatibility
 ================================================================================
 
-Portable JIT Runtime (PJRT) is an open, stable interface for device runtime and compiler. The table below shows the compatibility between the JAX Plugin–PJRT (column) and JAX/JAXLIB (row).
+Portable JIT Runtime (PJRT) is an open, stable interface for device runtime and compiler. The table below shows the compatibility between the JAX Plugin–PJRT and JAX/JAXLIB.
 
 .. list-table::
     :header-rows: 1
