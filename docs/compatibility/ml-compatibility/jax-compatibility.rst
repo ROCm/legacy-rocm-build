@@ -55,14 +55,12 @@ Portable JIT Runtime (PJRT) is an open, stable interface for device runtime and 
 .. list-table::
     :header-rows: 1
 
-    * - JAX Plugin-PJRT / JAX-JAXLIB
-      - 0.6.0
-      - 0.6.2
+    * - JAX Plugin-PJRT
+      - JAX/JAXLIB
+      - ROCm
     * - 0.6.0
-      - ✅
-      - ✅
-
-✅: Supported 
+      - 0.6.2, 0.6.0
+      - 7.0.2, 7.0.1, 7.0.0 
 
 Use cases and recommendations
 ================================================================================
