@@ -56,7 +56,7 @@ compatibility and system requirements.
       FRAMEWORK SUPPORT,.. _framework-support-compatibility-matrix:,,
       :doc:`PyTorch <../compatibility/ml-compatibility/pytorch-compatibility>`,"2.8, 2.7, 2.6","2.8, 2.7, 2.6","2.6, 2.5, 2.4, 2.3"
       :doc:`TensorFlow <../compatibility/ml-compatibility/tensorflow-compatibility>`,"2.20.0, 2.19.1, 2.18.1","2.19.1, 2.18.1, 2.17.1 [#tf-mi350]_","2.18.1, 2.17.1, 2.16.2"
-      :doc:`JAX <../compatibility/ml-compatibility/jax-compatibility>`,0.6.0,0.6.0,0.4.35
+      :doc:`JAX <../compatibility/ml-compatibility/jax-compatibility>`,0.7.1,0.6.0,0.4.35
       :doc:`DGL <../compatibility/ml-compatibility/dgl-compatibility>` [#dgl_compat]_,N/A,N/A,2.4.0
       :doc:`llama.cpp <../compatibility/ml-compatibility/llama-cpp-compatibility>` [#llama-cpp_compat]_,N/A,N/A,b5997
       `ONNX Runtime <https://onnxruntime.ai/docs/build/eps.html#amd-migraphx>`_,1.22.0,1.22.0,1.20.0
