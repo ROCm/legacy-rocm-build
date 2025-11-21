@@ -3,15 +3,15 @@
                  prebuilt and optimized docker images.
    :keywords: xDiT, diffusion, video, video generation, image, image generation, validate, benchmark
 
-********************
+************************
 xDiT diffusion inference
-********************
+************************
 
 .. _xdit-video-diffusion:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
 
    The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
@@ -55,7 +55,7 @@ vary by model -- select one to get started.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
 
    .. raw:: html
@@ -121,7 +121,7 @@ Pull the Docker image
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
 
    For this tutorial, it's recommended to use the latest ``{{ docker.pull_tag }}`` Docker image.
    Pull the image using the following command:
@@ -156,7 +156,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
 
    {% for model_group in model_groups %}
