@@ -39,10 +39,14 @@ For preview and development releases, see `amdsiloai/pytorch-xdit <https://hub.d
 
 What's new
 ==========
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-- First official xDiT Docker Release for Diffusion Inference.
-- Supports gfx942 and gfx950 series (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X).
-- Support Wan 2.1, Wan 2.2, HunyuanVideo and Flux workloads.
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
+   {% set model_groups = data.xdit_diffusion_inference.model_groups%}
+
+   {% for item in docker.whats_new %}
+   * {{ item }}
+   {% endfor %}
 
 .. _xdit-video-diffusion-supported-models:
 
@@ -56,7 +60,13 @@ vary by model -- select one to get started.
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
    {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
-   {% set model_groups = data.xdit_diffusion_inference.model_groups%}
+   {% set model_groups = data.xdit_diffusion_inference.model_groups %}
+   
+   {# Create a lookup for supported models #}
+   {% set supported_lookup = {} %}
+   {% for supported in docker.supported_models %}
+   {% set _ = supported_lookup.update({supported.group: supported.models}) %}
+   {% endfor %}
 
    .. raw:: html
 
@@ -65,7 +75,9 @@ vary by model -- select one to get started.
               <div class="col-2 me-1 px-2 model-param-head">Model</div>
               <div class="row col-10 pe-0">
         {% for model_group in model_groups %}
+            {% if model_group.group in supported_lookup %}
                   <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+            {% endif %}
         {% endfor %}
               </div>
           </div>
@@ -74,14 +86,19 @@ vary by model -- select one to get started.
               <div class="col-2 me-1 px-2 model-param-head">Variant</div>
               <div class="row col-10 pe-0">
         {% for model_group in model_groups %}
+            {% if model_group.group in supported_lookup %}
+            {% set supported_models = supported_lookup[model_group.group] %}
             {% set models = model_group.models %}
             {% for model in models %}
+                {% if model.model in supported_models %}
                 {% if models|length % 3 == 0 %}
                 <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.page_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
                 {% else %}
                 <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.page_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
                 {% endif %}
+                {% endif %}
             {% endfor %}
+            {% endif %}
         {% endfor %}
               </div>
           </div>
