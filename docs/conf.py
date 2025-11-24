@@ -241,3 +241,6 @@ html_context = {
     "granularity_type" : [('Coarse-grained', 'coarse-grained'), ('Fine-grained', 'fine-grained')],
     "scope_type" : [('Device', 'device'), ('System', 'system')]
 }
+
+# Disable figure and table numbering
+numfig = False
