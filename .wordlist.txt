@@ -137,6 +137,7 @@ ESXi
 EP
 EoS
 etcd
+equalto
 fas
 FBGEMM
 FIFOs
@@ -954,6 +955,7 @@ scalability
 scalable
 scipy
 seealso
+selectattr
 selectedTag
 sendmsg
 seqs
