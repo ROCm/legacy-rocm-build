@@ -262,26 +262,26 @@ The [ROCm examples repository](https://github.com/ROCm/rocm-examples) has been e
 :margin: auto 0 auto auto
 :::{grid}
 :margin: auto 0 auto auto
-* [hipBLASLt](https://rocm.docs.amd.com/projects/hipBLASLt/en/latest/)
-* [hipSPARSE](https://rocm.docs.amd.com/projects/hipSPARSE/en/latest/)
-* [hipSPARSELt](https://rocm.docs.amd.com/projects/hipSPARSELt/en/latest/)
-* [hipTensor](https://rocm.docs.amd.com/projects/hipTensor/en/latest/)
+* [hipBLASLt](https://github.com/ROCm/rocm-examples/tree/amd-staging/Libraries/hipBLASLt)
+* [hipSPARSE](https://github.com/ROCm/rocm-examples/tree/amd-staging/Libraries/hipSPARSE)
+* [hipSPARSELt](https://github.com/ROCm/rocm-examples/tree/amd-staging/Libraries/hipSPARSELt)
+* [hipTensor](https://github.com/ROCm/rocm-examples/tree/amd-staging/Libraries/hipTensor)
 :::
 :::{grid}
 :margin: auto 0 auto auto
-* [rocALUTION](https://rocm.docs.amd.com/projects/rocALUTION/en/latest/)
-* [ROCprofiler-SDK](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/)
-* [rocWMMA](https://rocm.docs.amd.com/projects/rocWMMA/en/latest/)
+* [rocALUTION](https://github.com/ROCm/rocm-examples/tree/amd-staging/Libraries/rocALUTION)
+* [ROCprofiler-SDK](https://github.com/ROCm/rocm-examples/tree/amd-staging/Libraries/rocProfiler-SDK)
+* [rocWMMA](https://github.com/ROCm/rocm-examples/tree/amd-staging/Libraries/rocWMMA)
 :::
 ::::
 
 Usage examples are now available for the following performance analysis tools:
 
-* [ROCm Compute Profiler](https://rocm.docs.amd.com/projects/rocprofiler-compute/en/latest/index.html)
-* [ROCm Systems Profiler](https://rocm.docs.amd.com/projects/rocprofiler-systems/en/latest/index.html)
-* [rocprofv3](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/how-to/using-rocprofv3.html)
+* [ROCm Compute Profiler](https://github.com/ROCm/rocm-examples/tree/amd-staging/Tools/rocprof-compute)
+* [ROCm Systems Profiler](https://github.com/ROCm/rocm-examples/tree/amd-staging/Tools/rocprof-systems)
+* [rocprofv3](https://github.com/ROCm/rocm-examples/tree/amd-staging/Tools/rocprofv3)
 
-The complete source code for the [HIP Graph Tutorial](https://rocm.docs.amd.com/projects/HIP/en/latest/tutorial/graph_api.html) is also available as part of the ROCm examples.
+The complete source code for the [HIP Graph Tutorial](https://github.com/ROCm/rocm-examples/tree/amd-staging/HIP-Doc/Tutorials/graph_api) is also available as part of the ROCm examples.
 
 ### ROCm documentation updates
 
