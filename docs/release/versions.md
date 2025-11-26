@@ -1,62 +1,28 @@
-:orphan:
-
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="ROCm release history">
+  <meta name="description" content="ROCm preview release history">
   <meta name="keywords" content="documentation, release history, ROCm, AMD">
 </head>
 
-# ROCm release history
+# ROCm preview release history
 
 | Version | Release date |
 | ------- | ------------ |
-| [7.2.4](https://rocm.docs.amd.com/en/docs-7.2.4/) | May 29, 2026 |
-| [7.2.3](https://rocm.docs.amd.com/en/docs-7.2.3/) | May 4, 2026 |
-| [7.2.2](https://rocm.docs.amd.com/en/docs-7.2.2/) | April 14, 2026 |
-| [7.2.1](https://rocm.docs.amd.com/en/docs-7.2.1/) | March 25, 2026 |
-| [7.2.0](https://rocm.docs.amd.com/en/docs-7.2.0/) | January 21, 2026 |
-| [7.1.1](https://rocm.docs.amd.com/en/docs-7.1.1/) | November 26, 2025 |
-| [7.1.0](https://rocm.docs.amd.com/en/docs-7.1.0/) | October 30, 2025 |
-| [7.0.2](https://rocm.docs.amd.com/en/docs-7.0.2/) | October 10, 2025 |
-| [7.0.1](https://rocm.docs.amd.com/en/docs-7.0.1/) | September 17, 2025 |
-| [7.0.0](https://rocm.docs.amd.com/en/docs-7.0.0/) | September 16, 2025 |
-| [6.4.3](https://rocm.docs.amd.com/en/docs-6.4.3/) | August 7, 2025 |
-| [6.4.2](https://rocm.docs.amd.com/en/docs-6.4.2/) | July 21, 2025 |
-| [6.4.1](https://rocm.docs.amd.com/en/docs-6.4.1/) | May 21, 2025 |
-| [6.4.0](https://rocm.docs.amd.com/en/docs-6.4.0/) | April 11, 2025 |
-| [6.3.3](https://rocm.docs.amd.com/en/docs-6.3.3/) | February 19, 2025 |
-| [6.3.2](https://rocm.docs.amd.com/en/docs-6.3.2/) | January 28, 2025 |
-| [6.3.1](https://rocm.docs.amd.com/en/docs-6.3.1/) | December 20, 2024 |
-| [6.3.0](https://rocm.docs.amd.com/en/docs-6.3.0/) | December 3, 2024 |
-| [6.2.4](https://rocm.docs.amd.com/en/docs-6.2.4/) | November 6, 2024 |
-| [6.2.2](https://rocm.docs.amd.com/en/docs-6.2.2/) | September 27, 2024 |
-| [6.2.1](https://rocm.docs.amd.com/en/docs-6.2.1/) | September 20, 2024 |
-| [6.2.0](https://rocm.docs.amd.com/en/docs-6.2.0/) | August 2, 2024 |
-| [6.1.5](https://rocm.docs.amd.com/en/docs-6.1.5/) | March 13, 2025 |
-| [6.1.2](https://rocm.docs.amd.com/en/docs-6.1.2/) | June 4, 2024 |
-| [6.1.1](https://rocm.docs.amd.com/en/docs-6.1.1/) | May 8, 2024 |
-| [6.1.0](https://rocm.docs.amd.com/en/docs-6.1.0/) | Apr 16, 2024 |
-| [6.0.2](https://rocm.docs.amd.com/en/docs-6.0.2/) | Jan 31, 2024 |
-| [6.0.0](https://rocm.docs.amd.com/en/docs-6.0.0/) | Dec 15, 2023 |
-| [5.7.1](https://rocm.docs.amd.com/en/docs-5.7.1/) | Oct 13, 2023 |
-| [5.7.0](https://rocm.docs.amd.com/en/docs-5.7.0/) | Sep 15, 2023 |
-| [5.6.1](https://rocm.docs.amd.com/en/docs-5.6.1/) | Aug 29, 2023 |
-| [5.6.0](https://rocm.docs.amd.com/en/docs-5.6.0/) | Jun 28, 2023 |
-| [5.5.1](https://rocm.docs.amd.com/en/docs-5.5.1/) | May 24, 2023 |
-| [5.5.0](https://rocm.docs.amd.com/en/docs-5.5.0/) | May 1, 2023 |
-| [5.4.3](https://rocm.docs.amd.com/en/docs-5.4.3/) | Feb 7, 2023 |
-| [5.4.2](https://rocm.docs.amd.com/en/docs-5.4.2/) | Jan 13, 2023 |
-| [5.4.1](https://rocm.docs.amd.com/en/docs-5.4.1/) | Dec 15, 2022 |
-| [5.4.0](https://rocm.docs.amd.com/en/docs-5.4.0/) | Nov 30, 2022 |
-| [5.3.3](https://rocm.docs.amd.com/en/docs-5.3.3/) | Nov 17, 2022 |
-| [5.3.2](https://rocm.docs.amd.com/en/docs-5.3.2/) | Nov 9, 2022 |
-| [5.3.0](https://rocm.docs.amd.com/en/docs-5.3.0/) | Oct 4, 2022 |
-| [5.2.3](https://rocm.docs.amd.com/en/docs-5.2.3/) | Aug 18, 2022 |
-| [5.2.1](https://rocm.docs.amd.com/en/docs-5.2.1/) | Jul 21, 2022 |
-| [5.2.0](https://rocm.docs.amd.com/en/docs-5.2.0/) | Jun 28, 2022 |
-| [5.1.3](https://rocm.docs.amd.com/en/docs-5.1.3/) | May 20, 2022 |
-| [5.1.1](https://rocm.docs.amd.com/en/docs-5.1.1/) | Apr 8, 2022 |
-| [5.1.0](https://rocm.docs.amd.com/en/docs-5.1.0/) | Mar 30, 2022 |
-| [5.0.2](https://rocm.docs.amd.com/en/docs-5.0.2/) | Mar 4, 2022 |
-| [5.0.1](https://rocm.docs.amd.com/en/docs-5.0.1/) | Feb 16, 2022 |
-| [5.0.0](https://rocm.docs.amd.com/en/docs-5.0.0/) | Feb 9, 2022 |
+| [7.10.0](https://rocm.docs.amd.com/en/7.10.0-preview/) | December 11, 2025 |
+| [7.9.0](https://rocm.docs.amd.com/en/7.9.0-preview/) | October 20, 2025 |
+
+```{important}
+ROCm 7.9.0 introduced a versioning discontinuity following the previous [7.0
+releases](https://rocm.docs.amd.com/en/latest/release/versions.html). Versions
+7.0 through 7.8 are reserved for production stream ROCm releases, while
+versions 7.9.0 and later listed on this page represent the technology preview
+release stream. Both streams share a largely similar code base but differ in
+their build systems. These differences include the CMake configuration,
+operating system package dependencies, and the integration of AMD GPU Driver
+components.
+
+Maintaining parallel release streams -- preview and production -- gives users
+ample time to evaluate and adopt the new build system and dependency changes.
+The technology preview stream is planned to continue through mid‑2026, after
+which it will replace the current production stream.
+```

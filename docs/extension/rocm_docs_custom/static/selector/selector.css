@@ -1,0 +1,203 @@
+html {
+  --rocm-docs-selector-border-radius: 2px;
+  --rocm-docs-selector-accent-color: var(--pst-color-primary);
+  --rocm-docs-selector-bg-color: var(--pst-color-on-background);
+  --rocm-docs-selector-fg-color: var(--pst-color-primary-text);
+  --rocm-docs-selector-group-heading-bg-color: var(--pst-color-surface);
+  --rocm-docs-selector-option-hover-color: var(--pst-color-link-hover);
+  --rocm-docs-selector-option-selected-color: var(--pst-color-primary);
+  --rocm-docs-selector-tile-padding: 0.2rem;
+  --rocm-docs-selector-tile-gap: 0.5rem;
+  --rocm-docs-selector-focus-ring: 2px solid var(
+    --rocm-docs-selector-accent-color
+  );
+  --rocm-docs-selector-focus-offset: 2px;
+}
+
+html[data-theme="light"] {
+  --rocm-docs-selector-border-color: var(--pst-gray-400);
+  --rocm-docs-selector-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --rocm-docs-selector-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme="dark"] {
+  --rocm-docs-selector-border-color: var(--pst-color-border);
+  --rocm-docs-selector-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --rocm-docs-selector-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Avoid odd sizing interactions with Bootstrap width utilities */
+.rocm-docs-selector-group,
+.rocm-docs-selector-group * {
+  box-sizing: border-box;
+}
+
+/* Hide selectors during initialization to prevent FOUC */
+.rocm-docs-selector-group:not(.rocm-docs-selector-initialized) {
+  visibility: hidden;
+}
+
+/* Smooth fade-in when ready */
+.rocm-docs-selector-group.rocm-docs-selector-initialized {
+  visibility: visible;
+  animation: rocm-docs-selector-fade-in 0.2s ease-in;
+}
+
+@keyframes rocm-docs-selector-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@supports selector(.x:has(.y)) {
+  .rocm-docs-selector-group:has(.rocm-docs-selector-option:hover)
+    .rocm-docs-selector-group-heading {
+    border-right-color: var(--rocm-docs-selector-option-hover-color);
+  }
+}
+
+/* Selector group heading box */
+.rocm-docs-selector-group-heading {
+  background-color: var(--rocm-docs-selector-group-heading-bg-color);
+  padding: var(--rocm-docs-selector-tile-padding);
+  font-weight: 600;
+  border-right: solid 3px var(--rocm-docs-selector-accent-color);
+  border-radius: var(--rocm-docs-selector-border-radius);
+  transition: border-color 0.25s ease;
+  box-shadow: var(--rocm-docs-selector-shadow);
+}
+
+/* Selector group heading text */
+.rocm-docs-selector-group-heading > span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Selector option */
+.rocm-docs-selector-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+
+  background-color: var(--rocm-docs-selector-bg-color);
+  padding: var(--rocm-docs-selector-tile-padding);
+  border: solid 2px var(--rocm-docs-selector-border-color);
+  border-radius: var(--rocm-docs-selector-border-radius);
+  box-shadow: var(--rocm-docs-selector-shadow);
+
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* Hover (not disabled) */
+.rocm-docs-selector-option:hover:not(.rocm-docs-disabled) {
+  background-color: var(--rocm-docs-selector-option-hover-color);
+  color: var(--rocm-docs-selector-fg-color);
+  transform: translateY(-2px);
+  box-shadow: var(--rocm-docs-selector-shadow-hover);
+}
+
+/* Accessible keyboard focus */
+.rocm-docs-selector-option:focus-visible:not(.rocm-docs-disabled) {
+  outline: var(--rocm-docs-selector-focus-ring);
+  outline-offset: var(--rocm-docs-selector-focus-offset);
+}
+
+/* Keep it above neighbors if it gets an outline/box-shadow */
+.rocm-docs-selector-option:focus:not(.rocm-docs-disabled) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Selected */
+.rocm-docs-selector-option.rocm-docs-selected {
+  background-color: var(--rocm-docs-selector-option-selected-color);
+  color: var(--rocm-docs-selector-fg-color);
+}
+
+/* Prevent hover lift on selected (keeps it steady) */
+.rocm-docs-selector-option.rocm-docs-selected:hover {
+  transform: none;
+}
+
+/* Disabled */
+.rocm-docs-selector-option.rocm-docs-disabled {
+  background-color: var(--rocm-docs-selector-border-color);
+  color: var(--rocm-docs-selector-fg-color);
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* Hidden state */
+.rocm-docs-hidden {
+  display: none;
+}
+
+/* Put selected option summary in secondary page-level TOC on a new line */
+.rocm-docs-selector-toc2-item .nav-link span {
+  display: block;
+  padding-left: 1rem;
+}
+
+@media (max-width: 768px) {
+  .rocm-docs-selector-group {
+    row-gap: var(--rocm-docs-selector-tile-gap);
+  }
+}
+
+@media (max-width: 576px) {
+  .rocm-docs-selector-option {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 440px) {
+  .rocm-docs-selector-group-heading {
+    flex: 0 0 100%;
+    max-width: 100%;
+
+    /* When stacked, puth the accent on the bottom */
+    border-right: 0;
+    border-bottom: solid 3px var(--rocm-docs-selector-accent-color);
+  }
+
+  .rocm-docs-selector-group.row .row {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .rocm-docs-selector-option {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* Motion reduction */
+@media (prefers-reduced-motion: reduce) {
+  .rocm-docs-selector-group.rocm-docs-selector-initialized {
+    animation: none;
+  }
+
+  .rocm-docs-selector-option {
+    transition: none;
+  }
+
+  .rocm-docs-selector-option:hover:not(.rocm-docs-disabled) {
+    transform: none;
+  }
+}

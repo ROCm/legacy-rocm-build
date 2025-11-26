@@ -2,16 +2,16 @@
    :description: Learn what ROCm is – AMD's open software stack for GPU programming, including runtimes, compilers, libraries, and tools for Linux and Windows.
    :keywords: ROCm, AMD, GPU computing, ROCm Core SDK, ROCm components, TheRock, ROCm architecture, HPC, AI, machine learning, ROCm runtime
 
-**********************
-AMD ROCm 7.9.0 preview
-**********************
+*******************************
+AMD ROCm |ROCM_VERSION| preview
+*******************************
 
-AMD ROCm is an open, modular, and high‑performance GPU software ecosystem —
-built collaboratively with the community, maintained transparently, and
-optimized for consistent, scalable performance across data centers, desktops,
-and edge devices.
+AMD ROCm is an open, modular, and high‑performance GPU software ecosystem
+— built collaboratively with the community, maintained transparently, and
+optimized for consistent, scalable performance across data centers,
+workstations, and edge devices.
 
-ROCm 7.9.0 is a technology preview release built with
+ROCm |ROCM_VERSION| is a technology preview release built with
 `TheRock <https://github.com/ROCm/TheRock>`__, AMD’s new open build and release
 system.
 This preview introduces a new modular build workflow that will become standard
@@ -34,11 +34,12 @@ frameworks such as PyTorch.
 * **Open source** -- Transparent development driven by community feedback
 * **Cross‑platform** -- Supports Linux and Windows environments
 * **Comprehensive** -- End‑to‑end toolchain from compilers to libraries
-* **Performance‑focused** -- Tuned for AMD Instinct™, AMD Radeon™, and AMD Ryzen™ architectures
+* **Performance‑focused** -- Tuned for AMD Instinct™, AMD Radeon™, and AMD Ryzen™ devices
 
 .. image:: data/rocm-ontology.png
    :align: center
    :alt: ROCm software ecosystem and components illustration
+   :width: 1000
 
 ROCm supports AMD GPU architectures spanning data center, workstation, and APU
 categories. TheRock enables a unified ROCm user‑space experience across
@@ -59,8 +60,8 @@ What’s changing
 ROCm is evolving to improve flexibility, maintainability, and
 use‑case alignment.
 
-* **Leaner core** – The Core SDK focuses on essential runtime and development components.  
-* **Use case‑specific expansions** – Optional domain‑specific SDKs for AI, data science, and HPC.  
+* **Leaner core** – The Core SDK focuses on essential runtime and development components.
+* **Use case‑specific expansions** – Optional domain‑specific SDKs for AI, data science, and HPC.
 * **Modular installation** – Install only the components required for your workflow.
 
 This approach streamlines installation, reduces footprint, and accelerates
@@ -76,6 +77,7 @@ computing.
 .. image:: data/rocm-sdk-arch.png
    :align: center
    :alt: ROCm Core SDK internal architecture illustration
+   :width: 1000
 
 The TheRock infrastructure keeps these components modular, consistent, and easy
 to integrate across configurations.
