@@ -3,22 +3,30 @@
 defaults:
   numbered: False
   maxdepth: 6
-root: index
+root: index.rst
 subtrees:
   - entries:
       - file: about/release-notes.md
         title: Release notes
-      - file: compatibility/compatibility-matrix.md
+      - file: compatibility/compatibility-matrix.rst
         title: Compatibility matrix
-  - caption: Installation
+  - caption: Install
     entries:
-      - file: install/rocm
-        title: Installation
-      - file: install/build-from-source
+      - file: install/rocm.rst
+        title: Install ROCm
+        entries:
+          # Dummy entries to point to install doc sections
+          - file: install/redirect/_prerequisites.rst
+            title: Prerequisites
+          - file: install/redirect/_install.rst
+            title: Installation
+          - file: install/redirect/_post-install.rst
+            title: Post-installation
+      - file: install/redirect/_uninstall.rst
+        title: Uninstall ROCm
+      - file: install/build-from-source.rst
         title: Build from source
   - caption: ROCm for AI
     entries:
-      - file: install/pytorch-comfyui
+      - file: rocm-for-ai/pytorch-comfyui.rst
         title: Install PyTorch and ComfyUI
-      - file: rocm-for-ai/xdit-diffusion-inference
-        title: xDiT diffusion inference

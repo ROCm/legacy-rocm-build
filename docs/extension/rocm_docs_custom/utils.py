@@ -1,5 +1,6 @@
 import json
 import html
+from sphinx.util import logging
 
 def normalize_key(key):
     return key.replace(" ", "_").lower().strip()
@@ -27,4 +28,7 @@ def kv_to_data_attr(name, kv_str, separator="="):
             pairs.setdefault(key, []).append(value.strip())
 
     return f'data-{name}="{html.escape(json.dumps(pairs))}"' if pairs else ""
+
+
+logger = logging.getLogger(__name__)
 

@@ -9,8 +9,8 @@ import shutil
 import sys
 from pathlib import Path
 
-ROCM_VERSION = "7.9.0"
-GA_DATE = "2025-10-20"
+ROCM_VERSION = "7.10.0"
+GA_DATE = "2025-12-11"
 
 DOCS_DIR = Path(__file__).parent.resolve()
 ROOT_DIR = DOCS_DIR.parent
@@ -102,47 +102,40 @@ html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "rocm.docs.amd.com")
 html_context = {}
 
 # configurations for PDF output by Read the Docs
-project = "ROCm Documentation"
+project = "ROCm documentation"
 project_path = str(DOCS_DIR).replace("\\", "/")
 author = "Advanced Micro Devices, Inc."
 copyright = "Copyright (c) %Y Advanced Micro Devices, Inc. All rights reserved."
 version = ROCM_VERSION
 release = ROCM_VERSION
-setting_all_article_info = True
+setting_all_article_info = False
 all_article_info_os = ["linux", "windows"]
 all_article_info_author = ""
 
 # pages with specific settings
 article_pages = [
-    {"file": "about/release-notes", "date": GA_DATE},
-    {"file": "rocm-for-ai/xdit-diffusion-inference", "os": ["linux"]},
+    {"file": "about/release-notes", "date": GA_DATE, "os": ["linux", "windows"]},
 ]
 
 external_toc_path = "./sphinx/_toc.yml"
 
 # Register Sphinx extensions and static assets
 sys.path.append(str(DOCS_DIR / "extension"))
-
-# "sphinx/static/css", "extension/how-to/rocm-for-ai/inference"]
-# html_css_files = [
-    # "rocm_custom.css",
-    # "rocm_rn.css",
-    # "dynamic_picker.css",
-    # "vllm-benchmark.css",
-# ]
-templates_path = ["extension/rocm_docs_custom/templates", "extension/templates"]
-
 extensions = [
     "rocm_docs",
     "rocm_docs_custom.selector",
-    "rocm_docs_custom.table",
+    "rocm_docs_custom.matrix",
     "rocm_docs_custom.icon",
-    "sphinxcontrib.datatemplates",
+    # "sphinxcontrib.datatemplates",
     # "sphinx_reredirects",
     # "sphinx_sitemap",
     # "version-ref",
     # "csv-to-list-table",
 ]
+templates_path = ["extension/rocm_docs_custom/templates"]
+
+html_static_path = ["sphinx/static"]
+html_js_files = ["setup-toc-install-headings.js"]
 
 # compatibility_matrix_file = str(
 #     DOCS_DIR / "compatibility/compatibility-matrix-historical-6.0.csv"
@@ -151,11 +144,11 @@ extensions = [
 external_projects_current_project = "rocm"
 html_theme = "rocm_docs_theme"
 html_theme_options = {
-    "announcement": "This is ROCm 7.9.0 technology preview release documentation. For the latest production stream release, refer to <a id='rocm-banner' href='https://rocm.docs.amd.com/en/latest/'>ROCm documentation</a>.",
+    "announcement": f"This is ROCm {ROCM_VERSION} technology preview release documentation. For the latest production stream release, refer to <a id='rocm-banner' href='https://rocm.docs.amd.com/en/latest/'>ROCm documentation</a>.",
     "flavor": "generic",
-    "header_title": "ROCm™ 7.9.0 Preview",
-    "header_link": "https://rocm.docs.amd.com/en/7.9.0-preview/index.html",
-    "version_list_link": "https://rocm.docs.amd.com/en/7.9.0-preview/release/versions.html",
+    "header_title": f"ROCm™ {ROCM_VERSION} Preview",
+    "header_link": f"https://rocm.docs.amd.com/en/{ROCM_VERSION}-preview/index.html",
+    "version_list_link": f"https://rocm.docs.amd.com/en/{ROCM_VERSION}-preview/release/versions.html",
     "nav_secondary_items": {
         "GitHub": "https://github.com/ROCm/ROCm",
         "Community": "https://github.com/ROCm/ROCm/discussions",
@@ -166,16 +159,18 @@ html_theme_options = {
     "link_main_doc": False,
     "secondary_sidebar_items": {
         "**": ["page-toc"],
-        "install/rocm": ["selector-toc2"],
         "compatibility/compatibility-matrix": ["selector-toc2"],
-    }
+        "install/rocm": ["selector-toc2"],
+        "rocm-for-ai/pytorch-comfyui": ["selector-toc2"],
+    },
 }
 html_title = f"AMD ROCm {ROCM_VERSION} preview"
-html_static_path = ["sphinx/static/css", "sphinx/static/js"]
-html_css_files = ["vllm-benchmark.css"]
-html_js_files = ["vllm-benchmark.js"]
 
 numfig = False
+rst_prolog = f"""
+.. |ROCM_VERSION| replace:: {ROCM_VERSION}
+"""
+
 suppress_warnings = ["autosectionlabel.*"]
 
 # html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "https://rocm-stg.amd.com/")
@@ -203,5 +198,5 @@ if os.environ.get("READTHEDOCS", "") == "True":
     html_context["READTHEDOCS"] = True
 
 # temporary settings to speed up docs build for faster iteration
-# external_projects_remote_repository = ""
-# external_toc_exclude_missing = True
+external_projects_remote_repository = ""
+external_toc_exclude_missing = True

@@ -8,11 +8,11 @@ Build the ROCm Core SDK from source
 
 You can build the ROCm Core SDK from source using the open-source unified build
 system `TheRock <https://github.com/ROCm/TheRock>`__. To learn more about the
-motivation and architecture behind this system, see `ROCm 7.9 Technology
-Preview: ROCm Core SDK and TheRock Build System
+motivation and architecture behind this system, see `ROCm Technology Preview:
+ROCm Core SDK and TheRock Build System
 <https://rocm.blogs.amd.com/software-tools-optimization/therock/README.html>`__.
 
-This page consists mostly of key references to `TheRock's README
+This page consists mainly of key references to `TheRock's README
 <https://github.com/ROCm/TheRock?tab=readme-ov-file#building-from-source>`__
 and `supporting development manuals
 <https://github.com/ROCm/TheRock/blob/main/README.md#development-manuals>`__
@@ -26,7 +26,7 @@ to learn about the overall build architecture.
    Building from source is recommended only if you need custom builds or are
    contributing to ROCm development.
    For most users, installing from official AMD releases is faster and easier.
-   See :doc:`rocm` for installation instructions.
+   See :doc:`/install/rocm` for installation instructions.
 
 Prerequisites
 =============
