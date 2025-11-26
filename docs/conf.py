@@ -151,7 +151,7 @@ extensions = [
 external_projects_current_project = "rocm"
 html_theme = "rocm_docs_theme"
 html_theme_options = {
-    "announcement": "This is ROCm 7.9.0 technology preview release documentation. For production use, refer to <a id='rocm-banner' href='https://rocm.docs.amd.com/en/latest/'>ROCm 7.1.0 documentation</a>.",
+    "announcement": "This is ROCm 7.9.0 technology preview release documentation. For the latest production stream release, refer to <a id='rocm-banner' href='https://rocm.docs.amd.com/en/latest/'>ROCm documentation</a>.",
     "flavor": "generic",
     "header_title": "ROCm™ 7.9.0 Preview",
     "header_link": "https://rocm.docs.amd.com/en/7.9.0-preview/index.html",
