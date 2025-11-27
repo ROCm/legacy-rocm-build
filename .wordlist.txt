@@ -36,6 +36,7 @@ Andrej
 Arb
 Autocast
 autograd
+Backported
 BARs
 BatchNorm
 BLAS
@@ -201,9 +202,11 @@ GenAI
 GenZ
 GitHub
 Gitpod
+hardcoded
 HBM
 HCA
 HGX
+HLO
 HIPCC
 hipDataType
 HIPExtension
@@ -327,6 +330,7 @@ MoEs
 Mooncake
 Mpops
 Multicore
+multihost
 Multithreaded
 MXFP
 MyEnvironment
@@ -1017,6 +1021,7 @@ uncacheable
 uncorrectable
 underoptimized
 unhandled
+unfused
 uninstallation
 unmapped
 unsqueeze
