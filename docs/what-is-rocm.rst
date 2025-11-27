@@ -126,6 +126,10 @@ Performance
   `ROCprof Compute Viewer <https://rocm.docs.amd.com/projects/rocprof-compute-viewer/en/amd-mainline/>`_ is a tool for visualizing and analyzing GPU thread trace data collected using :doc:`rocprofv3 <rocprofiler-sdk:index>`.
   Note that `ROCprof Compute Viewer <https://rocm.docs.amd.com/projects/rocprof-compute-viewer/en/amd-mainline/>`_ is in an early access state. Running production workloads is not recommended.
 
+.. note::
+
+  `ROCm™ Optiq (beta) <https://rocm.docs.amd.com/projects/roc-optiq/en/latest/>` is AMD’s tool designed to provide deep insights into system-level performance for applications running on the ROCm stack. It serves as the GUI to visualize traces collected by ROCm profiling tools, specifically ROCm Systems Profiler, enabling developers to analyze traces, identify bottlenecks, optimize workloads, and efficiently scale applications across CPUs and GPUs.
+
 Development
 ^^^^^^^^^^^
 
