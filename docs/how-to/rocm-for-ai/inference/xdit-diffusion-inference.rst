@@ -19,20 +19,18 @@ xDiT diffusion inference
    The image runs ROCm **{{docker.ROCm}}** (preview) based on `TheRock <https://github.com/ROCm/TheRock>`_
    and includes the following components:
 
-   .. tab-set::
+   .. dropdown:: Software components
 
-      .. tab-item:: {{ docker.pull_tag }}
+      .. list-table::
+         :header-rows: 1
 
-         .. list-table::
-            :header-rows: 1
+         * - Software component
+           - Version
 
-            * - Software component
-              - Version
-
-            {% for component_name, component_version in docker.components.items() %}
-            * - {{ component_name }}
-              - {{ component_version }}
-            {% endfor %}
+         {% for component_name, component_version in docker.components.items() %}
+         * - {{ component_name }}
+           - {{ component_version }}
+         {% endfor %}
 
 Follow this guide to pull the required image, spin up a container, download the model, and run a benchmark.
 For preview and development releases, see `amdsiloai/pytorch-xdit <https://hub.docker.com/r/amdsiloai/pytorch-xdit>`_.
