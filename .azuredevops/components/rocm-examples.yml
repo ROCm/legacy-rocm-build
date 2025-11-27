@@ -30,6 +30,7 @@ parameters:
     - python3-pip
     - protobuf-compiler
     - libprotoc-dev
+    - libopencv-dev
 - name: pipModules
   type: object
   default:
@@ -64,6 +65,7 @@ parameters:
     - MIVisionX
     - rocm_smi_lib
     - rccl
+    - rocAL
     - rocALUTION
     - rocBLAS
     - rocDecode
@@ -103,6 +105,7 @@ parameters:
     - MIVisionX
     - rocm_smi_lib
     - rccl
+    - rocAL
     - rocALUTION
     - rocBLAS
     - rocDecode
