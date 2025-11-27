@@ -269,6 +269,33 @@ For a complete and up-to-date list of JAX public modules (for example, ``jax.num
   JAX API modules are maintained by the JAX project and is subject to change.
   Refer to the official Jax documentation for the most up-to-date information.
 
+Key features and enhancements for ROCm 7.1
+===============================================================================
+
+- Enabled compilation of multihost HLO runner Python bindings.
+
+  - Backported multihost HLO runner bindings and some related changes to
+    :code:`FunctionalHloRunner`.
+
+  - Added :code:`requirements_lock_3_12` to enable building for Python 3.12.
+
+- Removed hardcoded NHWC convolution layout for ``fp16`` precision to address the performance drops for ``fp16`` precision on gfx12xx GPUs.
+
+
+- ROCprofiler-SDK integration:
+
+  - Integrated ROCprofiler-SDK (v3) to XLA to improve profiling of GPU events,
+    support both time-based and step-based profiling.
+
+  - Added unit tests for :code:`rocm_collector` and :code:`rocm_tracer`.
+
+- Added Triton unsupported conversion from ``f8E4M3FNUZ`` to ``fp16`` with
+  rounding mode.
+
+- Introduced :code:`CudnnFusedConvDecomposer` to revert fused convolutions
+  when :code:`ConvAlgorithmPicker` fails to find a fused algorithm, and removed
+  unfused fallback paths from :code:`RocmFusedConvRunner`.
+
 Key features and enhancements for ROCm 7.0
 ===============================================================================
 
