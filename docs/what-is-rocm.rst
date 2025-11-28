@@ -128,7 +128,7 @@ Performance
 
 .. note::
 
-  `ROCm™ Optiq (beta) <https://rocm.docs.amd.com/projects/roc-optiq/en/latest/>`_  provides deep insights into system-level performance for applications running on the ROCm stack. It serves as the GUI to visualize traces collected by ROCm profiling tools, specifically ROCm Systems Profiler.
+  `ROCm™ Optiq (beta) <https://rocm.docs.amd.com/projects/roc-optiq/en/latest/>`_  provides deep insights into system-level performance for applications running on the ROCm stack. It serves as the GUI to visualize traces collected by ROCm profiling tools, specifically `ROCm Systems Profiler <https://rocm.docs.amd.com/projects/rocprofiler-systems/en/latest/index.html>`_.
 
 Development
 ^^^^^^^^^^^
