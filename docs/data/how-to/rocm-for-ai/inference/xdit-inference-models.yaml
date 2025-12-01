@@ -1,5 +1,41 @@
 xdit_diffusion_inference:
   docker:
+    - version: v25-12
+      pull_tag: rocm/pytorch-xdit:v25.12
+      docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
+      ROCm: 7.10.0
+      supported_models:
+        - group: Hunyuan Video
+          models:
+            - Hunyuan Video
+        - group: Wan-AI
+          models:
+            - Wan2.1
+            - Wan2.2
+        - group: FLUX
+          models:
+            - FLUX.1
+        - group: StableDiffusion
+          models:
+            - stable-diffusion-3.5-large
+      whats_new:
+        - "Adds T2V and TI2V support for Wan models."
+        - "Adds support for SD-3.5 T2I model."
+      components:
+        TheRock: 3e3f834
+        rccl: d23d18f
+        composable_kernel: 2570462
+        rocm-libraries: 0588f07
+        rocm-systems: 473025a
+        torch: 73adac
+        torchvision: f5c6c2e
+        triton: 7416ffc
+        accelerate: 34c1779
+        aiter: de14bec
+        diffusers: 40528e9
+        xfuser: ccba9d5
+        yunchang: 2c9b712
+
     - version: v25-11
       pull_tag: rocm/pytorch-xdit:v25.11
       docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit

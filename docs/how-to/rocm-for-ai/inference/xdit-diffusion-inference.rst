@@ -11,7 +11,7 @@ xDiT diffusion inference
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-12") | first %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
 
    The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
@@ -39,7 +39,7 @@ What's new
 ==========
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-12") | first %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
 
    {% for item in docker.whats_new %}
@@ -57,7 +57,7 @@ vary by model -- select one to get started.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-12") | first %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups %}
    
    {# Create a lookup for supported models #}
@@ -136,7 +136,7 @@ Pull the Docker image
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-12") | first %}
 
    For this tutorial, it's recommended to use the latest ``{{ docker.pull_tag }}`` Docker image.
    Pull the image using the following command:
@@ -171,7 +171,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-12") | first %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
 
    {% for model_group in model_groups %}
@@ -374,7 +374,23 @@ Run inference
 
             {% endif %}
 
-            The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% elif model.model == "FLUX.1" %}results/timing.json{% endif %}
+            {% if model.model == "stable-diffusion-3.5-large" %}
+               cd StableDiffusion3.5 
+               mkdir results
+
+               torchrun --nproc_per_node=8 /app/StableDiffusion3.5/run.py \
+                  --model stabilityai/stable-diffusion-3.5-large \
+                  --num_inference_steps 28 \
+                  --prompt "A capybara holding a sign that reads Hello World" \
+                  --use_torch_compile \
+                  --pipefusion_parallel_degree 4 \
+                  --use_cfg_parallel \
+                  --num_repetitions 50 \
+                  --dtype torch.float16" 
+
+            {% endif %}
+
+            The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% elif model.model == "FLUX.1" %}results/timing.json{% elif model.model == "stable-diffusion-3.5-large"%}benchmark_results.csv{% endif %}
 
             {% if model.model == "FLUX.1" %}You may also use ``run_usp.py`` which implements USP without modifying the default diffusers pipeline. {% endif %}
 
