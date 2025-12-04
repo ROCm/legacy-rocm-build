@@ -29,12 +29,10 @@ with Primus Turbo optimizations.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
 
-   {% set dockers = data.dockers %}
    .. tab-set::
 
-   {% for supported_gpus, docker in dockers.items() %}
-      .. tab-item:: {{ supported_gpus }}
-         :sync: {{ supported_gpus }}
+      .. tab-item:: {{ data.docker.pull_tag }}
+         :sync: {{ data.docker.pull_tag }}
 
          .. list-table::
             :header-rows: 1
@@ -42,13 +40,12 @@ with Primus Turbo optimizations.
             * - Software component
               - Version
 
-            {% for component_name, component_version in docker.components.items() %}
+            {% for component_name, component_version in data.docker.components.items() %}
             * - {{ component_name }}
               - {{ component_version }}
             {% endfor %}
-   {% endfor %}
 
-.. _amd-primus-pytorch-model-support-v259:
+.. _amd-primus-pytorch-model-support-v2510:
 
 Supported models
 ================
@@ -67,7 +64,7 @@ vary by model -- select one to get started.
             <div class="col-2 me-1 px-2 model-param-head">Model</div>
             <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
-               <div class="col-12 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
             </div>
          </div>
@@ -94,7 +91,7 @@ vary by model -- select one to get started.
    For additional workloads, including Llama 3.3, Llama 3.2, Llama 2, GPT OSS, Qwen, and Flux models,
    see the documentation :doc:`pytorch-training` (without Primus)
 
-.. _amd-primus-pytorch-performance-measurements-v259:
+.. _amd-primus-pytorch-performance-measurements-v2510:
 
 System validation
 =================
@@ -120,20 +117,11 @@ Pull the Docker image
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
 
-   {% set dockers = data.dockers %}
-
    Use the following command to pull the Docker image from Docker Hub.
 
-   .. tab-set::
+   .. code-block:: shell
 
-      {% for supported_gpus, docker in dockers.items() %}
-      .. tab-item:: {{ supported_gpus }}
-         :sync: {{ supported_gpus }}
-
-         .. code-block:: shell
-
-            docker pull {{ docker.pull_tag }}
-      {% endfor %}
+      docker pull {{ data.docker.pull_tag }}
 
 Run training
 ============
@@ -145,7 +133,7 @@ tweak some configurations (such as batch sizes).
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
 
-   {% set dockers = data.dockers %}
+   {% set docker = data.docker %}
    {% set model_groups = data.model_groups %}
 
    .. tab-set::
@@ -158,7 +146,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v259` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v2510` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -185,13 +173,6 @@ tweak some configurations (such as batch sizes).
                ``container_ci-{{ model.mad_tag }}``. The latency and throughput reports of the
                model are collected in ``~/MAD/perf.csv``.
 
-               .. note::
-
-                  Currently, Primus torchtitan models are run with Primus Turbo
-                  enabled for enhanced performance. To disable Primus Turbo,
-                  modify respective configuration file
-                  ``scripts/primus/pytorch_train/primus_torchtitan_scripts/llama3_[8B|70B]-[BF16|FP8].yaml``.
-
       {% endfor %}
    {% endfor %}
 
@@ -203,48 +184,34 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run commands are tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v259` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v2510` to switch to another available model.
 
             .. rubric:: Download the Docker image and required packages
 
-            1. Pull the appropriate Docker image for your AMD GPU architecture from Docker Hub.
+            1. Pull the ``{{ docker.pull_tag }}`` Docker image from Docker Hub.
 
-               .. tab-set::
+               .. code-block:: shell
 
-                  {% for supported_gpus, docker in dockers.items() %}
-                  .. tab-item:: {{ supported_gpus }}
-                     :sync: {{ supported_gpus }}
-
-                     .. code-block:: shell
-
-                        docker pull {{ docker.pull_tag }}
-                  {% endfor %}
+                  docker pull {{ docker.pull_tag }}
 
             2. Run the Docker container.
 
-               .. tab-set::
+               .. code-block:: shell
 
-                  {% for supported_gpus, docker in dockers.items() %}
-                  .. tab-item:: {{ supported_gpus }}
-                     :sync: {{ supported_gpus }}
-
-                     .. code-block:: shell
-
-                        docker run -it \
-                            --device /dev/dri \
-                            --device /dev/kfd \
-                            --network host \
-                            --ipc host \
-                            --group-add video \
-                            --cap-add SYS_PTRACE \
-                            --security-opt seccomp=unconfined \
-                            --privileged \
-                            -v $HOME:$HOME \
-                            -v $HOME/.ssh:/root/.ssh \
-                            --shm-size 64G \
-                            --name training_env \
-                            {{ docker.pull_tag }}
-                  {% endfor %}
+                  docker run -it \
+                      --device /dev/dri \
+                      --device /dev/kfd \
+                      --network host \
+                      --ipc host \
+                      --group-add video \
+                      --cap-add SYS_PTRACE \
+                      --security-opt seccomp=unconfined \
+                      --privileged \
+                      -v $HOME:$HOME \
+                      -v $HOME/.ssh:/root/.ssh \
+                      --shm-size 64G \
+                      --name training_env \
+                      {{ docker.pull_tag }}
 
                Use these commands if you exit the ``training_env`` container and need to return to it.
 
@@ -283,37 +250,28 @@ tweak some configurations (such as batch sizes).
                .. tab-set::
 
                   .. tab-item:: MI355X and MI350X
-                     :sync: MI355X and MI300X
+                     :sync: MI355X
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_8B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 5
+                        EXP=examples/torchtitan/configs/MI355X/llama3.1_8B-BF16-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 6
 
                   .. tab-item:: MI325X
                      :sync: MI325X
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_8B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 6
+                        EXP=examples/torchtitan/configs/MI300X/llama3.1_8B-BF16-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 6
 
                   .. tab-item:: MI300X
-                     :sync: MI325X and MI300X
+                     :sync: MI300X
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_8B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 4
+                        EXP=examples/torchtitan/configs/MI300X/llama3.1_8B-BF16-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 4
 
 
                To train Llama 3.1 8B with FP8 precision, use the following command.
@@ -321,37 +279,28 @@ tweak some configurations (such as batch sizes).
                .. tab-set::
 
                   .. tab-item:: MI355X and MI350X
-                     :sync: MI355X and MI300X
+                     :sync: MI355X
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_8B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 8
+                        EXP=examples/torchtitan/configs/MI355X/llama3.1_8B-BF16-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 8
 
                   .. tab-item:: MI325X
                      :sync: MI325X
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_8B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 7
+                        EXP=examples/torchtitan/configs/MI300X/llama3.1_8B-FP8-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 7
 
                   .. tab-item:: MI300X
-                     :sync: MI325X and MI300X
+                     :sync: MI300X
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_8B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 5
+                        EXP=examples/torchtitan/configs/MI300X/llama3.1_8B-FP8-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 5
 
             .. container:: model-doc primus_pyt_train_llama-3.1-70b
 
@@ -364,35 +313,56 @@ tweak some configurations (such as batch sizes).
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_70B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 8
+                        EXP=examples/torchtitan/configs/MI355X/llama3.1_70B-BF16-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 8
 
                   .. tab-item:: MI325X
                      :sync: MI325X
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_70B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 6
+                        EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-BF16-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 6
 
                   .. tab-item:: MI300X
-                     :sync: MI325X and MI300X
+                     :sync: MI300X
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_70B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 4
+                        EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-BF16-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 4
 
                To train Llama 3.1 70B with FP8 precision, use the following command.
+
+               .. tab-set::
+
+                  .. tab-item:: MI355X and MI350X
+                     :sync: MI355X
+
+                     .. code-block:: shell
+
+                        EXP=examples/torchtitan/configs/MI355X/llama3.1_70B-FP8-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 6
+
+                  .. tab-item:: MI325X
+                     :sync: MI325X
+
+                     .. code-block:: shell
+
+                        EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-FP8-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 5
+
+                  .. tab-item:: MI300X
+                     :sync: MI300X
+
+                     .. code-block:: shell
+
+                        EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-FP8-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 3
+
+            .. container:: model-doc primus_pyt_train_deepseek-v2
+
+               Use the following command to run train DeepSeek V2 16B with BF16 precision using Primus torchtitan.
 
                .. tab-set::
 
@@ -401,150 +371,54 @@ tweak some configurations (such as batch sizes).
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_70B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 6
+                        EXP=examples/torchtitan/configs/MI355X/deepseek_v3_16b-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 16
 
                   .. tab-item:: MI325X
                      :sync: MI325X
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_70B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 5
+                        EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 10
 
                   .. tab-item:: MI300X
-                     :sync: MI325X and MI300X
+                     :sync: MI300X
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/llama3.1_70B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh \
-                            --metrics.enable_tensorboard false \
-                            --profiling.enable_profiling false \
-                            --training.batch_size 3
-      {% endfor %}
-   {% endfor %}
+                        EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 8
 
-      .. tab-item:: Standalone torchtitan benchmarking
-
-   {% for model_group in model_groups %}
-      {% for model in model_group.models %}
-
-         .. container:: model-doc {{ model.mad_tag }}
-
-            The following run commands are tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v259` to switch to another available model.
-
-            .. rubric:: Download the Docker image and required packages
-
-            1. Pull the appropriate Docker image for your AMD GPU architecture from Docker Hub.
+               To train DeepSeek V2 16B with FP8 precision, use the following command.
 
                .. tab-set::
 
-                  {% for supported_gpus, docker in dockers.items() %}
-                  .. tab-item:: {{ supported_gpus }}
-                     :sync: {{ supported_gpus }}
+                  .. tab-item:: MI355X and MI350X
+                     :sync: MI355X
 
                      .. code-block:: shell
 
-                        docker pull {{ docker.pull_tag }}
-                  {% endfor %}
+                        EXP=examples/torchtitan/configs/MI355X/deepseek_v3_16b-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 16
 
-            2. Run the Docker container.
-
-               .. tab-set::
-
-                  {% for supported_gpus, docker in dockers.items() %}
-                  .. tab-item:: {{ supported_gpus }}
-                     :sync: {{ supported_gpus }}
+                  .. tab-item:: MI325X
+                     :sync: MI325X
 
                      .. code-block:: shell
 
-                        docker run -it \
-                            --device /dev/dri \
-                            --device /dev/kfd \
-                            --network host \
-                            --ipc host \
-                            --group-add video \
-                            --cap-add SYS_PTRACE \
-                            --security-opt seccomp=unconfined \
-                            --privileged \
-                            -v $HOME:$HOME \
-                            -v $HOME/.ssh:/root/.ssh \
-                            --shm-size 64G \
-                            --name training_env \
-                            {{ docker.pull_tag }}
-                  {% endfor %}
+                        EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 8
 
-               Use these commands if you exit the ``training_env`` container and need to return to it.
+                  .. tab-item:: MI300X
+                     :sync: MI300X
 
-               .. code-block:: shell
+                     .. code-block:: shell
 
-                  docker start training_env
-                  docker exec -it training_env bash
-
-            3. Navigate to the ``torchtitan`` workspace directory.
-
-               .. code-block:: shell
-
-                  cd /workspace/torchtitan
-
-            .. rubric:: Download the tokenizer
-
-            1. The following benchmarking examples require downloading models and datasets
-               from Hugging Face. To ensure successful access to gated repos, set your
-               ``HF_TOKEN``.
-
-               .. code-block:: shell
-
-                  export HF_TOKEN=$your_personal_hugging_face_access_token
-
-            2. Download the tokenizer for your model.
-
-               .. container:: model-doc {{ model.mad_tag }}
-
-                  .. code-block:: shell
-
-                     python3 scripts/download_tokenizer.py \
-                        --repo_id {{ model.model_repo }} \
-                        --tokenizer_path "original" \
-                        --hf_token=${HF_TOKEN}
-
-            .. rubric:: Pretraining examples
-
-            Run the training script with the appropriate configuration file.
-
-            For train with BF16 precicion, use the following command:
-
-            .. container:: model-doc {{ model.mad_tag }}
-
-               .. code-block:: shell
-
-                  CONFIG_FILE={{ model.config_file.bf16 }} \
-                  .run_train.sh
-
-            For train with BF16 precicion, use the following command:
-
-            .. container:: model-doc {{ model.mad_tag }}
-
-               .. code-block:: shell
-
-                  CONFIG_FILE={{ model.config_file.fp8 }} \
-                  .run_train.sh
+                        EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
+                        bash examples/run_pretrain.sh --training.batch_size 8
       {% endfor %}
    {% endfor %}
-
-Known issues
-============
-
-PyTorch Profiler may produce inaccurate traces when CPU activity profiling is enabled.
-
 
 Further reading
 ===============
