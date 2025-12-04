@@ -64,7 +64,7 @@ vary by model -- select one to get started.
             <div class="col-2 me-1 px-2 model-param-head">Model</div>
             <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
-               <div class="col-12 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
             </div>
          </div>
