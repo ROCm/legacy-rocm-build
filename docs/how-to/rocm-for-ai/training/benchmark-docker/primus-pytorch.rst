@@ -255,7 +255,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI355X/llama3.1_8B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 6
+                        bash examples/run_pretrain.sh --training.local_batch_size 6
 
                   .. tab-item:: MI325X
                      :sync: MI325X
@@ -263,7 +263,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_8B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 6
+                        bash examples/run_pretrain.sh --training.local_batch_size 6
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -271,7 +271,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_8B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 4
+                        bash examples/run_pretrain.sh --training.local_batch_size 4
 
 
                To train Llama 3.1 8B with FP8 precision, use the following command.
@@ -284,7 +284,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI355X/llama3.1_8B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 8
+                        bash examples/run_pretrain.sh --training.local_batch_size 8
 
                   .. tab-item:: MI325X
                      :sync: MI325X
@@ -292,7 +292,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_8B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 7
+                        bash examples/run_pretrain.sh --training.local_batch_size 7
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -300,7 +300,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_8B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 5
+                        bash examples/run_pretrain.sh --training.local_batch_size 5
 
             .. container:: model-doc primus_pyt_train_llama-3.1-70b
 
@@ -314,7 +314,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI355X/llama3.1_70B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 8
+                        bash examples/run_pretrain.sh --training.local_batch_size 8
 
                   .. tab-item:: MI325X
                      :sync: MI325X
@@ -322,7 +322,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 6
+                        bash examples/run_pretrain.sh --training.local_batch_size 6
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -330,7 +330,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 4
+                        bash examples/run_pretrain.sh --training.local_batch_size 4
 
                To train Llama 3.1 70B with FP8 precision, use the following command.
 
@@ -342,7 +342,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI355X/llama3.1_70B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 6
+                        bash examples/run_pretrain.sh --training.local_batch_size 6
 
                   .. tab-item:: MI325X
                      :sync: MI325X
@@ -350,7 +350,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 5
+                        bash examples/run_pretrain.sh --training.local_batch_size 5
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -358,7 +358,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 3
+                        bash examples/run_pretrain.sh --training.local_batch_size 3
 
             .. container:: model-doc primus_pyt_train_deepseek-v2
 
@@ -372,7 +372,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI355X/deepseek_v3_16b-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 16
+                        bash examples/run_pretrain.sh --training.local_batch_size 16
 
                   .. tab-item:: MI325X
                      :sync: MI325X
@@ -380,7 +380,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 10
+                        bash examples/run_pretrain.sh --training.local_batch_size 10
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -388,7 +388,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 8
+                        bash examples/run_pretrain.sh --training.local_batch_size 8
 
                To train DeepSeek V2 16B with FP8 precision, use the following command.
 
@@ -400,7 +400,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI355X/deepseek_v3_16b-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 16
+                        bash examples/run_pretrain.sh --training.local_batch_size 16
 
                   .. tab-item:: MI325X
                      :sync: MI325X
@@ -408,7 +408,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 8
+                        bash examples/run_pretrain.sh --training.local_batch_size 8
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -416,7 +416,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
-                        bash examples/run_pretrain.sh --training.batch_size 8
+                        bash examples/run_pretrain.sh --training.local_batch_size 8
       {% endfor %}
    {% endfor %}
 
