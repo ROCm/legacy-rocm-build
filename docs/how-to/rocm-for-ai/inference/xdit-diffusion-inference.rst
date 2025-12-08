@@ -27,9 +27,9 @@ xDiT diffusion inference
          * - Software component
            - Version
 
-         {% for component_name, component_version in docker.components.items() %}
-         * - {{ component_name }}
-           - {{ component_version }}
+         {% for component_name, component_data in docker.components.items() %}
+         * - `{{ component_name }} <{{ component_data.url }}>`_
+           - {{ component_data.version }}
          {% endfor %}
 
 Follow this guide to pull the required image, spin up a container, download the model, and run a benchmark.

@@ -22,19 +22,45 @@ xdit_diffusion_inference:
         - "Adds T2V and TI2V support for Wan models."
         - "Adds support for SD-3.5 T2I model."
       components:
-        TheRock: 3e3f834
-        rccl: d23d18f
-        composable_kernel: 2570462
-        rocm-libraries: 0588f07
-        rocm-systems: 473025a
-        torch: 73adac
-        torchvision: f5c6c2e
-        triton: 7416ffc
-        accelerate: 34c1779
-        aiter: de14bec
-        diffusers: 40528e9
-        xfuser: ccba9d5
-        yunchang: 2c9b712
+        TheRock: 
+          version: 3e3f834
+          url: https://github.com/ROCm/TheRock
+        rccl:
+          version: d23d18f
+          url: https://github.com/ROCm/rccl
+        composable_kernel:
+          version: 2570462
+          url: https://github.com/ROCm/composable_kernel
+        rocm-libraries:
+          version: 0588f07
+          url: https://github.com/ROCm/rocm-libraries
+        rocm-systems:
+          version: 473025a
+          url: https://github.com/ROCm/rocm-systems
+        torch:
+          version: 73adac
+          url: https://github.com/pytorch/pytorch
+        torchvision:
+          version: f5c6c2e
+          url: https://github.com/pytorch/vision
+        triton:
+          version: 7416ffc
+          url: https://github.com/triton-lang/triton
+        accelerate:
+          version: 34c1779
+          url: https://github.com/huggingface/accelerate
+        aiter:
+          version: de14bec
+          url: https://github.com/ROCm/aiter
+        diffusers:
+          version: 40528e9
+          url: https://github.com/huggingface/diffusers
+        xfuser:
+          version: ccba9d5
+          url: https://github.com/xdit-project/xDiT
+        yunchang:
+          version: 2c9b712
+          url: https://github.com/feifeibear/long-context-attention
 
     - version: v25-11
       pull_tag: rocm/pytorch-xdit:v25.11
@@ -56,19 +82,45 @@ xdit_diffusion_inference:
         - "Bumps TheRock, AITER, Diffusers, xDiT versions."
         - "Changes Aiter rounding mode for faster gfx942 FWD Attention."
       components:
-        TheRock: 3e3f834
-        rccl: d23d18f
-        composable_kernel: 2570462
-        rocm-libraries: 0588f07
-        rocm-systems: 473025a
-        torch: 73adac
-        torchvision: f5c6c2e
-        triton: 7416ffc
-        accelerate: 34c1779
-        aiter: de14bec
-        diffusers: 40528e9
-        xfuser: 83978b5
-        yunchang: 2c9b712
+        TheRock:
+          version: 3e3f834
+          url: https://github.com/ROCm/TheRock
+        rccl:
+          version: d23d18f
+          url: https://github.com/ROCm/rccl
+        composable_kernel:
+          version: 2570462
+          url: https://github.com/ROCm/composable_kernel
+        rocm-libraries:
+          version: 0588f07
+          url: https://github.com/ROCm/rocm-libraries
+        rocm-systems:
+          version: 473025a
+          url: https://github.com/ROCm/rocm-systems
+        torch:
+          version: 73adac
+          url: https://github.com/pytorch/pytorch
+        torchvision:
+          version: f5c6c2e
+          url: https://github.com/pytorch/vision
+        triton:
+          version: 7416ffc
+          url: https://github.com/triton-lang/triton
+        accelerate:
+          version: 34c1779
+          url: https://github.com/huggingface/accelerate
+        aiter:
+          version: de14bec
+          url: https://github.com/ROCm/aiter
+        diffusers:
+          version: 40528e9
+          url: https://github.com/huggingface/diffusers
+        xfuser:
+          version: 83978b5
+          url: https://github.com/xdit-project/xDiT
+        yunchang:
+          version: 2c9b712
+          url: https://github.com/feifeibear/long-context-attention
 
     - version: v25-10
       pull_tag: rocm/pytorch-xdit:v25.10
@@ -90,19 +142,46 @@ xdit_diffusion_inference:
         - "Supports gfx942 and gfx950 series (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X)."
         - "Support Wan 2.1, Wan 2.2, HunyuanVideo and Flux workloads."
       components:
-        TheRock: 7afbe45
-        rccl: 9b04b2a
-        composable_kernel: b7a806f
-        rocm-libraries: f104555
-        rocm-systems: 25922d0
-        torch: 2.10.0a0+gite9c9017
-        torchvision: 0.22.0a0+966da7e
-        triton: 3.5.0+git52e49c12
-        accelerate: 1.11.0.dev0
-        aiter: 0.1.5.post4.dev20+ga25e55e79
-        diffusers: 0.36.0.dev0
-        xfuser: 0.4.4
-        yunchang: 0.6.3.post1
+        TheRock:
+          version: 7afbe45
+          url: https://github.com/ROCm/TheRock
+        rccl:
+          version: 9b04b2a
+          url: https://github.com/ROCm/rccl          
+        composable_kernel:
+          version: b7a806f
+          url: https://github.com/ROCm/composable_kernel          
+        rocm-libraries:
+          version: f104555
+          url: https://github.com/ROCm/rocm-libraries          
+        rocm-systems:
+          version: 25922d0
+          url: https://github.com/ROCm/rocm-systems          
+        torch:
+          version: 2.10.0a0+gite9c9017
+          url: https://github.com/pytorch/pytorch          
+        torchvision:
+          version: 0.22.0a0+966da7e
+          url: https://github.com/pytorch/vision          
+        triton:
+          version: 3.5.0+git52e49c12
+          url: https://github.com/triton-lang/triton
+        accelerate:
+          version: 1.11.0.dev0
+          url: https://github.com/huggingface/accelerate
+        aiter:
+          version: 0.1.5.post4.dev20+ga25e55e79
+          url: https://github.com/ROCm/aiter        
+        diffusers:
+          version: 0.36.0.dev0
+          url: https://github.com/huggingface/diffusers
+        xfuser:
+          version: 0.4.4
+          url: https://github.com/xdit-project/xDiT
+        yunchang:
+          version: 0.6.3.post1
+          url: https://github.com/feifeibear/long-context-attention
+
 
   model_groups:
     - group: Hunyuan Video
