@@ -241,7 +241,7 @@ Expand for full historical view of:
    .. [#os-compatibility-past-60] Some operating systems are supported on limited GPUs. For detailed information, see :ref:`supported_distributions` and select the required ROCm version for version specific support.
    .. [#gpu-compatibility-past-60] Some GPUs have limited operating system support. For detailed information, see :ref:`supported_GPUs` and select the required ROCm version for version specific support.
    .. [#tf-mi350-past-60] TensorFlow 2.17.1 is not supported on AMD Instinct MI350 Series GPUs. Use TensorFlow 2.19.1 or 2.18.1 with MI350 Series GPUs instead.
-   .. [#verl_compat-past-60] verl is supported only on ROCm 6.2.0.
+   .. [#verl_compat-past-60] verl is supported only on ROCm 7.0.0 and 6.2.0.
    .. [#stanford-megatron-lm_compat-past-60] Stanford Megatron-LM is supported only on ROCm 6.3.0.
    .. [#dgl_compat-past-60] DGL is supported only on ROCm 7.0.0, ROCm 6.4.3 and ROCm 6.4.0.
    .. [#megablocks_compat-past-60] Megablocks is supported only on ROCm 6.3.0.
