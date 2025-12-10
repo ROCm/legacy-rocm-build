@@ -82,7 +82,7 @@ The following table shows verl on ROCm support for GPU-accelerated modules.
       - Training engine
       - 
        * 0.6.0
-       * 0.3.0post0
+       * 0.3.0.post0
       - 
        * 7.0.0
        * 6.2.0
@@ -90,7 +90,7 @@ The following table shows verl on ROCm support for GPU-accelerated modules.
       - Inference engine
       - 
        * 0.6.0
-       * 0.3.0post0
+       * 0.3.0.post0
       - 
        * 7.0.0
        * 6.2.0
@@ -135,7 +135,7 @@ Click |docker-icon| to view the image on Docker Hub.
 
         <a href="https://hub.docker.com/layers/rocm/verl/verl-0.3.0.post0_rocm6.2_vllm0.6.3/images/sha256-cbe423803fd7850448b22444176bee06f4dcf22cd3c94c27732752d3a39b04b2"><i class="fab fa-docker fa-lg"></i> rocm/verl</a>
      - `6.2.0 <https://repo.radeon.com/rocm/apt/6.2/>`__
-     - `0.3.0post0 <https://github.com/volcengine/verl/releases/tag/v0.3.0.post0>`__
+     - `0.3.0.post0 <https://github.com/volcengine/verl/releases/tag/v0.3.0.post0>`__
      - 20.04
      - `2.5.0 <https://github.com/ROCm/pytorch/tree/release/2.5>`__
      - `3.9.19 <https://www.python.org/downloads/release/python-3919/>`__
