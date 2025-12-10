@@ -82,7 +82,7 @@ The following table shows verl on ROCm support for GPU-accelerated modules.
       - Training engine
       - 
        * 0.6.0
-       * 0.3.0post0
+       * 0.3.0.post0
       - 
        * 7.0.0
        * 6.2.0
@@ -90,7 +90,7 @@ The following table shows verl on ROCm support for GPU-accelerated modules.
       - Inference engine
       - 
        * 0.6.0
-       * 0.3.0post0
+       * 0.3.0.post0
       - 
        * 7.0.0
        * 6.2.0
