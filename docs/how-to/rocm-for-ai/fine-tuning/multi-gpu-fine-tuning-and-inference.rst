@@ -130,7 +130,7 @@ After loading the model in this way, the model is fully ready to use the resourc
 torchtune for fine-tuning and inference
 =============================================
 
-`torchtune <https://pytorch.org/torchtune/main/>`_ is a PyTorch-native library for easy single and multi-GPU 
+`torchtune <https://meta-pytorch.org/torchtune/main/>`_ is a PyTorch-native library for easy single and multi-GPU 
 model fine-tuning and inference with LLMs.
 
 #. Install torchtune using pip.
