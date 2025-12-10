@@ -349,7 +349,7 @@ with ROCm.
         you need to explicitly move audio data (waveform tensor) to GPU using
         ``.to('cuda')``.
 
-    * - `torchtune <https://docs.pytorch.org/torchtune/stable/index.html>`_
+    * - `torchtune <https://meta-pytorch.org/torchtune/stable/index.html>`_
       - PyTorch-native library designed for fine-tuning large language models
         (LLMs). Provides supports the full fine-tuning workflow and offers
         compatibility with popular production inference systems.
@@ -366,7 +366,7 @@ with ROCm.
         constructing flexible and performant data pipelines, with features still
         in prototype stage.
 
-    * - `torchrec <https://docs.pytorch.org/torchrec/>`_
+    * - `torchrec <https://meta-pytorch.org/torchrec/>`_
       - PyTorch domain library for common sparsity and parallelism primitives
         needed for large-scale recommender systems, enabling authors to train
         models with large embedding tables shared across many GPUs.
