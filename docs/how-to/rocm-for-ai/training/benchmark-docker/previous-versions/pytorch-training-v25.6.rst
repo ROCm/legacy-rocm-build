@@ -240,7 +240,7 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
                  - `Hugging Face Datasets <https://huggingface.co/docs/datasets/v3.2.0/en/index>`_ 3.2.0
 
                * - ``torchdata``
-                 - `TorchData <https://pytorch.org/data/beta/index.html>`_
+                 - `TorchData <https://meta-pytorch.org/data/beta/index.html>`_
 
                * - ``tomli``
                  - `Tomli <https://pypi.org/project/tomli/>`_
