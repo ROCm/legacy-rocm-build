@@ -198,5 +198,5 @@ if os.environ.get("READTHEDOCS", "") == "True":
     html_context["READTHEDOCS"] = True
 
 # temporary settings to speed up docs build for faster iteration
-external_projects_remote_repository = ""
-external_toc_exclude_missing = True
+# external_projects_remote_repository = ""
+# external_toc_exclude_missing = True
