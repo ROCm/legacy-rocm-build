@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: Learn how to validate LLM inference performance on MI300X GPUs using AMD MAD and the ROCm vLLM Docker image.
    :keywords: model, MAD, automation, dashboarding, validate
@@ -6,9 +8,14 @@
 vLLM inference performance testing
 **********************************
 
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm vLLM
+   inference performance documentation. See :doc:`../vllm` for the latest version.
+
 .. _vllm-benchmark-unified-docker-1103:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.11.1_20251103-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
 
@@ -40,7 +47,7 @@ AMD Instinct GPUs.
 What's new
 ==========
 
-The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <previous-versions/vllm-history>`.
+The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <vllm-history>`.
 
 * Enabled :ref:`AITER <vllm-optimization-aiter-switches>` by default.
 
@@ -53,7 +60,7 @@ The following is summary of notable changes since the :doc:`previous ROCm/vLLM D
 Supported models
 ================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.11.1_20251103-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
@@ -156,7 +163,7 @@ system's configuration.
 Pull the Docker image
 =====================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.11.1_20251103-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
 
@@ -170,7 +177,7 @@ Pull the Docker image
 Benchmarking
 ============
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.11.1_20251103-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
@@ -423,7 +430,7 @@ To reproduce this ROCm-enabled vLLM Docker image release, follow these steps:
 
 2. Use the following command to build the image directly from the specified commit.
 
-   .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+   .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.11.1_20251103-benchmark-models.yaml
 
       {% set docker = data.dockers[0] %}
       .. code-block:: shell
@@ -461,5 +468,5 @@ Further reading
 Previous versions
 =================
 
-See :doc:`previous-versions/vllm-history` to find documentation for previous releases
+See :doc:`vllm-history` to find documentation for previous releases
 of the ``ROCm/vllm`` Docker image.
