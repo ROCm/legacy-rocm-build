@@ -6,7 +6,7 @@
 vLLM inference performance testing
 **********************************
 
-.. _vllm-benchmark-unified-docker-1103:
+.. _vllm-benchmark-unified-docker-1210:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
 
@@ -34,21 +34,18 @@ vLLM inference performance testing
             {% endfor %}
 
 With this Docker image, you can quickly test the :ref:`expected
-inference performance numbers <vllm-benchmark-performance-measurements-1103>` for
+inference performance numbers <vllm-benchmark-performance-measurements-1210>` for
 AMD Instinct GPUs.
 
 What's new
 ==========
 
-The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <previous-versions/vllm-history>`.
+The following is summary of notable changes since the :doc:`previous ROCm/vLLM
+Docker release <previous-versions/vllm-history>`.
 
-* Enabled :ref:`AITER <vllm-optimization-aiter-switches>` by default.
+- Improved performance on Llama 3 MXFP4 through AITER optimizations and improved kernel fusion.
 
-* Fixed ``rms_norm`` segfault issue with Qwen 3 235B.
-
-* Known performance degradation on Llama 4 models due to `an upstream vLLM issue <https://github.com/vllm-project/vllm/issues/26320>`_.
-
-.. _vllm-benchmark-supported-models-1103:
+.. _vllm-benchmark-supported-models-1210:
 
 Supported models
 ================
@@ -58,7 +55,7 @@ Supported models
    {% set docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
 
-   .. _vllm-benchmark-available-models-1103:
+   .. _vllm-benchmark-available-models-1210:
 
    The following models are supported for inference performance benchmarking
    with vLLM and ROCm. Some instructions, commands, and recommendations in this
@@ -94,7 +91,7 @@ Supported models
          </div>
       </div>
 
-   .. _vllm-benchmark-vllm-1103:
+   .. _vllm-benchmark-vllm-1210:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -106,6 +103,15 @@ Supported models
       .. important::
 
          MXFP4 is supported only on MI355X and MI350X GPUs.
+      {% endif %}
+
+      {% if model.mad_tag in ["pyt_vllm_mixtral-8x7b", "pyt_vllm_mixtral-8x7b_fp8", "pyt_vllm_mixtral-8x22b", "pyt_vllm_mixtral-8x22b_fp8", "pyt_vllm_deepseek-r1"] %}
+      .. caution::
+
+         There is a known regression with AITER for MoE models such as Mixtral and
+         DeepSeek-R1. Consider using the :doc:`previous release
+         <previous-versions/vllm-0.11.1-20251103>`
+         ``rocm/vllm:rocm7.0.0_vllm_0.11.1_20251103`` for better performance.
       {% endif %}
 
       .. note::
@@ -122,7 +128,7 @@ Supported models
       {% endfor %}
    {% endfor %}
 
-.. _vllm-benchmark-performance-measurements-1103:
+.. _vllm-benchmark-performance-measurements-1210:
 
 Performance measurements
 ========================
@@ -178,7 +184,7 @@ Benchmarking
    Once the setup is complete, choose between two options to reproduce the
    benchmark results:
 
-   .. _vllm-benchmark-mad-1103:
+   .. _vllm-benchmark-mad-1210:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -190,7 +196,7 @@ Benchmarking
          .. tab-item:: MAD-integrated benchmarking
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`vllm-benchmark-supported-models-1103` to switch to another available model.
+            See :ref:`vllm-benchmark-supported-models-1210` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -219,7 +225,7 @@ Benchmarking
             and ``{{ model.mad_tag }}_serving.csv``.
 
             Although the :ref:`available models
-            <vllm-benchmark-available-models-1103>` are preconfigured to collect
+            <vllm-benchmark-available-models-1210>` are preconfigured to collect
             offline throughput and online serving performance data, you can
             also change the benchmarking parameters. See the standalone
             benchmarking tab for more information.
@@ -244,7 +250,7 @@ Benchmarking
          .. tab-item:: Standalone benchmarking
 
             The following commands are optimized for {{ model.model }}.
-            See :ref:`vllm-benchmark-supported-models-1103` to switch to another available model.
+            See :ref:`vllm-benchmark-supported-models-1210` to switch to another available model.
 
             .. seealso::
 
@@ -437,6 +443,14 @@ To reproduce this ROCm-enabled vLLM Docker image release, follow these steps:
    .. tip::
 
       Replace ``vllm-rocm`` with your desired image tag.
+
+Known issues
+============
+
+There is a known regression with AITER for MoE models such as Mixtral and
+DeepSeek-R1. Consider using the :doc:`previous release
+<previous-versions/vllm-0.11.1-20251103>`
+(``rocm/vllm:rocm7.0.0_vllm_0.11.1_20251103``) for better performance.
 
 Further reading
 ===============
