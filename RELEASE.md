@@ -1,9 +1,11 @@
 # ROCm Core SDK 7.10.0 release notes
 
 ROCm Core SDK 7.10.0 continues the technology preview release stream that began
-with ROCm 7.9.0, advancing the transition to the new
-[TheRock](https://github.com/rocm/therock) build and release system. To learn
-more about TheRock, see [ROCm Core SDK and TheRock Build
+with [ROCm
+7.9.0](https://rocm.docs.amd.com/en/7.9.0-preview/about/release-notes.html),
+advancing the transition to the new [TheRock](https://github.com/rocm/therock)
+build and release system. To learn more about TheRock, see [ROCm Core SDK and
+TheRock Build
 System](https://rocm.blogs.amd.com/software-tools-optimization/therock/README.html).
 
 This release expands AMD GPU and APU support coverage and adds more components
@@ -13,8 +15,9 @@ releases planned for 2026.
 
 (preview-stream-note)=
 ```{important}
-ROCm 7.10.0 follows the versioning discontinuity that began with 7.9.0 and
-remains separate from the 7.0 and 7.1 production releases. For the latest
+ROCm 7.10.0 follows the [versioning discontinuity that began with
+7.9.0](https://rocm.docs.amd.com/en/7.9.0-preview/about/release-notes.html#preview-stream-note)
+and remains separate from the 7.0 and 7.1 production releases. For the latest
 production stream release, see the [ROCm
 documentation](https://rocm.docs.amd.com/en/latest/).
 
