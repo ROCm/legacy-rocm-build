@@ -256,8 +256,9 @@ class SelectedContent(nodes.General, nodes.Element):
 
         id_attr = ""
         heading_elem = ""
+        combined_show_when = node.get("combined-show-when", show_when)
         if heading:
-            id_attr = nodes.make_id(f"{heading}-{show_when}")
+            id_attr = nodes.make_id(f"{heading}-{combined_show_when}")
 
             heading_elem = (
                 f'<h{heading_level} class="rocm-docs-custom-heading">'
@@ -302,8 +303,19 @@ class SelectedContentDirective(SphinxDirective):
         node["show-when"] = self.arguments[0]
         node["id"] = self.options.get("id", "")
         node["class"] = self.options.get("class", "")
-        node["heading"] = self.options.get("heading", "")  # empty string if none
+        node["heading"] = self.options.get("heading", "")
         node["heading-level"] = self.options.get("heading-level", None)
+
+        # Collect parent show-whens (if nested)
+        # to create a completely unique id
+        parent_show_whens = []
+        for ancestor in self.state.parent.traverse(include_self=True):
+            if isinstance(ancestor, SelectedContent) and "show-when" in ancestor:
+                parent_show_whens.append(ancestor["show-when"])
+
+        # Compose combined show-when chain
+        combined_show_when = "+".join(parent_show_whens + [node["show-when"]])
+        node["combined-show-when"] = combined_show_when
 
         # Parse nested content
         self.state.nested_parse(self.content, self.content_offset, node)
