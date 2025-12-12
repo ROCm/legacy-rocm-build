@@ -317,40 +317,45 @@ Run inference
                   --enable_tiling --enable_slicing \
                   --use_torch_compile \
                   --bench_output results
+
             {% endif %}
             {% if model.model == "Wan2.1" %}
-               cd Wan2.1
+               cd Wan
                mkdir results
 
-               torchrun --nproc_per_node=8 run.py \
-                  --task i2v-14B \
-                  --size 720*1280 --frame_num 81 \
-                  --ckpt_dir "${HF_HOME}/hub/models--Wan-AI--Wan2.1-I2V-14B-720P/snapshots/8823af45fcc58a8aa999a54b04be9abc7d2aac98/" \
-                  --image "/app/Wan2.1/examples/i2v_input.JPG" \
-                  --ulysses_size 8 --ring_size 1 \
+               torchrun --nproc_per_node=8 /app/Wan/run.py \
+                  --task i2v \
+                  --height 720 \
+                  --width 1280 \
+                  --model Wan-AI/Wan2.1-I2V-14B-720P-Diffusers \
+                  --img_file_path /app/Wan/i2v_input.JPG \
+                  --ulysses_degree 8 \
+                  --seed 42 \
+                  --num_frames 81 \
                   --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
-                  --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
-                  --offload_model 0 \
-                  --vae_dtype bfloat16 \
-                  --allow_tf32 \
-                  --compile
+                  --num_repetitions 1 \
+                  --num_inference_steps 40 \
+                  --use_torch_compile
+
             {% endif %}
             {% if model.model == "Wan2.2" %}
-               cd Wan2.2
+               cd Wan
                mkdir results
 
-               torchrun --nproc_per_node=8 run.py \
-                  --task i2v-A14B \
-                  --size 720*1280 --frame_num 81 \
-                  --ckpt_dir "${HF_HOME}/hub/models--Wan-AI--Wan2.2-I2V-A14B/snapshots/206a9ee1b7bfaaf8f7e4d81335650533490646a3/" \
-                  --image "/app/Wan2.2/examples/i2v_input.JPG" \
-                  --ulysses_size 8 --ring_size 1 \
+               torchrun --nproc_per_node=8 /app/Wan/run.py \
+                  --task i2v \
+                  --height 720 \
+                  --width 1280 \
+                  --model Wan-AI/Wan2.2-I2V-A14B-Diffusers \
+                  --img_file_path /app/Wan/i2v_input.JPG \
+                  --ulysses_degree 8 \
+                  --seed 42 \
+                  --num_frames 81 \
                   --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
-                  --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
-                  --offload_model 0 \
-                  --vae_dtype bfloat16 \
-                  --allow_tf32 \
-                  --compile
+                  --num_repetitions 1 \
+                  --num_inference_steps 40 \
+                  --use_torch_compile
+
             {% endif %}
 
             {% if model.model == "FLUX.1" %}
@@ -369,8 +374,7 @@ Run inference
                   --no_use_resolution_binning \
                   --ulysses_degree 8 \
                   --use_torch_compile \
-                  --num_repetitions 1 \
-                  --benchmark_output_directory results
+                  --num_repetitions 50
 
             {% endif %}
 
@@ -386,7 +390,8 @@ Run inference
                   --pipefusion_parallel_degree 4 \
                   --use_cfg_parallel \
                   --num_repetitions 50 \
-                  --dtype torch.float16" 
+                  --dtype torch.float16 \
+                  --output_path results
 
             {% endif %}
 
