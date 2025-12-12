@@ -164,7 +164,7 @@ class CustomTableRowDirective(SphinxDirective):
         # Sanity check
         parent = getattr(self.state, "parent", None)
         if not parent or not any(
-            isinstance(p, CustomTable)
+            isinstance(p, (CustomTable, CustomTableHead))
             for p in parent.traverse(include_self=True)
         ):
             logger.warning(
