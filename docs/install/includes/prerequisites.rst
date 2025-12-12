@@ -7,6 +7,49 @@ configuring permissions for GPU access. To confirm that your system is
 supported, see the :doc:`Compatibility matrix
 </compatibility/compatibility-matrix>`.
 
+.. selected:: os=ubuntu os=rhel os=sles
+
+   .. dropdown:: Install essential packages for Docker containers
+      :animate: fade-in-slide-down
+      :color: info
+      :icon: tools
+      :chevron: down-up
+
+      Docker images often include only a minimal set of installations, so some
+      essential packages might be missing. When installing ROCm within a Docker
+      container, you might need to install additional packages for a successful
+      installation.
+
+      If applicable, run the following command to install essential packages:
+
+      .. selected:: os=ubuntu
+
+         .. code-block:: bash
+
+            apt update
+            apt install sudo wget python3 libatomic1
+
+      .. selected:: os=rhel
+
+         .. selected:: os-version=10.1 os-version=10.0 os-version=9.7 os-version=9.6
+
+            .. code-block:: bash
+
+               dnf install sudo wget libatomic
+
+         .. selected:: os-version=8
+
+            .. code-block:: bash
+
+               dnf install sudo wget libatomic python3
+
+      .. selected:: os=sles
+
+         .. code-block:: bash
+
+            zypper install sudo libatomic1 libgfortran5 wget SUSEConnect python3
+
+
 .. selected:: os=windows
 
     1. Remove any existing HIP SDK for Windows installations and other
@@ -48,10 +91,18 @@ supported, see the :doc:`Compatibility matrix
 
    Run the following command to register your system:
 
-   .. code-block:: bash
+   .. selected:: os-version=10.1 os-version=10.0
 
-      subscription-manager register --username <username> --password <password>
-      subscription-manager attach --auto
+      .. code-block:: bash
+
+         subscription-manager register --username <username> --password <password>
+
+   .. selected:: os-version=9.7 os-version=9.6 os-version=8
+
+      .. code-block:: bash
+
+         subscription-manager register --username <username> --password <password>
+         subscription-manager attach --auto
 
 .. selected:: os=sles
    :heading: Register your SUSE Linux Enterprise Server system
@@ -117,41 +168,6 @@ supported, see the :doc:`Compatibility matrix
    .. code-block:: bash
 
       sudo zypper update
-
-.. selected:: os=ubuntu os=rhel os=sles
-
-   |
-   .. dropdown:: Install essential packages for Docker containers
-      :animate: fade-in-slide-down
-      :color: info
-      :icon: tools
-      :chevron: down-up
-
-      Docker images often include only a minimal set of installations, so some
-      essential packages might be missing. When installing ROCm within a Docker
-      container, you might need to install additional packages for a successful
-      installation.
-
-      If applicable, run the following command to install essential packages:
-
-      .. selected:: os=ubuntu
-
-         .. code-block:: bash
-
-            apt update
-            apt install sudo wget python3 libatomic1
-
-      .. selected:: os=rhel
-
-         .. code-block:: bash
-
-            dnf install sudo wget libatomic
-
-      .. selected:: os=sles
-
-         .. code-block:: bash
-
-            zypper install sudo libatomic1 libgfortran5
 
 .. selected:: i=pip
 

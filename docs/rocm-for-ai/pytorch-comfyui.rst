@@ -255,7 +255,7 @@ Install and run ComfyUI
          To see the GUI go to: http://127.0.0.1:8188
 
    b. Navigate to ``http://127.0.0.1:8188`` in your web browser. You might need to
-      replace `8188` with the appropriate port number.
+      replace ``8188`` with the appropriate port number.
 
       .. image:: /data/comfyui/comfyui-main.png
          :align: center
