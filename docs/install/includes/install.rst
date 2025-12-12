@@ -101,7 +101,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
          .. code-block:: bash
 
             python3.12 -m venv .venv
-            source ./.venv/bin/activate
+            source .venv/bin/activate
 
       .. selected:: os-version=22
 
@@ -111,7 +111,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
          .. code-block:: bash
 
             python3.11 -m venv .venv
-            source ./.venv/bin/activate
+            source .venv/bin/activate
 
    .. selected:: os=rhel
 
@@ -123,7 +123,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
          .. code-block:: bash
 
             python3.12 -m venv .venv
-            source ./.venv/bin/activate
+            source .venv/bin/activate
 
       .. selected:: os-version=9.7 os-version=9.6
 
@@ -133,7 +133,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
          .. code-block:: bash
 
             python3.11 -m venv .venv
-            source ./.venv/bin/activate
+            source .venv/bin/activate
 
       .. selected:: os-version=8
 
@@ -143,7 +143,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
          .. code-block:: bash
 
             python3.11 -m venv .venv
-            source ./.venv/bin/activate
+            source .venv/bin/activate
 
    .. selected:: os=sles
 
@@ -153,7 +153,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
       .. code-block:: bash
 
          python3.11 -m venv .venv
-         source ./.venv/bin/activate
+         source .venv/bin/activate
 
    .. selected:: os=windows
 
