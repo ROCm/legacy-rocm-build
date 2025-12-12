@@ -75,16 +75,6 @@
       .. matrix-cell:: Windows 11 25H2
 
    .. matrix-row::
-      :show-when: os=ubuntu os=rhel os=sles
-
-      .. matrix-cell:: Supported Radeon Software for Linux version
-         :header:
-
-      .. matrix-cell::
-
-         `25.30.1 <https://www.amd.com/en/support/download/linux-drivers.html#linux-for-radeon-pro>`__
-
-   .. matrix-row::
 
       .. matrix-cell:: Supported AMD GPU Driver (amdgpu) versions
          :header:
@@ -95,6 +85,16 @@
          `30.10.2 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.2/>`__,
          `30.10.1 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.1/>`__,
          `30.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10/>`__
+
+   .. matrix-row::
+      :show-when: os=ubuntu os=rhel os=sles
+
+      .. matrix-cell:: Supported Radeon Software for Linux version
+         :header:
+
+      .. matrix-cell::
+
+         `25.30.1 <https://www.amd.com/en/support/download/linux-drivers.html#linux-for-radeon-pro>`__
 
    .. matrix-row::
       :show-when: os=windows

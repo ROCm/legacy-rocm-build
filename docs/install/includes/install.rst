@@ -19,7 +19,7 @@ see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
       Do not copy/replace the ROCm compiler and runtime DLLs to System32 as
       this can cause conflicts.
 
-.. selected:: fam=instinct
+.. selected:: fam=instinct fam=radeon-pro fam=radeon
 
    .. selected:: os=ubuntu
       :heading: Install kernel driver
@@ -56,19 +56,6 @@ see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
       installation
       <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/install/detailed-install/package-manager/package-manager-sles.html>`__
       in the AMD Instinct Data Center GPU Documentation.
-
-.. selected:: fam=radeon-pro fam=radeon
-
-   .. selected:: os=ubuntu os=rhel os=sles
-      :heading: Install kernel driver
-      :heading-level: 3
-
-      For information about driver compatibility for Linux on Radeon, see the
-      :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
-
-      To download the Radeon Software for Linux package,
-      see `Linux Drivers for AMD Radeon and Radeon PRO Graphics
-      <https://www.amd.com/en/support/download/linux-drivers.html>`__.
 
 .. selected:: fam=ryzen
 
