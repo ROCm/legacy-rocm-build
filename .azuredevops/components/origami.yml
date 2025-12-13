@@ -211,24 +211,33 @@ jobs:
           ${{ if parameters.triggerDownstreamJobs }}:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
+      # Run tests using CTest (discovers and runs both C++ and Python tests)
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
         parameters:
           componentName: ${{ parameters.componentName }}
           os: ${{ job.os }}
-          testDir: '$(Agent.BuildDirectory)/rocm/bin'
-          testExecutable: './origami-tests'
-          testParameters: '-r console -r junit::out=test_output.xml'
-      - script: |
-          set -e
-          export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
-
-          echo "--- Running origami_test.py ---"
-          python3 $(Agent.BuildDirectory)/s/python/origami_test.py
-          
-          echo "--- Running origami_grid_test.py ---"
-          python3 $(Agent.BuildDirectory)/s/python/origami_grid_test.py
-        displayName: 'Run Python Binding Tests'
-        condition: succeeded()
+          testDir: '$(Agent.BuildDirectory)/s/build'
+          testParameters: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml'
+      # OLD WAY (commented out - kept for reference):
+      # Direct executable approach - replaced by CTest above
+      # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
+      #   parameters:
+      #     componentName: ${{ parameters.componentName }}
+      #     os: ${{ job.os }}
+      #     testDir: '$(Agent.BuildDirectory)/rocm/bin'
+      #     testExecutable: './origami-tests'
+      #     testParameters: '-r console -r junit::out=test_output.xml'
+      # - script: |
+      #     set -e
+      #     export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
+      #
+      #     echo "--- Running origami_test.py ---"
+      #     python3 $(Agent.BuildDirectory)/s/python/origami_test.py
+      #     
+      #     echo "--- Running origami_grid_test.py ---"
+      #     python3 $(Agent.BuildDirectory)/s/python/origami_grid_test.py
+      #   displayName: 'Run Python Binding Tests'
+      #   condition: succeeded()
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
