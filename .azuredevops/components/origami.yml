@@ -43,6 +43,8 @@ parameters:
   type: object
   default:
     - nanobind>=2.0.0
+    - pytest
+    - pytest-cov
 - name: rocmDependencies
   type: object
   default:
@@ -224,7 +226,7 @@ jobs:
           targetType: inline
           workingDirectory: build
           script: |
-            cmake --build . --target origami-tests origami_python -- -j$(nproc)
+            cmake --build . --target origami-tests _pyorigami -- -j$(nproc)
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       # Run tests using CTest (discovers and runs both C++ and Python tests)
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
@@ -233,36 +235,44 @@ jobs:
           os: ${{ job.os }}
           testDir: 'build'
           testParameters: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml'
-      # OLD WAY - Download artifacts approach (commented out - kept for reference):
-      # - task: DownloadPipelineArtifact@2
-      #   displayName: 'Download Build Directory Artifact'
-      #   inputs:
-      #     artifact: '${{ parameters.componentName }}_${{ job.os }}_build_dir'
-      #     path: '$(Agent.BuildDirectory)/s/build'
-      # - task: DownloadPipelineArtifact@2
-      #   displayName: 'Download Python Source Artifact'
-      #   inputs:
-      #     artifact: '${{ parameters.componentName }}_${{ job.os }}_python_src'
-      #     path: '$(Agent.BuildDirectory)/s/python'
-      # Direct executable approach (also commented out):
-      # - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
-      #   parameters:
-      #     componentName: ${{ parameters.componentName }}
-      #     os: ${{ job.os }}
-      #     testDir: '$(Agent.BuildDirectory)/rocm/bin'
-      #     testExecutable: './origami-tests'
-      #     testParameters: '-r console -r junit::out=test_output.xml'
-      # - script: |
-      #     set -e
-      #     export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
-      #
-      #     echo "--- Running origami_test.py ---"
-      #     python3 $(Agent.BuildDirectory)/s/python/origami_test.py
-      #     
-      #     echo "--- Running origami_grid_test.py ---"
-      #     python3 $(Agent.BuildDirectory)/s/python/origami_grid_test.py
-      #   displayName: 'Run Python Binding Tests'
-      #   condition: succeeded()
+      # Test pip install workflow
+      - task: Bash@3
+        displayName: 'Build Origami Python Wheel'
+        inputs:
+          targetType: inline
+          workingDirectory: $(Agent.BuildDirectory)/s/python
+          script: |
+            pip install build scikit-build-core
+            python -m build
+      - task: Bash@3
+        displayName: 'Test Pip Install and Import'
+        inputs:
+          targetType: inline
+          script: |
+            echo "==================================================================="
+            echo "Testing pip install workflow"
+            echo "==================================================================="
+            
+            # Install the wheel
+            WHEEL_FILE=$(find $(Agent.BuildDirectory)/s/python/dist -name "*.whl" | head -n 1)
+            echo "Installing wheel: $WHEEL_FILE"
+            pip install --force-reinstall "$WHEEL_FILE"
+            
+            # Verify import works
+            echo ""
+            echo "Verifying origami can be imported..."
+            python3 -c "import origami; print(f'✓ Successfully imported origami')"
+            
+            # Run pytest on installed package
+            echo ""
+            echo "Running pytest on installed package..."
+            cd $(Agent.BuildDirectory)/s/python
+            python3 -m pytest tests/ -v -m "not slow" --tb=short
+            
+            echo ""
+            echo "==================================================================="
+            echo "✓ Pip install test completed successfully"
+            echo "==================================================================="
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
