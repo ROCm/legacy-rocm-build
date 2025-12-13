@@ -217,7 +217,7 @@ jobs:
           os: ${{ job.os }}
           testDir: '$(Agent.BuildDirectory)/rocm/bin'
           testExecutable: './origami-tests'
-          testParameters: '-r junit -o test_output.xml'
+          testParameters: '-r console -r junit::out=test_output.xml'
       - script: |
           set -e
           export PYTHONPATH=$(Agent.BuildDirectory)/s/build/python:$PYTHONPATH
