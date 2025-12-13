@@ -242,15 +242,19 @@ jobs:
         inputs:
           targetType: inline
           script: |
-            # Auto-detect origami root directory (handles both sparse and full checkout)
-            if [ -d "$(Agent.BuildDirectory)/s/shared/origami" ]; then
-              ORIGAMI_ROOT="$(Agent.BuildDirectory)/s/shared/origami"
-            else
-              ORIGAMI_ROOT="$(Agent.BuildDirectory)/s"
+            # Ensure README.md exists where pyproject.toml expects it
+            if [ ! -f "$(Agent.BuildDirectory)/s/README.md" ]; then
+              README_PATH=$(find $(Agent.BuildDirectory)/s -name "README.md" -path "*/origami/README.md" | head -n 1)
+              if [ -n "$README_PATH" ]; then
+                cp "$README_PATH" "$(Agent.BuildDirectory)/s/README.md"
+                echo "Copied README from: $README_PATH"
+              else
+                echo "WARNING: README.md not found in checkout"
+              fi
             fi
             
-            echo "Building wheel from: $ORIGAMI_ROOT/python"
-            cd "$ORIGAMI_ROOT/python"
+            # Build wheel from python directory
+            cd "$(Agent.BuildDirectory)/s/python"
             pip install build scikit-build-core
             python3 -m build
       - task: Bash@3
