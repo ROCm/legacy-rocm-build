@@ -243,7 +243,7 @@ jobs:
           workingDirectory: $(Agent.BuildDirectory)/s/python
           script: |
             pip install build scikit-build-core
-            python -m build
+            python3 -m build
       - task: Bash@3
         displayName: 'Test Pip Install and Import'
         inputs:
