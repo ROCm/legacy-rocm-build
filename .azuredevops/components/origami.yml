@@ -241,8 +241,16 @@ jobs:
         displayName: 'Build Origami Python Wheel'
         inputs:
           targetType: inline
-          workingDirectory: $(Agent.BuildDirectory)/s/python
           script: |
+            # Auto-detect origami root directory (handles both sparse and full checkout)
+            if [ -d "$(Agent.BuildDirectory)/s/shared/origami" ]; then
+              ORIGAMI_ROOT="$(Agent.BuildDirectory)/s/shared/origami"
+            else
+              ORIGAMI_ROOT="$(Agent.BuildDirectory)/s"
+            fi
+            
+            echo "Building wheel from: $ORIGAMI_ROOT/python"
+            cd "$ORIGAMI_ROOT/python"
             pip install build scikit-build-core
             python3 -m build
       - task: Bash@3
@@ -250,12 +258,19 @@ jobs:
         inputs:
           targetType: inline
           script: |
+            # Auto-detect origami root directory (handles both sparse and full checkout)
+            if [ -d "$(Agent.BuildDirectory)/s/shared/origami" ]; then
+              ORIGAMI_ROOT="$(Agent.BuildDirectory)/s/shared/origami"
+            else
+              ORIGAMI_ROOT="$(Agent.BuildDirectory)/s"
+            fi
+            
             echo "==================================================================="
             echo "Testing pip install workflow"
             echo "==================================================================="
             
             # Install the wheel
-            WHEEL_FILE=$(find $(Agent.BuildDirectory)/s/python/dist -name "*.whl" | head -n 1)
+            WHEEL_FILE=$(find "$ORIGAMI_ROOT/python/dist" -name "*.whl" | head -n 1)
             echo "Installing wheel: $WHEEL_FILE"
             pip install --force-reinstall "$WHEEL_FILE"
             
@@ -267,7 +282,7 @@ jobs:
             # Run pytest on installed package
             echo ""
             echo "Running pytest on installed package..."
-            cd $(Agent.BuildDirectory)/s/python
+            cd "$ORIGAMI_ROOT/python"
             python3 -m pytest tests/ -v -m "not slow" --tb=short
             
             echo ""
