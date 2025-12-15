@@ -242,16 +242,40 @@ jobs:
         inputs:
           targetType: inline
           script: |
-            # Ensure README.md exists where pyproject.toml expects it
+            echo "==================================================================="
+            echo "DEBUG: Checkout structure"
+            echo "==================================================================="
+            echo "Contents of $(Agent.BuildDirectory)/s:"
+            ls -la "$(Agent.BuildDirectory)/s/" | head -30
+            echo ""
+            echo "Looking for README.md files:"
+            find "$(Agent.BuildDirectory)/s" -name "README.md" -type f
+            echo ""
+            
+            # Ensure README.md exists where pyproject.toml expects it (../README.md from python/)
             if [ ! -f "$(Agent.BuildDirectory)/s/README.md" ]; then
-              README_PATH=$(find $(Agent.BuildDirectory)/s -name "README.md" -path "*/origami/README.md" | head -n 1)
-              if [ -n "$README_PATH" ]; then
-                cp "$README_PATH" "$(Agent.BuildDirectory)/s/README.md"
-                echo "Copied README from: $README_PATH"
+              echo "README.md not found at $(Agent.BuildDirectory)/s/README.md, searching..."
+              # Try common locations
+              if [ -f "$(Agent.BuildDirectory)/s/shared/origami/README.md" ]; then
+                cp "$(Agent.BuildDirectory)/s/shared/origami/README.md" "$(Agent.BuildDirectory)/s/README.md"
+                echo "✓ Copied README from shared/origami/"
               else
-                echo "WARNING: README.md not found in checkout"
+                # Use find as fallback
+                README_PATH=$(find "$(Agent.BuildDirectory)/s" -name "README.md" -type f | grep -i origami | head -n 1)
+                if [ -n "$README_PATH" ]; then
+                  cp "$README_PATH" "$(Agent.BuildDirectory)/s/README.md"
+                  echo "✓ Copied README from: $README_PATH"
+                else
+                  echo "❌ ERROR: Could not find origami README.md"
+                  exit 1
+                fi
               fi
+            else
+              echo "✓ README.md already exists at $(Agent.BuildDirectory)/s/README.md"
             fi
+            
+            echo "==================================================================="
+            echo ""
             
             # Build wheel from python directory
             cd "$(Agent.BuildDirectory)/s/python"
