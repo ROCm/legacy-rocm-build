@@ -242,9 +242,21 @@ jobs:
         inputs:
           targetType: inline
           script: |
+            set -e  # Exit on any error
+            
             echo "==================================================================="
             echo "Testing pip install workflow (pip install -e .)"
             echo "==================================================================="
+            
+            # Set environment variables for pip install CMake build
+            export ROCM_PATH=$(Agent.BuildDirectory)/rocm
+            export CMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm:$(Agent.BuildDirectory)/vendor
+            export CMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+            
+            echo "ROCM_PATH: $ROCM_PATH"
+            echo "CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH"
+            echo "CMAKE_CXX_COMPILER: $CMAKE_CXX_COMPILER"
+            echo ""
             
             # Install from source directory (editable mode) - matches README instructions
             cd "$(Agent.BuildDirectory)/s/python"
