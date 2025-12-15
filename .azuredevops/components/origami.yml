@@ -236,81 +236,28 @@ jobs:
           os: ${{ job.os }}
           testDir: 'build'
           testParameters: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml'
-      # Test pip install workflow
+      # Test pip install workflow (matches README instructions)
       - task: Bash@3
-        displayName: 'Build Origami Python Wheel'
+        displayName: 'Test Pip Install from Source'
         inputs:
           targetType: inline
           script: |
             echo "==================================================================="
-            echo "DEBUG: Checkout structure"
+            echo "Testing pip install workflow (pip install -e .)"
             echo "==================================================================="
-            echo "Contents of $(Agent.BuildDirectory)/s:"
-            ls -la "$(Agent.BuildDirectory)/s/" | head -30
-            echo ""
-            echo "Looking for README.md files:"
-            find "$(Agent.BuildDirectory)/s" -name "README.md" -type f
-            echo ""
             
-            # Ensure README.md exists where pyproject.toml expects it (../README.md from python/)
-            if [ ! -f "$(Agent.BuildDirectory)/s/README.md" ]; then
-              echo "README.md not found at $(Agent.BuildDirectory)/s/README.md, searching..."
-              # Try common locations
-              if [ -f "$(Agent.BuildDirectory)/s/shared/origami/README.md" ]; then
-                cp "$(Agent.BuildDirectory)/s/shared/origami/README.md" "$(Agent.BuildDirectory)/s/README.md"
-                echo "✓ Copied README from shared/origami/"
-              else
-                # Use find as fallback
-                README_PATH=$(find "$(Agent.BuildDirectory)/s" -name "README.md" -type f | grep -i origami | head -n 1)
-                if [ -n "$README_PATH" ]; then
-                  cp "$README_PATH" "$(Agent.BuildDirectory)/s/README.md"
-                  echo "✓ Copied README from: $README_PATH"
-                else
-                  echo "❌ ERROR: Could not find origami README.md"
-                  exit 1
-                fi
-              fi
-            else
-              echo "✓ README.md already exists at $(Agent.BuildDirectory)/s/README.md"
-            fi
-            
-            echo "==================================================================="
-            echo ""
-            
-            # Build wheel from python directory
+            # Install from source directory (editable mode) - matches README instructions
             cd "$(Agent.BuildDirectory)/s/python"
-            pip install build scikit-build-core
-            python3 -m build
-      - task: Bash@3
-        displayName: 'Test Pip Install and Import'
-        inputs:
-          targetType: inline
-          script: |
-            # Auto-detect origami root directory (handles both sparse and full checkout)
-            if [ -d "$(Agent.BuildDirectory)/s/shared/origami" ]; then
-              ORIGAMI_ROOT="$(Agent.BuildDirectory)/s/shared/origami"
-            else
-              ORIGAMI_ROOT="$(Agent.BuildDirectory)/s"
-            fi
-            
-            echo "==================================================================="
-            echo "Testing pip install workflow"
-            echo "==================================================================="
-            
-            # Install the wheel
-            WHEEL_FILE=$(find "$ORIGAMI_ROOT/python/dist" -name "*.whl" | head -n 1)
-            echo "Installing wheel: $WHEEL_FILE"
-            pip install --force-reinstall "$WHEEL_FILE"
+            pip install -e .
             
             # Verify import works
             echo ""
             echo "Verifying origami can be imported..."
-            python3 -c "import origami; print(f'✓ Successfully imported origami')"
+            python3 -c "import origami; print('✓ Successfully imported origami')"
             
             # Run pytest on installed package
             echo ""
-            echo "Running pytest on installed package..."
-            cd "$ORIGAMI_ROOT/python"
+            echo "Running pytest tests..."
             python3 -m pytest tests/ -v -m "not slow" --tb=short
             
             echo ""
