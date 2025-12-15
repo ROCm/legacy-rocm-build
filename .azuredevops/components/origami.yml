@@ -72,8 +72,10 @@ parameters:
       - { os: ubuntu2204, packageManager: apt }
       - { os: almalinux8, packageManager: dnf }
     testJobs:
-      - { os: ubuntu2204, packageManager: apt, target: gfx1101 }
       - { os: ubuntu2204, packageManager: apt, target: gfx90a }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1100 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1151 }
+      - { os: ubuntu2204, packageManager: apt, target: gfx1201 }
 - name: downstreamComponentMatrix
   type: object
   default:
