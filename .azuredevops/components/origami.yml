@@ -236,13 +236,13 @@ jobs:
           os: ${{ job.os }}
           testDir: 'build'
           testParameters: '--output-on-failure --force-new-ctest-process --output-junit test_output.xml'
-      # Test pip install workflow (matches README instructions)
+      # Test pip install workflow
       - task: Bash@3
-        displayName: 'Test Pip Install from Source'
+        displayName: 'Test Pip Install'
         inputs:
           targetType: inline
           script: |
-            set -e  # Exit on any error
+            set -e
             
             echo "==================================================================="
             echo "Testing pip install workflow (pip install -e .)"
@@ -258,7 +258,7 @@ jobs:
             echo "CMAKE_CXX_COMPILER: $CMAKE_CXX_COMPILER"
             echo ""
             
-            # Install from source directory (editable mode) - matches README instructions
+            # Install from source directory
             cd "$(Agent.BuildDirectory)/s/python"
             pip install -e .
             
@@ -274,7 +274,7 @@ jobs:
             
             echo ""
             echo "==================================================================="
-            echo "✓ Pip install test completed successfully"
+            echo "Pip install test completed successfully"
             echo "==================================================================="
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
