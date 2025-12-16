@@ -86,6 +86,13 @@ parameters:
       buildDependsOn:
         - origami_build
 
+resources:
+  repositories:
+  - repository: pipelines_repo
+    type: github
+    endpoint: ROCm
+    name: ROCm/ROCm
+
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: origami_build_${{ job.os }}
