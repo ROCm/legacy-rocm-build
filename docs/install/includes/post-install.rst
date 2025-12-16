@@ -55,9 +55,9 @@ and validate the installation.
                .. code-block:: bash
 
                   # Configure ROCm PATH. Make sure you're in the therock-tarball directory before proceeding.
-                  export ROCM_PATH=$PWD
-                  export PATH=$PATH:$ROCM_PATH/install/bin
-                  export LD_LIBRARY_PATH=$ROCM_PATH/install/lib
+                  export ROCM_PATH=$PWD/install
+                  export PATH=$PATH:$ROCM_PATH/bin
+                  export LD_LIBRARY_PATH=$ROCM_PATH/lib
 
             2. After modifying your shell configuration, apply the change to
                your current session by sourcing your updated shell
