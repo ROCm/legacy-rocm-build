@@ -249,8 +249,42 @@ jobs:
       # - task: Bash@3
       #   displayName: 'Test Pip Install'
       #   inputs:
-      #     filePath: '$(Agent.BuildDirectory)/sparse/.azuredevops/scripts/test-origami-pip-install.sh'
-      #     arguments: '$(Agent.BuildDirectory)/rocm "$(Agent.BuildDirectory)/rocm:$(Agent.BuildDirectory)/vendor" $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++ $(Agent.BuildDirectory)/s/python'
+      #     targetType: inline
+      #     script: |
+      #       set -e
+            
+      #       echo "==================================================================="
+      #       echo "Testing pip install workflow (pip install -e .)"
+      #       echo "==================================================================="
+            
+      #       # Set environment variables for pip install CMake build
+      #       export ROCM_PATH=$(Agent.BuildDirectory)/rocm
+      #       export CMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm:$(Agent.BuildDirectory)/vendor
+      #       export CMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
+            
+      #       echo "ROCM_PATH: $ROCM_PATH"
+      #       echo "CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH"
+      #       echo "CMAKE_CXX_COMPILER: $CMAKE_CXX_COMPILER"
+      #       echo ""
+            
+      #       # Install from source directory
+      #       cd "$(Agent.BuildDirectory)/s/python"
+      #       pip install -e .
+            
+      #       # Verify import works
+      #       echo ""
+      #       echo "Verifying origami can be imported..."
+      #       python3 -c "import origami; print('✓ Successfully imported origami')"
+            
+      #       # Run pytest on installed package
+      #       echo ""
+      #       echo "Running pytest tests..."
+      #       python3 -m pytest tests/ -v -m "not slow" --tb=short
+            
+      #       echo ""
+      #       echo "==================================================================="
+      #       echo "Pip install test completed successfully"
+      #       echo "==================================================================="
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
           aptPackages: ${{ parameters.aptPackages }}
