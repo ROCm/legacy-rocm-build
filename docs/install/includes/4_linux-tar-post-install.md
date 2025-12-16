@@ -1,14 +1,14 @@
 1. Configure ROCm PATH. Make sure you're in the `therock-tarball` directory before proceeding.
 
    ```bash
-   export ROCM_PATH=$PWD
-   export PATH=$PATH:$ROCM_PATH/install/bin
+   export ROCM_PATH=$PWD/install
+   export PATH=$PATH:$ROCM_PATH/bin
    ```
 
 2. Configure `LD_LIBRARY_PATH`.
 
    ```bash
-   export LD_LIBRARY_PATH=$ROCM_PATH/install/lib
+   export LD_LIBRARY_PATH=$ROCM_PATH/lib
    ```
 
 3. Verify the ROCm installation.
