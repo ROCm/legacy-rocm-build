@@ -36,6 +36,7 @@ Andrej
 Arb
 Autocast
 autograd
+Backported
 BARs
 BatchNorm
 BLAS
@@ -79,6 +80,7 @@ CX
 Cavium
 CentOS
 ChatGPT
+Cholesky
 CoRR
 Codespaces
 Commitizen
@@ -140,6 +142,7 @@ etcd
 equalto
 fas
 FBGEMM
+FiLM
 FIFOs
 FFT
 FFTs
@@ -160,10 +163,12 @@ Fortran
 Fuyu
 GALB
 GAT
+GATNE
 GCC
 GCD
 GCDs
 GCN
+GCNN
 GDB
 GDDR
 GDR
@@ -182,6 +187,8 @@ Glibc
 GLXT
 Gloo
 GMI
+GNN
+GNNs
 GPG
 GPR
 GPT
@@ -197,9 +204,11 @@ GenAI
 GenZ
 GitHub
 Gitpod
+hardcoded
 HBM
 HCA
 HGX
+HLO
 HIPCC
 hipDataType
 HIPExtension
@@ -253,6 +262,7 @@ Intersphinx
 Intra
 Ioffe
 JAX's
+JAXLIB
 Jinja
 js
 JSON
@@ -274,6 +284,7 @@ LLM
 LLMs
 LLVM
 LM
+logsumexp
 LRU
 LSAN
 LSan
@@ -325,7 +336,9 @@ MoEs
 Mooncake
 Mpops
 Multicore
+multihost
 Multithreaded
+mx
 MXFP
 MyEnvironment
 MyST
@@ -389,6 +402,7 @@ perf
 PEQT
 PIL
 PILImage
+PJRT
 POR
 PRNG
 PRs
@@ -1018,6 +1032,7 @@ uncacheable
 uncorrectable
 underoptimized
 unhandled
+unfused
 uninstallation
 unmapped
 unsqueeze

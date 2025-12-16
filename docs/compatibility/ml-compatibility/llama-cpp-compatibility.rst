@@ -45,7 +45,7 @@ llama.cpp is supported on `ROCm 7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__
 Supported devices
 --------------------------------------------------------------------------------
 
-**Officially Supported**: AMD Instinct™ MI300X, MI325X, MI210
+**Officially Supported**: AMD Instinct™ MI325X, MI300X, MI210
 
 Use cases and recommendations
 ================================================================================
@@ -109,27 +109,27 @@ Click |docker-icon| to view the image on Docker Hub.
 
     * - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu24.04_full/images/sha256-a2ecd635eaa65bb289a9041330128677f3ae88bee6fee0597424b17e38d4903c"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6652.amd0_rocm7.0.0_ubuntu24.04_full/images/sha256-a94f0c7a598cc6504ff9e8371c016d7a2f93e69bf54a36c870f9522567201f10g"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
       - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu24.04_server/images/sha256-cb46b47df415addb5ceb6e6fdf0be70bf9d7f6863bbe6e10c2441ecb84246d52"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6652.amd0_rocm7.0.0_ubuntu24.04_server/images/sha256-be175932c3c96e882dfbc7e20e0e834f58c89c2925f48b222837ee929dfc47ee"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
       - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu24.04_light/images/sha256-8f8536eec4b05c0ff1c022f9fc6c527ad1c89e6c1ca0906e4d39e4de73edbde9"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
-      - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6652.amd0_rocm7.0.0_ubuntu24.04_light/images/sha256-d8ba0c70603da502c879b1f8010b439c8e7fa9f6cbdac8bbbbbba97cb41ebc9e"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - `b6652 <https://github.com/ROCm/llama.cpp/tree/release/b6652>`__
       - `7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__
       - 24.04
 
     * - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu22.04_full/images/sha256-f36de2a3b03ae53e81c85422cb3780368c9891e1ac7884b04403a921fe2ea45d"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6652.amd0_rocm7.0.0_ubuntu22.04_full/images/sha256-37582168984f25dce636cc7288298e06d94472ea35f65346b3541e6422b678ee"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
       - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu22.04_server/images/sha256-df15e8ab11a6837cd3736644fec1e047465d49e37d610ab0b79df000371327df"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6652.amd0_rocm7.0.0_ubuntu22.04_server/images/sha256-7e70578e6c3530c6591cc2c26da24a9ee68a20d318e12241de93c83224f83720"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
       - .. raw:: html
 
-           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6356_rocm7.0.0_ubuntu22.04_light/images/sha256-4ea2d5bb7964f0ee3ea9b30ba7f343edd6ddfab1b1037669ca7eafad2e3c2bd7"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
-      - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
+           <a href="https://hub.docker.com/layers/rocm/llama.cpp/llama.cpp-b6652.amd0_rocm7.0.0_ubuntu22.04_light/images/sha256-9a5231acf88b4a229677bc2c636ea3fe78a7a80f558bd80910b919855de93ad5"><i class="fab fa-docker fa-lg"></i> rocm/llama.cpp</a>
+      - `b6652 <https://github.com/ROCm/llama.cpp/tree/release/b6652>`__
       - `7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__
       - 22.04
 

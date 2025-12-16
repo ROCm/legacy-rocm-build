@@ -254,7 +254,7 @@ PyTorch training
    The ROCm PyTorch Training Docker image now focuses on :doc:`Training a model
    with Primus and PyTorch <../training/benchmark-docker/primus-pytorch>`. The
    following example refers to the legacy workflow :ref:`Training a
-   model with PyTorch <amd-pytorch-training-multinode-examples>`.
+   model with PyTorch <amd-pytorch-training-multinode-examples-v259>`.
 
 1. Download the ``run_multinode_train.sh`` benchmarking script from `<https://github.com/ROCm/MAD/tree/develop/scripts/pytorch_train>`__.
 
@@ -277,7 +277,7 @@ PyTorch training
 
 .. seealso::
 
-   See :ref:`Training a model with PyTorch <amd-pytorch-multinode-examples>` for more examples and information.
+   See :ref:`Training a model with PyTorch <amd-pytorch-training-multinode-examples-v259>` for more examples and information.
 
 Megatron-LM
 -----------

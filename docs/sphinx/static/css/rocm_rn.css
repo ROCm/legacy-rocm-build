@@ -124,3 +124,26 @@
 #rocm-rn-components:has(tbody.rocm-components-runtimes td:hover) tr:hover > td {
   background-color: var(--pst-color-table-row-hover-bg);
 }
+
+/* Left-align text + vertically center content for any table using this class */
+.table--middle-left {
+  border-collapse: collapse; /* optional but typical for docs tables */
+  width: 100%;
+}
+
+.table--middle-left th,
+.table--middle-left td {
+  text-align: left;
+  vertical-align: middle !important; /* override Bootstrap/Sphinx defaults */
+  padding: 0.5rem; /* optional: adjust to your spacing scale */
+}
+
+/* Normalize paragraphs inside cells so margins don't disrupt centering */
+.table--middle-left th p,
+.table--middle-left td p {
+  margin: 0;
+}
+
+div.sd-row ul {
+  padding-left: 2rem;
+}

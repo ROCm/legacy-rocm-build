@@ -63,6 +63,7 @@ parameters:
     libopenblas-dev: openblas-devel
     libopenmpi-dev: openmpi-devel
     libpci-dev: libpciaccess-devel
+    libsimde-dev: simde-devel
     libssl-dev: openssl-devel
     # note: libstdc++-devel is in the base packages list
     libsystemd-dev: systemd-devel

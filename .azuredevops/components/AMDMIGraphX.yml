@@ -128,6 +128,9 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
+      parameters:
+        cmakeVersion: '3.28.6'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
@@ -152,6 +155,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DGPU_TARGETS=${{ job.target }}
           -DAMDGPU_TARGETS=${{ job.target }}
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake/hip
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm
           -DHALF_INCLUDE_DIR=$(Agent.BuildDirectory)/rocm/include
@@ -192,6 +196,9 @@ jobs:
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
         pipModules: ${{ parameters.pipModules }}
+    - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
+      parameters:
+        cmakeVersion: '3.28.6'
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/checkout.yml
       parameters:
@@ -217,6 +224,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
           -DGPU_TARGETS=${{ job.target }}
           -DAMDGPU_TARGETS=${{ job.target }}
+          -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_MODULE_PATH=$(Agent.BuildDirectory)/rocm/lib/cmake/hip
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm/llvm;$(Agent.BuildDirectory)/rocm
           -DHALF_INCLUDE_DIR=$(Agent.BuildDirectory)/rocm/include

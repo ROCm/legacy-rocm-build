@@ -27,6 +27,7 @@
     <project groups="mathlibs" name="composable_kernel" />
     <project groups="mathlibs" name="hipSOLVER" />
     <project groups="mathlibs" name="hipTensor" />
+    <project groups="mathlibs" name="hipTensor" />
     <project groups="mathlibs" name="hipfort" />
     <project groups="mathlibs" name="rccl" />
     <project groups="mathlibs" name="rocAL" />
@@ -46,8 +47,8 @@
         rocprofiler rocr-runtime roctracer -->
     <project groups="mathlibs" name="rocm-systems" />
     <project groups="mathlibs" name="rocPyDecode" />
-    <project groups="mathlibs" name="rocSOLVER" />
     <project groups="mathlibs" name="rocSHMEM" />
+    <project groups="mathlibs" name="rocSOLVER" />
     <project groups="mathlibs" name="rocWMMA" />
     <project groups="mathlibs" name="rocm-cmake" />
     <project groups="mathlibs" name="rpp" />

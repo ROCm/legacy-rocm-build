@@ -62,6 +62,7 @@ parameters:
     - llvm-project
     - MIOpen
     - MIVisionX
+    - rocm_smi_lib
     - rccl
     - rocALUTION
     - rocBLAS
@@ -100,6 +101,7 @@ parameters:
     - llvm-project
     - MIOpen
     - MIVisionX
+    - rocm_smi_lib
     - rccl
     - rocALUTION
     - rocBLAS
@@ -146,6 +148,7 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-other.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
         registerROCmPackages: true
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/dependencies-cmake-custom.yml
       parameters:
@@ -245,5 +248,6 @@ jobs:
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
       parameters:
         aptPackages: ${{ parameters.aptPackages }}
+        pipModules: ${{ parameters.pipModules }}
         environment: test
         gpuTarget: ${{ job.target }}

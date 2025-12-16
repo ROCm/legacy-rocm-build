@@ -142,7 +142,7 @@ jobs:
 - ${{ if eq(parameters.unifiedBuild, False) }}:
   - ${{ each job in parameters.jobMatrix.testJobs }}:
     - job: ${{ parameters.componentName }}_test_${{ job.target }}
-      timeoutInMinutes: 270
+      timeoutInMinutes: 350
       dependsOn: ${{ parameters.componentName }}_build_${{ job.target }}
       condition:
         and(succeeded(),

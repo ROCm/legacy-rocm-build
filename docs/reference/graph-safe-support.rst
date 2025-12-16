@@ -93,7 +93,7 @@ The following table shows whether a ROCm library is graph-safe.
       - ⚠️ (experimental)
     * 
       - `rocThrust <https://github.com/ROCm/rocThrust>`_
-      - ❌ (see :doc:`details <rocthrust:hipgraph-support>`)
+      - ❌
     * 
       - `rocWMMA <https://github.com/ROCm/rocWMMA>`_
       - ❌

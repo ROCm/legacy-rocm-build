@@ -399,6 +399,28 @@ with ROCm.
 
         **Note:** Only official release exists.
 
+Key features and enhancements for PyTorch 2.9 with ROCm 7.1.1
+================================================================================
+- Scaled Dot Product Attention (SDPA) upgraded to use AOTriton version 0.11b.
+
+- Default hipBLASLt support enabled for gfx908 architecture on ROCm 6.3 and later.
+
+- MIOpen now supports channels last memory format for 3D convolutions and batch normalization.
+
+- NHWC convolution operations in MIOpen optimized by eliminating unnecessary transpose operations.
+
+- Improved tensor.item() performance by removing redundant synchronization.
+
+- Enhanced performance for element-wise operations and reduction kernels.
+
+- Added support for grouped GEMM operations through fbgemm_gpu generative AI components.
+
+- Resolved device error in Inductor when using CUDA graph trees with HIP.
+
+- Corrected logsumexp scaling in AOTriton-based SDPA implementation.
+
+- Added stream graph capture status validation in memory copy synchronization functions.
+
 Key features and enhancements for PyTorch 2.8 with ROCm 7.1
 ================================================================================
 

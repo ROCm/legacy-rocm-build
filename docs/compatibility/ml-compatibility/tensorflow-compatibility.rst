@@ -136,7 +136,7 @@ The following section maps supported data types and GPU-accelerated TensorFlow
 features to their minimum supported ROCm and TensorFlow versions.
 
 Data types
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------
 
 The data type of a tensor is specified using the ``dtype`` attribute or
 argument, and TensorFlow supports a wide range of data types for different use
@@ -254,7 +254,7 @@ are as follows:
       - 1.7
 
 Features
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------
 
 This table provides an overview of key features in TensorFlow and their
 availability in ROCm.
@@ -346,7 +346,7 @@ availability in ROCm.
       - 1.9.2
 
 Distributed library features
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------
 
 Enables developers to scale computations across multiple devices on a single machine or
 across multiple machines.

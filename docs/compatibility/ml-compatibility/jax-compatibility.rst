@@ -43,6 +43,26 @@ quarterly alongside new ROCm releases. These images undergo full AMD testing.
 `Community ROCm JAX Docker images <https://hub.docker.com/r/rocm/jax-community/tags>`_
 follow upstream JAX releases and use the latest available ROCm version.
 
+JAX Plugin-PJRT with JAX/JAXLIB compatibility
+================================================================================
+
+Portable JIT Runtime (PJRT) is an open, stable interface for device runtime and
+compiler. The following table details the ROCm version compatibility matrix
+between JAX Plugin–PJRT and JAX/JAXLIB.
+
+.. list-table::
+    :header-rows: 1
+
+    * - JAX Plugin-PJRT
+      - JAX/JAXLIB
+      - ROCm
+    * - 0.7.1
+      - 0.7.1
+      - 7.1.1, 7.1.0
+    * - 0.6.0
+      - 0.6.2, 0.6.0
+      - 7.0.2, 7.0.1, 7.0.0
+
 Use cases and recommendations
 ================================================================================
 
@@ -248,6 +268,33 @@ For a complete and up-to-date list of JAX public modules (for example, ``jax.num
   contains details about limitations specific to the ROCm backend. The list of
   JAX API modules are maintained by the JAX project and is subject to change.
   Refer to the official Jax documentation for the most up-to-date information.
+
+Key features and enhancements for ROCm 7.1
+===============================================================================
+
+- Enabled compilation of multihost HLO runner Python bindings.
+
+  - Backported multihost HLO runner bindings and some related changes to
+    :code:`FunctionalHloRunner`.
+
+  - Added :code:`requirements_lock_3_12` to enable building for Python 3.12.
+
+- Removed hardcoded NHWC convolution layout for ``fp16`` precision to address the performance drops for ``fp16`` precision on gfx12xx GPUs.
+
+
+- ROCprofiler-SDK integration:
+
+  - Integrated ROCprofiler-SDK (v3) to XLA to improve profiling of GPU events,
+    support both time-based and step-based profiling.
+
+  - Added unit tests for :code:`rocm_collector` and :code:`rocm_tracer`.
+
+- Added Triton unsupported conversion from ``f8E4M3FNUZ`` to ``fp16`` with
+  rounding mode.
+
+- Introduced :code:`CudnnFusedConvDecomposer` to revert fused convolutions
+  when :code:`ConvAlgorithmPicker` fails to find a fused algorithm, and removed
+  unfused fallback paths from :code:`RocmFusedConvRunner`.
 
 Key features and enhancements for ROCm 7.0
 ===============================================================================

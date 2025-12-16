@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: Learn how to validate LLM inference performance on MI300X GPUs using AMD MAD and the ROCm vLLM Docker image.
    :keywords: model, MAD, automation, dashboarding, validate
@@ -6,9 +8,14 @@
 vLLM inference performance testing
 **********************************
 
-.. _vllm-benchmark-unified-docker-1024:
+.. caution::
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+   This documentation does not reflect the latest version of ROCm vLLM
+   inference performance documentation. See :doc:`../vllm` for the latest version.
+
+.. _vllm-benchmark-unified-docker-930:
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.10.1_20251006-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
 
@@ -34,31 +41,45 @@ vLLM inference performance testing
             {% endfor %}
 
 With this Docker image, you can quickly test the :ref:`expected
-inference performance numbers <vllm-benchmark-performance-measurements-1024>` for
+inference performance numbers <vllm-benchmark-performance-measurements-930>` for
 AMD Instinct GPUs.
 
 What's new
 ==========
 
-The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <previous-versions/vllm-history>`.
+The following is summary of notable changes since the :doc:`previous ROCm/vLLM Docker release <vllm-history>`.
 
-* Enabled :ref:`AITER <vllm-optimization-aiter-switches>` by default.
+* Added support for AMD Instinct MI355X and MI350X GPUs.
 
-* Fixed ``rms_norm`` segfault issue with Qwen 3 235B.
+* Added support and benchmarking instructions for the following models. See :ref:`vllm-benchmark-supported-models-930`.
 
-* Known performance degradation on Llama 4 models due to `an upstream vLLM issue <https://github.com/vllm-project/vllm/issues/26320>`_.
+  * Llama 4 Scout and Maverick
 
-.. _vllm-benchmark-supported-models-1024:
+  * DeepSeek R1 0528 FP8
+
+  * MXFP4 models (MI355X and MI350X only): Llama 3.3 70B MXFP4 and Llama 3.1 405B MXFP4
+
+  * GPT OSS 20B and 120B
+
+  * Qwen 3 32B, 30B-A3B, and 235B-A22B
+
+* Removed the deprecated ``--max-seq-len-to-capture`` flag.
+
+* ``--gpu-memory-utilization`` is now configurable via the `configuration files
+  <https://github.com/ROCm/MAD/tree/develop/scripts/vllm/configs>`__ in the MAD
+  repository.
+
+.. _vllm-benchmark-supported-models-930:
 
 Supported models
 ================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.10.1_20251006-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
 
-   .. _vllm-benchmark-available-models-1024:
+   .. _vllm-benchmark-available-models-930:
 
    The following models are supported for inference performance benchmarking
    with vLLM and ROCm. Some instructions, commands, and recommendations in this
@@ -94,7 +115,7 @@ Supported models
          </div>
       </div>
 
-   .. _vllm-benchmark-vllm-1024:
+   .. _vllm-benchmark-vllm-930:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -122,7 +143,7 @@ Supported models
       {% endfor %}
    {% endfor %}
 
-.. _vllm-benchmark-performance-measurements-1024:
+.. _vllm-benchmark-performance-measurements-930:
 
 Performance measurements
 ========================
@@ -156,7 +177,7 @@ system's configuration.
 Pull the Docker image
 =====================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.10.1_20251006-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
 
@@ -170,7 +191,7 @@ Pull the Docker image
 Benchmarking
 ============
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.10.1_20251006-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
    {% set model_groups = data.model_groups %}
@@ -178,7 +199,7 @@ Benchmarking
    Once the setup is complete, choose between two options to reproduce the
    benchmark results:
 
-   .. _vllm-benchmark-mad-1024:
+   .. _vllm-benchmark-mad-930:
 
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
@@ -190,7 +211,7 @@ Benchmarking
          .. tab-item:: MAD-integrated benchmarking
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`vllm-benchmark-supported-models-1024` to switch to another available model.
+            See :ref:`vllm-benchmark-supported-models-930` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -219,7 +240,7 @@ Benchmarking
             and ``{{ model.mad_tag }}_serving.csv``.
 
             Although the :ref:`available models
-            <vllm-benchmark-available-models-1024>` are preconfigured to collect
+            <vllm-benchmark-available-models-930>` are preconfigured to collect
             offline throughput and online serving performance data, you can
             also change the benchmarking parameters. See the standalone
             benchmarking tab for more information.
@@ -244,7 +265,7 @@ Benchmarking
          .. tab-item:: Standalone benchmarking
 
             The following commands are optimized for {{ model.model }}.
-            See :ref:`vllm-benchmark-supported-models-1024` to switch to another available model.
+            See :ref:`vllm-benchmark-supported-models-930` to switch to another available model.
 
             .. seealso::
 
@@ -405,10 +426,6 @@ Advanced usage
 For information on experimental features and known issues related to ROCm optimization efforts on vLLM,
 see the developer's guide at `<https://github.com/ROCm/vllm/blob/documentation/docs/dev-docker/README.md>`__.
 
-.. note::
-
-   If you’re using this Docker image on other AMD GPUs such as the AMD Instinct MI200 Series or Radeon, add ``export VLLM_ROCM_USE_AITER=0`` to your command, since AITER is only supported on gfx942 and gfx950 architectures.
-
 Reproducing the Docker image
 ----------------------------
 
@@ -423,7 +440,7 @@ To reproduce this ROCm-enabled vLLM Docker image release, follow these steps:
 
 2. Use the following command to build the image directly from the specified commit.
 
-   .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/vllm-benchmark-models.yaml
+   .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/vllm_0.10.1_20251006-benchmark-models.yaml
 
       {% set docker = data.dockers[0] %}
       .. code-block:: shell
@@ -461,5 +478,5 @@ Further reading
 Previous versions
 =================
 
-See :doc:`previous-versions/vllm-history` to find documentation for previous releases
+See :doc:`vllm-history` to find documentation for previous releases
 of the ``ROCm/vllm`` Docker image.

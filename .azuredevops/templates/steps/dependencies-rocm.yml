@@ -35,8 +35,8 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     amdsmi:
-      pipelineId: 99
-      developBranch: amd-staging
+      pipelineId: 376
+      developBranch: develop
       hasGpuTarget: false
     aomp-extras:
       pipelineId: 111
@@ -115,7 +115,7 @@ parameters:
       developBranch: develop
       hasGpuTarget: true
     hipTensor:
-      pipelineId: 105
+      pipelineId: 374
       developBranch: develop
       hasGpuTarget: true
     llvm-project:
