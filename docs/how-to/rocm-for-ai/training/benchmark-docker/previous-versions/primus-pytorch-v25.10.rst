@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: How to train a model using PyTorch for ROCm.
    :keywords: ROCm, AI, LLM, train, PyTorch, torch, Llama, flux, tutorial, docker
@@ -5,6 +7,11 @@
 ****************************************
 Training a model with Primus and PyTorch
 ****************************************
+
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm Primus PyTorch training
+   performance benchmark documentation. See :doc:`../primus-pytorch` for the latest version.
 
 `Primus <https://github.com/AMD-AGI/Primus>`__ is a unified and flexible
 LLM training framework designed to streamline training. It streamlines LLM
@@ -45,7 +52,7 @@ with Primus Turbo optimizations.
               - {{ component_version }}
             {% endfor %}
 
-.. _amd-primus-pytorch-model-support-v25.11:
+.. _amd-primus-pytorch-model-support-v2510:
 
 Supported models
 ================
@@ -91,7 +98,7 @@ vary by model -- select one to get started.
    For additional workloads, including Llama 3.3, Llama 3.2, Llama 2, GPT OSS, Qwen, and Flux models,
    see the documentation :doc:`pytorch-training` (without Primus)
 
-.. _amd-primus-pytorch-performance-measurements-v25.11:
+.. _amd-primus-pytorch-performance-measurements-v2510:
 
 System validation
 =================
@@ -146,7 +153,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v25.11` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v2510` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -184,7 +191,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run commands are tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v25.11` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v2510` to switch to another available model.
 
             .. rubric:: Download the Docker image and required packages
 
@@ -437,5 +444,5 @@ Further reading
 Previous versions
 =================
 
-See :doc:`previous-versions/pytorch-training-history` to find documentation for previous releases
+See :doc:`pytorch-training-history` to find documentation for previous releases
 of the ``ROCm/pytorch-training`` Docker image.

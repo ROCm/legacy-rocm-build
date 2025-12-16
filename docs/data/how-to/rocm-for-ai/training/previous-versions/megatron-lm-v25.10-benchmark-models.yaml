@@ -1,0 +1,49 @@
+docker:
+  pull_tag: rocm/primus:v25.10
+  docker_hub_url: https://hub.docker.com/layers/rocm/primus/v25.10/images/sha256-140c37cd2eeeb183759b9622543fc03cc210dc97cbfa18eeefdcbda84420c197
+  components:
+    ROCm: 7.1.0
+    Primus: 0.3.0
+    Primus Turbo: 0.1.1
+    PyTorch: 2.10.0.dev20251112+rocm7.1
+    Python: "3.10"
+    Transformer Engine: 2.4.0.dev0+32e2d1d4
+    Flash Attention: 2.8.3
+    hipBLASLt: 1.2.0-09ab7153e2
+    Triton: 3.4.0
+    RCCL: 2.27.7
+model_groups:
+  - group: Meta Llama
+    tag: llama
+    models:
+      - model: Llama 3.3 70B
+        mad_tag: pyt_megatron_lm_train_llama-3.3-70b
+      - model: Llama 3.1 8B
+        mad_tag: pyt_megatron_lm_train_llama-3.1-8b
+      - model: Llama 3.1 70B
+        mad_tag: pyt_megatron_lm_train_llama-3.1-70b
+      - model: Llama 2 7B
+        mad_tag: pyt_megatron_lm_train_llama-2-7b
+      - model: Llama 2 70B
+        mad_tag: pyt_megatron_lm_train_llama-2-70b
+  - group: DeepSeek
+    tag: deepseek
+    models:
+      - model: DeepSeek-V3 (proxy)
+        mad_tag: pyt_megatron_lm_train_deepseek-v3-proxy
+      - model: DeepSeek-V2-Lite
+        mad_tag: pyt_megatron_lm_train_deepseek-v2-lite-16b
+  - group: Mistral AI
+    tag: mistral
+    models:
+      - model: Mixtral 8x7B
+        mad_tag: pyt_megatron_lm_train_mixtral-8x7b
+      - model: Mixtral 8x22B (proxy)
+        mad_tag: pyt_megatron_lm_train_mixtral-8x22b-proxy
+  - group: Qwen
+    tag: qwen
+    models:
+      - model: Qwen 2.5 7B
+        mad_tag: pyt_megatron_lm_train_qwen2.5-7b
+      - model: Qwen 2.5 72B
+        mad_tag: pyt_megatron_lm_train_qwen2.5-72b

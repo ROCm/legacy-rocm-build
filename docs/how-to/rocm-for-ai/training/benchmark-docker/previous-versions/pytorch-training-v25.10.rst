@@ -8,15 +8,20 @@
 Training a model with PyTorch on ROCm
 **************************************
 
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm PyTorch training
+   performance benchmark documentation. See :doc:`../pytorch-training` for the latest version.
+
 .. note::
 
    For a unified training solution on AMD GPUs with ROCm, the `rocm/pytorch-training
    <https://hub.docker.com/r/rocm/pytorch-training/>`__ Docker Hub registry will be
    deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
    The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
-   including torchtitan and :doc:`Megatron-LM <primus-megatron>`.
+   including torchtitan and :doc:`Megatron-LM <../primus-megatron>`.
 
-   See :doc:`primus-pytorch` for details.
+   See :doc:`../primus-pytorch` for details.
 
 PyTorch is an open-source machine learning framework that is widely used for
 model training with GPU-optimized components for transformer-based models.
@@ -43,7 +48,7 @@ training workloads:
               - {{ component_version }}
             {% endfor %}
 
-.. _amd-pytorch-training-model-support-v25.11:
+.. _amd-pytorch-training-model-support-v2510:
 
 Supported models
 ================
@@ -85,7 +90,7 @@ one to get started.
          </div>
       </div>
 
-.. _amd-pytorch-training-supported-training-modes-v25.11:
+.. _amd-pytorch-training-supported-training-modes-v2510:
 
 The following table lists supported training modes per model.
 
@@ -120,7 +125,7 @@ The following table lists supported training modes per model.
          unlisted fine-tuning methods by using an existing file in the
          ``/workspace/torchtune/recipes/configs`` directory as a template.
 
-.. _amd-pytorch-training-performance-measurements-v25.11:
+.. _amd-pytorch-training-performance-measurements-v2510:
 
 Performance measurements
 ========================
@@ -176,7 +181,7 @@ Run training
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-pytorch-training-model-support-v25.11` to switch to another available model.
+            See :ref:`amd-pytorch-training-model-support-v2510` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -214,7 +219,7 @@ Run training
          .. container:: model-doc {{ model.mad_tag }}
 
             The following commands are tailored to {{ model.model }}.
-            See :ref:`amd-pytorch-training-model-support-v25.11` to switch to another available model.
+            See :ref:`amd-pytorch-training-model-support-v2510` to switch to another available model.
 
       {% endfor %}
    {% endfor %}
@@ -443,7 +448,7 @@ Run training
                .. note::
 
                   Currently, FLUX models are not supported out-of-the-box on this Docker.
-                  To use FLUX, refer to ``rocm/pytorch-training`` Docker: :doc:`previous-versions/pytorch-training-v25.6`
+                  To use FLUX, refer to ``rocm/pytorch-training`` Docker: :doc:`pytorch-training-v25.6`
 
                   Occasionally, downloading the Flux dataset might fail. In the event of this
                   error, manually download it from Hugging Face at
@@ -532,7 +537,7 @@ Run training
 
             To start the fine-tuning benchmark, use the following command with the
             appropriate options. See the following list of options and their descriptions.
-            See :ref:`supported training modes <amd-pytorch-training-supported-training-modes-v25.11>`.
+            See :ref:`supported training modes <amd-pytorch-training-supported-training-modes-v2510>`.
 
             .. code-block:: shell
 
@@ -597,7 +602,7 @@ Run training
 
             For examples of benchmarking commands, see `<https://github.com/ROCm/MAD/tree/develop/benchmark/pytorch_train#benchmarking-examples>`__.
 
-.. _amd-pytorch-training-multinode-examples-v25.11:
+.. _amd-pytorch-training-multinode-examples-v2510:
 
 Multi-node training
 -------------------
@@ -660,5 +665,5 @@ Further reading
 Previous versions
 =================
 
-See :doc:`previous-versions/pytorch-training-history` to find documentation for previous releases
+See :doc:`pytorch-training-history` to find documentation for previous releases
 of the ``ROCm/pytorch-training`` Docker image.
