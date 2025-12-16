@@ -86,13 +86,6 @@ parameters:
       buildDependsOn:
         - origami_build
 
-resources:
-  repositories:
-  - repository: pipelines_repo
-    type: github
-    endpoint: ROCm
-    name: ROCm/ROCm
-
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: origami_build_${{ job.os }}
@@ -249,7 +242,7 @@ jobs:
       - task: Bash@3
         displayName: 'Test Pip Install'
         inputs:
-          filePath: '$(resources.repository.pipelines_repo.path)/.azuredevops/scripts/test-origami-pip-install.sh'
+          filePath: '.azuredevops/scripts/test-origami-pip-install.sh'
           arguments: '$(Agent.BuildDirectory)/rocm "$(Agent.BuildDirectory)/rocm:$(Agent.BuildDirectory)/vendor" $(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++ $(Agent.BuildDirectory)/s/python'
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/docker-container.yml
         parameters:
