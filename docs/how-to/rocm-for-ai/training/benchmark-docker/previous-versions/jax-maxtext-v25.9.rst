@@ -13,6 +13,12 @@ Training a model with JAX MaxText on ROCm
    This documentation does not reflect the latest version of ROCm JAX MaxText
    training performance documentation. See :doc:`../jax-maxtext` for the latest version.
 
+.. note::
+
+   We have refreshed the ``rocm/jax-training:maxtext-v25.9`` image as
+   `rocm/jax-training:maxtext-v25.9.1`. This should include a fix to address
+   segmentation fault issues during launch.
+
 The MaxText for ROCm training Docker image
 provides a prebuilt environment for training on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs,
 including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.

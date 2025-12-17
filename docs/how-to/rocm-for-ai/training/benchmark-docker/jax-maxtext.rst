@@ -33,17 +33,14 @@ It includes the following software components:
               - {{ component_version }}
 
             {% endfor %}
-         {% if jax_version == "0.6.0" %}
-         .. note::
-
-            Shardy is a new config in JAX 0.6.0. You might get related errors if it's
-            not configured correctly. For now you can turn it off by setting
-            ``shardy=False`` during the training run. You can also follow the `migration
-            guide <https://docs.jax.dev/en/latest/shardy_jax_migration.html>`__ to enable
-            it.
-         {% endif %}
-
       {% endfor %}
+
+.. note::
+
+   The ``rocm/jax-training:maxtext-v25.9`` has been updated to
+   ``rocm/jax-training:maxtext-v25.9.1``. This revision should include
+   a fix to address segmentation fault issues during launch. See the
+   :doc:`versioned documentation <previous-versions/jax-maxtext-v25.9>`.
 
 MaxText with on ROCm provides the following key features to train large language models efficiently:
 
@@ -325,6 +322,27 @@ benchmark results:
 
                   sbatch -N <num_nodes> {{ model.multinode_training_script }}
 
+            .. _maxtext-rocprofv3:
+
+            .. rubric:: Profiling with rocprofv3
+
+            If you need to collect a trace and the JAX profiler isn't working, use ``rocprofv3`` provided by the :doc:`ROCprofiler-SDK <rocprofiler-sdk:index>` as a workaround. For example:
+
+            .. code-block:: bash
+
+               rocprofv3 \
+                   --hip-trace \
+                   --kernel-trace \
+                   --memory-copy-trace \
+                   --rccl-trace \
+                   --output-format pftrace \
+                   -d ./v3_traces \ # output directory
+                   -- ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} # or desired command
+
+            You can set the directory where you want the .json traces to be
+            saved using ``-d <TRACE_DIRECTORY>``. The resulting traces can be
+            opened in Perfetto: `<https://ui.perfetto.dev/>`__.
+
          {% else %}
             .. rubric:: Multi-node training
 
@@ -333,6 +351,39 @@ benchmark results:
          {% endif %}
       {% endfor %}
    {% endfor %}
+
+Known issues
+============
+
+- Minor performance regression (< 4%) for BF16 quantization in Llama models and Mixtral 8x7b.
+
+- You might see minor loss spikes, or loss curve may have slightly higher
+  convergence end values compared to the previous ``jax-training`` image.
+
+- For FP8 training on MI355, many models will display a warning message like:
+  ``Warning: Latency not found for MI_M=16, MI_N=16, MI_K=128,
+  mi_input_type=BFloat8Float8_fnuz. Returning latency value of 32 (really
+  slow).`` The compile step may take longer than usual, but training will run.
+  This will be fixed in a future release.
+
+- The built-in JAX profiler isn't working. If you need to collect a trace and
+  the JAX profiler isn't working, use ``rocprofv3`` provided by the
+  :doc:`ROCprofiler-SDK <rocprofiler-sdk:index>` as a workaround. For example:
+
+  .. code-block:: bash
+
+     rocprofv3 \
+         --hip-trace \
+         --kernel-trace \
+         --memory-copy-trace \
+         --rccl-trace \
+         --output-format pftrace \
+         -d ./v3_traces \ # output directory
+         -- ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} # or desired command
+
+  You can set the directory where you want the .json traces to be
+  saved using ``-d <TRACE_DIRECTORY>``. The resulting traces can be
+  opened in Perfetto: `<https://ui.perfetto.dev/>`__.
 
 Further reading
 ===============
