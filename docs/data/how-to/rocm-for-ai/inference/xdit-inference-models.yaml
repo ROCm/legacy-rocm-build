@@ -79,3 +79,13 @@ docker:
           url: https://huggingface.co/black-forest-labs/FLUX.1-dev
           github: https://github.com/black-forest-labs/flux
           mad_tag: pyt_xdit_flux
+          js_tag: flux_1_tag
+    - group: Stable Diffusion
+      js_tag: stablediffusion
+      models:
+        - model: stable-diffusion-3.5-large
+          model_repo: stabilityai/stable-diffusion-3.5-large
+          url: https://huggingface.co/stabilityai/stable-diffusion-3.5-large
+          github: https://github.com/Stability-AI/sd3.5
+          mad_tag: pyt_xdit_sd_3_5
+          js_tag: stable_diffusion_3_5_large_tag

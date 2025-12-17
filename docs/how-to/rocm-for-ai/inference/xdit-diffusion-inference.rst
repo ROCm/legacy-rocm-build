@@ -13,8 +13,12 @@ xDiT diffusion inference
 
    {% set docker = data.docker %}
 
-   The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
-   benchmarking diffusion model video and image generation on gfx942 and gfx950 series (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X) GPUs.
+   The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers
+   a prebuilt, optimized environment based on `xDiT
+   <https://github.com/xdit-project/xDiT>`_ for benchmarking diffusion model
+   video and image generation on AMD Instinct MI355X, MI350X (gfx950), MI325X,
+   and MI300X (gfx942) GPUs.
+
    The image runs ROCm **{{docker.ROCm}}** (preview) based on `TheRock <https://github.com/ROCm/TheRock>`_
    and includes the following components:
 
@@ -36,6 +40,7 @@ For preview and development releases, see `amdsiloai/pytorch-xdit <https://hub.d
 
 What's new
 ==========
+
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
    {% set docker = data.docker %}
@@ -63,10 +68,8 @@ vary by model -- select one to get started.
           <div class="row gx-0">
               <div class="col-2 me-1 px-2 model-param-head">Model</div>
               <div class="row col-10 pe-0">
-        {% for model_group in model_groups %}
-            {% if model_group.group in supported_lookup %}
-                  <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
-            {% endif %}
+        {% for model_group in docker.supported_models %}
+               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.js_tag }}" tabindex="0">{{ model_group.group }}</div>
         {% endfor %}
               </div>
           </div>

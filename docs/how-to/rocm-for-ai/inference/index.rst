@@ -26,7 +26,6 @@ training, fine-tuning, and inference. It leverages popular machine learning fram
 
 - :doc:`SGLang inference performance testing <benchmark-docker/sglang>`
 
-- :doc:`Deploying your model <deploy-your-model>`
-
 - :doc:`xDiT diffusion inference <xdit-diffusion-inference>`
 
+- :doc:`Deploying your model <deploy-your-model>`

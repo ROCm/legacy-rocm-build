@@ -119,10 +119,6 @@ subtrees:
             title: xDiT diffusion inference
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model
-          - file: how-to/rocm-for-ai/inference/xdit-video-diffusion.rst
-            title: xDiT video inference
-          - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
-            title: Deploy your model
 
       - file: how-to/rocm-for-ai/inference-optimization/index.rst
         title: Inference optimization

@@ -17,7 +17,7 @@ benchmarking, see the version-specific documentation.
 
    * - ``rocm/pytorch-xdit:v25.11`` (latest)
      - 
-       * ROCm 7.10.0 preview
+       * `ROCm 7.10.0 preview <https://rocm.docs.amd.com/en/7.10.0-preview/about/release-notes.html>`__
        * TheRock 3e3f834
        * rccl d23d18f
        * composable_kernel 2570462
@@ -37,7 +37,7 @@ benchmarking, see the version-specific documentation.
 
    * - ``rocm/pytorch-xdit:v25.10``
      - 
-       * ROCm 7.9.0 preview
+       * `ROCm 7.9.0 preview <https://rocm.docs.amd.com/en/7.9.0-preview/about/release-notes.html>`__
        * TheRock 7afbe45
        * rccl 9b04b2a
        * composable_kernel b7a806f
