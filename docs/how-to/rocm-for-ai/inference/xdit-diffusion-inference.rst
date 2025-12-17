@@ -11,11 +11,14 @@ xDiT diffusion inference
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
-   {% set model_groups = data.xdit_diffusion_inference.model_groups%}
+   {% set docker = data.docker %}
 
-   The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
-   benchmarking diffusion model video and image generation on gfx942 and gfx950 series (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X) GPUs.
+   The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers
+   a prebuilt, optimized environment based on `xDiT
+   <https://github.com/xdit-project/xDiT>`_ for benchmarking diffusion model
+   video and image generation on AMD Instinct MI355X, MI350X (gfx950), MI325X,
+   and MI300X (gfx942) GPUs.
+
    The image runs ROCm **{{docker.ROCm}}** (preview) based on `TheRock <https://github.com/ROCm/TheRock>`_
    and includes the following components:
 
@@ -27,9 +30,9 @@ xDiT diffusion inference
          * - Software component
            - Version
 
-         {% for component_name, component_version in docker.components.items() %}
-         * - {{ component_name }}
-           - {{ component_version }}
+         {% for component_name, component_data in docker.components.items() %}
+         * - `{{ component_name }} <{{ component_data.url }}>`_
+           - {{ component_data.version }}
          {% endfor %}
 
 Follow this guide to pull the required image, spin up a container, download the model, and run a benchmark.
@@ -37,10 +40,10 @@ For preview and development releases, see `amdsiloai/pytorch-xdit <https://hub.d
 
 What's new
 ==========
+
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
-   {% set model_groups = data.xdit_diffusion_inference.model_groups%}
+   {% set docker = data.docker %}
 
    {% for item in docker.whats_new %}
    * {{ item }}
@@ -57,14 +60,7 @@ vary by model -- select one to get started.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
-   {% set model_groups = data.xdit_diffusion_inference.model_groups %}
-   
-   {# Create a lookup for supported models #}
-   {% set supported_lookup = {} %}
-   {% for supported in docker.supported_models %}
-   {% set _ = supported_lookup.update({supported.group: supported.models}) %}
-   {% endfor %}
+   {% set docker = data.docker %}
 
    .. raw:: html
 
@@ -72,10 +68,8 @@ vary by model -- select one to get started.
           <div class="row gx-0">
               <div class="col-2 me-1 px-2 model-param-head">Model</div>
               <div class="row col-10 pe-0">
-        {% for model_group in model_groups %}
-            {% if model_group.group in supported_lookup %}
-                  <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
-            {% endif %}
+        {% for model_group in docker.supported_models %}
+               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.js_tag }}" tabindex="0">{{ model_group.group }}</div>
         {% endfor %}
               </div>
           </div>
@@ -83,29 +77,24 @@ vary by model -- select one to get started.
           <div class="row gx-0 pt-1">
               <div class="col-2 me-1 px-2 model-param-head">Variant</div>
               <div class="row col-10 pe-0">
-        {% for model_group in model_groups %}
-            {% if model_group.group in supported_lookup %}
-            {% set supported_models = supported_lookup[model_group.group] %}
+        {% for model_group in docker.supported_models %}
             {% set models = model_group.models %}
             {% for model in models %}
-                {% if model.model in supported_models %}
                 {% if models|length % 3 == 0 %}
-                <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.page_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+                <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.js_tag }}" data-param-group="{{ model_group.js_tag }}" tabindex="0">{{ model.model }}</div>
                 {% else %}
-                <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.page_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
-                {% endif %}
+                <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.js_tag }}" data-param-group="{{ model_group.js_tag }}" tabindex="0">{{ model.model }}</div>
                 {% endif %}
             {% endfor %}
-            {% endif %}
         {% endfor %}
               </div>
           </div>
       </div>
 
-   {% for model_group in model_groups %}
+   {% for model_group in docker.supported_models %}
        {% for model in model_group.models %}
 
-   .. container:: model-doc {{ model.page_tag }}
+   .. container:: model-doc {{ model.js_tag }}
 
       .. note::
 
@@ -136,7 +125,7 @@ Pull the Docker image
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
+   {% set docker = data.docker %}
 
    For this tutorial, it's recommended to use the latest ``{{ docker.pull_tag }}`` Docker image.
    Pull the image using the following command:
@@ -148,15 +137,17 @@ Pull the Docker image
 Validate and benchmark
 ======================
 
-Once the image has been downloaded you can follow these steps to
-run benchmarks and generate outputs.
-
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% for model_group in model_groups %}
+   {% set docker = data.docker %}
+
+   Once the image has been downloaded you can follow these steps to
+   run benchmarks and generate outputs.
+
+   {% for model_group in docker.supported_models %}
      {% for model in model_group.models %}
 
-   .. container:: model-doc {{model.page_tag}}
+   .. container:: model-doc {{model.js_tag}}
 
       The following commands are written for {{ model.model }}.
       See :ref:`xdit-video-diffusion-supported-models` to switch to another available model.
@@ -171,12 +162,11 @@ You can either use an existing Hugging Face cache or download the model fresh in
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
-   {% set model_groups = data.xdit_diffusion_inference.model_groups%}
+   {% set docker = data.docker %}
 
-   {% for model_group in model_groups %}
+   {% for model_group in docker.supported_models %}
      {% for model in model_group.models %}
-   .. container:: model-doc {{model.page_tag}}
+   .. container:: model-doc {{model.js_tag}}
 
       .. tab-set::
 
@@ -264,11 +254,12 @@ Run inference
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
 
-   {% set model_groups = data.xdit_diffusion_inference.model_groups%}
-   {% for model_group in model_groups %}
+   {% set docker = data.docker %}
+
+   {% for model_group in docker.supported_models %}
      {% for model in model_group.models %}
 
-   .. container:: model-doc {{ model.page_tag }}
+   .. container:: model-doc {{ model.js_tag }}
 
       .. tab-set::
 
@@ -309,7 +300,7 @@ Run inference
                mkdir results
 
                torchrun --nproc_per_node=8 run.py \
-                  --model tencent/HunyuanVideo \
+                  --model {{ model.model_repo }} \
                   --prompt "In the large cage, two puppies were wagging their tails at each other." \
                   --height 720 --width 1280 --num_frames 129 \
                   --num_inference_steps 50 --warmup_steps 1 --n_repeats 1 \
@@ -317,40 +308,45 @@ Run inference
                   --enable_tiling --enable_slicing \
                   --use_torch_compile \
                   --bench_output results
+
             {% endif %}
             {% if model.model == "Wan2.1" %}
-               cd Wan2.1
+               cd Wan
                mkdir results
 
-               torchrun --nproc_per_node=8 run.py \
-                  --task i2v-14B \
-                  --size 720*1280 --frame_num 81 \
-                  --ckpt_dir "${HF_HOME}/hub/models--Wan-AI--Wan2.1-I2V-14B-720P/snapshots/8823af45fcc58a8aa999a54b04be9abc7d2aac98/" \
-                  --image "/app/Wan2.1/examples/i2v_input.JPG" \
-                  --ulysses_size 8 --ring_size 1 \
+               torchrun --nproc_per_node=8 /app/Wan/run.py \
+                  --task i2v \
+                  --height 720 \
+                  --width 1280 \
+                  --model {{ model.model_repo }} \
+                  --img_file_path /app/Wan/i2v_input.JPG \
+                  --ulysses_degree 8 \
+                  --seed 42 \
+                  --num_frames 81 \
                   --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
-                  --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
-                  --offload_model 0 \
-                  --vae_dtype bfloat16 \
-                  --allow_tf32 \
-                  --compile
+                  --num_repetitions 1 \
+                  --num_inference_steps 40 \
+                  --use_torch_compile
+
             {% endif %}
             {% if model.model == "Wan2.2" %}
-               cd Wan2.2
+               cd Wan
                mkdir results
 
-               torchrun --nproc_per_node=8 run.py \
-                  --task i2v-A14B \
-                  --size 720*1280 --frame_num 81 \
-                  --ckpt_dir "${HF_HOME}/hub/models--Wan-AI--Wan2.2-I2V-A14B/snapshots/206a9ee1b7bfaaf8f7e4d81335650533490646a3/" \
-                  --image "/app/Wan2.2/examples/i2v_input.JPG" \
-                  --ulysses_size 8 --ring_size 1 \
+               torchrun --nproc_per_node=8 /app/Wan/run.py \
+                  --task i2v \
+                  --height 720 \
+                  --width 1280 \
+                  --model {{ model.model_repo }} \
+                  --img_file_path /app/Wan/i2v_input.JPG \
+                  --ulysses_degree 8 \
+                  --seed 42 \
+                  --num_frames 81 \
                   --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
-                  --benchmark_output_directory results --save_file video.mp4 --num_benchmark_steps 1 \
-                  --offload_model 0 \
-                  --vae_dtype bfloat16 \
-                  --allow_tf32 \
-                  --compile
+                  --num_repetitions 1 \
+                  --num_inference_steps 40 \
+                  --use_torch_compile
+
             {% endif %}
 
             {% if model.model == "FLUX.1" %}
@@ -358,7 +354,7 @@ Run inference
                mkdir results
 
                torchrun --nproc_per_node=8 /app/Flux/run.py \
-                  --model black-forest-labs/FLUX.1-dev \
+                  --model {{ model.model_repo }} \
                   --seed 42 \
                   --prompt "A small cat" \
                   --height 1024 \
@@ -369,12 +365,28 @@ Run inference
                   --no_use_resolution_binning \
                   --ulysses_degree 8 \
                   --use_torch_compile \
-                  --num_repetitions 1 \
-                  --benchmark_output_directory results
+                  --num_repetitions 50
 
             {% endif %}
 
-            The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% elif model.model == "FLUX.1" %}results/timing.json{% endif %}
+            {% if model.model == "stable-diffusion-3.5-large" %}
+               cd StableDiffusion3.5 
+               mkdir results
+
+               torchrun --nproc_per_node=8 /app/StableDiffusion3.5/run.py \
+                  --model {{ model.model_repo }} \
+                  --num_inference_steps 28 \
+                  --prompt "A capybara holding a sign that reads Hello World" \
+                  --use_torch_compile \
+                  --pipefusion_parallel_degree 4 \
+                  --use_cfg_parallel \
+                  --num_repetitions 50 \
+                  --dtype torch.float16 \
+                  --output_path results
+
+            {% endif %}
+
+            The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% elif model.model == "FLUX.1" %}results/timing.json{% elif model.model == "stable-diffusion-3.5-large"%}benchmark_results.csv{% endif %}
 
             {% if model.model == "FLUX.1" %}You may also use ``run_usp.py`` which implements USP without modifying the default diffusers pipeline. {% endif %}
 

@@ -1,109 +1,91 @@
-xdit_diffusion_inference:
-  docker:
-    - version: v25-11
-      pull_tag: rocm/pytorch-xdit:v25.11
-      docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
-      ROCm: 7.10.0
-      supported_models:
-        - group: Hunyuan Video
-          models:
-            - Hunyuan Video
-        - group: Wan-AI
-          models:
-            - Wan2.1
-            - Wan2.2
-        - group: FLUX
-          models:
-            - FLUX.1
-      whats_new:
-        - "Minor bug fixes and clarifications to READMEs."
-        - "Bumps TheRock, AITER, Diffusers, xDiT versions."
-        - "Changes Aiter rounding mode for faster gfx942 FWD Attention."
-      components:
-        TheRock: 3e3f834
-        rccl: d23d18f
-        composable_kernel: 2570462
-        rocm-libraries: 0588f07
-        rocm-systems: 473025a
-        torch: 73adac
-        torchvision: f5c6c2e
-        triton: 7416ffc
-        accelerate: 34c1779
-        aiter: de14bec
-        diffusers: 40528e9
-        xfuser: 83978b5
-        yunchang: 2c9b712
-
-    - version: v25-10
-      pull_tag: rocm/pytorch-xdit:v25.10
-      docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
-      ROCm: 7.9.0
-      supported_models:
-        - group: Hunyuan Video
-          models:
-            - Hunyuan Video
-        - group: Wan-AI
-          models:
-            - Wan2.1
-            - Wan2.2
-        - group: FLUX
-          models:
-            - FLUX.1
-      whats_new:
-        - "First official xDiT Docker Release for Diffusion Inference."
-        - "Supports gfx942 and gfx950 series (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X)."
-        - "Support Wan 2.1, Wan 2.2, HunyuanVideo and Flux workloads."
-      components:
-        TheRock: 7afbe45
-        rccl: 9b04b2a
-        composable_kernel: b7a806f
-        rocm-libraries: f104555
-        rocm-systems: 25922d0
-        torch: 2.10.0a0+gite9c9017
-        torchvision: 0.22.0a0+966da7e
-        triton: 3.5.0+git52e49c12
-        accelerate: 1.11.0.dev0
-        aiter: 0.1.5.post4.dev20+ga25e55e79
-        diffusers: 0.36.0.dev0
-        xfuser: 0.4.4
-        yunchang: 0.6.3.post1
-
-  model_groups:
+docker:
+  pull_tag: rocm/pytorch-xdit:v25.12
+  docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
+  ROCm: 7.10.0
+  whats_new:
+      - "Adds T2V and TI2V support for Wan models."
+      - "Adds support for SD-3.5 T2I model."
+  components:
+    TheRock: 
+      version: 3e3f834
+      url: https://github.com/ROCm/TheRock
+    rccl:
+      version: d23d18f
+      url: https://github.com/ROCm/rccl
+    composable_kernel:
+      version: 2570462
+      url: https://github.com/ROCm/composable_kernel
+    rocm-libraries:
+      version: 0588f07
+      url: https://github.com/ROCm/rocm-libraries
+    rocm-systems:
+      version: 473025a
+      url: https://github.com/ROCm/rocm-systems
+    torch:
+      version: 73adac
+      url: https://github.com/pytorch/pytorch
+    torchvision:
+      version: f5c6c2e
+      url: https://github.com/pytorch/vision
+    triton:
+      version: 7416ffc
+      url: https://github.com/triton-lang/triton
+    accelerate:
+      version: 34c1779
+      url: https://github.com/huggingface/accelerate
+    aiter:
+      version: de14bec
+      url: https://github.com/ROCm/aiter
+    diffusers:
+      version: 40528e9
+      url: https://github.com/huggingface/diffusers
+    xfuser:
+      version: ccba9d5
+      url: https://github.com/xdit-project/xDiT
+    yunchang:
+      version: 2c9b712
+      url: https://github.com/feifeibear/long-context-attention
+  supported_models:
     - group: Hunyuan Video
-      tag: hunyuan
+      js_tag: hunyuan
       models:
         - model: Hunyuan Video
-          page_tag: hunyuan_tag
-          model_name: hunyuanvideo
           model_repo: tencent/HunyuanVideo
           revision: refs/pr/18
           url: https://huggingface.co/tencent/HunyuanVideo
           github: https://github.com/Tencent-Hunyuan/HunyuanVideo
           mad_tag: pyt_xdit_hunyuanvideo
+          js_tag: hunyuan_tag
     - group: Wan-AI
-      tag: wan
+      js_tag: wan
       models:
         - model: Wan2.1
-          page_tag: wan_21_tag
-          model_name: wan2_1-i2v-14b-720p
-          model_repo: Wan-AI/Wan2.1-I2V-14B-720P
-          url: https://huggingface.co/Wan-AI/Wan2.1-I2V-14B-720P
+          model_repo: Wan-AI/Wan2.1-I2V-14B-720P-Diffusers
+          url: https://huggingface.co/Wan-AI/Wan2.1-I2V-14B-720P-Diffusers
           github: https://github.com/Wan-Video/Wan2.1
           mad_tag: pyt_xdit_wan_2_1
+          js_tag: wan_21_tag
         - model: Wan2.2
-          page_tag: wan_22_tag
-          model_name: wan2_2-i2v-a14b
-          model_repo: Wan-AI/Wan2.2-I2V-A14B
-          url: https://huggingface.co/Wan-AI/Wan2.2-I2V-A14B
+          model_repo: Wan-AI/Wan2.2-I2V-A14B-Diffusers
+          url: https://huggingface.co/Wan-AI/Wan2.2-I2V-A14B-Diffusers
           github: https://github.com/Wan-Video/Wan2.2
           mad_tag: pyt_xdit_wan_2_2
+          js_tag: wan_22_tag
     - group: FLUX
-      tag: flux
+      js_tag: flux
       models:
         - model: FLUX.1
-          page_tag: flux_1_tag
-          model_name: FLUX.1-dev
           model_repo: black-forest-labs/FLUX.1-dev
           url: https://huggingface.co/black-forest-labs/FLUX.1-dev
           github: https://github.com/black-forest-labs/flux
           mad_tag: pyt_xdit_flux
+          js_tag: flux_1_tag
+    - group: Stable Diffusion
+      js_tag: stablediffusion
+      models:
+        - model: stable-diffusion-3.5-large
+          model_repo: stabilityai/stable-diffusion-3.5-large
+          url: https://huggingface.co/stabilityai/stable-diffusion-3.5-large
+          github: https://github.com/Stability-AI/sd3.5
+          mad_tag: pyt_xdit_sd_3_5
+          js_tag: stable_diffusion_3_5_large_tag
