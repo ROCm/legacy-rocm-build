@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: How to train a model using JAX MaxText for ROCm.
    :keywords: ROCm, AI, LLM, train, jax, torch, Llama, flux, tutorial, docker
@@ -16,7 +18,7 @@ provides a prebuilt environment for training on AMD Instinct MI355X, MI350X, MI3
 including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
 It includes the following software components:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-v25.9-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.9-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
    .. tab-set::
@@ -72,7 +74,7 @@ GPUs. Some instructions, commands, and available training
 configurations in this documentation might vary by model -- select one to get
 started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-v25.9-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.9-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    .. raw:: html
@@ -136,7 +138,7 @@ Pull the Docker image
 
 Use the following command to pull the Docker image from Docker Hub.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-v25.9-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.9-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
 
@@ -160,7 +162,7 @@ Benchmarking
 Once the setup is complete, choose between two options to reproduce the
 benchmark results:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-v25.9-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.9-benchmark-models.yaml
 
    .. _vllm-benchmark-mad:
 

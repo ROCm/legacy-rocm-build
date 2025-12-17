@@ -57,7 +57,7 @@ MaxText with on ROCm provides the following key features to train large language
 
 - NANOO FP8 (for MI300X series GPUs) and FP8 (for MI355X and MI350X) quantization support
 
-.. _amd-maxtext-model-support-v259:
+.. _amd-maxtext-model-support-v25.11:
 
 Supported models
 ================
@@ -139,7 +139,7 @@ Use the following command to pull the Docker image from Docker Hub.
 
       docker pull {{ docker.pull_tag }}
 
-.. _amd-maxtext-multi-node-setup-v259:
+.. _amd-maxtext-multi-node-setup-v25.11:
 
 Multi-node configuration
 ------------------------
@@ -147,7 +147,7 @@ Multi-node configuration
 See :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your
 environment for multi-node training.
 
-.. _amd-maxtext-get-started-v259:
+.. _amd-maxtext-get-started-v25.11:
 
 Benchmarking
 ============
@@ -172,7 +172,7 @@ benchmark results:
          .. tab-item:: MAD-integrated benchmarking
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-maxtext-model-support-v259` to switch to another available model.
+            See :ref:`amd-maxtext-model-support-v25.11` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -203,7 +203,7 @@ benchmark results:
          .. tab-item:: Standalone benchmarking
 
             The following commands are optimized for {{ model.model }}. See
-            :ref:`amd-maxtext-model-support-v259` to switch to another
+            :ref:`amd-maxtext-model-support-v25.11` to switch to another
             available model. Some instructions and resources might not be
             available for all models and configurations.
 
@@ -328,7 +328,7 @@ benchmark results:
          {% else %}
             .. rubric:: Multi-node training
 
-            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v259`
+            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v25.11`
             with an available `multi-node training script <https://github.com/ROCm/MAD/tree/develop/scripts/jax-maxtext/gpu-rocm>`__.
          {% endif %}
       {% endfor %}
