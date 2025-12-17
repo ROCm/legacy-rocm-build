@@ -1,13 +1,13 @@
 dockers:
-  - pull_tag: rocm/vllm:rocm7.0.0_vllm_0.11.2_20251210
-    docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm7.0.0_vllm_0.11.2_20251210/images/sha256-e7f02dd2ce3824959658bc0391296f6158638e3ebce164f6c019c4eca8150ec7
+  - pull_tag: rocm/vllm:rocm7.0.0_vllm_0.11.1_20251103
+    docker_hub_url: https://hub.docker.com/layers/rocm/vllm/rocm7.0.0_vllm_0.11.1_20251103/images/sha256-8d60429043d4d00958da46039a1de0d9b82df814d45da482497eef26a6076506
     components:
       ROCm: 7.0.0
-      vLLM: 0.11.2 (0.11.2.dev673+g839868462.rocm700)
+      vLLM: 0.11.1 (0.11.1rc2.dev141+g38f225c2a.rocm700)
       PyTorch: 2.9.0a0+git1c57644
       hipBLASLt: 1.0.0
     dockerfile:
-      commit: 8398684622109c806a35d660647060b0b9910663
+      commit: 38f225c2abeadc04c2cc398814c2f53ea02c3c72
 model_groups:
   - group: Meta Llama
     tag: llama
