@@ -33,17 +33,14 @@ It includes the following software components:
               - {{ component_version }}
 
             {% endfor %}
-         {% if jax_version == "0.6.0" %}
-         .. note::
-
-            Shardy is a new config in JAX 0.6.0. You might get related errors if it's
-            not configured correctly. For now you can turn it off by setting
-            ``shardy=False`` during the training run. You can also follow the `migration
-            guide <https://docs.jax.dev/en/latest/shardy_jax_migration.html>`__ to enable
-            it.
-         {% endif %}
-
       {% endfor %}
+
+.. note::
+
+   The ``rocm/jax-training:maxtext-v25.9`` has been updated to
+   ``rocm/jax-training:maxtext-v25.9.1``. This revision should include
+   a fix to address segmentation fault issues during launch. See the
+   :doc:`versioned documentation <previous-versions/jax-maxtext-v25.9>`.
 
 MaxText with on ROCm provides the following key features to train large language models efficiently:
 
@@ -57,7 +54,7 @@ MaxText with on ROCm provides the following key features to train large language
 
 - NANOO FP8 (for MI300X series GPUs) and FP8 (for MI355X and MI350X) quantization support
 
-.. _amd-maxtext-model-support-v259:
+.. _amd-maxtext-model-support-v25.11:
 
 Supported models
 ================
@@ -139,7 +136,7 @@ Use the following command to pull the Docker image from Docker Hub.
 
       docker pull {{ docker.pull_tag }}
 
-.. _amd-maxtext-multi-node-setup-v259:
+.. _amd-maxtext-multi-node-setup-v25.11:
 
 Multi-node configuration
 ------------------------
@@ -147,7 +144,7 @@ Multi-node configuration
 See :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your
 environment for multi-node training.
 
-.. _amd-maxtext-get-started-v259:
+.. _amd-maxtext-get-started-v25.11:
 
 Benchmarking
 ============
@@ -172,7 +169,7 @@ benchmark results:
          .. tab-item:: MAD-integrated benchmarking
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-maxtext-model-support-v259` to switch to another available model.
+            See :ref:`amd-maxtext-model-support-v25.11` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -203,7 +200,7 @@ benchmark results:
          .. tab-item:: Standalone benchmarking
 
             The following commands are optimized for {{ model.model }}. See
-            :ref:`amd-maxtext-model-support-v259` to switch to another
+            :ref:`amd-maxtext-model-support-v25.11` to switch to another
             available model. Some instructions and resources might not be
             available for all models and configurations.
 
@@ -325,14 +322,68 @@ benchmark results:
 
                   sbatch -N <num_nodes> {{ model.multinode_training_script }}
 
+            .. _maxtext-rocprofv3:
+
+            .. rubric:: Profiling with rocprofv3
+
+            If you need to collect a trace and the JAX profiler isn't working, use ``rocprofv3`` provided by the :doc:`ROCprofiler-SDK <rocprofiler-sdk:index>` as a workaround. For example:
+
+            .. code-block:: bash
+
+               rocprofv3 \
+                   --hip-trace \
+                   --kernel-trace \
+                   --memory-copy-trace \
+                   --rccl-trace \
+                   --output-format pftrace \
+                   -d ./v3_traces \ # output directory
+                   -- ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} # or desired command
+
+            You can set the directory where you want the .json traces to be
+            saved using ``-d <TRACE_DIRECTORY>``. The resulting traces can be
+            opened in Perfetto: `<https://ui.perfetto.dev/>`__.
+
          {% else %}
             .. rubric:: Multi-node training
 
-            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v259`
+            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v25.11`
             with an available `multi-node training script <https://github.com/ROCm/MAD/tree/develop/scripts/jax-maxtext/gpu-rocm>`__.
          {% endif %}
       {% endfor %}
    {% endfor %}
+
+Known issues
+============
+
+- Minor performance regression (< 4%) for BF16 quantization in Llama models and Mixtral 8x7b.
+
+- You might see minor loss spikes, or loss curve may have slightly higher
+  convergence end values compared to the previous ``jax-training`` image.
+
+- For FP8 training on MI355, many models will display a warning message like:
+  ``Warning: Latency not found for MI_M=16, MI_N=16, MI_K=128,
+  mi_input_type=BFloat8Float8_fnuz. Returning latency value of 32 (really
+  slow).`` The compile step may take longer than usual, but training will run.
+  This will be fixed in a future release.
+
+- The built-in JAX profiler isn't working. If you need to collect a trace and
+  the JAX profiler isn't working, use ``rocprofv3`` provided by the
+  :doc:`ROCprofiler-SDK <rocprofiler-sdk:index>` as a workaround. For example:
+
+  .. code-block:: bash
+
+     rocprofv3 \
+         --hip-trace \
+         --kernel-trace \
+         --memory-copy-trace \
+         --rccl-trace \
+         --output-format pftrace \
+         -d ./v3_traces \ # output directory
+         -- ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} # or desired command
+
+  You can set the directory where you want the .json traces to be
+  saved using ``-d <TRACE_DIRECTORY>``. The resulting traces can be
+  opened in Perfetto: `<https://ui.perfetto.dev/>`__.
 
 Further reading
 ===============
