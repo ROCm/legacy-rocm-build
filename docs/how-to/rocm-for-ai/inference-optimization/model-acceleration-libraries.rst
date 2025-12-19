@@ -33,8 +33,8 @@ Before installing Flash Attention 2, ensure the following are available:
 *  Triton
 
 These can be installed by following the official
-`PyTorch installation guide <https://pytorch.org/get-started/locally/>`_.  Alternatively, for a simpler setup, you can use a preconfigured
-`ROCm PyTorch Docker image <https://github.com/ROCm/rocm-docker-images>`_, which already includes the required libraries.
+`PyTorch installation guide <https://pytorch.org/get-started/locally/>`_. Alternatively, for a simpler setup, you can use a preconfigured
+:ref:`ROCm PyTorch Docker image <using-docker-with-pytorch-pre-installed>`, which already includes the required libraries.
 
 Installing Flash Attention 2 
 ----------------------------
