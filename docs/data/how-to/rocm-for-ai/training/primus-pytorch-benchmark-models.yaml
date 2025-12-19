@@ -25,8 +25,8 @@ model_groups:
   - group: DeepSeek
     tag: deepseek
     models:
-      - model: DeepSeek V2 16B
-        mad_tag: primus_pyt_train_deepseek-v2
-        model_repo: DeepSeek-V2
-        url: https://huggingface.co/deepseek-ai/DeepSeek-V2
+      - model: DeepSeek V3 16B
+        mad_tag: primus_pyt_train_deepseek-v3-16b
+        model_repo: DeepSeek-V3
+        url: https://huggingface.co/deepseek-ai/DeepSeek-V3
         precision: BF16

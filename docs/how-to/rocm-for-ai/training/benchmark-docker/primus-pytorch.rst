@@ -263,7 +263,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_8B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh
+                        bash examples/run_pretrain.sh --training.local_batch_size 6 
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -291,7 +291,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_8B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh
+                        bash examples/run_pretrain.sh --training.local_batch_size 7 
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -321,7 +321,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-BF16-pretrain.yaml \
-                        bash examples/run_pretrain.sh
+                        bash examples/run_pretrain.sh --training.local_batch_size 6 
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -349,7 +349,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-FP8-pretrain.yaml \
-                        bash examples/run_pretrain.sh
+                        bash examples/run_pretrain.sh --training.local_batch_size 5 
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -359,9 +359,9 @@ tweak some configurations (such as batch sizes).
                         EXP=examples/torchtitan/configs/MI300X/llama3.1_70B-FP8-pretrain.yaml \
                         bash examples/run_pretrain.sh
 
-            .. container:: model-doc primus_pyt_train_deepseek-v2
+            .. container:: model-doc primus_pyt_train_deepseek-v3-16b
 
-               Use the following command to run train DeepSeek V2 16B with BF16 precision using Primus torchtitan.
+               Use the following command to run train DeepSeek V3 16B with BF16 precision using Primus torchtitan.
 
                .. tab-set::
 
@@ -379,7 +379,7 @@ tweak some configurations (such as batch sizes).
                      .. code-block:: shell
 
                         EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
-                        bash examples/run_pretrain.sh
+                        bash examples/run_pretrain.sh --training.local_batch_size 10 
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -389,7 +389,7 @@ tweak some configurations (such as batch sizes).
                         EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
                         bash examples/run_pretrain.sh
 
-               To train DeepSeek V2 16B with FP8 precision, use the following command.
+               To train DeepSeek V3 16B with FP8 precision, use the following command.
 
                .. tab-set::
 
