@@ -39,7 +39,7 @@ These can be installed by following the official
 Installing Flash Attention 2 
 ----------------------------
 
-`Flash Attention <https://github.com/Dao-AILab/flash-attention>`_ supports two backend implementation on AMD GPUs.
+`Flash Attention <https://github.com/Dao-AILab/flash-attention>`_ supports two backend implementations on AMD GPUs.
 
 *  `Composable Kernel (CK) <https://github.com/ROCm/composable_kernel>`_ - the default backend
 *  `OpenAI Triton <https://github.com/triton-lang/triton>`_ - an alternative backend 
@@ -69,12 +69,12 @@ To install Flash Attention 2, use the following commands:
    # To install both CK and Triton backend flash attention
    FLASH_ATTENTION_TRITON_AMD_ENABLE=TRUE && FLASH_ATTENTION_SKIP_CK_BUILD=FALSE python setup.py install
 
-For detailed installation instructions, refer to the `Flash Attention <https://github.com/Dao-AILab/flash-attention>`_
+For detailed installation instructions, see `Flash Attention <https://github.com/Dao-AILab/flash-attention>`_.
 
 Benchmarking Flash Attention 2 
 ------------------------------
 
-In the `flash-attention/benchmarks/` directory, you can find benchmark scripts to evaluate the performance of Flash Attention 2
+Benchmark scripts to evaluate the performance of Flash Attention 2 are stored in the `flash-attention/benchmarks/` directory.
 
 To benchmark the CK backend 
 
