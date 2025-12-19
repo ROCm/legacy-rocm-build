@@ -220,6 +220,9 @@ tweak some configurations (such as batch sizes).
                   docker start training_env
                   docker exec -it training_env bash
 
+               The Docker container hosts verified commit ``c4c083de`` of the `Primus
+               <https://github.com/AMD-AGI/Primus/tree/c4c083de64ba3e8f19ccc9629411267108931f9e/>`__ repository.
+
             .. rubric:: Prepare training datasets and dependencies
 
             The following benchmarking examples require downloading models and datasets
@@ -380,34 +383,6 @@ tweak some configurations (such as batch sizes).
 
                         EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
                         bash examples/run_pretrain.sh --training.local_batch_size 10 
-
-                  .. tab-item:: MI300X
-                     :sync: MI300X
-
-                     .. code-block:: shell
-
-                        EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
-                        bash examples/run_pretrain.sh
-
-               To train DeepSeek V3 16B with FP8 precision, use the following command.
-
-               .. tab-set::
-
-                  .. tab-item:: MI355X and MI350X
-                     :sync: MI355X
-
-                     .. code-block:: shell
-
-                        EXP=examples/torchtitan/configs/MI355X/deepseek_v3_16b-pretrain.yaml \
-                        bash examples/run_pretrain.sh
-
-                  .. tab-item:: MI325X
-                     :sync: MI325X
-
-                     .. code-block:: shell
-
-                        EXP=examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
-                        bash examples/run_pretrain.sh
 
                   .. tab-item:: MI300X
                      :sync: MI300X
