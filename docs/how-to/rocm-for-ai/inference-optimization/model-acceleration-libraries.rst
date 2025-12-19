@@ -27,7 +27,7 @@ performance.
 Installation prerequisites
 ----------------------------
 
-Before installing Flash Attention 2, make sure the following are available:
+Before installing Flash Attention 2, ensure the following are available:
 
 *  ROCm-enabled PyTorch
 *  Triton
