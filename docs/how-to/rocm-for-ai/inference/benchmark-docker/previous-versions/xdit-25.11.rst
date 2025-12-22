@@ -9,35 +9,37 @@
 xDiT diffusion inference
 ************************
 
-.. _xdit-video-diffusion-2510:
+.. caution::
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.10-inference-models.yaml
+   This documentation does not reflect the latest version of ROCm vLLM
+   inference performance documentation. See
+   :doc:`/how-to/rocm-for-ai/inference/xdit-diffusion-inference` for the latest
+   version.
 
-   {% set docker = data.xdit_diffusion_inference.docker %}
+.. _xdit-video-diffusion-2511:
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.11-inference-models.yaml
+
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
 
-   The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers
-   a prebuilt, optimized inference environment based on `xDiT
-   <https://github.com/xdit-project/xDiT>`_ for benchmarking diffusion-based
-   video and image generation on AMD Instinct MI355X, MI350X (gfx950), MI325X,
-   and MI300X (gfx942) GPUs.
-   This image is based on ROCm {{docker.ROCm}} preview release via `TheRock <https://github.com/ROCm/TheRock>`_
-   and includes the following software components:
+   The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
+   benchmarking diffusion model video and image generation on gfx942 and gfx950 series (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X) GPUs.
+   The image runs ROCm **{{docker.ROCm}}** (preview) based on `TheRock <https://github.com/ROCm/TheRock>`_
+   and includes the following components:
 
-   .. tab-set::
+   .. dropdown:: Software components
 
-      .. tab-item:: {{ docker.pull_tag }}
+      .. list-table::
+         :header-rows: 1
 
-         .. list-table::
-            :header-rows: 1
+         * - Software component
+           - Version
 
-            * - Software component
-              - Version
-
-            {% for component_name, component_version in docker.components.items() %}
-            * - {{ component_name }}
-              - {{ component_version }}
-            {% endfor %}
+         {% for component_name, component_version in docker.components.items() %}
+         * - {{ component_name }}
+           - {{ component_version }}
+         {% endfor %}
 
 Follow this guide to pull the required image, spin up a container, download the model, and run a benchmark.
 For preview and development releases, see `amdsiloai/pytorch-xdit <https://hub.docker.com/r/amdsiloai/pytorch-xdit>`_.
@@ -45,11 +47,16 @@ For preview and development releases, see `amdsiloai/pytorch-xdit <https://hub.d
 What's new
 ==========
 
-- Initial ROCm-enabled xDiT Docker release for diffusion inference.
-- Supported architectures: gfx942 and gfx950 (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X).
-- Supported workloads: Wan 2.1, Wan 2.2, HunyuanVideo, and Flux models.
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.11-inference-models.yaml
 
-.. _xdit-video-diffusion-supported-models-2510:
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
+   {% set model_groups = data.xdit_diffusion_inference.model_groups%}
+
+   {% for item in docker.whats_new %}
+   * {{ item }}
+   {% endfor %}
+
+.. _xdit-video-diffusion-supported-models-2511:
 
 Supported models
 ================
@@ -58,10 +65,16 @@ The following models are supported for inference performance benchmarking.
 Some instructions, commands, and recommendations in this documentation might
 vary by model -- select one to get started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.10-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.11-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker %}
-   {% set model_groups = data.xdit_diffusion_inference.model_groups%}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
+   {% set model_groups = data.xdit_diffusion_inference.model_groups %}
+
+   {# Create a lookup for supported models #}
+   {% set supported_lookup = {} %}
+   {% for supported in docker.supported_models %}
+   {% set _ = supported_lookup.update({supported.group: supported.models}) %}
+   {% endfor %}
 
    .. raw:: html
 
@@ -70,7 +83,9 @@ vary by model -- select one to get started.
               <div class="col-2 me-1 px-2 model-param-head">Model</div>
               <div class="row col-10 pe-0">
         {% for model_group in model_groups %}
+            {% if model_group.group in supported_lookup %}
                   <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+            {% endif %}
         {% endfor %}
               </div>
           </div>
@@ -79,14 +94,19 @@ vary by model -- select one to get started.
               <div class="col-2 me-1 px-2 model-param-head">Variant</div>
               <div class="row col-10 pe-0">
         {% for model_group in model_groups %}
+            {% if model_group.group in supported_lookup %}
+            {% set supported_models = supported_lookup[model_group.group] %}
             {% set models = model_group.models %}
             {% for model in models %}
-                {% if models|length == 1 %}
-                <div class="col-12 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+                {% if model.model in supported_models %}
+                {% if models|length % 3 == 0 %}
+                <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.page_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
                 {% else %}
-                <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.mad_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+                <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.page_tag }}" data-param-group="{{ model_group.tag }}" tabindex="0">{{ model.model }}</div>
+                {% endif %}
                 {% endif %}
             {% endfor %}
+            {% endif %}
         {% endfor %}
               </div>
           </div>
@@ -95,7 +115,7 @@ vary by model -- select one to get started.
    {% for model_group in model_groups %}
        {% for model in model_group.models %}
 
-   .. container:: model-doc {{ model.mad_tag }}
+   .. container:: model-doc {{ model.page_tag }}
 
       .. note::
 
@@ -112,18 +132,21 @@ System validation
 Before running AI workloads, it's important to validate that your AMD hardware is configured
 correctly and performing optimally.
 
-If you have already validated your system settings, including aspects like NUMA
-auto-balancing, you can skip this step. Otherwise, complete the procedures in
-the `System validation and optimization
-<https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/system-setup/prerequisite-system-validation.html>`__
-guide to properly configure your system settings before starting.
+If you have already validated your system settings, including aspects like NUMA auto-balancing, you
+can skip this step. Otherwise, complete the procedures in the :ref:`System validation and
+optimization <rocm-for-ai-system-optimization>` guide to properly configure your system settings
+before starting.
+
+To test for optimal performance, consult the recommended :ref:`System health benchmarks
+<rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
+system's configuration.
 
 Pull the Docker image
 =====================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.10-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.11-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
 
    For this tutorial, it's recommended to use the latest ``{{ docker.pull_tag }}`` Docker image.
    Pull the image using the following command:
@@ -138,41 +161,33 @@ Validate and benchmark
 Once the image has been downloaded you can follow these steps to
 run benchmarks and generate outputs.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.10-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.11-inference-models.yaml
 
-   {% set model_groups = data.xdit_diffusion_inference.model_groups %}
    {% for model_group in model_groups %}
      {% for model in model_group.models %}
 
-   .. container:: model-doc {{model.mad_tag}}
+   .. container:: model-doc {{model.page_tag}}
 
       The following commands are written for {{ model.model }}.
-      See :ref:`xdit-video-diffusion-supported-models-2510` to switch to another available model.
+      See :ref:`xdit-video-diffusion-supported-models-2511` to switch to another available model.
 
      {% endfor %}
    {% endfor %}
 
-.. _xdit-video-diffusion-setup-2510:
-
-Prepare the model
------------------
-
-.. note::
-
-   If you're using ROCm MAD to :ref:`run your model
-   <xdit-video-diffusion-run-2510>`, you can skip this section. MAD will handle
-   starting the container and downloading required models inside the container.
+Choose your setup method
+------------------------
 
 You can either use an existing Hugging Face cache or download the model fresh inside the container.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.10-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.11-inference-models.yaml
 
-   {% set docker = data.xdit_diffusion_inference.docker %}
+   {% set docker = data.xdit_diffusion_inference.docker | selectattr("version", "equalto", "v25-11") | first %}
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
 
    {% for model_group in model_groups %}
      {% for model in model_group.models %}
-   .. container:: model-doc {{model.mad_tag}}
+
+   .. container:: model-doc {{model.page_tag}}
 
       .. tab-set::
 
@@ -185,13 +200,11 @@ You can either use an existing Hugging Face cache or download the model fresh in
                .. code-block:: shell
 
                   export HF_HOME=/your/hf_cache/location
-
             2. Download the model (if not already cached).
 
                .. code-block:: shell
 
                   huggingface-cli download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
-
             3. Launch the container with mounted cache.
 
                .. code-block:: shell
@@ -215,7 +228,6 @@ You can either use an existing Hugging Face cache or download the model fresh in
                       -e HF_HOME=/app/huggingface_models \
                       -v $HF_HOME:/app/huggingface_models \
                       {{ docker.pull_tag }}
-
          .. tab-item:: Option 2: Download inside container
 
             If you prefer to keep the container self-contained or don't have an existing cache.
@@ -241,7 +253,6 @@ You can either use an existing Hugging Face cache or download the model fresh in
                       -e OMP_NUM_THREADS=16 \
                       -e CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
                       {{ docker.pull_tag }}
-
             2. Inside the container, set the Hugging Face cache location and download the model.
 
                .. code-block:: shell
@@ -255,21 +266,16 @@ You can either use an existing Hugging Face cache or download the model fresh in
      {% endfor %}
    {% endfor %}
 
-.. _xdit-video-diffusion-run-2510:
-
 Run inference
 =============
 
-You can benchmark models through `MAD <https://github.com/ROCm/MAD>`__-integrated automation or standalone
-torchrun commands.
-
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.10-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_25.11-inference-models.yaml
 
    {% set model_groups = data.xdit_diffusion_inference.model_groups%}
    {% for model_group in model_groups %}
      {% for model in model_group.models %}
 
-   .. container:: model-doc {{ model.mad_tag }}
+   .. container:: model-doc {{ model.page_tag }}
 
       .. tab-set::
 
@@ -294,7 +300,7 @@ torchrun commands.
                       --tags {{model.mad_tag}} \
                       --keep-model-dir \
                       --live-output
-                     
+
             MAD launches a Docker container with the name
             ``container_ci-{{model.mad_tag}}``. The throughput and serving reports of the
             model are collected in the following paths: ``{{ model.mad_tag }}_throughput.csv``
@@ -305,10 +311,10 @@ torchrun commands.
             To run the benchmarks for {{ model.model }}, use the following command:
 
             .. code-block:: shell
+
             {% if model.model == "Hunyuan Video" %}
                cd /app/Hunyuanvideo
                mkdir results
-
                torchrun --nproc_per_node=8 run.py \
                   --model tencent/HunyuanVideo \
                   --prompt "In the large cage, two puppies were wagging their tails at each other." \
@@ -322,7 +328,6 @@ torchrun commands.
             {% if model.model == "Wan2.1" %}
                cd Wan2.1
                mkdir results
-
                torchrun --nproc_per_node=8 run.py \
                   --task i2v-14B \
                   --size 720*1280 --frame_num 81 \
@@ -339,7 +344,6 @@ torchrun commands.
             {% if model.model == "Wan2.2" %}
                cd Wan2.2
                mkdir results
-
                torchrun --nproc_per_node=8 run.py \
                   --task i2v-A14B \
                   --size 720*1280 --frame_num 81 \
@@ -353,11 +357,9 @@ torchrun commands.
                   --allow_tf32 \
                   --compile
             {% endif %}
-
             {% if model.model == "FLUX.1" %}
                cd Flux
                mkdir results
-
                torchrun --nproc_per_node=8 /app/Flux/run.py \
                   --model black-forest-labs/FLUX.1-dev \
                   --seed 42 \
@@ -372,27 +374,16 @@ torchrun commands.
                   --use_torch_compile \
                   --num_repetitions 1 \
                   --benchmark_output_directory results
-
             {% endif %}
-
             The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% elif model.model == "FLUX.1" %}results/timing.json{% endif %}
-
             {% if model.model == "FLUX.1" %}You may also use ``run_usp.py`` which implements USP without modifying the default diffusers pipeline. {% endif %}
-
       {% endfor %}
     {% endfor %}
-
-Further reading
-===============
-
-- To learn more about MAD and the ``madengine`` CLI, see the `MAD usage guide <https://github.com/ROCm/MAD?tab=readme-ov-file#usage-guide>`__.
-
-- For a list of other ready-made Docker images for AI with ROCm, see `AMD
-  Infinity Hub
-  <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`__.
 
 Previous versions
 =================
 
-See :doc:`xdit-history` to find documentation for previous releases
-of xDiT diffusion inference performance testing.
+See
+:doc:`/how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-history`
+to find documentation for previous releases of xDiT diffusion inference
+performance testing.
