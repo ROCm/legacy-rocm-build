@@ -322,8 +322,6 @@ benchmark results:
 
                   sbatch -N <num_nodes> {{ model.multinode_training_script }}
 
-            .. _maxtext-rocprofv3:
-
             .. rubric:: Profiling with rocprofv3
 
             If you need to collect a trace and the JAX profiler isn't working, use ``rocprofv3`` provided by the :doc:`ROCprofiler-SDK <rocprofiler-sdk:index>` as a workaround. For example:
