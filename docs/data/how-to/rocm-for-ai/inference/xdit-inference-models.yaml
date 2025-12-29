@@ -1,46 +1,48 @@
 docker:
-  pull_tag: rocm/pytorch-xdit:v25.12
-  docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
-  ROCm: 7.10.0
+  pull_tag: rocm/pytorch-xdit:v25.13
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v25.13/images/sha256-81954713070d67bde08595e03f62110c8a3dd66a9ae17a77d611e01f83f0f4ef
+  ROCm: 7.11.0
   whats_new:
-      - "Adds T2V and TI2V support for Wan models."
-      - "Adds support for SD-3.5 T2I model."
+    - "Flux.1 Kontext support"
+    - "Flux.2 Dev support"
+    - "Flux FP8 GEMM support"
+    - "Hybrid FP8 attention support for Wan models"
   components:
     TheRock: 
-      version: 3e3f834
+      version: 1728a81
       url: https://github.com/ROCm/TheRock
     rccl:
       version: d23d18f
       url: https://github.com/ROCm/rccl
     composable_kernel:
-      version: 2570462
+      version: ab0101c
       url: https://github.com/ROCm/composable_kernel
     rocm-libraries:
-      version: 0588f07
+      version: a2f7c35
       url: https://github.com/ROCm/rocm-libraries
     rocm-systems:
-      version: 473025a
+      version: 659737c
       url: https://github.com/ROCm/rocm-systems
     torch:
-      version: 73adac
-      url: https://github.com/pytorch/pytorch
+      version: 91be249
+      url: https://github.com/ROCm/pytorch
     torchvision:
-      version: f5c6c2e
+      version: b919bd0
       url: https://github.com/pytorch/vision
     triton:
-      version: 7416ffc
-      url: https://github.com/triton-lang/triton
+      version: a272dfa
+      url: https://github.com/ROCm/triton
     accelerate:
-      version: 34c1779
+      version: b521400f
       url: https://github.com/huggingface/accelerate
     aiter:
-      version: de14bec
+      version: de14bec0
       url: https://github.com/ROCm/aiter
     diffusers:
-      version: 40528e9
+      version: a1f36ee3e
       url: https://github.com/huggingface/diffusers
     xfuser:
-      version: ccba9d5
+      version: adf2681
       url: https://github.com/xdit-project/xDiT
     yunchang:
       version: 2c9b712
@@ -80,7 +82,19 @@ docker:
           github: https://github.com/black-forest-labs/flux
           mad_tag: pyt_xdit_flux
           js_tag: flux_1_tag
-    - group: Stable Diffusion
+        - model: FLUX.1 Kontext
+          model_repo: black-forest-labs/FLUX.1-Kontext-dev
+          url: https://huggingface.co/black-forest-labs/FLUX.1-Kontext-dev
+          github: https://github.com/black-forest-labs/flux
+          mad_tag: pyt_xdit_flux_kontext
+          js_tag: flux_1_kontext_tag
+        - model: FLUX.2
+          model_repo: black-forest-labs/FLUX.2-dev
+          url: https://huggingface.co/black-forest-labs/FLUX.2-dev
+          github: https://github.com/black-forest-labs/flux2
+          mad_tag: pyt_xdit_flux_2
+          js_tag: flux_2_tag
+    - group: StableDiffusion
       js_tag: stablediffusion
       models:
         - model: stable-diffusion-3.5-large
