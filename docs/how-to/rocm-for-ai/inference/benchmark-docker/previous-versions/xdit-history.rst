@@ -17,7 +17,6 @@ benchmarking, see the version-specific documentation.
 
    * - ``rocm/pytorch-xdit:v25.13`` (latest)
      - 
-       * `ROCm 7.10.0 preview <https://rocm.docs.amd.com/en/7.10.0-preview/about/release-notes.html>`__
        * TheRock 1728a81
      - 
        * :doc:`Documentation <../../xdit-diffusion-inference>`
