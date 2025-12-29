@@ -104,6 +104,22 @@ vary by model -- select one to get started.
        {% endfor %}
    {% endfor %}
 
+Performance measurements
+========================
+
+To evaluate performance, the `Performance results with AMD ROCm software
+<https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8543b7e6d-item-9eda09e707-tab>`__
+page provides reference throughput and serving measurements for inferencing popular AI models.
+
+.. important::
+
+   The performance data presented in `Performance results with AMD ROCm
+   software
+   <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8543b7e6d-item-9eda09e707-tab>`__
+   only reflects the latest version of this inference benchmarking environment.
+   The listed measurements should not be interpreted as the peak performance
+   achievable by AMD Instinct GPUs or ROCm software.
+
 System validation
 =================
 

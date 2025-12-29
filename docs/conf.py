@@ -193,6 +193,10 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/sglang-history", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/xdit-diffusion-inference", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.10", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.11", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.12", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.13", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/inference-optimization/index", "os": ["linux"]},
