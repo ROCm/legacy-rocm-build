@@ -19,8 +19,9 @@ xDiT diffusion inference
    video and image generation on AMD Instinct MI355X, MI350X (gfx950), MI325X,
    and MI300X (gfx942) GPUs.
 
-   The image runs ROCm **{{docker.ROCm}}** (preview) based on `TheRock <https://github.com/ROCm/TheRock>`_
-   and includes the following components:
+   The image runs a preview version of ROCm using the new `TheRock
+   <https://github.com/ROCm/TheRock>`__ build system and includes the following
+   components:
 
    .. dropdown:: Software components - {{ docker.pull_tag.split('-')|last }}
 
