@@ -1,7 +1,7 @@
 xdit_diffusion_inference:
   docker:
     pull_tag: rocm/pytorch-xdit:v25.10
-    docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
+    docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v25.10/images/sha256-d79715ff18a9470e3f907cec8a9654d6b783c63370b091446acffc0de4d7070e
     ROCm: 7.9.0
     components:
       TheRock: 7afbe45

@@ -2,7 +2,7 @@ xdit_diffusion_inference:
   docker:
     - version: v25-11
       pull_tag: rocm/pytorch-xdit:v25.11
-      docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
+      docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v25.11/images/sha256-c9fa659439bb024f854b4d5eea598347251b02c341c55f66c98110832bde4216
       ROCm: 7.10.0
       supported_models:
         - group: Hunyuan Video

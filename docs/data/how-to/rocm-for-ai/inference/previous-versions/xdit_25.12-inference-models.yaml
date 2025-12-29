@@ -1,6 +1,6 @@
 docker:
   pull_tag: rocm/pytorch-xdit:v25.12
-  docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v25.12/images/sha256-e06895132316bf3c393366b70a91eaab6755902dad0100e6e2b38310547d9256
   ROCm: 7.10.0
   whats_new:
       - "Adds T2V and TI2V support for Wan models."
