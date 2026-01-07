@@ -285,7 +285,7 @@ tweak some configurations (such as batch sizes).
 
                      .. code-block:: shell
 
-                        EXP=examples/torchtitan/configs/MI355X/llama3.1_8B-BF16-pretrain.yaml \
+                        EXP=examples/torchtitan/configs/MI355X/llama3.1_8B-FP8-pretrain.yaml \
                         bash examples/run_pretrain.sh
 
                   .. tab-item:: MI325X
