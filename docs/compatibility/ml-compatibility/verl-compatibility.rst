@@ -37,67 +37,9 @@ Support overview
   - You can also consult the upstream `verl documentation <https://verl.readthedocs.io/en/latest/>`__ 
     for additional context.
 
-Version support
---------------------------------------------------------------------------------
-
-verl is supported on `ROCm 7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__ and
-`ROCm 6.2.0 <https://repo.radeon.com/rocm/apt/6.2/>`__.
-
-Supported devices
---------------------------------------------------------------------------------
-
-**Officially Supported**: AMD Instinct™ MI300X
-
-.. _verl-recommendations:
-
-Use cases and recommendations
-================================================================================
-
-* The benefits of verl in large-scale reinforcement learning from human feedback 
-  (RLHF) are discussed in the `Reinforcement Learning from Human Feedback on AMD 
-  GPUs with verl and ROCm Integration <https://rocm.blogs.amd.com/artificial-intelligence/verl-large-scale/README.html>`__ 
-  blog. The blog post outlines how the Volcano Engine Reinforcement Learning 
-  (verl) framework integrates with the AMD ROCm platform to optimize training on 
-  AMD Instinct™ GPUs. The guide details the process of building a Docker image, 
-  setting up single-node and multi-node training environments, and highlights 
-  performance benchmarks demonstrating improved throughput and convergence accuracy. 
-  This resource serves as a comprehensive starting point for deploying verl on AMD GPUs, 
-  facilitating efficient RLHF training workflows.
-
-.. _verl-supported_features:
-
-Supported features
-===============================================================================
-
-The following table shows verl on ROCm support for GPU-accelerated modules.
-
-.. list-table::
-    :header-rows: 1
-
-    * - Module
-      - Description
-      - verl version
-      - ROCm version
-    * - ``FSDP``
-      - Training engine
-      - 
-       * 0.6.0
-       * 0.3.0.post0
-      - 
-       * 7.0.0
-       * 6.2.0
-    * - ``vllm``
-      - Inference engine
-      - 
-       * 0.6.0
-       * 0.3.0.post0
-      - 
-       * 7.0.0
-       * 6.2.0
-
 .. _verl-docker-compat:
 
-Docker image compatibility
+Compatibility matrix
 ================================================================================
 
 .. |docker-icon| raw:: html
@@ -120,6 +62,7 @@ Click |docker-icon| to view the image on Docker Hub.
      - PyTorch
      - Python
      - vllm
+     - GPU
 
    * - .. raw:: html
 
@@ -130,6 +73,7 @@ Click |docker-icon| to view the image on Docker Hub.
      - `2.9.0 <https://github.com/ROCm/pytorch/tree/release/2.9-rocm7.x-gfx115x>`__
      - `3.12.11 <https://www.python.org/downloads/release/python-31211/>`__
      - `0.11.0 <https://github.com/vllm-project/vllm/releases/tag/v0.11.0>`__
+     - MI300X
 
    * - .. raw:: html
 
@@ -140,7 +84,33 @@ Click |docker-icon| to view the image on Docker Hub.
      - `2.5.0 <https://github.com/ROCm/pytorch/tree/release/2.5>`__
      - `3.9.19 <https://www.python.org/downloads/release/python-3919/>`__
      - `0.6.3 <https://github.com/vllm-project/vllm/releases/tag/v0.6.3>`__
+     - MI300X
 
+.. _verl-supported_features:
+
+Supported modules with verl on ROCm
+===============================================================================
+
+The following GPU-accelerated modules are supported with verl on ROCm:
+
+- ``FSDP``: Training engine
+- ``vllm``: Inference engine
+
+.. _verl-recommendations:
+
+Use cases and recommendations
+================================================================================
+
+* The benefits of verl in large-scale reinforcement learning from human feedback 
+  (RLHF) are discussed in the `Reinforcement Learning from Human Feedback on AMD 
+  GPUs with verl and ROCm Integration <https://rocm.blogs.amd.com/artificial-intelligence/verl-large-scale/README.html>`__ 
+  blog. The blog post outlines how the Volcano Engine Reinforcement Learning 
+  (verl) framework integrates with the AMD ROCm platform to optimize training on 
+  AMD Instinct™ GPUs. The guide details the process of building a Docker image, 
+  setting up single-node and multi-node training environments, and highlights 
+  performance benchmarks demonstrating improved throughput and convergence accuracy. 
+  This resource serves as a comprehensive starting point for deploying verl on AMD GPUs, 
+  facilitating efficient RLHF training workflows.
 
 Previous versions
 ===============================================================================

@@ -35,19 +35,45 @@ Support overview
   - You can also consult the upstream `Installation guide <https://github.com/NVIDIA/Megatron-LM>`__ 
     for additional context.
 
-Version support
---------------------------------------------------------------------------------
+.. _megatron-lm-docker-compat:
 
-Stanford Megatron-LM is supported on `ROCm 6.3.0 <https://repo.radeon.com/rocm/apt/6.3/>`__.
+Compatibility matrix
+================================================================================
 
-Supported devices
---------------------------------------------------------------------------------
+.. |docker-icon| raw:: html
 
-- **Officially Supported**: AMD Instinct™ MI300X
-- **Partially Supported** (functionality or performance limitations): AMD Instinct™ MI250X, MI210
+   <i class="fab fa-docker"></i>
 
-Supported models and features
---------------------------------------------------------------------------------
+AMD validates and publishes `Stanford Megatron-LM images <https://hub.docker.com/r/rocm/stanford-megatron-lm/tags>`_
+with ROCm and Pytorch backends on Docker Hub. The following Docker image tags and associated
+inventories represent the latest Stanford Megatron-LM version from the official Docker Hub.
+Click |docker-icon| to view the image on Docker Hub.
+
+.. list-table:: 
+    :header-rows: 1
+    :class: docker-image-compatibility
+
+    * - Docker image
+      - ROCm
+      - Stanford Megatron-LM
+      - PyTorch
+      - Ubuntu
+      - Python
+      - GPU
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/stanford-megatron-lm/stanford-megatron-lm85f95ae_rocm6.3.0_ubuntu24.04_py3.12_pytorch2.4.0/images/sha256-070556f078be10888a1421a2cb4f48c29f28b02bfeddae02588d1f7fc02a96a6"><i class="fab fa-docker fa-lg"></i> rocm/stanford-megatron-lm</a>
+
+      - `6.3.0 <https://repo.radeon.com/rocm/apt/6.3/>`_
+      - `85f95ae <https://github.com/stanford-futuredata/Megatron-LM/commit/85f95aef3b648075fe6f291c86714fdcbd9cd1f5>`_
+      - `2.4.0 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
+      - 24.04
+      - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`_
+      - MI300X
+
+Supported models and features with ROCm 6.3.0
+================================================================================
 
 This section details models & features that are supported by the ROCm version on Stanford Megatron-LM.
 
@@ -88,41 +114,3 @@ It features how to pre-process datasets and how to begin pre-training on AMD GPU
 
 * Single-GPU pre-training
 * Multi-GPU pre-training
-
-.. _megatron-lm-docker-compat:
-
-Docker image compatibility
-================================================================================
-
-.. |docker-icon| raw:: html
-
-   <i class="fab fa-docker"></i>
-
-AMD validates and publishes `Stanford Megatron-LM images <https://hub.docker.com/r/rocm/stanford-megatron-lm/tags>`_
-with ROCm and Pytorch backends on Docker Hub. The following Docker image tags and associated
-inventories represent the latest Stanford Megatron-LM version from the official Docker Hub.
-Click |docker-icon| to view the image on Docker Hub.
-
-.. list-table:: 
-    :header-rows: 1
-    :class: docker-image-compatibility
-
-    * - Docker image
-      - ROCm
-      - Stanford Megatron-LM
-      - PyTorch
-      - Ubuntu
-      - Python
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/stanford-megatron-lm/stanford-megatron-lm85f95ae_rocm6.3.0_ubuntu24.04_py3.12_pytorch2.4.0/images/sha256-070556f078be10888a1421a2cb4f48c29f28b02bfeddae02588d1f7fc02a96a6"><i class="fab fa-docker fa-lg"></i></a>
-
-      - `6.3.0 <https://repo.radeon.com/rocm/apt/6.3/>`_
-      - `85f95ae <https://github.com/stanford-futuredata/Megatron-LM/commit/85f95aef3b648075fe6f291c86714fdcbd9cd1f5>`_
-      - `2.4.0 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
-      - 24.04
-      - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`_
-
-      
-

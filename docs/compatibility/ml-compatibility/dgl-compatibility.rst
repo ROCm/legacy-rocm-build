@@ -36,63 +36,9 @@ Support overview
   - You can also consult the upstream `Installation guide <https://www.dgl.ai/pages/start.html>`__ 
     for additional context.
 
-Version support
---------------------------------------------------------------------------------
-
-DGL is supported on `ROCm 7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__, 
-`ROCm 6.4.3 <https://repo.radeon.com/rocm/apt/6.4.3/>`__, and `ROCm 6.4.0 <https://repo.radeon.com/rocm/apt/6.4/>`__.
-
-Supported devices
---------------------------------------------------------------------------------
-
-**Officially Supported**: AMD Instinct™ MI300X, MI250X
-
-.. _dgl-recommendations:
-
-Use cases and recommendations
-================================================================================
-
-DGL can be used for Graph Learning, and building popular graph models like  
-GAT, GCN, and GraphSage. Using these models, a variety of use cases are supported:
-
-- Recommender systems
-- Network Optimization and Analysis
-- 1D (Temporal) and 2D (Image) Classification
-- Drug Discovery
-
-For use cases and recommendations, refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`__, 
-where you can search for DGL examples and best practices to optimize your workloads on AMD GPUs.
-
-* Although multiple use cases of DGL have been tested and verified, a few have been  
-  outlined in the `DGL in the Real World: Running GNNs on Real Use Cases 
-  <https://rocm.blogs.amd.com/artificial-intelligence/dgl_blog2/README.html>`__ blog 
-  post, which walks through four real-world graph neural network (GNN) workloads 
-  implemented with the Deep Graph Library on ROCm. It covers tasks ranging from 
-  heterogeneous e-commerce graphs and multiplex networks (GATNE) to molecular graph 
-  regression (GNN-FiLM) and EEG-based neurological diagnosis (EEG-GCNN). For each use 
-  case, the authors detail: the dataset and task, how DGL is used, and their experience 
-  porting to ROCm. It is shown that DGL codebases often run without modification, with 
-  seamless integration of graph operations, message passing, sampling, and convolution. 
-
-* The `Graph Neural Networks (GNNs) at Scale: DGL with ROCm on AMD Hardware 
-  <https://rocm.blogs.amd.com/artificial-intelligence/why-graph-neural/README.html>`__ 
-  blog post introduces the Deep Graph Library (DGL) and its enablement on the AMD ROCm platform, 
-  bringing high-performance graph neural network (GNN) training to AMD GPUs. DGL bridges 
-  the gap between dense tensor frameworks and the irregular nature of graph data through a 
-  graph-first, message-passing abstraction. Its design ensures scalability, flexibility, and 
-  interoperability across frameworks like PyTorch and TensorFlow. AMD’s ROCm integration 
-  enables DGL to run efficiently on HIP-based GPUs, supported by prebuilt Docker containers 
-  and open-source repositories. This marks a major step in AMD's mission to advance open, 
-  scalable AI ecosystems beyond traditional architectures.
-
-You can pre-process datasets and begin training on AMD GPUs through:
-
-* Single-GPU training/inference
-* Multi-GPU training
-
 .. _dgl-docker-compat:
 
-Docker image compatibility
+Compatibility matrix
 ================================================================================
 
 .. |docker-icon| raw:: html
@@ -114,6 +60,7 @@ Click the |docker-icon| to view the image on Docker Hub.
       - PyTorch
       - Ubuntu
       - Python
+      - GPU
 
     * - .. raw:: html
 
@@ -124,6 +71,7 @@ Click the |docker-icon| to view the image on Docker Hub.
       - `2.8.0 <https://github.com/pytorch/pytorch/releases/tag/v2.8.0>`__
       - 24.04
       - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`__
+      - MI300X, MI250X
 
     * - .. raw:: html
 
@@ -134,6 +82,7 @@ Click the |docker-icon| to view the image on Docker Hub.
       - `2.6.0 <https://github.com/pytorch/pytorch/releases/tag/v2.6.0>`__
       - 24.04
       - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`__
+      - MI300X, MI250X
 
     * - .. raw:: html
 
@@ -144,6 +93,7 @@ Click the |docker-icon| to view the image on Docker Hub.
       - `2.7.1 <https://github.com/pytorch/pytorch/releases/tag/v2.7.1>`__
       - 22.04
       - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`__
+      - MI300X, MI250X
 
     * - .. raw:: html
 
@@ -154,6 +104,7 @@ Click the |docker-icon| to view the image on Docker Hub.
       - `2.6.0 <https://github.com/pytorch/pytorch/releases/tag/v2.6.0>`__
       - 24.04
       - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`__
+      - MI300X, MI250X
 
     * - .. raw:: html
 
@@ -164,6 +115,7 @@ Click the |docker-icon| to view the image on Docker Hub.
       - `2.6.0 <https://github.com/pytorch/pytorch/releases/tag/v2.6.0>`__
       - 24.04
       - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`__
+      - MI300X, MI250X
 
     * - .. raw:: html
 
@@ -174,7 +126,7 @@ Click the |docker-icon| to view the image on Docker Hub.
       - `2.4.1 <https://github.com/pytorch/pytorch/releases/tag/v2.4.1>`__
       - 24.04
       - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`__
-
+      - MI300X, MI250X
 
     * - .. raw:: html
 
@@ -185,7 +137,7 @@ Click the |docker-icon| to view the image on Docker Hub.
       - `2.4.1 <https://github.com/pytorch/pytorch/releases/tag/v2.4.1>`__
       - 22.04
       - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`__
-
+      - MI300X, MI250X
 
     * - .. raw:: html
 
@@ -196,7 +148,10 @@ Click the |docker-icon| to view the image on Docker Hub.
       - `2.3.0 <https://github.com/pytorch/pytorch/releases/tag/v2.3.0>`__
       - 22.04
       - `3.10.16 <https://www.python.org/downloads/release/python-31016/>`__
-      
+      - MI300X, MI250X
+
+
+.. _dgl-key-rocm-libraries:
 
 Key ROCm libraries for DGL
 ================================================================================
@@ -310,8 +265,9 @@ If you prefer to build it yourself, ensure the following dependencies are instal
         multiplication (GEMM) and accumulation operations with mixed precision
         support.
 
+.. _dgl-supported-features-latest:
 
-Supported features
+Supported features with ROCm 7.0.0
 ================================================================================
 
 Many functions and methods available upstream are also supported in DGL on ROCm.
@@ -335,14 +291,17 @@ Instead of listing them all, support is grouped into the following categories to
 * DGL Sparse
 * GraphBolt
 
-Unsupported features
+.. _dgl-unsupported-features-latest:
+
+Unsupported features with ROCm 7.0.0
 ================================================================================
 
 * TF32 Support (only supported for PyTorch 2.7 and above)
 * Kineto/ROCTracer integration
 
+.. _dgl-unsupported-functions:
 
-Unsupported functions
+Unsupported functions with ROCm 7.0.0
 ================================================================================
 
 * ``bfs``
@@ -354,6 +313,50 @@ Unsupported functions
 * ``sample_labors_prob``
 * ``sample_labors_noprob``
 * ``sparse_admin``
+
+.. _dgl-recommendations:
+
+Use cases and recommendations
+================================================================================
+
+DGL can be used for Graph Learning, and building popular graph models like  
+GAT, GCN, and GraphSage. Using these models, a variety of use cases are supported:
+
+- Recommender systems
+- Network Optimization and Analysis
+- 1D (Temporal) and 2D (Image) Classification
+- Drug Discovery
+
+For use cases and recommendations, refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`__, 
+where you can search for DGL examples and best practices to optimize your workloads on AMD GPUs.
+
+* Although multiple use cases of DGL have been tested and verified, a few have been  
+  outlined in the `DGL in the Real World: Running GNNs on Real Use Cases 
+  <https://rocm.blogs.amd.com/artificial-intelligence/dgl_blog2/README.html>`__ blog 
+  post, which walks through four real-world graph neural network (GNN) workloads 
+  implemented with the Deep Graph Library on ROCm. It covers tasks ranging from 
+  heterogeneous e-commerce graphs and multiplex networks (GATNE) to molecular graph 
+  regression (GNN-FiLM) and EEG-based neurological diagnosis (EEG-GCNN). For each use 
+  case, the authors detail: the dataset and task, how DGL is used, and their experience 
+  porting to ROCm. It is shown that DGL codebases often run without modification, with 
+  seamless integration of graph operations, message passing, sampling, and convolution. 
+
+* The `Graph Neural Networks (GNNs) at Scale: DGL with ROCm on AMD Hardware 
+  <https://rocm.blogs.amd.com/artificial-intelligence/why-graph-neural/README.html>`__ 
+  blog post introduces the Deep Graph Library (DGL) and its enablement on the AMD ROCm platform, 
+  bringing high-performance graph neural network (GNN) training to AMD GPUs. DGL bridges 
+  the gap between dense tensor frameworks and the irregular nature of graph data through a 
+  graph-first, message-passing abstraction. Its design ensures scalability, flexibility, and 
+  interoperability across frameworks like PyTorch and TensorFlow. AMD’s ROCm integration 
+  enables DGL to run efficiently on HIP-based GPUs, supported by prebuilt Docker containers 
+  and open-source repositories. This marks a major step in AMD's mission to advance open, 
+  scalable AI ecosystems beyond traditional architectures.
+
+You can pre-process datasets and begin training on AMD GPUs through:
+
+* Single-GPU training/inference
+* Multi-GPU training
+
 
 Previous versions
 ===============================================================================

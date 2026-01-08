@@ -33,19 +33,44 @@ Support overview
   - You can also consult the upstream `Installation guide <https://github.com/databricks/megablocks>`__ 
     for additional context.
 
-Version support
---------------------------------------------------------------------------------
+.. _megablocks-docker-compat:
 
-Megablocks is supported on `ROCm 6.3.0 <https://repo.radeon.com/rocm/apt/6.3/>`__.
+Compatibility matrix
+================================================================================
 
-Supported devices
---------------------------------------------------------------------------------
+.. |docker-icon| raw:: html
 
-- **Officially Supported**: AMD Instinct™ MI300X
-- **Partially Supported** (functionality or performance limitations): AMD Instinct™ MI250X, MI210
+   <i class="fab fa-docker"></i>
 
-Supported models and features
---------------------------------------------------------------------------------
+AMD validates and publishes `Megablocks images <https://hub.docker.com/r/rocm/megablocks/tags>`__
+with ROCm backends on Docker Hub. The following Docker image tag and associated
+inventories represent the latest available Megablocks version from the official Docker Hub. 
+Click |docker-icon| to view the image on Docker Hub.
+
+.. list-table:: 
+    :header-rows: 1
+    :class: docker-image-compatibility
+
+    * - Docker image
+      - ROCm
+      - Megablocks
+      - PyTorch
+      - Ubuntu
+      - Python
+      - GPU
+
+    * - .. raw:: html
+
+           <a href="https://hub.docker.com/layers/rocm/megablocks/megablocks-0.7.0_rocm6.3.0_ubuntu24.04_py3.12_pytorch2.4.0/images/sha256-372ff89b96599019b8f5f9db469c84add2529b713456781fa62eb9a148659ab4"><i class="fab fa-docker fa-lg"></i> rocm/megablocks</a>
+      - `6.3.0 <https://repo.radeon.com/rocm/apt/6.3/>`_
+      - `0.7.0 <https://github.com/databricks/megablocks/releases/tag/v0.7.0>`_
+      - `2.4.0 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
+      - 24.04
+      - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`_
+      - MI300X
+
+Supported models and features with ROCm 6.3.0
+================================================================================
 
 This section summarizes the Megablocks features supported by ROCm.
 
@@ -76,39 +101,4 @@ It features how to pre-process datasets and how to begin pre-training on AMD GPU
 
 * Single-GPU pre-training
 * Multi-GPU pre-training
-
-.. _megablocks-docker-compat:
-
-Docker image compatibility
-================================================================================
-
-.. |docker-icon| raw:: html
-
-   <i class="fab fa-docker"></i>
-
-AMD validates and publishes `Megablocks images <https://hub.docker.com/r/rocm/megablocks/tags>`__
-with ROCm backends on Docker Hub. The following Docker image tag and associated
-inventories represent the latest available Megablocks version from the official Docker Hub. 
-Click |docker-icon| to view the image on Docker Hub.
-
-.. list-table:: 
-    :header-rows: 1
-    :class: docker-image-compatibility
-
-    * - Docker image
-      - ROCm
-      - Megablocks
-      - PyTorch
-      - Ubuntu
-      - Python
-
-    * - .. raw:: html
-
-           <a href="https://hub.docker.com/layers/rocm/megablocks/megablocks-0.7.0_rocm6.3.0_ubuntu24.04_py3.12_pytorch2.4.0/images/sha256-372ff89b96599019b8f5f9db469c84add2529b713456781fa62eb9a148659ab4"><i class="fab fa-docker fa-lg"></i> rocm/megablocks</a>
-      - `6.3.0 <https://repo.radeon.com/rocm/apt/6.3/>`_
-      - `0.7.0 <https://github.com/databricks/megablocks/releases/tag/v0.7.0>`_
-      - `2.4.0 <https://github.com/ROCm/pytorch/tree/release/2.4>`_
-      - 24.04
-      - `3.12.9 <https://www.python.org/downloads/release/python-3129/>`_
-
 
