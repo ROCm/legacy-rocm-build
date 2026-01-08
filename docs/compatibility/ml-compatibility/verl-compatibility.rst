@@ -88,7 +88,7 @@ Click |docker-icon| to view the image on Docker Hub.
 
 .. _verl-supported_features:
 
-Supported modules
+Supported modules with verl on ROCm
 ===============================================================================
 
 The following GPU-accelerated modules are supported with verl on ROCm:
