@@ -36,47 +36,9 @@ Support overview
   - You can also consult the upstream `Installation guide <https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md>`__ 
     for additional context.
 
-Version support
---------------------------------------------------------------------------------
-
-llama.cpp is supported on `ROCm 7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__ and 
-`ROCm 6.4.x <https://repo.radeon.com/rocm/apt/6.4/>`__.
-
-Supported devices
---------------------------------------------------------------------------------
-
-**Officially Supported**: AMD Instinct™ MI325X, MI300X, MI210
-
-Use cases and recommendations
-================================================================================
-
-llama.cpp can be applied in a variety of scenarios, particularly when you need to meet one or more of the following requirements:
-
-- Plain C/C++ implementation with no external dependencies
-- Support for 1.5-bit, 2-bit, 3-bit, 4-bit, 5-bit, 6-bit, and 8-bit integer quantization for faster inference and reduced memory usage
-- Custom HIP (Heterogeneous-compute Interface for Portability) kernels for running large language models (LLMs) on AMD GPUs (graphics processing units)
-- CPU (central processing unit) + GPU (graphics processing unit) hybrid inference for partially accelerating models larger than the total available VRAM (video random-access memory)
-
-llama.cpp is also used in a range of real-world applications, including:
-
-- Games such as `Lucy's Labyrinth <https://github.com/MorganRO8/Lucys_Labyrinth>`__:
-  A simple maze game where AI-controlled agents attempt to trick the player.
-- Tools such as `Styled Lines <https://marketplace.unity.com/packages/tools/ai-ml-integration/style-text-webgl-ios-stand-alone-llm-llama-cpp-wrapper-292902>`__:
-  A proprietary, asynchronous inference wrapper for Unity3D game development, including pre-built mobile and web platform wrappers and a model example.
-- Various other AI applications use llama.cpp as their inference engine;  
-  for a detailed list, see the `user interfaces (UIs) section <https://github.com/ggml-org/llama.cpp?tab=readme-ov-file#description>`__.
-
-For more use cases and recommendations, refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`__, 
-where you can search for llama.cpp examples and best practices to optimize your workloads on AMD GPUs.
-
-- The `Llama.cpp Meets Instinct: A New Era of Open-Source AI Acceleration <https://rocm.blogs.amd.com/ecosystems-and-partners/llama-cpp/README.html>`__ 
-  blog post outlines how the open-source llama.cpp framework enables efficient LLM inference—including interactive inference with ``llama-cli``, 
-  server deployment with ``llama-server``, GGUF model preparation and quantization, performance benchmarking, and optimizations tailored for 
-  AMD Instinct GPUs within the ROCm ecosystem. 
-
 .. _llama-cpp-docker-compat:
 
-Docker image compatibility
+Compatibility matrix
 ================================================================================
 
 .. |docker-icon| raw:: html
@@ -106,6 +68,7 @@ Click |docker-icon| to view the image on Docker Hub.
       - llama.cpp
       - ROCm
       - Ubuntu
+      - GPU
 
     * - .. raw:: html
 
@@ -119,6 +82,7 @@ Click |docker-icon| to view the image on Docker Hub.
       - `b6652 <https://github.com/ROCm/llama.cpp/tree/release/b6652>`__
       - `7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__
       - 24.04
+      - MI325X, MI300X, MI210
 
     * - .. raw:: html
 
@@ -132,6 +96,7 @@ Click |docker-icon| to view the image on Docker Hub.
       - `b6652 <https://github.com/ROCm/llama.cpp/tree/release/b6652>`__
       - `7.0.0 <https://repo.radeon.com/rocm/apt/7.0/>`__
       - 22.04
+      - MI325X, MI300X, MI210
 
     * - .. raw:: html
 
@@ -145,6 +110,7 @@ Click |docker-icon| to view the image on Docker Hub.
       - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
       - `6.4.3 <https://repo.radeon.com/rocm/apt/6.4.3/>`__
       - 24.04
+      - MI325X, MI300X, MI210
 
     * - .. raw:: html
 
@@ -158,7 +124,7 @@ Click |docker-icon| to view the image on Docker Hub.
       - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
       - `6.4.3 <https://repo.radeon.com/rocm/apt/6.4.3/>`__
       - 22.04
-
+      - MI325X, MI300X, MI210
 
     * - .. raw:: html
 
@@ -172,6 +138,7 @@ Click |docker-icon| to view the image on Docker Hub.
       - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
       - `6.4.2 <https://repo.radeon.com/rocm/apt/6.4.2/>`__
       - 24.04
+      - MI325X, MI300X, MI210
 
     * - .. raw:: html
 
@@ -185,7 +152,7 @@ Click |docker-icon| to view the image on Docker Hub.
       - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
       - `6.4.2 <https://repo.radeon.com/rocm/apt/6.4.2/>`__
       - 22.04
-
+      - MI325X, MI300X, MI210
 
     * - .. raw:: html
 
@@ -199,6 +166,7 @@ Click |docker-icon| to view the image on Docker Hub.
       - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
       - `6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__
       - 24.04
+      - MI325X, MI300X, MI210
 
     * - .. raw:: html
 
@@ -212,6 +180,7 @@ Click |docker-icon| to view the image on Docker Hub.
       - `b6356 <https://github.com/ROCm/llama.cpp/tree/release/b6356>`__
       - `6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__
       - 22.04
+      - MI325X, MI300X, MI210
 
     * - .. raw:: html
 
@@ -225,7 +194,9 @@ Click |docker-icon| to view the image on Docker Hub.
       - `b5997 <https://github.com/ROCm/llama.cpp/tree/release/b5997>`__
       - `6.4.0 <https://repo.radeon.com/rocm/apt/6.4/>`__
       - 24.04
+      - MI300X, MI210
 
+.. _llama-cpp-key-rocm-libraries:
 
 Key ROCm libraries for llama.cpp
 ================================================================================
@@ -267,6 +238,36 @@ your corresponding ROCm version.
         support.
       - Can be used to enhance the flash attention performance on AMD compute, by enabling
         the flag during compile time.
+
+.. _llama-cpp-uses-recommendations:
+
+Use cases and recommendations
+================================================================================
+
+llama.cpp can be applied in a variety of scenarios, particularly when you need to meet one or more of the following requirements:
+
+- Plain C/C++ implementation with no external dependencies
+- Support for 1.5-bit, 2-bit, 3-bit, 4-bit, 5-bit, 6-bit, and 8-bit integer quantization for faster inference and reduced memory usage
+- Custom HIP (Heterogeneous-compute Interface for Portability) kernels for running large language models (LLMs) on AMD GPUs (graphics processing units)
+- CPU (central processing unit) + GPU (graphics processing unit) hybrid inference for partially accelerating models larger than the total available VRAM (video random-access memory)
+
+llama.cpp is also used in a range of real-world applications, including:
+
+- Games such as `Lucy's Labyrinth <https://github.com/MorganRO8/Lucys_Labyrinth>`__:
+  A simple maze game where AI-controlled agents attempt to trick the player.
+- Tools such as `Styled Lines <https://marketplace.unity.com/packages/tools/ai-ml-integration/style-text-webgl-ios-stand-alone-llm-llama-cpp-wrapper-292902>`__:
+  A proprietary, asynchronous inference wrapper for Unity3D game development, including pre-built mobile and web platform wrappers and a model example.
+- Various other AI applications use llama.cpp as their inference engine;  
+  for a detailed list, see the `user interfaces (UIs) section <https://github.com/ggml-org/llama.cpp?tab=readme-ov-file#description>`__.
+
+For more use cases and recommendations, refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`__, 
+where you can search for llama.cpp examples and best practices to optimize your workloads on AMD GPUs.
+
+- The `Llama.cpp Meets Instinct: A New Era of Open-Source AI Acceleration <https://rocm.blogs.amd.com/ecosystems-and-partners/llama-cpp/README.html>`__ 
+  blog post outlines how the open-source llama.cpp framework enables efficient LLM inference—including interactive inference with ``llama-cli``, 
+  server deployment with ``llama-server``, GGUF model preparation and quantization, performance benchmarking, and optimizations tailored for 
+  AMD Instinct GPUs within the ROCm ecosystem. 
+
 
 Previous versions
 ===============================================================================

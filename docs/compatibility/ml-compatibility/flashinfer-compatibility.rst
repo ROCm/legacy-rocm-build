@@ -42,38 +42,9 @@ Support overview
   - You can also consult the upstream `Installation guide <https://docs.flashinfer.ai/installation.html>`__ 
     for additional context.
 
-Version support
---------------------------------------------------------------------------------
-
-FlashInfer is supported on `ROCm 6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__.
-
-Supported devices
---------------------------------------------------------------------------------
-
-**Officially Supported**: AMD Instinct™ MI300X
-
-
-.. _flashinfer-recommendations:
-
-Use cases and recommendations
-================================================================================
-
-This release of FlashInfer on ROCm provides the decode functionality for LLM inferencing.
-In the decode phase, tokens are generated sequentially, with the model predicting each new 
-token based on the previously generated tokens and the input context.
-
-FlashInfer on ROCm brings over upstream features such as load balancing, sparse and dense 
-attention optimizations, and batching support, enabling efficient execution on AMD Instinct™ MI300X GPUs.
-
-Because large LLMs often require substantial KV caches or long context windows, FlashInfer on ROCm 
-also implements cascade attention from upstream to reduce memory usage. 
-
-For currently supported use cases and recommendations, refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`__, 
-where you can search for examples and best practices to optimize your workloads on AMD GPUs.
-
 .. _flashinfer-docker-compat:
 
-Docker image compatibility
+Compatibility matrix
 ================================================================================
 
 .. |docker-icon| raw:: html
@@ -95,6 +66,7 @@ Click |docker-icon| to view the image on Docker Hub.
       - PyTorch
       - Ubuntu
       - Python
+      - GPU
 
     * - .. raw:: html
 
@@ -104,5 +76,23 @@ Click |docker-icon| to view the image on Docker Hub.
       - `2.7.1 <https://github.com/ROCm/pytorch/releases/tag/v2.7.1>`__
       - 24.04
       - `3.12 <https://www.python.org/downloads/release/python-3129/>`__
+      - MI300X
 
+.. _flashinfer-recommendations:
+
+Use cases and recommendations
+================================================================================
+
+The release of FlashInfer on ROCm provides the decode functionality for LLM inferencing.
+In the decode phase, tokens are generated sequentially, with the model predicting each new 
+token based on the previously generated tokens and the input context.
+
+FlashInfer on ROCm brings over upstream features such as load balancing, sparse and dense 
+attention optimizations, and batching support, enabling efficient execution on AMD Instinct™ MI300X GPUs.
+
+Because large LLMs often require substantial KV caches or long context windows, FlashInfer on ROCm 
+also implements cascade attention from upstream to reduce memory usage. 
+
+For currently supported use cases and recommendations, refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`__, 
+where you can search for examples and best practices to optimize your workloads on AMD GPUs.
 

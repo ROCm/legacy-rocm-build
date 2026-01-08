@@ -157,8 +157,8 @@ compatibility and system requirements.
 
 .. [#os-compatibility] Some operating systems are supported on limited GPUs. For detailed information, see the latest :ref:`supported_distributions`. For version specific information, see `ROCm 7.1.1 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.1.1/reference/system-requirements.html#supported-operating-systems>`__, `ROCm 7.1.0 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.1.0/reference/system-requirements.html#supported-operating-systems>`__, and `ROCm 6.4.0 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.0/reference/system-requirements.html#supported-operating-systems>`__.
 .. [#gpu-compatibility] Some GPUs have limited operating system support. For detailed information, see the latest :ref:`supported_GPUs`. For version specific information, see `ROCm 7.1.1 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.1.1/reference/system-requirements.html#supported-gpus>`__, `ROCm 7.1.0 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.1.0/reference/system-requirements.html#supported-gpus>`__, and `ROCm 6.4.0 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.0/reference/system-requirements.html#supported-gpus>`__.
-.. [#dgl_compat] DGL is supported only on ROCm 7.0.0, ROCm 6.4.3 and ROCm 6.4.0.
-.. [#llama-cpp_compat] llama.cpp is supported only on ROCm 7.0.0 and ROCm 6.4.x.
+.. [#dgl_compat] DGL is only supported on ROCm 7.0.0, ROCm 6.4.3 and ROCm 6.4.0.
+.. [#llama-cpp_compat] llama.cpp is only supported on ROCm 7.0.0 and ROCm 6.4.x.
 .. [#mi325x_KVM] For AMD Instinct MI325X KVM SR-IOV users, do not use AMD GPU Driver (amdgpu) 30.20.0.
 .. [#driver_patch] AMD GPU Driver (amdgpu) 30.10.1 is a quality release that resolves an issue identified in the 30.10 release. There are no other significant changes or feature additions in ROCm 7.0.1 from ROCm 7.0.0. AMD GPU Driver (amdgpu) 30.10.1 is compatible with ROCm 7.0.1 and ROCm 7.0.0.
 .. [#kfd_support] As of ROCm 6.4.0, forward and backward compatibility between the AMD GPU Driver (amdgpu) and its user space software is provided up to a year apart. For earlier ROCm releases, the compatibility is provided for +/- 2 releases. The supported user space versions on this page were accurate as of the time of initial ROCm release. For the most up-to-date information, see the latest version of this information at `User and AMD GPU Driver support matrix <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/user-kernel-space-compat-matrix.html>`_.
@@ -204,13 +204,13 @@ Expand for full historical view of:
    .. [#os-compatibility-past-60] Some operating systems are supported on limited GPUs. For detailed information, see the latest :ref:`supported_distributions`. For version specific information, see `ROCm 7.1.1 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.1.1/reference/system-requirements.html#supported-operating-systems>`__, `ROCm 7.1.0 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.1.0/reference/system-requirements.html#supported-operating-systems>`__, and `ROCm 6.4.0 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.0/reference/system-requirements.html#supported-operating-systems>`__.
    .. [#gpu-compatibility-past-60] Some GPUs have limited operating system support. For detailed information, see the latest :ref:`supported_GPUs`. For version specific information, see `ROCm 7.1.1 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.1.1/reference/system-requirements.html#supported-gpus>`__, `ROCm 7.1.0 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.1.0/reference/system-requirements.html#supported-gpus>`__, and `ROCm 6.4.0 <https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.0/reference/system-requirements.html#supported-gpus>`__.
    .. [#tf-mi350-past-60] TensorFlow 2.17.1 is not supported on AMD Instinct MI350 Series GPUs. Use TensorFlow 2.19.1 or 2.18.1 with MI350 Series GPUs instead.
-   .. [#verl_compat-past-60] verl is supported only on ROCm 7.0.0 and 6.2.0.
-   .. [#stanford-megatron-lm_compat-past-60] Stanford Megatron-LM is supported only on ROCm 6.3.0.
-   .. [#dgl_compat-past-60] DGL is supported only on ROCm 7.0.0, ROCm 6.4.3 and ROCm 6.4.0.
-   .. [#megablocks_compat-past-60] Megablocks is supported only on ROCm 6.3.0.
-   .. [#ray_compat-past-60] Ray is supported only on ROCm 6.4.1.
-   .. [#llama-cpp_compat-past-60] llama.cpp is supported only on ROCm 7.0.0 and 6.4.x.
-   .. [#flashinfer_compat-past-60] FlashInfer is supported only on ROCm 6.4.1.
+   .. [#verl_compat-past-60] verl is only supported on ROCm 7.0.0 and 6.2.0.
+   .. [#stanford-megatron-lm_compat-past-60] Stanford Megatron-LM is only supported on ROCm 6.3.0.
+   .. [#dgl_compat-past-60] DGL is only supported on ROCm 7.0.0, ROCm 6.4.3 and ROCm 6.4.0.
+   .. [#megablocks_compat-past-60] Megablocks is only supported on ROCm 6.3.0.
+   .. [#ray_compat-past-60] Ray is only supported on ROCm 7.0.0 and 6.4.1.
+   .. [#llama-cpp_compat-past-60] llama.cpp is only supported on ROCm 7.0.0 and 6.4.x.
+   .. [#flashinfer_compat-past-60] FlashInfer is only supported on ROCm 6.4.1.
    .. [#mi325x_KVM-past-60] For AMD Instinct MI325X KVM SR-IOV users, do not use AMD GPU Driver (amdgpu) 30.20.0.
    .. [#driver_patch-past-60] AMD GPU Driver (amdgpu) 30.10.1 is a quality release that resolves an issue identified in the 30.10 release. There are no other significant changes or feature additions in ROCm 7.0.1 from ROCm 7.0.0. AMD GPU Driver (amdgpu) 30.10.1 is compatible with ROCm 7.0.1 and ROCm 7.0.0.
    .. [#kfd_support-past-60] As of ROCm 6.4.0, forward and backward compatibility between the AMD GPU Driver (amdgpu) and its user space software is provided up to a year apart. For earlier ROCm releases, the compatibility is provided for +/- 2 releases. The supported user space versions on this page were accurate as of the time of initial ROCm release. For the most up-to-date information, see the latest version of this information at `User and AMD GPU Driver support matrix <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/user-kernel-space-compat-matrix.html>`_.
