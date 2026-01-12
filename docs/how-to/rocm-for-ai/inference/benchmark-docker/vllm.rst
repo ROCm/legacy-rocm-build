@@ -297,7 +297,7 @@ Benchmarking
 
                   .. code-block:: shell
 
-                     model={{ model.model }}
+                     model={{ model.model_repo }}
                      tp={{ serv_config.tp }}
                      batch_size=16
                      in={{ serv_config.inp | default(1024) }}
@@ -326,7 +326,7 @@ Benchmarking
 
                   .. code-block:: shell
 
-                     model={{ model.model }}
+                     model={{ model.model_repo }}
                      tp={{ serv_config.tp }}
                      num_prompts={{ model.config.num_prompts | default(1024) }}
                      in={{ serv_config.inp | default(1024) }}
@@ -357,7 +357,7 @@ Benchmarking
 
                      .. code-block:: shell
 
-                        model={{ model.model }}
+                        model={{ model.model_repo }}
                         tp={{ serv_config.tp }}
                         dtype={{ serv_config.dtype }}
                         kv_cache_dtype={{ ex_config.kv_cache_dtype }}
@@ -413,7 +413,7 @@ Benchmarking
 
                      .. code-block:: shell
 
-                        model={{ acc_config.model }}
+                        model={{ model.model_repo }}
                         tp={{ acc_config.tp }}
                         dtype={{ acc_config.dtype }}
                         kv_cache_dtype={{ ex_config.kv_cache_dtype }}
@@ -454,21 +454,6 @@ Benchmarking
                             --tasks gsm8k --limit 250 --output_path ./tmp
 
                {% endif %}
-
-            .. note::
-
-               For improved performance with certain Mixture of Experts models, such as Mixtral 8x22B,
-               try adding ``export VLLM_ROCM_USE_AITER=1`` to your commands.
-
-               If you encounter the following error, pass your access-authorized Hugging
-               Face token to the gated models.
-
-               .. code-block::
-
-                  OSError: You are trying to access a gated repo.
-
-                  # pass your HF_TOKEN
-                  export HF_TOKEN=$your_personal_hf_token
 
             .. raw:: html
 
