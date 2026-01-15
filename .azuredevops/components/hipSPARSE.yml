@@ -41,6 +41,7 @@ parameters:
 - name: rocmDependencies
   type: object
   default:
+    - aomp
     - clr
     - llvm-project
     - rocminfo
@@ -50,6 +51,7 @@ parameters:
 - name: rocmTestDependencies
   type: object
   default:
+    - aomp
     - clr
     - llvm-project
     - hipBLAS-common
