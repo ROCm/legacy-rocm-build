@@ -99,7 +99,7 @@ subtrees:
               - file: how-to/rocm-for-ai/fine-tuning/single-gpu-fine-tuning-and-inference.rst
                 title: Use a single GPU
               - file: how-to/rocm-for-ai/fine-tuning/multi-gpu-fine-tuning-and-inference.rst
-                title: Use multiple accelerators
+                title: Use multiple GPUs
 
       - file: how-to/rocm-for-ai/inference/index.rst
         title: Inference
