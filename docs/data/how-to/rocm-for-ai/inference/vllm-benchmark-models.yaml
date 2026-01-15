@@ -8,6 +8,303 @@ dockers:
       hipBLASLt: 1.0.0
     dockerfile:
       commit: 8398684622109c806a35d660647060b0b9910663
+
+configs:
+  default:
+    ## DeepSeek AITER MLA currently only supports --block-size 1
+    - &deepseek-r1-serving
+      benchmark: serving
+      model: deepseek-ai/DeepSeek-R1-0528
+      tp: 8
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1 8 32 128
+      extra_args:
+        async-scheduling: True
+        block-size: 1
+    ## gpt-oss requires AITER unified attention and performs best with block-size 64 and FULL_AND_PIECEWISE cudagraph mode
+    - &gpt-oss-120b-serving
+      benchmark: serving
+      model: openai/gpt-oss-120b
+      tp: 8
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1 8 32 128
+      env:
+        VLLM_ROCM_USE_AITER_MHA: 0
+        VLLM_ROCM_USE_AITER_UNIFIED_ATTENTION: 1
+      extra_args:
+        async-scheduling: True
+        block-size: 64
+        compilation-config: '{\"cudagraph_mode\":\"FULL_AND_PIECEWISE\"}'
+    - &llama-3-serving
+      benchmark: serving
+      model:
+        meta-llama/Llama-3.1-405B-Instruct
+        amd/Llama-3.1-405B-Instruct-FP8-KV
+        meta-llama/Llama-3.3-70B-Instruct
+        amd/Llama-3.3-70B-Instruct-FP8-KV
+      tp: 8
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1 8 32 128
+      extra_args:
+        async-scheduling: True
+      arch_overrides:
+        gfx942:
+          dtype: float16
+    ## Llama 3.x MXFP4 (gfx950 only)
+    - &llama-3-mxfp4-serving
+      benchmark: serving
+      model:
+        amd/Llama-3.1-405B-Instruct-MXFP4-Preview
+        amd/Llama-3.3-70B-Instruct-MXFP4-Preview
+      tp: 8
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1 8 32 128
+      extra_args:
+        async-scheduling: True
+    ## Llama 4 currently does not support full cudagraph or attn fusion
+    - &llama-4-fp8-serving
+      benchmark: serving
+      model:
+        meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
+      tp: 8
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1 8 32 128
+      extra_args:
+        async-scheduling: True
+        compilation-config: '{\"cudagraph_mode\":\"PIECEWISE\",\"pass_config\":{\"enable_attn_fusion\":false}}'
+      arch_overrides:
+        gfx942:
+          dtype: float16
+    - &mixtral-8x22b-serving
+      benchmark: serving
+      model:
+        mistralai/Mixtral-8x22B-Instruct-v0.1
+        amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV
+      tp: 8
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1 8 32 128
+      extra_args:
+        async-scheduling: True
+      arch_overrides:
+        gfx942:
+          dtype: float16
+  extended:
+    ## gpt-oss requires AITER unified attention and performs best with block-size 64 and FULL_AND_PIECEWISE cudagraph mode
+    - &gpt-oss-20b-serving
+      benchmark: serving
+      model:
+        openai/gpt-oss-20b
+      tp: 1
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1
+      env:
+        VLLM_ROCM_USE_AITER_MHA: 0
+        VLLM_ROCM_USE_AITER_UNIFIED_ATTENTION: 1
+      extra_args:
+        async-scheduling: True
+        block-size: 64
+        compilation-config: '{\"cudagraph_mode\":\"FULL_AND_PIECEWISE\"}'
+    - &llama-3-8b-phi-4-qwen3-serving
+      benchmark: serving
+      model:
+        meta-llama/Llama-3.1-8B-Instruct
+        amd/Llama-3.1-8B-Instruct-FP8-KV
+        microsoft/phi-4
+        Qwen/Qwen3-8B
+        Qwen/Qwen3-32B
+        Qwen/Qwen3-30B-A3B-Thinking-2507
+        Qwen/Qwen3-30B-A3B-Thinking-2507-FP8
+      tp: 1
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1
+      extra_args:
+        async-scheduling: True
+      arch_overrides:
+        gfx942:
+          dtype: float16
+
+    - &llama-2-70b-serving
+      benchmark: serving
+      model:
+        meta-llama/Llama-2-70b-chat-hf
+      tp: 8
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1
+      extra_args:
+        async-scheduling: True
+      arch_overrides:
+        gfx942:
+          dtype: float16
+    ## Llama 4 currently does not support full cudagraph or attn fusion
+    - &llama-4-serving
+      benchmark: serving
+      model:
+        meta-llama/Llama-4-Scout-17B-16E-Instruct
+        meta-llama/Llama-4-Maverick-17B-128E-Instruct
+      tp: 8
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1
+      extra_args:
+        async-scheduling: True
+        compilation-config: '{\"cudagraph_mode\":\"PIECEWISE\",\"pass_config\":{\"enable_attn_fusion\":false}}'
+      arch_overrides:
+        gfx942:
+          dtype: float16
+
+    - &mixtral-8x7b-serving
+      benchmark: serving
+      model:
+        mistralai/Mixtral-8x7B-Instruct-v0.1
+        amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV
+      tp: 8
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1
+      extra_args:
+        async-scheduling: True
+      arch_overrides:
+        gfx942:
+          dtype: float16
+    ## Qwen 235B requires --enable-expert-parallel with tp 8
+    - &qwen3-235b-a22b-serving
+      benchmark: serving
+      model:
+        Qwen/Qwen3-235B-A22B-Thinking-2507
+        Qwen/Qwen3-235B-A22B-Thinking-2507-FP8
+      tp: 8
+      inp: 1024
+      out: 1024
+      dtype: auto
+      max_concurrency: 1
+      extra_args:
+        async-scheduling: True
+        enable-expert-parallel: True
+      arch_overrides:
+        gfx942:
+          dtype: float16
+  accuracy:
+    ## DeepSeek AITER MLA currently only supports --block-size 1
+    - &deepseek-r1-accuracy
+      benchmark: accuracy
+      model: deepseek-ai/DeepSeek-R1-0528
+      tp: 8
+      dtype: auto
+      extra_args:
+        async-scheduling: True
+        block-size: 1
+      bench_args:
+        apply_chat_template: True
+    ## gpt-oss requires AITER unified attention and performs best with block-size 64 and FULL_AND_PIECEWISE cudagraph mode
+    - &gpt-oss-120b-accuracy
+      benchmark: accuracy
+      model: openai/gpt-oss-120b
+      tp: 8
+      dtype: auto
+      env:
+        VLLM_ROCM_USE_AITER_MHA: 0
+        VLLM_USE_AITER_UNIFIED_ATTENTION: 1
+      extra_args:
+        async-scheduling: True
+        block-size: 64
+        compilation-config: '{\"cudagraph_mode\":\"FULL_AND_PIECEWISE\"}'
+      bench_args:
+        apply_chat_template: True
+    ## Llama 3.x bf16 and fp8 perform better with --dtype float16 on gfx942
+    - &llama-3-accuracy
+      benchmark: accuracy
+      model:
+        meta-llama/Llama-3.1-405B-Instruct
+        amd/Llama-3.1-405B-Instruct-FP8-KV
+        meta-llama/Llama-3.3-70B-Instruct
+        amd/Llama-3.3-70B-Instruct-FP8-KV
+      tp: 8
+      dtype: auto
+      extra_args:
+        async-scheduling: True
+      bench_args:
+        apply_chat_template: True
+      arch_overrides:
+        gfx942:
+          dtype: float16
+    ## Llama 3.x MXFP4 (gfx950 only)
+    - &llama-3-mxfp4-accuracy
+      benchmark: accuracy
+      model:
+        amd/Llama-3.1-405B-Instruct-MXFP4-Preview
+        amd/Llama-3.3-70B-Instruct-MXFP4-Preview
+      tp: 8
+      dtype: auto
+      extra_args:
+        async-scheduling: True
+      bench_args:
+        apply_chat_template: True
+    ## Llama 4 currently does not support full cudagraph or attn fusion
+    - &llama-4-fp8-accuracy
+      benchmark: accuracy
+      model:
+        meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
+      tp: 8
+      dtype: auto
+      extra_args:
+        async-scheduling: True
+        compilation-config: '{\"cudagraph_mode\":\"PIECEWISE\",\"pass_config\":{\"enable_attn_fusion\":false}}'
+      bench_args:
+        apply_chat_template: True
+      arch_overrides:
+        gfx942:
+          dtype: float16
+    ## Mistral models require --tokenizer-mode mistral for correct decoding
+    - &mixtral-8x22b-accuracy
+      benchmark: accuracy
+      model:
+        mistralai/Mixtral-8x22B-Instruct-v0.1
+        amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV
+      tp: 8
+      dtype: auto
+      extra_args:
+        async-scheduling: True
+      bench_args:
+        apply_chat_template: True
+      arch_overrides:
+        gfx942:
+          dtype: float16
+    ## Qwen 235B requires --enable-expert-parallel with tp 8
+    - &qwen3-235b-a22b-accuracy
+      benchmark: accuracy
+      model:
+        Qwen/Qwen3-235B-A22B-Thinking-2507
+        Qwen/Qwen3-235B-A22B-Thinking-2507-FP8
+      dtype: auto
+      extra_args:
+        async-scheduling: True
+        enable-expert-parallel: True
+      bench_args:
+        apply_chat_template: True
+      arch_overrides:
+        gfx942:
+          dtype: float16
+
 model_groups:
   - group: Meta Llama
     tag: llama
@@ -18,132 +315,139 @@ model_groups:
         url: https://huggingface.co/meta-llama/Llama-2-70b-chat-hf
         precision: float16
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 4096
-          max_model_len: 4096
+          serving: *llama-2-70b-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 4096
+            max_model_len: 4096
       - model: Llama 3.1 8B
         mad_tag: pyt_vllm_llama-3.1-8b
         model_repo: meta-llama/Llama-3.1-8B-Instruct
         url: https://huggingface.co/meta-llama/Llama-3.1-8B
         precision: float16
         config:
-          tp: 1
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 131072
-          max_model_len: 8192
+          serving: *llama-3-8b-phi-4-qwen3-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 131072
+            max_model_len: 8192
       - model: Llama 3.1 8B FP8
         mad_tag: pyt_vllm_llama-3.1-8b_fp8
         model_repo: amd/Llama-3.1-8B-Instruct-FP8-KV
         url: https://huggingface.co/amd/Llama-3.1-8B-Instruct-FP8-KV
         precision: float8
         config:
-          tp: 1
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_batched_tokens: 131072
-          max_model_len: 8192
+          serving: *llama-3-8b-phi-4-qwen3-serving
+          ex:
+            kv_cache_dtype: fp8
+            max_num_batched_tokens: 131072
+            max_model_len: 8192
       - model: Llama 3.1 405B
         mad_tag: pyt_vllm_llama-3.1-405b
         model_repo: meta-llama/Llama-3.1-405B-Instruct
         url: https://huggingface.co/meta-llama/Llama-3.1-405B-Instruct
         precision: float16
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 131072
-          max_model_len: 8192
+          serving: *llama-3-serving
+          accuracy: *llama-3-accuracy
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 131072
+            max_model_len: 8192
       - model: Llama 3.1 405B FP8
         mad_tag: pyt_vllm_llama-3.1-405b_fp8
         model_repo: amd/Llama-3.1-405B-Instruct-FP8-KV
         url: https://huggingface.co/amd/Llama-3.1-405B-Instruct-FP8-KV
         precision: float8
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_batched_tokens: 131072
-          max_model_len: 8192
+          serving: *llama-3-serving
+          accuracy: *llama-3-accuracy
+          ex:
+            kv_cache_dtype: fp8
+            max_num_batched_tokens: 131072
+            max_model_len: 8192
       - model: Llama 3.1 405B MXFP4
         mad_tag: pyt_vllm_llama-3.1-405b_fp4
         model_repo: amd/Llama-3.1-405B-Instruct-MXFP4-Preview
         url: https://huggingface.co/amd/Llama-3.1-405B-Instruct-MXFP4-Preview
         precision: float4
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_batched_tokens: 131072
-          max_model_len: 8192
+          serving: *llama-3-mxfp4-serving
+          accuracy: *llama-3-mxfp4-accuracy
+          ex:
+            kv_cache_dtype: fp8
+            max_num_batched_tokens: 131072
+            max_model_len: 8192
       - model: Llama 3.3 70B
         mad_tag: pyt_vllm_llama-3.3-70b
         model_repo: meta-llama/Llama-3.3-70B-Instruct
         url: https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct
         precision: float16
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 131072
-          max_model_len: 8192
+          serving: *llama-3-serving
+          accuracy: *llama-3-accuracy
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 131072
+            max_model_len: 8192
       - model: Llama 3.3 70B FP8
         mad_tag: pyt_vllm_llama-3.3-70b_fp8
         model_repo: amd/Llama-3.3-70B-Instruct-FP8-KV
         url: https://huggingface.co/amd/Llama-3.3-70B-Instruct-FP8-KV
         precision: float8
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_batched_tokens: 131072
-          max_model_len: 8192
+          serving: *llama-3-serving
+          accuracy: *llama-3-accuracy
+          ex:
+            kv_cache_dtype: fp8
+            max_num_batched_tokens: 131072
+            max_model_len: 8192
       - model: Llama 3.3 70B MXFP4
         mad_tag: pyt_vllm_llama-3.3-70b_fp4
         model_repo: amd/Llama-3.3-70B-Instruct-MXFP4-Preview
         url: https://huggingface.co/amd/Llama-3.3-70B-Instruct-MXFP4-Preview
         precision: float4
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_batched_tokens: 131072
-          max_model_len: 8192
+          serving: *llama-3-mxfp4-serving
+          accuracy: *llama-3-mxfp4-accuracy
+          ex:
+            kv_cache_dtype: fp8
+            max_num_batched_tokens: 131072
+            max_model_len: 8192
       - model: Llama 4 Scout 17Bx16E
         mad_tag: pyt_vllm_llama-4-scout-17b-16e
         model_repo: meta-llama/Llama-4-Scout-17B-16E-Instruct
         url: https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct
         precision: float16
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 32768
-          max_model_len: 8192
+          serving: *llama-4-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 32768
+            max_model_len: 8192
       - model: Llama 4 Maverick 17Bx128E
         mad_tag: pyt_vllm_llama-4-maverick-17b-128e
         model_repo: meta-llama/Llama-4-Maverick-17B-128E-Instruct
         url: https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct
         precision: float16
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 32768
-          max_model_len: 8192
+          serving: *llama-4-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 32768
+            max_model_len: 8192
       - model: Llama 4 Maverick 17Bx128E FP8
         mad_tag: pyt_vllm_llama-4-maverick-17b-128e_fp8
         model_repo: meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
         url: https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
         precision: float8
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_batched_tokens: 131072
-          max_model_len: 8192
+          serving: *llama-4-fp8-serving
+          accuracy: *llama-4-fp8-accuracy
+          ex:
+            kv_cache_dtype: fp8
+            max_num_batched_tokens: 131072
+            max_model_len: 8192
   - group: DeepSeek
     tag: deepseek
     models:
@@ -153,12 +457,12 @@ model_groups:
         url: https://huggingface.co/deepseek-ai/DeepSeek-R1-0528
         precision: float8
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_seqs: 1024
-          max_num_batched_tokens: 131072
-          max_model_len: 8192
+          serving: *deepseek-r1-serving
+          accuracy: *deepseek-r1-accuracy
+          ex:
+            kv_cache_dtype: fp8
+            max_num_batched_tokens: 131072
+            max_model_len: 8192
   - group: OpenAI GPT OSS
     tag: gpt-oss
     models:
@@ -168,22 +472,23 @@ model_groups:
         url: https://huggingface.co/openai/gpt-oss-20b
         precision: bfloat16
         config:
-          tp: 1
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 8192
-          max_model_len: 8192
+          serving: *gpt-oss-20b-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 8192
+            max_model_len: 8192
       - model: GPT OSS 120B
         mad_tag: pyt_vllm_gpt-oss-120b
         model_repo: openai/gpt-oss-120b
         url: https://huggingface.co/openai/gpt-oss-120b
         precision: bfloat16
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 8192
-          max_model_len: 8192
+          serving: *gpt-oss-120b-serving
+          accuracy: *gpt-oss-120b-accuracy
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 8192
+            max_model_len: 8192
   - group: Mistral AI
     tag: mistral
     models:
@@ -193,44 +498,46 @@ model_groups:
         url: https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1
         precision: float16
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 32768
-          max_model_len: 8192
+          serving: *mixtral-8x7b-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 32768
+            max_model_len: 8192
       - model: Mixtral MoE 8x7B FP8
         mad_tag: pyt_vllm_mixtral-8x7b_fp8
         model_repo: amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV
         url: https://huggingface.co/amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV
         precision: float8
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_batched_tokens: 32768
-          max_model_len: 8192
+          serving: *mixtral-8x7b-serving
+          ex:
+            kv_cache_dtype: fp8
+            max_num_batched_tokens: 32768
+            max_model_len: 8192
       - model: Mixtral MoE 8x22B
         mad_tag: pyt_vllm_mixtral-8x22b
         model_repo: mistralai/Mixtral-8x22B-Instruct-v0.1
         url: https://huggingface.co/mistralai/Mixtral-8x22B-Instruct-v0.1
         precision: float16
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 65536
-          max_model_len: 8192
+          serving: *mixtral-8x22b-serving
+          accuracy: *mixtral-8x22b-accuracy
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 65536
+            max_model_len: 8192
       - model: Mixtral MoE 8x22B FP8
         mad_tag: pyt_vllm_mixtral-8x22b_fp8
         model_repo: amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV
         url: https://huggingface.co/amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV
         precision: float8
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_batched_tokens: 65536
-          max_model_len: 8192
+          serving: *mixtral-8x22b-serving
+          accuracy: *mixtral-8x22b-accuracy
+          ex:
+            kv_cache_dtype: fp8
+            max_num_batched_tokens: 65536
+            max_model_len: 8192
   - group: Qwen
     tag: qwen
     models:
@@ -240,66 +547,68 @@ model_groups:
         url: https://huggingface.co/Qwen/Qwen3-8B
         precision: float16
         config:
-          tp: 1
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 40960
-          max_model_len: 8192
+          serving: *llama-3-8b-phi-4-qwen3-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 40960
+            max_model_len: 8192
       - model: Qwen3 32B
         mad_tag: pyt_vllm_qwen3-32b
-        model_repo: Qwen/Qwen3-32b
+        model_repo: Qwen/Qwen3-32B
         url: https://huggingface.co/Qwen/Qwen3-32B
         precision: float16
         config:
-          tp: 1
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 40960
-          max_model_len: 8192
-      - model: Qwen3 30B A3B
+          serving: *llama-3-8b-phi-4-qwen3-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 40960
+            max_model_len: 8192
+      - model: Qwen3 30B A3B Thinking
         mad_tag: pyt_vllm_qwen3-30b-a3b
-        model_repo: Qwen/Qwen3-30B-A3B
-        url: https://huggingface.co/Qwen/Qwen3-30B-A3B
+        model_repo: Qwen/Qwen3-30B-A3B-Thinking-2507
+        url: https://huggingface.co/Qwen/Qwen3-30B-A3B-Thinking-2507
         precision: float16
         config:
-          tp: 1
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 40960
-          max_model_len: 8192
-      - model: Qwen3 30B A3B FP8
+          serving: *llama-3-8b-phi-4-qwen3-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 40960
+            max_model_len: 8192
+      - model: Qwen3 30B A3B Thinking FP8
         mad_tag: pyt_vllm_qwen3-30b-a3b_fp8
-        model_repo: Qwen/Qwen3-30B-A3B-FP8
-        url: https://huggingface.co/Qwen/Qwen3-30B-A3B-FP8
+        model_repo: Qwen/Qwen3-30B-A3B-Thinking-2507-FP8
+        url: https://huggingface.co/Qwen/Qwen3-30B-A3B-Thinking-2507-FP8
         precision: float16
         config:
-          tp: 1
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_batched_tokens: 40960
-          max_model_len: 8192
-      - model: Qwen3 235B A22B
+          serving: *llama-3-8b-phi-4-qwen3-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 40960
+            max_model_len: 8192
+      - model: Qwen3 235B A22B Thinking
         mad_tag: pyt_vllm_qwen3-235b-a22b
-        model_repo: Qwen/Qwen3-235B-A22B
-        url: https://huggingface.co/Qwen/Qwen3-235B-A22B
+        model_repo: Qwen/Qwen3-235B-A22B-Thinking-2507
+        url: https://huggingface.co/Qwen/Qwen3-235B-A22B-Thinking-2507
         precision: float16
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 40960
-          max_model_len: 8192
-      - model: Qwen3 235B A22B FP8
+          serving: *qwen3-235b-a22b-serving
+          accuracy: *qwen3-235b-a22b-accuracy
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 40960
+            max_model_len: 8192
+      - model: Qwen3 235B A22B Thinking FP8
         mad_tag: pyt_vllm_qwen3-235b-a22b_fp8
-        model_repo: Qwen/Qwen3-235B-A22B-FP8
-        url: https://huggingface.co/Qwen/Qwen3-235B-A22B-FP8
+        model_repo: Qwen/Qwen3-235B-A22B-Thinking-2507-FP8
+        url: https://huggingface.co/Qwen/Qwen3-235B-A22B-Thinking-2507-FP8
         precision: float8
         config:
-          tp: 8
-          dtype: auto
-          kv_cache_dtype: fp8
-          max_num_batched_tokens: 40960
-          max_model_len: 8192
+          serving: *qwen3-235b-a22b-serving
+          accuracy: *qwen3-235b-a22b-accuracy
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 40960
+            max_model_len: 8192
   - group: Microsoft Phi
     tag: phi
     models:
@@ -309,8 +618,8 @@ model_groups:
         url: https://huggingface.co/microsoft/phi-4
         precision: float16
         config:
-          tp: 1
-          dtype: auto
-          kv_cache_dtype: auto
-          max_num_batched_tokens: 16384
-          max_model_len: 8192
+          serving: *llama-3-8b-phi-4-qwen3-serving
+          ex:
+            kv_cache_dtype: auto
+            max_num_batched_tokens: 16384
+            max_model_len: 8192

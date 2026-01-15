@@ -189,6 +189,10 @@ Benchmarking
    {% for model_group in model_groups %}
       {% for model in model_group.models %}
 
+      {% set serv_config = model.config.serving %}
+      {% set acc_config = model.config.accuracy %}
+      {% set ex_config = model.config.ex %}
+
    .. container:: model-doc {{model.mad_tag}}
 
       .. tab-set::
@@ -283,108 +287,173 @@ Benchmarking
                    --name test \
                    {{ docker.pull_tag }}
 
-            .. rubric:: Throughput command
+            .. rubric:: Run the inference benchmarks
 
-            Use the following command to start the throughput benchmark.
+            .. tab-set::
 
-            .. code-block:: shell
+               .. tab-item:: Latency command
 
-               model={{ model.model_repo }}
-               tp={{ model.config.tp }}
-               num_prompts={{ model.config.num_prompts | default(1024) }}
-               in={{ model.config.in | default(128) }}
-               out={{ model.config.in | default(128) }}
-               dtype={{ model.config.dtype | default("auto") }}
-               kv_cache_dtype={{ model.config.kv_cache_dtype }}
-               max_num_seqs={{ model.config.max_num_seqs | default(1024) }}
-               max_num_batched_tokens={{ model.config.max_num_batched_tokens }}
-               max_model_len={{ model.config.max_model_len }}
+                  Use the following command to start the latency benchmark.
 
-               vllm bench throughput --model $model \
-                   -tp $tp \
-                   --num-prompts $num_prompts \
-                   --input-len $in \
-                   --output-len $out \
-                   --dtype $dtype \
-                   --kv-cache-dtype $kv_cache_dtype \
-                   --max-num-seqs $max_num_seqs \
-                   --max-num-batched-tokens $max_num_batched_tokens \
-                   --max-model-len $max_model_len \
-                   --trust-remote-code \
-                   --output-json ${model}_throughput.json \
-                   --gpu-memory-utilization {{ model.config.gpu_memory_utilization | default(0.9) }}
+                  .. code-block:: shell
 
-            .. rubric:: Serving command
+                     model={{ model.model_repo }}
+                     tp={{ serv_config.tp }}
+                     batch_size=16
+                     in={{ serv_config.inp | default(1024) }}
+                     out={{ serv_config.out | default(1024) }}
+                     dtype={{ serv_config.dtype | default("auto") }}
+                     kv_cache_dtype={{ ex_config.kv_cache_dtype | default("auto") }}
+                     max_num_seqs={{ ex_config.max_num_seqs | default(1024) }}
+                     max_num_batched_tokens={{ ex_config.max_num_batched_tokens }}
+                     max_model_len={{ ex_config.max_model_len }}
 
-            1. Start the server using the following command:
+                     vllm bench latency --model $model \
+                         -tp $tp \
+                         --batch-size $batch_size \
+                         --input-len $in \
+                         --output-len $out \
+                         --dtype $dtype \
+                         --kv-cache-dtype $kv_cache_dtype \
+                         --max-num-seqs $max_num_seqs \
+                         --max-num-batched-tokens $max_num_batched_tokens \
+                         --max-model-len $max_model_len \
+                         --output-json ${model}_throughput.json \
 
-               .. code-block:: shell
+               .. tab-item:: Throughput command
 
-                  model={{ model.model_repo }}
-                  tp={{ model.config.tp }}
-                  dtype={{ model.config.dtype }}
-                  kv_cache_dtype={{ model.config.kv_cache_dtype }}
-                  max_num_seqs=256
-                  max_num_batched_tokens={{ model.config.max_num_batched_tokens }}
-                  max_model_len={{ model.config.max_model_len }}
+                  Use the following command to start the throughput benchmark.
 
-                  vllm serve $model \
-                      -tp $tp \
-                      --dtype $dtype \
-                      --kv-cache-dtype $kv_cache_dtype \
-                      --max-num-seqs $max_num_seqs \
-                      --max-num-batched-tokens $max_num_batched_tokens \
-                      --max-model-len $max_model_len \
-                      --no-enable-prefix-caching \
-                      --swap-space 16 \
-                      --disable-log-requests \
-                      --trust-remote-code \
-                      --gpu-memory-utilization 0.9
+                  .. code-block:: shell
 
-               Wait until the model has loaded and the server is ready to accept requests.
+                     model={{ model.model_repo }}
+                     tp={{ serv_config.tp }}
+                     num_prompts={{ model.config.num_prompts | default(1024) }}
+                     in={{ serv_config.inp | default(1024) }}
+                     out={{ serv_config.out | default(1024) }}
+                     dtype={{ serv_config.dtype | default("auto") }}
+                     kv_cache_dtype={{ ex_config.kv_cache_dtype | default("auto") }}
+                     max_num_seqs={{ ex_config.max_num_seqs | default(1024) }}
+                     max_num_batched_tokens={{ ex_config.max_num_batched_tokens }}
+                     max_model_len={{ ex_config.max_model_len }}
 
-            2. On another terminal on the same machine, run the benchmark:
+                     vllm bench throughput --model $model \
+                         -tp $tp \
+                         --num-prompts $num_prompts \
+                         --input-len $in \
+                         --output-len $out \
+                         --dtype $dtype \
+                         --kv-cache-dtype $kv_cache_dtype \
+                         --max-num-seqs $max_num_seqs \
+                         --max-num-batched-tokens $max_num_batched_tokens \
+                         --max-model-len $max_model_len \
+                         --trust-remote-code \
+                         --output-json ${model}_throughput.json \
+                         --gpu-memory-utilization {{ model.config.gpu_memory_utilization | default(0.9) }}
 
-               .. code-block:: shell
+               .. tab-item:: Serving command
 
-                  # Connect to the container
-                  docker exec -it test bash
+                  1. Start the server using the following command:
 
-                  # Wait for the server to start
-                  until curl -s http://localhost:8000/v1/models; do sleep 30; done
+                     .. code-block:: shell
 
-                  # Run the benchmark
-                  model={{ model.model_repo }}
-                  max_concurrency=1
-                  num_prompts=10
-                  in=128
-                  out=128
-                  vllm bench serve --model $model \
-                      --percentile-metrics "ttft,tpot,itl,e2el" \
-                      --dataset-name random \
-                      --ignore-eos \
-                      --max-concurrency $max_concurrency \
-                      --num-prompts $num_prompts \
-                      --random-input-len $in \
-                      --random-output-len $out \
-                      --trust-remote-code \
-                      --save-result \
-                      --result-filename ${model}_serving.json
+                        model={{ model.model_repo }}
+                        tp={{ serv_config.tp }}
+                        dtype={{ serv_config.dtype }}
+                        kv_cache_dtype={{ ex_config.kv_cache_dtype }}
+                        max_num_seqs=1024
+                        max_num_batched_tokens={{ ex_config.max_num_batched_tokens }}
+                        max_model_len={{ ex_config.max_model_len }}
 
-            .. note::
+                        vllm serve $model \
+                            -tp $tp \
+                            --dtype $dtype \
+                            --kv-cache-dtype $kv_cache_dtype \
+                            --max-num-seqs $max_num_seqs \
+                            --max-num-batched-tokens $max_num_batched_tokens \
+                            --max-model-len $max_model_len \
+                            --no-enable-prefix-caching \
+                            --swap-space 16 \
+                            --disable-log-requests
 
-               For improved performance with certain Mixture of Experts models, such as Mixtral 8x22B,
-               try adding ``export VLLM_ROCM_USE_AITER=1`` to your commands.
+                     Wait until the model has loaded and the server is ready to accept requests.
 
-               If you encounter the following error, pass your access-authorized Hugging
-               Face token to the gated models.
+                  2. On another terminal on the same machine, run the benchmark:
 
-               .. code-block::
+                     .. code-block:: shell
 
-                  OSError: You are trying to access a gated repo.
+                        # Connect to the container
+                        docker exec -it test bash
 
-                  # pass your HF_TOKEN
-                  export HF_TOKEN=$your_personal_hf_token
+                        # Wait for the server to start
+                        until curl -s http://localhost:8000/v1/models; do sleep 30; done
+
+                        # Run the benchmark
+                        model={{ model.model_repo }}
+                        max_concurrency=1
+                        num_prompts=10
+                        in={{ serv_config.inp | default("1024") }}
+                        out={{ serv_config.out | default("1024") }}
+                        vllm bench serve --model $model \
+                            --percentile-metrics "ttft,tpot,itl,e2el" \
+                            --dataset-name random \
+                            --ignore-eos \
+                            --max-concurrency $max_concurrency \
+                            --num-prompts $num_prompts \
+                            --random-input-len $in \
+                            --random-output-len $out \
+                            --trust-remote-code \
+                            --save-result \
+                            --result-filename ${model}_serving.json
+
+               {% if acc_config %}
+               .. tab-item:: Accuracy command
+
+                  1. Start the server using the following command:
+
+                     .. code-block:: shell
+
+                        model={{ model.model_repo }}
+                        tp={{ acc_config.tp }}
+                        dtype={{ acc_config.dtype }}
+                        kv_cache_dtype={{ ex_config.kv_cache_dtype }}
+                        max_num_seqs=1024
+                        max_num_batched_tokens={{ ex_config.max_num_batched_tokens }}
+                        max_model_len={{ ex_config.max_model_len }}
+
+                        vllm serve $model \
+                            -tp $tp \
+                            --dtype $dtype \
+                            --kv-cache-dtype $kv_cache_dtype \
+                            --max-num-seqs $max_num_seqs \
+                            --max-num-batched-tokens $max_num_batched_tokens \
+                            --max-model-len $max_model_len \
+                            --no-enable-prefix-caching \
+                            --swap-space 16 \
+                            --disable-log-requests
+
+                     Wait until the model has loaded and the server is ready to accept requests.
+
+                  2. On another terminal on the same machine, run the benchmark:
+
+                     .. code-block:: shell
+
+                        # Connect to the container
+                        docker exec -it test bash
+
+                        # Wait for the server to start
+                        until curl -s http://localhost:8000/v1/models; do sleep 30; done
+
+                        # Install lm-eval
+                        pip install lm-eval[api]
+
+                        # Run the benchmark
+                        model={{ acc_config.model }}
+                        lm_eval --model local-completions \
+                            --model_args model=$model,max_gen_toks=2048,num_concurrent=256,max_retries=10,base_url=http://localhost:8000/v1/completions \
+                            --tasks gsm8k --limit 250 --output_path ./tmp
+
+               {% endif %}
 
             .. raw:: html
 
