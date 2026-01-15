@@ -25,29 +25,31 @@ subtrees:
     title: HIP SDK on Windows
   - url: https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/index.html
     title: ROCm on Radeon and Ryzen
-  - file: how-to/deep-learning-rocm.md
+  - file: how-to/deep-learning-rocm
     title: Deep learning frameworks
     subtrees:
     - entries:
-      - file: compatibility/ml-compatibility/pytorch-compatibility.rst
+      - file: compatibility/ml-compatibility/pytorch-compatibility
         title: PyTorch compatibility
-      - file: compatibility/ml-compatibility/tensorflow-compatibility.rst
+      - file: compatibility/ml-compatibility/tensorflow-compatibility
         title: TensorFlow compatibility
-      - file: compatibility/ml-compatibility/jax-compatibility.rst
+      - file: compatibility/ml-compatibility/jax-compatibility
         title: JAX compatibility
-      - file: compatibility/ml-compatibility/verl-compatibility.rst
+      - file: compatibility/ml-compatibility/verl-compatibility
         title: verl compatibility
-      - file: compatibility/ml-compatibility/stanford-megatron-lm-compatibility.rst
+      - file: compatibility/ml-compatibility/stanford-megatron-lm-compatibility
         title: Stanford Megatron-LM compatibility
-      - file: compatibility/ml-compatibility/dgl-compatibility.rst
+      - file: compatibility/ml-compatibility/dgl-compatibility
         title: DGL compatibility
-      - file: compatibility/ml-compatibility/megablocks-compatibility.rst
+      - file: compatibility/ml-compatibility/megablocks-compatibility
         title: Megablocks compatibility
-      - file: compatibility/ml-compatibility/ray-compatibility.rst
+      - file: compatibility/ml-compatibility/taichi-compatibility
+        title: Taichi compatibility
+      - file: compatibility/ml-compatibility/ray-compatibility
         title: Ray compatibility
-      - file: compatibility/ml-compatibility/llama-cpp-compatibility.rst
+      - file: compatibility/ml-compatibility/llama-cpp-compatibility
         title: llama.cpp compatibility
-      - file: compatibility/ml-compatibility/flashinfer-compatibility.rst
+      - file: compatibility/ml-compatibility/flashinfer-compatibility
         title: FlashInfer compatibility
   - file: how-to/build-rocm.rst
     title: Build ROCm from source
@@ -75,14 +77,8 @@ subtrees:
         - entries:
           - file: how-to/rocm-for-ai/training/benchmark-docker/primus-megatron.rst
             title: Train a model with Primus and Megatron-LM
-            entries:
-            - file: how-to/rocm-for-ai/training/benchmark-docker/megatron-lm.rst
-              title: Train a model with Megatron-LM
           - file: how-to/rocm-for-ai/training/benchmark-docker/primus-pytorch.rst
             title: Train a model with Primus and PyTorch
-            entries:
-            - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.rst
-              title: Train a model with PyTorch
           - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext.rst
             title: Train a model with JAX MaxText
           - file: how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry
@@ -101,9 +97,9 @@ subtrees:
             subtrees:
             - entries:
               - file: how-to/rocm-for-ai/fine-tuning/single-gpu-fine-tuning-and-inference.rst
-                title: Use a single GPU
+                title: Use a single accelerator
               - file: how-to/rocm-for-ai/fine-tuning/multi-gpu-fine-tuning-and-inference.rst
-                title: Use multiple GPUs
+                title: Use multiple accelerators
 
       - file: how-to/rocm-for-ai/inference/index.rst
         title: Inference
@@ -121,8 +117,6 @@ subtrees:
             title: SGLang inference performance testing
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-distributed.rst
             title: SGLang distributed inference with Mooncake
-          - file: how-to/rocm-for-ai/inference/xdit-diffusion-inference.rst
-            title: xDiT diffusion inference
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model
 
@@ -140,8 +134,6 @@ subtrees:
             title: Profile and debug
           - file: how-to/rocm-for-ai/inference-optimization/workload.rst
             title: Workload optimization
-          - file: how-to/rocm-for-ai/inference-optimization/vllm-optimization.rst
-            title: vLLM V1 performance optimization
 
       - url: https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/
         title: AI tutorials
@@ -188,7 +180,7 @@ subtrees:
           - file: conceptual/gpu-arch/mi300-mi200-performance-counters.rst
             title: MI300 and MI200 performance counters
           - file: conceptual/gpu-arch/mi350-performance-counters.rst
-            title: MI350 Series performance counters
+            title: MI350 series performance counters
       - file: conceptual/gpu-arch/mi250.md
         title: MI250 microarchitecture
         subtrees:
@@ -222,8 +214,6 @@ subtrees:
     title: ROCm tools, compilers, and runtimes
   - file: reference/gpu-arch-specs.rst
   - file: reference/gpu-atomics-operation.rst
-  - file: reference/env-variables.rst
-    title: Environment variables
   - file: reference/precision-support.rst
     title: Data types and precision support
   - file: reference/graph-safe-support.rst
