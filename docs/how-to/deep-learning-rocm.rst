@@ -24,7 +24,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
       - GitHub
 
     * - :doc:`PyTorch <../compatibility/ml-compatibility/pytorch-compatibility>`
-      - :doc:`Pytorch install <rocm-install-on-linux:install/3rd-party/pytorch-install>`
+      - :doc:`link <rocm-install-on-linux:install/3rd-party/pytorch-install>`
       - 
         - Docker image
         - Wheels package
@@ -35,7 +35,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://github.com/ROCm/pytorch"><i class="fab fa-github fa-lg"></i></a>
 
     * - :doc:`TensorFlow <../compatibility/ml-compatibility/tensorflow-compatibility>`
-      - :doc:`TensorFlow install <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
+      - :doc:`link <rocm-install-on-linux:install/3rd-party/tensorflow-install>`
       - 
         - Docker image
         - Wheels package
@@ -53,7 +53,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://github.com/ROCm/jax"><i class="fab fa-github fa-lg"></i></a>
 
     * - :doc:`verl <../compatibility/ml-compatibility/verl-compatibility>`
-      - :doc:`verl install <rocm-install-on-linux:install/3rd-party/verl-install>`
+      - :doc:`link <rocm-install-on-linux:install/3rd-party/verl-install>`
       - 
         - Docker image
       - .. raw:: html
@@ -61,7 +61,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://github.com/ROCm/verl"><i class="fab fa-github fa-lg"></i></a>
 
     * - :doc:`Stanford Megatron-LM <../compatibility/ml-compatibility/stanford-megatron-lm-compatibility>`
-      - :doc:`Stanford Megatron-LM install <rocm-install-on-linux:install/3rd-party/stanford-megatron-lm-install>`
+      - :doc:`link <rocm-install-on-linux:install/3rd-party/stanford-megatron-lm-install>`
       - 
         - Docker image
       - .. raw:: html
@@ -69,7 +69,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://github.com/ROCm/Stanford-Megatron-LM"><i class="fab fa-github fa-lg"></i></a>
 
     * - :doc:`DGL <../compatibility/ml-compatibility/dgl-compatibility>`
-      - :doc:`DGL install <rocm-install-on-linux:install/3rd-party/dgl-install>`
+      - :doc:`link <rocm-install-on-linux:install/3rd-party/dgl-install>`
       - 
         - Docker image
       - .. raw:: html
@@ -77,7 +77,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://github.com/ROCm/dgl"><i class="fab fa-github fa-lg"></i></a> 
 
     * - :doc:`Megablocks <../compatibility/ml-compatibility/megablocks-compatibility>`
-      - :doc:`Megablocks install <rocm-install-on-linux:install/3rd-party/megablocks-install>`
+      - :doc:`link <rocm-install-on-linux:install/3rd-party/megablocks-install>`
       - 
         - Docker image
       - .. raw:: html
@@ -85,7 +85,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://github.com/ROCm/megablocks"><i class="fab fa-github fa-lg"></i></a>
 
     * - :doc:`Ray <../compatibility/ml-compatibility/ray-compatibility>`
-      - :doc:`Ray install <rocm-install-on-linux:install/3rd-party/ray-install>`
+      - :doc:`link <rocm-install-on-linux:install/3rd-party/ray-install>`
       - 
         - Docker image
         - Wheels package
@@ -95,7 +95,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://github.com/ROCm/ray"><i class="fab fa-github fa-lg"></i></a>
 
     * - :doc:`llama.cpp <../compatibility/ml-compatibility/llama-cpp-compatibility>`
-      - :doc:`llama.cpp install <rocm-install-on-linux:install/3rd-party/llama-cpp-install>`
+      - :doc:`link <rocm-install-on-linux:install/3rd-party/llama-cpp-install>`
       - 
         - Docker image
         - ROCm Base Docker image
@@ -104,7 +104,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://github.com/ROCm/llama.cpp"><i class="fab fa-github fa-lg"></i></a>
 
     * - :doc:`FlashInfer <../compatibility/ml-compatibility/flashinfer-compatibility>`
-      - :doc:`FlashInfer install <rocm-install-on-linux:install/3rd-party/flashinfer-install>`
+      - :doc:`link <rocm-install-on-linux:install/3rd-party/flashinfer-install>`
       - 
         - Docker image
         - ROCm Base Docker image
