@@ -38,7 +38,6 @@ parameters:
     - libfftw3-dev
     - ninja-build
     - python3-pip
-    - libopenblas-dev
 - name: rocmDependencies
   type: object
   default:
@@ -131,6 +130,7 @@ jobs:
           -DCMAKE_PREFIX_PATH=$(Agent.BuildDirectory)/rocm;$(Agent.BuildDirectory)/vendor
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/llvm/bin/amdclang++
           -DCMAKE_C_COMPILER=$(Agent.BuildDirectory)/rocm/bin/amdclang
+          -DCMAKE_Fortran_COMPILER=gfortran
           -DCMAKE_BUILD_TYPE=Release
           -DBUILD_CLIENTS_TESTS=ON
           -DBUILD_CLIENTS_SAMPLES=OFF
