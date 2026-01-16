@@ -38,6 +38,7 @@ parameters:
     - libfftw3-dev
     - ninja-build
     - python3-pip
+    - libopenblas-dev
 - name: rocmDependencies
   type: object
   default:
