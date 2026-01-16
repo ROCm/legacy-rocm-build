@@ -45,7 +45,7 @@ The table below summarizes information about ROCm-enabled deep learning framewor
           <a href="https://github.com/ROCm/tensorflow-upstream"><i class="fab fa-github fa-lg"></i></a> 
 
     * - :doc:`JAX <../compatibility/ml-compatibility/jax-compatibility>`
-      - :doc:`JAX install <rocm-install-on-linux:install/3rd-party/jax-install>`
+      - :doc:`link <rocm-install-on-linux:install/3rd-party/jax-install>`
       - 
         - Docker image
       - .. raw:: html
