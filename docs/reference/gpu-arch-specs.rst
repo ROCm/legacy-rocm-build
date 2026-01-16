@@ -5,7 +5,7 @@
 GPU hardware specifications
 ===========================================
 
-The following tables provide an overview of the hardware specifications for AMD Instinct™ GPUs, and AMD Radeon™ PRO and Radeon™ GPUs.
+The following tables provide an overview of the hardware specifications for AMD Instinct™ GPUs, AMD Radeon™ PRO and Radeon™ GPUs, and AMD Ryzen™ APUs.
 
 For more information about ROCm hardware compatibility, see the ROCm `Compatibility matrix <https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html>`_.
 
@@ -18,7 +18,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
         :name: instinct-arch-spec-table
 
         *
-          - Model
+          - Name
           - Architecture
           - LLVM target name
           - VRAM (GiB)
@@ -297,7 +297,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
         :name: radeon-pro-arch-spec-table
 
         *
-          - Model
+          - Name
           - Architecture
           - LLVM target name
 
@@ -539,7 +539,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
         :name: radeon-arch-spec-table
 
         *
-          - Model
+          - Name
           - Architecture
           - LLVM target name
           - VRAM (GiB)
@@ -952,6 +952,127 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 12.5
           - 9
           - 0
+
+  .. tab-item:: AMD Ryzen APUs
+
+    .. list-table::
+        :header-rows: 1
+        :name: ryzen-arch-spec-table
+
+        *
+          - Name
+          - Graphics model
+          - Architecture
+          - LLVM target name
+          - VRAM (GiB)
+          - Compute Units
+          - Wavefront Size
+          - LDS (KiB)
+          - Infinity Cache (MiB)
+          - L2 Cache (MiB)
+          - Graphics L1 Cache (KiB)
+          - L0 Vector Cache (KiB)
+          - L0 Scalar Cache (KiB)
+          - L0 Instruction Cache (KiB)
+          - VGPR File (KiB)
+          - SGPR File (KiB)
+          - GFXIP Major version
+          - GFXIP Minor version
+        *
+          - AMD Ryzen 7 7840U
+          - Radeon 780M
+          - RDNA3
+          - gfx1103
+          - Dynamic + carveout
+          - 12
+          - 32 or 64
+          - 128
+          - N/A
+          - 2
+          - 256
+          - 32
+          - 16
+          - 32
+          - 512
+          - 32
+          - 11
+          - 0
+        *
+          - AMD Ryzen 9 270
+          - Radeon 780M
+          - RDNA3
+          - gfx1103
+          - Dynamic + carveout
+          - 12
+          - 32 or 64
+          - 128
+          - N/A
+          - 2
+          - 256
+          - 32
+          - 16
+          - 32
+          - 512
+          - 32
+          - 11
+          - 0
+        *
+          - AMD Ryzen AI 9 HX 375
+          - Radeon 890M
+          - RDNA3.5
+          - gfx1150
+          - Dynamic + carveout
+          - 16
+          - 32 or 64
+          - 128
+          - N/A
+          - 2
+          - 256
+          - 32
+          - 16
+          - 32
+          - 512
+          - 32
+          - 11
+          - 5
+        *
+          - AMD Ryzen AI Max+ PRO 395
+          - Radeon 8060S
+          - RDNA3.5
+          - gfx1151
+          - Dynamic + carveout
+          - 40
+          - 32 or 64
+          - 128
+          - 32
+          - 2
+          - 256
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 11
+          - 5
+        *
+          - AMD Ryzen Al 7 350
+          - Radeon 860M
+          - RDNA3.5
+          - gfx1152
+          - Dynamic + carveout
+          - 8
+          - 32 or 64
+          - 128
+          - N/A
+          - 1
+          - 256
+          - 32
+          - 16
+          - 32
+          - 512
+          - 32
+          - 11
+          - 5
 
 Glossary
 ========
