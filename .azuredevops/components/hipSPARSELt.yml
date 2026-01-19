@@ -60,7 +60,7 @@ parameters:
     - rocprofiler-register
     - ROCR-Runtime
     - roctracer
-    - rocsparse
+    - rocSPARSE
 - name: rocmTestDependencies
   type: object
   default:
@@ -75,7 +75,7 @@ parameters:
     - rocprofiler-register
     - ROCR-Runtime
     - roctracer
-    - rocsparse
+    - rocSPARSE
 
 - name: jobMatrix
   type: object
