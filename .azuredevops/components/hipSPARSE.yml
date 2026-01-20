@@ -32,6 +32,7 @@ parameters:
 - name: aptPackages
   type: object
   default:
+    - cmake
     - gfortran
     - git
     - libboost-program-options-dev
