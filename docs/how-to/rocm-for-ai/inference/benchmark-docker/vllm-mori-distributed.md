@@ -1,11 +1,11 @@
 # vLLM distributed inference with MoRI
 
 This document provides a comprehensive guide for setting up a high-performance
-vLLM serving environment on an AMD MI300X or MI325X GPU cluster using the [MoRI
-(Modular RDMA Interface)](https://github.com/rocm/mori) communication backend.
-It also includes detailed instructions on how to reproduce the benchmark
-results published in the AMD ROCm blog [Practical, Fault-Robust Distributed
-Inference for DeepSeek on AMD
+vLLM serving environment on an AMD Instinct MI300X or MI325X GPU cluster using
+the [MoRI (Modular RDMA Interface)](https://github.com/rocm/mori) communication
+backend. It also includes detailed instructions on how to reproduce the
+benchmark results published in the AMD ROCm blog [Practical, Fault-Robust
+Distributed Inference for DeepSeek on AMD
 MI300X](https://rocm.blogs.amd.com/software-tools-optimization/wide-ep-deepseek/README.html).
 
 ## Prerequisites
@@ -13,21 +13,25 @@ MI300X](https://rocm.blogs.amd.com/software-tools-optimization/wide-ep-deepseek/
 The following hardware configuration is required to implement this setup:
 
 * **Nodes**: A minimum of two GPU nodes (virtual machines or physical machines)
-  for wide EP evaluation.
-* **AMD GPUs**: 8x AMD Instinct MI300X/MI325X GPU cards per node.
+  for wide expert parallelism (EP) evaluation.
+* **GPUs**: 8x AMD Instinct MI300X/MI325X GPU cards per node.
 * **Networking**: 8x NVIDIA Mellanox ConnectX-7 (CX7) NICs per node, providing
   a dedicated 1:1 mapping between GPUs and network interfaces for optimal
   inter-node communication.
 
-## System Optimization and Software Deployment
+## System configuration
 
-## 1. System Configuration
+This section outlines infrastructure steps required to prepare your cluster for
+high-performance AI workloads. It covers validating your system's software
+baselines and firmware versions, configuring high-bandwidth backend networking
+for inter-node communication, and establish shared storage to ensure
+    a synchronized distributed computing environment.
 
-### 1.1 Software Baseline (Verified Versions)
+### Verify baseline software
 
 This setup has been validated using the **AI/ML Ready Image (ROCm 7-based)** on
-**DigitalOcean AMD GPU Droplets**. The following table outlines the software
-stack versions and the commands for verification:
+DigitalOcean AMD GPU Droplets. The following table outlines the software
+stack versions and appropriate shell commands for verification:
 
 | Component | Version | Verification command |
 | :--- | :--- | :--- |
@@ -37,27 +41,42 @@ stack versions and the commands for verification:
 | **BKC** | 25.16.03 |  |
 | **CX7 Firmware** | 28.46.3048 | `dkms status` |
 | **CX7 Driver** | 24.10-3.2.5 | `dkms status` |
-| **GPU Driver** | DOCA 2.9.3 | `dpkg -l | grep doca` |
+| **DOCA** | 2.9.3 | `dpkg -l \| grep doca` |
 
-```{important}
-**Mandatory Health Check**: Before proceeding with software deployment,
-verify that all cluster nodes comply with the [MI300X Basic Health
+### Run basic system health checks
+
+Before proceeding with software deployment, verify that all cluster nodes
+comply with the [MI300X Basic Health
 Checks](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html#basic-health-checks)
 or [MI325X Basic Health
 Checks](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi325x.html#basic-health-checks).
-Key requirements include specific kernel boot arguments, minimum system
-memory thresholds, PCIe Gen5 link stability, and so on.
+Key requirements include specific kernel boot arguments, minimum system memory
+thresholds, PCIe Gen5 link stability, and so on.
+
+### Configure your backend network (netplan)
+
+Configure the backend NICs for high-bandwidth inter-node communication. Suppose
+the GPU’s eight network interface controllers (NICs) are eth2 to eth9. Each NIC
+must have its own subnet that is disjoint from the others. For example, `eth2`
+could use `192.168.50.0/24`, `eth3` could use `192.168.51.0/24`, and so on.
+Each node needs a unique IP address on each subnet. You should use the same
+final octet in each subnet for a given node. For example, one node would have
+the addresses `192.168.50.2`, `192.168.51.2`, and so on. Another node might
+have `192.168.50.3`, `192.168.51.3`, and so on. Ensure MTU is set to `4200`.
+
+```{note}
+Ensure you identify the correct interface names for your system using ip link
+before applying this configuration.
 ```
 
-### 1.2 Backend Network Configuration (Netplan)
-Configure the backend NICs for high-bandwidth inter-node communication. Suppose the GPU’s eight network interface controllers (NICs) are eth2 to eth9. Each NIC must have its own subnet that is disjoint from the others. For example, eth2 could use `192.168.50.0/24`, eth3 could use `192.168.51.0/24`, and so on. Each node needs a unique IP address on each subnet. We recommend using the same final octet in each subnet for a given node. For example, one node would have the addresses `192.168.50.2`, `192.168.51.2`, and so on. Another node would have `192.168.50.3`, `192.168.51.3`, and so on. Ensure MTU is set to `4200`.
+For example, your `/etc/netplan/50-backend.yaml` might include something like
+the following:
 
-**Example `/etc/netplan/50-backend.yaml`:**
 ```yaml
 eth2:
   dhcp4: false
   dhcp6: false
-  link-local: []          
+  link-local: []
   addresses:
     - 192.168.50.2/24
   mtu: 4200
@@ -111,13 +130,29 @@ eth9:
     - 192.168.57.2/24
   mtu: 4200
 ```
-*Apply configuration:* `sudo netplan apply`    
-*Verify the configuration:* `sudo apt install -y net-tools && ip -br a`    
 
-<br>
+To apply the configuration, use the following command.
 
-### 1.3 NFS Configuration
-Setting up a shared NFS volume facilitates centralized storage for models, recipes, and logs across the cluster. Use the following commands to install the necessary client tools and mount the remote directory. Replace `nfs_server_ip:/shared/folder` and `/mount/point` with your specific server details and desired local mount path.
+```bash
+sudo netplan apply
+```
+
+To verify your configuration, use the following command.
+
+```bash
+sudo apt install -y net-tools && ip -br a
+```
+
+### Configure your network file system (NFS)
+
+Setting up a shared NFS volume facilitates centralized storage for models,
+recipes, and logs across the cluster. Use the following commands to install the
+necessary client tools and mount the remote directory.
+
+```{important}
+Replace `nfs_server_ip:/shared/folder` and `/mount/point` with your specific
+server details and desired local mount path.
+```
 
 ``` bash
 sudo apt update && sudo apt install -y nfs-common
@@ -126,17 +161,22 @@ sudo mount -t nfs nfs_server_ip:/shared/folder /mount/point
 echo "nfs_server_ip:/shared/folder /mount/point nfs _netdev,nofail,x-systemd.automount,x-systemd.idle-timeout=600,vers=4.2 0 0" | sudo tee -a /etc/fstab
 ```
 
-<br>
+### Configure static hostname resolution for backend initialization (optional)
 
-### 1.4 Static Hostname Resolution for Backend Initialization (Optional)
-If the high-speed RDMA/IB interfaces are used for the initial distributed coordination (e.g., `MASTER_ADDR`), you must configure static hostname resolution. This ensures that cluster hostnames resolve to the backend network IPs rather than the management or local loopback addresses.
+If the high-speed RDMA/IB interfaces are used for the initial distributed
+coordination (such as `MASTER_ADDR`), you must configure static hostname
+resolution. This ensures that cluster hostnames resolve to the backend network
+IPs rather than the management or local loopback addresses.
 
-**Configuration Steps:**
-1. Open `/etc/hosts` on all nodes: `sudo vim /etc/hosts`
+Follow these steps to configure static hostname resolution:
+
+1. Edit `/etc/hosts` on all nodes: for example, using `sudo vim /etc/hosts`.
 2. Add the backend IP and hostname mappings.
-3. Comment out any default local mappings (e.g., `127.0.1.1`) for the current hostname to avoid resolution conflicts.
+3. Comment out any default local mappings (such as `127.0.1.1`) for the current
+   hostname to avoid resolution conflicts.
 
-**Example `/etc/hosts` entries:**
+For example, your `/etc/hosts` entries might look like:
+
 ```text
 # Map hostnames to backend network IPs
 192.168.50.2 mori_test_01
@@ -146,18 +186,34 @@ If the high-speed RDMA/IB interfaces are used for the initial distributed coordi
 # 127.0.1.1 mori_test_01 mori_test_01 
 ```
 
-<div style="page-break-after: always;"></div>
+## Software installation
 
-## 2. Software Configuration
+Next, install the essential software stack required to operate the AMD Instinct
+GPUs and high-speed networking components. Follow these steps to deploy the
+NVIDIA DOCA drivers for Mellanox ConnectX-7 NICs, the ROCm software stack, and
+the necessary kernel modules to enable hardware acceleration.
 
-### 2.1 CX7 Driver and Firmware Installation
-1.  **Driver Installation:** Download and install `DOCA 2.9.3` from the [NVIDIA official website](https://developer.nvidia.com/doca-downloads).
-2.  **Firmware Installation:** Download the appropriate firmware for your hardware PSID from the [NVIDIA official website](https://network.nvidia.com/support/firmware/connectx7/) and flash the device.
-3.  **Verify Driver and Firmware Version:** `ethtool -i <IB Device>`  
-<br>
+### Install CX7 driver and firmware
 
-### 2.2 ROCm Installation
-For comprehensive installation instructions, refer to the [official ROCm documentation](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html#rocm-installation). The following commands provide a quick-start for ROCm 7.0.2 on Ubuntu 24.04 (Noble):
+1. Download and install the `DOCA 2.9.3` driver following the instructions in
+   [NVIDIA DOCA 2.9.3
+   Downloads](https://developer.nvidia.com/doca-2-9-3-download-archive?deployment_platform=Host-Server&deployment_package=DOCA-Host&target_os=Linux&Architecture=x86_64&Profile=doca-all&Distribution=Ubuntu&version=24.04&installer_type=deb_local).
+
+2. Download the appropriate firmware for your hardware PSID from the [NVIDIA
+   official website](https://network.nvidia.com/support/firmware/connectx7/)
+   and flash the device.
+
+3. To verify driver and firmware versions, use the following command. Replace
+   `IB Device` with your specific backend interface.
+
+   ```bash
+   ethtool -i <IB Device>
+   ```
+
+### Install ROCm
+
+Use the following commands to quickly install ROCm 7.0.2 on Ubuntu 24.04:
+
 ``` bash
 wget https://repo.radeon.com/amdgpu-install/7.0.2/ubuntu/noble/amdgpu-install_7.0.2.70002-1_all.deb
 sudo apt install ./amdgpu-install_7.0.2.70002-1_all.deb
@@ -166,10 +222,14 @@ sudo apt install python3-setuptools python3-wheel
 sudo usermod -a -G render,video $LOGNAME # Add the current user to the render and video groups
 sudo apt install rocm
 ```
-<br>
 
-### 2.3 AMD GPU Driver Installation 
-For comprehensive installation instructions, refer to the [official documentation](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html#amdgpu-driver-installation). The following commands provide a quick-start for AMD GPU driver 6.14.14 on Ubuntu 24.04 (Noble):
+For detailed installation instructions, refer to the [ROCm 7.0.2
+documentation](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.0.2/install/quick-start.html#rocm-installation).
+
+### Install AMD GPU Driver (amdgpu)
+
+Use the following commands to quickly install the AMD GPU Driver (ROCm 7.0.2) on Ubuntu 24.04:
+
 ``` bash
 wget https://repo.radeon.com/amdgpu-install/7.0.2/ubuntu/noble/amdgpu-install_7.0.2.70002-1_all.deb
 sudo apt install ./amdgpu-install_7.0.2.70002-1_all.deb
@@ -178,24 +238,39 @@ sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
 sudo apt install amdgpu-dkms
 ```
 
-<div style="page-break-after: always;"></div>
+For detailed installation instructions, refer to the [ROCm 7.0.2
+documentation](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.0.2/install/quick-start.html#amdgpu-driver-installation).
 
-## 3. Verification & Testing
+## Network verification and testing
 
-### 3.1 Network Connectivity Verification
-Verify that all network interfaces are reachable across the cluster nodes. Assuming `eth0` is the management interface, `eth1` is for the VPC, and `eth2-eth9` are the dedicated RoCE backend interfaces, use the following loop to test reachability to a remote node (e.g., a target node with host IP suffix `.3`).
+Before deploying the inference engine, validate the health and performance of
+the cluster interconnects.
+
+### Verify network connectivity
+
+Verify that all network interfaces are reachable across the cluster nodes.
+Assuming `eth0` is the management interface, `eth1` is for the VPC, and `eth2`
+through `eth9` are the dedicated RoCE backend interfaces, use the following
+loop to test reachability to a remote node (for instance, a target node with
+host IP suffix `.3`).
 
 ```bash
 # Test connectivity for RoCE subnets 192.168.50.x through 192.168.57.x
 for i in {0..7}; do ping -c 1 192.168.5${i}.3; done
 ```
 
-### 3.2 Validate RDMA Setup
-Confirm that all eight RDMA network interfaces are in UP state. Verify the MTU setting of `4096` and ensure each device has a valid GID mapped to its assigned IP address.
+### Validate your RDMA setup
+
+Confirm that all eight RDMA network interfaces are in `UP` state. Verify the MTU
+setting of `4096` and ensure each device has a valid GID mapped to its assigned
+IP address.
+
 ``` bash
 ibv_devinfo -v 
 ```
-The example output would be like:
+
+The output should look something like this:
+
 ``` bash
 hca_id: mlx5_0
         transport:                      InfiniBand (0)
@@ -217,13 +292,17 @@ hca_id: mlx5_0
                         GID[  2]:               0000:0000:0000:0000:0000:ffff:c0a8:3903, RoCE v1
                         GID[  3]:               ::ffff:192.168.57.3, RoCE v2
 ```
-<br>
 
-### 3.3 RDMA Bandwidth Benchmarks
-Verify the inter-node RDMA performance to ensure the network fabric can saturate the link bandwidth.
+### Run RDMA bandwidth benchmarks
 
-#### 1. Install RDMA Performance Tools
-Build the ROCm-optimized `rdma-perftest` suite from source:
+Verify the inter-node RDMA performance to ensure the network fabric can
+saturate the link bandwidth.
+
+#### Install RDMA Performance Tools
+
+To get started, build the ROCm-optimized `rdma-perftest` test suite from
+source:
+
 ```bash
 sudo apt install -y libibumad-dev libpci-dev libibverbs-dev librdmacm-dev ibverbs-utils libtool
 git clone https://github.com/ROCm/rdma-perftest
@@ -234,8 +313,12 @@ make -j$(nproc)
 sudo make install
 ```
 
-#### 2. Bandwidth Test (GPU Memory)
-Perform a bandwidth test using ROCm GPU memory between two nodes. One serves a server and the other serves as a client. For 400G interfaces, the expected peak throughput is approximately **390 Gbps**.
+#### Run a bandwidth test (GPU memory)
+
+Perform a bandwidth test using ROCm GPU memory between two nodes. One acts
+as a server and the other acts as a client. For 400G interfaces, the expected
+peak throughput is approximately 390 Gbps. Replace `<SERVER_IP>` with the
+appropriate IP.
 
 ```bash
 # On Server Node
@@ -245,19 +328,23 @@ Perform a bandwidth test using ROCm GPU memory between two nodes. One serves a s
 ./ib_write_bw --use_rocm=0 -d mlx5_0 --report_gbits -a <SERVER_IP>
 ```
 
-<div style="page-break-after: always;"></div>
+## vLLM serving and MoRI unit tests
 
-## 4. vLLM Serving and Mori Unit Test
+### Install Docker Engine
 
-### 4.1 Docker Installation
-Install the Docker engine to manage the containerized vLLM and Mori serving environments.
+Install the Docker engine to manage the containerized vLLM and MoRI serving
+environments.
 
 ```bash
 sudo apt update && sudo apt install -y docker.io
 ```
 
-### 4.2 Download DeepSeek PTPC Model
-The setup utilizes the [DeepSeek-R1-FP8-Dynamic](https://huggingface.co/EmbeddedLLM/deepseek-r1-FP8-Dynamic) model optimized for PTPC. Use the following commands to install the Hugging Face CLI and download the model to your shared NFS directory:
+### Download the DeepSeek PTPC model
+
+This guide uses the
+[DeepSeek-R1-FP8-Dynamic](https://huggingface.co/EmbeddedLLM/deepseek-r1-FP8-Dynamic)
+model optimized for PTPC. Use the following commands to install the Hugging
+Face CLI and download the model to your shared NFS directory:
 
 ```bash
 # Set up a virtual environment and install the Hugging Face CLI
@@ -272,8 +359,9 @@ huggingface-cli download --token <your_hf_token> \
     --local-dir /mount/point/models/EmbeddedLLM/deepseek-r1-FP8-Dynamic
 ```
 
-### 4.3 Launch the Serving Container
-Deploy the vLLM + Mori serving container on each node.
+### Launch the serving container
+
+Deploy the vLLM MoRI serving Docker container on each node.
 
 ```bash
 CONTAINER_NAME=vllm_mori
@@ -292,16 +380,21 @@ docker run -it \
     --name ${CONTAINER_NAME} \
     ${IMAGE_NAME} /bin/bash
 ```
-<br>
 
-### 4.4 Mori Inter-node Unittest
-Before starting the vLLM service, run the Mori unit test to verify that the inter-node communication backend is correctly configured. 
+### Run MoRI inter-node unit tests
 
-**Key Configuration Variables:**
-*   `GLOO_SOCKET_IFNAME`: The network interface used for backend initialization (e.g., `eth2`).
-*   `<MASTER_IP>`: The IP address of the primary node's backend interface.
+Before starting the vLLM service, run the MoRI unit test to verify that the
+inter-node communication backend is correctly configured.
 
-Performance reference data can be found in the [official Mori repository](https://github.com/ROCm/mori?tab=readme-ov-file#mori-ep).
+The key configuration variables are:
+
+* `GLOO_SOCKET_IFNAME`: The network interface used for backend initialization such as `eth2`.
+* `<MASTER_IP>`: The IP address of the primary node's backend interface.
+
+```{note}
+You can find reference performance data in the [ROCm/MoRI
+repository](https://github.com/ROCm/mori?tab=readme-ov-file#mori-ep).
+```
 
 ```bash
 # Set up environment inside the container
@@ -321,84 +414,92 @@ torchrun --nnodes=2 --node_rank=1 --nproc_per_node=1 \
     examples/ops/dispatch_combine/test_dispatch_combine_internode.py \
     --cmd bench --kernel-type v1
 ```
-<br>
 
-### 4.5 vLLM + Mori Serving
-To deploy DeepSeek-R1 (PTPC) with Expert Parallelism 16 (EP16) across two nodes, use the following serving scripts.
+### Deploy and serve the model
 
-#### 1. Serving Scripts
-Create these scripts inside the container on each respective node.
+To deploy DeepSeek-R1 (PTPC) with Expert Parallelism 16 (EP16) across two
+nodes, use the following serving scripts.
 
-**Node 0 (Master Node): `ep16_node0.sh`**
-```bash 
-#!/bin/bash
+#### Create serving scripts
 
-# Add VLLM_ENFORCE_EPLB=1 to enforce EP balance
-export VLLM_ROCM_USE_AITER=1
-export VLLM_ROCM_USE_AITER_MOE=1
-export VLLM_LOGGING_LEVEL=INFO
-export VLLM_USE_V1=1
-export VLLM_ROCM_USE_AITER_MLA=1
-export VLLM_ROCM_USE_AITER_FUSION_SHARED_EXPERTS=0
-export VLLM_ALL2ALL_BACKEND=mori
+Create the following scripts inside the container on each node.
 
-vllm serve /models/EmbeddedLLM/deepseek-r1-FP8-Dynamic/ \
-    -dp 16 \
-    --enable-expert-parallel \
-    --data-parallel-size-local 8 \
-    --data-parallel-address ${IP} \
-    --data-parallel-rpc-port 1212 \
-    --served-model-name deepseek \
-    --port 8777 \
-    --block-size 1 \
-    --distributed-executor-backend mp \
-    --gpu-memory-utilization 0.8 \
-    --max-model-len 8192 \
-    --max-num-batched-tokens 4096 \
-    --max-num-seqs 4096 \
-    --compilation-config '{"cudagraph_mode": "FULL_DECODE_ONLY", "custom_ops": ["+quant_fp8"]}' \
-    --cuda-graph-sizes 1 2 4 8 16 32 64 128 256 \
-    --kv-cache-dtype fp8 \
-    --no-enable-prefix-caching \
-    --trust-remote-code 2>&1 | tee serving_node0_ep16.log
-```
-**Node 1: `ep16_node1.sh`**
-```bash
-#!/bin/bash
+- Node 0 (master node): `ep16_node0.sh`
 
-# Add VLLM_ENFORCE_EPLB=1 to enforce EP balance
-export VLLM_ROCM_USE_AITER=1
-export VLLM_ROCM_USE_AITER_MOE=1
-export VLLM_LOGGING_LEVEL=INFO
-export VLLM_USE_V1=1
-export VLLM_ROCM_USE_AITER_MLA=1
-export VLLM_ROCM_USE_AITER_FUSION_SHARED_EXPERTS=0
-export VLLM_ALL2ALL_BACKEND=mori
+   ```bash
+   #!/bin/bash
 
-vllm serve /models/EmbeddedLLM/deepseek-r1-FP8-Dynamic/ \
-        -dp 16 \
-        --enable-expert-parallel \
-        --headless \
-        --data-parallel-size-local 8 \
-        --data-parallel-start-rank 8 \
-        --data-parallel-address ${IP} \
-        --data-parallel-rpc-port 1212 \
-        --served-model-name deepseek \
-        --port 8777 \
-        --block-size 1 \
-        --distributed-executor-backend mp \
-        --gpu_memory_utilization 0.8 \
-        --max-model-len 8192 \
-        --max_num_batched_token 4096 \
-        --max-num-seqs 4096 \
-        --compilation-config '{"cudagraph_mode": "FULL_DECODE_ONLY", "custom_ops": ["+quant_fp8"]}' \
-        --cuda-graph-sizes 1 2 4 8 16 32 64 128 256 \
-        --kv-cache-dtype fp8 \
-        --no-enable-prefix-caching \
-        --trust-remote-code 2>&1 | tee serving_node1_ep16.log
-```
-#### 2. Execution
-Execute the scripts on each node to launch the distributed serving instance. Replace `<MASTER_IP>` with the backend network IP of Node 0.
+   # Add VLLM_ENFORCE_EPLB=1 to enforce EP balance
+   export VLLM_ROCM_USE_AITER=1
+   export VLLM_ROCM_USE_AITER_MOE=1
+   export VLLM_LOGGING_LEVEL=INFO
+   export VLLM_USE_V1=1
+   export VLLM_ROCM_USE_AITER_MLA=1
+   export VLLM_ROCM_USE_AITER_FUSION_SHARED_EXPERTS=0
+   export VLLM_ALL2ALL_BACKEND=mori
+
+   vllm serve /models/EmbeddedLLM/deepseek-r1-FP8-Dynamic/ \
+       -dp 16 \
+       --enable-expert-parallel \
+       --data-parallel-size-local 8 \
+       --data-parallel-address ${IP} \
+       --data-parallel-rpc-port 1212 \
+       --served-model-name deepseek \
+       --port 8777 \
+       --block-size 1 \
+       --distributed-executor-backend mp \
+       --gpu-memory-utilization 0.8 \
+       --max-model-len 8192 \
+       --max-num-batched-tokens 4096 \
+       --max-num-seqs 4096 \
+       --compilation-config '{"cudagraph_mode": "FULL_DECODE_ONLY", "custom_ops": ["+quant_fp8"]}' \
+       --cuda-graph-sizes 1 2 4 8 16 32 64 128 256 \
+       --kv-cache-dtype fp8 \
+       --no-enable-prefix-caching \
+       --trust-remote-code 2>&1 | tee serving_node0_ep16.log
+    ```
+
+- Node 1: `ep16_node1.sh`
+
+   ```bash
+   #!/bin/bash
+
+   # Add VLLM_ENFORCE_EPLB=1 to enforce EP balance
+   export VLLM_ROCM_USE_AITER=1
+   export VLLM_ROCM_USE_AITER_MOE=1
+   export VLLM_LOGGING_LEVEL=INFO
+   export VLLM_USE_V1=1
+   export VLLM_ROCM_USE_AITER_MLA=1
+   export VLLM_ROCM_USE_AITER_FUSION_SHARED_EXPERTS=0
+   export VLLM_ALL2ALL_BACKEND=mori
+
+   vllm serve /models/EmbeddedLLM/deepseek-r1-FP8-Dynamic/ \
+           -dp 16 \
+           --enable-expert-parallel \
+           --headless \
+           --data-parallel-size-local 8 \
+           --data-parallel-start-rank 8 \
+           --data-parallel-address ${IP} \
+           --data-parallel-rpc-port 1212 \
+           --served-model-name deepseek \
+           --port 8777 \
+           --block-size 1 \
+           --distributed-executor-backend mp \
+           --gpu_memory_utilization 0.8 \
+           --max-model-len 8192 \
+           --max_num_batched_token 4096 \
+           --max-num-seqs 4096 \
+           --compilation-config '{"cudagraph_mode": "FULL_DECODE_ONLY", "custom_ops": ["+quant_fp8"]}' \
+           --cuda-graph-sizes 1 2 4 8 16 32 64 128 256 \
+           --kv-cache-dtype fp8 \
+           --no-enable-prefix-caching \
+           --trust-remote-code 2>&1 | tee serving_node1_ep16.log
+    ```
+
+#### Run the serving scripts
+
+Run the scripts on each node to launch the distributed serving instance.
+Replace `<MASTER_IP>` with the backend network IP of Node 0.
 
 ```bash
 # On Node 0 (Primary)
@@ -412,24 +513,27 @@ export GLOO_SOCKET_IFNAME=<BACKEND_INTERFACE>
 IP=<MASTER_IP> bash ep16_node1.sh
 ```
 
-<div style="page-break-after: always;"></div>
-
-## 5. Reproducing Blog Performance Data
+## Reproducing performance
 
 This section details how to reproduce the performance metrics published in the
 AMD ROCm Blog: [Practical, Fault-Robust Distributed Inference for DeepSeek on
 AMD
 MI300X](https://rocm.blogs.amd.com/software-tools-optimization/wide-ep-deepseek/README.html).
 
-### 5.1 Configuration for EP16 (16 GPUs)
-To achieve the reported throughput, Expert Parallelism 16 (EP16) is used across the decode nodes.
+### Configuration for EP16 (16 GPUs)
 
-#### Benchmark Targets:
-*   **Decode Throughput:** ~12.4k output tokens/s per node.
+To achieve the reported throughput, expert parallelism 16 (EP16) is used across
+the decode nodes.
 
-### 5.2 Performance Reproduction Commands
+#### Benchmark target
 
-#### Decode Benchmark
+* Decode throughput: ~12.4k output tokens/s per node.
+
+### Performance reproduction commands
+
+Use the following configurations to reproduce published performance metrics.
+
+#### Decode benchmark
 
 To reproduce the 12.4k output tokens/s, use the following configuration:
 
@@ -459,30 +563,32 @@ results and divide it by the total number of nodes in the cluster.
 
 ## Troubleshooting
 
-### Bandwidth (BW) test fails with error
+The following section outlines common issues and their solutions.
 
-1. Use ROCm-optimized `rdma-perftest`, not the generic `perftest`
+### Bandwidth test fails with error
+
+1. Use ROCm-optimized `rdma-perftest`, not the generic `perftest`.
 
     ``` bash
     which ib_write_bw
     ```
 
-2. Confirm the `SERVER_IP` is accesible
+2. Confirm the `SERVER_IP` is accesible.
 
     ``` bash
     ping <SERVER_IP>
     ```
 
-3. Check system logs, use `dmesg` for kernel-level errors
+3. Check system logs, use `dmesg` for kernel-level errors.
 
     ``` bash
     sudo dmesg -T | grep -i 'error|warn|fail|exception'
     ```
 
-### Fail to launch vLLM EP 16 with Mori backend
+### vLLM EP 16 with MoRI backend fails to launch
 
 1. Error: `Waiting for init message from front-end.` Check the connectivity of the `IP`. Disable firewall/selinux or allow traffic for port `1212`.
 
-2. Verify serfver name resolution, ensure server names are correctly mapped in `/etc/hosts`
+2. Verify server name resolution. Ensure server names are correctly mapped in `/etc/hosts`.
 
-3. Confirm whether environment variable `GLOO_SOCKET_IFNAME` is set before running the vLLM serving script
+3. Confirm whether environment variable `GLOO_SOCKET_IFNAME` is set before running the vLLM serving script.
