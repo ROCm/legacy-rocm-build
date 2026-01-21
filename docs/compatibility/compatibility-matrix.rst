@@ -19,22 +19,22 @@ space components. Maintaining version alignment between these layers ensures
 expected GPU operation and performance, especially for AMD data center products.
 Future preview releases will expand hardware and operating system coverage.
 
-ROCm 7.10.0 enables support for primarily compute workloads. Future releases
+ROCm 7.11.0 enables support for primarily compute workloads. Future releases
 will support mixed workloads (compute and graphics).
 
 .. selected:: os=ubuntu os=rhel os=sles
 
    .. selected:: fam=radeon-pro fam=radeon
 
-      If you’re interested in testing AMD Radeon™ GPUs with preview support for
-      graphics use cases with AMD ROCm 7.10.0, install Radeon Software for Linux
-      version 25.30.1 from `Linux Drivers for AMD Radeon and Radeon PRO
+      If you’re interested in testing AMD Radeon GPUs with preview support for
+      graphics use cases with AMD ROCm 7.11.0, install Radeon Software for Linux
+      version 25.35 from `Linux Drivers for AMD Radeon and Radeon PRO
       Graphics <https://www.amd.com/en/support/download/linux-drivers.html>`__.
 
    .. selected:: fam=ryzen
 
-      If you're interested in testing AMD Ryzen™ APUs with preview support for
-      graphics use cases with AMD ROCm 7.10.0, use the inbox graphics drivers of
+      If you're interested in testing AMD Ryzen APUs with preview support for
+      graphics use cases with AMD ROCm 7.11.0, use the inbox graphics drivers of
       Ubuntu 24.04.3.
 
 .. include:: ./includes/system-instinct.rst
@@ -76,7 +76,7 @@ versions.
       .. matrix-cell:: PyTorch
 
       .. matrix-cell:: 2.9.1, 2.8.0, 2.7.1
-         :show-when: os=ubuntu os=rhel os=sles
+         :show-when: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 
       .. matrix-cell:: 2.9.1
          :show-when: os=windows
@@ -94,8 +94,8 @@ For installation instructions, see :ref:`pip-install-pytorch`.
 
 .. note::
 
-   ROCm |ROCM_VERSION| is compatible with Python versions **3.11**, **3.12**,
-   and **3.13**.
+   ROCm |ROCM_VERSION| is compatible with Python versions 3.11, 3.12, and
+   3.13.
 
 ----
 
@@ -109,3 +109,7 @@ components.
 .. include:: ./includes/core-sdk-components-linux.rst
 
 .. include:: ./includes/core-sdk-components-windows.rst
+
+----
+
+.. include:: ./includes/virtualization-instinct.rst

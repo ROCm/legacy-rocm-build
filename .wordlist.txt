@@ -669,7 +669,6 @@ chiplet
 cholesky
 classList
 cmake
-cmd
 coalescable
 codename
 codenamed
@@ -735,6 +734,7 @@ disambiguates
 distro
 distros
 dkms
+dnf
 dropless
 dtype
 eb
@@ -767,6 +767,7 @@ fp
 framebuffer
 gRPC
 galb
+gb
 gcc
 gdb
 gemm
@@ -779,6 +780,7 @@ globals
 gnupg
 gpu
 grayscale
+gre
 gx
 gz
 gzip
@@ -816,6 +818,7 @@ hpp
 href
 hsa
 hsakmt
+hx
 hyperparameter
 hyperparameters
 iDRAC
@@ -862,7 +865,7 @@ logits
 logsumexp
 loopback
 lossy
-lstsq
+lp
 macOS
 matchers
 maxtext
@@ -911,9 +914,7 @@ perf
 perfcounter
 performant
 perl
-piecewise
-pipelined
-pipelining
+pkgman
 pragma
 pre
 prebuild
@@ -1009,6 +1010,7 @@ roctracer
 rst
 runtime
 runtimes
+rx
 ryzen
 sL
 scalability
@@ -1135,6 +1137,8 @@ xPacked
 xargs
 xcc
 xdit
+xt
+xtx
 xz
 yaml
 ysvmadyb

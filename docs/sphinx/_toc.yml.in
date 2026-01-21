@@ -30,3 +30,7 @@ subtrees:
     entries:
       - file: rocm-for-ai/pytorch-comfyui.rst
         title: Install PyTorch and ComfyUI
+  - caption: Tutorials
+    entries:
+      - url: https://github.com/ROCm/rocm-examples/tree/release/therock-7.11
+        title: ROCm examples

@@ -7,8 +7,6 @@ const HEADING_QUERY = ".rocm-docs-selected-content h1,h2,h3,h4,h5,h6";
 const TOC_ITEM_CLASS = "rocm-docs-selector-toc2-item";
 const EMPTY_ITEM_CLASS = "empty";
 
-let optionsTocInitialized = false;
-
 function isVisible(el) {
   return !!(el && el.offsetParent !== null);
 }
@@ -29,59 +27,6 @@ function getUniqueGroups(groups) {
     seen.add(identifier);
     return true;
   });
-}
-
-function initTOC2OptionsList() {
-  const tocOptionsList = document.querySelector(TOC2_OPTIONS_LIST_QUERY);
-  if (!tocOptionsList) return;
-
-  tocOptionsList.innerHTML = "";
-
-  let groups = Array.from(document.querySelectorAll(GROUP_QUERY)).filter(isVisible);
-  groups = getUniqueGroups(groups);
-
-  if (groups.length === 0) {
-    const li = document.createElement("li");
-    li.className = `nav-item toc-entry toc-h3 ${TOC_ITEM_CLASS} ${EMPTY_ITEM_CLASS}`;
-    const span = document.createElement("span");
-    span.textContent = "(no visible selectors)";
-    li.appendChild(span);
-    tocOptionsList.appendChild(li);
-    optionsTocInitialized = true;
-    return;
-  }
-
-  groups.forEach((group) => {
-    const headingSpan = group.querySelector(
-      ".rocm-docs-selector-group-heading-text"
-    );
-    const headingText = headingSpan
-      ? headingSpan.textContent.trim()
-      : "(Unnamed Selector)";
-
-    const li = document.createElement("li");
-    li.className = `nav-item toc-entry toc-h3 ${TOC_ITEM_CLASS}`;
-    li.dataset.groupId = group.id || "";
-
-    const link = document.createElement("a");
-    link.className = "nav-link";
-    link.href = group.id ? `#${group.id}` : "#";
-    link.dataset.headingText = headingText;
-
-    const selectedOption = group.querySelector(`.${SELECTED_CLASS}`);
-    let optionText = "(none selected)";
-    if (selectedOption) {
-      const clone = selectedOption.cloneNode(true);
-      clone.querySelectorAll("i, svg").forEach((el) => el.remove());
-      optionText = clone.innerHTML.trim();
-    }
-
-    link.innerHTML = `<strong>${headingText}</strong>: ${optionText}`;
-    li.appendChild(link);
-    tocOptionsList.appendChild(li);
-  });
-
-  optionsTocInitialized = true;
 }
 
 export function updateTOC2OptionsList() {

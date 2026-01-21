@@ -18,7 +18,7 @@ showcasing AI-powered image generation.
       :value: radeon-pro
       :width: 3
 
-   .. selector-option:: Radeon RX
+   .. selector-option:: Radeon
       :value: radeon
       :width: 3
 
@@ -27,96 +27,196 @@ showcasing AI-powered image generation.
       :width: 3
 
 .. selector:: Instinct GPU
-   :key: gfx
+   :key: gpu
    :show-when: fam=instinct
 
    .. selector-info:: https://www.amd.com/en/products/accelerators/instinct.html
 
-   .. selector-option:: Instinct MI355X<br>Instinct MI350X
-      :value: 950
-      :width: 4
+   .. selector-option:: MI355X
+      :width: 3
 
-   .. selector-option:: Instinct MI325X<br>Instinct MI300X<br>Instinct MI300A
-      :value: 942
-      :width: 4
+   .. selector-option:: MI350X
+      :width: 3
 
-   .. selector-option:: Instinct MI250X<br>Instinct MI250<br>Instinct MI210
-      :value: 90a
-      :width: 4
+   .. selector-option:: MI325X
+      :width: 3
+
+   .. selector-option:: MI300X
+      :width: 3
+
+   .. selector-option:: MI300A
+      :width: 3
+
+   .. selector-option:: MI250X
+      :width: 3
+
+   .. selector-option:: MI250
+      :width: 3
+
+   .. selector-option:: MI210
+      :width: 3
 
 .. selector:: Radeon PRO GPU
-   :key: gfx
+   :key: gpu
    :show-when: fam=radeon-pro
 
    .. selector-info:: https://www.amd.com/en/products/graphics/workstations.html
 
-   .. selector-option:: Radeon PRO W7900D<br>Radeon PRO W7900<br>Radeon PRO W7800 48GB<br>Radeon PRO W7800
-      :value: 1100
-      :width: 6
+   .. selector-option:: AI PRO R9700
+      :value: ai-r9700
+      :width: 3
 
-   .. selector-option:: Radeon PRO W7700
-      :value: 1101
-      :width: 6
+   .. selector-option:: AI PRO R9600D
+      :value: ai-r9600d
+      :width: 3
 
-.. selector:: Radeon RX GPU
-   :key: gfx
+   .. selector-option:: W7900 Dual Slot
+      :value: w7900-dual-slot
+      :width: 3
+
+   .. selector-option:: W7900
+      :value: w7900
+      :width: 3
+
+   .. selector-option:: W7800 48GB
+      :value: w7800-48gb
+      :width: 3
+
+   .. selector-option:: W7800
+      :value: w7800
+      :width: 3
+
+   .. selector-option:: W7700
+      :value: w7700
+      :width: 3
+
+   .. selector-option:: V710
+      :value: v710
+      :width: 3
+
+.. selector:: Radeon GPU
+   :key: gpu
    :show-when: fam=radeon
 
    .. selector-info:: https://www.amd.com/en/products/graphics/desktops/radeon.html
 
-   .. selector-option:: Radeon RX 7900 XTX<br>Radeon RX 7900 XT<br>Radeon RX 7900 GRE
-      :value: 1100
+   .. selector-option:: RX 9070 XT
+      :value: rx-9070-xt
+      :width: 3
 
-   .. selector-option:: Radeon RX 7800 XT<br>Radeon RX 7700 XT
-      :value: 1101
+   .. selector-option:: RX 9070 GRE
+      :value: rx-9070-gre
+      :width: 3
+
+   .. selector-option:: RX 9070
+      :value: rx-9070
+      :width: 3
+
+   .. selector-option:: RX 9060 XT LP
+      :value: rx-9060-xt-lp
+      :width: 3
+
+   .. selector-option:: RX 9060 XT
+      :value: rx-9060-xt
+      :width: 3
+
+   .. selector-option:: RX 9060
+      :value: rx-9060
+      :width: 3
+
+   .. selector-option:: RX 7900 XTX
+      :value: rx-7900-xtx
+      :width: 3
+
+   .. selector-option:: RX 7900 XT
+      :value: rx-7900-xt
+      :width: 3
+
+   .. selector-option:: RX 7900 GRE
+      :value: rx-7900-gre
+      :width: 3
+
+   .. selector-option:: RX 7800 XT
+      :value: rx-7800-xt
+      :width: 3
+
+   .. selector-option:: RX 7700 XT
+      :value: rx-7700-xt
+      :width: 3
+
+   .. selector-option:: RX 7700
+      :value: rx-7700
+      :width: 3
 
 .. selector:: Ryzen AI APU
-   :key: gfx
+   :key: gpu
    :show-when: fam=ryzen
 
    .. selector-info:: https://www.amd.com/en/products/processors/workstations/mobile.html
 
-   .. selector-option:: Ryzen AI Max+ PRO 395<br>Ryzen AI Max PRO 390, 385, 380<br>Ryzen AI Max+ 395<br>Ryzen AI Max 390, 385
-      :value: 1151
-      :width: 7
+   .. selector-option:: Max+ PRO 395
+      :value: max-pro-395
+      :width: 3
 
-   .. selector-option:: Ryzen AI 9 HX 375<br>Ryzen AI 9 HX 370<br>Ryzen AI 9 365
-      :value: 1150
-      :width: 5
+   .. selector-option:: Max PRO 390
+      :value: max-pro-390
+      :width: 3
+
+   .. selector-option:: Max PRO 385
+      :value: max-pro-385
+      :width: 3
+
+   .. selector-option:: Max PRO 380
+      :value: max-pro-380
+      :width: 3
+
+   .. selector-option:: Max+ 395
+      :value: max-395
+      :width: 2
+
+   .. selector-option:: Max 390
+      :value: max-390
+      :width: 2
+
+   .. selector-option:: Max 385
+      :value: max-385
+      :width: 2
+
+   .. selector-option:: 9 HX 375
+      :value: 9-hx-375
+      :width: 2
+
+   .. selector-option:: 9 HX 370
+      :value: 9-hx-370
+      :width: 2
+
+   .. selector-option:: 9 365
+      :value: 9-365
+      :width: 2
 
 .. selector:: Operating system
    :key: os
-   :show-when: fam=instinct
+   :show-when: fam=instinct gpu=v710 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
 
    .. selector-option:: Linux
       :value: linux
-      :icon: fab fa-linux fa-lg
       :width: 12
 
 .. selector:: Operating system
    :key: os
-   :show-when: fam=radeon-pro fam=radeon fam=ryzen
+   :show-when: fam=ryzen gpu=ai-r9700 gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=w6800 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
 
    .. selector-option:: Linux
       :value: linux
-      :icon: fab fa-linux fa-lg
       :width: 6
 
    .. selector-option:: Windows
       :value: windows
-      :icon: fab fa-windows fa-lg
       :width: 6
       :disable-when: fam=instinct
 
 Prerequisites
 =============
-
-.. selected:: os=windows
-
-   To run ComfyUI workloads on Windows, ensure you have Adrenalin Driver
-   version 25.20.01.17. For details and the download link, see `AMD Software:
-   PyTorch on Windows Edition 7.1.1
-   <https://www.amd.com/en/resources/support-articles/release-notes/RN-AMDGPU-WINDOWS-PYTORCH-7-1-1.html>`__. See the :ref:`related known issue <comfyui-driver-known-issue>`.
 
 Ensure your system has a :ref:`supported Python version
 <rocm-compat-python>` installed and accessible: 3.11, 3.12, or 3.13.
@@ -132,7 +232,7 @@ For prerequisite steps and post-installation recommendations, see the
 :doc:`ROCm installation instructions </install/rocm>`.
 
 1. Set up your Python virtual environment. If you already have a successful
-   :doc:`ROCm 7.10.0 installation using pip </install/rocm>`, skip this step.
+   :doc:`ROCm 7.11.0 installation using pip </install/rocm>`, skip this step.
 
    For example, run the following command to create a virtual environment:
 
@@ -157,41 +257,53 @@ For prerequisite steps and post-installation recommendations, see the
 3. Install the appropriate ROCm-enabled PyTorch build for your operating system
    and AMD hardware architecture.
 
-   .. selected:: gfx=950
+   .. selected:: gpu=mi355x gpu=mi350x
 
       .. code-block:: bash
 
          python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx950-dcgpu/ torch torchvision torchaudio
 
-   .. selected:: gfx=942
+   .. selected:: gpu=mi325x gpu=mi300x gpu=mi300a
 
       .. code-block:: bash
 
          python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx94X-dcgpu/ torch torchvision torchaudio
 
-   .. selected:: gfx=90a
+   .. selected:: gpu=mi250x gpu=mi250 gpu=mi210
 
       .. code-block:: bash
 
          python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx90X-dcgpu/ torch torchvision torchaudio
 
-   .. selected:: gfx=1151
+   .. selected:: gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
+
+      .. code-block:: bash
+
+         python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx120X-all/ torch torchvision torchaudio
+
+   .. selected:: gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=v710 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
+
+      .. code-block:: bash
+
+         python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx110X-dgpu/ torch torchvision torchaudio
+
+   .. selected:: gpu=w6800 gpu=v620
+
+      .. code-block:: bash
+
+         python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx103X-dgpu/ torch torchvision torchaudio
+
+   .. selected:: gpu=max-pro-395 gpu=max-pro-390 gpu=max-pro-385 gpu=max-pro-380 gpu=max-395 gpu=max-390 gpu=max-385
 
       .. code-block:: bash
 
          python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx1151/ torch torchvision torchaudio
 
-   .. selected:: gfx=1150
+   .. selected:: gpu=9-hx-375 gpu=9-hx-370 gpu=9-365
 
       .. code-block:: bash
 
          python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx1150/ torch torchvision torchaudio
-
-   .. selected:: gfx=1100 gfx=1101
-
-      .. code-block:: bash
-
-         python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx110X-dgpu/ torch torchvision torchaudio
 
 4. Check your PyTorch installation.
 

@@ -8,13 +8,13 @@ Post-installation
 
    .. include:: ./includes/selector.rst
 
-After installing the ROCm Core SDK |ROCM_VERSION| -- see :ref:`rocm-install` --
-complete these post-installation steps to complete your system configuration
-and validate the installation.
+After installing the ROCm Core SDK |ROCM_VERSION|, complete these
+post-installation steps to complete your system configuration and validate the
+installation.
 
 .. selected:: i=tar
 
-   .. selected:: os=ubuntu os=rhel os=sles
+   .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
       :heading: Configure your environment
       :heading-level: 3
 
@@ -38,7 +38,7 @@ and validate the installation.
                sudo tee /etc/profile.d/set-rocm-env.sh << EOF
                export ROCM_PATH=$ROCM_INSTALL_PATH
                export PATH=\$PATH:\$ROCM_PATH/bin
-               export LD_LIBRARY_PATH=\$ROCM_PATH/lib
+               export LD_LIBRARY_PATH=\$ROCM_PATH/lib:\$ROCM_PATH/llvm/lib:\$ROCM_PATH/lib/rocprofiler-systems
                EOF
                sudo chmod +x /etc/profile.d/set-rocm-env.sh
                source /etc/profile.d/set-rocm-env.sh
@@ -57,7 +57,7 @@ and validate the installation.
                   # Configure ROCm PATH. Make sure you're in the therock-tarball directory before proceeding.
                   export ROCM_PATH=$PWD/install
                   export PATH=$PATH:$ROCM_PATH/bin
-                  export LD_LIBRARY_PATH=$ROCM_PATH/lib
+                  export LD_LIBRARY_PATH=$ROCM_PATH/lib:$ROCM_PATH/llvm/lib:$ROCM_PATH/lib/rocprofiler-systems
 
             2. After modifying your shell configuration, apply the change to
                your current session by sourcing your updated shell
@@ -84,8 +84,7 @@ and validate the installation.
       Configure environment variables so that ROCm libraries and tools are
       available on your Windows system.
 
-      1. Set the following environment variables using the command
-         prompt as an administrator:
+      1. **Run command prompt as an administrator** and set the following environment variables.
 
          .. code-block:: bat
 
@@ -94,11 +93,12 @@ and validate the installation.
             setx HIP_PLATFORM “amd” /M
             setx LLVM_PATH “C:\TheRock\build\lib\llvm” /M
 
-      2. Add the following paths into PATH environment variable using your system settings GUI.
+      2. Add the following paths into the PATH environment variable.
 
-         - ``C:\TheRock\build\bin``
+         .. code-block:: bat
 
-         - ``C:\TheRock\build\lib\llvm\bin``
+            setx PATH "%PATH%;C:\TheRock\build\bin" /M
+            setx PATH "%PATH%;C:\TheRock\build\lib\llvm\bin" /M
 
       3. Open a new command prompt window for the environment variables to take effect. Run ``set``
          to see the list of active variables.
@@ -107,12 +107,12 @@ and validate the installation.
 
             set
 
-.. selected:: os=ubuntu os=rhel os=sles
+.. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
    :heading: Verify your installation
    :heading-level: 3
 
-   Use the following ROCm tools to verify that the ROCm stack is correctly
-   installed and that your AMD GPU is visible to the system.
+   Use the following ROCm tools to verify that the ROCm Core SDK is correctly
+   installed and that your AMD devices are visible to the system.
 
    1. Use ``rocminfo`` to list detected AMD GPUs and confirm that the ROCm
       runtimes and drivers are correctly installed and loaded.
@@ -129,7 +129,7 @@ and validate the installation.
 
          .. code-block:: shell-session
 
-            ROCk module is loaded
+            ROCk module version 6.18.4 is loaded
             =====================
             HSA System Attributes
             =====================
@@ -171,7 +171,7 @@ and validate the installation.
 
          .. code-block:: shell-session
 
-            AMDSMI Tool: 26.1.0+cd50d9e0 | AMDSMI Library version: 26.1.0 | ROCm version: 7.10.0 | amdgpu version: 6.16.6 | amd_hsmp version: N/A
+            AMDSMI Tool: 26.2.1+7b886380f9 | AMDSMI Library version: 26.2.1 | ROCm version: 7.11.0 | amdgpu version: 6.18.4 | hsmp version: N/A
 
    .. selected:: i=pip
 
@@ -188,8 +188,8 @@ and validate the installation.
    :heading: Verify your installation
    :heading-level: 3
 
-   Use the following ROCm tools to verify that the ROCm stack is correctly
-   installed and that your AMD GPU is visible to the system.
+   Use the following ROCm tools to verify that the ROCm Core SDK is correctly
+   installed and that your AMD devices are visible to the system.
 
    .. selected:: i=pip
 
@@ -254,7 +254,7 @@ and validate the installation.
 
             ... [output truncated]
 
-.. selected:: os=ubuntu os=rhel os=sles
+.. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 
    .. selected:: i=pip
       :heading: Test your installation
@@ -270,6 +270,7 @@ and validate the installation.
          rocm-sdk path --cmake
          rocm-sdk path --bin
          rocm-sdk path --root
+         rocm-sdk test
 
       To learn more about the ``rocm-sdk`` tool and to see example expected
       outputs, see `Using ROCm Python packages (TheRock)
@@ -310,7 +311,7 @@ and validate the installation.
 
       If you need to deactivate your Python virtual environment when finished, run:
 
-      .. code-block::
+      .. code-block:: bash
 
          deactivate
 

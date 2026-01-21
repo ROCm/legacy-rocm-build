@@ -1,45 +1,31 @@
 .. matrix::
    :show-when: fam=instinct
 
-   .. matrix-row::
-      :show-when: gfx=950
+   .. matrix-head::
 
-      .. matrix-cell:: AMD Instinct MI350 Series
+      .. raw:: html
+
+         <colgroup style="width: 50%;">
+
+   .. matrix-row::
+
+      .. matrix-cell:: AMD GPU series
          :header:
 
       .. matrix-cell::
+         :show-when: gpu=mi355x gpu=mi350x
 
-         `Instinct MI355X <https://www.amd.com/en/products/accelerators/instinct/mi350/mi355x.html>`__
-
-         `Instinct MI350X <https://www.amd.com/en/products/accelerators/instinct/mi350/mi350x.html>`__
-
-   .. matrix-row::
-      :show-when: gfx=942
-
-      .. matrix-cell:: AMD Instinct MI300 Series
-         :header:
+         `AMD Instinct MI350 Series <https://www.amd.com/en/products/accelerators/instinct/mi350.html>`__
 
       .. matrix-cell::
+         :show-when: gpu=mi325x gpu=mi300x gpu=mi300a
 
-         `Instinct MI325X <https://www.amd.com/en/products/accelerators/instinct/mi300/mi325x.html>`__
-
-         `Instinct MI300X <https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html>`__
-
-         `Instinct MI300A <https://www.amd.com/en/products/accelerators/instinct/mi300/mi300a.html>`__
-
-   .. matrix-row::
-      :show-when: gfx=90a
-
-      .. matrix-cell:: AMD Instinct MI200 Series
-         :header:
+         `AMD Instinct MI300 Series <https://www.amd.com/en/products/accelerators/instinct/mi300.html>`__
 
       .. matrix-cell::
+         :show-when: gpu=mi250x gpu=mi250 gpu=mi210
 
-         `Instinct MI250X <https://www.amd.com/en/products/accelerators/instinct/mi200/mi250x.html>`__
-
-         `Instinct MI250 <https://www.amd.com/en/products/accelerators/instinct/mi200/mi250.html>`__
-
-         `Instinct MI210 <https://www.amd.com/en/products/accelerators/instinct/mi200/mi210.html>`__
+         `AMD Instinct MI200 Series <https://www.amd.com/en/products/accelerators/instinct/mi200.html>`__
 
    .. matrix-row::
 
@@ -47,13 +33,13 @@
          :header:
 
       .. matrix-cell:: CDNA 4
-         :show-when: gfx=950
+         :show-when: gpu=mi355x gpu=mi350x
 
       .. matrix-cell:: CDNA 3
-         :show-when: gfx=942
+         :show-when: gpu=mi325x gpu=mi300x gpu=mi300a
 
       .. matrix-cell:: CDNA 2
-         :show-when: gfx=90a
+         :show-when: gpu=mi250x gpu=mi250 gpu=mi210
 
    .. matrix-row::
 
@@ -61,13 +47,13 @@
          :header:
 
       .. matrix-cell:: gfx950
-         :show-when: gfx=950
+         :show-when: gpu=mi355x gpu=mi350x
 
       .. matrix-cell:: gfx942
-         :show-when: gfx=942
+         :show-when: gpu=mi325x gpu=mi300x gpu=mi300a
 
       .. matrix-cell:: gfx90a
-         :show-when: gfx=90a
+         :show-when: gpu=mi250x gpu=mi250 gpu=mi210
 
    .. matrix-row::
       :show-when: os=ubuntu
@@ -88,60 +74,136 @@
          :header:
 
       .. matrix-cell::
+         :show-when: gpu=mi325x
 
-	 RHEL 10.1 (kernel: 6.12.0-124)
+         RHEL 10.1 (kernel: 6.12.0-124)
 
-	 RHEL 10.0 (kernel: 6.12.0-55)
+         RHEL 10.0 (kernel: 6.12.0-55)
 
-	 RHEL 9.7 (kernel: 5.14.0-611)
+         RHEL 9.7 (kernel: 5.14.0-611)
 
-	 RHEL 9.6 (kernel: 5.14.0-570)
+         RHEL 9.6 (kernel: 5.14.0-570)
 
-	 RHEL 8.10 (kernel: 4.18.0-553)
+         RHEL 9.4 (kernel: 5.14.0-427)
+
+      .. matrix-cell::
+         :show-when: gpu=mi355x gpu=mi350x gpu=mi300x gpu=mi300a gpu=mi250x gpu=mi250 gpu=mi210
+
+         RHEL 10.1 (kernel: 6.12.0-124)
+
+         RHEL 10.0 (kernel: 6.12.0-55)
+
+         RHEL 9.7 (kernel: 5.14.0-611)
+
+         RHEL 9.6 (kernel: 5.14.0-570)
+
+         RHEL 9.4 (kernel: 5.14.0-427)
+
+         RHEL 8.10 (kernel: 4.18.0-553)
+
+   .. matrix-row::
+      :show-when: os=debian
+
+      .. matrix-cell:: Supported Debian version
+         :header:
+
+      .. matrix-cell:: Debian 13 (kernel: 6.12)
+
+   .. matrix-row::
+      :show-when: os=oracle-linux
+
+      .. matrix-cell:: Supported Oracle Linux versions
+         :header:
+
+      .. matrix-cell::
+         :show-when: gpu=mi355x gpu=mi350x gpu=mi325x gpu=mi300a gpu=mi250x gpu=mi250 gpu=mi210
+
+         Oracle Linux 10 (kernel: UEK 8.1)
+
+         Oracle Linux 9 (kernel: UEK 8)
+
+      .. matrix-cell::
+         :show-when: gpu=mi300x
+
+         Oracle Linux 10 (kernel: UEK 8.1)
+
+         Oracle Linux 9 (kernel: UEK 8)
+
+         Oracle Linux 8 (kernel: UEK 7)
+
+   .. matrix-row::
+      :show-when: os=rocky-linux
+
+      .. matrix-cell:: Supported Rocky Linux versions
+         :header:
+
+      .. matrix-cell::
+         :show-when: gpu=mi300x gpu=mi300a
+
+         Rocky Linux 9 (kernel: 5.14.0-570)
 
    .. matrix-row::
       :show-when: os=sles
 
-      .. matrix-cell:: Supported SUSE Linux Enterprise Server version
+      .. matrix-cell:: Supported SUSE Linux Enterprise Server versions
          :header:
 
-      .. matrix-cell:: SLES 15.7 (kernel: 6.4.0-150700.51)
+      .. matrix-cell::
+
+         SLES 16.0 (kernel: 6.12)
+
+         SLES 15.7 (kernel: 6.4.0-150700.51)
 
    .. matrix-row::
 
       .. matrix-cell:: Supported AMD GPU Driver (amdgpu) versions
          :header:
 
-      .. matrix-cell:: 
+      .. matrix-cell::
 
-         `30.20.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.20.0/>`__,
-         `30.10.2 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.2/>`__,
-         `30.10.1 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.1/>`__,
-         `30.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10/>`__
+         `31.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html>`__
+
+         `30.20.1 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.20.1/documentation/release-notes.html>`__
+
+         `30.20.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.20.0/documentation/release-notes.html>`__
+
+         `30.10.2 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.2/documentation/release-notes.html>`__
+
+         `30.10.1 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.1/documentation/release-notes.html>`__
+
+         `30.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10/documentation/release-notes.html>`__
 
    .. matrix-row::
 
       .. matrix-cell:: Supported PLDM bundle (firmware) versions
          :header:
 
-      .. matrix-cell:: 01.25.15.04, 01.25.13.09
-         :show-when: gfx=950
+      .. matrix-cell::
+         :show-when: gpu=mi355x gpu=mi350x
+
+         01.25.16.03
 
       .. matrix-cell::
-         :show-when: gfx=942
+         :show-when: gpu=mi325x
 
-         **MI325X** 01.25.04.02, 01.25.03.03
-
-         **MI300X** 01.25.05.00 (or later), 01.25.03.12
-
-         **MI300A** BKC 26, 25
+         01.25.04.02
 
       .. matrix-cell::
-         :show-when: gfx=90a
+         :show-when: gpu=mi300x
 
-         **MI250X** IFWI 47 (or later)
+         01.25.03.12
 
-         **MI250** Maintenance update 5 with IFWI 75 (or later)
+      .. matrix-cell::
+         :show-when: gpu=mi300a
 
-         **MI210** Maintenance update 5 with IFWI 75 (or later)
+         BKC 26.1
 
+      .. matrix-cell::
+         :show-when: gpu=mi250x
+
+         IFWI 75 (or later)
+
+      .. matrix-cell::
+         :show-when: gpu=mi250 gpu=mi210
+
+         Maintenance update 5 with IFWI 75 (or later)

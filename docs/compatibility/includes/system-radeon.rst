@@ -1,50 +1,54 @@
 .. matrix::
    :show-when: fam=radeon
 
-   .. matrix-row::
-      :show-when: gfx=1100
+   .. matrix-head::
 
-      .. matrix-cell:: AMD Radeon RX 7000 Series
+      .. raw:: html
+
+         <colgroup style="width: 50%;">
+
+   .. matrix-row::
+
+      .. matrix-cell:: AMD GPU series
          :header:
 
       .. matrix-cell::
+         :show-when: gpu=rx-9070 gpu=rx-9070-gre gpu=rx-9070-xt gpu=rx-9060 gpu=rx-9060-xt gpu=rx-9060-xt-lp
 
-         `Radeon RX 7900 XTX <https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900xtx.html>`__
-
-         `Radeon RX 7900 XT <https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900xt.html>`__
-
-         `Radeon RX 7900 GRE <https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900-gre.html>`__
-
-   .. matrix-row::
-      :show-when: gfx=1101
-
-      .. matrix-cell:: AMD Radeon RX 7000 Series
-         :header:
+         `AMD Radeon RX 9000 Series <https://www.amd.com/en/products/graphics/desktops/radeon.html#tabs-ff9c5c3863-item-37fb38a236-tab>`__
 
       .. matrix-cell::
+         :show-when: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
 
-         `Radeon RX 7800 XT <https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7800-xt.html>`__
-
-         `Radeon RX 7700 XT <https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700-xt.html>`__
+         `AMD Radeon RX 7000 Series <https://www.amd.com/en/products/graphics/desktops/radeon/7000-series.html>`__
 
    .. matrix-row::
 
       .. matrix-cell:: Architecture
          :header:
 
+      .. matrix-cell:: RDNA 4
+         :show-when: gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
+
       .. matrix-cell:: RDNA 3
-         :show-when: gfx=1101 gfx=1100
+         :show-when: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
 
    .. matrix-row::
 
       .. matrix-cell:: LLVM target
          :header:
 
+      .. matrix-cell:: gfx1201
+         :show-when: gpu=rx-9070 gpu=rx-9070-gre gpu=rx-9070-xt
+
+      .. matrix-cell:: gfx1200
+         :show-when: gpu=rx-9060 gpu=rx-9060-xt gpu=rx-9060-xt-lp
+
       .. matrix-cell:: gfx1100
-         :show-when: gfx=1100
+         :show-when: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre
 
       .. matrix-cell:: gfx1101
-         :show-when: gfx=1101
+         :show-when: gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
 
    .. matrix-row::
       :show-when: os=ubuntu
@@ -64,7 +68,11 @@
       .. matrix-cell:: Supported RHEL versions
          :header:
 
-      .. matrix-cell:: 10.1, 10.0
+      .. matrix-cell::
+
+         10.1 (kernel: 6.12.0-124)
+
+         9.7 (kernel: 5.14.0-427)
 
    .. matrix-row::
       :show-when: os=windows
@@ -75,26 +83,24 @@
       .. matrix-cell:: Windows 11 25H2
 
    .. matrix-row::
+      :show-when: os=ubuntu os=rhel
 
       .. matrix-cell:: Supported AMD GPU Driver (amdgpu) versions
          :header:
 
-      .. matrix-cell:: 
-
-         `30.20.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.20.0/>`__,
-         `30.10.2 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.2/>`__,
-         `30.10.1 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.1/>`__,
-         `30.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10/>`__
-
-   .. matrix-row::
-      :show-when: os=ubuntu os=rhel os=sles
-
-      .. matrix-cell:: Supported Radeon Software for Linux version
-         :header:
-
       .. matrix-cell::
 
-         `25.30.1 <https://www.amd.com/en/support/download/linux-drivers.html#linux-for-radeon-pro>`__
+         `31.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html>`__
+
+         `30.20.1 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.20.1/documentation/release-notes.html>`__
+
+         `30.20.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.20.0/documentation/release-notes.html>`__
+
+         `30.10.2 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.2/documentation/release-notes.html>`__
+
+         `30.10.1 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.1/documentation/release-notes.html>`__
+
+         `30.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10/documentation/release-notes.html>`__
 
    .. matrix-row::
       :show-when: os=windows
@@ -104,9 +110,4 @@
 
       .. matrix-cell::
 
-         `25.11.1 <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-25-11-1.html>`__
-         (generally recommended)
-
-         `25.20.01.17 <https://www.amd.com/en/resources/support-articles/release-notes/RN-AMDGPU-WINDOWS-PYTORCH-7-1-1.html>`__
-         (recommended for ComfyUI)
-
+         `26.1.1 <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-1-1.html>`__

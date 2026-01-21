@@ -72,6 +72,18 @@ class SelectorGroupDirective(SphinxDirective):
     }
 
     def run(self):
+        env = self.state.document.settings.env
+        app = env.app
+
+        # Add required JS and CSS if selector exists
+        if not hasattr(env, '_selector_js_added'):
+            static_assets_dir = Path(__file__).parent / "static" / "selector"
+            app.config.html_static_path.append(str(static_assets_dir))
+
+            app.add_js_file("selector.js", type="module", defer="defer")
+            app.add_css_file("selector.css")
+            env._selector_js_added = True
+
         label = self.arguments[0]
         node = SelectorGroup()
         node["label"] = label
@@ -168,10 +180,19 @@ class SelectorOption(nodes.General, nodes.Element):
             return
 
         default_class = "rocm-docs-selector-option-default" if default else ""
+
+        # Handle width: either bootstrap col-N or percentage
+        if isinstance(width, str) and width.endswith("%"):
+            width_class = ""
+            width_style = f' style="width: {width}"'
+        else:
+            width_class = f"col-{width}"
+            width_style = ""
+
         translator.body.append(
             "<!-- start selector-option tile -->"
             f"""
-            <div class="rocm-docs-selector-option {default_class} col-{width} px-2"
+            <div class="rocm-docs-selector-option {default_class} {width_class} px-2"
                 data-selector-key="{node.get('group_key', '')}"
                 data-selector-value="{value}"
                 {show_when_attr}
@@ -179,6 +200,7 @@ class SelectorOption(nodes.General, nodes.Element):
                 tabindex="0"
                 role="radio"
                 aria-checked="false"
+                {width_style}
             >
                 <span>{label}</span>
             """.strip()
@@ -203,7 +225,7 @@ class SelectorOptionDirective(SphinxDirective):
         "show-when": directives.unchanged,
         "disable-when": directives.unchanged,
         "default": directives.flag,
-        "width": directives.nonnegative_int,
+        "width": directives.unchanged,
         "icon": directives.unchanged,
     }
     has_content = True
@@ -216,14 +238,35 @@ class SelectorOptionDirective(SphinxDirective):
         node["show-when"] = self.options.get("show-when", "")
         node["disable-when"] = self.options.get("disable-when", "")
         node["default"] = self.options.get("default", False) is not False
-        node["width"] = self.options.get("width", 6)
-        node["icon"] = self.options.get("icon")
 
-        # Content replaces label if provided
-        # if self.content:
-        #     self.state.nested_parse(self.content, self.content_offset, node)
-        # else:
-        #     node += nodes.Text(label)
+        # Parse width - supports bootstrap (1-12) or percentage (like "25%")
+        width_value = self.options.get("width", "6")
+        if isinstance(width_value, str) and width_value.endswith("%"):
+            try:
+                pct = float(width_value[:-1])
+                if pct <= 0 or pct > 100:
+                    raise ValueError("must be between 0 and 100")
+                node["width"] = width_value
+            except ValueError as e:
+                logger.warning(
+                    f"Invalid percentage width '{width_value}' ({e}), using default",
+                    location=(self.env.docname, self.lineno),
+                )
+                node["width"] = 6
+        else:
+            try:
+                col_num = int(width_value)
+                if col_num < 1 or col_num > 12:
+                    raise ValueError("must be between 1 and 12")
+                node["width"] = col_num
+            except ValueError as e:
+                logger.warning(
+                    f"Invalid width '{width_value}' ({e}), using default",
+                    location=(self.env.docname, self.lineno),
+                )
+                node["width"] = 6
+
+        node["icon"] = self.options.get("icon")
 
         parent = getattr(self.state, "parent", None)
         if not parent or not any(isinstance(p, SelectorGroup) for p in parent.traverse(include_self=True)):
@@ -346,9 +389,4 @@ def setup(app):
     app.add_directive("selected-content", SelectedContentDirective)
     app.add_directive("selected", SelectedContentDirective)
 
-    static_assets_dir = Path(__file__).parent / "static" / "selector"
-    app.config.html_static_path.append(str(static_assets_dir))
-    app.add_css_file("selector.css")
-    app.add_js_file("selector.js", type="module", defer="defer")
-
-    return {"version": "1.1", "parallel_read_safe": True}
+    return {"version": "1.2", "parallel_read_safe": True}
