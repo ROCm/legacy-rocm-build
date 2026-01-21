@@ -611,6 +611,7 @@ environments.
 
 ```bash
 sudo apt update && sudo apt install -y docker.io
+sudo usermod -aG docker "$USER"
 ```
 
 ### Launch the serving container
@@ -619,7 +620,7 @@ Deploy the SGLang MoRI serving container on each node.
 
 ```bash
 CONTAINER_NAME=sglang_mori
-IMAGE_NAME=rocm/sgl-dev:sglang-0.5.6.post1-rocm700-mi35x-mori-1224
+IMAGE_NAME=rocm/sgl-dev:sglang-0.5.6.post1-rocm700-mi35x-mori-0113
 
 docker run -it \
     --rm \
