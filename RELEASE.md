@@ -653,7 +653,7 @@ Click {fab}`github` to go to the component's source code on GitHub.
                 <th rowspan="5"></th>
                 <th rowspan="5">Development</th>
                 <td><a href="https://rocm.docs.amd.com/projects/HIPIFY/en/docs-7.2.0/index.html">HIPIFY</a></td>
-                <td>20.0.0&nbsp;&Rightarrow;&nbsp;<a href="#hipify-22-0-0">22.0.0</td>
+                <td>20.0.0&nbsp;&Rightarrow;&nbsp;<a href="#hipify-22-2-0">22.2.0</td>
                 <td><a href="https://github.com/ROCm/HIPIFY/"><i
                             class="fab fa-github fa-lg"></i></a></td>
             </tr>
