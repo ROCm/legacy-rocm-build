@@ -9,8 +9,8 @@ import shutil
 import sys
 from pathlib import Path
 
-ROCM_VERSION = "7.10.0"
-GA_DATE = "2025-12-11"
+ROCM_VERSION = "7.11.0"
+GA_DATE = "2025-02-11"
 
 DOCS_DIR = Path(__file__).parent.resolve()
 ROOT_DIR = DOCS_DIR.parent
@@ -171,6 +171,7 @@ rst_prolog = f"""
 .. |ROCM_VERSION| replace:: {ROCM_VERSION}
 """
 
+exclude_patterns = ["**/includes/**"]
 suppress_warnings = ["autosectionlabel.*"]
 
 # html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "https://rocm-stg.amd.com/")
@@ -198,5 +199,5 @@ if os.environ.get("READTHEDOCS", "") == "True":
     html_context["READTHEDOCS"] = True
 
 # temporary settings to speed up docs build for faster iteration
-# external_projects_remote_repository = ""
-# external_toc_exclude_missing = True
+external_projects_remote_repository = ""
+external_toc_exclude_missing = True

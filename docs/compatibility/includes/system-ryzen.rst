@@ -1,49 +1,51 @@
 .. matrix::
    :show-when: fam=ryzen
 
-   .. matrix-row::
-      :show-when: gfx=1151
+   .. matrix-head::
 
-      .. matrix-cell:: AMD Ryzen AI Max PRO 300 Series
+      .. raw:: html
+
+         <colgroup style="width: 50%;">
+
+   .. matrix-row::
+
+      .. matrix-cell:: AMD APU series
          :header:
 
       .. matrix-cell::
+         :show-when: gpu=max-pro-395 gpu=max-pro-390 gpu=max-pro-385 gpu=max-pro-380
 
-         `Ryzen AI Max+ PRO 395 <https://www.amd.com/en/products/processors/laptop/ryzen-pro/ai-max-pro-300-series/amd-ryzen-ai-max-plus-pro-395.html>`__
-
-         `Ryzen AI Max PRO 390 <https://www.amd.com/en/products/processors/laptop/ryzen-pro/ai-max-pro-300-series/amd-ryzen-ai-max-pro-390.html>`__
-
-         `Ryzen AI Max PRO 385 <https://www.amd.com/en/products/processors/laptop/ryzen-pro/ai-max-pro-300-series/amd-ryzen-ai-max-pro-385.html>`__
-
-         `Ryzen AI Max PRO 380 <https://www.amd.com/en/products/processors/laptop/ryzen-pro/ai-max-pro-300-series/amd-ryzen-ai-max-pro-380.html>`__
-
-   .. matrix-row::
-      :show-when: gfx=1151
-
-      .. matrix-cell:: AMD Ryzen AI Max 300 Series
-         :header:
+         `AMD Ryzen AI Max PRO 300 Series <https://www.amd.com/en/products/processors/workstations/mobile.html#tabs-7f0c432fb2-item-5116ab7a74-tab>`__
 
       .. matrix-cell::
+         :show-when: gpu=max-395 gpu=max-390 gpu=max-385
 
-         `Ryzen AI Max+ 395 <https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-max-plus-395.html>`__
-
-         `Ryzen AI Max 390 <https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-max-390.html>`__
-
-         `Ryzen AI Max 385 <https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-max-385.html>`__
-
-   .. matrix-row::
-      :show-when: gfx=1150
-
-      .. matrix-cell:: AMD Ryzen AI 300 Series
-         :header:
+         `AMD Ryzen AI Max 300 Series <https://www.amd.com/en/products/processors/laptop/ryzen.html#tabs-1181ea0b44-item-6ccfea5f65-tab>`__
 
       .. matrix-cell::
+         :show-when: gpu=9-hx-375 gpu=9-hx-370 gpu=9-365
 
-         `Ryzen AI 9 HX 375 <https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-9-hx-375.html>`__
+         `AMD Ryzen AI 300 Series <https://www.amd.com/en/products/processors/consumer/ryzen-ai.html#tabs-f556098628-item-54e149d850-tab>`__
 
-         `Ryzen AI 9 HX 370 <https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-9-hx-370.html>`__
+   .. matrix-row::
 
-         `Ryzen AI 9 365 <https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-9-365.html>`__
+      .. matrix-cell:: Graphics model (iGPU)
+         :header:
+
+      .. matrix-cell:: Radeon 8060S
+         :show-when: gpu=max-pro-395 gpu=max-395
+
+      .. matrix-cell:: Radeon 8050S
+         :show-when: gpu=max-pro-390 gpu=max-pro-385 gpu=max-390 gpu=max-385
+
+      .. matrix-cell:: Radeon 8040S
+         :show-when: gpu=max-pro-380
+
+      .. matrix-cell:: Radeon 890M
+         :show-when: gpu=9-hx-375 gpu=9-hx-370
+
+      .. matrix-cell:: Radeon 880M
+         :show-when: gpu=9-365
 
    .. matrix-row::
 
@@ -58,10 +60,10 @@
          :header:
 
       .. matrix-cell:: gfx1151
-         :show-when: gfx=1151
+         :show-when: gpu=max-pro-395 gpu=max-pro-390 gpu=max-pro-385 gpu=max-pro-380 gpu=max-395 gpu=max-390 gpu=max-385
 
       .. matrix-cell:: gfx1150
-         :show-when: gfx=1150
+         :show-when: gpu=9-hx-375 gpu=9-hx-370 gpu=9-365
 
    .. matrix-row::
       :show-when: os=ubuntu
@@ -95,9 +97,4 @@
 
       .. matrix-cell::
 
-         `25.11.1 <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-25-11-1.html>`__
-         (generally recommended)
-
-         `25.20.01.17 <https://www.amd.com/en/resources/support-articles/release-notes/RN-AMDGPU-WINDOWS-PYTORCH-7-1-1.html>`__
-         (recommended for ComfyUI)
-
+         `26.1.1 <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-1-1.html>`__

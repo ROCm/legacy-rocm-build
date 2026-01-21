@@ -36,13 +36,11 @@ frameworks such as PyTorch.
 * **Comprehensive** -- End‑to‑end toolchain from compilers to libraries
 * **Performance‑focused** -- Tuned for AMD Instinct™, AMD Radeon™, and AMD Ryzen™ devices
 
-.. image:: data/rocm-ontology.png
-   :align: center
-   :alt: ROCm software ecosystem and components illustration
-   :width: 1000
+.. raw:: html
+   :file: data/rocm-ontology.html
 
 ROCm supports AMD GPU architectures spanning data center, workstation, and APU
-categories. TheRock enables a unified ROCm user‑space experience across
+product lines. TheRock enables a unified ROCm user‑space experience across
 devices.
 
 * **AMD Instinct GPUs** -- Purpose‑built for large‑scale compute, AI training, and HPC workloads.
@@ -74,10 +72,8 @@ The ROCm Core SDK provides the foundational components that power the ROCm
 ecosystem — runtimes, compilers, math libraries, and system utilities for GPGPU
 computing.
 
-.. image:: data/rocm-sdk-arch.png
-   :align: center
-   :alt: ROCm Core SDK internal architecture illustration
-   :width: 1000
+.. raw:: html
+   :file: data/rocm-sdk-arch.html
 
 The TheRock infrastructure keeps these components modular, consistent, and easy
 to integrate across configurations.

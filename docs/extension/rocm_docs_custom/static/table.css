@@ -29,7 +29,12 @@ html[data-theme="dark"] {
   background-color: var(--rocm-docs-table-head-bg-color);
   border: 2px solid var(--rocm-docs-table-border-color);
 }
+
 .rocm-docs-table td {
   background-color: var(--rocm-docs-table-bg-color);
   border: 2px solid var(--rocm-docs-table-border-color) !important;
+}
+
+.rocm-docs-table p:not(:last-child) {
+  margin-bottom: 0.3rem;
 }

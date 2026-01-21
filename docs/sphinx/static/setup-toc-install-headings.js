@@ -27,10 +27,10 @@ function getDocsRoot() {
 
   // HACK:
   // Look for version pattern: at least two dots (e.g., 6.4.3, 7.10.0-preview)
-  const versionIdx = parts.findIndex(part => 
+  const versionIdx = parts.findIndex(part =>
     (part.match(/\./g) || []).length >= 2 || /^\d+$/.test(part)
   );
-  
+
   if (versionIdx !== -1) {
     return "/" + parts.slice(0, versionIdx + 1).join("/") + `/${INSTALL_PAGE_DIR}/`;
   }
@@ -40,6 +40,15 @@ function getDocsRoot() {
 }
 
 function buildHref(docsRoot, page, hash) {
+  // If already on the install page, just use hash anchors
+  const pathname = window.location.pathname;
+  const isOnInstallPage = pathname.endsWith(`/${INSTALL_PAGE_DIR}/${INSTALL_PAGE_FILE}`) ||
+                          pathname.endsWith(`/${INSTALL_PAGE_FILE}`);
+
+  if (isOnInstallPage && hash) {
+    return `#${hash}`;
+  }
+
   return `${docsRoot}${page}${hash ? "#" + hash : ""}`;
 }
 

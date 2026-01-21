@@ -13,6 +13,8 @@ const DISABLED_CLASS = "rocm-docs-disabled";
 const HIDDEN_CLASS = "rocm-docs-hidden";
 const SELECTED_CLASS = "rocm-docs-selected";
 
+const STORAGE_KEY = "rocm-docs-selector-state";
+
 // Toggle helpers -------------------------------------------------------------
 
 const isDefaultOption = (elem) => elem.classList.contains(DEFAULT_OPTION_CLASS);
@@ -49,6 +51,62 @@ const deselect = (elem) => {
   elem.setAttribute("aria-checked", "false");
 };
 
+// URL synchronization --------------------------------------------------------
+
+function syncStateToURL() {
+  const params = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(state)) {
+    params.set(key, value);
+  }
+
+  const newURL = params.toString()
+    ? `${window.location.pathname}?${params.toString()}${window.location.hash}`
+    : `${window.location.pathname}${window.location.hash}`;
+
+  window.history.replaceState({}, "", newURL);
+  logDebug("URL updated:", newURL);
+}
+
+function getStateFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const urlState = {};
+
+  for (const [key, value] of params) {
+    urlState[key] = value;
+  }
+
+  return urlState;
+}
+
+// localStorage synchronization -----------------------------------------------
+
+function syncStateToLocalStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    logDebug("localStorage updated:", state);
+  } catch (err) {
+    console.warn("[ROCmDocsSelector] Failed to save to localStorage:", err);
+  }
+}
+
+function getStateFromLocalStorage() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return {};
+
+    const parsed = JSON.parse(stored);
+    logDebug("localStorage loaded:", parsed);
+    return parsed;
+  } catch (err) {
+    console.warn(
+      "[ROCmDocsSelector] Failed to read from localStorage:",
+      err,
+    );
+    return {};
+  }
+}
+
 // Global selector state ------------------------------------------------------
 
 const state = {};
@@ -60,6 +118,8 @@ function getState() {
 function setState(updates) {
   Object.assign(state, updates);
   logDebug("State updated:", state);
+  syncStateToURL();
+  syncStateToLocalStorage();
 }
 
 // Condition handling ---------------------------------------------------------
@@ -119,8 +179,7 @@ function shouldBeDisabled(elem) {
   const conditions = parseConditions("disable-when", raw);
   if (!conditions) {
     console.warn(
-      "[ROCmDocsSelector] Invalid 'show-when' conditions; " +
-        "hiding affected element.",
+      "[ROCmDocsSelector] Invalid 'disable-when' conditions; not disabling affected element.",
     );
     return false;
   }
@@ -181,7 +240,7 @@ function handleOptionKeydown(e) {
   }
 }
 
-// Visibility / enablement update --------------------------------------------
+// Visibility / enablement update ---------------------------------------------
 
 // Ensure each selector group always has a valid selected option.
 // If the current selection becomes disabled/hidden due to another selector's
@@ -191,8 +250,13 @@ function reconcileGroupSelections() {
   const updates = {};
 
   document.querySelectorAll(GROUP_QUERY).forEach((group) => {
-    // Skip groups that are themselves hidden
-    if (group.classList.contains(HIDDEN_CLASS)) return;
+    // Skip groups that are hidden OR inside a hidden parent
+    if (
+      group.classList.contains(HIDDEN_CLASS) ||
+      group.closest(`.${HIDDEN_CLASS}`)
+    ) {
+      return;
+    }
 
     const options = Array.from(group.querySelectorAll(OPTION_QUERY));
     if (!options.length) return;
@@ -229,10 +293,27 @@ function reconcileGroupSelections() {
       return;
     }
 
-    // Need a new selection: prefer a default option, otherwise the first
-    // enabled+visible option in DOM order.
-    const replacement = enabledVisible.find(isDefaultOption) ||
-      enabledVisible[0];
+    // Need a new selection: prioritize current state value
+    let replacement;
+
+    // 1. Try to match the current global state value (if exists)
+    const stateValue = currentState[groupKey];
+    if (stateValue) {
+      replacement = enabledVisible.find(
+        (opt) => opt.dataset.selectorValue === stateValue,
+      );
+    }
+
+    // 2. If no match, prefer a default option
+    if (!replacement) {
+      replacement = enabledVisible.find(isDefaultOption);
+    }
+
+    // 3. Otherwise use the first enabled+visible option
+    if (!replacement) {
+      replacement = enabledVisible[0];
+    }
+
     if (!replacement) return;
 
     options.forEach(deselect);
@@ -303,7 +384,17 @@ function updateVisibility() {
 
 domReady(() => {
   const selectorOptions = document.querySelectorAll(OPTION_QUERY);
-  const initialState = {};
+  if (!selectorOptions?.length) {
+    // Clear URLSearchParams if page does not have selector
+    const url = new URL(window.location);
+    url.search = "";
+    window.history.replaceState({}, "", url);
+    return;
+  }
+
+  const defaultState = {};
+  const localStorageState = getStateFromLocalStorage();
+  const urlState = getStateFromURL();
 
   // Attach listeners and gather defaults
   selectorOptions.forEach((option) => {
@@ -311,13 +402,34 @@ domReady(() => {
     option.addEventListener("keydown", handleOptionKeydown);
 
     if (isDefaultOption(option)) {
-      select(option);
       const { selectorKey: key, selectorValue: value } = option.dataset;
-      if (key && value && initialState[key] === undefined) {
-        initialState[key] = value;
+      if (key && value && defaultState[key] === undefined) {
+        defaultState[key] = value;
       }
     }
   });
+
+  // Merge with priority: URL > localStorage > defaults
+  const initialState = {
+    ...defaultState,
+    ...localStorageState,
+    ...urlState,
+  };
+
+  // Apply initial selections from merged state
+  for (const [key, value] of Object.entries(initialState)) {
+    const allOptions = document.querySelectorAll(
+      `${OPTION_QUERY}[data-selector-key="${key}"]`,
+    );
+
+    allOptions.forEach((opt) => {
+      if (opt.dataset.selectorValue === value) {
+        select(opt);
+      } else {
+        deselect(opt);
+      }
+    });
+  }
 
   setState(initialState);
   updateVisibility();

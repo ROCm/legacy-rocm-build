@@ -1,0 +1,211 @@
+<p>
+  <div class="rocm-docs-core-sdk-diagram container-fluid p-1 pl-3 text-white">
+    <div class="row g-1">
+      <div
+        class="col-1 d-flex align-items-center justify-content-center bg-amd-grey fw-bold vertical-text"
+      >
+        ROCm<span class="trademark">&trade;</span> Core SDK
+      </div>
+
+      <div class="col-11">
+        <div class="row g-1">
+          <div class="col-4">
+            <div
+              class="rocm-docs-core-sdk-tile bg-amd-blue p-2 h-100 d-flex align-items-center small fw-bold"
+            >
+              Math and compute libraries
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="row g-1">
+              <div class="col-12">
+                <div
+                  class="rocm-docs-core-sdk-tile p-2 small h-100"
+                >
+                  <strong>Deep learning and GPU compute kernels</strong>:<br>
+                  Composable Kernel, MIOpen, rocWMMA, hipDNN (coming soon)
+                </div>
+              </div>
+              <div class="col-12">
+                <div
+                  class="rocm-docs-core-sdk-tile p-2 small h-100"
+                >
+                  <strong>BLAS dense and sparse libraries</strong>:<br>
+                  hipBLAS, hipBLASLt, hipSOLVER, hipSPARSE, hipSPARSELt
+                </div>
+              </div>
+              <div class="col-12">
+                <div
+                  class="rocm-docs-core-sdk-tile p-2 small h-100"
+                >
+                  <strong>Kernel primitives</strong>:<br>
+                  hipCUB, rocPRIM, rocThrust
+                </div>
+              </div>
+              <div class="col-12">
+                <div
+                  class="rocm-docs-core-sdk-tile p-2 small h-100"
+                >
+                  <strong>Other math</strong>:<br>
+                  hipRAND, hipFFT
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div
+              class="rocm-docs-core-sdk-tile bg-amd-blue p-2 h-100 d-flex align-items-center small fw-bold"
+            >
+              Communication libraries
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="row g-1">
+              <div class="col">
+                <div
+                  class="rocm-docs-core-sdk-tile p-2 small h-100"
+                >
+                  RCCL, rocSHMEM
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div
+              class="rocm-docs-core-sdk-tile bg-amd-blue p-2 h-100 d-flex align-items-center small fw-bold"
+            >
+              Storage
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="row g-1">
+              <div class="col">
+                <div
+                  class="rocm-docs-core-sdk-tile p-2 small h-100"
+                >
+                  hipFile (coming soon)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div
+              class="rocm-docs-core-sdk-tile bg-amd-blue p-2 h-100 d-flex align-items-center small fw-bold"
+            >
+              Runtimes and compilers
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="row g-1">
+              <div class="col">
+                <div
+                  class="rocm-docs-core-sdk-tile p-2 small h-100"
+                >
+                  HIP, HIPIFY, LLVM, ROCr Runtime, SPIRV-LLVM-Translator
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div
+              class="rocm-docs-core-sdk-tile bg-amd-blue p-2 h-100 d-flex align-items-center small fw-bold"
+            >
+              Profiling and debugging tools
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="row g-1">
+              <div class="col-12">
+                <div
+                  class="rocm-docs-core-sdk-tile p-2 small h-100"
+                >
+                  <strong>ROCprofiler family</strong>:<br>ROCm Compute Profiler
+                  (rocprofiler-compute), ROCm Systems Profiler
+                  (rocprofiler-systems), ROCprofiler-SDK and rocprofv3 CLI
+                </div>
+              </div>
+              <div class="col-12">
+                <div
+                  class="rocm-docs-core-sdk-tile p-2 small h-100"
+                >
+                  <strong>ROCm Debugger family</strong>:<br>ROCm Debugger
+                  (ROCgdb), ROCdbgapi, ROCr Debug Agent
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div
+              class="
+                rocm-docs-core-sdk-tile bg-amd-blue p-2 h-100 w-100
+                d-flex align-items-center
+                small fw-bold
+              "
+            >
+              Control and monitoring tools
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="row g-1">
+              <div class="col">
+                <div
+                  class="rocm-docs-core-sdk-tile p-2 small h-100"
+                >
+                  AMD SMI, hipinfo, rocminfo
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p>
+
+<style>
+  .rocm-docs-core-sdk-diagram {
+    background-color: #1b1b1b;
+
+    .rocm-docs-core-sdk-tile {
+      background-color: #007c97;
+    }
+
+    .bg-amd-grey {
+      background-color: #6e6e6e;
+    }
+    .bg-amd-blue {
+      opacity: 90%;
+    }
+
+    .rocm-docs-core-sdk-tile:not(.vertical-text) {
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      will-change: transform;
+      cursor: pointer;
+    }
+    .rocm-docs-core-sdk-tile:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
+      z-index: 1;
+    }
+
+    /* Rotates the text for the sidebar */
+    .vertical-text {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    .vertical-text .trademark {
+      display: inline-block;
+      transform: rotate(90deg);
+    }
+
+    .row {
+      display: flex;
+    }
+  }
+</style>

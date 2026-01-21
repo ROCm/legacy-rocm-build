@@ -1,72 +1,100 @@
 Prerequisites
 =============
 
-Before installing the ROCm Core SDK |ROCM_VERSION|, ensure your system meets
-all prerequisites. This includes installing the required dependencies and
-configuring permissions for GPU access. To confirm that your system is
-supported, see the :doc:`Compatibility matrix
-</compatibility/compatibility-matrix>`.
+.. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 
-.. selected:: os=ubuntu os=rhel os=sles
+   Before installing the ROCm Core SDK |ROCM_VERSION|, ensure your system meets
+   all prerequisites. This includes installing the required dependencies and
+   configuring permissions for GPU access. To confirm that your system is
+   supported, see the :doc:`Compatibility matrix
+   </compatibility/compatibility-matrix>`.
 
-   .. dropdown:: Install essential packages for Docker containers
-      :animate: fade-in-slide-down
-      :color: info
-      :icon: tools
-      :chevron: down-up
+.. selected:: os=windows
 
-      Docker images often include only a minimal set of installations, so some
-      essential packages might be missing. When installing ROCm within a Docker
-      container, you might need to install additional packages for a successful
-      installation.
+   Before installing the ROCm Core SDK |ROCM_VERSION|, ensure your system meets
+   all prerequisites. To confirm that your system is supported, see the
+   :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
 
-      If applicable, run the following command to install essential packages:
+.. ====================================================== DOCKER REQUIREMENTS ==
 
-      .. selected:: os=ubuntu
+.. selected:: i=pip i=tar i=pkgman
 
-         .. code-block:: bash
+   .. selected:: os=ubuntu os=debian os=rhel os=rocky-linux os=oracle-linux os=sles
 
-            apt update
-            apt install sudo wget python3 libatomic1
+      .. dropdown:: Install essential packages for Docker containers
+         :animate: fade-in-slide-down
+         :color: info
+         :icon: tools
+         :chevron: down-up
 
-      .. selected:: os=rhel
+         Docker images often include only a minimal set of installations, so some
+         essential packages might be missing. When installing ROCm within a Docker
+         container, you might need to install additional packages for a successful
+         installation.
 
-         .. selected:: os-version=10.1 os-version=10.0 os-version=9.7 os-version=9.6
+         If applicable, run the following command to install essential packages:
+
+         .. selected:: os=ubuntu os=debian
+
+            .. selected:: i=pkgman
+
+               .. code-block:: bash
+
+                  apt update
+                  apt install sudo wget
+
+            .. selected:: i=pip
+
+               .. code-block:: bash
+
+                  apt update
+                  apt install sudo cmake libgfortran5
+
+            .. selected:: i=tar
+
+               .. code-block:: bash
+
+                  apt update
+                  apt install sudo wget python3
+
+         .. selected:: os=rhel os=rocky-linux os=oracle-linux
 
             .. code-block:: bash
 
-               dnf install sudo wget libatomic
+               dnf install sudo wget
 
-         .. selected:: os-version=8
+         .. selected:: os=sles
 
-            .. code-block:: bash
+            .. selected:: i=pkgman
 
-               dnf install sudo wget libatomic python3
+               .. code-block:: bash
 
-      .. selected:: os=sles
+                  zypper install sudo wget SUSEConnect
 
-         .. code-block:: bash
+            .. selected:: i=pip
 
-            zypper install sudo libatomic1 libgfortran5 wget SUSEConnect python3
+               .. code-block:: bash
+
+                  zypper install sudo wget cmake libgfortran5
+
+            .. selected:: i=tar
+
+               .. code-block:: bash
+
+                  zypper install sudo wget
 
 
 .. selected:: os=windows
 
     1. Remove any existing HIP SDK for Windows installations and other
-       conflicting AMD graphics software.
+       conflicting AMD graphics software. To uninstall the HIP SDK using the
+       GUI, navigate to the following screen:
 
-    2. Install the Adrenalin Driver for Windows.
+       * Control Panel > Programs > Uninstall a program
 
-       * For general use cases, use the Adrenalin Driver version 25.11.1. For
-         details and the download link, see `AMD Software: Adrenalin
-         Edition 25.11.1
-         <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-25-11-1.html>`__.
-
-       * If you intend to run :ref:`ComfyUI workloads
-         <install-comfyui-windows>`, use driver version 25.20.01.17. For
-         details and the download link, see `AMD Software: PyTorch on Windows
-         Edition 7.1.1
-         <https://www.amd.com/en/resources/support-articles/release-notes/RN-AMDGPU-WINDOWS-PYTORCH-7-1-1.html>`__.
+    2. Install AMD Software: Adrenalin Edition for Windows. For details and the
+       download link, see `AMD Software: Adrenalin Edition 26.1.1
+       <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-1-1.html#Downloads>`__.
 
     3. Disable the following Windows security features as they can interfere
        with ROCm functionality:
@@ -81,6 +109,27 @@ supported, see the :doc:`Compatibility matrix
 
          * Settings > Privacy & security > Windows Security > App & browser
            control > Smart App Control settings > **Off**
+
+.. =============================================================== OEM KERNEL ==
+
+.. selected:: fam=ryzen
+
+   .. selected:: os=ubuntu
+      :heading: Install the OEM kernel
+      :heading-level: 3
+
+      Ryzen APUs require the OEM kernel 6.14 for Ubuntu 24.04. Use the
+      following command to install it using ``apt``.
+
+      .. code-block:: bash
+
+         sudo apt update && sudo apt install linux-image-6.14.0-1018-oem
+
+      .. note::
+
+         Reboot your system after installing the OEM kernel.
+
+.. ================================================ REGISTER ENTERPRISE LINUX ==
 
 .. selected:: os=rhel
    :heading: Register your Red Hat Enterprise Linux system
@@ -97,7 +146,7 @@ supported, see the :doc:`Compatibility matrix
 
          subscription-manager register --username <username> --password <password>
 
-   .. selected:: os-version=9.7 os-version=9.6 os-version=8
+   .. selected:: os-version=9.7 os-version=9.6 os-version=9.4 os-version=8.10
 
       .. code-block:: bash
 
@@ -116,6 +165,8 @@ supported, see the :doc:`Compatibility matrix
    .. code-block:: bash
 
       sudo SUSEConnect -r <REGCODE>
+
+.. ========================================== ADDITIONAL PACKAGE REPOSITORIES ==
 
 .. selected:: os=rhel
    :heading: Update your system
@@ -150,7 +201,13 @@ supported, see the :doc:`Compatibility matrix
 
          sudo dnf update --releasever=9.6 --exclude=\*release\*
 
-   .. selected:: os-version=8
+   .. selected:: os-version=9.4
+
+      .. code-block:: bash
+
+         sudo dnf update --releasever=9.4 --exclude=\*release\*
+
+   .. selected:: os-version=8.10
 
       .. code-block:: bash
 
@@ -169,11 +226,158 @@ supported, see the :doc:`Compatibility matrix
 
       sudo zypper update
 
+.. selected:: i=pkgman
+
+   .. selected:: os=oracle-linux
+      :heading: Update your system
+      :heading-level: 3
+
+      Update Oracle Linux to the latest available packages.
+
+      Run the following command to update your system:
+
+      .. code-block:: bash
+
+         sudo dnf update
+
+   .. selected:: os=rhel
+      :heading: Add additional package repositories
+      :heading-level: 3
+
+      ROCm installation packages depend on packages that aren’t included in
+      the default package repositories. Use the following command to add the
+      necessary repositories.
+
+      .. selected:: os-version=10.1 os-version=10.0
+
+         .. code-block:: bash
+
+            wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+            sudo rpm -ivh epel-release-latest-10.noarch.rpm
+
+         .. code-block:: bash
+
+            sudo dnf config-manager --enable codeready-builder-for-rhel-10-x86_64-rpms
+
+      .. selected:: os-version=9.7 os-version=9.6 os-version=9.4
+
+         .. code-block:: bash
+
+            wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+            sudo rpm -ivh epel-release-latest-9.noarch.rpm
+
+         .. code-block:: bash
+
+            sudo dnf config-manager --enable codeready-builder-for-rhel-9-x86_64-rpms
+
+      .. selected:: os-version=8.10
+
+         .. code-block:: bash
+
+            wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+            sudo rpm -ivh epel-release-latest-8.noarch.rpm
+
+         .. code-block:: bash
+
+            sudo dnf config-manager --enable codeready-builder-for-rhel-8-x86_64-rpms
+
+   .. selected:: os=oracle-linux os=rocky-linux
+      :heading: Add additional package repositories
+      :heading-level: 3
+
+      ROCm installation packages depend on packages that aren’t included in
+      the default package repositories. Use the following command to add the
+      necessary repositories.
+
+      .. selected:: os-version=10.1 os-version=10.0
+
+         .. code-block:: bash
+
+            wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+            sudo rpm -ivh epel-release-latest-10.noarch.rpm
+
+      .. selected:: os-version=9.7 os-version=9.6 os-version=9.4
+
+         .. code-block:: bash
+
+            wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+            sudo rpm -ivh epel-release-latest-9.noarch.rpm
+
+      .. selected:: os-version=8.10
+
+         .. code-block:: bash
+
+            wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+            sudo rpm -ivh epel-release-latest-8.noarch.rpm
+
+      .. code-block:: bash
+
+         sudo crb enable
+
+.. selected:: i=tar i=pip
+
+   .. selected:: os=sles
+      :heading: Add additional package repositories
+      :heading-level: 3
+
+      ROCm installation packages depend on packages that aren’t included in
+      the default package repositories. Use the following command to add the
+      necessary repositories.
+
+      .. selected:: os-version=16.0
+
+         .. code-block:: bash
+
+            sudo SUSEConnect -p sle-module-desktop-applications/16.0/x86_64
+            sudo SUSEConnect -p sle-module-development-tools/16.0/x86_64
+            sudo SUSEConnect -p PackageHub/16.0/x86_64
+
+      .. selected:: os-version=15.7
+
+         .. code-block:: bash
+
+            sudo SUSEConnect -p sle-module-desktop-applications/15.7/x86_64
+            sudo SUSEConnect -p sle-module-development-tools/15.7/x86_64
+            sudo SUSEConnect -p PackageHub/15.7/x86_64
+
+
+.. ============================================== INSTALL ADDITIONAL PACKAGES ==
+
+.. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
+
+   .. selected:: i=pkgman i=pip i=tar
+      :heading: Install additional packages
+      :heading-level: 3
+
+      Some ROCm tools require the ``libatomic`` library to run correctly. Install
+      it using your distribution's package manager.
+
+      .. selected:: os=ubuntu os=debian
+
+         .. code-block:: bash
+
+            sudo apt install libatomic1
+
+      .. selected:: os=rhel os=oracle-linux os=rocky-linux
+
+         .. code-block:: bash
+
+            sudo dnf install libatomic
+
+      .. selected:: os=sles
+
+         .. code-block:: bash
+
+            sudo zypper install libatomic1
+
+
+.. =========================================================== INSTALL PYTHON ==
+
 .. selected:: i=pip
 
    .. selected:: os=ubuntu
 
-      .. selected:: os-version=24
+      .. selected:: os-version=24.04
          :heading: Install Python
          :heading-level: 3
 
@@ -184,7 +388,7 @@ supported, see the :doc:`Compatibility matrix
 
             sudo apt install python3.12 python3.12-venv
 
-      .. selected:: os-version=22
+      .. selected:: os-version=22.04
          :heading: Install Python
          :heading-level: 3
 
@@ -195,7 +399,20 @@ supported, see the :doc:`Compatibility matrix
 
             sudo apt install python3.11 python3.11-venv
 
-   .. selected:: os=rhel
+   .. selected:: os=debian
+
+      .. selected:: os-version=13
+         :heading: Install Python
+         :heading-level: 3
+
+         Install a supported Python version. For example, to install Python
+         3.13, run the following command:
+
+         .. code-block:: bash
+
+            sudo apt install python3.13 python3.13-venv
+
+   .. selected:: os=rhel os=oracle-linux os=rocky-linux
 
       .. selected:: os-version=10.1 os-version=10.0
          :heading: Install Python
@@ -223,40 +440,35 @@ supported, see the :doc:`Compatibility matrix
       :heading: Install Python
       :heading-level: 3
 
-      Install a supported Python version. For example, to install Python 3.11,
-      run the following command:
+      .. selected:: os-version=16.0
 
-      .. code-block:: bash
+         Install a supported Python version. For example, to install Python 3.13,
+         run the following command:
 
-         sudo zypper install -y python311 python311-pip
+         .. code-block:: bash
+
+            sudo zypper install -y python313 python313-pip
+
+      .. selected:: os-version=15.7
+
+         Install a supported Python version. For example, to install Python 3.11,
+         run the following command:
+
+         .. code-block:: bash
+
+            sudo zypper install -y python311 python311-pip
 
    .. selected:: os=windows
       :heading: Install Python
       :heading-level: 3
 
-      Install a supported Python version: 3.11, 3.12, or 3.13.
+      Install a supported Python version: 3.11, 3.12, or 3.13. See `Python
+      Releases for Windows <https://www.python.org/downloads/windows/>`__ for
+      installation details.
 
-.. selected:: os=rhel
+.. =================================================== GPU ACCESS PERMISSIONS ==
 
-   .. selected:: os-version=10.0 os-version=8
-      :heading: Install additional development packages
-      :heading-level: 3
-
-      .. code-block:: bash
-
-         sudo dnf install libatomic
-
-.. selected:: os=sles
-
-   .. selected:: os-version=15
-      :heading: Install additional development packages
-      :heading-level: 3
-
-      .. code-block:: bash
-
-         sudo zypper install libatomic1
-
-.. selected:: os=ubuntu os=rhel os=sles
+.. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
    :heading: Configure permissions for GPU access
    :heading-level: 3
 

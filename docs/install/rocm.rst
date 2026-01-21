@@ -1,6 +1,6 @@
 .. meta::
-   :description: Learn how to install AMD ROCm 7.10.0 for supported Instinct GPUs and Ryzen AI APUs on Ubuntu, RHEL, and Windows. This step-by-step guide covers prerequisites, driver setup, installation methods (pip and tarball), and troubleshooting.
-   :keywords: AMD ROCm 7.10.0, install ROCm, Instinct GPU, Ryzen APU, Ubuntu, RHEL, Windows, pip install ROCm, ROCm wheel, ROCm tarball, ROCm GPU driver, ROCm setup, ROCm uninstall, ROCm troubleshooting
+   :description: Learn how to install AMD ROCm 7.11.0 for supported Instinct GPUs and Ryzen AI APUs on Ubuntu, RHEL, and Windows. This step-by-step guide covers prerequisites, driver setup, installation methods (pip and tarball), and troubleshooting.
+   :keywords: AMD ROCm 7.11.0, install ROCm, Instinct GPU, Ryzen APU, Ubuntu, RHEL, Windows, pip install ROCm, ROCm wheel, ROCm tarball, ROCm GPU driver, ROCm setup, ROCm uninstall, ROCm troubleshooting
 
 *******************************
 Install AMD ROCm |ROCM_VERSION|
@@ -52,4 +52,11 @@ in ROCm |ROCM_VERSION|, see the :doc:`Release notes </about/release-notes>`.
 
 .. raw:: html
 
-   <script src="../_static/next-button-install-page.js"></script>
+   <script>
+     document.addEventListener("DOMContentLoaded", () => {
+       const nextLink = document.querySelector("footer.prev-next-footer a.right-next");
+       const nextTitle = nextLink.querySelector(".prev-next-title");
+       nextTitle.textContent = "Build the ROCm Core SDK from source";
+       nextLink.href = "./build-from-source.html";
+     });
+   </script>
