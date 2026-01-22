@@ -38,7 +38,7 @@
     <project groups="mathlibs" name="rpp" />
     <project groups="mathlibs" name="TransferBench" />
 <!-- Projects for OpenMP-Extras -->
-    <project name="aomp" path="openmp-extras/aomp" />
-    <project name="aomp-extras" path="openmp-extras/aomp-extras" />
-    <project name="flang" path="openmp-extras/flang" />
+    <project name="aomp" path="aomp" />
+    <project name="aomp-extras" path="aomp-extras" />
+    <project name="flang" path="flang" />
 </manifest>
