@@ -239,7 +239,7 @@ jobs:
           targetType: inline
           workingDirectory: build
           script: |
-            cmake --build . --target origami-tests origami_python -- -j$(nproc)
+            cmake --build . --target origami-tests _pyorigami -- -j$(nproc)
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/gpu-diagnostics.yml
       # Run tests using CTest (discovers and runs both C++ and Python tests)
       - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/test.yml
