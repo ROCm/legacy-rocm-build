@@ -49,6 +49,7 @@ parameters:
     - nanobind>=2.0.0
     - pytest
     - pytest-cov
+    - torch
 - name: rocmDependencies
   type: object
   default:
