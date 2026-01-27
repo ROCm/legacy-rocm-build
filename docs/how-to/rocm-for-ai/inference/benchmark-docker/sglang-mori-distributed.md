@@ -373,15 +373,15 @@ Verify the configuration using `nicctl`.
 
   Port : 04908130-a7a0-4242-4242-000011010000
 
-  Classification type         : DSCP 
+  Classification type         : DSCP
 
   DSCP-to-priority :
   DSCP bitmap               : 0xffffbffffeffffff ==> priority : 0
   DSCP bitmap               : 0x0000000001000000 ==> priority : 3
   DSCP bitmap               : 0x0000400000000000 ==> priority : 6
   DSCP                      : 0-23, 25-45, 47-63 ==> priority : 0
-  DSCP                      : 24 ==> priority : 3 
-  DSCP                      : 46 ==> priority : 6 
+  DSCP                      : 24 ==> priority : 3
+  DSCP                      : 46 ==> priority : 6
   ```
 
 * Verify DCQCN and scheduling:
@@ -392,7 +392,7 @@ Verify the configuration using `nicctl`.
 
   Expected DCQCN and scheduling output:
 
-  ``` bash 
+  ``` bash
   NIC : 42424650-4c32-3531-3230-303443000000 (0000:f6:00.0)
   ------------------------------------------------------------------------------------------
 
@@ -415,16 +415,16 @@ Verify the configuration using `nicctl`.
 
   PFC :
   PFC priority bitmap       : 0x8
-  PFC no-drop priorities    : 3 
+  PFC no-drop priorities    : 3
 
   Scheduling :
   --------------------------------------------
-  Priority  Scheduling  Bandwidth Rate-limit  
-            Type        (in %age) (in Gbps)   
+  Priority  Scheduling  Bandwidth Rate-limit
+            Type        (in %age) (in Gbps)
   --------------------------------------------
-  0         DWRR        1         N/A         
-  3         DWRR        99        N/A     
-  6         strict      N/A       10     
+  0         DWRR        1         N/A
+  3         DWRR        99        N/A
+  6         strict      N/A       10
   ```
 
 ### Configure your network file system (NFS)
@@ -780,7 +780,7 @@ Identify and configure the available InfiniBand devices.
    export REQUEST_RATE="inf"        # Request per second rate. "inf" means send all requests immediately
 
    # Parallelism Strategies
-   export PREFILL_ENABLE_EP=true    # Enable Expert Parallelism (EP) for the prefill phase 
+   export PREFILL_ENABLE_EP=true    # Enable Expert Parallelism (EP) for the prefill phase
    export PREFILL_ENABLE_DP=true    # Enable Data Parallelism (DP) for the prefill phase
    export DECODE_ENABLE_EP=true     # Enable Expert Parallelism (EP) for the decode phase
    export DECODE_ENABLE_DP=true     # Enable Data Parallelism (DP) for the decode phase

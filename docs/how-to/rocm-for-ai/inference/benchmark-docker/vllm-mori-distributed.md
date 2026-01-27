@@ -114,7 +114,7 @@ eth7:
   link-local: []
   addresses:
     - 192.168.55.2/24
-  mtu: 4200 
+  mtu: 4200
 eth8:
   dhcp4: false
   dhcp6: false
@@ -183,7 +183,7 @@ For example, your `/etc/hosts` entries might look like:
 192.168.50.3 mori_test_02
 
 # Comment out the default entry to ensure resolution via the backend IP
-# 127.0.1.1 mori_test_01 mori_test_01 
+# 127.0.1.1 mori_test_01 mori_test_01
 ```
 
 ## Software installation
@@ -266,7 +266,7 @@ setting of `4096` and ensure each device has a valid GID mapped to its assigned
 IP address.
 
 ``` bash
-ibv_devinfo -v 
+ibv_devinfo -v
 ```
 
 The output should look something like this:
