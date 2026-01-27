@@ -38,7 +38,8 @@ stack versions and appropriate shell commands for verification:
 | **OS** | Ubuntu 24.04.3 LTS | `cat /etc/os-release` |
 | **Kernel** | 6.8.0-87-generic |`uname -r `|
 | **ROCm** | 7.0.2 | `amd-smi version` |
-| **BKC** | 25.16.03 |  |
+| **PLDM bundle (firmware) for MI300X** | 01.25.03.12 |  |
+| **PLDM bundle (firmware) for MI325X** | 01.25.03.03 |  |
 | **CX7 Firmware** | 28.46.3048 | `dkms status` |
 | **CX7 Driver** | 24.10-3.2.5 | `dkms status` |
 | **DOCA** | 2.9.3 | `dpkg -l \| grep doca` |

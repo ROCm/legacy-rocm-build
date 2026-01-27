@@ -40,7 +40,7 @@ shell commands to verify the environment on each node before proceeding.
 | **OS** | Ubuntu 22.04.5 LTS | `cat /etc/os-release` |
 | **Kernel** | 5.15.0-163-generic | `uname -r` |
 | **ROCm** | 7.1.1 | `amd-smi version` |
-| **BKC** | 25.16.03 | [Verify BKC](#sglang-mori-verify-bkc) |
+| **PLDM bundle (firmware)** | 01.25.16.03 | [Verify BKC](#sglang-mori-verify-bkc) |
 | **AI NIC Firmware** | 1.117.5.a.45 | `dkms status` |
 | **AI NIC Driver** | 25.11.1.001 | `dkms status` |
 
