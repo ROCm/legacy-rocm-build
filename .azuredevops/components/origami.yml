@@ -47,6 +47,7 @@ parameters:
   type: object
   default:
     - nanobind>=2.0.0
+    - numpy
     - pytest
     - pytest-cov
     - torch
