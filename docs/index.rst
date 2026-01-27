@@ -51,7 +51,7 @@ devices.
 
 .. note::
 
-   This release supports a limited number GPU models. Hardware support will be
+   This release supports a limited number of GPU models. Hardware support will be
    expanded with future releases.
 
 What’s changing
