@@ -263,8 +263,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/llama3.3_70B-BF16-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama3.3_70B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/llama3.3_70B-BF16-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -276,8 +278,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/llama3.3_70B-BF16-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama3.3_70B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/llama3.3_70B-BF16-pretrain.yaml
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.1-8b
 
@@ -294,8 +298,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/llama3.1_8B-FP8-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama3.1_8B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/llama3.1_8B-FP8-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -307,8 +313,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/llama3.1_8B-FP8-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama3.1_8B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/llama3.1_8B-FP8-pretrain.yaml
 
    For Llama 3.1 8B BF16, use the following command:
 
@@ -319,8 +327,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/llama3.1_BF16-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama3.1_8B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/llama3.1_8B-BF16-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -332,8 +342,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/llama3.1_8B-BF16-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama3.1_8B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/llama3.1_8B-BF16-pretrain.yaml
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.1-70b
 
@@ -350,8 +362,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/llama3.1_70B-BF16-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama3.1_70B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/llama3.1_70B-BF16-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -363,8 +377,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/llama3.1_70B-BF16-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama3.1_70B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/llama3.1_70B-BF16-pretrain.yaml
 
    To run the training on a single node for Llama 3.1 70B FP8, use the following command.
 
@@ -381,8 +397,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/llama3.1_70B-FP8-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama3.1_70B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/llama3.1_70B-FP8-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -394,12 +412,14 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/llama3.1_70B-FP8-pretrain.yaml \
-            bash ./examples/run_pretrain.sh \
-                --train_iters 50 \
-                --num_layers 40 \
-                --fp8 hybrid \
-                --no_fp8_weight_transpose_cache true
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama3.1_70B_fp8_proxy.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/llama3.1_70B-FP8-pretrain.yaml \
+              --train_iters 50 \
+              --num_layers 40 \
+              --fp8 hybrid \
+              --no_fp8_weight_transpose_cache true
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-2-7b
 
@@ -416,8 +436,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/llama2_7B-FP8-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama2_7B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/llama2_7B-FP8-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -429,8 +451,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/llama2_7B-FP8-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama2_7B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/llama2_7B-FP8-pretrain.yaml
 
    To run pre-training for Llama 2 7B BF16, run:
 
@@ -441,8 +465,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/llama2_7B-BF16-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama2_7B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/llama2_7B-BF16-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -454,8 +480,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/llama2_7B-BF16-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama2_7B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/llama2_7B-BF16-pretrain.yaml
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-2-70b
 
@@ -472,8 +500,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/llama2_70B-BF16-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama2_70B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/llama2_70B-BF16-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -485,8 +515,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/llama2_70B-BF16-pretrain.yaml \
-            bash ./examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_llama2_70B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/llama2_70B-BF16-pretrain.yaml
 
 .. container:: model-doc primus_pyt_megatron_lm_train_deepseek-v3-proxy
 
@@ -504,13 +536,15 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/deepseek_v3-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh \
-                --num_layers 3 \
-                --moe_layer_freq 1 \
-                --train_iters 50 \
-                --micro_batch_size 8 \
-                --global_batch_size 64
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_deepseek_v3_proxy.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/deepseek_v3-BF16-pretrain.yaml \
+              --num_layers 3 \
+              --moe_layer_freq 1 \
+              --train_iters 50 \
+              --micro_batch_size 8 \
+              --global_batch_size 64
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -522,11 +556,15 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/deepseek_v3-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh \
-                --num_layers 3 \
-                --moe_layer_freq 1 \
-                --train_iters 50
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_deepseek_v3_proxy.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/deepseek_v3-BF16-pretrain.yaml \
+              --num_layers 3 \
+              --moe_layer_freq 1 \
+              --micro_batch_size 3 \
+              --global_batch_size 192 \
+              --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_deepseek-v2-lite-16b
 
@@ -544,8 +582,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/deepseek_v2_lite-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_deepseek_v2_lite.log \
+              -- train pretrain \
+              --config examples/megatron/configs//MI355X/deepseek_v2_lite-BF16-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -557,8 +597,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/deepseek_v2_lite-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_deepseek_v2_lite.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/deepseek_v2_lite-BF16-pretrain.yaml
 
 .. container:: model-doc primus_pyt_megatron_lm_train_mixtral-8x7b
 
@@ -576,8 +618,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/mixtral_8x7B_v0.1-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_mixtral_8x7B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/mixtral_8x7B_v0.1-BF16-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -589,9 +633,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/mixtral_8x7B_v0.1-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh \
-                --train_iters 50
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_mixtral_8x7B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/mixtral_8x7B_v0.1-BF16-pretrain.yaml
 
 .. container:: model-doc primus_pyt_megatron_lm_train_mixtral-8x22b-proxy
 
@@ -609,8 +654,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/mixtral_8x22B_v0.1-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_mixtral_8x22B_proxy.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/mixtral_8x22B_v0.1-BF16-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -622,13 +669,15 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/mixtral_8x22B_v0.1-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh \
-                --train_iters 50 \
-                --num_layers 4 \
-                --pipeline_model_parallel_size 1 \
-                --micro_batch_size 1 \
-                --global_batch_size 16
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_mixtral_8x22B_proxy.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/mixtral_8x22B_v0.1-BF16-pretrain.yaml \
+              --num_layers 4 \
+              --pipeline_model_parallel_size 1 \
+              --micro_batch_size 1 \
+              --global_batch_size 16 \
+              --train_iters 50
 
 .. container:: model-doc primus_pyt_megatron_lm_train_qwen2.5-7b
 
@@ -646,8 +695,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/qwen2.5_7B-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen2.5_7B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/qwen2.5_7B-BF16-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -659,8 +710,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/qwen2.5_7B-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen2.5_7B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/qwen2.5_7B-BF16-pretrain.yaml
 
    For FP8, use the following command.
 
@@ -671,8 +724,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/qwen2.5_7B-FP8-pretrain.yaml \
-            bash examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen2.5_7B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/qwen2.5_7B-FP8-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -684,8 +739,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/qwen2.5_7B-FP8-pretrain.yaml \
-            bash examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen2.5_7B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/qwen2.5_7B-FP8-pretrain.yaml
 
 .. container:: model-doc primus_pyt_megatron_lm_train_qwen2.5-72b
 
@@ -702,11 +759,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
          .. code-block:: shell
 
-            EXP=examples/megatron/configs/MI355X/qwen2.5_72B-pretrain.yaml \
-            bash examples/run_pretrain.sh \
-                --train_iters 50 \
-                --micro_batch_size 16 \
-                --global_batch_size 256
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen2.5_72B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/qwen2.5_72B-BF16-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -718,8 +774,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-            EXP=examples/megatron/configs/MI300X/qwen2.5_72B-BF16-pretrain.yaml \
-            bash examples/run_pretrain.sh
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen2.5_72B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/qwen2.5_72B-BF16-pretrain.yaml
 
 .. _amd-primus-megatron-multi-node-examples-v26.01:
 

@@ -409,6 +409,10 @@ Run training
 
             {% if model.mad_tag == "pyt_train_dlrm" %}
 
+            .. note::
+
+               DLRM is supported on MI300X, MI325X, MI350X, and MI355X GPUs.
+
             1. Go to the DLRM directory.
 
                .. code-block:: shell
