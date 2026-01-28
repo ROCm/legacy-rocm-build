@@ -23,7 +23,7 @@ previous releases of the ``ROCm/megatron-lm`` Docker image on `Docker Hub <https
      -
        * :doc:`Primus Megatron documentation <../primus-megatron>`
        * :doc:`Megatron-LM (legacy) documentation <../megatron-lm>`
-       * `Docker Hub <https://hub.docker.com/layers/rocm/primus/v25.10/images/sha256-140c37cd2eeeb183759b9622543fc03cc210dc97cbfa18eeefdcbda84420c197>`__
+       * `Docker Hub <https://hub.docker.com/layers/rocm/primus/v25.11/images/sha256-71aa65a9bfc8e9dd18bce5b68c81caff864f223e9afa75dc1b719671a1f4a3c3>`__
 
    * - v25.10
      -

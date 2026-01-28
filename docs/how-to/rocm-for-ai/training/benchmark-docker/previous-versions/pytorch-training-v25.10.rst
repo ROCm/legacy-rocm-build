@@ -30,7 +30,7 @@ environment for fine-tuning and pretraining a model on AMD Instinct MI325X
 and MI300X GPUs. It includes the following software components to accelerate
 training workloads:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.10-benchmark-models.yaml
 
    .. tab-set::
 
@@ -58,7 +58,7 @@ MI355X, MI350X, MI325X, and MI300X GPUs. Some instructions, commands, and
 training recommendations in this documentation might vary by model -- select
 one to get started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.10-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    .. raw:: html
@@ -94,7 +94,7 @@ one to get started.
 
 The following table lists supported training modes per model.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.10-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    .. dropdown:: Supported training modes
@@ -164,7 +164,7 @@ doesn’t test configurations and run conditions outside those described.
 Run training
 ============
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/pytorch-training-v25.10-benchmark-models.yaml
 
    {% set docker = data.docker %}
    {% set model_groups = data.model_groups %}
