@@ -157,8 +157,8 @@ Pull the Docker image
          docker start primus_training_env
          docker exec -it primus_training_env bash
 
-The Docker container hosts verified commit ``c4c083de`` of the `Primus
-<https://github.com/AMD-AGI/Primus/tree/c4c083de64ba3e8f19ccc9629411267108931f9e/>`__ repository.
+The Docker container hosts verified commit ``9c529cd4`` of the `Primus
+<https://github.com/AMD-AGI/Primus/tree/9c529cd4a934a68a880ede036c3e97b792e38167>`__ repository.
 
 .. _amd-primus-megatron-lm-environment-setup-v26.01:
 
@@ -166,7 +166,7 @@ Configuration
 =============
 
 Primus defines a training configuration in YAML for each model in
-`examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/c4c083de64ba3e8f19ccc9629411267108931f9e/examples/megatron/configs>`__.
+`examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/9c529cd4a934a68a880ede036c3e97b792e38167/examples/megatron/configs>`__.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
@@ -219,14 +219,6 @@ right permissions to access the tokenizer for each model.
 
    # Export your HF_TOKEN in the workspace
    export HF_TOKEN=<your_hftoken>
-
-.. note::
-
-   In Primus, each model uses a tokenizer from Hugging Face. For example, Llama
-   3.1 8B model uses ``tokenizer_model: meta-llama/Llama-3.1-8B`` and
-   ``tokenizer_type: Llama3Tokenizer`` defined in the `llama3.1-8B model
-   <https://github.com/AMD-AGI/Primus/blob/e16b27bf6c1b2798f38848fc574fee60d9a9b902/examples/megatron/configs/llama3.1_8B-pretrain.yaml>`__
-   definition.
 
 .. _amd-primus-megatron-lm-run-training-v26.01:
 
@@ -788,7 +780,7 @@ Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure y
 training.
 
 To run training on multiple nodes, you can use the
-`run_slurm_pretrain.sh <https://github.com/AMD-AGI/Primus/blob/main/examples/run_slurm_pretrain.sh>`__
+`run_slurm_pretrain.sh <https://github.com/AMD-AGI/Primus/blob/9c529cd4a934a68a880ede036c3e97b792e38167/examples/run_slurm_pretrain.sh>`__
 to launch the multi-node workload. Use the following steps to setup your environment:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
