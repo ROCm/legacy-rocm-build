@@ -163,7 +163,6 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/jax-maxtext-v25.4", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/jax-maxtext-v25.5", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry", "os": ["linux"]},
-    {"file": "how-to/rocm-for-ai/inference/xdit-diffusion-inference", "os": ["linux"]},    
 
     {"file": "how-to/rocm-for-ai/fine-tuning/index", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/fine-tuning/overview", "os": ["linux"]},
@@ -193,11 +192,16 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/vllm-0.11.1-20251103", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/sglang-history", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/sglang", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/vllm-mori-distributed", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/sglang-mori-distributed", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/sglang-distributed", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/xdit-diffusion-inference", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.10", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.11", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.12", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.13", "os": ["linux"]},
+
     {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/inference-optimization/index", "os": ["linux"]},
