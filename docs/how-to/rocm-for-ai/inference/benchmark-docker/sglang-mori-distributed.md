@@ -92,7 +92,7 @@ the AMD Pensando Pollara 400 AI NIC, refer to the [AMD Instinct System
 Acceptance
 Guide](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/network/nic-installation.html#amd-pensando-pollara-400-ai-nic).
 After installation, verify the active firmware version on all NICs to ensure it
-matches the software baseline. See [Verify baseline software](#sglang-mori-verify-baseline).
+matches the software baseline. See [Verify baseline software](#verify-best-known-configuration-bkc).
 
 To display the current firmware version for all AI NICs, use the following command.
 
