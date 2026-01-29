@@ -47,14 +47,14 @@ stack versions and appropriate shell commands for verification:
 (vllm-mori-verify-bkc)=
 ### Verify best known configuration (BKC)
 
-AMD's BKC release is a bundle of best known tested configurations for ROCm
-software, baseboard firmware, the AMD GPU Driver, and virtualization tools
-which are critical for best performance and compatibility.
+The BKC defines a validated configuration of GPU firmware, baseboard firmware,
+ROCm user space components, the AMD GPU Driver, and virtualization tooling.
+These components are tested together to attain best performance and compatibility.
 
-While AMD publishes drivers and ROCm user space components, your server or
-infrastructure provider (OEM) publishes the GPU and baseboard firmware by
-bundling AMD’s firmware releases via AMD’s Platform Level Data Model (PLDM)
-bundle.
+While AMD publishes the AMD GPU driver and ROCm user space components, your
+server OEM or infrastructure provider distributes the firmware packages. AMD
+supplies those firmware images (PLDM bundles), which the OEM integrates and
+distributes.
 
 To verify the active BKC and IFWI (Integrated Firmware Image) versions via the
 Redfish API:
