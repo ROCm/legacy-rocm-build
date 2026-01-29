@@ -688,9 +688,9 @@ Recipe](https://github.com/billishyahao/sglang_disagg/blob/9n_cluster/README.md)
 
 This performance test supports the following models:
 
-- [DeepSeek-V3](https://huggingface.co/deepseek-ai/DeepSeek-V3)
-- [DeepSeek-R1](https://huggingface.co/deepseek-ai/DeepSeek-R1)
-- [DeepSeek-R1-0528](https://huggingface.co/deepseek-ai/DeepSeek-R1-0528)
+* [DeepSeek-V3](https://huggingface.co/deepseek-ai/DeepSeek-V3)
+* [DeepSeek-R1](https://huggingface.co/deepseek-ai/DeepSeek-R1)
+* [DeepSeek-R1-0528](https://huggingface.co/deepseek-ai/DeepSeek-R1-0528)
 
 To set up your environment and download the models using the Hugging Face CLI,
 use the following commands. Modify the `huggingface-cli download` command
@@ -868,15 +868,16 @@ The following section outlines common issues and their solutions.
 
 1. Use ROCm-optimized `rdma-perftest`, not the generic `perftest`
 
-    ``` bash
+    ```bash
     which ib_write_bw
     ```
 
 2. Confirm the `SERVER_IP` is accessible
 
-    ``` bash
+    ```bash
     ping <SERVER_IP>
     ```
+
 3. Check system logs, use `dmesg` for kernel-level errors
 
     ``` bash
@@ -888,17 +889,17 @@ The following section outlines common issues and their solutions.
 Common causes and solutions for Slurm job submission failures include:
 
 1. Shared storage access:
-   - Verify that both `sglang_disagg` and model directories are located in a shared NFS mount accessible to all compute nodes.
-   - Ensure proper permissions: `chmod -R 755 /shared/path/sglang_disagg /shared/path/models`
+   * Verify that both `sglang_disagg` and model directories are located in a shared NFS mount accessible to all compute nodes.
+   * Ensure proper permissions: `chmod -R 755 /shared/path/sglang_disagg /shared/path/models`
 
 2. Log analysis:
-   - Examine `pd_sglang_bench_serving.sh_NODE${NODE_RANK}.log` on each participating node for detailed error messages.
-   - Check for common issues like missing dependencies, GPU allocation failures, or network connectivity problems.
+   * Examine `pd_sglang_bench_serving.sh_NODE${NODE_RANK}.log` on each participating node for detailed error messages.
+   * Check for common issues like missing dependencies, GPU allocation failures, or network connectivity problems.
 
 3. Configuration validation:
-   - Verify SLURM parameters in `run_submit_disagg.sh`:
-     - `SLURM_ACCOUNT`: Ensure your account has access to the cluster
-     - `SLURM_PARTITION`: Confirm the partition exists and is accessible
-     - `MODEL_PATH`: Check that the path is correct and accessible from compute nodes
-     - `MODEL_NAME`: Verify the model subdirectory exists within `MODEL_PATH`
-   - Use `sinfo` to check partition and node availability.
+   * Verify SLURM parameters in `run_submit_disagg.sh`:
+     * `SLURM_ACCOUNT`: Ensure your account has access to the cluster
+     * `SLURM_PARTITION`: Confirm the partition exists and is accessible
+     * `MODEL_PATH`: Check that the path is correct and accessible from compute nodes
+     * `MODEL_NAME`: Verify the model subdirectory exists within `MODEL_PATH`
+   * Use `sinfo` to check partition and node availability.

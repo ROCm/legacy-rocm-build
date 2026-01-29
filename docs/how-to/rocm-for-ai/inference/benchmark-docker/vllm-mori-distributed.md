@@ -457,7 +457,7 @@ nodes, use the following serving scripts.
 
 Create the following scripts inside the container on each node.
 
-- Node 0 (master node): `ep16_node0.sh`
+* Node 0 (master node): `ep16_node0.sh`
 
    ```bash
    #!/bin/bash
@@ -492,7 +492,7 @@ Create the following scripts inside the container on each node.
        --trust-remote-code 2>&1 | tee serving_node0_ep16.log
     ```
 
-- Node 1: `ep16_node1.sh`
+* Node 1: `ep16_node1.sh`
 
    ```bash
    #!/bin/bash
