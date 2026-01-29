@@ -25,6 +25,5 @@ In this guide, you'll learn how to use ROCm for AI:
 
 - :doc:`Inference optimization <inference-optimization/index>`
 
-
 To learn about ROCm for HPC applications and scientific computing, see
 :doc:`../rocm-for-hpc/index`.
