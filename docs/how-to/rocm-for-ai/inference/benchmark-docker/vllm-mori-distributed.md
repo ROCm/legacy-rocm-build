@@ -36,15 +36,14 @@ stack versions and appropriate shell commands for verification:
 | Component | Version | Verification command |
 | :--- | :--- | :--- |
 | **OS** | Ubuntu 24.04.3 LTS | `cat /etc/os-release` |
-| **Kernel** | 6.8.0-87-generic |`uname -r `|
+| **Kernel** | 6.8.0-87-generic | `uname -r` |
 | **ROCm** | 7.0.2 | `amd-smi version` |
-| **PLDM bundle (firmware) for MI300X** | 01.25.03.12 | [Verify BKC](#vllm-mori-verify-bkc) |
-| **PLDM bundle (firmware) for MI325X** | 01.25.03.03 | [Verify BKC](#vllm-mori-verify-bkc) |
+| **PLDM bundle (firmware) for MI300X** | 01.25.03.12 | [Verify BKC](#verify-best-known-configuration-bkc) |
+| **PLDM bundle (firmware) for MI325X** | 01.25.03.03 | [Verify BKC](#verify-best-known-configuration-bkc) |
 | **CX7 Firmware** | 28.46.3048 | `dkms status` |
 | **CX7 Driver** | 24.10-3.2.5 | `dkms status` |
 | **DOCA** | 2.9.3 | `dpkg -l \| grep doca` |
 
-(vllm-mori-verify-bkc)=
 ### Verify best known configuration (BKC)
 
 The BKC defines a validated configuration of GPU firmware, baseboard firmware,
