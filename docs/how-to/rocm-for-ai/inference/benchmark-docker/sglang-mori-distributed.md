@@ -30,6 +30,7 @@ NICs for high-bandwidth networking, and applying thermal and Quality of Service
 (QoS) tunings to ensure a stable, lossless RDMA fabric.
 
 (sglang-mori-verify-baseline)=
+
 ### Verify baseline software
 
 The following table outlines the validated software stack. Use the provided
@@ -685,7 +686,7 @@ Recipe](https://github.com/billishyahao/sglang_disagg/blob/9n_cluster/README.md)
 
 ### Download the model and setup your run environment
 
-This performance test supporst the following models:
+This performance test supports the following models:
 
 - [DeepSeek-V3](https://huggingface.co/deepseek-ai/DeepSeek-V3)
 - [DeepSeek-R1](https://huggingface.co/deepseek-ai/DeepSeek-R1)
@@ -871,7 +872,7 @@ The following section outlines common issues and their solutions.
     which ib_write_bw
     ```
 
-2. Confirm the `SERVER_IP` is accesible
+2. Confirm the `SERVER_IP` is accessible
 
     ``` bash
     ping <SERVER_IP>

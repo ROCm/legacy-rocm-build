@@ -30,7 +30,7 @@ for inter-node communication, and establish shared storage to ensure
 ### Verify baseline software
 
 This setup has been validated using the **AI/ML Ready Image (ROCm 7-based)** on
-DigitalOcean AMD GPU Droplets. The following table outlines the software
+Digital Ocean AMD GPU Droplets. The following table outlines the software
 stack versions and appropriate shell commands for verification:
 
 | Component | Version | Verification command |
@@ -199,7 +199,7 @@ echo "nfs_server_ip:/shared/folder /mount/point nfs _netdev,nofail,x-systemd.aut
 
 If the high-speed RDMA/IB interfaces are used for the initial distributed
 coordination (such as `MASTER_ADDR`), you must configure static hostname
-resolution. This ensures that cluster hostnames resolve to the backend network
+resolution. This ensures that cluster host names resolve to the backend network
 IPs rather than the management or local loopback addresses.
 
 Follow these steps to configure static hostname resolution:
@@ -212,7 +212,7 @@ Follow these steps to configure static hostname resolution:
 For example, your `/etc/hosts` entries might look like:
 
 ```text
-# Map hostnames to backend network IPs
+# Map host names to backend network IPs
 192.168.50.2 mori_test_01
 192.168.50.3 mori_test_02
 
@@ -607,7 +607,7 @@ The following section outlines common issues and their solutions.
     which ib_write_bw
     ```
 
-2. Confirm the `SERVER_IP` is accesible.
+2. Confirm the `SERVER_IP` is accessible.
 
     ``` bash
     ping <SERVER_IP>
