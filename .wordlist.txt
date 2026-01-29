@@ -97,7 +97,7 @@ Dashboarding
 Dataloading
 dataflows
 DBRX
-DCQCM
+DCQCN
 DDR
 DF
 DGEMM
@@ -131,7 +131,7 @@ Deprecations
 DevCap
 DirectX
 Disaggregated
-diasagg
+disagg
 disaggregated
 disaggregation
 Dockerfile

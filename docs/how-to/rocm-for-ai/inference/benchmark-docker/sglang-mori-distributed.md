@@ -45,7 +45,6 @@ shell commands to verify the environment on each node before proceeding.
 | **AI NIC Firmware** | 1.117.5.a.45 | `dkms status` |
 | **AI NIC Driver** | 25.11.1.001 | `dkms status` |
 
-(sglang-mori-verify-bkc)=
 ### Verify best known configuration (BKC)
 
 The BKC defines a validated configuration of GPU firmware, baseboard firmware,
@@ -97,7 +96,7 @@ matches the software baseline. See [Verify baseline software](#sglang-mori-verif
 
 To display the current firmware version for all AI NICs, use the following command.
 
-``` bash
+```bash
 sudo nicctl show version firmware
 ```
 
