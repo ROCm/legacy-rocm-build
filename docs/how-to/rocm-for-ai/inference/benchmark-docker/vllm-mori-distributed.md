@@ -38,11 +38,44 @@ stack versions and appropriate shell commands for verification:
 | **OS** | Ubuntu 24.04.3 LTS | `cat /etc/os-release` |
 | **Kernel** | 6.8.0-87-generic |`uname -r `|
 | **ROCm** | 7.0.2 | `amd-smi version` |
-| **PLDM bundle (firmware) for MI300X** | 01.25.03.12 |  |
-| **PLDM bundle (firmware) for MI325X** | 01.25.03.03 |  |
+| **PLDM bundle (firmware) for MI300X** | 01.25.03.12 | [Verify BKC](#vllm-mori-verify-bkc) |
+| **PLDM bundle (firmware) for MI325X** | 01.25.03.03 | [Verify BKC](#vllm-mori-verify-bkc) |
 | **CX7 Firmware** | 28.46.3048 | `dkms status` |
 | **CX7 Driver** | 24.10-3.2.5 | `dkms status` |
 | **DOCA** | 2.9.3 | `dpkg -l \| grep doca` |
+
+(vllm-mori-verify-bkc)=
+### Verify best known configuration (BKC)
+
+AMD's BKC release is a bundle of best known tested configurations for ROCm
+software, baseboard firmware, the AMD GPU Driver, and virtualization tools
+which are critical for best performance and compatibility.
+
+While AMD publishes drivers and ROCm user space components, your server or
+infrastructure provider (OEM) publishes the GPU and baseboard firmware by
+bundling AMD’s firmware releases via AMD’s Platform Level Data Model (PLDM)
+bundle.
+
+To verify the active BKC and IFWI (Integrated Firmware Image) versions via the
+Redfish API:
+
+1. Prepare credentials: Identify your BMC IP, username, and password.
+2. Run Redfish queries: Use the following commands to check the active
+   firmware inventory.
+
+     ``` bash
+     # Define BMC connection variables
+     BMC_IP="<BMC_IP>"
+     AUTH="<username>:<password>"
+
+     # Query active BKC bundle version
+     curl -X GET "https://${BMC_IP}/redfish/v1/UpdateService/FirmwareInventory/bundle_active" \
+          -u "${AUTH}" -k | json_pp
+
+     # Query active IFWI (Integrated Firmware Image)
+     curl -X GET "https://${BMC_IP}/redfish/v1/UpdateService/FirmwareInventory/firmware_active" \
+          -u "${AUTH}" -k | json_pp
+     ```
 
 ### Run basic system health checks
 

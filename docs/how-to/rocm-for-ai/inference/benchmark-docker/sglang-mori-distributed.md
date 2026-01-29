@@ -47,9 +47,14 @@ shell commands to verify the environment on each node before proceeding.
 (sglang-mori-verify-bkc)=
 ### Verify best known configuration (BKC)
 
-The BKC ensures firmware compatibility across the cluster. For Supermicro
-(SMCi) or Dell systems, BKC bundle versions typically include a `.76` suffix
-such as `BKC_X24.12.04.76_SECURE`.
+AMD's BKC release is a bundle of best known tested configurations for ROCm
+software, baseboard firmware, the AMD GPU Driver, and virtualization tools
+which are critical for best performance and compatibility.
+
+While AMD publishes drivers and ROCm user space components, your server or
+infrastructure provider (OEM) publishes the GPU and baseboard firmware by
+bundling AMD’s firmware releases via AMD’s Platform Level Data Model (PLDM)
+bundle.
 
 To verify the active BKC and IFWI (Integrated Firmware Image) versions via the
 Redfish API:
