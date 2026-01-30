@@ -39,6 +39,7 @@ additional licenses. Please review individual repositories for more information.
 | [hipBLASLt](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblaslt/) | [MIT](https://github.com/ROCm/rocm-libraries/blob/develop/projects/hipblaslt/LICENSE.md) |
 | [HIPCC](https://github.com/ROCm/llvm-project/tree/amd-staging/amd/hipcc) | [MIT](https://github.com/ROCm/llvm-project/blob/amd-staging/amd/hipcc/LICENSE.txt) |
 | [hipCUB](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipcub/) | [Custom](https://github.com/ROCm/rocm-libraries/blob/develop/projects/hipcub/LICENSE.txt) |
+| [hipDNN](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipdnn/) | [MIT](https://github.com/ROCm/rocm-libraries/blob/develop/projects/hipdnn/LICENSE.md) |
 | [hipFFT](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipfft/) | [MIT](https://github.com/ROCm/rocm-libraries/blob/develop/projects/hipfft/LICENSE.md) |
 | [hipfort](https://github.com/ROCm/hipfort/) | [MIT](https://github.com/ROCm/hipfort/blob/develop/LICENSE) |
 | [HIPIFY](https://github.com/ROCm/HIPIFY/) | [MIT](https://github.com/ROCm/HIPIFY/blob/amd-staging/LICENSE.txt) |

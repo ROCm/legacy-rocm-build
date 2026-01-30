@@ -18,6 +18,7 @@
 (artificial-intelligence-apis)=
 
 * {doc}`Composable Kernel <composable_kernel:index>`
+* {doc}`hipDNN <hipdnn:index>`
 * {doc}`MIGraphX <amdmigraphx:index>`
 * {doc}`MIOpen <miopen:index>`
 * {doc}`MIVisionX <mivisionx:index>`

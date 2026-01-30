@@ -36,6 +36,7 @@ Machine Learning & Computer Vision
   :header: "Component", "Description"
 
   ":doc:`Composable Kernel <composable_kernel:index>`", "Provides a programming model for writing performance critical kernels for machine learning workloads across multiple architectures"
+  ":doc:`hipDNN <hipdnn:index>`", "A graph-based deep learning library that enables multi-operation fusion for improved performance on AMD GPUs. "
   ":doc:`MIGraphX <amdmigraphx:index>`", "Graph inference engine that accelerates machine learning model inference"
   ":doc:`MIOpen <miopen:index>`", "An open source deep-learning library"
   ":doc:`MIVisionX <mivisionx:index>`", "Set of comprehensive computer vision and machine learning libraries, utilities, and applications"
