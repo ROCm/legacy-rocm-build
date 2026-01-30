@@ -47,8 +47,10 @@ parameters:
   type: object
   default:
     - nanobind>=2.0.0
+    - numpy
     - pytest
     - pytest-cov
+    - torch
 - name: rocmDependencies
   type: object
   default:
@@ -101,8 +103,7 @@ jobs:
     - template: /.azuredevops/variables-global.yml
     - name: ROCM_PATH
       value: $(Agent.BuildDirectory)/rocm
-    pool:
-      vmImage: ${{ variables.BASE_BUILD_POOL }}
+    pool: ${{ variables.MEDIUM_BUILD_POOL }}
     ${{ if eq(job.os, 'almalinux8') }}:
       container:
         image: rocmexternalcicd.azurecr.io/manylinux228:latest

@@ -71,6 +71,7 @@ parameters:
 jobs:
 - ${{ each job in parameters.jobMatrix.buildJobs }}:
   - job: ${{ parameters.componentName }}_build_${{ job.target }}
+    timeoutInMinutes: 120
     variables:
     - group: common
     - template: /.azuredevops/variables-global.yml
