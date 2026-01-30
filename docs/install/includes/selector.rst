@@ -28,23 +28,7 @@
 
    .. selector-option:: 10.1
       :value: 10.1
-      :width: 3
-
-   .. selector-option:: 10.0
-      :value: 10.0
-      :width: 3
-
-   .. selector-option:: 9.7
-      :value: 9.7
-      :width: 2
-
-   .. selector-option:: 9.6
-      :value: 9.6
-      :width: 2
-
-   .. selector-option:: 8.10
-      :value: 8
-      :width: 2
+      :width: 12
 
 .. selector:: SLES version
    :key: os-version

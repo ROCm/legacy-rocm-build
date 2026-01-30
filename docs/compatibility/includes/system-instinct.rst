@@ -89,15 +89,15 @@
 
       .. matrix-cell::
 
-	 RHEL 10.1 (kernel: 6.12.0-124)
+         RHEL 10.1 (kernel: 6.12.0-124)
 
-	 RHEL 10.0 (kernel: 6.12.0-55)
+         RHEL 10.0 (kernel: 6.12.0-55)
 
-	 RHEL 9.7 (kernel: 5.14.0-611)
+         RHEL 9.7 (kernel: 5.14.0-611)
 
-	 RHEL 9.6 (kernel: 5.14.0-570)
+         RHEL 9.6 (kernel: 5.14.0-570)
 
-	 RHEL 8.10 (kernel: 4.18.0-553)
+         RHEL 8.10 (kernel: 4.18.0-553)
 
    .. matrix-row::
       :show-when: os=sles
@@ -112,7 +112,7 @@
       .. matrix-cell:: Supported AMD GPU Driver (amdgpu) versions
          :header:
 
-      .. matrix-cell:: 
+      .. matrix-cell::
 
          `30.20.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.20.0/>`__,
          `30.10.2 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.2/>`__,
