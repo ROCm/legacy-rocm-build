@@ -25,10 +25,10 @@ model training. Performance acceleration is powered by `Primus Turbo
    <https://hub.docker.com/r/rocm/megatron-lm/>`__ Docker Hub registry will be
    deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
    The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
-   including Megatron-LM and :doc:`torchtitan <primus-pytorch>`.
+   including Megatron-LM and :doc:`torchtitan <../primus-pytorch>`.
 
    Primus with Megatron is designed to replace the :doc:`ROCm Megatron-LM
-   training <megatron-lm>` workflow. To learn how to migrate workloads from
+   training <../megatron-lm>` workflow. To learn how to migrate workloads from
    Megatron-LM to Primus with Megatron, see
    :doc:`megatron-lm-primus-migration-guide`.
 
@@ -36,7 +36,7 @@ AMD provides a ready-to-use Docker images for MI355X, MI350X,
 MI325X, and MI300X GPUs containing essential components for Primus, ROCm, and
 Megatron-LM.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.10-benchmark-models.yaml
 
    .. tab-set::
 
@@ -63,7 +63,7 @@ The following models are pre-optimized for performance on AMD Instinct GPUs.
 Some instructions, commands, and training examples in this documentation
 might vary by model -- select one to get started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.10-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    .. raw:: html
@@ -120,7 +120,7 @@ system's configuration.
 Environment setup
 =================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.10-benchmark-models.yaml
 
    Use the following instructions to set up the environment, configure the script to train models, and
    reproduce the benchmark results on AMD Instinct GPUs.
@@ -129,7 +129,7 @@ Environment setup
 
 Pull the Docker image
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.10-benchmark-models.yaml
 
    {% set docker = data.docker %}
 
@@ -175,7 +175,7 @@ Configuration
 Primus defines a training configuration in YAML for each model in
 `examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/e16b27bf6c1b2798f38848fc574fee60d9a9b902/examples/megatron/configs>`__.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.10-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    {% for model_group in model_groups %}
@@ -805,7 +805,7 @@ To run training on multiple nodes, you can use the
 `run_slurm_pretrain.sh <https://github.com/AMD-AGI/Primus/blob/main/examples/run_slurm_pretrain.sh>`__
 to launch the multi-node workload. Use the following steps to setup your environment:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-megatron-v25.10-benchmark-models.yaml
 
    {% set docker = data.docker %}
    .. code-block:: shell
