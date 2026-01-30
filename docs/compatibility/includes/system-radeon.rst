@@ -61,10 +61,14 @@
    .. matrix-row::
       :show-when: os=rhel
 
-      .. matrix-cell:: Supported RHEL versions
+      .. matrix-cell:: Supported Red Hat Enterprise Linux versions
          :header:
 
-      .. matrix-cell:: 10.1, 10.0
+      .. matrix-cell::
+
+         RHEL 10.1 (kernel: 6.12.0-124)
+
+         RHEL 10.0 (kernel: 6.12.0-55)
 
    .. matrix-row::
       :show-when: os=windows
@@ -79,7 +83,7 @@
       .. matrix-cell:: Supported AMD GPU Driver (amdgpu) versions
          :header:
 
-      .. matrix-cell:: 
+      .. matrix-cell::
 
          `30.20.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.20.0/>`__,
          `30.10.2 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10.2/>`__,
