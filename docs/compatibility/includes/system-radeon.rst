@@ -64,11 +64,7 @@
       .. matrix-cell:: Supported Red Hat Enterprise Linux versions
          :header:
 
-      .. matrix-cell::
-
-         RHEL 10.1 (kernel: 6.12.0-124)
-
-         RHEL 10.0 (kernel: 6.12.0-55)
+      .. matrix-cell:: RHEL 10.1 (kernel: 6.12.0-124)
 
    .. matrix-row::
       :show-when: os=windows

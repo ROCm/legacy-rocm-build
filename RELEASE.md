@@ -290,7 +290,6 @@ support coverage.
 				<p>Ubuntu 24.04.3<br>(HWE kernel: 6.14)<br><br>
                    Ubuntu 22.04.5<br>(HWE kernel: 6.8)<br><br>
                    RHEL 10.1<br>(kernel: 6.12.0-124)<br><br>
-                   RHEL 10.0<br>(kernel: 6.12.0-55)<br><br>
                    Windows 11 25H2</p>
 			</td>
 		</tr>
@@ -349,7 +348,6 @@ support coverage.
 				<p>Ubuntu 24.04.3<br>(HWE kernel: 6.14)<br><br>
                    Ubuntu 22.04.5<br>(HWE kernel: 6.8)<br><br>
                    RHEL 10.1<br>(kernel: 6.12.0-124)<br><br>
-                   RHEL 10.0<br>(kernel: 6.12.0-55)<br><br>
                    Windows 11 25H2</p>
 			</td>
 		</tr>
