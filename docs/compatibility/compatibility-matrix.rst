@@ -211,7 +211,7 @@ Expand for full historical view of:
    .. [#megablocks_compat-past-60] Megablocks is supported only on ROCm 6.3.0.
    .. [#ray_compat-past-60] Ray is supported only on ROCm 6.4.1.
    .. [#llama-cpp_compat-past-60] llama.cpp is supported only on ROCm 7.0.0 and 6.4.x.
-   .. [#flashinfer_compat-past-60] FlashInfer is supported only on ROCm 6.4.1.
+   .. [#flashinfer_compat-past-60] FlashInfer is only supported on ROCm 7.1.1 and 6.4.1.
    .. [#mi325x_KVM-past-60] For AMD Instinct MI325X KVM SR-IOV users, do not use AMD GPU Driver (amdgpu) 30.20.0.
    .. [#driver_patch-past-60] AMD GPU Driver (amdgpu) 30.10.1 is a quality release that resolves an issue identified in the 30.10 release. There are no other significant changes or feature additions in ROCm 7.0.1 from ROCm 7.0.0. AMD GPU Driver (amdgpu) 30.10.1 is compatible with ROCm 7.0.1 and ROCm 7.0.0.
    .. [#kfd_support-past-60] As of ROCm 6.4.0, forward and backward compatibility between the AMD GPU Driver (amdgpu) and its user space software is provided up to a year apart. For earlier ROCm releases, the compatibility is provided for +/- 2 releases. The supported user space versions on this page were accurate as of the time of initial ROCm release. For the most up-to-date information, see the latest version of this information at `User and AMD GPU Driver support matrix <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/user-kernel-space-compat-matrix.html>`_.
