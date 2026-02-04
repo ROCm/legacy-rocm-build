@@ -165,6 +165,7 @@ Flang
 FlashAttention
 FlashInfer’s
 FlashInfer
+flashinfer
 FluxBenchmark
 Fortran
 Fuyu
