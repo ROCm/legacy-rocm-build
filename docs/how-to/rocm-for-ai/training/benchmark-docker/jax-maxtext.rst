@@ -319,17 +319,21 @@ benchmark results:
 
             .. tab-set::
 
+               {% if model.multinode_config.gfx950 %}
                .. tab-item:: MI355X and MI350X (gfx950)
 
                   .. code-block:: bash
 
                      sbatch -N 4 jax_maxtext_multinode_benchmark.sh {{ model.multinode_config.gfx950 }}
+               {% endif %}
 
+               {% if model.multinode_config.gfx942 %}
                .. tab-item:: MI325X and MI300X (gfx942)
 
                   .. code-block:: bash
 
                      sbatch -N 4 jax_maxtext_multinode_benchmark.sh {{ model.multinode_config.gfx942 }}
+               {% endif %}
 
          {% else %}
             .. rubric:: Multi-node training
