@@ -224,6 +224,18 @@ subtrees:
     title: ROCm libraries
   - file: reference/rocm-tools.md
     title: ROCm tools, compilers, and runtimes
+  - file: reference/glossary.rst
+    title: ROCm glossary
+    subtrees:
+    - entries:
+      - file: reference/glossary/device-hardware.rst
+        title: Device hardware
+      - file: reference/glossary/device-software.rst
+        title: Device software
+      - file: reference/glossary/host-software.rst
+        title: Host software
+      - file: reference/glossary/performance.rst
+        title: Performance
   - file: reference/gpu-arch-specs.rst
   - file: reference/gpu-atomics-operation.rst
   - file: reference/env-variables.rst
