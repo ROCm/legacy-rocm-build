@@ -22,12 +22,3 @@ The glossary is organized into four sections:
 * :doc:`glossary/host-software` — Development tools (HIP, compilers, libraries,
   profilers)
 * :doc:`glossary/performance` — Performance metrics and optimization concepts
-
-.. toctree::
-   :maxdepth: 1
-   :hidden:
-
-   device-hardware
-   device-software
-   host-software
-   performance

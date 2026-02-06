@@ -13,7 +13,7 @@ This section provides brief definitions of hardware components and architectural
 features of AMD GPUs.
 
 .. glossary::
-   :sorted:
+    :sorted:
 
     AMD device architecture
         AMD's device architecture is based on unified, programmable compute
