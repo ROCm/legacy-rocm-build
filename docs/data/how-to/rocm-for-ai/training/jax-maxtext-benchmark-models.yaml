@@ -49,13 +49,13 @@ model_groups:
         model_repo: Llama-3.1-70B
         precision: bf16
         doc_options: ["single-node"]
-      - model: Llama 3.1 405B
+      - model: Llama 3.1 405B (multi-node)
         mad_tag: jax_maxtext_train_llama-3.1-405b
         model_repo: Llama-3.1-405B
         precision: bf16
         multinode_config:
           gfx950: env_scripts/gfx950_llama3_405b.yml
-        doc_options: ["single-node", "multi-node"]
+        doc_options: ["multi-node"]
       - model: Llama 3.3 70B
         mad_tag: jax_maxtext_train_llama-3.3-70b
         model_repo: Llama-3.3-70B
