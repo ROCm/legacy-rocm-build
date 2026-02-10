@@ -44,20 +44,42 @@ jobs:
         packageManager: ${{ job.packageManager }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/preamble.yml
     - task: Bash@3
-      displayName: Clone catch2 ${{ parameters.catch2Version }}
+      displayName: Clone catch2 ${{ parameters.catch2Version }} and apply patch
       inputs:
         targetType: inline
-        script: git clone https://github.com/catchorg/Catch2.git -b ${{ parameters.catch2Version }}
-        workingDirectory: $(Agent.BuildDirectory)
+        script: |
+          git clone https://github.com/catchorg/Catch2.git -b ${{ parameters.catch2Version }}
+          cd Catch2
+          cat <<'EOF' > catch2_env_patch.diff
+index 9bd7e01d..c967bf82 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,5 +1,9 @@
+ cmake_minimum_required(VERSION 3.10)
+ 
++execute_process(COMMAND ${CMAKE_COMMAND} -E environment
++                OUTPUT_VARIABLE ENV_OUTPUT)
++message(STATUS "Environment variables:\n${ENV_OUTPUT}")
++
+# detect if Catch is being bundled,
+# disable testsuite in that case
+ if(NOT DEFINED PROJECT_NAME)
+ EOF
+
+      patch -p1 < catch2_env_patch.diff
+  workingDirectory: $(Agent.BuildDirectory)
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
         os: ${{ job.os }}
         cmakeBuildDir: $(Agent.BuildDirectory)/Catch2/build
         cmakeSourceDir: $(Agent.BuildDirectory)/Catch2
-        useAmdclang: false
+        useAmdclang: true
         extraBuildFlags: >-
+          -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
           -DCMAKE_BUILD_TYPE=Release
           -GNinja
+          --trace-expand
+          --debug-output
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/artifact-upload.yml
       parameters:
         os: ${{ job.os }}
