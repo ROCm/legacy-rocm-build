@@ -144,6 +144,7 @@ jobs:
             downstreamAggregateNames: ${{ parameters.downstreamAggregateNames }}
     - template: ${{ variables.CI_TEMPLATE_PATH }}/steps/build-cmake.yml
       parameters:
+        consolidateBuildAndInstall: true 
         os: ${{ job.os }}
         extraBuildFlags: >-
           -DCMAKE_CXX_COMPILER=$(Agent.BuildDirectory)/rocm/bin/hipcc
