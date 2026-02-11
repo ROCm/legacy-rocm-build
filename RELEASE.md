@@ -1692,7 +1692,7 @@ support for your specific setup.
 
 The following are known issues identified in ROCm 7.11.0.
 
-### DistilBERT model performance regression on Instinct MI350 Series
+### DistilBERT model performance regression on AMD Instinct MI350 Series
 
 The [DistilBERT](https://huggingface.co/distilbert/distilbert-base-uncased)
 base model experiences reduced GPU kernel performance on Instinct MI350 Series
@@ -1708,9 +1708,9 @@ included in a future release.
 
 ### Clang illegal instruction error on Radeon GPUs
 
-Using Clang with the `-O0` optimization level on certain supported Radeon PRO
+Using Clang with the `-O0` optimization level on certain supported AMD Radeon PRO
 and Radeon GPUs might trigger an illegal instructions detected error. This
-failure typically occurs in code paths using `ockl_wfred_*` functions, which
+failure typically occurs in code paths that use `ockl_wfred_*` functions, which
 handle wavefront operations and synchronization. Projects like llama.cpp are
 known to be affected. As a workaround, use `-Og` optimization level instead of
 `-O0` for debug builds:
@@ -1741,16 +1741,16 @@ compilation errors and other issues: Llama 3.1 8B, Llama 3.1 70B, Llama
 errors, and segmentation faults related to the HIP runtime during testing with
 the TheRock build system. This will be fixed in a future release.
 
-### PyTorch unit tests freeze on Windows
+### PyTorch unit tests freeze on Microsoft Windows
 
 The `test_cublas_config_nondeterministic_alert_cuda` and `test_graph_error`
 PyTorch tests fail and hang indefinitely on Windows. This issue will be fixed
 in a future release.
 
-### hipRTC rocWMMA unknown type name compilation errors
+### HIPRTC rocWMMA unknown type name compilation errors
 
-Any hipRTC program using the `rocwmma.hpp` header will fail to compile and
-produce a number of "unknown type name" errors. This issue will be fixed in
+Any HIPRTC program using the `rocwmma.hpp` header will fail to compile and
+produce "unknown type name" errors. This issue will be fixed in
 a future release. As a workaround, add the following code before including the
 `rocwmma.hpp` header:
 
@@ -1780,7 +1780,7 @@ in a future release.
 MIOpen unit tests fail to find the `rocrand_xorwow.h` header during runtime
 compilation of certain kernels. This occurs because ROCm can be installed in
 various locations and the include path is not automatically resolved. There's
-minimal impact to users. This issue will be fixed in a future release.
+minimal impact on users. This issue will be fixed in a future release.
 
 ### CRIU checkpoint fails on Instinct MI300X with Debian 13
 
@@ -1793,7 +1793,7 @@ experience CRIU failures. This issue will be fixed in a future release.
 Multi-node RCCL tests are experiencing intermittent segmentation faults on
 Instinct GPUs with ROCm 7.11.0. This issue will be fixed in a future release.
 
-### hipify-clang errors with CUDA 12.x
+### hipify-clang errors with NVIDIA CUDA 12.x
 
 Users running `hipify-clang` with CUDA 12.x or later will encounter errors when
 processing CUDA source files:
@@ -1809,9 +1809,9 @@ hipify-clang --cuda-gpu-arch=sm_70...
 ```
 This issue will be fixed in a future release.
 
-### ROCm examples HIP Graph tutorial code build fails
+### HIP Graph API tutorial code build fails
 
-The HIP Graph tutorial code fails to build on Linux due to a missing `-fPIC`
+The HIP Graph API tutorial code fails to build on Linux due to a missing `-fPIC`
 compiler flag. To resolve this issue, enable position-independent code in the
 main `CMakeLists.txt` by adding `set(CMAKE_POSITION_INDEPENDENT_CODE ON)` as in the
 fix in [ROCm/rocm-examples PR
