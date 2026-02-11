@@ -196,7 +196,7 @@ showcasing AI-powered image generation.
 
 .. selector:: Operating system
    :key: os
-   :show-when: fam=instinct
+   :show-when: fam=instinct gpu=v710 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
 
    .. selector-option:: Linux
       :value: linux
@@ -204,7 +204,7 @@ showcasing AI-powered image generation.
 
 .. selector:: Operating system
    :key: os
-   :show-when: fam=radeon-pro fam=radeon fam=ryzen
+   :show-when: fam=ryzen gpu=ai-r9700 gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=w6800 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
 
    .. selector-option:: Linux
       :value: linux

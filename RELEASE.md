@@ -573,7 +573,7 @@ setup before installation.
         <p>Oracle Linux</p>
       </th>
       <td>
-        <p>10.1</p>
+        <p>10</p>
       </td>
       <td>
         <p>UEK 8.1</p>
@@ -581,7 +581,7 @@ setup before installation.
     </tr>
     <tr>
       <td>
-        <p>9.6</p>
+        <p>9</p>
       </td>
       <td>
         <p>UEK 8</p>
@@ -589,7 +589,7 @@ setup before installation.
     </tr>
     <tr>
       <td>
-        <p>8.10</p>
+        <p>8</p>
       </td>
       <td>
         <p>UEK 7</p>
@@ -1789,10 +1789,11 @@ ROCm Bandwidth Test (RBT) test cases for Checkpoint/Restore In Userspace (CRIU)
 fail on Instinct MI300X GPUs running Debian 13. Debian 13 users might
 experience CRIU failures. This issue will be fixed in a future release.
 
-### Multi-node RCCL test segmentation faults
+### Multi-node RCCL tests crash intermittently
 
-Multi-node RCCL tests are experiencing intermittent segmentation faults on
-Instinct GPUs with ROCm 7.11.0. This issue will be fixed in a future release.
+Multi-node RCCL tests (such as `alltoall_perf`, `allgather_perf`) are
+experiencing intermittent crashes on Instinct MI355X GPUs with AINIC NICs. This
+issue will be fixed in a future release.
 
 ### hipify-clang errors with NVIDIA CUDA 12.x
 
