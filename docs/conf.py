@@ -153,7 +153,7 @@ html_theme_options = {
         "GitHub": "https://github.com/ROCm/ROCm",
         "Community": "https://github.com/ROCm/ROCm/discussions",
         "Blogs": "https://rocm.blogs.amd.com/",
-        "Instinct™ Docs": "https://instinct.docs.amd.com/",
+        "System and Infra Docs": "https://instinct.docs.amd.com/",
         "Support": "https://github.com/ROCm/ROCm/issues/new/choose",
     },
     "link_main_doc": False,

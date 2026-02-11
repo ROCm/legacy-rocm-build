@@ -1700,10 +1700,10 @@ GPUs (gfx950). This issue is under investigation.
 
 ### ROCgdb GPU core dump limitation
 
-ROCgdb currently has a limitation that preventing proper GPU core dump
-generation. This blocks effective root‑cause analysis of GPU faults.
+ROCgdb has a limitation that prevents proper GPU core dumps from being
+generated. This blocks effective root‑cause analysis of GPU faults.
 [ROCm/rocm-systems PR #2851](https://github.com/ROCm/rocm-systems/pull/2851)
-introduces a fix to the ROCr runtime's core dump generation and will be
+introduces a fix to the ROCr Runtime's core dump generation and will be
 included in a future release.
 
 ### Clang illegal instruction error on Radeon GPUs
@@ -1724,19 +1724,16 @@ known to be affected. As a workaround, use `-Og` optimization level instead of
   -DCMAKE_CXX_FLAGS_DEBUG="-Og -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd"
   ```
 
+### llama.cpp runtime failures on Instinct MI350 Series
+
+llama.cpp builds successfully but might fail at runtime with the error "HIP
+kernel mul_mat_q has no device code". This issue is under investigation.
+
 ### PyTorch model training validation issues
 
 The following models failed validation on PyTorch for ROCm 7.11.0 due to
 compilation errors and other issues: Llama 3.1 8B, Llama 3.1 70B, Llama
 2 70B-chat-hf, and DeepSpeed Megatron-LM GPT2.
-
-### llama.cpp runtime failures on Instinct MI350 Series
-
-llama.cpp builds successfully but fails at runtime with the error "HIP kernel
-mul_mat_q has no device code" on Instinct MI350 Series GPUs (gfx950). As a
-workaround, ensure gfx950 device code is included when building llama.cpp by
-specifying the appropriate GPU architecture flags. This issue is under
-investigation.
 
 ### Apex fails to build using TheRock
 
