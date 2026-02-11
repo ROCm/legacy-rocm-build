@@ -1,5 +1,5 @@
 docker:
-  pull_tag: rocm/pytorch-xdit:v26.1
+  pull_tag: rocm/pytorch-xdit:v26.2
   docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
   ROCm: 7.11.0
   whats_new:
