@@ -573,7 +573,7 @@ setup before installation.
         <p>Oracle Linux</p>
       </th>
       <td>
-        <p>10.1</p>
+        <p>10</p>
       </td>
       <td>
         <p>UEK 8.1</p>
@@ -581,7 +581,7 @@ setup before installation.
     </tr>
     <tr>
       <td>
-        <p>9.6</p>
+        <p>9</p>
       </td>
       <td>
         <p>UEK 8</p>
@@ -589,7 +589,7 @@ setup before installation.
     </tr>
     <tr>
       <td>
-        <p>8.10</p>
+        <p>8</p>
       </td>
       <td>
         <p>UEK 7</p>
