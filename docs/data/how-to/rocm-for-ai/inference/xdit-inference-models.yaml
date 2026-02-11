@@ -1,14 +1,13 @@
 docker:
-  pull_tag: rocm/pytorch-xdit:v25.13
-  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v25.13/images/sha256-81954713070d67bde08595e03f62110c8a3dd66a9ae17a77d611e01f83f0f4ef
+  pull_tag: rocm/pytorch-xdit:v26.1
+  docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
   ROCm: 7.11.0
   whats_new:
-    - "Flux.1 Kontext support"
-    - "Flux.2 Dev support"
-    - "Flux FP8 GEMM support"
-    - "Hybrid FP8 attention support for Wan models"
+    - "HunyuanVideo 1.5 support"
+    - "Z-Image Turbo support"
+    - "Wan model sharding"
   components:
-    TheRock: 
+    TheRock:
       version: 1728a81
       url: https://github.com/ROCm/TheRock
     rccl:
@@ -39,10 +38,10 @@ docker:
       version: de14bec0
       url: https://github.com/ROCm/aiter
     diffusers:
-      version: a1f36ee3e
+      version: 6708f5
       url: https://github.com/huggingface/diffusers
     xfuser:
-      version: adf2681
+      version: 0a3d7a
       url: https://github.com/xdit-project/xDiT
     yunchang:
       version: 2c9b712
@@ -58,6 +57,49 @@ docker:
           github: https://github.com/Tencent-Hunyuan/HunyuanVideo
           mad_tag: pyt_xdit_hunyuanvideo
           js_tag: hunyuan_tag
+          benchmark_command:
+            - cd /app/Hunyuanvideo
+            - mkdir results
+            - 'torchrun --nproc_per_node=8 run.py \'
+            - '--model {model_repo} \'
+            - '--prompt "In the large cage, two puppies were wagging their tails at each other." \'
+            - '--batch_size 1 \'
+            - '--height 720 --width 1280 \'
+            - '--seed 1168860793 \'
+            - '--num_frames 129 \'
+            - '--num_inference_steps 50 \'
+            - '--warmup_steps 1 \'
+            - '--n_repeats 1 \'
+            - '--sleep_dur 10 \'
+            - '--ulysses_degree 8 \'
+            - '--enable_tiling --enable_slicing \'
+            - '--guidance_scale 6.0 \'
+            - '--use_torch_compile \'
+            - '--attention_backend aiter \'
+            - '--benchmark_output_directory results'
+        - model: Hunyuan Video 1.5
+          model_repo: hunyuanvideo-community/HunyuanVideo-1.5-Diffusers-720p_t2v
+          url: https://huggingface.co/hunyuanvideo-community/HunyuanVideo-1.5-Diffusers-720p_t2v
+          github: https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5
+          mad_tag: pyt_xdit_hunyuanvideo_1_5
+          js_tag: hunyuan_1_5_tag
+          benchmark_command:
+            - cd /app/Hunyuanvideo_1_5
+            - mkdir results
+            - 'torchrun --nproc_per_node=8 /app/Hunyuanvideo_1_5/run.py \'
+            - '--model {model_repo} \'
+            - '--prompt "In the large cage, two puppies were wagging their tails at each other." \'
+            - '--task t2v \'
+            - '--height 720 --width 1280 \'
+            - '--seed 1168860793 \'
+            - '--num_frames 129 \'
+            - '--num_inference_steps 50 \'
+            - '--num_repetitions 1 \'
+            - '--ulysses_degree 8 \'
+            - '--enable_tiling --enable_slicing \'
+            - '--use_torch_compile \'
+            - '--attention_backend aiter \'
+            - '--benchmark_output_directory results'
     - group: Wan-AI
       js_tag: wan
       models:
@@ -67,12 +109,48 @@ docker:
           github: https://github.com/Wan-Video/Wan2.1
           mad_tag: pyt_xdit_wan_2_1
           js_tag: wan_21_tag
+          benchmark_command:
+            - cd /app/Wan
+            - mkdir results
+            - 'torchrun --nproc_per_node=8 /app/Wan/run.py \'
+            - '--model {model_repo} \'
+            - '--prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline''s intricate details and the refreshing atmosphere of the seaside." \'
+            - '--task i2v \'
+            - '--height 720 \'
+            - '--width 1280 \'
+            - '--img_file_path /app/Wan/i2v_input.JPG \'
+            - '--num_frames 81 \'
+            - '--ulysses_degree 8 \'
+            - '--seed 42 \'
+            - '--num_repetitions 1 \'
+            - '--num_inference_steps 40 \'
+            - '--use_torch_compile \'
+            - '--attention_backend aiter \'
+            - '--benchmark_output_directory results'
         - model: Wan2.2
           model_repo: Wan-AI/Wan2.2-I2V-A14B-Diffusers
           url: https://huggingface.co/Wan-AI/Wan2.2-I2V-A14B-Diffusers
           github: https://github.com/Wan-Video/Wan2.2
           mad_tag: pyt_xdit_wan_2_2
           js_tag: wan_22_tag
+          benchmark_command:
+            - cd /app/Wan
+            - mkdir results
+            - 'torchrun --nproc_per_node=8 /app/Wan/run.py \'
+            - '--model {model_repo} \'
+            - '--prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline''s intricate details and the refreshing atmosphere of the seaside." \'
+            - '--task i2v \'
+            - '--height 720 \'
+            - '--width 1280 \'
+            - '--img_file_path /app/Wan/i2v_input.JPG \'
+            - '--num_frames 81 \'
+            - '--ulysses_degree 8 \'
+            - '--seed 42 \'
+            - '--num_repetitions 1 \'
+            - '--num_inference_steps 40 \'
+            - '--use_torch_compile \'
+            - '--attention_backend aiter \'
+            - '--benchmark_output_directory results'
     - group: FLUX
       js_tag: flux
       models:
@@ -82,18 +160,79 @@ docker:
           github: https://github.com/black-forest-labs/flux
           mad_tag: pyt_xdit_flux
           js_tag: flux_1_tag
+          benchmark_command:
+            - cd /app/Flux
+            - mkdir results
+            - 'torchrun --nproc_per_node=8 /app/Flux/run.py \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "A small cat" \'
+            - '--height 1024 \'
+            - '--width 1024 \'
+            - '--num_inference_steps 25 \'
+            - '--max_sequence_length 256 \'
+            - '--warmup_steps 5 \'
+            - '--no_use_resolution_binning \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--guidance_scale 0.0 \'
+            - '--num_repetitions 50 \'
+            - '--attention_backend aiter \'
+            - '--benchmark_output_directory results'
         - model: FLUX.1 Kontext
           model_repo: black-forest-labs/FLUX.1-Kontext-dev
           url: https://huggingface.co/black-forest-labs/FLUX.1-Kontext-dev
           github: https://github.com/black-forest-labs/flux
           mad_tag: pyt_xdit_flux_kontext
           js_tag: flux_1_kontext_tag
+          benchmark_command:
+            - cd /app/Flux
+            - mkdir results
+            - 'torchrun --nproc_per_node=8 /app/Flux/run_usp.py \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "Add a cool hat to the cat" \'
+            - '--height 1024 \'
+            - '--width 1024 \'
+            - '--num_inference_steps 30 \'
+            - '--max_sequence_length 512 \'
+            - '--warmup_steps 5 \'
+            - '--no_use_resolution_binning \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--img_file_path /app/Flux/cat.png \'
+            - '--model_type flux_kontext \'
+            - '--guidance_scale 2.5 \'
+            - '--num_repetitions 25 \'
+            - '--attention_backend aiter \'
+            - '--benchmark_output_directory results'
         - model: FLUX.2
           model_repo: black-forest-labs/FLUX.2-dev
           url: https://huggingface.co/black-forest-labs/FLUX.2-dev
           github: https://github.com/black-forest-labs/flux2
           mad_tag: pyt_xdit_flux_2
           js_tag: flux_2_tag
+          benchmark_command:
+            - cd /app/Flux
+            - mkdir results
+            - 'torchrun --nproc_per_node=8 /app/Flux/run_usp.py \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "Add a cool hat to the cat" \'
+            - '--height 1024 \'
+            - '--width 1024 \'
+            - '--num_inference_steps 50 \'
+            - '--max_sequence_length 512 \'
+            - '--warmup_steps 5 \'
+            - '--no_use_resolution_binning \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--img_file_paths /app/Flux/cat.png \'
+            - '--model_type flux2 \'
+            - '--guidance_scale 4.0 \'
+            - '--num_repetitions 25 \'
+            - '--attention_backend aiter \'
+            - '--benchmark_output_directory results'
     - group: StableDiffusion
       js_tag: stablediffusion
       models:
@@ -103,3 +242,42 @@ docker:
           github: https://github.com/Stability-AI/sd3.5
           mad_tag: pyt_xdit_sd_3_5
           js_tag: stable_diffusion_3_5_large_tag
+          benchmark_command:
+            - cd /app/StableDiffusion3.5
+            - mkdir results
+            - 'torchrun --nproc_per_node=8 /app/StableDiffusion3.5/run.py \'
+            - '--model {model_repo} \'
+            - '--prompt "A capybara holding a sign that reads Hello World" \'
+            - '--num_repetitions 50 \'
+            - '--num_inference_steps 28 \'
+            - '--pipefusion_parallel_degree 4 \'
+            - '--use_cfg_parallel \'
+            - '--use_torch_compile \'
+            - '--dtype torch.float16 \'
+            - '--attention_backend aiter \'
+            - '--benchmark_output_directory results'
+    - group: Z-Image
+      js_tag: z_image
+      models:
+        - model: Z-Image Turbo
+          model_repo: Tongyi-MAI/Z-Image-Turbo
+          url: https://huggingface.co/Tongyi-MAI/Z-Image-Turbo
+          github: https://github.com/Tongyi-MAI/Z-Image
+          mad_tag: pyt_xdit_z_image_turbo
+          js_tag: z_image_turbo_tag
+          benchmark_command:
+            - cd /app/Z-Image
+            - mkdir results
+            - 'torchrun --nproc_per_node=2 /app/Z-Image/run.py \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "A crowded beach" \'
+            - '--height 1088 \'
+            - '--width 1920 \'
+            - '--num_inference_steps 9 \'
+            - '--ulysses_degree 2 \'
+            - '--use_torch_compile \'
+            - '--guidance_scale 0.0 \'
+            - '--num_repetitions 50 \'
+            - '--attention_backend aiter \'
+            - '--benchmark_output_directory results'
