@@ -3,9 +3,9 @@ docker:
   docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
   ROCm: 7.11.0
   whats_new:
-    - "HunyuanVideo 1.5 support"
-    - "Z-Image Turbo support"
-    - "Wan model sharding"
+    - "LTX-2 support"
+    - "Flux.2 Klein support"
+    - "Aiter update to support opt_groupnorm, dynamic scaling in FP8 and Sage attention v1"
   components:
     TheRock: 
       version: 1728a81
