@@ -296,9 +296,7 @@ Run inference
                   | map('trim')
                   | join('\n               ') }}
 
-            The generated video will be stored under the results directory.
-
-            {% if model.model == "FLUX.1" %}You may also use ``run_usp.py`` which implements USP without modifying the default diffusers pipeline. {% endif %}
+            The generated content and timing information will be stored under the results directory.
 
       {% endfor %}
     {% endfor %}
