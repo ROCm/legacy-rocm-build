@@ -861,7 +861,7 @@ distributes.
         <p>
           <strong>AMD GPU Driver (amdgpu)</strong><br>
           <a
-            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.10.0/documentation/release-notes.html"
+            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html"
             target="_blank"
           >31.10.0</a><br>
           <a
@@ -968,7 +968,7 @@ distributes.
         <p>
           <strong>AMD GPU Driver (amdgpu)</strong><br>
           <a
-            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.10.0/documentation/release-notes.html"
+            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html"
             target="_blank"
           >31.10.0</a><br>
           <a
@@ -1082,7 +1082,7 @@ distributes.
         <p>
           <strong>AMD GPU Driver (amdgpu)</strong><br>
           <a
-            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.10.0/documentation/release-notes.html"
+            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html"
             target="_blank"
           >31.10.0</a><br>
           <a
@@ -1692,7 +1692,7 @@ support for your specific setup.
 
 The following are known issues identified in ROCm 7.11.0.
 
-### DistilBERT model performance regression on Instinct MI350 Series
+### DistilBERT model performance regression on AMD Instinct MI350 Series
 
 The [DistilBERT](https://huggingface.co/distilbert/distilbert-base-uncased)
 base model experiences reduced GPU kernel performance on Instinct MI350 Series
@@ -1700,17 +1700,17 @@ GPUs (gfx950). This issue is under investigation.
 
 ### ROCgdb GPU core dump limitation
 
-ROCgdb currently has a limitation that preventing proper GPU core dump
-generation. This blocks effective root‑cause analysis of GPU faults.
+ROCgdb has a limitation that prevents proper GPU core dumps from being
+generated. This blocks effective root‑cause analysis of GPU faults.
 [ROCm/rocm-systems PR #2851](https://github.com/ROCm/rocm-systems/pull/2851)
-introduces a fix to the ROCr runtime's core dump generation and will be
+introduces a fix to the ROCr Runtime's core dump generation and will be
 included in a future release.
 
 ### Clang illegal instruction error on Radeon GPUs
 
-Using Clang with the `-O0` optimization level on certain supported Radeon PRO
+Using Clang with the `-O0` optimization level on certain supported AMD Radeon PRO
 and Radeon GPUs might trigger an illegal instructions detected error. This
-failure typically occurs in code paths using `ockl_wfred_*` functions, which
+failure typically occurs in code paths that use `ockl_wfred_*` functions, which
 handle wavefront operations and synchronization. Projects like llama.cpp are
 known to be affected. As a workaround, use `-Og` optimization level instead of
 `-O0` for debug builds:
@@ -1724,11 +1724,16 @@ known to be affected. As a workaround, use `-Og` optimization level instead of
   -DCMAKE_CXX_FLAGS_DEBUG="-Og -g -Xclang -gcodeview -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd"
   ```
 
+### llama.cpp runtime failures on Instinct MI350 Series
+
+llama.cpp builds successfully but might fail at runtime with the error "HIP
+kernel mul_mat_q has no device code". This issue is under investigation.
+
 ### PyTorch model training validation issues
 
 The following models failed validation on PyTorch for ROCm 7.11.0 due to
-compilation errors and other issues: Llama 3.1 8B, Llama 3.1 70B, and DeepSpeed
-Megatron-LM GPT2.
+compilation errors and other issues: Llama 3.1 8B, Llama 3.1 70B, Llama
+2 70B-chat-hf, and DeepSpeed Megatron-LM GPT2.
 
 ### Apex fails to build using TheRock
 
@@ -1736,16 +1741,16 @@ Megatron-LM GPT2.
 errors, and segmentation faults related to the HIP runtime during testing with
 the TheRock build system. This will be fixed in a future release.
 
-### PyTorch unit tests freeze on Windows
+### PyTorch unit tests freeze on Microsoft Windows
 
 The `test_cublas_config_nondeterministic_alert_cuda` and `test_graph_error`
 PyTorch tests fail and hang indefinitely on Windows. This issue will be fixed
 in a future release.
 
-### hipRTC rocWMMA unknown type name compilation errors
+### HIPRTC rocWMMA unknown type name compilation errors
 
-Any hipRTC program using the `rocwmma.hpp` header will fail to compile and
-produce a number of "unknown type name" errors. This issue will be fixed in
+Any HIPRTC program using the `rocwmma.hpp` header will fail to compile and
+produce "unknown type name" errors. This issue will be fixed in
 a future release. As a workaround, add the following code before including the
 `rocwmma.hpp` header:
 
@@ -1770,12 +1775,13 @@ The `rocprim.device_adjacent_find` unit test on Windows on Radeon RX 9060 XT
 LP, 9060 XT, and 9060 GPUs might hang intermittently. This issue will be fixed
 in a future release.
 
-### MIOpen unit test header include failures
+### MIOpen unit test runtime compilation failures
 
 MIOpen unit tests fail to find the `rocrand_xorwow.h` header during runtime
 compilation of certain kernels. This occurs because ROCm can be installed in
-various locations and the include path is not automatically resolved. There's
-minimal impact to users. This issue will be fixed in a future release.
+various locations and the include path is not automatically resolved. Impact is
+minimal as the affected kernel (softmax attention) is not used in production
+workloads. This issue will be fixed in a future release.
 
 ### CRIU checkpoint fails on Instinct MI300X with Debian 13
 
@@ -1788,7 +1794,7 @@ experience CRIU failures. This issue will be fixed in a future release.
 Multi-node RCCL tests are experiencing intermittent segmentation faults on
 Instinct GPUs with ROCm 7.11.0. This issue will be fixed in a future release.
 
-### hipify-clang errors with CUDA 12.x
+### hipify-clang errors with NVIDIA CUDA 12.x
 
 Users running `hipify-clang` with CUDA 12.x or later will encounter errors when
 processing CUDA source files:
@@ -1804,16 +1810,9 @@ hipify-clang --cuda-gpu-arch=sm_70...
 ```
 This issue will be fixed in a future release.
 
-### HIP Graph memory leak tests report invalid reads
+### HIP Graph API tutorial code build fails
 
-The `memLeak_Phase2` HIP Graph test suite fails with `hipGraphInstantiate_leak`
-and `hipGraph_AddMemAlloc` tests reporting invalid memory reads. Impact is
-minimal as the issue only occurs during shutdown after the workload is
-complete. This issue will be fixed in a future release.
-
-### ROCm examples HIP Graph tutorial code build fails
-
-The HIP Graph tutorial code fails to build on Linux due to a missing `-fPIC`
+The HIP Graph API tutorial code fails to build on Linux due to a missing `-fPIC`
 compiler flag. To resolve this issue, enable position-independent code in the
 main `CMakeLists.txt` by adding `set(CMAKE_POSITION_INDEPENDENT_CODE ON)` as in the
 fix in [ROCm/rocm-examples PR

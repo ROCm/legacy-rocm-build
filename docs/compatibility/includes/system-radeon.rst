@@ -90,7 +90,7 @@
 
       .. matrix-cell::
 
-         `31.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.10.0/documentation/release-notes.html>`__
+         `31.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html>`__
 
          `30.20.1 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.20.1/documentation/release-notes.html>`__
 

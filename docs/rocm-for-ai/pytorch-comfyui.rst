@@ -200,7 +200,6 @@ showcasing AI-powered image generation.
 
    .. selector-option:: Linux
       :value: linux
-      :icon: fab fa-linux fa-lg
       :width: 12
 
 .. selector:: Operating system
@@ -209,12 +208,10 @@ showcasing AI-powered image generation.
 
    .. selector-option:: Linux
       :value: linux
-      :icon: fab fa-linux fa-lg
       :width: 6
 
    .. selector-option:: Windows
       :value: windows
-      :icon: fab fa-windows fa-lg
       :width: 6
       :disable-when: fam=instinct
 
