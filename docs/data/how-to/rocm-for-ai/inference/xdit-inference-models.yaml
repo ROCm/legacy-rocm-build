@@ -225,6 +225,29 @@ docker:
             - '--num_iterations 25 \'
             - '--attention_backend aiter \'
             - '--output_directory results'
+        - model: FLUX.2 Klein
+          model_repo: black-forest-labs/FLUX.2-klein-9B
+          url: https://huggingface.co/black-forest-labs/FLUX.2-klein-9B
+          github: https://github.com/black-forest-labs/flux2
+          mad_tag: pyt_xdit_flux_2_klein
+          js_tag: flux_2_klein_tag
+          benchmark_command:
+            - cd /app/Flux
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "A spectacular sunset over the ocean" \'
+            - '--height 2048 \'
+            - '--width 2048 \'
+            - '--num_inference_steps 4 \'
+            - '--warmup_calls 5 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--guidance_scale 1.0 \'
+            - '--num_iterations 25 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
     - group: StableDiffusion
       js_tag: stablediffusion
       models:
