@@ -295,3 +295,28 @@ docker:
             - '--num_iterations 50 \'
             - '--attention_backend aiter \'
             - '--output_directory results'
+    - group: LTX
+      js_tag: ltx
+      models:
+        - model: LTX-2
+          model_repo: Lightricks/LTX-2
+          url: https://huggingface.co/Lightricks/LTX-2
+          github: https://github.com/Lightricks/LTX-2
+          mad_tag: pyt_xdit_ltx2
+          js_tag: ltx2_tag
+          benchmark_command:
+            - cd /app/LTX-2
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "Cinematic action packed shot. The man says silently: \"We need to run.\". The camera zooms in on his mouth then immediately screams: \"NOW!\". The camera zooms back out, he turns around and bolts it." \'
+            - '--height 1088 \'
+            - '--width 1920 \'
+            - '--num_inference_steps 40 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--guidance_scale 4.0 \'
+            - '--num_iterations 1 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
