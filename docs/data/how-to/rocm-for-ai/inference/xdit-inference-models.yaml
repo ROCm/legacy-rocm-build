@@ -68,15 +68,14 @@ docker:
             - '--seed 1168860793 \'
             - '--num_frames 129 \'
             - '--num_inference_steps 50 \'
-            - '--warmup_steps 1 \'
-            - '--n_repeats 1 \'
-            - '--sleep_dur 10 \'
+            - '--warmup_calls 1 \'
+            - '--num_iterations 1 \'
             - '--ulysses_degree 8 \'
             - '--enable_tiling --enable_slicing \'
             - '--guidance_scale 6.0 \'
             - '--use_torch_compile \'
             - '--attention_backend aiter \'
-            - '--benchmark_output_directory results'
+            - '--output_directory results'
         - model: Hunyuan Video 1.5
           model_repo: hunyuanvideo-community/HunyuanVideo-1.5-Diffusers-720p_t2v
           url: https://huggingface.co/hunyuanvideo-community/HunyuanVideo-1.5-Diffusers-720p_t2v
@@ -94,12 +93,12 @@ docker:
             - '--seed 1168860793 \'
             - '--num_frames 129 \'
             - '--num_inference_steps 50 \'
-            - '--num_repetitions 1 \'
+            - '--num_iterations 1 \'
             - '--ulysses_degree 8 \'
             - '--enable_tiling --enable_slicing \'
             - '--use_torch_compile \'
             - '--attention_backend aiter \'
-            - '--benchmark_output_directory results'
+            - '--output_directory results'
     - group: Wan-AI
       js_tag: wan
       models:
@@ -115,18 +114,17 @@ docker:
             - 'xdit \'
             - '--model {model_repo} \'
             - '--prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline''s intricate details and the refreshing atmosphere of the seaside." \'
-            - '--task i2v \'
             - '--height 720 \'
             - '--width 1280 \'
-            - '--img_file_path /app/Wan/i2v_input.JPG \'
+            - '--input_images /app/data/wan_input.jpg \'
             - '--num_frames 81 \'
             - '--ulysses_degree 8 \'
             - '--seed 42 \'
-            - '--num_repetitions 1 \'
+            - '--num_iterations 1 \'
             - '--num_inference_steps 40 \'
             - '--use_torch_compile \'
             - '--attention_backend aiter \'
-            - '--benchmark_output_directory results'
+            - '--output_directory results'
         - model: Wan2.2
           model_repo: Wan-AI/Wan2.2-I2V-A14B-Diffusers
           url: https://huggingface.co/Wan-AI/Wan2.2-I2V-A14B-Diffusers
@@ -139,18 +137,17 @@ docker:
             - 'xdit \'
             - '--model {model_repo} \'
             - '--prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline''s intricate details and the refreshing atmosphere of the seaside." \'
-            - '--task i2v \'
             - '--height 720 \'
             - '--width 1280 \'
-            - '--img_file_path /app/Wan/i2v_input.JPG \'
+            - '--input_images /app/data/wan_input.jpg \'
             - '--num_frames 81 \'
             - '--ulysses_degree 8 \'
             - '--seed 42 \'
-            - '--num_repetitions 1 \'
+            - '--num_iterations 1 \'
             - '--num_inference_steps 40 \'
             - '--use_torch_compile \'
             - '--attention_backend aiter \'
-            - '--benchmark_output_directory results'
+            - '--output_directory results'
     - group: FLUX
       js_tag: flux
       models:
@@ -171,14 +168,13 @@ docker:
             - '--width 1024 \'
             - '--num_inference_steps 25 \'
             - '--max_sequence_length 256 \'
-            - '--warmup_steps 5 \'
-            - '--no_use_resolution_binning \'
+            - '--warmup_calls 5 \'
             - '--ulysses_degree 8 \'
             - '--use_torch_compile \'
             - '--guidance_scale 0.0 \'
-            - '--num_repetitions 50 \'
+            - '--num_iterations 50 \'
             - '--attention_backend aiter \'
-            - '--benchmark_output_directory results'
+            - '--output_directory results'
         - model: FLUX.1 Kontext
           model_repo: black-forest-labs/FLUX.1-Kontext-dev
           url: https://huggingface.co/black-forest-labs/FLUX.1-Kontext-dev
@@ -196,16 +192,14 @@ docker:
             - '--width 1024 \'
             - '--num_inference_steps 30 \'
             - '--max_sequence_length 512 \'
-            - '--warmup_steps 5 \'
-            - '--no_use_resolution_binning \'
+            - '--warmup_calls 5 \'
             - '--ulysses_degree 8 \'
             - '--use_torch_compile \'
-            - '--img_file_path /app/Flux/cat.png \'
-            - '--model_type flux_kontext \'
+            - '--input_images /app/data/flux_cat.png \'
             - '--guidance_scale 2.5 \'
-            - '--num_repetitions 25 \'
+            - '--num_iterations 25 \'
             - '--attention_backend aiter \'
-            - '--benchmark_output_directory results'
+            - '--output_directory results'
         - model: FLUX.2
           model_repo: black-forest-labs/FLUX.2-dev
           url: https://huggingface.co/black-forest-labs/FLUX.2-dev
@@ -223,16 +217,14 @@ docker:
             - '--width 1024 \'
             - '--num_inference_steps 50 \'
             - '--max_sequence_length 512 \'
-            - '--warmup_steps 5 \'
-            - '--no_use_resolution_binning \'
+            - '--warmup_calls 5 \'
             - '--ulysses_degree 8 \'
             - '--use_torch_compile \'
-            - '--img_file_paths /app/Flux/cat.png \'
-            - '--model_type flux2 \'
+            - '--input_images /app/data/flux_cat.png \'
             - '--guidance_scale 4.0 \'
-            - '--num_repetitions 25 \'
+            - '--num_iterations 25 \'
             - '--attention_backend aiter \'
-            - '--benchmark_output_directory results'
+            - '--output_directory results'
     - group: StableDiffusion
       js_tag: stablediffusion
       models:
@@ -248,14 +240,13 @@ docker:
             - 'xdit \'
             - '--model {model_repo} \'
             - '--prompt "A capybara holding a sign that reads Hello World" \'
-            - '--num_repetitions 50 \'
+            - '--num_iterations 50 \'
             - '--num_inference_steps 28 \'
             - '--pipefusion_parallel_degree 4 \'
             - '--use_cfg_parallel \'
             - '--use_torch_compile \'
-            - '--dtype torch.float16 \'
             - '--attention_backend aiter \'
-            - '--benchmark_output_directory results'
+            - '--output_directory results'
     - group: Z-Image
       js_tag: z_image
       models:
@@ -278,6 +269,6 @@ docker:
             - '--ulysses_degree 2 \'
             - '--use_torch_compile \'
             - '--guidance_scale 0.0 \'
-            - '--num_repetitions 50 \'
+            - '--num_iterations 50 \'
             - '--attention_backend aiter \'
-            - '--benchmark_output_directory results'
+            - '--output_directory results'
