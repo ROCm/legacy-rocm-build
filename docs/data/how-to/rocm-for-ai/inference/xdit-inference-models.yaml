@@ -60,7 +60,7 @@ docker:
           benchmark_command:
             - cd /app/Hunyuanvideo
             - mkdir results
-            - 'torchrun --nproc_per_node=8 run.py \'
+            - 'xdit \'
             - '--model {model_repo} \'
             - '--prompt "In the large cage, two puppies were wagging their tails at each other." \'
             - '--batch_size 1 \'
@@ -86,7 +86,7 @@ docker:
           benchmark_command:
             - cd /app/Hunyuanvideo_1_5
             - mkdir results
-            - 'torchrun --nproc_per_node=8 /app/Hunyuanvideo_1_5/run.py \'
+            - 'xdit \'
             - '--model {model_repo} \'
             - '--prompt "In the large cage, two puppies were wagging their tails at each other." \'
             - '--task t2v \'
@@ -112,7 +112,7 @@ docker:
           benchmark_command:
             - cd /app/Wan
             - mkdir results
-            - 'torchrun --nproc_per_node=8 /app/Wan/run.py \'
+            - 'xdit \'
             - '--model {model_repo} \'
             - '--prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline''s intricate details and the refreshing atmosphere of the seaside." \'
             - '--task i2v \'
@@ -136,7 +136,7 @@ docker:
           benchmark_command:
             - cd /app/Wan
             - mkdir results
-            - 'torchrun --nproc_per_node=8 /app/Wan/run.py \'
+            - 'xdit \'
             - '--model {model_repo} \'
             - '--prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline''s intricate details and the refreshing atmosphere of the seaside." \'
             - '--task i2v \'
@@ -163,7 +163,7 @@ docker:
           benchmark_command:
             - cd /app/Flux
             - mkdir results
-            - 'torchrun --nproc_per_node=8 /app/Flux/run.py \'
+            - 'xdit \'
             - '--model {model_repo} \'
             - '--seed 42 \'
             - '--prompt "A small cat" \'
@@ -188,7 +188,7 @@ docker:
           benchmark_command:
             - cd /app/Flux
             - mkdir results
-            - 'torchrun --nproc_per_node=8 /app/Flux/run_usp.py \'
+            - 'xdit \'
             - '--model {model_repo} \'
             - '--seed 42 \'
             - '--prompt "Add a cool hat to the cat" \'
@@ -215,7 +215,7 @@ docker:
           benchmark_command:
             - cd /app/Flux
             - mkdir results
-            - 'torchrun --nproc_per_node=8 /app/Flux/run_usp.py \'
+            - 'xdit \'
             - '--model {model_repo} \'
             - '--seed 42 \'
             - '--prompt "Add a cool hat to the cat" \'
@@ -245,7 +245,7 @@ docker:
           benchmark_command:
             - cd /app/StableDiffusion3.5
             - mkdir results
-            - 'torchrun --nproc_per_node=8 /app/StableDiffusion3.5/run.py \'
+            - 'xdit \'
             - '--model {model_repo} \'
             - '--prompt "A capybara holding a sign that reads Hello World" \'
             - '--num_repetitions 50 \'
@@ -268,7 +268,7 @@ docker:
           benchmark_command:
             - cd /app/Z-Image
             - mkdir results
-            - 'torchrun --nproc_per_node=2 /app/Z-Image/run.py \'
+            - 'xdit \'
             - '--model {model_repo} \'
             - '--seed 42 \'
             - '--prompt "A crowded beach" \'
