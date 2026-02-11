@@ -13,15 +13,10 @@ xDiT diffusion inference
 
    {% set docker = data.docker %}
 
-   The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers
-   a prebuilt, optimized environment based on `xDiT
-   <https://github.com/xdit-project/xDiT>`_ for benchmarking diffusion model
-   video and image generation on AMD Instinct MI355X, MI350X (gfx950), MI325X,
-   and MI300X (gfx942) GPUs.
-
-   The image runs a preview version of ROCm using the new `TheRock
-   <https://github.com/ROCm/TheRock>`__ build system and includes the following
-   components:
+   The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
+   benchmarking diffusion model video and image generation on gfx942 and gfx950 series (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X) GPUs.
+   The image runs ROCm **{{docker.ROCm}}** (preview) based on `TheRock <https://github.com/ROCm/TheRock>`_
+   and includes the following components:
 
    .. dropdown:: Software components - {{ docker.pull_tag.split('-')|last }}
 
@@ -104,22 +99,6 @@ vary by model -- select one to get started.
 
        {% endfor %}
    {% endfor %}
-
-Performance measurements
-========================
-
-To evaluate performance, the `Performance results with AMD ROCm software
-<https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8543b7e6d-item-9eda09e707-tab>`__
-page provides reference throughput and serving measurements for inferencing popular AI models.
-
-.. important::
-
-   The performance data presented in `Performance results with AMD ROCm
-   software
-   <https://www.amd.com/en/developer/resources/rocm-hub/dev-ai/performance-results.html#tabs-a8543b7e6d-item-9eda09e707-tab>`__
-   only reflects the latest version of this inference benchmarking environment.
-   The listed measurements should not be interpreted as the peak performance
-   achievable by AMD Instinct GPUs or ROCm software.
 
 System validation
 =================
@@ -300,7 +279,7 @@ Run inference
                       --tags {{model.mad_tag}} \
                       --keep-model-dir \
                       --live-output
-                     
+
             MAD launches a Docker container with the name
             ``container_ci-{{model.mad_tag}}``. The throughput and serving reports of the
             model are collected in the following paths: ``{{ model.mad_tag }}_throughput.csv``
@@ -311,152 +290,15 @@ Run inference
             To run the benchmarks for {{ model.model }}, use the following command:
 
             .. code-block:: shell
-            {% if model.model == "Hunyuan Video" %}
-               cd /app/Hunyuanvideo
-               mkdir results
 
-               torchrun --nproc_per_node=8 run.py \
-                  --model {{ model.model_repo }} \
-                  --prompt "In the large cage, two puppies were wagging their tails at each other." \
-                  --height 720 --width 1280 --num_frames 129 \
-                  --num_inference_steps 50 --warmup_steps 1 --n_repeats 1 \
-                  --ulysses_degree 8 \
-                  --enable_tiling --enable_slicing \
-                  --use_torch_compile \
-                  --bench_output results
+               {{ model.benchmark_command
+                  | map('replace', '{model_repo}', model.model_repo)
+                  | map('trim')
+                  | join('\n               ') }}
 
-            {% endif %}
-            {% if model.model == "Wan2.1" %}
-               cd /app/Wan
-               mkdir results
-
-               torchrun --nproc_per_node=8 /app/Wan/run.py \
-                  --task i2v \
-                  --height 720 \
-                  --width 1280 \
-                  --model {{ model.model_repo }} \
-                  --img_file_path /app/Wan/i2v_input.JPG \
-                  --ulysses_degree 8 \
-                  --seed 42 \
-                  --num_frames 81 \
-                  --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
-                  --num_repetitions 1 \
-                  --num_inference_steps 40 \
-                  --use_torch_compile
-
-            {% endif %}
-            {% if model.model == "Wan2.2" %}
-               cd /app/Wan
-               mkdir results
-
-               torchrun --nproc_per_node=8 /app/Wan/run.py \
-                  --task i2v \
-                  --height 720 \
-                  --width 1280 \
-                  --model {{ model.model_repo }} \
-                  --img_file_path /app/Wan/i2v_input.JPG \
-                  --ulysses_degree 8 \
-                  --seed 42 \
-                  --num_frames 81 \
-                  --prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline's intricate details and the refreshing atmosphere of the seaside." \
-                  --num_repetitions 1 \
-                  --num_inference_steps 40 \
-                  --use_torch_compile
-
-            {% endif %}
-
-            {% if model.model == "FLUX.1" %}
-               cd /app/Flux
-               mkdir results
-
-               torchrun --nproc_per_node=8 /app/Flux/run.py \
-                  --model {{ model.model_repo }} \
-                  --seed 42 \
-                  --prompt "A small cat" \
-                  --height 1024 \
-                  --width 1024 \
-                  --num_inference_steps 25 \
-                  --max_sequence_length 256 \
-                  --warmup_steps 5 \
-                  --no_use_resolution_binning \
-                  --ulysses_degree 8 \
-                  --use_torch_compile \
-                  --num_repetitions 50
-
-            {% endif %}
-
-            {% if model.model == "FLUX.1 Kontext" %}
-               cd /app/Flux
-               mkdir results
-
-               torchrun --nproc_per_node=8 /app/Flux/run_usp.py \
-                  --model {{ model.model_repo }} \
-                  --seed 42 \
-                  --prompt "Add a cool hat to the cat" \
-                  --height 1024 \
-                  --width 1024 \
-                  --num_inference_steps 30 \
-                  --max_sequence_length 512 \
-                  --warmup_steps 5 \
-                  --no_use_resolution_binning \
-                  --ulysses_degree 8 \
-                  --use_torch_compile \
-                  --img_file_path /app/Flux/cat.png \
-                  --model_type flux_kontext \
-                  --guidance_scale 2.5 \
-                  --num_repetitions 25
-
-            {% endif %}
-
-            {% if model.model == "FLUX.2" %}
-               cd /app/Flux
-               mkdir results
-
-               torchrun --nproc_per_node=8 /app/Flux/run_usp.py \
-                  --model {{ model.model_repo }} \
-                  --seed 42 \
-                  --prompt "Add a cool hat to the cat" \
-                  --height 1024 \
-                  --width 1024 \
-                  --num_inference_steps 50 \
-                  --max_sequence_length 512 \
-                  --warmup_steps 5 \
-                  --no_use_resolution_binning \
-                  --ulysses_degree 8 \
-                  --use_torch_compile \
-                  --img_file_paths /app/Flux/cat.png \
-                  --model_type flux2 \
-                  --guidance_scale 4.0 \
-                  --num_repetitions 25
-
-            {% endif %}
-
-            {% if model.model == "stable-diffusion-3.5-large" %}
-               cd /app/StableDiffusion3.5 
-               mkdir results
-
-               torchrun --nproc_per_node=8 /app/StableDiffusion3.5/run.py \
-                  --model {{ model.model_repo }} \
-                  --num_inference_steps 28 \
-                  --prompt "A capybara holding a sign that reads Hello World" \
-                  --use_torch_compile \
-                  --pipefusion_parallel_degree 4 \
-                  --use_cfg_parallel \
-                  --num_repetitions 50 \
-                  --dtype torch.float16 \
-                  --output_path results
-
-            {% endif %}
-
-            The generated video will be stored under the results directory. For the actual benchmark step runtimes, see {% if model.model == "Hunyuan Video" %}stdout.{% elif model.model in ["Wan2.1", "Wan2.2"] %}results/outputs/rank0_*.json{% elif model.model in ["FLUX.1", "FLUX.1 Kontext", "FLUX.2"] %}results/timing.json{% elif model.model == "stable-diffusion-3.5-large"%}benchmark_results.csv{% endif %}
+            The generated video will be stored under the results directory.
 
             {% if model.model == "FLUX.1" %}You may also use ``run_usp.py`` which implements USP without modifying the default diffusers pipeline. {% endif %}
 
       {% endfor %}
     {% endfor %}
-
-Previous versions
-=================
-
-See :doc:`benchmark-docker/previous-versions/xdit-history` to find documentation for previous releases
-of xDiT diffusion inference performance testing.
