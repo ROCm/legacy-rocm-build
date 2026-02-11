@@ -1809,13 +1809,6 @@ hipify-clang --cuda-gpu-arch=sm_70...
 ```
 This issue will be fixed in a future release.
 
-### HIP Graph memory leak tests report invalid reads
-
-The `memLeak_Phase2` HIP Graph test suite fails with `hipGraphInstantiate_leak`
-and `hipGraph_AddMemAlloc` tests reporting invalid memory reads. Impact is
-minimal as the issue only occurs during shutdown after the workload is
-complete. This issue will be fixed in a future release.
-
 ### ROCm examples HIP Graph tutorial code build fails
 
 The HIP Graph tutorial code fails to build on Linux due to a missing `-fPIC`
