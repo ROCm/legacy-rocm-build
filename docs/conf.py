@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 ROCM_VERSION = "7.11.0"
-GA_DATE = "2025-02-11"
+GA_DATE = "2026-02-11"
 
 DOCS_DIR = Path(__file__).parent.resolve()
 ROOT_DIR = DOCS_DIR.parent
