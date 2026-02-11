@@ -1775,12 +1775,13 @@ The `rocprim.device_adjacent_find` unit test on Windows on Radeon RX 9060 XT
 LP, 9060 XT, and 9060 GPUs might hang intermittently. This issue will be fixed
 in a future release.
 
-### MIOpen unit test header include failures
+### MIOpen unit test runtime compilation failures
 
 MIOpen unit tests fail to find the `rocrand_xorwow.h` header during runtime
 compilation of certain kernels. This occurs because ROCm can be installed in
-various locations and the include path is not automatically resolved. There's
-minimal impact on users. This issue will be fixed in a future release.
+various locations and the include path is not automatically resolved. Impact is
+minimal as the affected kernel (softmax attention) is not used in production
+workloads. This issue will be fixed in a future release.
 
 ### CRIU checkpoint fails on Instinct MI300X with Debian 13
 
