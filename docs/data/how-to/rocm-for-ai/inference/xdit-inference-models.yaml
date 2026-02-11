@@ -32,19 +32,19 @@ docker:
       version: a272dfa
       url: https://github.com/ROCm/triton
     accelerate:
-      version: b521400f
+      version: b7f2212
       url: https://github.com/huggingface/accelerate
     aiter:
-      version: de14bec0
+      version: 42ae0ad
       url: https://github.com/ROCm/aiter
     diffusers:
-      version: 6708f5
+      version: a3dcd9
       url: https://github.com/huggingface/diffusers
     xfuser:
-      version: 0a3d7a
+      version: 635fc29
       url: https://github.com/xdit-project/xDiT
     yunchang:
-      version: 2c9b712
+      version: 631bdfd
       url: https://github.com/feifeibear/long-context-attention
   supported_models:
     - group: Hunyuan Video
