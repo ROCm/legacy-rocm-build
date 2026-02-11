@@ -58,7 +58,6 @@ docker:
           mad_tag: pyt_xdit_hunyuanvideo
           js_tag: hunyuan_tag
           benchmark_command:
-            - cd /app/Hunyuanvideo
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
@@ -83,7 +82,6 @@ docker:
           mad_tag: pyt_xdit_hunyuanvideo_1_5
           js_tag: hunyuan_1_5_tag
           benchmark_command:
-            - cd /app/Hunyuanvideo_1_5
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
@@ -109,7 +107,6 @@ docker:
           mad_tag: pyt_xdit_wan_2_1
           js_tag: wan_21_tag
           benchmark_command:
-            - cd /app/Wan
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
@@ -132,7 +129,6 @@ docker:
           mad_tag: pyt_xdit_wan_2_2
           js_tag: wan_22_tag
           benchmark_command:
-            - cd /app/Wan
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
@@ -158,7 +154,6 @@ docker:
           mad_tag: pyt_xdit_flux
           js_tag: flux_1_tag
           benchmark_command:
-            - cd /app/Flux
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
@@ -182,7 +177,6 @@ docker:
           mad_tag: pyt_xdit_flux_kontext
           js_tag: flux_1_kontext_tag
           benchmark_command:
-            - cd /app/Flux
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
@@ -207,7 +201,6 @@ docker:
           mad_tag: pyt_xdit_flux_2
           js_tag: flux_2_tag
           benchmark_command:
-            - cd /app/Flux
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
@@ -232,7 +225,6 @@ docker:
           mad_tag: pyt_xdit_flux_2_klein
           js_tag: flux_2_klein_tag
           benchmark_command:
-            - cd /app/Flux
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
@@ -258,7 +250,6 @@ docker:
           mad_tag: pyt_xdit_sd_3_5
           js_tag: stable_diffusion_3_5_large_tag
           benchmark_command:
-            - cd /app/StableDiffusion3.5
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
@@ -280,7 +271,6 @@ docker:
           mad_tag: pyt_xdit_z_image_turbo
           js_tag: z_image_turbo_tag
           benchmark_command:
-            - cd /app/Z-Image
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
@@ -305,7 +295,6 @@ docker:
           mad_tag: pyt_xdit_ltx2
           js_tag: ltx2_tag
           benchmark_command:
-            - cd /app/LTX-2
             - mkdir results
             - 'xdit \'
             - '--model {model_repo} \'
