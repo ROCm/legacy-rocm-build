@@ -861,7 +861,7 @@ distributes.
         <p>
           <strong>AMD GPU Driver (amdgpu)</strong><br>
           <a
-            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.10.0/documentation/release-notes.html"
+            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html"
             target="_blank"
           >31.10.0</a><br>
           <a
@@ -968,7 +968,7 @@ distributes.
         <p>
           <strong>AMD GPU Driver (amdgpu)</strong><br>
           <a
-            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.10.0/documentation/release-notes.html"
+            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html"
             target="_blank"
           >31.10.0</a><br>
           <a
@@ -1082,7 +1082,7 @@ distributes.
         <p>
           <strong>AMD GPU Driver (amdgpu)</strong><br>
           <a
-            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.10.0/documentation/release-notes.html"
+            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html"
             target="_blank"
           >31.10.0</a><br>
           <a
@@ -1729,6 +1729,14 @@ known to be affected. As a workaround, use `-Og` optimization level instead of
 The following models failed validation on PyTorch for ROCm 7.11.0 due to
 compilation errors and other issues: Llama 3.1 8B, Llama 3.1 70B, Llama
 2 70B-chat-hf, and DeepSpeed Megatron-LM GPT2.
+
+### llama.cpp runtime failures on Instinct MI350 Series
+
+llama.cpp builds successfully but fails at runtime with the error "HIP kernel
+mul_mat_q has no device code" on Instinct MI350 Series GPUs (gfx950). As a
+workaround, ensure gfx950 device code is included when building llama.cpp by
+specifying the appropriate GPU architecture flags. This issue is under
+investigation.
 
 ### Apex fails to build using TheRock
 
