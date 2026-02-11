@@ -148,7 +148,7 @@ html_theme_options = {
     "flavor": "generic",
     "header_title": f"ROCm™ {ROCM_VERSION} Preview",
     "header_link": f"https://rocm.docs.amd.com/en/{ROCM_VERSION}-preview/index.html",
-    "version_list_link": f"https://rocm.docs.amd.com/en/{ROCM_VERSION}-preview/release/versions.html",
+    "version_list_link": f"https://rocm.docs.amd.com/en/7.11.0-preview/release/versions.html",
     "nav_secondary_items": {
         "GitHub": "https://github.com/ROCm/ROCm",
         "Community": "https://github.com/ROCm/ROCm/discussions",
