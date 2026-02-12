@@ -1729,6 +1729,19 @@ known to be affected. As a workaround, use `-Og` optimization level instead of
 llama.cpp builds successfully but might fail at runtime with the error "HIP
 kernel mul_mat_q has no device code". This issue is under investigation.
 
+### llama.cpp prompt processing performance regression
+
+llama.cpp experiences reduced prompt processing performance across multiple AMD
+GPU architectures. As a workaround, pass the compiler flag `-mllvm
+--amdgpu-unroll-threshold-local=600` to `hipcc` or `amdclang` when compiling
+llama.cpp:
+
+```bash
+hipcc -mllvm --amdgpu-unroll-threshold-local=600 ...
+```
+
+This issue will be fixed in a future release.
+
 ### PyTorch model training validation issues
 
 The following models failed validation on PyTorch for ROCm 7.11.0 due to
