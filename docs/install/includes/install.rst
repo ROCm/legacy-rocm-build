@@ -982,7 +982,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: os=windows
 
-      Download the tarball and extract the contents to ``C:\TheRock``.
+      Download the tarball and extract the contents to ``C:\TheRock\build``.
       Run the following commands in your command prompt:
 
       .. selected:: gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
