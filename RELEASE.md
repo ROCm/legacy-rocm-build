@@ -1654,7 +1654,7 @@ support for your specific setup.
 			</td>
         </tr>
 		<tr>
-			<td rowspan="2" style="vertical-align: middle;">
+			<td rowspan="3" style="vertical-align: middle;">
 				<p>Control and monitoring tools</p>
 			</td>
 			<td>
@@ -1662,6 +1662,14 @@ support for your specific setup.
 			</td>
 			<td style="vertical-align: middle;">
                 Linux only (Instinct, Radeon PRO, Radeon)
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a>hipinfo</a>
+			</td>
+			<td style="vertical-align: middle;">
+                Windows 
 			</td>
 		</tr>
 		<tr>
