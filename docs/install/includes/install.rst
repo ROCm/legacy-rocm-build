@@ -879,7 +879,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
       Create the installation directory in ``C:\TheRock\build``. For example,
       use the following command in your command prompt:
 
-      .. code-block:: cmd
+      .. code-block:: bat
 
          mkdir C:\TheRock\build
 
@@ -987,7 +987,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
       .. selected:: gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
 
-         .. code-block:: cmd
+         .. code-block:: bat
 
             cd C:\TheRock
             curl -o therock-dist-windows-gfx120X-all-7.11.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx120X-all-7.11.0.tar.gz
@@ -998,7 +998,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
       .. selected:: gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=v710 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
 
-         .. code-block:: cmd
+         .. code-block:: bat
 
             cd C:\TheRock
             curl -o therock-dist-windows-gfx110X-all-7.11.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx110X-all-7.11.0.tar.gz
@@ -1009,7 +1009,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
       .. selected:: gpu=w6800 gpu=v620
 
-         .. code-block:: cmd
+         .. code-block:: bat
 
             cd C:\TheRock
             curl -o therock-dist-windows-gfx103X-dgpu-7.11.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx103X-dgpu-7.11.0.tar.gz
@@ -1020,7 +1020,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
       .. selected:: gpu=max-pro-395 gpu=max-pro-390 gpu=max-pro-385 gpu=max-pro-380 gpu=max-395 gpu=max-390 gpu=max-385
 
-         .. code-block:: cmd
+         .. code-block:: bat
 
             cd C:\TheRock
             curl -o therock-dist-windows-gfx1151-7.11.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx1151-7.11.0.tar.gz
@@ -1031,7 +1031,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
       .. selected:: gpu=9-hx-375 gpu=9-hx-370 gpu=9-365
 
-         .. code-block:: cmd
+         .. code-block:: bat
 
             cd C:\TheRock
             curl -o therock-dist-windows-gfx1150-7.11.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx1150-7.11.0.tar.gz

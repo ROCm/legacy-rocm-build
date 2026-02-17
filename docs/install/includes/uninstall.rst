@@ -213,7 +213,7 @@ Uninstalling
 
       1. To uninstall ROCm, remove your installation directory.
 
-         .. code-block:: cmd
+         .. code-block:: bat
 
             rmdir /s /q C:\TheRock
 
@@ -226,7 +226,7 @@ Uninstalling
 
       2. **Run command prompt as an administrator** and delete the following environment variables.
 
-         .. code-block:: cmd
+         .. code-block:: bat
 
             setx HIP_DEVICE_LIB_PATH "" /M
             setx HIP_PATH "" /M

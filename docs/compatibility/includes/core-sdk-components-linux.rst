@@ -127,7 +127,7 @@
 
       .. matrix-cell::
 
-         `RCCL <https://github.com/ROCm/rccl/tree/release/release/therock-7.11>`__
+         `RCCL <https://github.com/ROCm/rocm-systems/tree/release/therock-7.11/projects/rccl>`__
 
    .. matrix-row::
 
