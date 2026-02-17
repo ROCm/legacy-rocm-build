@@ -302,3 +302,11 @@ Run inference
 
       {% endfor %}
     {% endfor %}
+
+Previous versions
+=================
+
+See
+:doc:`/how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-history`
+to find documentation for previous releases of xDiT diffusion inference
+performance testing.
