@@ -86,7 +86,7 @@ installation.
 
       1. **Run command prompt as an administrator** and set the following environment variables.
 
-         .. code-block:: cmd
+         .. code-block:: bat
 
             setx HIP_DEVICE_LIB_PATH “C:\TheRock\build\lib\llvm\amdgcn\bitcode” /M
             setx HIP_PATH “C:\TheRock\build” /M
@@ -95,7 +95,7 @@ installation.
 
       2. Add the following paths into the PATH environment variable.
 
-         .. code-block:: cmd
+         .. code-block:: bat
 
             setx PATH "%PATH%;C:\TheRock\build\bin" /M
             setx PATH "%PATH%;C:\TheRock\build\lib\llvm\bin" /M

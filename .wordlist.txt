@@ -618,7 +618,6 @@ checkpointing
 chiplet
 classList
 cmake
-cmd
 coalescable
 codename
 collater
