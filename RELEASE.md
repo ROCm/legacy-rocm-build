@@ -1563,7 +1563,7 @@ support for your specific setup.
 				<p>Communication libraries</p>
 			</td>
 			<td>
-				<a href="https://github.com/ROCm/rccl/tree/release/release/therock-7.11">RCCL</a>
+				<a href="https://github.com/ROCm/rocm-systems/tree/release/therock-7.11/projects/rccl">RCCL</a>
 			</td>
 			<td style="vertical-align: middle;">
 				Linux only
@@ -1669,7 +1669,7 @@ support for your specific setup.
 				<a>hipinfo</a>
 			</td>
 			<td style="vertical-align: middle;">
-                Windows 
+                Windows
 			</td>
 		</tr>
 		<tr>
