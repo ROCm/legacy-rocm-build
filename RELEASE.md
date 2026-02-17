@@ -1555,7 +1555,7 @@ support for your specific setup.
 				<a href="https://github.com/ROCm/rocm-libraries/tree/release/therock-7.11/projects/hipsparselt">hipSPARSELt</a>
 			</td>
 			<td>
-                Linux only (Instinct MI350, M300 Series, Ryzen APUs)
+                Linux only (Instinct MI350, MI300 Series, Ryzen APUs)
 			</td>
 		</tr>
         <tr>
