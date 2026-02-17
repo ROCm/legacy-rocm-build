@@ -1676,7 +1676,7 @@ support for your specific setup.
 			<td>
 				<a href="https://github.com/ROCm/rocm-systems/tree/release/therock-7.11/projects/rocminfo">rocminfo</a>
 			</td>
-			<td rowspan="3" style="vertical-align: middle;">
+			<td style="vertical-align: middle;">
                 Linux only
 			</td>
 		</tr>
@@ -1686,6 +1686,9 @@ support for your specific setup.
 			</td>
 			<td>
 				<a href="https://github.com/ROCm/rocm_bandwidth_test">ROCm Bandwidth Test (RBT)</a>
+			</td>
+			<td rowspan="2" style="vertical-align: middle;">
+                Linux only
 			</td>
 		</tr>
 		<tr>
