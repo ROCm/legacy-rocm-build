@@ -64,12 +64,12 @@ ROCm documentation is organized into the following categories:
 <!-- markdownlint-disable MD051 -->
 * [ROCm libraries](./reference/api-libraries.md)
 * [ROCm tools, compilers, and runtimes](./reference/rocm-tools.md)
-* [ROCm glossary](./reference/glossary.rst)
 * [GPU hardware specifications](./reference/gpu-arch-specs.rst)
 * [Hardware atomics operation support](./reference/gpu-atomics-operation.rst)
 * [Environment variables](./reference/env-variables.rst)
 * [Data types and precision support](./reference/precision-support.rst)
 * [Graph safe support](./reference/graph-safe-support.rst)
+* [ROCm glossary](./reference/glossary.rst)
 <!-- markdownlint-enable MD051 -->
 :::
 

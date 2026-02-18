@@ -6,7 +6,7 @@
 .. _glossary:
 
 ********************************************************************************
-Glossary
+ROCm glossary
 ********************************************************************************
 
 This glossary provides concise definitions of key terms and concepts in AMD ROCm
@@ -15,8 +15,8 @@ documentation for in-depth information.
 
 The glossary is organized into four sections:
 
-* :doc:`glossary/device-hardware` — Hardware components (Compute Units, cores,
-  memory)
+* :doc:`glossary/device-hardware` — Hardware components (for example, Compute
+  Units, cores, memory)
 * :doc:`glossary/device-software` — Software abstractions (programming model,
   ISA, thread hierarchy)
 * :doc:`glossary/host-software` — Development tools (HIP, compilers, libraries,

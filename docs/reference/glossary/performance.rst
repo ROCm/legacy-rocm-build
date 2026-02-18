@@ -5,9 +5,9 @@
 
 .. _glossary-performance:
 
-***********
-Performance
-***********
+*****************************
+Performance analysis glossary
+*****************************
 
 This section provides brief definitions of performance analysis concepts and
 optimization techniques.
@@ -17,32 +17,38 @@ optimization techniques.
     
     Performance bottleneck
         A performance bottleneck is a resource that limits the rate at which
-        work can be completed, such as compute throughput or memory bandwidth.
-        See :ref:`hip:performance_bottlenecks` for bottleneck analysis.
+        work can be completed, such as compute throughput or
+        :term:`memory bandwidth <Memory bandwidth>`. See
+        :ref:`hip:performance_bottlenecks` for bottleneck analysis.
     
     Roofline model
         The roofline model is a visual performance model that determines whether
-        a program is limited by memory bandwidth or arithmetic bandwidth. See
+        a program is limited by :term:`memory bandwidth <Memory bandwidth>` or
+        :term:`arithmetic bandwidth <Arithmetic bandwidth>`. See
         :ref:`hip:roofline_model` for roofline analysis.
     
     Compute-bound
-        Compute-bound kernels are limited by the arithmetic bandwidth of the
-        GPU's compute units rather than memory bandwidth. See
+        Compute-bound kernels are limited by the
+        :term:`arithmetic bandwidth <Arithmetic bandwidth>` of the GPU's
+        :term:`compute units <Compute units>` rather than
+        :term:`memory bandwidth <Memory bandwidth>`. See
         :ref:`hip:compute_bound` for compute-bound analysis.
     
     Memory-bound
-        Memory-bound kernels are limited by memory bandwidth rather than
-        arithmetic throughput, typically due to low arithmetic intensity. See
+        Memory-bound kernels are limited by
+        :term:`memory bandwidth <Memory bandwidth>` rather than
+        :term:`arithmetic bandwidth <Arithmetic bandwidth>`, typically due to
+        low :term:`arithmetic intensity <Arithmetic intensity>`. See
         :ref:`hip:memory_bound` for memory-bound analysis.
     
     Arithmetic intensity
         Arithmetic intensity is the ratio of arithmetic operations to memory
-        operations in a kernel, determining performance characteristics. See
+        operations in a kernel, and determines performance characteristics. See
         :ref:`hip:arithmetic_intensity` for intensity analysis.
     
     Overhead
-        Overhead latency is time spent with no useful work being done, often
-        from CPU-side bottlenecks or kernel launch delays. See
+        Overhead latency is the time spent with no useful work being done, often
+        due to CPU-side bottlenecks or kernel launch delays. See
         :ref:`hip:performance_bottlenecks` for details.
     
     Little's Law
@@ -57,8 +63,9 @@ optimization techniques.
     
     Arithmetic bandwidth
         Arithmetic bandwidth is the peak rate at which arithmetic work can be
-        performed, defining the compute roof in roofline models. See
-        :ref:`hip:compute_bound` for details.
+        performed, defining the compute roof in
+        :term:`roofline models <Roofline model>`. See :ref:`hip:compute_bound`
+        for details.
     
     Latency hiding
         Latency hiding masks long-latency operations by running many concurrent
@@ -67,23 +74,25 @@ optimization techniques.
 
     Wavefront execution state
         Wavefront execution states (*active*, *stalled*, *eligible*, *selected*)
-        describe the scheduling status of wavefronts on AMD GPUs. See
-        :ref:`hip:wavefront_execution` for state definitions.
+        describe the scheduling status of :term:`wavefronts <Wavefront>` on AMD
+        GPUs. See :ref:`hip:wavefront_execution` for state definitions.
 
     Active cycle
-        An active cycle is a clock cycle in which a Compute Unit has at least
-        one active wavefront resident. See :ref:`hip:wavefront_execution` for
-        details.
+        An active cycle is a clock cycle in which a
+        :term:`compute unit <Compute units>` has at least one active
+        :term:`wavefront <Wavefront>` resident. See
+        :ref:`hip:wavefront_execution` for details.
 
     Occupancy
-        Occupancy is the ratio of active wavefronts to the maximum number of
-        wavefronts that can be active on a Compute Unit. See
-        :ref:`hip:occupancy` for occupancy analysis.
+        Occupancy is the ratio of active :term:`wavefronts <Wavefront>` to the
+        maximum number of wavefronts that can be active on a
+        :term:`compute unit <Compute units>`. See :ref:`hip:occupancy` for
+        occupancy analysis.
 
     Pipe utilization
         Pipe utilization measures how effectively a kernel uses the execution
-        pipelines within each Compute Unit. See :ref:`hip:pipe_utilization` for
-        utilization details.
+        pipelines within each :term:`compute unit <Compute units>`. See
+        :ref:`hip:pipe_utilization` for utilization details.
 
     Peak rate
         Peak rate is the theoretical maximum throughput at which a hardware
@@ -91,36 +100,42 @@ optimization techniques.
         :ref:`hip:theoretical_performance_limits` for details.
 
     Issue efficiency
-        Issue efficiency measures how effectively the wavefront scheduler keeps
+        Issue efficiency measures how effectively the
+        :term:`wavefront scheduler <Wavefront scheduler>` keeps
         execution pipelines busy by issuing instructions. See
         :ref:`hip:issue_efficiency` for efficiency metrics.
 
     CU utilization
-        CU utilization measures the percentage of time that Compute Units are
-        actively executing instructions. See :ref:`hip:cu_utilization` for
-        utilization analysis.
+        CU utilization measures the percentage of time that
+        :term:`compute units <Compute units>` are actively executing
+        instructions. See :ref:`hip:cu_utilization` for utilization analysis.
 
     Wavefront divergence
-        Wavefront divergence occurs when threads within a wavefront take
-        different execution paths due to conditional statements. See
-        :ref:`hip:branch_efficiency` for divergence handling details.
+        Wavefront divergence occurs when threads within a
+        :term:`wavefront <Wavefront>` take different execution paths due to
+        conditional statements. See :ref:`hip:branch_efficiency` for divergence
+        handling details.
 
     Branch efficiency
-        Branch efficiency measures how often all threads within a wavefront take
-        the same execution path, quantifying control flow uniformity. See
-        :ref:`hip:branch_efficiency` for branch analysis.
+        Branch efficiency measures how often all threads within a
+        :term:`wavefront <Wavefront>` take the same execution path, quantifying
+        control-flow uniformity. See :ref:`hip:branch_efficiency` for branch
+        analysis.
 
     Memory coalescing
-        Memory coalescing improves memory bandwidth by servicing many logical
-        loads or stores with fewer physical memory transactions. See
-        :ref:`hip:memory_coalescing_theory` for coalescing patterns.
+        Memory coalescing improves :term:`memory bandwidth <Memory bandwidth>`
+        by servicing many logical loads or stores with fewer physical memory
+        transactions. See :ref:`hip:memory_coalescing_theory` for coalescing
+        patterns.
 
     Bank conflict
         A bank conflict occurs when multiple threads simultaneously access
-        different addresses in the same LDS bank, serializing accesses. See
-        :ref:`hip:bank_conflicts_theory` for details.
+        different addresses in the same :term:`LDS bank <Local data share>`,
+        serializing accesses. See :ref:`hip:bank_conflicts_theory` for details.
 
     Register pressure
         Register pressure occurs when excessive register demand limits the
-        number of active wavefronts per Compute Unit, reducing occupancy. See
+        number of active :term:`wavefronts <Wavefront>` per
+        :term:`compute unit <Compute units>`, reducing
+        :term:`occupancy <Occupancy>`. See
         :ref:`hip:register_pressure_theory` for details.

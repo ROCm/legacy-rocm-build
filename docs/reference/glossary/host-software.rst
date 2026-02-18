@@ -5,9 +5,9 @@
 
 .. _glossary-host-software:
 
-*************
-Host software
-*************
+**********************
+Host software glossary
+**********************
 
 This section provides brief definitions of development tools, compilers,
 libraries, and runtime environments for programming AMD GPUs.
@@ -26,10 +26,10 @@ libraries, and runtime environments for programming AMD GPUs.
         target AMD GPUs. See :doc:`hip:how-to/hip_cpp_language_extensions` for
         language fundamentals.
 
-    amd-smi
-        The ``amd-smi`` command-line utility queries, monitors, and manages AMD GPU
-        state, providing hardware information and performance metrics. See
-        :doc:`amdsmi:index` for detailed usage.
+    AMD SMI
+        The ``amd-smi`` command-line utility queries, monitors, and manages
+        AMD GPU state, providing hardware information and performance metrics.
+        See :doc:`amdsmi:index` for detailed usage.
 
     HIP runtime API
         The HIP runtime API provides a C-style interface for GPU programming, offering
@@ -38,17 +38,18 @@ libraries, and runtime environments for programming AMD GPUs.
 
     HIP compiler
         The HIP compiler ``amdclang++`` compiles HIP C++ programs into binaries
-        containing both host CPU and device GPU code. See
+        that contain both host CPU and device GPU code. See
         :doc:`llvm-project:reference/rocmcc` for compiler flags and options.
 
     HIP runtime compiler
         The HIP Runtime Compiler (HIPRTC) compiles HIP source code at runtime
-        into AMDGPU binary code objects for just-in-time kernel generation. See
+        into :term:`AMDGPU <AMDGPU assembly>` binary code objects for
+        just-in-time kernel generation. See
         :ref:`hip:hip_runtime_compiler_how-to` for API details.
 
-    ROCm profiler
-        The ROCm profiler (``rocprofv3``) is AMD's primary performance analysis
-        tool, providing profiling, tracing, and performance counter collection.
+    rocprofv3
+        ``rocprofv3`` is AMD's primary performance analysis tool, providing
+        profiling, tracing, and performance counter collection.
         See :ref:`rocprofiler-sdk:using-rocprofv3` for profiling workflows.
 
     ROCm and LLVM binary utilities
