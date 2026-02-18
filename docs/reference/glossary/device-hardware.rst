@@ -143,13 +143,13 @@ features of AMD GPUs.
     XCD
         On AMD Instinct MI300 and MI350 series GPUs, the Accelerator Complex Die
         (XCD) contains the GPU's computational elements and lower levels of the
-        cache hierarchy. See :doc:`../../conceptual/mi300` for details.
+        cache hierarchy. See :doc:`../../conceptual/gpu-arch/mi300` for details.
 
     GCD
         On AMD Instinct MI100 and MI250 series GPUs and AMD Radeon GPUs, the
         Graphics Compute Die (GCD) contains the GPU's computational elements
         and lower levels of the cache hierarchy. See
-        :doc:`../../conceptual/mi250` for details.
+        :doc:`../../conceptual/gpu-arch/mi250` for details.
 
     WGP
         A Workgroup Processor (WGP) is a hardware unit on AMD Radeon GPUs that

@@ -30,7 +30,7 @@ models that run on AMD GPUs.
     AMDGPU intermediate representation
         AMDGPU IR is an intermediate representation for GPU code, serving as a
         virtual instruction set between high-level languages and
-        :term:`architecture-specific assembly <AMGPU assembly>`. See
+        :term:`architecture-specific assembly <AMDGPU assembly>`. See
         :ref:`hip:amdgpu_ir` for compilation details.
 
     GFX IP
