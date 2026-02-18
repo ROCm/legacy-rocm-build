@@ -196,7 +196,7 @@ showcasing AI-powered image generation.
 
 .. selector:: Operating system
    :key: os
-   :show-when: fam=instinct gpu=v710 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
+   :show-when: fam=instinct
 
    .. selector-option:: Linux
       :value: linux
@@ -204,7 +204,15 @@ showcasing AI-powered image generation.
 
 .. selector:: Operating system
    :key: os
-   :show-when: fam=ryzen gpu=ai-r9700 gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=w6800 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
+   :show-when: gpu=v710 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
+
+   .. selector-option:: Linux
+      :value: linux
+      :width: 12
+
+.. selector:: Operating system
+   :key: os
+   :show-when: fam=ryzen
 
    .. selector-option:: Linux
       :value: linux
@@ -213,7 +221,18 @@ showcasing AI-powered image generation.
    .. selector-option:: Windows
       :value: windows
       :width: 6
-      :disable-when: fam=instinct
+
+.. selector:: Operating system
+   :key: os
+   :show-when: gpu=ai-r9700 gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=w6800 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
+
+   .. selector-option:: Linux
+      :value: linux
+      :width: 6
+
+   .. selector-option:: Windows
+      :value: windows
+      :width: 6
 
 Prerequisites
 =============
