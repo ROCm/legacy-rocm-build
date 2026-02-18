@@ -1821,19 +1821,21 @@ issue will be fixed in a future release.
 
 ### hipify-clang errors with NVIDIA CUDA 12.x
 
-Users running `hipify-clang` with CUDA 12.x or later will encounter errors when
-processing CUDA source files:
+When using `hipify-clang` with CUDA 12.x, you might encounter the following
+warnings during compilation:
 
 ```
 error: must pass in an explicit nvptx64 gpu architecture to 'ptxas'
+
 error: must pass in an explicit nvptx64 gpu architecture to 'nvlink'
 ```
 
-As a workaround, explicitly pass the `cuda-gpu-arch` flag:
-```
-hipify-clang --cuda-gpu-arch=sm_70...
-```
-This issue will be fixed in a future release.
+Despite these error messages, the `.hip` output files are generated
+correctly and can be used normally. These errors can be safely ignored.
+
+The errors occur during the CUDA detection phase, which attempts to use the CUDA
+device toolchain. The actual hipification process uses host-only compilation and
+is not affected by these errors. This issue will be fixed in a future release.
 
 ### HIP Graph API tutorial code build fails
 
