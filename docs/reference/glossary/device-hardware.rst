@@ -25,10 +25,19 @@ features of AMD GPUs.
         in AMD GPUs capable of running complex programs. See
         :ref:`hip:compute_unit` for details.
 
-    Vector arithmetic logic units
-        Vector arithmetic logic units (VALUs) are the primary arithmetic engines
-        that execute mathematical and logical operations within
-        :term:`compute units <Compute units>`. See :ref:`hip:valu` for details.
+    ALU
+        Arithmetic logic units (ALUs) are the primary arithmetic engines that
+        execute mathematical and logical operations within
+        :term:`compute units <Compute units>`. See :ref:`hip:valu` for details. 
+
+    SALU
+        Scalar :term:`ALUs <ALU>` (SALUs) operate on a single value per
+        :term:`wavefront <Wavefront>` and manage all control flow.
+
+    VALU
+        Vector :term:`ALUs <ALU>` (VALUs) perform an arithmetic or logical
+        operation on data for each :term:`work-item <Work-item (Thread)>` in a
+        :term:`wavefront <Wavefront>`, enabling data-parallel execution.
 
     Special function unit
         Special function units (SFUs) accelerate transcendental and reciprocal
@@ -65,6 +74,13 @@ features of AMD GPUs.
         enabling rapid context switching for latency hiding. See
         :ref:`hip:wave-scheduling` for details.
 
+    Wavefront size
+        The wavefront size is the number of
+        :term:`work-items <Work-item (Thread)>` that execute together in a
+        single :term:`wavefront <Wavefront (Warp)>`. For AMD Instinct GPUs, the
+        wavefront size is 64 threads, while AMD Radeon GPUs have a wavefront
+        size of 32 threads. See :ref:`hip:wavefront` for details.
+
     SIMD core
         SIMD cores are execution lanes that perform scalar and vector arithmetic
         operations inside each :term:`compute unit <Compute unit>`. See
@@ -83,45 +99,110 @@ features of AMD GPUs.
         tensor data copies between global memory and on-chip memory. See
         :ref:`hip:dme` for details.
 
+    GFX IP
+        GFX IP (Graphics IP) versions are identifiers that specify which
+        instruction formats, memory models, and compute features are supported
+        by each AMD GPU generation. See :ref:`hip:gfx_ip` for versioning
+        information.
+
+    GFX IP major version
+        The :term:`GFX IP <GFX IP>` major version represents the GPU's core
+        instruction set and architecture. For example, a GFX IP `11` major
+        version corresponds to the RDNA3 architecture, influencing driver
+        support and available compute features. See :ref:`hip:gfx_ip` for
+        versioning information.
+
+    GFX IP minor version
+        The :term:`GFX IP <GFX IP>` minor version represents specific variations
+        within a :term:`GFX IP <GFX IP>` major version and affects feature sets,
+        optimizations, and driver behavior. Different GPU models within the same
+        major version can have unique capabilities, impacting performance and
+        supported instructions. See :ref:`hip:gfx_ip` for versioning
+        information.
+    
     Compute unit versioning
-        :term:`Compute units <Compute units>` are versioned with GFX IP
-        identifiers that define their microarchitectural features and
-        instruction set compatibility. See :ref:`hip:gfx_ip` for details.
+        :term:`Compute units <Compute units>` are versioned with
+        :term:`GFX IP <GFX IP>` identifiers that define their microarchitectural
+        features and instruction set compatibility. See :ref:`hip:gfx_ip` for
+        details.
 
     Register file
         The register file is the primary on-chip memory store in each
         :term:`compute unit <Compute units>`, holding data between arithmetic
         and memory operations. See :ref:`hip:memory_hierarchy` for details.
 
-    L0 caches
-        On AMD Radeon GPUs, the L0 caches (instruction cache, vector data cache,
-        scalar data cache) are local to a single
-        :term:`compute unit <Compute units>` within a :term:`WGP <WGP>`,
-        providing fast access to recently used data.
+    SGPR file
+        The :term:`SGPR <SGPR>` file is the
+        :term:`register file <Register file>` that holds data used by the
+        :term:`scalar ALU <SALU>`.
+    
+    VGPR file
+        The :term:`VGPR <VGPR>` file is the
+        :term:`register file <Register file>` that holds data used by the
+        :term:`vector ALU <VALU>`. GPUs with
+        :term:`matrix cores <Matrix cores (MFMA units)>` also have
+        :term:`AccVGPR <AccVGPR>` files, used specifically for matrix
+        instructions.
 
-    L1 caches
-        On AMD Instinct GPUs, the L1 caches (instruction cache, vector data
-        cache, scalar data cache) are local to a single
-        :term:`compute unit <Compute units>`. AMD Radeon GPUs additionally
-        feature a L1 graphics cache. On Radeon GPUs, the L1 caches are local to
-        a single :term:`WGP <WGP>` and thus shared between the WGP's compute
-        units. L1 caches provide fast access to recently used
-        data. See :ref:`hip:vl1`, :ref:`hip:sl1` and :ref:`hip:memory_coherence`
-        for details.
+    L0 instruction cache
+        On AMD Radeon GPUs, the level 0 (L0) instruction cache is local to each
+        :term:`WGP <WGP>` and thus shared between the WGP's
+        :term:`compute units <Compute units>`.
 
-    L2 caches
+    L0 scalar cache
+        On AMD Radeon GPUs, the level 0 (L0) scalar data cache is local to each
+        :term:`WGP <WGP>` and thus shared between the WGP's
+        :term:`compute units <Compute units>`. It provides the
+        :term:`scalar ALU <SALU>` with fast access to recently used data.
+
+    L0 vector cache 
+        On AMD Radeon GPUs, the level 0 (L0) vector data cache is local to each
+        :term:`WGP <WGP>` and thus shared between the WGP's
+        :term:`compute units <Compute units>`. It provides the
+        :term:`vector ALU <VALU>` with fast access to recently used data.
+
+    L1 instruction cache
+        On AMD Instinct GPUs, the level 1 (L1) instruction cache is local to
+        each :term:`compute unit <Compute units>`. On AMD Radeon GPUs, the
+        L1 instruction cache does not exist as a separate cache level, and
+        instructions are stored in the
+        :term:`L0 instruction cache <L0 instruction cache>`.
+
+    L1 scalar cache
+        On AMD Instinct GPUs, the level 1 (L1) scalar data cache is local to
+        each :term:`compute unit <Compute units>`, providing the 
+        :term:`scalar ALU <SALU>` with fast access to recently used data. On AMD
+        Radeon GPUs, the L1 scalar cache does not exist as a separate cache
+        level, and recently used scalar data is stored in the
+        :term:`L0 scalar cache <L0 scalar cache>`.
+
+    L1 vector cache
+        On AMD Instinct GPUs, the level 1 (L1) vector data cache is local to
+        each :term:`compute unit <Compute units>`, providing the 
+        :term:`vector ALU <VALU>` with fast access to recently used data. On AMD
+        Radeon GPUs, the L1 vector cache does not exist as a separate cache
+        level, and recently used vector data is stored in the
+        :term:`L0 vector cache <L0 vector cache>`.
+
+    Graphics L1 cache
+        On AMD Radeon GPUs, the read-only graphics level 1 (L1) cache is local
+        to groups of :term:`WGP <WGP>`s called shader arrays, providing fast
+        access to recently used data. AMD Instinct GPUs do not feature the
+        graphics L1 cache.
+
+    L2 cache
         On AMD Instinct MI100 series GPUs, the L2 cache is shared across the
         entire chip, while for all other AMD GPUs the L2 caches are shared by
         the :term:`compute units <Compute units>` on the same :term:`GCD <GCD>`
         or :term:`XCD <XCD>`.
 
-    Infinity Cache
+    Infinity Cache (L3 cache)
         On AMD Instinct MI300 and MI350 series GPUs and AMD Radeon GPUs, the
         Infinity Cache is the last level cache of the cache hierarchy. It is
         shared by all :term:`compute units <Compute units>` and
         :term:`WGPs <WGP>` on the GPU.
 
-    GPU RAM
+    GPU RAM (VRAM)
         GPU RAM, also known as :term:`global memory <Global memory>` in the HIP
         programming model, is the large, high-capacity off-chip memory subsystem
         accessible by all :term:`compute units <Compute units>`, forming the
@@ -139,6 +220,20 @@ features of AMD GPUs.
         Registers are the lowest level of the memory hierarchy, storing
         per-thread temporary variables and intermediate results. See
         :ref:`hip:memory_hierarchy` for register usage details.
+
+    SGPR
+        Scalar general-purpose :term:`registers <Registers>` (SGPRs) hold data
+        produced and consumed by a :term:`compute unit <Compute units>`'s
+        :term:`scalar ALU <SALU>`.
+
+    VGPR
+        Vector general-purpose :term:`registers <Registers>` (VGPRs) hold data
+        produced and consumed by a :term:`compute unit <Compute units>`'s
+        :term:`vector ALU <VALU>`.
+
+    AccVGPR
+        Accumulation General Purpose Vector Registers (AccVGPRs) are a special
+        type of :term:`VGPRs <VGPR>` used exclusively for matrix operations.
 
     XCD
         On AMD Instinct MI300 and MI350 series GPUs, the Accelerator Complex Die

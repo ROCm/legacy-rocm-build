@@ -33,17 +33,18 @@ models that run on AMD GPUs.
         :term:`architecture-specific assembly <AMDGPU assembly>`. See
         :ref:`hip:amdgpu_ir` for compilation details.
 
-    GFX IP
-        GFX IP (Graphics IP) versions are identifiers that specify which
-        instruction formats, memory models, and compute features are supported
-        by each AMD GPU generation. See :ref:`hip:gfx_ip` for versioning
-        information.
+    LLVM target name
+        The LLVM target name is a string identifier corresponding to a specific
+        :term:`GFX IP <GFX IP>` version that is passed to the
+        :term:`HIP compiler <HIP compiler>` toolchain to specify the target GPU
+        architecture for code generation.
+        See :doc:`llvm-project:reference/rocmcc` for details.
 
     Grid
         A grid represents the collection of all
         :term:`work-groups <Work-group (Block)>` executing a single
         :term:`kernel <HIP kernel>` across the entire GPU. See
-        :ref:`hip:inherent_thread_hierarchy_` for grid execution details.
+        :ref:`hip:inherent_thread_hierarchy` for grid execution details.
 
     HIP kernel
         A HIP kernel is the unit of GPU code that executes in parallel across
@@ -63,10 +64,11 @@ models that run on AMD GPUs.
         The memory hierarchy pairs each
         :term:`thread hierarchy <HIP thread hierarchy>` level with corresponding
         memory scopes, from :term:`private registers <Register>` to
-        :term:`LDS <Local data share>` to :term:`GPU RAM <GPU RAM>`. See
+        :term:`LDS <Local data share>` to :term:`GPU RAM <GPU RAM (VRAM)>`. See
         :ref:`hip:memory_hierarchy` for memory architecture details.
 
     Global memory
-        Global memory is the :term:`device-wide memory <GPU RAM>` accessible to
-        all :term:`threads <Work-item (Thread)>`, physically implemented as HBM
-        or GDDR. See :ref:`hip:memory_hierarchy` for global memory details.
+        Global memory is the :term:`device-wide memory <GPU RAM (VRAM)>`
+        accessible to all :term:`threads <Work-item (Thread)>`, physically
+        implemented as HBM or GDDR. See :ref:`hip:memory_hierarchy` for global
+        memory details.

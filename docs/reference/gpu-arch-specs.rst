@@ -9,6 +9,12 @@ The following tables provide an overview of the hardware specifications for AMD 
 
 For more information about ROCm hardware compatibility, see the ROCm `Compatibility matrix <https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html>`_.
 
+For a description of the terms used in the table, see the
+:ref:`ROCm glossary <glossary>`, or for more detailed information about GPU
+architecture and programming models, see the
+:ref:`specific documents and guides <gpu-arch-documentation>`, or
+:doc:`Understanding the HIP programming model<hip:understand/programming_model>`.
+
 .. tab-set::
 
   .. tab-item:: AMD Instinct GPUs

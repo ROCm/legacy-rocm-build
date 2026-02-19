@@ -15,17 +15,11 @@ optimization techniques.
 .. glossary::
     :sorted:
     
-    Performance bottleneck
-        A performance bottleneck is a resource that limits the rate at which
-        work can be completed, such as compute throughput or
-        :term:`memory bandwidth <Memory bandwidth>`. See
-        :ref:`hip:performance_bottlenecks` for bottleneck analysis.
-    
     Roofline model
         The roofline model is a visual performance model that determines whether
-        a program is limited by :term:`memory bandwidth <Memory bandwidth>` or
-        :term:`arithmetic bandwidth <Arithmetic bandwidth>`. See
-        :ref:`hip:roofline_model` for roofline analysis.
+        a program is :term:`compute-bound <Compute-bound>` or
+        :term:`memory-bound <Memory-bound>`. See :ref:`hip:roofline_model` for
+        roofline analysis.
     
     Compute-bound
         Compute-bound kernels are limited by the

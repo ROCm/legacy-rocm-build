@@ -21,9 +21,11 @@ libraries, and runtime environments for programming AMD GPUs.
         AI applications. See :doc:`../../what-is-rocm` for a complete component
         overview.
 
-    HIP C++
-        HIP C++ is an extension of C++ for writing portable GPU programs that
-        target AMD GPUs. See :doc:`hip:how-to/hip_cpp_language_extensions` for
+    HIP C++ language extension
+        HIP extends the C++ language with additional features designed for
+        programming heterogeneous applications. These extensions mostly relate
+        to the kernel language, but some can also be applied to host
+        functionality. See :doc:`hip:how-to/hip_cpp_language_extensions` for
         language fundamentals.
 
     AMD SMI
@@ -32,7 +34,7 @@ libraries, and runtime environments for programming AMD GPUs.
         See :doc:`amdsmi:index` for detailed usage.
 
     HIP runtime API
-        The HIP runtime API provides a C-style interface for GPU programming, offering
+        The HIP runtime API provides an interface for GPU programming, offering
         functions for memory management, kernel launches, and synchronization. See
         :ref:`hip:hip_runtime_api_how-to` for API overview.
 
@@ -43,9 +45,16 @@ libraries, and runtime environments for programming AMD GPUs.
 
     HIP runtime compiler
         The HIP Runtime Compiler (HIPRTC) compiles HIP source code at runtime
-        into :term:`AMDGPU <AMDGPU assembly>` binary code objects for
-        just-in-time kernel generation. See
+        into :term:`AMDGPU <AMDGPU assembly>` binary code objects, enabling
+        just-in-time kernel generation, device-specific optimization, and
+        dynamic code creation for different GPUs. See
         :ref:`hip:hip_runtime_compiler_how-to` for API details.
+
+    ROCgdb
+        ROCgdb is AMD's source-level debugger for HIP and ROCm applications,
+        enabling debugging of both host CPU and GPU device code, including
+        kernel breakpoints, stepping, and variable inspection. See
+        :doc:`rocgdb:index` for usage and command reference.
 
     rocprofv3
         ``rocprofv3`` is AMD's primary performance analysis tool, providing
