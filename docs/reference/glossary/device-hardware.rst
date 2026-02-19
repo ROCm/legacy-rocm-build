@@ -186,7 +186,7 @@ features of AMD GPUs.
 
     Graphics L1 cache
         On AMD Radeon GPUs, the read-only graphics level 1 (L1) cache is local
-        to groups of :term:`WGP <WGP>`s called shader arrays, providing fast
+        to groups of :term:`WGPs <WGP>` called shader arrays, providing fast
         access to recently used data. AMD Instinct GPUs do not feature the
         graphics L1 cache.
 
