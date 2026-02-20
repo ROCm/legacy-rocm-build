@@ -44,7 +44,7 @@ models that run on AMD GPUs.
         A grid represents the collection of all
         :term:`work-groups <Work-group (Block)>` executing a single
         :term:`kernel <HIP kernel>` across the entire GPU. See
-        :ref:`hip:inherent_thread_hierarchy` for grid execution details.
+        :ref:`hip:inherent_thread_hierarchy_grid` for grid execution details.
 
     HIP kernel
         A HIP kernel is the unit of GPU code that executes in parallel across
