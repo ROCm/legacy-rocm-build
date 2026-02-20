@@ -1,0 +1,118 @@
+// This file lists version compatibility for the following ROCm release version.
+rocm-core-version "7.11.0"
+
+// ROCm supports the following operating systems.
+os-support {
+    ubuntu Ubuntu {
+        version "24.04.3" linux_kernel "GA 6.8"
+        version "22.04.5" linux_kernel "GA 5.15"
+    }
+    debian Debian {
+        version "13" linux_kernel "6.12"
+    }
+    rhel "Red Hat Enterprise Linux" RHEL {
+        version "10.1" linux_kernel "6.12.0-124"
+        version "10.0" linux_kernel "6.12.0-55"
+        version "9.7"  linux_kernel "5.14.0-611"
+        version "9.6"  linux_kernel "5.14.0-570"
+        version "9.4"  linux_kernel "5.14.0-427"
+        version "8.10" linux_kernel "4.18.0-553"
+    }
+    oracle-linux "Oracle Linux" {
+        version "10" linux_kernel "UEK 8.1"
+        version "9"  linux_kernel "UEK 8"
+        version "8"  linux_kernel "UEK 7"
+    }
+    rocky-linux "Rocky Linux" {
+        version "9" linux_kernel "5.14.0-570"
+    }
+    sles "SUSE Linux Enterprise Server" SLES {
+        version "16.0" linux_kernel "6.12"
+        version "15.7" linux_kernel "6.4.0-150700.51"
+    }
+    windows Windows {
+        version "11 25H2"
+    }
+}
+core-sdk-components ref="release/therock-7.11" {
+    "Math and compute libraries" {
+        "Composable Kernel" {
+            (url-template)github_url: "https://github.com/ROCm/rocm-libraries/tree/{?ref}/projects/composablekernel"
+        }
+        hipBLAS {
+            (url-template)github_url: "https://github.com/ROCm/rocm-libraries/tree/{?ref}/projects/hipblas"
+        }
+    }
+    "Communication libraries" {
+        RCCL {
+            (url-template)github_url:
+        }
+    }
+}
+// ROCm supports the following AMD GPUs.
+gpu-support {
+    fam instinct {
+        mi355x {
+            name "AMD Instinct MI355X"
+            series "AMD Instinct MI350 Series"
+            llvm_target gfx950
+            uarch "CDNA 4"
+            virtualization {
+                entry {
+                    hypervisor KVM
+                    method Passthrough
+                    host_os ""
+                    guest_os ""
+                }
+            }
+        }
+        mi350x {
+            name "AMD Instinct MI350X"
+            series "AMD Instinct MI350 Series"
+            llvm_target gfx950
+            uarch "CDNA 4"
+            virtualization {
+
+            }
+        }
+        mi325x {
+            name "AMD Instinct MI325X"
+            series "AMD Instinct MI300 Series"
+            llvm_target gfx942
+            uarch "CDNA 3"
+        }
+        mi300x {
+            name "AMD Instinct MI300X"
+            series "AMD Instinct MI300 Series"
+            llvm_target gfx942
+            uarch "CDNA 3"
+        }
+        mi300a {
+            name "AMD Instinct MI300A"
+            series "AMD Instinct MI300 Series"
+            llvm_target gfx942
+            uarch "CDNA 3"
+        }
+        mi250x {
+            name "AMD Instinct MI250X"
+            series "AMD Instinct MI200 Series"
+            llvm_target gfx90a
+            uarch "CDNA 2"
+        }
+        mi250 {
+            name "AMD Instinct MI250"
+            series "AMD Instinct MI200 Series"
+            llvm_target gfx90a
+            uarch "CDNA 2"
+        }
+        mi210 {
+            name "AMD Instinct MI210"
+            series "AMD Instinct MI200 Series"
+            llvm_target gfx90a
+            uarch "CDNA 2"
+        }
+    }
+}
+install
+framework-support
+
