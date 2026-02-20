@@ -170,6 +170,7 @@ FluxBenchmark
 Fortran
 Fuyu
 GALB
+GART
 GAT
 GATNE
 GCC
@@ -205,11 +206,13 @@ GPT
 GPU
 GPU's
 GPUDirect
+GPUVM
 GPUs
 GraphBolt
 GraphSage
 GRBM
 GRE
+GTT
 GenAI
 GenZ
 GitHub
@@ -296,6 +299,7 @@ LLMs
 LLVM
 LM
 logsumexp
+LPDDR
 LRU
 LSAN
 LSan
@@ -523,6 +527,7 @@ Skylake
 Softmax
 Spack
 SplitK
+Strix
 Supermicro
 Szegedy
 TagRAM
@@ -533,6 +538,7 @@ TCI
 TCIU
 TCP
 TCR
+TTM
 TVM
 THREADGROUPS
 threadgroups
@@ -587,6 +593,9 @@ verl's
 VGPR
 VGPRs
 VM
+VMID
+VMIDs
+VMs
 VMEM
 VMWare
 VRAM
@@ -674,6 +683,7 @@ cmake
 cmd
 coalescable
 codename
+codenamed
 collater
 comgr
 compat
