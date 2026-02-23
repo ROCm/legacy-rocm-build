@@ -255,7 +255,7 @@ benchmark results:
                             -- train pretrain \
                             --config examples/maxtext/configs/MI355X/{{ model.primus_config_name }}
 
-                    .. tab-item:: MI355X
+                    .. tab-item:: MI300X
                        :sync: mi300x
 
                        .. code-block:: shell
