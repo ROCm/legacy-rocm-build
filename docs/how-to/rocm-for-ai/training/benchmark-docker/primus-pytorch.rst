@@ -136,6 +136,8 @@ tweak some configurations (such as batch sizes).
    {% set docker = data.docker %}
    {% set model_groups = data.model_groups %}
 
+   .. tab-set::
+
       .. tab-item:: Primus benchmarking
 
    {% for model_group in model_groups %}
@@ -388,8 +390,6 @@ tweak some configurations (such as batch sizes).
                           --config examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml
       {% endfor %}
    {% endfor %}
-
-   .. tab-set::
 
       .. tab-item:: MAD-integrated benchmarking
 

@@ -6,10 +6,15 @@
 Training a model with Primus and JAX MaxText
 ********************************************
 
-JAX MaxText has now been integrated into `Primus
-<https://github.com/AMD-AGI/Primus>`__, which supports multiple backends,
-alongside ROCm-optimized components. You can now use the unified ``primus-cli``
-to run training jobs with JAX MaxText backend. 
+The JAX MaxText for ROCm training Docker image provides a prebuilt environment
+for training on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs, with
+essential components such as JAX, XLA, ROCm libraries, and MaxText utilities.
+
+The image also integrates with `Primus <https://github.com/AMD-AGI/Primus>`__,
+a high-level training framework that supports multiple backends. You can use
+the unified ``primus-cli`` to run training jobs using the JAX MaxText backend.
+
+It includes the following software components:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
 
