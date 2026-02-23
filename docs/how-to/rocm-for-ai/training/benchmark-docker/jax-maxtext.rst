@@ -218,7 +218,7 @@ benchmark results:
                `Primus CLI User Guide
                <https://github.com/AMD-AGI/Primus/blob/main/docs/cli/PRIMUS-CLI-GUIDE.md>`__.
 
-               Refer to the following examples, to run training using ``primus-cli``:
+               Use the following examples to run training with ``primus-cli``:
 
                - Direct mode: run directly on the current host or within an existing Docker container
 
