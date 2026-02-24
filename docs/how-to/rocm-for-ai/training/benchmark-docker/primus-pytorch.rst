@@ -138,44 +138,6 @@ tweak some configurations (such as batch sizes).
 
    .. tab-set::
 
-      .. tab-item:: MAD-integrated benchmarking
-
-   {% for model_group in model_groups %}
-      {% for model in model_group.models %}
-
-         .. container:: model-doc {{ model.mad_tag }}
-
-            The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v26.01` to switch to another available model.
-
-            1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
-               directory and install the required packages on the host machine.
-
-               .. code-block:: shell
-
-                  git clone https://github.com/ROCm/MAD
-                  cd MAD
-                  pip install -r requirements.txt
-
-            2. For example, use this command to run the performance benchmark test on the {{ model.model }} model
-               using one node with the {{ model.precision }} data type on the host machine.
-
-               .. code-block:: shell
-
-                  export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-                  madengine run \
-                      --tags {{ model.mad_tag }} \
-                      --keep-model-dir \
-                      --live-output \
-                      --timeout 28800
-
-               MAD launches a Docker container with the name
-               ``container_ci-{{ model.mad_tag }}``. The latency and throughput reports of the
-               model are collected in ``~/MAD/perf.csv``.
-
-      {% endfor %}
-   {% endfor %}
-
       .. tab-item:: Primus benchmarking
 
    {% for model_group in model_groups %}
@@ -426,6 +388,44 @@ tweak some configurations (such as batch sizes).
                           --log_file /tmp/primus_deepseek_v3_16b.log \
                           -- train pretrain \
                           --config examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml
+      {% endfor %}
+   {% endfor %}
+
+      .. tab-item:: MAD-integrated benchmarking
+
+   {% for model_group in model_groups %}
+      {% for model in model_group.models %}
+
+         .. container:: model-doc {{ model.mad_tag }}
+
+            The following run command is tailored to {{ model.model }}.
+            See :ref:`amd-primus-pytorch-model-support-v26.01` to switch to another available model.
+
+            1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
+               directory and install the required packages on the host machine.
+
+               .. code-block:: shell
+
+                  git clone https://github.com/ROCm/MAD
+                  cd MAD
+                  pip install -r requirements.txt
+
+            2. For example, use this command to run the performance benchmark test on the {{ model.model }} model
+               using one node with the {{ model.precision }} data type on the host machine.
+
+               .. code-block:: shell
+
+                  export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
+                  madengine run \
+                      --tags {{ model.mad_tag }} \
+                      --keep-model-dir \
+                      --live-output \
+                      --timeout 28800
+
+               MAD launches a Docker container with the name
+               ``container_ci-{{ model.mad_tag }}``. The latency and throughput reports of the
+               model are collected in ``~/MAD/perf.csv``.
+
       {% endfor %}
    {% endfor %}
 
