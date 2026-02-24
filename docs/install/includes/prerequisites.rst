@@ -181,6 +181,7 @@ Prerequisites
 
       .. code-block:: bash
 
+         sudo dnf update redhat-release
          sudo dnf update --releasever=10.1 --exclude=\*release\*
 
    .. selected:: os-version=10.0
