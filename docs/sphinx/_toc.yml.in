@@ -114,7 +114,7 @@ subtrees:
           - file: how-to/rocm-for-ai/inference/llm-inference-frameworks.rst
             title: LLM inference frameworks
           - file: how-to/rocm-for-ai/inference/benchmark-docker/vllm.rst
-            title: vLLM inference performance testing
+            title: vLLM inference
           - file: how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference.rst
             title: PyTorch inference performance testing
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang.rst
