@@ -870,6 +870,7 @@ netplan
 num
 numref
 ocl
+openai
 opencl
 opencv
 openmp
