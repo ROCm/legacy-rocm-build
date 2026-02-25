@@ -44,16 +44,8 @@ vLLM <https://docs.vllm.ai/en/latest/usage/>`__.
 Further reading
 ===============
 
-- To learn more about system settings and management practices to configure your
-  system for AMD Instinct MI300X Series GPUs, see `AMD Instinct MI300X system
-  optimization
-  <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`__.
-
 - See :ref:`fine-tuning-llms-vllm` and :ref:`mi300x-vllm-optimization` for
   a brief introduction to vLLM and optimization strategies.
-
-- For application performance optimization strategies for HPC and AI workloads,
-  including inference with vLLM, see :doc:`/how-to/rocm-for-ai/inference-optimization/workload`.
 
 - For a list of other ready-made Docker images for AI with ROCm, see
   `AMD Infinity Hub <https://www.amd.com/en/developer/resources/infinity-hub.html#f-amd_hub_category=AI%20%26%20ML%20Models>`__.
