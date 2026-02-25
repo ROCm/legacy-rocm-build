@@ -55,7 +55,7 @@ Further reading
 Previous versions
 =================
 
-It's now recommended to use the upstream vLLM documentatation at `docs.vllm.ai
+It's now recommended to use the upstream vLLM documentation at `docs.vllm.ai
 <https://docs.vllm.ai>`__ for the latest deployment guides.
 
 You can find legacy versions of this documentation at
