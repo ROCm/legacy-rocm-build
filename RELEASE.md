@@ -139,7 +139,7 @@ GPU and baseboard firmware versioning might differ across GPU families.
           </td>
       </tr>
       <tr>
-          <td>MI300X</td>
+          <td>MI300X<a href="#footnote1"><sup>[2]</sup></a></td>
           <td>01.25.03.12</td>
           <td rowspan="6" style="vertical-align: middle;">
               30.30.0<br>
@@ -180,6 +180,7 @@ GPU and baseboard firmware versioning might differ across GPU families.
 </div>
 
 <p id="footnote1">[1]: For AMD Instinct MI325X KVM SR-IOV users, don't use AMD GPU driver (amdgpu) 30.20.0.</p>
+<p id="footnote1">[2]: For AMD Instinct MI300X KVM SR-IOV with Multi-VF (8 VF) support requires a compatible firmware BKC bundle which will be released in coming months.</p>
 
 #### Node power management for multi-GPU nodes added
 
@@ -245,7 +246,7 @@ New Stream Management API `hipStreamCopyAttributes` is implemented for CUDA Pari
 
 The rocSHMEM communications library has added the GDA (GPUDirect Async) intra-node and inter-node communication backend conduit.  This new backend enables communication between GPUs within a node or between nodes through a RNIC (RDMA NIC) using device-initiated GPU kernels to communicate with other GPUs.  The GPU directly interacts with the RNIC with no host (CPU) involvement in the critical path of communication.
 
-In addition to the already supported GDA NIC types, Mellanox CX-7 and Broadcom Thor2, ROCm 7.2.0 introduces support for AMD Pensando AI NIC installed with the corresponding driver and firmware versions that support GDA functionality. For more information, see [Installing rocSHMEM](https://rocm.docs.amd.com/projects/rocSHMEM/en/latest/install.html).
+In addition to the already supported GDA NIC types, Mellanox CX-7 and Broadcom Thor2, ROCm 7.2.0 introduces support for AMD Pensando AI NIC installed with the corresponding driver and firmware versions that support GDA functionality. For more information, see [Installing rocSHMEM](https://rocm.docs.amd.com/projects/rocSHMEM/en/docs-7.2.0/install.html).
 
 ### Software-managed plan cache support for hipTensor
 
@@ -285,7 +286,7 @@ MIGraphX has the following enhancements:
 
 ### AMDGPU wavefront size macro removal
 
-The `__AMDGCN_WAVEFRONT_SIZE` and `__AMDGCN_WAVEFRONT_SIZE__` macros, which provided a compile-time-constant wavefront size, are removed. Where required, the wavefront size should instead be queried using the warpSize variable in device code, or using `hipGetDeviceProperties` in host code. Neither of these will result in a compile-time constant. For more information, see [warpSize](https://rocm.docs.amd.com/projects/HIP/en/latest/how-to/hip_cpp_language_extensions.html#warpsize).
+The `__AMDGCN_WAVEFRONT_SIZE` and `__AMDGCN_WAVEFRONT_SIZE__` macros, which provided a compile-time-constant wavefront size, are removed. Where required, the wavefront size should instead be queried using the warpSize variable in device code, or using `hipGetDeviceProperties` in host code. Neither of these will result in a compile-time constant. For more information, see [warpSize](https://rocm.docs.amd.com/projects/HIP/en/docs-7.2.0/how-to/hip_cpp_language_extensions.html#warpsize).
 For cases where compile-time evaluation of the wavefront size cannot be avoided, uses of `__AMDGCN_WAVEFRONT_SIZE` or `__AMDGCN_WAVEFRONT_SIZE__` can be replaced with a user-defined macro or `constexpr` variable with the wavefront size(s) for the target hardware. For example:
 
 ```
@@ -349,13 +350,13 @@ The ROCm Offline Installer Creator 7.2.0 includes the following features and imp
 * Fixes for Oracle Linux 10.0 ROCm and driver minimum mode installer creation.
 * Added support for creating an offline installer for Oracle Linux 8, 9, and 10, where the kernel version of the target OS differs from the host OS creating the installer.
  
-See [ROCm Offline Installer Creator](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/rocm-offline-installer.html) for more information.
+See [ROCm Offline Installer Creator](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.2.0/install/rocm-offline-installer.html) for more information.
  
 ### ROCm Runfile Installer updates
  
 The ROCm Runfile Installer 7.2.0 includes fixes for rocm-examples test script build issues.
  
-For more information, see [ROCm Runfile Installer](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/rocm-runfile-installer.html).
+For more information, see [ROCm Runfile Installer](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.2.0/install/rocm-runfile-installer.html).
 
 ### Expansion of the ROCm examples repository
 
@@ -375,7 +376,7 @@ Usage examples are now available for the [ROCgdb](https://github.com/ROCm/rocm-e
 
 ROCm documentation continues to be updated to provide clearer and more comprehensive guidance for a wider variety of user needs and use cases.
 
-* The newest resource for ROCm and HIP developers is the [AMD ROCm Programming Guide](https://rocm-handbook.amd.com/projects/amd-rocm-programming-guide/en/latest/). This guide introduces the core concepts, APIs, and best practices for programming with ROCm and the HIP programming language. It provides hands-on guidance for writing GPU kernels, managing memory, optimizing performance, and integrating HIP with the broader AMD ROCm ecosystem of tools and libraries. The [HIP documentation](https://rocm.docs.amd.com/projects/HIP/en/latest/index.html) set continues to provide detailed information, tutorials, and reference content.
+* The newest resource for ROCm and HIP developers is the [AMD ROCm Programming Guide](https://rocm-handbook.amd.com/projects/amd-rocm-programming-guide/en/docs-7.2.0/). This guide introduces the core concepts, APIs, and best practices for programming with ROCm and the HIP programming language. It provides hands-on guidance for writing GPU kernels, managing memory, optimizing performance, and integrating HIP with the broader AMD ROCm ecosystem of tools and libraries. The [HIP documentation](https://rocm.docs.amd.com/projects/HIP/en/docs-7.2.0/index.html) set continues to provide detailed information, tutorials, and reference content.
 
 * The HIP Programming Guide section includes a new topic titled [“Understanding GPU performance”](https://rocm.docs.amd.com/projects/HIP/en/docs-7.2.0/understand/performance_optimization.html). It explains the theoretical foundations of GPU performance on AMD hardware. Understanding these concepts helps you analyze performance characteristics, identify bottlenecks, and make informed optimization decisions. Two other topics in this guide have been enhanced: [Performance guidelines](https://rocm.docs.amd.com/projects/HIP/en/docs-7.2.0/how-to/performance_guidelines.html) and [Hardware implementation](https://rocm.docs.amd.com/projects/HIP/en/docs-7.2.0/understand/hardware_implementation.html).
 
@@ -550,7 +551,7 @@ Click {fab}`github` to go to the component's source code on GitHub.
             </tr>
             <tr>
                 <td><a href="https://rocm.docs.amd.com/projects/Tensile/en/docs-7.2.0/src/index.html">Tensile</a></td>
-                <td>4.44.0</td>
+                <td>4.44.0&nbsp;&Rightarrow;&nbsp;<a href="#tensile-4-45-0">4.45.0</a></td>
                 <td><a href="https://github.com/ROCm/rocm-libraries/tree/develop/shared/tensile"><i class="fab fa-github fa-lg"></i></a></td>
             </tr>
         </tbody>
@@ -913,7 +914,7 @@ For a historical overview of ROCm component updates, see the {doc}`ROCm consolid
   * fftw_execute_dft_c2r
   * fftwf_execute_dft_c2r
 
-### **HIPIFY** (22.2.0)
+### **HIPIFY** (22.0.0)
 
 #### Added
 
@@ -995,7 +996,7 @@ For a historical overview of ROCm component updates, see the {doc}`ROCm consolid
 
 #### Upcoming changes
 
-* As of ROCm 7.2.0, the [HIPCC](https://rocm.docs.amd.com/projects/HIPCC/en/latest/index.html) compiler is deprecated. HIPCC now invokes [AMD Clang](https://rocm.docs.amd.com/projects/llvm-project/en/latest/index.html). It’s recommended that you now invoke AMD Clang directly rather than using HIPCC. There isn’t any expected impact on usability, functionality, or performance when invoking AMD Clang directly. In a future ROCm release, HIPCC will become a symbolic link to AMD Clang.
+* As of ROCm 7.2.0, the [HIPCC](https://rocm.docs.amd.com/projects/HIPCC/en/docs-7.2.0/index.html) compiler is deprecated. HIPCC now invokes [AMD Clang](https://rocm.docs.amd.com/projects/llvm-project/en/docs-7.2.0/index.html). It’s recommended that you now invoke AMD Clang directly rather than using HIPCC. There isn’t any expected impact on usability, functionality, or performance when invoking AMD Clang directly. In a future ROCm release, HIPCC will become a symbolic link to AMD Clang.
 
 ### **MIGraphX** (2.15.0) 
 
@@ -1405,6 +1406,13 @@ For a historical overview of ROCm component updates, see the {doc}`ROCm consolid
 #### Resolved issues
 * Test Suite - Error Code Capture updates.
 
+### **Tensile** (4.45.0)
+
+#### Removed
+
+- `op_sel` modifiers for `v_dot4` from Tensile codegen.
+- Dependency on `rocm-agent-enumerator` during build.
+
 ## ROCm known issues
 
 ROCm known issues are noted on {fab}`github` [GitHub](https://github.com/ROCm/ROCm/labels/Verified%20Issue). For known
@@ -1432,11 +1440,19 @@ python3 -m pip install --user .
 `sudo` might be required. Use flag `--break-system-packages` if `pip un/installation` fails.
 ```
 
-For detailed instructions, see [Install the Python library for multiple ROCm instances](https://rocm.docs.amd.com/projects/amdsmi/en/latest/install/install.html#install-the-python-library-for-multiple-rocm-instances). The issue will be fixed in a future ROCm release.
+For detailed instructions, see [Install the Python library for multiple ROCm instances](https://rocm.docs.amd.com/projects/amdsmi/en/latest/install/install.html#install-the-python-library-for-multiple-rocm-instances). The issue will be fixed in a future ROCm release. See [GitHub issue #5875](https://github.com/ROCm/ROCm/issues/5875).
+
+### Intermittent errors when running JAX workloads
+
+You might experience intermittent errors or segmentation faults when running JAX workloads. The issue is currently under investigation and will be addressed in an upcoming ROCm release. See [GitHub issue #5878](https://github.com/ROCm/ROCm/issues/5878).
 
 ### hipBLASLt performance variation for a particular FP8 GEMM operation on AMD Instinct MI325X GPUs
 
 If you’re using hipBLASLt on AMD Instinct MI325X GPUs for large FP8 GEMM operations (such as 9728x8192x65536), you might observe a noticeable performance variation. The issue is currently under investigation and will be fixed in a future ROCm release. See [GitHub issue #5734](https://github.com/ROCm/ROCm/issues/5734).
+
+### Increased runtime latency of the HIP hipStreamCreate API
+
+Doubling of runtime latency of the [HIP](https://rocmdocs.amd.com/projects/HIP/en/latest/doxygen/html/group___stream.html) `hipStreamCreate` API might be observed. While this affects RCCL `all_reduce_perf` tests, it has minimal impact on real production workloads. No slowdowns have been observed in other common benchmarks, including PyTorch, vLLM, and other application‑level tests. The issue is currently under investigation and will be fixed in an upcoming ROCm release. See [GitHub issue #5978](https://github.com/ROCm/ROCm/issues/5978). 
 
 ## ROCm resolved issues
 
@@ -1471,13 +1487,17 @@ unnecessary concern about GPU health. See [GitHub issue #5720](https://github.co
 
 An issue where some `gemm_ex` operations with 8-bit input data types (`int8`, `float8`, `bfloat8`) for specific matrix dimensions (K = 1 and number of workgroups > 1) yield incorrect results has been resolved. The root cause was incorrect tailloop code that ignored workgroup index when calculating valid element size. See [GitHub issue #5722](https://github.com/ROCm/ROCm/issues/5722).
 
+### Libva-based applications might fail after ROCm installation
+
+The issue in which certain applications that depended on the Libva library (such as `vainfo` and `ffmpeg`) failed after ROCm installation has been resolved. The failure occurred due to a symbol clash between the AMD-packaged `libva-amdgpu` and the system-provided Libva. This conflict was introduced when adapting the RHEL 8 build to support additional operating systems, which required changes to the build options. See [GitHub issue #5732](https://github.com/ROCm/ROCm/issues/5732).
+
 ## ROCm upcoming changes
 
 The following changes to the ROCm software stack are anticipated for future releases.
 
 ###  ROCm Offline Installer Creator deprecation
 
-The ROCm Offline Installer Creator is deprecated with the ROCm 7.2.0 release. Equivalent installation capabilities are available through the ROCm Runfile Installer, a self-extracting installer that is not based on OS package managers. This installer will be removed in a future release.
+The [ROCm Offline Installer Creator](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.2.0/install/rocm-offline-installer.html) is deprecated with the ROCm 7.2.0 release and will be removed in a future release. Equivalent installation capabilities are available through the [ROCm Runfile Installer](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.2.0/install/rocm-runfile-installer.html), a self-extracting installer that is not based on OS package managers.
 
 ### ROCm SMI deprecation
 

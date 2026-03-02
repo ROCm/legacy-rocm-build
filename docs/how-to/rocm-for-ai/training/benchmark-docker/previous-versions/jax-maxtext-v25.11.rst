@@ -1,22 +1,24 @@
+:orphan:
+
 .. meta::
    :description: How to train a model using JAX MaxText for ROCm.
    :keywords: ROCm, AI, LLM, train, jax, torch, Llama, flux, tutorial, docker
 
-********************************************
-Training a model with Primus and JAX MaxText
-********************************************
+******************************************
+Training a model with JAX MaxText on ROCm
+******************************************
 
-The JAX MaxText for ROCm training Docker image provides a prebuilt environment
-for training on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs, with
-essential components such as JAX, XLA, ROCm libraries, and MaxText utilities.
+.. caution::
 
-The image also integrates with `Primus <https://github.com/AMD-AGI/Primus>`__,
-a high-level training framework that supports multiple backends. You can use
-the unified ``primus-cli`` to run training jobs using the JAX MaxText backend.
+   This documentation does not reflect the latest version of ROCm JAX MaxText
+   training performance documentation. See :doc:`../jax-maxtext` for the latest version.
 
+The MaxText for ROCm training Docker image
+provides a prebuilt environment for training on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs,
+including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
 It includes the following software components:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.11-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
    .. tab-set::
@@ -40,6 +42,13 @@ It includes the following software components:
             {% endfor %}
       {% endfor %}
 
+.. note::
+
+   The ``rocm/jax-training:maxtext-v25.9`` has been updated to
+   ``rocm/jax-training:maxtext-v25.9.1``. This revision should include
+   a fix to address segmentation fault issues during launch. See the
+   :doc:`versioned documentation <jax-maxtext-v25.9>`.
+
 MaxText with on ROCm provides the following key features to train large language models efficiently:
 
 - Transformer Engine (TE)
@@ -52,7 +61,7 @@ MaxText with on ROCm provides the following key features to train large language
 
 - NANOO FP8 (for MI300X series GPUs) and FP8 (for MI355X and MI350X) quantization support
 
-.. _amd-maxtext-model-support-v26.2:
+.. _amd-maxtext-model-support-v25.11:
 
 Supported models
 ================
@@ -62,7 +71,7 @@ GPUs. Some instructions, commands, and available training
 configurations in this documentation might vary by model -- select one to get
 started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.11-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    .. raw:: html
@@ -126,7 +135,7 @@ Pull the Docker image
 
 Use the following command to pull the Docker image from Docker Hub.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.11-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
 
@@ -134,7 +143,7 @@ Use the following command to pull the Docker image from Docker Hub.
 
       docker pull {{ docker.pull_tag }}
 
-.. _amd-maxtext-multi-node-setup-v26.2:
+.. _amd-maxtext-multi-node-setup-v25.11:
 
 Multi-node configuration
 ------------------------
@@ -142,7 +151,7 @@ Multi-node configuration
 See :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your
 environment for multi-node training.
 
-.. _amd-maxtext-get-started-v26.2:
+.. _amd-maxtext-get-started-v25.11:
 
 Benchmarking
 ============
@@ -150,7 +159,7 @@ Benchmarking
 Once the setup is complete, choose between two options to reproduce the
 benchmark results:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.11-benchmark-models.yaml
 
    .. _vllm-benchmark-mad:
 
@@ -163,145 +172,11 @@ benchmark results:
 
       .. tab-set::
 
-         {% if model.primus_config_name %}
-         .. tab-item:: Primus benchmarking
-
-            .. container:: model-doc {{ model.mad_tag }}
-
-               The following run commands are tailored to {{ model.model }}.
-               See :ref:`amd-maxtext-model-support-v26.2` to switch to another available model.
-
-               .. rubric:: Download the Docker image and required packages
-
-               1. Pull the ``{{ docker.pull_tag }}`` Docker image from Docker Hub.
-
-                  .. code-block:: shell
-
-                     docker pull {{ docker.pull_tag }}
-
-               2. Run the Docker container.
-
-                  .. code-block:: shell
-
-                     docker run -it \
-                         --device /dev/dri \
-                         --device /dev/kfd \
-                         --network host \
-                         --ipc host \
-                         --group-add video \
-                         --cap-add SYS_PTRACE \
-                         --security-opt seccomp=unconfined \
-                         --privileged \
-                         -v $HOME:$HOME \
-                         -v $HOME/.ssh:/root/.ssh \
-                         -v $HF_HOME:/hf_cache \
-                         -e HF_HOME=/hf_cache \
-                         -e MAD_SECRETS_HFTOKEN=$MAD_SECRETS_HFTOKEN
-                         --shm-size 64G \
-                         --name training_env \
-                         {{ docker.pull_tag }}
-
-                  Use these commands if you exit the ``training_env`` container and need to return to it.
-
-                  .. code-block:: shell
-
-                     docker start training_env
-                     docker exec -it training_env bash
-
-               3. Clone the Primus repository.
-
-                  .. code-block:: shell
-
-                     git clone https://github.com/AMD-AIG-AIMA/Primus.git
-                     cd Primus
-                     git checkout dev/fuyuajin/maxtext-backend-test
-                     git submodule update --init third_party/maxtext/
-
-               .. rubric:: Run the training job with primus-cli
-
-               For detailed usage instructions for ``primus-cli``, see the
-               `Primus CLI User Guide
-               <https://github.com/AMD-AGI/Primus/blob/main/docs/cli/PRIMUS-CLI-GUIDE.md>`__.
-
-               Use the following examples to run training with ``primus-cli``:
-
-               - Direct mode: run directly on the current host or within an existing Docker container
-
-                 .. tab-set::
-
-                    .. tab-item:: MI355X
-                       :sync: mi355x
-
-                       .. code-block:: shell
-
-                          ./primus-cli direct \
-                            -- train pretrain \
-                            --config examples/maxtext/configs/MI355X/{{ model.primus_config_name }}
-
-                    .. tab-item:: MI300X
-                       :sync: mi300x
-
-                       .. code-block:: shell
-
-                          ./primus-cli direct \
-                            -- train pretrain \
-                            --config examples/maxtext/configs/MI300X/{{ model.primus_config_name }}
-
-               - Container mode: run in Docker containers
-
-                 .. tab-set::
-
-                    .. tab-item:: MI355X
-                       :sync: mi355x
-
-                       .. code-block:: shell
-
-                          ./primus-cli container --image {{ docker.pull_tag }} \
-                            -- train pretrain \
-                            --config examples/maxtext/configs/MI355X/{{ model.primus_config_name }}
-
-                    .. tab-item:: MI300X
-                       :sync: mi300x
-
-                       .. code-block:: shell
-
-                          ./primus-cli container --image rocm/jax-training:maxtext-v26.2 \
-                            -- train pretrain \
-                            --config examples/maxtext/configs/MI300X/{{ model.primus_config_name }}
-
-
-               - Slurm mode: run distributed training on a Slurm cluster
-
-                 .. tab-set::
-
-                    .. tab-item:: MI355X
-                       :sync: mi355x
-
-                       .. code-block:: shell
-
-                          # Use a custom config file, where you can specify
-                          # the Docker image and set environment variables.
-                          ./primus-cli --config my_maxtext_config.yaml slurm srun -N 8 \
-                            -- train pretrain \
-                            --config examples/maxtext/configs/MI355X/{{ model.primus_config_name }}
-
-                    .. tab-item:: MI300X
-                       :sync: mi300x
-
-                       .. code-block:: shell
-
-                          # Use a custom config file, where you can specify
-                          # the Docker image and set environment variables.
-                          ./primus-cli --config my_maxtext_config.yaml slurm srun -N 8 \
-                            -- train pretrain \
-                            --config examples/maxtext/configs/MI300X/{{ model.primus_config_name }}
-         {% endif %}
-
          {% if model.mad_tag and "single-node" in model.doc_options %}
          .. tab-item:: MAD-integrated benchmarking
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-maxtext-model-support-v26.2` to switch to another available model.
+            See :ref:`amd-maxtext-model-support-v25.11` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -332,7 +207,7 @@ benchmark results:
          .. tab-item:: Standalone benchmarking
 
             The following commands are optimized for {{ model.model }}. See
-            :ref:`amd-maxtext-model-support-v26.2` to switch to another
+            :ref:`amd-maxtext-model-support-v25.11` to switch to another
             available model. Some instructions and resources might not be
             available for all models and configurations.
 
@@ -428,57 +303,56 @@ benchmark results:
                   {% endif %}
 
             {% endif %}
-            {% if model.multinode_config and "multi-node" in model.doc_options %}
+            {% if model.multinode_training_script and "multi-node" in model.doc_options %}
             .. rubric:: Multi-node training
 
-            The following SLURM scripts will launch the Docker container and
-            run the benchmark. Run them outside of any Docker container. The
-            unified multi-node benchmark script accepts a configuration file
-            that specifies the model and training parameters.
+            The following examples use SLURM to run on multiple nodes.
 
-            .. code-block:: shell
+            .. note::
 
-               sbatch -N <NUM_NODES> jax_maxtext_multinode_benchmark.sh <config_file.yml> [docker_image]
+               The following scripts will launch the Docker container and run the
+               benchmark. Run them outside of any Docker container.
 
-            <NUM_NODES>
-               The number of nodes to use for training (for example, 2, 4,
-               8).
+            1. Make sure ``$HF_HOME`` is set before running the test. See
+               `ROCm benchmarking <https://github.com/ROCm/MAD/blob/develop/scripts/jax-maxtext/gpu-rocm/readme.md>`__
+               for more details on downloading the Llama models before running the
+               benchmark.
 
-            <config_file.yml>
-               Path to the YAML configuration file containing model and
-               training parameters. Configuration files are available in the
-               ``scripts/jax-maxtext/env_scripts/`` directory for different
-               models and GPU architectures.
+            2. To run multi-node training for {{ model.model }},
+               use the
+               `multi-node training script <https://github.com/ROCm/MAD/blob/develop/scripts/jax-maxtext/gpu-rocm/{{ model.multinode_training_script }}>`__
+               under the ``scripts/jax-maxtext/gpu-rocm/`` directory.
 
-            [docker_image] (optional)
-               The Docker image to use. If not specified, it defaults to
-               ``rocm/jax-training:maxtext-v26.2``.
+            3. Run the multi-node training benchmark script.
 
-            For example, to run a multi-node training benchmark on {{ model.model }}:
+               .. code-block:: shell
 
-            .. tab-set::
+                  sbatch -N <num_nodes> {{ model.multinode_training_script }}
 
-               {% if model.multinode_config.gfx950 %}
-               .. tab-item:: MI355X and MI350X (gfx950)
+            .. rubric:: Profiling with rocprofv3
 
-                  .. code-block:: bash
+            If you need to collect a trace and the JAX profiler isn't working, use ``rocprofv3`` provided by the :doc:`ROCprofiler-SDK <rocprofiler-sdk:index>` as a workaround. For example:
 
-                     sbatch -N 4 jax_maxtext_multinode_benchmark.sh {{ model.multinode_config.gfx950 }}
-               {% endif %}
+            .. code-block:: bash
 
-               {% if model.multinode_config.gfx942 %}
-               .. tab-item:: MI325X and MI300X (gfx942)
+               rocprofv3 \
+                   --hip-trace \
+                   --kernel-trace \
+                   --memory-copy-trace \
+                   --rccl-trace \
+                   --output-format pftrace \
+                   -d ./v3_traces \ # output directory
+                   -- ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} # or desired command
 
-                  .. code-block:: bash
-
-                     sbatch -N 4 jax_maxtext_multinode_benchmark.sh {{ model.multinode_config.gfx942 }}
-               {% endif %}
+            You can set the directory where you want the .json traces to be
+            saved using ``-d <TRACE_DIRECTORY>``. The resulting traces can be
+            opened in Perfetto: `<https://ui.perfetto.dev/>`__.
 
          {% else %}
             .. rubric:: Multi-node training
 
-            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v26.2`
-            with an available `multi-node training script <https://github.com/ROCm/MAD/tree/develop/scripts/jax-maxtext/env_scripts>`__.
+            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v25.11`
+            with an available `multi-node training script <https://github.com/ROCm/MAD/tree/develop/scripts/jax-maxtext/gpu-rocm>`__.
          {% endif %}
       {% endfor %}
    {% endfor %}
@@ -486,9 +360,35 @@ benchmark results:
 Known issues
 ============
 
-- You might see NaNs in the losses when setting ``packing=True``. As
-  a workaround, turn off input sequence packing (``packing=False``).
+- Minor performance regression (< 4%) for BF16 quantization in Llama models and Mixtral 8x7b.
+
+- You might see minor loss spikes, or loss curve may have slightly higher
+  convergence end values compared to the previous ``jax-training`` image.
+
+- For FP8 training on MI355, many models will display a warning message like:
+  ``Warning: Latency not found for MI_M=16, MI_N=16, MI_K=128,
+  mi_input_type=BFloat8Float8_fnuz. Returning latency value of 32 (really
+  slow).`` The compile step may take longer than usual, but training will run.
   This will be fixed in a future release.
+
+- The built-in JAX profiler isn't working. If you need to collect a trace and
+  the JAX profiler isn't working, use ``rocprofv3`` provided by the
+  :doc:`ROCprofiler-SDK <rocprofiler-sdk:index>` as a workaround. For example:
+
+  .. code-block:: bash
+
+     rocprofv3 \
+         --hip-trace \
+         --kernel-trace \
+         --memory-copy-trace \
+         --rccl-trace \
+         --output-format pftrace \
+         -d ./v3_traces \ # output directory
+         -- ./jax-maxtext_benchmark_report.sh -m {{ model.model_repo }} # or desired command
+
+  You can set the directory where you want the .json traces to be
+  saved using ``-d <TRACE_DIRECTORY>``. The resulting traces can be
+  opened in Perfetto: `<https://ui.perfetto.dev/>`__.
 
 Further reading
 ===============
@@ -504,5 +404,5 @@ Further reading
 Previous versions
 =================
 
-See :doc:`previous-versions/jax-maxtext-history` to find documentation for previous releases
+See :doc:`jax-maxtext-history` to find documentation for previous releases
 of the ``ROCm/jax-training`` Docker image.

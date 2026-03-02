@@ -70,6 +70,16 @@ Click |docker-icon| to view the image on Docker Hub.
 
     * - .. raw:: html
 
+           <a href="https://hub.docker.com/layers/rocm/flashinfer/flashinfer-0.2.5.amd2_rocm7.1.1_ubuntu24.04_py3.12_pytorch2.8/images/sha256-9ab6426750a11dbab9bcddeaccaf492683bfd96a1d60b21dd9fc3a609a98175b"><i class="fab fa-docker fa-lg"></i> rocm/flashinfer</a>
+      - `7.1.1 <https://repo.radeon.com/rocm/apt/7.1.1/>`__
+      - `v0.2.5 <https://github.com/flashinfer-ai/flashinfer/releases/tag/v0.2.5>`__
+      - `2.8.0 <https://github.com/ROCm/pytorch/releases/tag/v2.8.0>`__
+      - 24.04
+      - `3.12 <https://www.python.org/downloads/release/python-3129/>`__
+      - MI325X, MI300X
+
+    * - .. raw:: html
+
            <a href="https://hub.docker.com/layers/rocm/flashinfer/flashinfer-0.2.5_rocm6.4_ubuntu24.04_py3.12_pytorch2.7/images/sha256-558914838821c88c557fb6d42cfbc1bdb67d79d19759f37c764a9ee801f93313"><i class="fab fa-docker fa-lg"></i> rocm/flashinfer</a>
       - `6.4.1 <https://repo.radeon.com/rocm/apt/6.4.1/>`__
       - `v0.2.5 <https://github.com/flashinfer-ai/flashinfer/releases/tag/v0.2.5>`__
@@ -83,16 +93,21 @@ Click |docker-icon| to view the image on Docker Hub.
 Use cases and recommendations
 ================================================================================
 
-The release of FlashInfer on ROCm provides the decode functionality for LLM inferencing.
-In the decode phase, tokens are generated sequentially, with the model predicting each new 
-token based on the previously generated tokens and the input context.
+FlashInfer on ROCm enables you to perform LLM inference for both prefill and decode:
+during prefill, your model efficiently processes input prompts to build KV caches
+and internal activations; during decode, it generates tokens sequentially based on
+prior outputs and context. Use the attention mode supported upstream (Multi-Head
+Attention, Grouped-Query Attention, or Multi-Query Attention) that matches your
+model configuration.
 
-FlashInfer on ROCm brings over upstream features such as load balancing, sparse and dense 
-attention optimizations, and batching support, enabling efficient execution on AMD Instinct™ MI300X GPUs.
+FlashInfer on ROCm also includes capabilities such as load balancing, 
+sparse and dense attention optimizations, and single and batch decode, alongside
+prefill for high‑performance execution on MI300X GPUs.
 
-Because large LLMs often require substantial KV caches or long context windows, FlashInfer on ROCm 
-also implements cascade attention from upstream to reduce memory usage. 
-
-For currently supported use cases and recommendations, refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/>`__, 
+For currently supported use cases and recommendations, refer to the `AMD ROCm blog <https://rocm.blogs.amd.com/search.html?q=flashinfer>`__, 
 where you can search for examples and best practices to optimize your workloads on AMD GPUs.
 
+Previous versions
+===============================================================================
+See :doc:`rocm-install-on-linux:install/3rd-party/previous-versions/flashinfer-history` to find documentation for previous releases
+of the ``ROCm/flashinfer`` Docker image.

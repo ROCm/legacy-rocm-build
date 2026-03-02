@@ -7,7 +7,7 @@ docker:
     - "Flux.2 Klein support"
     - "Aiter update to support opt_groupnorm, dynamic scaling in FP8 and Sage attention v1"
   components:
-    TheRock: 
+    TheRock:
       version: 1728a81
       url: https://github.com/ROCm/TheRock
     rccl:

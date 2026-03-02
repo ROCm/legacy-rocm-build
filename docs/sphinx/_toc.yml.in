@@ -84,7 +84,7 @@ subtrees:
             - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.rst
               title: Train a model with PyTorch
           - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext.rst
-            title: Train a model with JAX MaxText
+            title: Train a model with Primus and JAX MaxText
           - file: how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry
             title: Train a model with LLM Foundry
           - file: how-to/rocm-for-ai/training/scale-model-training.rst
@@ -114,11 +114,15 @@ subtrees:
           - file: how-to/rocm-for-ai/inference/llm-inference-frameworks.rst
             title: LLM inference frameworks
           - file: how-to/rocm-for-ai/inference/benchmark-docker/vllm.rst
-            title: vLLM inference performance testing
+            title: vLLM inference
           - file: how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference.rst
             title: PyTorch inference performance testing
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang.rst
             title: SGLang inference performance testing
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/vllm-mori-distributed.md
+            title: vLLM distributed inference with MoRI
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-mori-distributed.md
+            title: SGLang distributed inference with MoRI
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-distributed.rst
             title: SGLang distributed inference with Mooncake
           - file: how-to/rocm-for-ai/inference/xdit-diffusion-inference.rst
@@ -228,6 +232,18 @@ subtrees:
     title: Data types and precision support
   - file: reference/graph-safe-support.rst
     title: Graph safe support
+  - file: reference/glossary.rst
+    title: ROCm glossary
+    subtrees:
+    - entries:
+      - file: reference/glossary/device-hardware.rst
+        title: Device hardware
+      - file: reference/glossary/device-software.rst
+        title: Device software
+      - file: reference/glossary/host-software.rst
+        title: Host software
+      - file: reference/glossary/performance.rst
+        title: Performance
 
 - caption: Contribute
   entries:

@@ -199,7 +199,7 @@ for a complete overview of this release.
   * fftw_execute_dft_c2r
   * fftwf_execute_dft_c2r
 
-### **HIPIFY** (22.2.0)
+### **HIPIFY** (22.0.0)
 
 #### Added
 
@@ -278,6 +278,10 @@ for a complete overview of this release.
 #### Changed
 
 * Updated clang/llvm to AMD clang version 22.0.0 (equivalent to LLVM 22.0.0 with additional out-of-tree patches).
+
+#### Upcoming changes
+
+* As of ROCm 7.2.0, the [HIPCC](https://rocm.docs.amd.com/projects/HIPCC/en/latest/index.html) compiler is deprecated. HIPCC now invokes [AMD Clang](https://rocm.docs.amd.com/projects/llvm-project/en/latest/index.html). It’s recommended that you now invoke AMD Clang directly rather than using HIPCC. There isn’t any expected impact on usability, functionality, or performance when invoking AMD Clang directly. In a future ROCm release, HIPCC will become a symbolic link to AMD Clang.
 
 ### **MIGraphX** (2.15.0) 
 
@@ -686,6 +690,13 @@ for a complete overview of this release.
 
 #### Resolved issues
 * Test Suite - Error Code Capture updates.
+
+### **Tensile** (4.45.0)
+
+#### Removed
+
+- `op_sel` modifiers for `v_dot4` from Tensile codegen.
+- Dependency on `rocm-agent-enumerator` during build.
 
 ## ROCm 7.1.1
 

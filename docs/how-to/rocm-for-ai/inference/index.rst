@@ -5,11 +5,11 @@
 ****************************
 Use ROCm for AI inference
 ****************************
-AI inference is a process of deploying a trained machine learning model to make predictions or classifications on new data. This commonly involves using the model with real-time data and making quick decisions based on the predictions made by the model.  
+AI inference is a process of deploying a trained machine learning model to make predictions or classifications on new data. This commonly involves using the model with real-time data and making quick decisions based on the predictions made by the model. 
 
 Understanding the ROCm™ software platform’s architecture and capabilities is vital for running AI inference. By leveraging the ROCm platform's capabilities, you can harness the power of high-performance computing and efficient resource management to run inference workloads, leading to faster predictions and classifications on real-time data.
 
-Throughout the following topics, this section provides a comprehensive guide to setting up and deploying AI inference on AMD GPUs. This includes instructions on how to install ROCm, how to use Hugging Face Transformers to manage pre-trained models for natural language processing (NLP) tasks, how to validate vLLM on AMD Instinct™ MI300X GPUs and illustrate how to deploy trained models in production environments. 
+Throughout the following topics, this section provides a comprehensive guide to setting up and deploying AI inference on AMD GPUs. This includes instructions on how to install ROCm, how to use Hugging Face Transformers to manage pre-trained models for natural language processing (NLP) tasks, how to validate vLLM on AMD Instinct™ MI300X GPUs and illustrate how to deploy trained models in production environments.
 
 The AI Developer Hub contains `AMD ROCm tutorials <https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/>`_ for
 training, fine-tuning, and inference. It leverages popular machine learning frameworks on AMD GPUs.
@@ -20,11 +20,17 @@ training, fine-tuning, and inference. It leverages popular machine learning fram
 
 - :doc:`LLM inference frameworks <llm-inference-frameworks>`
 
-- :doc:`vLLM inference performance testing <benchmark-docker/vllm>`
+- :doc:`vLLM inference <benchmark-docker/vllm>`
 
 - :doc:`PyTorch inference performance testing <benchmark-docker/pytorch-inference>`
 
 - :doc:`SGLang inference performance testing <benchmark-docker/sglang>`
+
+- :doc:`vLLM distributed inference with MoRI <benchmark-docker/vllm-mori-distributed>`
+
+- :doc:`SGLang distributed inference with MoRI <benchmark-docker/sglang-mori-distributed>`
+
+- :doc:`SGLang distributed inference with Mooncake <benchmark-docker/sglang-distributed>`
 
 - :doc:`xDiT diffusion inference <xdit-diffusion-inference>`
 

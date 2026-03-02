@@ -69,6 +69,7 @@ ROCm documentation is organized into the following categories:
 * [Environment variables](./reference/env-variables.rst)
 * [Data types and precision support](./reference/precision-support.rst)
 * [Graph safe support](./reference/graph-safe-support.rst)
+* [ROCm glossary](./reference/glossary.rst)
 <!-- markdownlint-enable MD051 -->
 :::
 

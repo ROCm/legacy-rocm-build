@@ -1,6 +1,6 @@
 dockers:
-  - pull_tag: rocm/jax-training:maxtext-v26.2
-    docker_hub_url: https://hub.docker.com/layers/rocm/jax-training/maxtext-v26.2/images/sha256-a89643388487b1e2fc6b6ef7bd3c44378c05d217309c977a1c18c72d05ebcaeb
+  - pull_tag: rocm/jax-training:maxtext-v26.1
+    docker_hub_url: https://hub.docker.com/layers/rocm/jax-training/maxtext-v26.1/images/sha256-901083bde353fe6362ada3036e452c792b2c96124e5900f4e9b5946c02ff9d6a
     components:
       ROCm: 7.1.1
       JAX: 0.8.2
@@ -15,7 +15,6 @@ model_groups:
         mad_tag: jax_maxtext_train_llama-2-7b
         model_repo: Llama-2-7B
         precision: bf16
-        primus_config_name: llama2_7B-pretrain.yaml
         multinode_config:
           gfx950: env_scripts/gfx950_llama2_7b.yml
           gfx942: env_scripts/llama2_7b.yml
@@ -24,21 +23,18 @@ model_groups:
         mad_tag: jax_maxtext_train_llama-2-70b
         model_repo: Llama-2-70B
         precision: bf16
-        primus_config_name: llama2_70B-pretrain.yaml
         multinode_config:
           gfx950: env_scripts/gfx950_llama2_70b.yml
           gfx942: env_scripts/llama2_70b.yml
         doc_options: ["single-node", "multi-node"]
-      - model: Llama 3 8B
+      - model: Llama 3 8B (multi-node)
         mad_tag: jax_maxtext_train_llama-3-8b
-        primus_config_name: llama3_8B-pretrain.yaml
         multinode_config:
           gfx950: env_scripts/gfx950_llama3_8b.yml
           gfx942: env_scripts/llama3_8b.yml
         doc_options: ["multi-node"]
-      - model: Llama 3 70B
+      - model: Llama 3 70B (multi-node)
         mad_tag: jax_maxtext_train_llama-3-70b
-        primus_config_name: llama3_70B-pretrain.yaml
         multinode_config:
           gfx950: env_scripts/gfx950_llama3_70b.yml
           gfx942: env_scripts/llama3_70b.yml
@@ -64,7 +60,6 @@ model_groups:
         mad_tag: jax_maxtext_train_llama-3.3-70b
         model_repo: Llama-3.3-70B
         precision: bf16
-        primus_config_name: llama3.3_70B-pretrain.yaml
         multinode_config:
           gfx950: env_scripts/gfx950_llama3.3_70b.yml
           gfx942: env_scripts/llama3.3_70b.yml
@@ -76,7 +71,6 @@ model_groups:
         mad_tag: jax_maxtext_train_deepseek-v2-lite-16b
         model_repo: DeepSeek-V2-lite
         precision: bf16
-        primus_config_name: deepseek_v2_16B-pretrain.yaml
         multinode_config:
           gfx950: env_scripts/gfx950_deepseek2_16b.yml
           gfx942: env_scripts/deepseek2_16b.yml
@@ -88,7 +82,6 @@ model_groups:
         mad_tag: jax_maxtext_train_mixtral-8x7b
         model_repo: Mixtral-8x7B
         precision: bf16
-        primus_config_name: mixtral_8x7B-pretrain.yaml
         multinode_config:
           gfx950: env_scripts/gfx950_mixtral_8x7b.yml
           gfx942: env_scripts/llama3_8x7b.yml

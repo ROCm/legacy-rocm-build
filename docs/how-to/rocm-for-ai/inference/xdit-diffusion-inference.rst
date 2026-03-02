@@ -279,7 +279,7 @@ Run inference
                       --tags {{model.mad_tag}} \
                       --keep-model-dir \
                       --live-output
-                     
+
             MAD launches a Docker container with the name
             ``container_ci-{{model.mad_tag}}``. The throughput and serving reports of the
             model are collected in the following paths: ``{{ model.mad_tag }}_throughput.csv``
