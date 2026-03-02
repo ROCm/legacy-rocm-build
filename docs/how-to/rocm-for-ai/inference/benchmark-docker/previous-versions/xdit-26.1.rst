@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: Learn to validate diffusion model video generation on MI300X, MI350X and MI355X accelerators using
                  prebuilt and optimized docker images.
@@ -7,9 +9,16 @@
 xDiT diffusion inference
 ************************
 
-.. _xdit-video-diffusion:
+.. caution::
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+   This documentation does not reflect the latest version of the xDiT diffusion
+   inference performance documentation. See
+   :doc:`/how-to/rocm-for-ai/inference/xdit-diffusion-inference` for the latest
+   version.
+
+.. _xdit-video-diffusion-v261-v261:
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.1-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -36,7 +45,8 @@ For preview and development releases, see `amdsiloai/pytorch-xdit <https://hub.d
 
 What's new
 ==========
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.1-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -44,7 +54,7 @@ What's new
    * {{ item }}
    {% endfor %}
 
-.. _xdit-video-diffusion-supported-models:
+.. _xdit-video-diffusion-supported-models-v261:
 
 Supported models
 ================
@@ -53,7 +63,7 @@ The following models are supported for inference performance benchmarking.
 Some instructions, commands, and recommendations in this documentation might
 vary by model -- select one to get started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.1-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -118,7 +128,7 @@ system's configuration.
 Pull the Docker image
 =====================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.1-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -132,7 +142,7 @@ Pull the Docker image
 Validate and benchmark
 ======================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.1-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -145,7 +155,7 @@ Validate and benchmark
    .. container:: model-doc {{model.js_tag}}
 
       The following commands are written for {{ model.model }}.
-      See :ref:`xdit-video-diffusion-supported-models` to switch to another available model.
+      See :ref:`xdit-video-diffusion-supported-models-v261` to switch to another available model.
 
      {% endfor %}
    {% endfor %}
@@ -155,7 +165,7 @@ Choose your setup method
 
 You can either use an existing Hugging Face cache or download the model fresh inside the container.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.1-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -247,7 +257,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
 Run inference
 =============
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.1-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -296,7 +306,9 @@ Run inference
                   | map('trim')
                   | join('\n               ') }}
 
-            The generated content and timing information will be stored under the results directory.
+            The generated video will be stored under the results directory.
+
+            {% if model.model == "FLUX.1" %}You may also use ``run_usp.py`` which implements USP without modifying the default diffusers pipeline. {% endif %}
 
       {% endfor %}
     {% endfor %}
