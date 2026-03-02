@@ -1,6 +1,6 @@
 docker:
   pull_tag: rocm/pytorch-xdit:v26.2
-  docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.2/images/sha256-e2c504af438bb9cf60e3869c499baa5102b3d3f62141b99c49743e755ae44008
   ROCm: 7.11.0
   whats_new:
     - "LTX-2 support"
