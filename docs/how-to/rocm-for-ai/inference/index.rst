@@ -35,5 +35,3 @@ training, fine-tuning, and inference. It leverages popular machine learning fram
 - :doc:`xDiT diffusion inference <xdit-diffusion-inference>`
 
 - :doc:`Deploying your model <deploy-your-model>`
-
-- :doc:`xDiT diffusion inference <xdit-diffusion-inference>`
