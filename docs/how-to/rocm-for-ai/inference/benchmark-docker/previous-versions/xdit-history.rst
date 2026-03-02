@@ -15,11 +15,18 @@ benchmarking, see the version-specific documentation.
      - Components
      - Resources
 
-   * - ``rocm/pytorch-xdit:v26.1``
+   * - ``rocm/pytorch-xdit:v26.2``
      -
        * TheRock 1728a81
      -
        * :doc:`Documentation <../../xdit-diffusion-inference>`
+       * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-xdit/v26.2/images/sha256-e2c504af438bb9cf60e3869c499baa5102b3d3f62141b99c49743e755ae44008>`__
+
+   * - ``rocm/pytorch-xdit:v26.1``
+     -
+       * TheRock 1728a81
+     -
+       * :doc:`Documentation <xdit-26.1>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/pytorch-xdit/v26.1/images/sha256-4e35ebcad47042a41389b992ecb3489b3b0a922e4c34c7a0dd1098733a3db513>`__
 
    * - ``rocm/pytorch-xdit:v25.13``
