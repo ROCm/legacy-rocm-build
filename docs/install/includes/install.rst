@@ -797,7 +797,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
          python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx120x-all/ "rocm[libraries,devel]"
 
-   .. selected:: gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=v710 gpu=rx-7900-xtx gpu=rx-7900 gpu=rx-7900-gre
+   .. selected:: gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=v710 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900 gpu=rx-7900-gre
 
       Use pip to install the ROCm Core SDK libraries and development tools for
       your ``gfx1100`` GPU.
