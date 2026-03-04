@@ -7,24 +7,21 @@ docker:
     - "Flux.2 Klein support"
     - "Aiter update to support opt_groupnorm, dynamic scaling in FP8 and Sage attention v1"
   components:
-    TheRock:
+    TheRock: 
       version: e40a6da
       url: https://github.com/ROCm/TheRock
-    rccl:
-      version: d23d18f
-      url: https://github.com/ROCm/rccl
-    composable_kernel:
-      version: ab0101c
-      url: https://github.com/ROCm/composable_kernel
     rocm-libraries:
-      version: a2f7c35
+      version: 9e9e900
       url: https://github.com/ROCm/rocm-libraries
     rocm-systems:
-      version: 659737c
+      version: ca89a1a
       url: https://github.com/ROCm/rocm-systems
     torch:
       version: 91be249
       url: https://github.com/ROCm/pytorch
+    torchaudio:
+      version: e3c6ee2
+      url: https://github.com/pytorch/audio
     torchvision:
       version: b919bd0
       url: https://github.com/pytorch/vision
@@ -32,16 +29,16 @@ docker:
       version: a272dfa
       url: https://github.com/ROCm/triton
     accelerate:
-      version: b7f2212
+      version: 46ba481
       url: https://github.com/huggingface/accelerate
     aiter:
-      version: 42ae0ad
+      version: 82d733f
       url: https://github.com/ROCm/aiter
     diffusers:
-      version: a3dcd9
+      version: a80b192
       url: https://github.com/huggingface/diffusers
     xfuser:
-      version: 635fc29
+      version: 2882027
       url: https://github.com/xdit-project/xDiT
     yunchang:
       version: 631bdfd
