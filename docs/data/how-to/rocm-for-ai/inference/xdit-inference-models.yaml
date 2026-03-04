@@ -6,6 +6,7 @@ docker:
     - "Qwen-Image support"
     - "Qwen-Image-Edit support"
     - "Aiter update to support Sage attention v2"
+    - "xDiT update to support MXFP4 GEMMs in Wan2.2, Wan2.1 and Flux.2"
   components:
     TheRock: 
       version: e40a6da
