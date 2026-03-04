@@ -3,9 +3,9 @@ docker:
   docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.3/images/sha256-ac78a03d2911bf1b49c001d3be2e8bd745c1bc455cb49ae972825a7986880902
   ROCm: 7.12.0
   whats_new:
-    - "LTX-2 support"
-    - "Flux.2 Klein support"
-    - "Aiter update to support opt_groupnorm, dynamic scaling in FP8 and Sage attention v1"
+    - "Qwen-Image support"
+    - "Qwen-Image-Edit support"
+    - "Aiter update to support Sage attention v2"
   components:
     TheRock: 
       version: e40a6da
