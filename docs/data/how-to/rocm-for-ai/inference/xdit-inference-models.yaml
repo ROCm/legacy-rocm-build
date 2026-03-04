@@ -306,3 +306,48 @@ docker:
             - '--num_iterations 1 \'
             - '--attention_backend aiter \'
             - '--output_directory results'
+    - group: Qwen-Image
+      js_tag: qwen_image
+      models:
+        - model: Qwen-Image
+          model_repo: Qwen/Qwen-Image
+          url: https://huggingface.co/Qwen/Qwen-Image
+          github: https://github.com/QwenLM/Qwen-Image
+          mad_tag: pyt_xdit_qwen_image
+          js_tag: qwen_image_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "A cat holding a sign that says hello world" \'
+            - '--height 2048 \'
+            - '--width 2048 \'
+            - '--num_inference_steps 50 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--num_iterations 1 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+        - model: Qwen-Image-Edit
+          model_repo: Qwen/Qwen-Image-Edit
+          url: https://huggingface.co/Qwen/Qwen-Image-Edit
+          github: https://github.com/QwenLM/Qwen-Image
+          mad_tag: pyt_xdit_qwen_image_edit
+          js_tag: qwen_image_edit_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "Add a cool hat to the cat." \'
+            - '--negative_prompt "" \'
+            - '--input_images /app/data/flux_cat.png \'
+            - '--height 2048 \'
+            - '--width 2048 \'
+            - '--num_inference_steps 50 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--num_iterations 1 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
