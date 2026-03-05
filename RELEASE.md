@@ -103,6 +103,15 @@ ROCm 7.11.0 adds the following debugging tools to the ROCm Core SDK on Linux:
 For the full list of core components, see [ROCm Core SDK
 components](release-components).
 
+:::{note}
+ROCdbgapi, ROCgdb, and ROCr Debug Agent are only available in tarball installations.
+See the following known issues:
+
+- [](#dbg-pkgman-known-issue)
+
+- [](#dbg-pip-known-issue)
+:::
+
 ### Compatibility notices
 
 In terms of package compatibility, ROCm 7.11.0 diverges from the existing ROCm
@@ -1702,6 +1711,30 @@ support for your specific setup.
 ## Known issues
 
 The following are known issues identified in ROCm 7.11.0.
+
+(dbg-pkgman-known-issue)=
+
+### Debugging tools not available after package manager installation
+
+ROCm debugging tools -- ROCdbgapi, ROCgdb, and ROCr Debug Agent -- are not available
+to install using your Linux distribution's package manager.
+
+As a workaround, install the ROCm Core SDK using the [tarball installation
+method](https://rocm.docs.amd.com/en/7.11.0-preview/install/rocm.html?i=tar).
+This issue will be fixed in a future release.
+
+(dbg-pip-known-issue)=
+
+### Debugging tools not available after pip installation
+
+When installing the ROCm Core SDK using pip, ROCm debugging tools -- ROCdbgapi,
+ROCgdb, and ROCr Debug Agent -- are not included in the pip-distributed
+packages. Attempting to use ROCm debugging tools in a pip-based installation
+might result in `FileNotFoundError` or missing executable errors.
+
+As a workaround, install the ROCm Core SDK using the [tarball installation
+method](https://rocm.docs.amd.com/en/7.11.0-preview/install/rocm.html?i=tar).
+This issue will be fixed in a future release.
 
 ### DistilBERT model performance regression on AMD Instinct MI350 Series
 
