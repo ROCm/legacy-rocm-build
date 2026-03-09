@@ -1,3 +1,5 @@
+:orphan:
+
 .. meta::
    :description: How to train a model using PyTorch for ROCm.
    :keywords: ROCm, AI, LLM, train, PyTorch, torch, Llama, flux, tutorial, docker
@@ -5,6 +7,11 @@
 ****************************************
 Training a model with Primus and PyTorch
 ****************************************
+
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm Primus PyTorch training
+   performance benchmark documentation. See :doc:`../primus-pytorch` for the latest version.
 
 `Primus <https://github.com/AMD-AGI/Primus>`__ is a unified and flexible
 LLM training framework designed to streamline training. It streamlines LLM
@@ -27,7 +34,7 @@ AMD provides a ready-to-use Docker image for MI355X, MI350X, MI325X, and
 MI300X GPUs containing essential components for Primus and PyTorch training
 with Primus Turbo optimizations.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-pytorch-v26.1-benchmark-models.yaml
 
    .. tab-set::
 
@@ -45,7 +52,7 @@ with Primus Turbo optimizations.
               - {{ component_version }}
             {% endfor %}
 
-.. _amd-primus-pytorch-model-support-v26.2:
+.. _amd-primus-pytorch-model-support-v26.01:
 
 Supported models
 ================
@@ -54,7 +61,7 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
 Some instructions, commands, and training recommendations in this documentation might
 vary by model -- select one to get started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-pytorch-v26.1-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    .. raw:: html
@@ -91,7 +98,7 @@ vary by model -- select one to get started.
    For additional workloads, including Llama 3.3, Llama 3.2, Llama 2, GPT OSS, Qwen, and Flux models,
    see the documentation :doc:`pytorch-training` (without Primus)
 
-.. _amd-primus-pytorch-performance-measurements-v26.2:
+.. _amd-primus-pytorch-performance-measurements-v26.01:
 
 System validation
 =================
@@ -115,7 +122,7 @@ doesn’t test configurations and run conditions outside those described.
 Pull the Docker image
 =====================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-pytorch-v26.1-benchmark-models.yaml
 
    Use the following command to pull the Docker image from Docker Hub.
 
@@ -131,7 +138,7 @@ For fine-tuning workloads and multi-node training examples, see :doc:`pytorch-tr
 For best performance on MI325X, MI350X, and MI355X GPUs, you might need to
 tweak some configurations (such as batch sizes).
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-pytorch-v26.1-benchmark-models.yaml
 
    {% set docker = data.docker %}
    {% set model_groups = data.model_groups %}
@@ -146,7 +153,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run commands are tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v26.2` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v26.01` to switch to another available model.
 
             .. rubric:: Download the Docker image and required packages
 
@@ -399,7 +406,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v26.2` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v26.01` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -446,5 +453,5 @@ Further reading
 Previous versions
 =================
 
-See :doc:`previous-versions/pytorch-training-history` to find documentation for previous releases
+See :doc:`pytorch-training-history` to find documentation for previous releases
 of the ``ROCm/pytorch-training`` Docker image.
