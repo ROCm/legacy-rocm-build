@@ -691,10 +691,10 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
               --global_batch_size 16 \
               --train_iters 50
 
-.. container:: model-doc primus_pyt_megatron_lm_train_qwen3-32b-sft
+.. container:: model-doc primus_pyt_megatron_lm_train_qwen3-32b-lora
 
    Once setup is complete, run the appropriate training command.
-   The following run commands are tailored to Qwen 3 32B (SFT).
+   The following run commands are tailored to post-training Qwen 3 32B (LoRA).
    See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
 
    To run training on a single node for Qwen 3 32B BF16 (SFT), use the following
@@ -708,9 +708,9 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
          .. code-block:: shell
 
             bash runner/primus-cli direct \
-              --log_file /tmp/primus_qwen2.5_7B.log \
-              -- train pretrain \
-              --config examples/megatron/configs/MI355X/qwen2.5_7B-BF16-pretrain.yaml
+              --log_file /tmp/primus_qwen3_32b.log \
+              -- train posttrain \
+              --config examples/megatron_bridge/configs/MI355X/qwen3_32b_lora_posttrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -723,9 +723,45 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
             bash runner/primus-cli direct \
-              --log_file /tmp/primus_qwen2.5_7B.log \
-              -- train pretrain \
-              --config examples/megatron/configs/MI300X/qwen2.5_7B-BF16-pretrain.yaml
+              --log_file /tmp/primus_qwen3_32b.log \
+              -- train posttrain \
+              --config examples/megatron_bridge/configs/MI300X/qwen3_32b_lora_posttrain.yaml
+
+.. container:: model-doc primus_pyt_megatron_lm_train_qwen3-32b-sft
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to post-training Qwen 3 32B (SFT).
+   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+
+   To run training on a single node for Qwen 3 32B BF16 (SFT), use the following
+   command:
+
+   .. tab-set::
+
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen3_32b_sft.log \
+              -- train posttrain \
+              --config examples/megatron_bridge/configs/MI355X/qwen3_32b_sft_posttrain.yaml
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            # Set the variables for better performance
+            # only on MI325X and MI300X
+            export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
+            export NVTE_CK_IS_V3_ATOMIC_FP32=1
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen3_32b_sft.log \
+              -- train posttrain \
+              --config examples/megatron_bridge/configs/MI300X/qwen3_32b_sft_posttrain.yaml
 
 .. container:: model-doc primus_pyt_megatron_lm_train_qwen2.5-7b
 
@@ -837,6 +873,16 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    .. tab-set::
 
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            PRIMUS_TRAIN_RUNTIME=legacy bash runner/primus-cli direct \
+              --log_file /tmp/primus_zebra_llama_1B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/zebra_llama_1B-pretrain.yaml
+
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
 
@@ -862,6 +908,16 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    .. tab-set::
 
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            PRIMUS_TRAIN_RUNTIME=legacy bash runner/primus-cli direct \
+              --log_file /tmp/primus_zebra_llama_3B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/zebra_llama_3B-pretrain.yaml
+
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
 
@@ -886,6 +942,16 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
    To run the training on a single node for AMD Zebra-Llama 8B BF16, use the following command.
 
    .. tab-set::
+
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            PRIMUS_TRAIN_RUNTIME=legacy bash runner/primus-cli direct \
+              --log_file /tmp/primus_zebra_llama_8B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/zebra_llama_8B-pretrain.yaml
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
