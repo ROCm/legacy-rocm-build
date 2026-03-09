@@ -65,9 +65,21 @@ might vary by model -- select one to get started.
          <div class="row gx-0">
             <div class="col-2 me-1 px-2 model-param-head">Model</div>
             <div class="row col-10 pe-0">
-      {% for model_group in model_groups %}
-               <div class="col-3 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
-      {% endfor %}
+               {% set tag = "llama" %}
+               {% set group = "Meta Llama" %}
+               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ tag }}" tabindex="0">{{ group }}</div>
+               {% set tag = "zebra-llama" %}
+               {% set group = "AMD Zebra-Llama" %}
+               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ tag }}" tabindex="0">{{ group }}</div>
+               {% set tag = "deepseek" %}
+               {% set group = "DeepSeek" %}
+               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ tag }}" tabindex="0">{{ group }}</div>
+               {% set tag = "mistral" %}
+               {% set group = "Mistral AI" %}
+               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ tag }}" tabindex="0">{{ group }}</div>
+               {% set tag = "qwen" %}
+               {% set group = "Qwen" %}
+               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ tag }}" tabindex="0">{{ group }}</div>
             </div>
          </div>
 
@@ -357,7 +369,9 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             bash runner/primus-cli direct \
               --log_file /tmp/primus_llama3.1_70B.log \
               -- train pretrain \
-              --config examples/megatron/configs/MI355X/llama3.1_70B-BF16-pretrain.yaml
+              --config examples/megatron/configs/MI355X/llama3.1_70B-BF16-pretrain.yaml \
+              --micro_batch_size 8 \
+              --global_batch_size 128
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -536,7 +550,9 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
               --moe_layer_freq 1 \
               --train_iters 50 \
               --micro_batch_size 8 \
-              --global_batch_size 64
+              --global_batch_size 64 \
+              --moe_use_fused_router_with_aux_score True \
+              --moe_permute_fusion True
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -577,7 +593,11 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
             bash runner/primus-cli direct \
               --log_file /tmp/primus_deepseek_v2_lite.log \
               -- train pretrain \
-              --config examples/megatron/configs//MI355X/deepseek_v2_lite-BF16-pretrain.yaml
+              --config examples/megatron/configs//MI355X/deepseek_v2_lite-BF16-pretrain.yaml \
+              --use_turbo_grouped_mlp False \
+              --moe_use_legacy_grouped_gemm True \
+              --moe_use_fused_router_with_aux_score True \
+              --moe_permute_fusion True
 
       .. tab-item:: MI300X
          :sync: MI325X and MI300X
@@ -670,6 +690,42 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
               --micro_batch_size 1 \
               --global_batch_size 16 \
               --train_iters 50
+
+.. container:: model-doc primus_pyt_megatron_lm_train_qwen3-32b-sft
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Qwen 3 32B (SFT).
+   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+
+   To run training on a single node for Qwen 3 32B BF16 (SFT), use the following
+   command:
+
+   .. tab-set::
+
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen2.5_7B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/qwen2.5_7B-BF16-pretrain.yaml
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            # Set the variables for better performance
+            # only on MI325X and MI300X
+            export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
+            export NVTE_CK_IS_V3_ATOMIC_FP32=1
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen2.5_7B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/qwen2.5_7B-BF16-pretrain.yaml
 
 .. container:: model-doc primus_pyt_megatron_lm_train_qwen2.5-7b
 
@@ -771,6 +827,81 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
               -- train pretrain \
               --config examples/megatron/configs/MI300X/qwen2.5_72B-BF16-pretrain.yaml
 
+.. container:: model-doc primus_pyt_megatron_lm_train_zebra-llama-1b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Zebra-Llama 1B.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+
+   To run the training on a single node for AMD Zebra-Llama 1B BF16, use the following command.
+
+   .. tab-set::
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            # Set the variables for better performance
+            # only on MI325X and MI300X
+            export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
+            export NVTE_CK_IS_V3_ATOMIC_FP32=1
+
+            PRIMUS_TRAIN_RUNTIME=legacy bash runner/primus-cli direct \
+              --log_file /tmp/primus_zebra_llama_1B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/zebra_llama_1B-pretrain.yaml
+
+.. container:: model-doc primus_pyt_megatron_lm_train_zebra-llama-3b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Zebra-Llama 3B.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+
+   To run the training on a single node for AMD Zebra-Llama 3B BF16, use the following command.
+
+   .. tab-set::
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            # Set the variables for better performance
+            # only on MI325X and MI300X
+            export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
+            export NVTE_CK_IS_V3_ATOMIC_FP32=1
+
+            PRIMUS_TRAIN_RUNTIME=legacy bash runner/primus-cli direct \
+              --log_file /tmp/primus_zebra_llama_3B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/zebra_llama_3B-pretrain.yaml
+
+.. container:: model-doc primus_pyt_megatron_lm_train_zebra-llama-8b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Zebra Llama 8B.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+
+   To run the training on a single node for AMD Zebra-Llama 8B BF16, use the following command.
+
+   .. tab-set::
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            # Set the variables for better performance
+            # only on MI325X and MI300X
+            export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
+            export NVTE_CK_IS_V3_ATOMIC_FP32=1
+
+            PRIMUS_TRAIN_RUNTIME=legacy bash runner/primus-cli direct \
+              --log_file /tmp/primus_zebra_llama_8B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/zebra_llama_8B-pretrain.yaml
+
 .. _amd-primus-megatron-multi-node-examples-v26.2:
 
 Multi-node training examples
@@ -790,7 +921,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
       git clone --recurse-submodules https://github.com/AMD-AGI/Primus.git
       cd Primus
-      git checkout c4c083de64ba3e8f19ccc9629411267108931f9e
+      git checkout fadaeb1e
       git submodule update --init --recursive
 
       export DOCKER_IMAGE={{ docker.pull_tag }}
