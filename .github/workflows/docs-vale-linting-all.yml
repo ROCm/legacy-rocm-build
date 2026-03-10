@@ -1,4 +1,4 @@
-name: docs_vale_linting
+name: docs_vale_linting_all
 
 on:
   pull_request:
