@@ -99,45 +99,9 @@ jobs:
           # Store where we put the vale executable.
           echo "VALE_EXECUTABLE=${VALE_DIRECTORY}/vale" >> $GITHUB_OUTPUT
 
-      - name: Create temporary directory for changed files
-        id: create_changed_files_directory
+      - name: Run Vale on ALL files
         run: |
-          declare CHANGED_FILES_DIRECTORY_LOCAL="/tmp/pr_changed_files"
-          mkdir -p "${CHANGED_FILES_DIRECTORY_LOCAL}"
-          echo "CHANGED_FILES_DIRECTORY=${CHANGED_FILES_DIRECTORY_LOCAL}" >> $GITHUB_OUTPUT
-
-      - name: Download changed files of interest
-        id: download_changed_files
-        run: |
-          set -e
-
-          declare GET_FILES_CHANGED_BY_PR_PATH="docs/vale/get_files_changed_by_pr.sh"
-
-          chmod +x "${GET_FILES_CHANGED_BY_PR_PATH}"
-
-          # Interesting files are:
-          #     *.md
-          #     *.rst
-          #     .vale.ini
-          declare interesting_file_paths_regex='^(.*(\.md|\.rst)|\.vale\.ini)$'
-
-          "${GET_FILES_CHANGED_BY_PR_PATH}" \
-              -o "${{ github.repository_owner }}" \
-              -r "${{ github.event.repository.name }}" \
-              -p "${{ github.event.pull_request.number }}" \
-              -l "${{ steps.create_changed_files_directory.outputs.CHANGED_FILES_DIRECTORY }}" \
-              -d "${interesting_file_paths_regex}" \
-              -T "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Run Vale on changed files
-        run: |
-          # Check if any files were downloaded that we wish to lint.
-          if [[ -z "$(ls -A "${{ steps.create_changed_files_directory.outputs.CHANGED_FILES_DIRECTORY }}")" ]]; then
-              echo "No files of interest were changed in this PR."
-              exit 0
-          fi
-
-          echo "===== START VALE LINTING ON CHANGED FILES ====="
+          echo "===== START VALE LINTING ON ALL FILES ====="
           # Run Vale on the changed files. This command will exit with a non-zero code if any errors are found.
-          ${{ steps.install_vale.outputs.VALE_EXECUTABLE }} --output=line --minAlertLevel=error "${{ steps.create_changed_files_directory.outputs.CHANGED_FILES_DIRECTORY }}"
-          echo "===== END VALE LINTING ON CHANGED FILES ====="
+          ${{ steps.install_vale.outputs.VALE_EXECUTABLE }} --output=line --minAlertLevel=error .
+          echo "===== END VALE LINTING ON ALL FILES ====="
