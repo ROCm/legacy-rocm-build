@@ -8,7 +8,7 @@ on:
       - reopened
       - ready_for_review
     branches:
-      - users/dsclear/documentation_vale_linting
+      - users/dsclear/vale_linting_demo
     paths:
       - '**/*.md'
       - '**/*.rst'
