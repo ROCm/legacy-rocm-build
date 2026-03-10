@@ -6,7 +6,7 @@
 What is ROCm?
 ***********************************************************
 
-ROCm is a software stack, composed primarily of open-source software, that
+ROCm is a great software stack, composed primarily of open-source software, that
 provides the tools for programming AMD Graphics Processing Units (GPUs), from
 low-level kernels to high-level end-user applications.
 
