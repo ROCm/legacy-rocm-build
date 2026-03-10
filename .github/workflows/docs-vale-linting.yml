@@ -1,0 +1,107 @@
+name: docs_vale_linting
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    branches:
+      - users/dsclear/documentation_vale_linting
+    paths:
+      - '**/*.md'
+      - '**/*.rst'
+      - '.vale.ini'
+
+jobs:
+  docs-vale-linting:
+    name: 'docs-vale-linting'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repository
+        id: check_out_this_repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        id: install_nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: '25.8.0'
+
+      - name: Install mdx2vast for Vale to parse MDX files
+        id: install_mdx2vast
+        run: |
+          echo "Installing mdx2vast..."
+          cd "docs/vale/mdx2vast"
+          npm ci
+
+          echo "Linking mdx2vast..."
+          cd "node_modules/mdx2vast"
+          npm link
+
+      - name: Install docutils for Vale to parse RST files
+        id: install_docutils
+        run: pip install docutils==0.22.4
+
+      - name: Install Vale
+        id: install_vale
+        run: |
+          set -e
+
+          declare VALE_DIRECTORY="/tmp/vale_linter"
+          mkdir -p "${VALE_DIRECTORY}"
+          cd "${VALE_DIRECTORY}"
+
+          # Specific URL + SHA256 prevent supply chain attacks
+          declare vale_x86_64_url="https://github.com/errata-ai/vale/releases/download/v3.13.1/vale_3.13.1_Linux_64-bit.tar.gz"
+          declare vale_x86_64_sha256="99bd899f0ac52054444ffe3df571c749cc811f3b606cf5ef740c9a5a2db33df6"
+          declare vale_arm64_url="https://github.com/errata-ai/vale/releases/download/v3.13.1/vale_3.13.1_Linux_arm64.tar.gz"
+          declare vale_arm64_sha256="bf732cb7cd1942e007ff1c24e652dff852c58e6ca467312d5955c74469d4fc70"
+
+          declare vale_url
+          declare vale_sha256
+
+          declare architecture_string="$(dpkg --print-architecture)"
+          if [[ "${architecture_string}" == "amd64" ]]; then
+              echo "Downloading x86-64 Vale."
+              vale_url="${vale_x86_64_url}"
+              vale_sha256="${vale_x86_64_sha256}"
+          elif [[ "${architecture_string}" == "arm64" ]] || [[ "${architecture_string}" == "aarch64" ]]; then
+              echo "Downloading ARM64 Vale."
+              vale_url="${vale_arm64_url}"
+              vale_sha256="${vale_arm64_sha256}"
+          else
+              echo "Unrecognized architecture: |${architecture_string}|."
+              exit 1
+          fi
+
+          # Do the download.
+          declare VALE_TAR_FILE_NAME="vale_tar.tar.gz"
+          declare VALE_TAR_PATH="${VALE_DIRECTORY}/${VALE_TAR_FILE_NAME}"
+          wget -O "${VALE_TAR_PATH}" "${vale_url}"
+
+          # Check the tar's integrity.
+          # sha256sum will give us an output like:
+          #     99bd899f0ac52054444ffe3df571c749cc811f3b606cf5ef740c9a5a2db33df6 vale_tar.tar.gz
+          # We will extract only the hash.
+          declare local_hash="$(sha256sum "${VALE_TAR_PATH}" | grep --only-matching --extended-regexp '^\S+')"
+          if [[ "${local_hash}" != "${vale_sha256}" ]]; then
+              echo "Local hash |${local_hash}| for vale does not match expected remote hash |${vale_sha256}|.\
+           Possibly supply chain attack?"
+              exit 1
+          fi
+
+          # Extract the tar
+          echo "Extracting Vale tar."
+          tar --extract --file="${VALE_TAR_PATH}" --directory "${VALE_DIRECTORY}"
+
+          # Store where we put the vale executable.
+          echo "VALE_EXECUTABLE=${VALE_DIRECTORY}/vale" >> $GITHUB_OUTPUT
+
+      - name: Run Vale on ALL files
+        run: |
+          echo "===== START VALE LINTING ON ALL FILES ====="
+          # Run Vale on the changed files. This command will exit with a non-zero code if any errors are found.
+          ${{ steps.install_vale.outputs.VALE_EXECUTABLE }} --output=line --minAlertLevel=error .
+          echo "===== END VALE LINTING ON ALL FILES ====="
