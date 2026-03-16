@@ -1,6 +1,6 @@
 from sphinx.util.docutils import SphinxDirective, directives, nodes
 from pathlib import Path
-from .utils import kv_to_data_attr, normalize_key, logger
+from ..utils import kv_to_data_attr, normalize_key, logger
 
 class SelectorGroup(nodes.General, nodes.Element):
     """
@@ -13,7 +13,7 @@ class SelectorGroup(nodes.General, nodes.Element):
         key = node["key"]
         show_when_attr = kv_to_data_attr("show-when", node["show-when"])
         heading_width = node["heading-width"]
-        list_mode = node.get("list", False)
+        dropdown_list_mode = node.get("dropdown-input", False)
 
         # Standard tile mode
         info_nodes = list(node.findall(SelectorInfo))
@@ -35,24 +35,24 @@ class SelectorGroup(nodes.General, nodes.Element):
                 class="rocm-docs-selector-group row gx-0 pt-2"
                 data-selector-key="{key}"
                 {show_when_attr}
-                {'role="radiogroup"' if list_mode else ""}
+                {'role="radiogroup"' if dropdown_list_mode else ""}
                 aria-label="{label}"
             >
                 <div class="col-{heading_width} me-1 px-2 rocm-docs-selector-group-heading">
                     <span class="rocm-docs-selector-group-heading-text">{label}{info_icon_html}</span>
                 </div>
                 <div class="row col-{12 - heading_width} pe-0">
-                {f'<select class="form-select rocm-docs-selector-dropdown-list" aria-label="{label}">' if list_mode else ""}
+                {f'<select class="form-select rocm-docs-selector-dropdown-input" aria-label="{label}">' if dropdown_list_mode else ""}
             """.strip()
         )
 
     @staticmethod
     def depart_html(translator, node):
-        list_mode = node.get("list", False)
+        dropdown_input_mode = node.get("dropdown-input", False)
 
         translator.body.append(
             f"""
-                {"</select>" if list_mode else ""}
+                {"</select>" if dropdown_input_mode else ""}
                 </div>
             </div>
             """
@@ -68,7 +68,7 @@ class SelectorGroupDirective(SphinxDirective):
         "key": directives.unchanged,
         "show-when": directives.unchanged,
         "heading-width": directives.nonnegative_int,
-        "list": directives.flag,
+        "dropdown-input": directives.flag,
     }
 
     def run(self):
@@ -77,11 +77,16 @@ class SelectorGroupDirective(SphinxDirective):
 
         # Add required JS and CSS if selector exists
         if not hasattr(env, '_selector_js_added'):
-            static_assets_dir = Path(__file__).parent / "static" / "selector"
+            static_assets_dir = Path(__file__).parent / "static"
             app.config.html_static_path.append(str(static_assets_dir))
 
             app.add_js_file("selector.js", type="module", defer="defer")
             app.add_css_file("selector.css")
+
+            # https://tom-select.js.org/
+            app.add_js_file("vendor/tom-select/tom-select.base.min.js", type="module", defer="defer")
+            app.add_js_file("vendor/tom-select/dropdown_input.min.js", type="module", defer="defer")
+            app.add_css_file("vendor/tom-select/tom-select.bootstrap5.min.css", type="module", defer="defer")
             env._selector_js_added = True
 
         label = self.arguments[0]
@@ -90,7 +95,7 @@ class SelectorGroupDirective(SphinxDirective):
         node["key"] = normalize_key(self.options.get("key", label))
         node["show-when"] = self.options.get("show-when", "")
         node["heading-width"] = self.options.get("heading-width", 3)
-        node["list"] = "list" in self.options
+        node["dropdown-input"] = "dropdown-input" in self.options
 
         # Parse nested content (selector-info + selector-option)
         self.state.nested_parse(self.content, self.content_offset, node)
@@ -99,7 +104,7 @@ class SelectorGroupDirective(SphinxDirective):
         if option_nodes:
             for opt in option_nodes:
                 opt["group_key"] = node["key"]
-                opt["list"] = node["list"]
+                opt["dropdown-input"] = node["dropdown-input"]
 
             # Default marking
             default_options = [opt for opt in option_nodes if opt["default"]]
@@ -170,9 +175,9 @@ class SelectorOption(nodes.General, nodes.Element):
         disable_when_attr = kv_to_data_attr("disable-when", node["disable-when"])
         default = node["default"]
         width = node["width"]
-        list_mode = node.get("list", False)
+        dropdown_input_mode = node.get("dropdown-input", False)
 
-        if list_mode:
+        if dropdown_input_mode:
             selected_attr = " selected" if default else ""
             translator.body.append(
                 f'<option value="{value}"{selected_attr} {show_when_attr} {disable_when_attr}>{label}</option>'
@@ -208,8 +213,8 @@ class SelectorOption(nodes.General, nodes.Element):
 
     @staticmethod
     def depart_html(translator, node):
-        list_mode = node.get("list", False)
-        if list_mode:
+        dropdown_input_mode = node.get("dropdown-input", False)
+        if dropdown_input_mode:
             return  # no closing tag needed for <option>
         icon = node["icon"]
         if icon:

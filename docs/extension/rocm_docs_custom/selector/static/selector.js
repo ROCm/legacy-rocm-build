@@ -370,7 +370,7 @@ function updateVisibility() {
 
       stateChanged = reconcileGroupSelections();
       iterations += 1;
-      // Hard stop to avoid infinite loops in case of conflicting rules.
+      // Hard stop loops in case of conflicting rules.
     } while (stateChanged && iterations < 5);
 
     updateTOC2OptionsList();

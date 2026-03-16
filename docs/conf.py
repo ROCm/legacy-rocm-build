@@ -132,7 +132,7 @@ extensions = [
     # "version-ref",
     # "csv-to-list-table",
 ]
-templates_path = ["extension/rocm_docs_custom/templates"]
+templates_path = ["extension/rocm_docs_custom/selector/templates"]
 
 html_static_path = ["sphinx/static"]
 html_js_files = ["setup-toc-install-headings.js"]
@@ -197,3 +197,5 @@ suppress_warnings = ["autosectionlabel.*"]
 # }
 if os.environ.get("READTHEDOCS", "") == "True":
     html_context["READTHEDOCS"] = True
+
+external_projects_remote_repository = ""
