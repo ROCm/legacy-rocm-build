@@ -84,10 +84,10 @@ ROCm Core SDK packages are now available in `.deb` and `.rpm` formats and can
 be installed using your Linux distro's package manager. See the
 {doc}`installation instructions </install/rocm>` for details.
 
-### Added GPU virtualization support for Instinct GPUs
+### Expanded GPU virtualization support for Instinct GPUs
 
-ROCm 7.11.0 supports GPU virtualization on AMD Instinct MI355X, MI350X, MI325X,
-and MI300X GPUs. For details, see [GPU virtualization
+ROCm 7.12.0 expands supported GPU virtualization configurations on AMD Instinct
+MI355X, MI350X, MI325X, and MI300X GPUs. For details, see [GPU virtualization
 support](#release-virtualization-support).
 
 ### Added debugging tools to the ROCm Core SDK
@@ -1270,123 +1270,176 @@ documentation](https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.7.0
 to learn more.
 
 <table class="rocm-docs-table table">
-	<thead>
-		<tr>
-			<th class="head">
-				<p>AMD GPU</p>
-			</th>
-			<th class="head">
-				<p>Hypervisor</p>
-			</th>
-			<th class="head">
-				<p>Virtualization technology</p>
-			</th>
-			<th class="head">
-				<a>Virtualization driver</a>
-			</th>
-			<th class="head">
-				<p>Host OS</p>
-			</th>
-			<th class="head">
-				<p>Guest OS</p>
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td rowspan="2" style="vertical-align: middle;">
-				<p>Instinct MI355X</p>
-			</td>
-			<td rowspan="2" style="vertical-align: middle;">
-				<p>KVM</p>
-			</td>
-			<td style="vertical-align: middle;">
-				<p>Passthrough</p>
-			</td>
-            <td>
-              <p style="text-align: center;"> — </p>
-            </td>
-			<td rowspan="4" style="vertical-align: middle;">
-				<p>Ubuntu 24.04</p>
-			</td>
-			<td rowspan="4" style="vertical-align: middle;">
-				<p>Ubuntu 24.04</p>
-			</td>
-		</tr>
-	    <tr>
-			<td style="vertical-align: middle;">
-				<p>SR-IOV</p>
-			</td>
-			<td style="vertical-align: middle;">
-				<a href="https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.0.K" target="_blank">GIM 8.7.0K</p>
-			</td>
-		</tr>
-		<tr>
-			<td rowspan="2" style="vertical-align: middle;">
-				<p>Instinct MI350X</p>
-			</td>
-			<td rowspan="2" style="vertical-align: middle;">
-				<p>KVM</p>
-			</td>
-			<td style="vertical-align: middle;">
-				<p>Passthrough</p>
-			</td>
-            <td>
-              <p style="text-align: center;"> — </p>
-            </td>
-		</tr>
-		<tr>
-			<td style="vertical-align: middle;">
-				<p>SR-IOV</p>
-			</td>
-			<td style="vertical-align: middle;">
-				<a href="https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.0.K" target="_blank">GIM 8.7.0K</p>
-			</td>
-		</tr>
-		<tr>
-			<td style="vertical-align: middle;">
-				<p>Instinct MI325X</p>
-			</td>
-			<td style="vertical-align: middle;">
-				<p>KVM</p>
-			</td>
-			<td style="vertical-align: middle;">
-				<p>SR-IOV</p>
-			</td>
-			<td style="vertical-align: middle;">
-				<a href="https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.0.K" target="_blank">GIM 8.7.0K</p>
-			</td>
-			<td rowspan="3" style="vertical-align: middle;">
-				<p>Ubuntu 22.04</p>
-			</td>
-			<td rowspan="3" style="vertical-align: middle;">
-				<p>Ubuntu 22.04</p>
-			</td>
-		</tr>
-		<tr>
-			<td rowspan="2" style="vertical-align: middle;">
-				<p>Instinct MI300X</p>
-			</td>
-			<td rowspan="2" style="vertical-align: middle;">
-				<p>KVM</p>
-			</td>
-			<td style="vertical-align: middle;">
-				<p>Passthrough</p>
-			</td>
-            <td>
-              <p style="text-align: center;"> — </p>
-            </td>
-		</tr>
-		<tr>
-			<td style="vertical-align: middle;">
-				<p>SR-IOV</p>
-			</td>
-			<td style="vertical-align: middle;">
-				<a href="https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.0.K" target="_blank">GIM 8.7.0K</p>
-			</td>
-		</tr>
-    </tbody>
-<table>
+  <colgroup style="width: 14%;">
+  <colgroup style="width: 14%;">
+  <colgroup style="width: 17%;">
+  <colgroup style="width: 17%;">
+  <colgroup style="width: 19%;">
+  <colgroup style="width: 19%;">
+  <thead>
+    <tr>
+      <th class="head">
+        <p>AMD GPU</p>
+      </th>
+      <th class="head">
+        <p>Hypervisor</p>
+      </th>
+      <th class="head">
+        <p>Virtualization technology</p>
+      </th>
+      <th class="head">
+        <a>Virtualization driver</a>
+      </th>
+      <th class="head">
+        <p>Host OS</p>
+      </th>
+      <th class="head">
+        <p>Guest OS</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="4" style="vertical-align: middle">
+        <p>Instinct MI355X</p>
+      </td>
+      <td rowspan="4" style="vertical-align: middle">
+        <p>KVM</p>
+      </td>
+      <td style="vertical-align: middle">
+        <p>Passthrough</p>
+      </td>
+      <td>
+        <p style="text-align: center">—</p>
+      </td>
+      <td rowspan="4" style="vertical-align: middle">
+        <p>Ubuntu 24.04</p>
+      </td>
+      <td style="vertical-align: middle">
+        <p>Ubuntu 24.04</p>
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="3" style="vertical-align: middle">
+        <p>SR-IOV</p>
+      </td>
+      <td rowspan="3" style="vertical-align: middle">
+        <a
+          href="https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.0.K"
+          target="_blank"
+        >GIM 8.7.0K
+        </a>
+      </td>
+      <td style="vertical-align: middle">
+        <p>Ubuntu 24.04</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle">
+        <p>RHEL 10.0</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle">
+        <p>RHEL 9.6</p>
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="3" style="vertical-align: middle">
+        <p>Instinct MI350X</p>
+      </td>
+      <td rowspan="3" style="vertical-align: middle">
+        <p>KVM</p>
+      </td>
+      <td style="vertical-align: middle">
+        <p>Passthrough</p>
+      </td>
+      <td>
+        <p style="text-align: center">—</p>
+      </td>
+      <td rowspan="3" style="vertical-align: middle">
+        <p>Ubuntu 24.04</p>
+      </td>
+      <td style="vertical-align: middle">
+        <p>Ubuntu 24.04</p>
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="vertical-align: middle">
+        <p>SR-IOV</p>
+      </td>
+      <td rowspan="2" style="vertical-align: middle">
+        <a
+          href="https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.0.K"
+          target="_blank"
+        >GIM 8.7.0K
+        </a>
+      </td>
+      <td style="vertical-align: middle">
+        <p>Ubuntu 24.04</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle">RHEL 9.6</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle">
+        <p>Instinct MI325X</p>
+      </td>
+      <td style="vertical-align: middle">
+        <p>KVM</p>
+      </td>
+      <td style="vertical-align: middle">
+        <p>SR-IOV</p>
+      </td>
+      <td style="vertical-align: middle">
+        <a
+          href="https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.0.K"
+          target="_blank"
+        >GIM 8.7.0K
+        </a>
+      </td>
+      <td style="vertical-align: middle">
+        <p>Ubuntu 22.04</p>
+      </td>
+      <td style="vertical-align: middle">
+        <p>Ubuntu 22.04</p>
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="vertical-align: middle">
+        <p>Instinct MI300X</p>
+      </td>
+      <td rowspan="2" style="vertical-align: middle">
+        <p>KVM</p>
+      </td>
+      <td style="vertical-align: middle">
+        <p>Passthrough</p>
+      </td>
+      <td>
+        <p style="text-align: center">—</p>
+      </td>
+      <td rowspan="2" style="vertical-align: middle">
+        <p>Ubuntu 22.04</p>
+      </td>
+      <td rowspan="2" style="vertical-align: middle">
+        <p>Ubuntu 22.04</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle">
+        <p>SR-IOV</p>
+      </td>
+      <td style="vertical-align: middle">
+        <a
+          href="https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.0.K"
+          target="_blank"
+        >GIM 8.7.0K
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ## Deep learning framework support
 
