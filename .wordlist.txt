@@ -1008,6 +1008,7 @@ rocsparse
 rocthrust
 roctracer
 rst
+runfile
 runtime
 runtimes
 rx
@@ -1061,6 +1062,7 @@ tensorfloat
 tf
 th
 threadgroups
+toc
 tokenization
 tokenize
 tokenized
@@ -1137,6 +1139,7 @@ xPacked
 xargs
 xcc
 xdit
+xe
 xt
 xtx
 xz

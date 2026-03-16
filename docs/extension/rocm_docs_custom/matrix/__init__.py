@@ -4,7 +4,7 @@ from docutils import nodes
 from docutils.parsers.rst import directives
 from sphinx.util.docutils import SphinxDirective
 
-from .utils import kv_to_data_attr, logger
+from ..utils import kv_to_data_attr, logger
 
 
 class CustomTable(nodes.General, nodes.Element):

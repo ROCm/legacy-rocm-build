@@ -17,71 +17,69 @@ Prerequisites
 
 .. ====================================================== DOCKER REQUIREMENTS ==
 
-.. selected:: i=pip i=tar i=pkgman
+.. selected:: os=ubuntu os=debian os=rhel os=rocky-linux os=oracle-linux os=sles
 
-   .. selected:: os=ubuntu os=debian os=rhel os=rocky-linux os=oracle-linux os=sles
+   .. dropdown:: Install essential packages for Docker containers
+      :animate: fade-in-slide-down
+      :color: info
+      :icon: tools
+      :chevron: down-up
 
-      .. dropdown:: Install essential packages for Docker containers
-         :animate: fade-in-slide-down
-         :color: info
-         :icon: tools
-         :chevron: down-up
+      Docker images often include only a minimal set of installations, so some
+      essential packages might be missing. When installing ROCm within a Docker
+      container, you might need to install additional packages for a successful
+      installation.
 
-         Docker images often include only a minimal set of installations, so some
-         essential packages might be missing. When installing ROCm within a Docker
-         container, you might need to install additional packages for a successful
-         installation.
+      If applicable, run the following command to install essential packages:
 
-         If applicable, run the following command to install essential packages:
+      .. selected:: os=ubuntu os=debian
 
-         .. selected:: os=ubuntu os=debian
-
-            .. selected:: i=pkgman
-
-               .. code-block:: bash
-
-                  apt update
-                  apt install sudo wget
-
-            .. selected:: i=pip
-
-               .. code-block:: bash
-
-                  apt update
-                  apt install sudo cmake libgfortran5
-
-            .. selected:: i=tar
-
-               .. code-block:: bash
-
-                  apt update
-                  apt install sudo wget python3
-
-         .. selected:: os=rhel os=rocky-linux os=oracle-linux
+         .. selected:: i=pkgman
 
             .. code-block:: bash
 
-               dnf install sudo wget
+               apt update
+               apt install sudo wget
 
-         .. selected:: os=sles
+         .. selected:: i=pip
 
-            .. selected:: i=pkgman
+            .. code-block:: bash
 
-               .. code-block:: bash
+               apt update
+               apt install sudo cmake libgfortran5
 
-                  zypper install sudo wget SUSEConnect
+         .. selected:: i=tar i=runfile
 
-            .. selected:: i=pip
+            .. code-block:: bash
 
-               .. code-block:: bash
+               apt update
+               apt install sudo wget python3
 
-                  zypper install sudo wget cmake libgfortran5
+      .. selected:: os=rhel os=rocky-linux os=oracle-linux
 
-            .. selected:: i=tar
+         .. code-block:: bash
 
-               .. code-block:: bash
+            dnf install sudo wget
 
-                  zypper install sudo wget
+      .. selected:: os=sles
+
+         .. selected:: i=pkgman
+
+            .. code-block:: bash
+
+               zypper install sudo wget SUSEConnect
+
+         .. selected:: i=pip
+
+            .. code-block:: bash
+
+               zypper install sudo wget cmake libgfortran5
+
+         .. selected:: i=tar i=runfile
+
+            .. code-block:: bash
+
+               zypper install sudo wget
 
 
 .. selected:: os=windows
@@ -93,8 +91,8 @@ Prerequisites
        * Control Panel > Programs > Uninstall a program
 
     2. Install AMD Software: Adrenalin Edition for Windows. For details and the
-       download link, see `AMD Software: Adrenalin Edition 26.1.1
-       <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-1-1.html#Downloads>`__.
+       download link, see `AMD Software: Adrenalin Edition 26.3.1
+       <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-3-1.html#Downloads>`__.
 
     3. Disable the following Windows security features as they can interfere
        with ROCm functionality:
@@ -322,26 +320,26 @@ Prerequisites
       :heading: Install additional packages
       :heading-level: 3
 
-      Some ROCm tools require the ``libatomic`` library to run correctly. Install
-      it using your distribution's package manager.
+      Some ROCm tools require the ``libatomic`` and ``libquadmath`` libraries to run correctly. Install
+      them using your distribution's package manager.
 
       .. selected:: os=ubuntu os=debian
 
          .. code-block:: bash
 
-            sudo apt install libatomic1
+            sudo apt install libatomic1 libquadmath0
 
       .. selected:: os=rhel os=oracle-linux os=rocky-linux
 
          .. code-block:: bash
 
-            sudo dnf install libatomic
+            sudo dnf install libatomic libquadmath
 
       .. selected:: os=sles
 
          .. code-block:: bash
 
-            sudo zypper install libatomic1
+            sudo zypper install libatomic1 libquadmath0
 
 
 .. =========================================================== INSTALL PYTHON ==
@@ -385,9 +383,20 @@ Prerequisites
 
             sudo apt install python3.13 python3.13-venv
 
+      .. selected:: os-version=12
+         :heading: Install Python
+         :heading-level: 3
+
+         Install a supported Python version. For example, to install Python
+         3.11, run the following command:
+
+         .. code-block:: bash
+
+            sudo apt install python3.11 python3.11-venv
+
    .. selected:: os=rhel os=oracle-linux os=rocky-linux
 
-      .. selected:: os-version=10.1 os-version=10.0
+      .. selected:: os-version=10.1 os-version=10.0 os-version=10
          :heading: Install Python
          :heading-level: 3
 
@@ -398,7 +407,7 @@ Prerequisites
 
             sudo dnf install python3.12 python3.12-pip
 
-      .. selected:: os-version=9.7 os-version=9.6 os-version=8
+      .. selected:: os-version=9.7 os-version=9.6 os-version=9.4 os-version=9 os-version=8.10 os-version=8
          :heading: Install Python
          :heading-level: 3
 
@@ -441,46 +450,48 @@ Prerequisites
 
 .. =================================================== GPU ACCESS PERMISSIONS ==
 
-.. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
-   :heading: Configure permissions for GPU access
-   :heading-level: 3
+.. selected:: i=pkgman i=pip i=tar
 
-   There are two primary methods of configuring GPU access for ROCm: group
-   membership or udev rules. Each method has its own advantages. The choice
-   depends on your specific requirements and system management preferences.
+   .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
+      :heading: Configure permissions for GPU access
+      :heading-level: 3
 
-   .. tab-set::
+      There are two primary methods of configuring GPU access for ROCm: group
+      membership or udev rules. Each method has its own advantages. The choice
+      depends on your specific requirements and system management preferences.
 
-      .. tab-item:: Group membership
+      .. tab-set::
 
-         By default, GPU access is controlled by membership in the ``video`` and
-         ``render`` Linux system groups. The ``video`` group traditionally handles
-         video device access, while the ``render`` group manages GPU rendering
-         through DRM render nodes.
+         .. tab-item:: Group membership
 
-         .. code-block:: bash
+            By default, GPU access is controlled by membership in the ``video`` and
+            ``render`` Linux system groups. The ``video`` group traditionally handles
+            video device access, while the ``render`` group manages GPU rendering
+            through DRM render nodes.
 
-            # Add the current user to the render and video groups
-            sudo usermod -a -G render,video $LOGNAME
+            .. code-block:: bash
 
-      .. tab-item:: udev rules
+               # Add the current user to the render and video groups
+               sudo usermod -a -G render,video $LOGNAME
 
-         udev rules are a flexible, system-wide approach for managing device
-         permissions, eliminating the need for user group management while
-         allowing granular GPU access. To enable them and grant GPU access to
-         all users, run the following command:
+         .. tab-item:: udev rules
 
-         .. code-block:: bash
+            udev rules are a flexible, system-wide approach for managing device
+            permissions, eliminating the need for user group management while
+            allowing granular GPU access. To enable them and grant GPU access to
+            all users, run the following command:
 
-            sudo tee /etc/udev/rules.d/70-amdgpu.rules << EOF
-            KERNEL=="kfd", GROUP="render", MODE="0666"
-            SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="render", MODE="0666"
-            EOF
+            .. code-block:: bash
 
-            sudo udevadm control --reload-rules
-            sudo udevadm trigger
+               sudo tee /etc/udev/rules.d/70-amdgpu.rules << EOF
+               KERNEL=="kfd", GROUP="render", MODE="0666"
+               SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="render", MODE="0666"
+               EOF
 
-   .. note::
+               sudo udevadm control --reload-rules
+               sudo udevadm trigger
 
-      To apply all settings, reboot your system.
+      .. note::
+
+         To apply all settings, reboot your system.
 

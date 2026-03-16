@@ -120,4 +120,4 @@
 
       .. matrix-cell::
 
-         `26.1.1 <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-1-1.html>`__
+         `26.3.1 <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-3-1.html>`__

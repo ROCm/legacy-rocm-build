@@ -1,11 +1,21 @@
 const GROUP_QUERY = ".rocm-docs-selector-group";
+const OPTION_QUERY = ".rocm-docs-selector-option";
 const SELECTED_CLASS = "rocm-docs-selected";
+const DISABLED_CLASS = "rocm-docs-disabled";
+const HIDDEN_CLASS = "rocm-docs-hidden";
 const TOC2_OPTIONS_LIST_QUERY = ".rocm-docs-selector-toc2-options";
 const TOC2_CONTENTS_LIST_QUERY = ".rocm-docs-selector-toc2-contents";
-const HEADING_QUERY = ".rocm-docs-selected-content h1,h2,h3,h4,h5,h6";
+const HEADING_QUERY = "h2,h3,h4,h5,h6";
 
 const TOC_ITEM_CLASS = "rocm-docs-selector-toc2-item";
 const EMPTY_ITEM_CLASS = "empty";
+
+const DROPDOWN_INPUT_CLASS = "rocm-docs-selector-dropdown-input";
+const DROPDOWN_INPUT_LABEL_CLASS = "rocm-docs-selector-dropdown-input-label";
+
+const TOM_SELECT_CONFIG = {
+  plugins: ["dropdown_input"],
+};
 
 function isVisible(el) {
   return !!(el && el.offsetParent !== null);
@@ -16,7 +26,7 @@ function getUniqueGroups(groups) {
   return groups.filter((group) => {
     // Use group ID as primary identity; fallback to heading text
     const headingSpan = group.querySelector(
-      ".rocm-docs-selector-group-heading-text"
+      ".rocm-docs-selector-group-heading-text",
     );
     const headingText = headingSpan
       ? headingSpan.textContent.trim()
@@ -34,16 +44,19 @@ export function updateTOC2OptionsList() {
   if (!tocOptionsList) return;
 
   let visibleGroups = Array.from(document.querySelectorAll(GROUP_QUERY)).filter(
-    isVisible
+    isVisible,
   );
   visibleGroups = getUniqueGroups(visibleGroups);
 
   // Always rebuild fresh (simpler, avoids state drift)
+  tomSelectInstances.forEach((ts) => ts.destroy());
+  tomSelectInstances = [];
   tocOptionsList.innerHTML = "";
 
   if (visibleGroups.length === 0) {
     const li = document.createElement("li");
-    li.className = `nav-item toc-entry toc-h3 ${TOC_ITEM_CLASS} ${EMPTY_ITEM_CLASS}`;
+    li.className =
+      `nav-item toc-entry toc-h3 ${TOC_ITEM_CLASS} ${EMPTY_ITEM_CLASS}`;
     const span = document.createElement("span");
     span.textContent = "(no visible selectors)";
     li.appendChild(span);
@@ -53,35 +66,79 @@ export function updateTOC2OptionsList() {
 
   visibleGroups.forEach((group) => {
     const headingSpan = group.querySelector(
-      ".rocm-docs-selector-group-heading-text"
+      ".rocm-docs-selector-group-heading-text",
     );
     const headingText = headingSpan
       ? headingSpan.textContent.trim()
       : "(Unnamed Selector)";
 
-    const li = document.createElement("li");
-    li.className = `nav-item toc-entry toc-h3 ${TOC_ITEM_CLASS}`;
-    li.dataset.groupId = group.id || "";
+    const liEl = document.createElement("li");
+    liEl.className = `nav-item toc-entry toc-h3 ${TOC_ITEM_CLASS}`;
+    liEl.dataset.groupId = group.id || "";
 
-    const link = document.createElement("a");
-    link.className = "nav-link";
-    link.href = group.id ? `#${group.id}` : "#";
-    link.dataset.headingText = headingText;
+    const label = document.createElement("label");
+    label.className = DROPDOWN_INPUT_LABEL_CLASS;
+    label.textContent = headingText;
+    label.htmlFor = headingText;
 
-    const selectedOption = group.querySelector(`.${SELECTED_CLASS}`);
-    let optionText = "(none selected)";
-    if (selectedOption) {
-      const clone = selectedOption.cloneNode(true);
-      clone.querySelectorAll("i, svg").forEach((el) => el.remove());
-      optionText = clone.innerHTML.trim();
+    const selectEl = document.createElement("select");
+    selectEl.className = `form-select ${DROPDOWN_INPUT_CLASS}`;
+    selectEl.name = headingText;
+
+    const options = Array.from(group.querySelectorAll(OPTION_QUERY)).filter(
+      (opt) =>
+        !opt.classList.contains(HIDDEN_CLASS) &&
+        !opt.classList.contains(DISABLED_CLASS),
+    );
+
+    if (options.length === 0) {
+      const opt = document.createElement("option");
+      opt.textContent = "(none available)";
+      opt.disabled = true;
+      opt.selected = true;
+      selectEl.appendChild(opt);
+    } else {
+      options.forEach((optionEl) => {
+        const tocLabel = optionEl.getAttribute("data-toc-label");
+        let labelText;
+        if (tocLabel) {
+          labelText = tocLabel;
+        } else {
+          const clone = optionEl.cloneNode(true);
+          clone.querySelectorAll("i, svg").forEach((el) => el.remove());
+          labelText = clone.textContent.trim();
+        }
+        const opt = new Option(
+          labelText,
+          optionEl.dataset.selectorValue || "",
+          false,
+          optionEl.classList.contains(SELECTED_CLASS),
+        );
+        selectEl.appendChild(opt);
+      });
     }
 
-    link.innerHTML = `<strong>${headingText}</strong>: ${optionText}`;
-    li.appendChild(link);
-    tocOptionsList.appendChild(li);
+    liEl.appendChild(label);
+    liEl.appendChild(selectEl);
+
+    const ts = new TomSelect(selectEl, {
+      ...TOM_SELECT_CONFIG,
+      onChange(value) {
+        const target = group.querySelector(
+          `${OPTION_QUERY}[data-selector-value="${CSS.escape(value)}"]`,
+        );
+        if (target) {
+          target.click();
+        }
+      },
+    });
+    tomSelectInstances.push(ts);
+
+    tocOptionsList.appendChild(liEl);
   });
 }
 
+let tomSelectInstances = [];
 let contentsTocInitialized = false;
 
 function initTOC2ContentsList() {

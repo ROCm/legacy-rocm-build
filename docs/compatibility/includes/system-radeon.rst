@@ -18,7 +18,7 @@
          `AMD Radeon RX 9000 Series <https://www.amd.com/en/products/graphics/desktops/radeon.html#tabs-ff9c5c3863-item-37fb38a236-tab>`__
 
       .. matrix-cell::
-         :show-when: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
+         :show-when: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700 gpu=rx-7600
 
          `AMD Radeon RX 7000 Series <https://www.amd.com/en/products/graphics/desktops/radeon/7000-series.html>`__
 
@@ -31,7 +31,7 @@
          :show-when: gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
 
       .. matrix-cell:: RDNA 3
-         :show-when: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
+         :show-when: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700 gpu=rx-7600
 
    .. matrix-row::
 
@@ -48,7 +48,10 @@
          :show-when: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre
 
       .. matrix-cell:: gfx1101
-         :show-when: gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700
+         :show-when: gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700
+
+      .. matrix-cell:: gfx1102
+         :show-when: gpu=rx-7600
 
    .. matrix-row::
       :show-when: os=ubuntu
@@ -90,6 +93,8 @@
 
       .. matrix-cell::
 
+         `31.20.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.20.0-preview/documentation/release-notes.html>`__
+
          `31.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html>`__
 
          `30.20.1 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.20.1/documentation/release-notes.html>`__
@@ -110,4 +115,4 @@
 
       .. matrix-cell::
 
-         `26.1.1 <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-1-1.html>`__
+         `26.3.1 <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-3-1.html>`__
