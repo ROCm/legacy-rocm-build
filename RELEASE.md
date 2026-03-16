@@ -34,29 +34,29 @@ enhancements:
 
 ### Expanded AMD GPU support
 
-The ROCm 7.11.0 preview adds support for RDNA 4 and other GPUs:
+The ROCm 7.12.0 preview adds support for the following GPUs:
 
-- Radeon AI PRO R9700
+- Instinct MI100
 
-- Radeon AI PRO R9600D
+- Radeon RX 7700 XE
 
-- Radeon PRO W7900 Dual Slot
+- Radeon RX 7600
 
-- Radeon PRO V710
+- Ryzen AI 9 270
 
-- Radeon RX 9070 XT
+- Ryzen AI 7 450
 
-- Radeon RX 9070 GRE
+- Ryzen AI 7 260
 
-- Radeon RX 9070
+- Ryzen AI 7 250
 
-- Radeon RX 9060 XT LP
+- Ryzen AI 5 240
 
-- Radeon RX 9060 XT
+- Ryzen AI 5 230
 
-- Radeon RX 9060
+- Ryzen AI 5 220
 
-- Radeon RX 7700
+- Ryzen AI 3 210
 
 For the full list of supported hardware, see [Hardware support](#release-supported-hw).
 

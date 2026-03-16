@@ -41,16 +41,19 @@
       :width: 3
 
    .. selector-option:: MI300A
-      :width: 3
+      :width: 20%
 
    .. selector-option:: MI250X
-      :width: 3
+      :width: 20%
 
    .. selector-option:: MI250
-      :width: 3
+      :width: 20%
 
    .. selector-option:: MI210
-      :width: 3
+      :width: 20%
+
+   .. selector-option:: MI100
+      :width: 20%
 
 .. selector:: Radeon PRO GPU
    :key: gpu
@@ -140,8 +143,16 @@
       :value: rx-7700-xt
       :width: 3
 
+   .. selector-option:: RX 7700 XE
+      :value: rx-7700-xe
+      :width: 3
+
    .. selector-option:: RX 7700
       :value: rx-7700
+      :width: 3
+
+   .. selector-option:: RX 7600
+      :value: rx-7600
       :width: 3
 
 .. selector:: Ryzen AI APU
@@ -168,28 +179,59 @@
 
    .. selector-option:: Max+ 395
       :value: max-395
-      :width: 2
+      :width: 20%
 
    .. selector-option:: Max 390
       :value: max-390
-      :width: 2
+      :width: 20%
 
    .. selector-option:: Max 385
       :value: max-385
-      :width: 2
+      :width: 20%
 
    .. selector-option:: 9 HX 375
       :value: 9-hx-375
-      :width: 2
+      :width: 20%
 
    .. selector-option:: 9 HX 370
       :value: 9-hx-370
-      :width: 2
+      :width: 20%
 
    .. selector-option:: 9 365
       :value: 9-365
-      :width: 2
+      :width: 20%
 
+   .. selector-option:: 9 270
+      :value: 9-365
+      :width: 20%
+
+   .. selector-option:: 7 450
+      :value: 7-450
+      :width: 20%
+
+   .. selector-option:: 7 260
+      :value: 7-260
+      :width: 20%
+
+   .. selector-option:: 7 250
+      :value: 7-250
+      :width: 20%
+
+   .. selector-option:: 5 240
+      :value: 5-240
+      :width: 3
+
+   .. selector-option:: 5 230
+      :value: 5-230
+      :width: 3
+
+   .. selector-option:: 5 220
+      :value: 5-220
+      :width: 3
+
+   .. selector-option:: 3 210
+      :value: 3-210
+      :width: 3
 
 .. ========================================================= OPERATING SYSTEM ==
 
