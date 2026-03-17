@@ -1,28 +1,30 @@
 docker:
-  pull_tag: rocm/pytorch-xdit:v26.3
-  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.3/images/sha256-ac78a03d2911bf1b49c001d3be2e8bd745c1bc455cb49ae972825a7986880902
-  ROCm: 7.12.0
+  pull_tag: rocm/pytorch-xdit:v26.2
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.2/images/sha256-e2c504af438bb9cf60e3869c499baa5102b3d3f62141b99c49743e755ae44008
+  ROCm: 7.11.0
   whats_new:
-    - "Qwen-Image support"
-    - "Qwen-Image-Edit support"
-    - "Aiter update to support Sage attention v2"
-    - "xDiT update to support MXFP4 GEMMs in Wan2.2, Wan2.1 and Flux.2"
+    - "LTX-2 support"
+    - "Flux.2 Klein support"
+    - "Aiter update to support opt_groupnorm, dynamic scaling in FP8 and Sage attention v1"
   components:
-    TheRock: 
-      version: e40a6da
+    TheRock:
+      version: 1728a81
       url: https://github.com/ROCm/TheRock
+    rccl:
+      version: d23d18f
+      url: https://github.com/ROCm/rccl
+    composable_kernel:
+      version: ab0101c
+      url: https://github.com/ROCm/composable_kernel
     rocm-libraries:
-      version: 9e9e900
+      version: a2f7c35
       url: https://github.com/ROCm/rocm-libraries
     rocm-systems:
-      version: ca89a1a
+      version: 659737c
       url: https://github.com/ROCm/rocm-systems
     torch:
       version: 91be249
       url: https://github.com/ROCm/pytorch
-    torchaudio:
-      version: e3c6ee2
-      url: https://github.com/pytorch/audio
     torchvision:
       version: b919bd0
       url: https://github.com/pytorch/vision
@@ -30,16 +32,16 @@ docker:
       version: a272dfa
       url: https://github.com/ROCm/triton
     accelerate:
-      version: 46ba481
+      version: b7f2212
       url: https://github.com/huggingface/accelerate
     aiter:
-      version: 82d733f
+      version: 42ae0ad
       url: https://github.com/ROCm/aiter
     diffusers:
-      version: a80b192
+      version: a3dcd9
       url: https://github.com/huggingface/diffusers
     xfuser:
-      version: 2882027
+      version: 635fc29
       url: https://github.com/xdit-project/xDiT
     yunchang:
       version: 631bdfd
@@ -304,51 +306,6 @@ docker:
             - '--ulysses_degree 8 \'
             - '--use_torch_compile \'
             - '--guidance_scale 4.0 \'
-            - '--num_iterations 1 \'
-            - '--attention_backend aiter \'
-            - '--output_directory results'
-    - group: Qwen-Image
-      js_tag: qwen_image
-      models:
-        - model: Qwen-Image
-          model_repo: Qwen/Qwen-Image
-          url: https://huggingface.co/Qwen/Qwen-Image
-          github: https://github.com/QwenLM/Qwen-Image
-          mad_tag: pyt_xdit_qwen_image
-          js_tag: qwen_image_tag
-          benchmark_command:
-            - mkdir results
-            - 'xdit \'
-            - '--model {model_repo} \'
-            - '--seed 42 \'
-            - '--prompt "A cat holding a sign that says hello world" \'
-            - '--height 2048 \'
-            - '--width 2048 \'
-            - '--num_inference_steps 50 \'
-            - '--ulysses_degree 8 \'
-            - '--use_torch_compile \'
-            - '--num_iterations 1 \'
-            - '--attention_backend aiter \'
-            - '--output_directory results'
-        - model: Qwen-Image-Edit
-          model_repo: Qwen/Qwen-Image-Edit
-          url: https://huggingface.co/Qwen/Qwen-Image-Edit
-          github: https://github.com/QwenLM/Qwen-Image
-          mad_tag: pyt_xdit_qwen_image_edit
-          js_tag: qwen_image_edit_tag
-          benchmark_command:
-            - mkdir results
-            - 'xdit \'
-            - '--model {model_repo} \'
-            - '--seed 42 \'
-            - '--prompt "Add a cool hat to the cat." \'
-            - '--negative_prompt "" \'
-            - '--input_images /app/data/flux_cat.png \'
-            - '--height 2048 \'
-            - '--width 2048 \'
-            - '--num_inference_steps 50 \'
-            - '--ulysses_degree 8 \'
-            - '--use_torch_compile \'
             - '--num_iterations 1 \'
             - '--attention_backend aiter \'
             - '--output_directory results'
