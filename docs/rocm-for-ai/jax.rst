@@ -1,3 +1,11 @@
+**********************************
+Install JAX on ROCm |ROCM_VERSION|
+**********************************
+
+This topic guides you through installing JAX with ROCm support on AMD
+hardware. It applies to :ref:`supported AMD GPUs and platforms
+<release-ai-ecosystem>`.
+
 .. =========================================================== GPU/APU FAMILY ==
 
 .. selector:: AMD device family
@@ -312,204 +320,184 @@
       :width: 2
       :toc-label: AMD Ryzen 3 210
 
-.. ========================================================= OPERATING SYSTEM ==
-
-.. selected:: fam=instinct
-
-   .. selector:: Linux distribution
-      :key: os
-      :show-when: gpu=mi355x gpu=mi350x gpu=mi325x
-
-      .. selector-option:: Ubuntu
-         :value: ubuntu
-         :width: 20%
-
-      .. selector-option:: Debian
-         :value: debian
-         :width: 20%
-
-      .. selector-option:: RHEL
-         :value: rhel
-         :width: 20%
-         :toc-label: Red Hat Enterprise Linux
-
-      .. selector-option:: Oracle Linux
-         :value: oracle-linux
-         :width: 20%
-
-      .. selector-option:: SLES
-         :value: sles
-         :width: 20%
-         :toc-label: SUSE Linux Enterprise Server
-
-   .. selector:: Linux distribution
-      :key: os
-      :show-when: gpu=mi300x
-
-      .. selector-option:: Ubuntu
-         :value: ubuntu
-         :width: 4
-
-      .. selector-option:: Debian
-         :value: debian
-         :width: 4
-
-      .. selector-option:: RHEL
-         :value: rhel
-         :width: 4
-         :toc-label: Red Hat Enterprise Linux
-
-      .. selector-option:: Oracle Linux
-         :value: oracle-linux
-         :width: 4
-
-      .. selector-option:: Rocky Linux
-         :value: rocky-linux
-         :width: 4
-
-      .. selector-option:: SLES
-         :value: sles
-         :width: 4
-         :toc-label: SUSE Linux Enterprise Server
-
-   .. selector:: Linux distribution
-      :key: os
-      :show-when: gpu=mi300a
-
-      .. selector-option:: Ubuntu
-         :value: ubuntu
-         :width: 20%
-
-      .. selector-option:: Debian
-         :value: ubuntu
-         :width: 20%
-
-      .. selector-option:: RHEL
-         :value: rhel
-         :width: 20%
-         :toc-label: Red Hat Enterprise Linux
-
-      .. selector-option:: Rocky Linux
-         :value: rocky-linux
-         :width: 20%
-
-      .. selector-option:: SLES
-         :value: sles
-         :width: 20%
-         :toc-label: SUSE Linux Enterprise Server
-
-   .. selector:: Linux distribution
-      :key: os
-      :show-when: gpu=mi250x gpu=mi250
-
-      .. selector-option:: Ubuntu
-         :value: ubuntu
-         :width: 3
-
-      .. selector-option:: Debian
-         :value: ubuntu
-         :width: 3
-
-      .. selector-option:: RHEL
-         :value: rhel
-         :width: 3
-         :toc-label: Red Hat Enterprise Linux
-
-      .. selector-option:: SLES
-         :value: sles
-         :width: 3
-         :toc-label: SUSE Linux Enterprise Server
-
-   .. selector:: Linux distribution
-      :key: os
-      :show-when: gpu=mi210 gpu=mi100
-
-      .. selector-option:: Ubuntu
-         :value: ubuntu
-         :width: 4
-
-      .. selector-option:: RHEL
-         :value: rhel
-         :width: 4
-         :toc-label: Red Hat Enterprise Linux
-
-      .. selector-option:: SLES
-         :value: sles
-         :width: 4
-         :toc-label: SUSE Linux Enterprise Server
-
-.. selected:: fam=radeon-pro
-
-   .. selector:: Operating system
-      :key: os
-      :show-when: gpu=ai-r9700 gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=w6800
-
-      .. selector-option:: Ubuntu
-         :value: ubuntu
-         :width: 4
-
-      .. selector-option:: RHEL
-         :value: rhel
-         :width: 4
-         :toc-label: Red Hat Enterprise Linux
-
-      .. selector-option:: Windows
-         :value: windows
-         :width: 4
-
-   .. selector:: Linux distribution
-      :key: os
-      :show-when: gpu=v710 gpu=ai-r9600d
-
-      .. selector-option:: Ubuntu
-         :value: ubuntu
-         :width: 6
-
-      .. selector-option:: RHEL
-         :value: rhel
-         :width: 6
-         :toc-label: Red Hat Enterprise Linux
-
-.. selected:: fam=radeon
-
-   .. selector:: Linux distribution
-      :key: os
-      :show-when: gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060 gpu=rx-7700 gpu=rx-7600
-
-      .. selector-option:: Ubuntu
-         :value: ubuntu
-         :width: 6
-
-      .. selector-option:: RHEL
-         :value: rhel
-         :width: 6
-         :toc-label: Red Hat Enterprise Linux
-
-   .. selector:: Operating system
-      :key: os
-      :show-when: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe
-
-      .. selector-option:: Ubuntu
-         :value: ubuntu
-         :width: 4
-
-      .. selector-option:: RHEL
-         :value: rhel
-         :width: 4
-         :toc-label: Red Hat Enterprise Linux
-
-      .. selector-option:: Windows
-         :value: windows
-         :width: 4
-
 .. selector:: Operating system
    :key: os
-   :show-when: fam=ryzen
 
-   .. selector-option:: Ubuntu
-      :value: ubuntu
-      :width: 6
+   .. selector-option:: Linux
+      :value: linux
+      :width: 12
 
-   .. selector-option:: Windows
-      :value: windows
-      :width: 6
+Prerequisites
+=============
+
+Ensure your system has a :ref:`supported Python version
+<rocm-compat-python>` installed and accessible: 3.11, 3.12, 3.13, or 3.14.
+
+Review the :doc:`/compatibility/compatibility-matrix` for more details.
+
+.. important::
+
+   Unlike PyTorch, the JAX wheels do not automatically install
+   ``rocm[libraries]`` as a dependency. You must have ROCm installed separately
+   via a :doc:`tarball installation </install/rocm>`.
+
+.. _pip-install-jax:
+
+Install JAX
+===========
+
+For prerequisite steps and post-installation recommendations, see the
+:doc:`ROCm installation instructions </install/rocm>`.
+
+1. Set up your Python virtual environment. For example, run the following
+   command to create a virtual environment:
+
+   .. code-block:: shell
+
+      python3.12 -m venv .venv
+
+2. Activate your Python virtual environment. For example:
+
+   .. selected:: os=linux
+
+      .. code-block:: shell
+
+         source .venv/bin/activate
+
+3. Install the appropriate ROCm-enabled JAX libraries for your operating system
+   and AMD hardware architecture.
+
+   .. note::
+
+      The ``jax`` package itself is not published to the AMD package
+      repository. After installing GFX architecture-based ``jaxlib``,
+      ``jax_rocm7_plugin``, and ``jax_rocm7_pjrt`` packages from the AMD
+      repository, install a :ref:`supported JAX version <release-ai-ecosystem>` from `PyPI
+      <https://pypi.org/project/jax>`__.
+
+   .. selected:: gpu=mi355x gpu=mi350x
+
+      .. code-block:: bash
+
+         python -m pip install \
+           --extra-index-url https://repo.amd.com/rocm/whl/gfx950-dcgpu/ \
+           "jaxlib==0.8.2+rocm7.12.0" \
+           "jax_rocm7_plugin==0.8.2+rocm7.12.0" \
+           "jax_rocm7_pjrt==0.8.2+rocm7.12.0"
+
+         # Install jax from PyPI
+         python -m pip install "jax==0.8.2"
+
+   .. selected:: gpu=mi325x gpu=mi300x gpu=mi300a
+
+      .. code-block:: bash
+
+         python -m pip install \
+           --extra-index-url https://repo.amd.com/rocm/whl/gfx94X-dcgpu/ \
+           "jaxlib==0.8.2+rocm7.12.0" \
+           "jax_rocm7_plugin==0.8.2+rocm7.12.0" \
+           "jax_rocm7_pjrt==0.8.2+rocm7.12.0"
+
+         # Install jax from PyPI
+         python -m pip install "jax==0.8.2"
+
+   .. selected:: gpu=mi250x gpu=mi250 gpu=mi210
+
+      .. code-block:: bash
+
+         python -m pip install \
+           --extra-index-url https://repo.amd.com/rocm/whl/gfx90a/ \
+           "jaxlib==0.8.2+rocm7.12.0" \
+           "jax_rocm7_plugin==0.8.2+rocm7.12.0" \
+           "jax_rocm7_pjrt==0.8.2+rocm7.12.0"
+
+         # Install jax from PyPI
+         python -m pip install "jax==0.8.2"
+
+   .. selected:: gpu=mi100
+
+      .. code-block:: bash
+
+         python -m pip install \
+           --extra-index-url https://repo.amd.com/rocm/whl/gfx908/ \
+           "jaxlib==0.8.2+rocm7.12.0" \
+           "jax_rocm7_plugin==0.8.2+rocm7.12.0" \
+           "jax_rocm7_pjrt==0.8.2+rocm7.12.0"
+
+         # Install jax from PyPI
+         python -m pip install "jax==0.8.2"
+
+   .. selected:: gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
+
+      .. code-block:: bash
+
+         python -m pip install \
+           --extra-index-url https://repo.amd.com/rocm/whl/gfx120X-all/ \
+           "jaxlib==0.8.2+rocm7.12.0" \
+           "jax_rocm7_plugin==0.8.2+rocm7.12.0" \
+           "jax_rocm7_pjrt==0.8.2+rocm7.12.0"
+
+         # Install jax from PyPI
+         python -m pip install "jax==0.8.2"
+
+   .. selected:: gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=v710 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700 gpu=rx-7600 gpu=9-270 gpu=7-260 gpu=7-250 gpu=5-240 gpu=5-230 gpu=5-220 gpu=3-210
+
+      .. code-block:: bash
+
+         python -m pip install \
+           --extra-index-url https://repo.amd.com/rocm/whl/gfx110X-dgpu/ \
+           "jaxlib==0.8.2+rocm7.12.0" \
+           "jax_rocm7_plugin==0.8.2+rocm7.12.0" \
+           "jax_rocm7_pjrt==0.8.2+rocm7.12.0"
+
+         # Install jax from PyPI
+         python -m pip install "jax==0.8.2"
+
+   .. selected:: gpu=max-pro-395 gpu=max-pro-390 gpu=max-pro-385 gpu=max-pro-380 gpu=max-395 gpu=max-390 gpu=max-385
+
+      .. code-block:: bash
+
+         python -m pip install \
+           --extra-index-url https://repo.amd.com/rocm/whl/gfx1151/ \
+           "jaxlib==0.8.2+rocm7.12.0" \
+           "jax_rocm7_plugin==0.8.2+rocm7.12.0" \
+           "jax_rocm7_pjrt==0.8.2+rocm7.12.0"
+
+         # Install jax from PyPI
+         python -m pip install "jax==0.8.2"
+
+
+   .. selected:: gpu=9-hx-pro-475 gpu=9-hx-pro-470 gpu=9-pro-465 gpu=7-pro-450 gpu=5-pro-440 gpu=5-pro-435 gpu=9-hx-375 gpu=9-hx-370 gpu=9-365
+
+      .. code-block:: bash
+
+         python -m pip install \
+           --extra-index-url https://repo.amd.com/rocm/whl/gfx1150/ \
+           "jaxlib==0.8.2+rocm7.12.0" \
+           "jax_rocm7_plugin==0.8.2+rocm7.12.0" \
+           "jax_rocm7_pjrt==0.8.2+rocm7.12.0"
+
+         # Install jax from PyPI
+         python -m pip install "jax==0.8.2"
+
+4. Check your JAX installation.
+
+   .. important::
+
+      Set the environment variable ``AMD_COMGR_NAMESPACE=1``. See the known issue
+      :ref:`JAX GPU initialization might fail without AMD_COMGR_NAMESPACE set
+      <release-jax-known-issue>`.
+
+      If ``AMD_COMGR_NAMESPACE=1`` is not set:
+
+      * JAX might fail to initialize the GPU
+
+      * JAX workloads might unexpectedly run on the CPU instead of the GPU
+
+      * Processes might crash during initialization
+
+   .. code-block:: shell
+
+      python -c "import jax; print(jax.devices())"
+
+   This prints something like ``[RocmDevice(id=0)]`` if JAX and ROCm are installed properly.

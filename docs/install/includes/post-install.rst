@@ -1,13 +1,6 @@
 Post-installation
 =================
 
-.. dropdown:: Installation environment
-   :animate: fade-in-slide-down
-   :icon: desktop-download
-   :chevron: down-up
-
-   .. include:: ./includes/selector.rst
-
 After installing the ROCm Core SDK |ROCM_VERSION|, complete these
 post-installation steps to complete your system configuration and validate the
 installation.
@@ -38,7 +31,7 @@ installation.
                sudo tee /etc/profile.d/set-rocm-env.sh << EOF
                export ROCM_PATH=$ROCM_INSTALL_PATH
                export PATH=\$PATH:\$ROCM_PATH/bin
-               export LD_LIBRARY_PATH=\$ROCM_PATH/lib:\$ROCM_PATH/llvm/lib:\$ROCM_PATH/lib/rocprofiler-systems
+               export LD_LIBRARY_PATH=\$ROCM_PATH/lib
                EOF
                sudo chmod +x /etc/profile.d/set-rocm-env.sh
                source /etc/profile.d/set-rocm-env.sh
@@ -57,7 +50,7 @@ installation.
                   # Configure ROCm PATH. Make sure you're in the therock-tarball directory before proceeding.
                   export ROCM_PATH=$PWD/install
                   export PATH=$PATH:$ROCM_PATH/bin
-                  export LD_LIBRARY_PATH=$ROCM_PATH/lib:$ROCM_PATH/llvm/lib:$ROCM_PATH/lib/rocprofiler-systems
+                  export LD_LIBRARY_PATH=$ROCM_PATH/lib
 
             2. After modifying your shell configuration, apply the change to
                your current session by sourcing your updated shell

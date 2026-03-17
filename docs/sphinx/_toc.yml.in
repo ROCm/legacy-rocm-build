@@ -26,11 +26,19 @@ subtrees:
         title: Uninstall ROCm
       - file: install/build-from-source.rst
         title: Build from source
-  - caption: ROCm for AI
+  - caption: Deep learning frameworks
     entries:
-      - file: rocm-for-ai/pytorch-comfyui.rst
-        title: Install PyTorch and ComfyUI
+      - file: rocm-for-ai/pytorch.rst
+        title: Install PyTorch
+      - file: rocm-for-ai/jax.rst
+        title: Install JAX
+  - caption: AI inference
+    entries:
+      - file: rocm-for-ai/comfyui.rst
+        title: ComfyUI image generation
+      - file: rocm-for-ai/vllm.rst
+        title: vLLM
   - caption: Tutorials
     entries:
-      - url: https://github.com/ROCm/rocm-examples/tree/release/therock-7.11
+      - url: https://github.com/ROCm/rocm-examples/tree/release/therock-7.12
         title: ROCm examples

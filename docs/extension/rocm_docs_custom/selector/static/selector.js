@@ -2,10 +2,11 @@ import { domReady, logDebug } from "./utils.js";
 import {
   updateTOC2ContentsList,
   updateTOC2OptionsList,
-} from "./selector-toc.js";
+} from "./selector-toc2.js";
 
 const GROUP_QUERY = ".rocm-docs-selector-group";
 const OPTION_QUERY = ".rocm-docs-selector-option";
+// const DROPDOWN_INPUT_OPTION_QUERY = ".rocm-docs-selector-dropdown-input";
 const COND_QUERY = "[data-show-when],[data-disable-when]";
 
 const DEFAULT_OPTION_CLASS = "rocm-docs-selector-option-default";
@@ -391,6 +392,20 @@ domReady(() => {
     window.history.replaceState({}, "", url);
     return;
   }
+
+  document.querySelectorAll(".rocm-docs-selector-dropdown-input").forEach(
+    (elem) => {
+      const config = {
+        plugins: ["dropdown_input"],
+      };
+
+      const select = new TomSelect(elem, config);
+
+      select.on("change", (val) => {
+        console.log(val);
+      });
+    },
+  );
 
   const defaultState = {};
   const localStorageState = getStateFromLocalStorage();

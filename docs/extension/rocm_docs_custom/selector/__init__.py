@@ -29,7 +29,6 @@ class SelectorGroup(nodes.General, nodes.Element):
             """
 
         translator.body.append(
-            "<!-- start selector-group row -->"
             f"""
             <div id="{nodes.make_id(label)}"
                 class="rocm-docs-selector-group row gx-0 pt-2"
@@ -56,7 +55,6 @@ class SelectorGroup(nodes.General, nodes.Element):
                 </div>
             </div>
             """
-            "<!-- end selector-group row -->"
         )
 
 
@@ -80,13 +78,12 @@ class SelectorGroupDirective(SphinxDirective):
             static_assets_dir = Path(__file__).parent / "static"
             app.config.html_static_path.append(str(static_assets_dir))
 
+            # https://tom-select.js.org/
+            app.add_js_file("vendor/tom-select/tom-select.popular.min.js")
+            app.add_css_file("vendor/tom-select/tom-select.bootstrap5.min.css")
+
             app.add_js_file("selector.js", type="module", defer="defer")
             app.add_css_file("selector.css")
-
-            # https://tom-select.js.org/
-            app.add_js_file("vendor/tom-select/tom-select.base.min.js", type="module", defer="defer")
-            app.add_js_file("vendor/tom-select/dropdown_input.min.js", type="module", defer="defer")
-            app.add_css_file("vendor/tom-select/tom-select.bootstrap5.min.css", type="module", defer="defer")
             env._selector_js_added = True
 
         label = self.arguments[0]
@@ -176,11 +173,15 @@ class SelectorOption(nodes.General, nodes.Element):
         default = node["default"]
         width = node["width"]
         dropdown_input_mode = node.get("dropdown-input", False)
+        alt_name = node.get("alt-name", "")
+        toc_label = node.get("toc-label", "")
 
         if dropdown_input_mode:
+            label = alt_name
             selected_attr = " selected" if default else ""
+            display_text = alt_name if alt_name else label
             translator.body.append(
-                f'<option value="{value}"{selected_attr} {show_when_attr} {disable_when_attr}>{label}</option>'
+                f'<option value="{value}"{selected_attr} {show_when_attr} {disable_when_attr}>{display_text}</option>'
             )
             return
 
@@ -194,8 +195,9 @@ class SelectorOption(nodes.General, nodes.Element):
             width_class = f"col-{width}"
             width_style = ""
 
+        toc_label_attr = f'data-toc-label="{toc_label}"' if toc_label else ""
+
         translator.body.append(
-            "<!-- start selector-option tile -->"
             f"""
             <div class="rocm-docs-selector-option {default_class} {width_class} px-2"
                 data-selector-key="{node.get('group_key', '')}"
@@ -205,6 +207,7 @@ class SelectorOption(nodes.General, nodes.Element):
                 tabindex="0"
                 role="radio"
                 aria-checked="false"
+                {toc_label_attr}
                 {width_style}
             >
                 <span>{label}</span>
@@ -219,7 +222,7 @@ class SelectorOption(nodes.General, nodes.Element):
         icon = node["icon"]
         if icon:
             translator.body.append(f'<i class="rocm-docs-selector-icon {icon}"></i>')
-        translator.body.append("</div><!-- end selector-option tile -->")
+        translator.body.append("</div>")
 
 
 class SelectorOptionDirective(SphinxDirective):
@@ -227,11 +230,13 @@ class SelectorOptionDirective(SphinxDirective):
     final_argument_whitespace = True
     option_spec = {
         "value": directives.unchanged,
+        "alt-name": directives.unchanged,
         "show-when": directives.unchanged,
         "disable-when": directives.unchanged,
         "default": directives.flag,
         "width": directives.unchanged,
         "icon": directives.unchanged,
+        "toc-label": directives.unchanged,
     }
     has_content = True
 
@@ -271,7 +276,9 @@ class SelectorOptionDirective(SphinxDirective):
                 )
                 node["width"] = 6
 
+        node["alt-name"] = self.options.get("alt-name", "")
         node["icon"] = self.options.get("icon")
+        node["toc-label"] = self.options.get("toc-label", "")
 
         parent = getattr(self.state, "parent", None)
         if not parent or not any(isinstance(p, SelectorGroup) for p in parent.traverse(include_self=True)):
@@ -306,7 +313,7 @@ class SelectedContent(nodes.General, nodes.Element):
         heading_elem = ""
         combined_show_when = node.get("combined-show-when", show_when)
         if heading:
-            id_attr = nodes.make_id(f"{heading}-{combined_show_when}")
+            id_attr = nodes.make_id(f"{heading}-{show_when}")
 
             heading_elem = (
                 f'<h{heading_level} class="rocm-docs-custom-heading">'
@@ -316,7 +323,6 @@ class SelectedContent(nodes.General, nodes.Element):
 
         translator.body.append(
             f"""
-            <!-- start selected-content -->
             <{"section" if heading else "div"}
                 id="{id_attr}"
                 class="rocm-docs-selected-content {classes}"
@@ -332,7 +338,7 @@ class SelectedContent(nodes.General, nodes.Element):
 
         translator.body.append(f"""
             </{"section" if heading else "div"}>
-            <!-- end selected-content -->""")
+            """)
 
 
 class SelectedContentDirective(SphinxDirective):

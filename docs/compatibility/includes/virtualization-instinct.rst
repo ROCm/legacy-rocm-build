@@ -6,8 +6,8 @@
       AMD Instinct MI355X GPUs support the following virtualization
       configurations.
       Supported SR-IOV configurations require the GPU-IOV Module (GIM) driver
-      8.7.0K -- see the `AMD Instinct Virtualization Driver documentation
-      <https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.7.0.k/>`__ to
+      8.7.1K -- see the `AMD Instinct Virtualization Driver documentation
+      <https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.7.1.k/>`__ to
       get started.
 
    .. selected:: gpu=mi350x
@@ -15,8 +15,8 @@
       AMD Instinct MI350X GPUs support the following virtualization
       configurations.
       Supported SR-IOV configurations require the GPU-IOV Module (GIM) driver
-      8.7.0K -- see the `AMD Instinct Virtualization Driver documentation
-      <https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.7.0.k/>`__ to
+      8.7.1K -- see the `AMD Instinct Virtualization Driver documentation
+      <https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.7.1.k/>`__ to
       get started.
 
    .. selected:: gpu=mi325x
@@ -24,8 +24,8 @@
       AMD Instinct MI325X GPUs support the following virtualization
       configurations.
       Supported SR-IOV configurations require the GPU-IOV Module (GIM) driver
-      8.7.0K -- see the `AMD Instinct Virtualization Driver documentation
-      <https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.7.0.k/>`__ to
+      8.7.1K -- see the `AMD Instinct Virtualization Driver documentation
+      <https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.7.1.k/>`__ to
       get started.
 
    .. selected:: gpu=mi300x
@@ -33,8 +33,8 @@
       AMD Instinct MI300X GPUs support the following virtualization
       configurations.
       Supported SR-IOV configurations require the GPU-IOV Module (GIM) driver
-      8.7.0K -- see the `AMD Instinct Virtualization Driver documentation
-      <https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.7.0.k/>`__ to
+      8.7.1K -- see the `AMD Instinct Virtualization Driver documentation
+      <https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.7.1.k/>`__ to
       get started.
 
    .. matrix::
@@ -53,20 +53,79 @@
          .. matrix-cell:: Guest OS
 
       .. matrix-row::
-         :show-when: gpu=mi355x gpu=mi350x
+         :show-when: gpu=mi355x
 
          .. matrix-cell:: KVM
-            :rowspan: 2
+            :rowspan: 4
 
          .. matrix-cell:: Passthrough
 
          .. matrix-cell:: —
 
          .. matrix-cell:: Ubuntu 24.04
+
+         .. matrix-cell:: Ubuntu 24.04
+
+      .. matrix-row::
+         :show-when: gpu=mi355x
+
+         .. matrix-cell:: SR-IOV
+            :rowspan: 3
+
+         .. matrix-cell::
+            :rowspan: 3
+
+            `GIM 8.7.1K <https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.1.K>`__
+
+         .. matrix-cell:: Ubuntu 24.04
+            :rowspan: 3
+
+         .. matrix-cell:: Ubuntu 24.04
+
+      .. matrix-row::
+         :show-when: gpu=mi355x
+
+         .. matrix-cell:: RHEL 10.0
+
+      .. matrix-row::
+         :show-when: gpu=mi355x
+
+         .. matrix-cell:: RHEL 9.6
+
+      .. matrix-row::
+         :show-when: gpu=mi350x
+
+         .. matrix-cell:: KVM
+            :rowspan: 3
+
+         .. matrix-cell:: Passthrough
+
+         .. matrix-cell:: —
+
+         .. matrix-cell:: Ubuntu 24.04
+
+         .. matrix-cell:: Ubuntu 24.04
+
+      .. matrix-row::
+         :show-when: gpu=mi350x
+
+         .. matrix-cell:: SR-IOV
             :rowspan: 2
+
+         .. matrix-cell::
+            :rowspan: 2
+
+            `GIM 8.7.1K <https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.1.K>`__
 
          .. matrix-cell:: Ubuntu 24.04
             :rowspan: 2
+
+         .. matrix-cell:: Ubuntu 24.04
+
+      .. matrix-row::
+         :show-when: gpu=mi350x
+
+         .. matrix-cell:: RHEL 9.6
 
       .. matrix-row::
          :show-when: gpu=mi325x
@@ -77,7 +136,7 @@
 
          .. matrix-cell::
 
-            `GIM 8.7.0K <https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.0.K>`__
+            `GIM 8.7.1K <https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.1.K>`__
 
          .. matrix-cell:: Ubuntu 22.04
 
@@ -100,13 +159,13 @@
             :rowspan: 2
 
       .. matrix-row::
-         :show-when: gpu=mi355x gpu=mi350x gpu=mi300x
+         :show-when: gpu=mi300x
 
          .. matrix-cell:: SR-IOV
 
          .. matrix-cell::
 
-            `GIM 8.7.0K <https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.0.K>`__
+            `GIM 8.7.1K <https://github.com/amd/MxGPU-Virtualization/releases/tag/8.7.1.K>`__
 
    See the :ref:`release notes <release-virtualization-support>`
    for the full list of supported configurations.
