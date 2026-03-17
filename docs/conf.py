@@ -209,6 +209,7 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.12", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.13", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-26.1", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-26.2", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
 

@@ -1,14 +1,14 @@
 docker:
-  pull_tag: rocm/pytorch-xdit:v26.3
-  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.3/images/sha256-ac78a03d2911bf1b49c001d3be2e8bd745c1bc455cb49ae972825a7986880902
-  ROCm: 7.12.0
+  pull_tag: rocm/pytorch-xdit:v26.2
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.2/images/sha256-e2c504af438bb9cf60e3869c499baa5102b3d3f62141b99c49743e755ae44008
+  ROCm: 7.11.0
   whats_new:
     - "LTX-2 support"
     - "Flux.2 Klein support"
     - "Aiter update to support opt_groupnorm, dynamic scaling in FP8 and Sage attention v1"
   components:
     TheRock:
-      version: e40a6da
+      version: 1728a81
       url: https://github.com/ROCm/TheRock
     rccl:
       version: d23d18f
