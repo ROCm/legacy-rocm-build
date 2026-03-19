@@ -246,18 +246,3 @@
       .. matrix-cell::
 
          `rocminfo <https://github.com/ROCm/rocm-systems/tree/release/therock-7.11/projects/rocminfo>`__
-
-   .. matrix-row::
-
-      .. matrix-cell:: System validation tools
-         :rowspan: 2
-
-      .. matrix-cell::
-
-         `ROCm Bandwidth Test <https://github.com/ROCm/rocm_bandwidth_test>`__
-
-   .. matrix-row::
-
-      .. matrix-cell::
-
-         `TransferBench <https://github.com/ROCm/TransferBench>`__

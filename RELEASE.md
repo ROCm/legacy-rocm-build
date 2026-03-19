@@ -1689,22 +1689,6 @@ support for your specific setup.
                 Linux only
 			</td>
 		</tr>
-		<tr>
-			<td rowspan="2" style="vertical-align: middle;">
-				<p>System validation tools</p>
-			</td>
-			<td>
-				<a href="https://github.com/ROCm/rocm_bandwidth_test">ROCm Bandwidth Test (RBT)</a>
-			</td>
-			<td rowspan="2" style="vertical-align: middle;">
-                Linux only
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="https://github.com/ROCm/TransferBench">TransferBench</a>
-			</td>
-		</tr>
 	</tbody>
 </table>
 
