@@ -58,13 +58,13 @@ Uninstalling
 
             .. code-block:: bash
 
-               sudo apt install amdrocm7.11-gfx1151
+               sudo apt autoremove amdrocm7.11-gfx1151
 
          .. selected:: gpu=9-hx-375 gpu=9-hx-370 gpu=9-365
 
             .. code-block:: bash
 
-               sudo apt install amdrocm7.11-gfx1150
+               sudo apt autoremove amdrocm7.11-gfx1150
 
       .. selected:: os=rhel os=oracle-linux os=rocky-linux
 
