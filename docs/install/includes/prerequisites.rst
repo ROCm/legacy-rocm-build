@@ -323,26 +323,26 @@ Prerequisites
       :heading: Install additional packages
       :heading-level: 3
 
-      Some ROCm tools require the ``libatomic`` library to run correctly. Install
-      it using your distribution's package manager.
+      Some ROCm tools require the ``libatomic`` and ``libquadmath`` libraries to run
+      correctly. Install them using your distribution's package manager.
 
       .. selected:: os=ubuntu os=debian
 
          .. code-block:: bash
 
-            sudo apt install libatomic1
+            sudo apt install libatomic1 libquadmath0
 
       .. selected:: os=rhel os=oracle-linux os=rocky-linux
 
          .. code-block:: bash
 
-            sudo dnf install libatomic
+            sudo dnf install libatomic libquadmath
 
       .. selected:: os=sles
 
          .. code-block:: bash
 
-            sudo zypper install libatomic1
+            sudo zypper install libatomic1 libquadmath0
 
 
 .. =========================================================== INSTALL PYTHON ==
