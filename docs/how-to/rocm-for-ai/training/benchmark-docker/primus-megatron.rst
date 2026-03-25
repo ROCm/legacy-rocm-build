@@ -1210,14 +1210,6 @@ recompute_granularity
 num_layers
   For using a reduced number of layers as with proxy models.
 
-Known issues
-============
-
-DeepSeekV3 proxy model and Mixtral 8x22B proxy model may exit with an error
-due to a memory free issue. However, this does not impacts training runs. All
-iterations, in this case 50, should have been completed before the exit and
-the results should be available in the end.
-
 Further reading
 ===============
 
