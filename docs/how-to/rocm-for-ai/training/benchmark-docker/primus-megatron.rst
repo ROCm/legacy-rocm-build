@@ -249,8 +249,6 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 .. code-block:: shell
 
    pip install -r requirements.txt
-   export HSA_NO_SCRATCH_RECLAIM=1
-   export NVTE_CK_USES_BWD_V3=1
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.3-70b
 
@@ -986,14 +984,11 @@ to launch the multi-node workload. Use the following steps to setup your environ
    .. code-block:: shell
 
       git clone --recurse-submodules https://github.com/AMD-AGI/Primus.git
-      cd Primus
-      git checkout fadaeb1e
+      cd Primus/
+      git checkout 44f780d
       git submodule update --init --recursive
-
       export DOCKER_IMAGE={{ docker.pull_tag }}
       export HF_TOKEN=<your_HF_token>
-      export HSA_NO_SCRATCH_RECLAIM=1
-      export NVTE_CK_USES_BWD_V3=1
       export NCCL_IB_HCA=<your_NCCL_IB_HCA> # specify which RDMA interfaces to use for communication
       export NCCL_SOCKET_IFNAME=<your_NCCL_SOCKET_IFNAME> # your Network Interface
       export GLOO_SOCKET_IFNAME=<your_GLOO_SOCKET_IFNAME> # your Network Interface

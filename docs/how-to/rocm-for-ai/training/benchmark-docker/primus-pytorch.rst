@@ -224,17 +224,6 @@ tweak some configurations (such as batch sizes).
                           -- train pretrain \
                           --config examples/torchtitan/configs/MI355X/llama3.1_8B-BF16-pretrain.yaml
 
-                  .. tab-item:: MI325X
-                     :sync: MI325X
-
-                     .. code-block:: shell
-
-                        bash runner/primus-cli direct \
-                          --log_file /tmp/primus_llama3.1_8B.log \
-                          -- train pretrain \
-                          --config examples/torchtitan/configs/MI300X/llama3.1_8B-BF16-pretrain.yaml \
-                          --training.local_batch_size 6
-
                   .. tab-item:: MI300X
                      :sync: MI300X
 
@@ -258,17 +247,6 @@ tweak some configurations (such as batch sizes).
                           --log_file /tmp/primus_llama3.1_8B_fp8.log \
                           -- train pretrain \
                           --config examples/torchtitan/configs/MI355X/llama3.1_8B-FP8-pretrain.yaml
-
-                  .. tab-item:: MI325X
-                     :sync: MI325X
-
-                     .. code-block:: shell
-
-                        bash runner/primus-cli direct \
-                          --log_file /tmp/primus_llama3.1_8B_fp8.log \
-                          -- train pretrain \
-                          --config examples/torchtitan/configs/MI300X/llama3.1_8B-FP8-pretrain.yaml \
-                          --training.local_batch_size 7
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -296,17 +274,6 @@ tweak some configurations (such as batch sizes).
                           -- train pretrain \
                           --config examples/torchtitan/configs/MI355X/llama3.1_70B-BF16-pretrain.yaml
 
-                  .. tab-item:: MI325X
-                     :sync: MI325X
-
-                     .. code-block:: shell
-
-                        bash runner/primus-cli direct \
-                          --log_file /tmp/primus_llama3.1_70B.log \
-                          -- train pretrain \
-                          --config examples/torchtitan/configs/MI300X/llama3.1_70B-BF16-pretrain.yaml \
-                          --training.local_batch_size 6
-
                   .. tab-item:: MI300X
                      :sync: MI300X
 
@@ -330,17 +297,6 @@ tweak some configurations (such as batch sizes).
                           --log_file /tmp/primus_llama3.1_70B_fp8.log \
                           -- train pretrain \
                           --config examples/torchtitan/configs/MI355X/llama3.1_70B-FP8-pretrain.yaml
-
-                  .. tab-item:: MI325X
-                     :sync: MI325X
-
-                     .. code-block:: shell
-
-                        bash runner/primus-cli direct \
-                          --log_file /tmp/primus_llama3.1_70B_fp8.log \
-                          -- train pretrain \
-                          --config examples/torchtitan/configs/MI300X/llama3.1_70B-FP8-pretrain.yaml \
-                          --training.local_batch_size 5
 
                   .. tab-item:: MI300X
                      :sync: MI300X
@@ -367,17 +323,6 @@ tweak some configurations (such as batch sizes).
                           --log_file /tmp/primus_deepseek_v3_16b.log \
                           -- train pretrain \
                           --config examples/torchtitan/configs/MI355X/deepseek_v3_16b-pretrain.yaml
-
-                  .. tab-item:: MI325X
-                     :sync: MI325X
-
-                     .. code-block:: shell
-
-                        bash runner/primus-cli direct \
-                          --log_file /tmp/primus_deepseek_v3_16b.log \
-                          -- train pretrain \
-                          --config examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml \
-                          --training.local_batch_size 10
 
                   .. tab-item:: MI300X
                      :sync: MI300X
