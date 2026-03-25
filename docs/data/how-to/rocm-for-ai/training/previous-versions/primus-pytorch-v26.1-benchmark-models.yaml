@@ -1,15 +1,13 @@
 docker:
-  pull_tag: rocm/primus:v26.2
-  docker_hub_url: https://hub.docker.com/layers/rocm/primus/v26.2/images/sha256-9148d1bfcd579bf92f44bd89090e0d8c958f149c134b4b34b9674ab559244585
+  pull_tag: rocm/primus:v26.1
+  docker_hub_url: https://hub.docker.com/layers/rocm/primus/v26.1/images/sha256-4fc8808bdb14117c6af7f38d79c809056e6fdbfd530c1fabbb61d097ddaf820d
   components:
-    ROCm: 7.2.0
-    PyTorch: 2.10.0a0+git449b176
-    Python: "3.12.3"
-    Transformer Engine: 2.8.0.dev0+51f74fa7
+    ROCm: 7.1.0
+    PyTorch: 2.10.0.dev20251112+rocm7.1
+    Python: "3.10"
+    Transformer Engine: 2.6.0.dev0+f141f34b
     Flash Attention: 2.8.3
-    hipBLASLt: 1.2.0-de5c1aebb6
-    Triton: 3.6.0
-    RCCL: 2.27.7
+    hipBLASLt: 34459f66ea
 model_groups:
   - group: Meta Llama
     tag: llama
