@@ -17,18 +17,15 @@ model_groups:
       - model: Llama 3.3 70B
         mad_tag: primus_pyt_megatron_lm_train_llama-3.3-70b
         config_name: llama3.3_70B-pretrain.yaml
-      - model: Llama 3.1 70B
-        mad_tag: primus_pyt_megatron_lm_train_llama-3.1-70b
-        config_name: llama3.1_70B-pretrain.yaml
       - model: Llama 3.1 8B
         mad_tag: primus_pyt_megatron_lm_train_llama-3.1-8b
         config_name: llama3.1_8B-pretrain.yaml
+      - model: Llama 3.1 70B
+        mad_tag: primus_pyt_megatron_lm_train_llama-3.1-70b
+        config_name: llama3.1_70B-pretrain.yaml
       - model: Llama 2 7B
         mad_tag: primus_pyt_megatron_lm_train_llama-2-7b
         config_name: llama2_7B-pretrain.yaml
-      - model: Llama 2 70B
-        mad_tag: primus_pyt_megatron_lm_train_llama-2-70b
-        config_name: llama2_70B-pretrain.yaml
       - model: Llama 2 70B
         mad_tag: primus_pyt_megatron_lm_train_llama-2-70b
         config_name: llama2_70B-pretrain.yaml
