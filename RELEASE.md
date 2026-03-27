@@ -2351,6 +2351,34 @@ export LD_LIBRARY_PATH=<ROCM_PATH>/lib/rocm_sysdeps/lib:$LD_LIBRARY_PATH
 
 This issue will be fixed in a future release.
 
+### Training instability with custom-built hipBLASLt and tuned GEMMs on MI300 Series GPUs
+
+In partner-style validation of MLPerf DLRM DCN v2 training on Instinct MI300
+Series GPUs (gfx942), a stack using PyTorch with a custom-built hipBLASLt that
+includes tuned GEMMs for that workload can experience training instability,
+with `NaN`s appearing after many iterations. The time-to-failure varies between
+runs. This issue can affect anyone mirroring that integration; typical
+ROCm-shipped stacks are not found to experience the same issue.
+
+Use the ROCm-provided hipBLASLt and supported ROCm stack rather than an
+experimental or locally rebuilt hipBLASLt with additional GEMM tuning until
+a fix is released.
+
+### rocPRIM adjacent_find test hangs on Windows with Navi44
+
+On Windows with Navi44 GPUs, the `adjacent_find` unit test in rocPRIM hangs
+when running ROCm 7.11 or 7.12. It's recommended to avoid running the
+`adjacent_find` unit test on Windows. This issue will be fixed in a future
+release.
+
+### MIOpen GPU_Find2Conv_FP32 tests might intermittently fail
+
+The `GPU_Find2Conv_FP32.Find2ConvTest` tests can intermittently fail when run in
+ROCm 7.12.0. This is not a new issue; it sometimes occurred in previous releases
+but became more frequent when the tests were converted from ctest to gtest. The
+failure depends on the order in which tests are executed. This issue will be fixed
+in a future release.
+
 ### Multi-ROCm installation fails on RPM-based distros
 
 On RPM-based Linux distributions (including RHEL and SLES), installing
