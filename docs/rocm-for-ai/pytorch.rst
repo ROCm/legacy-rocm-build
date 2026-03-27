@@ -445,7 +445,7 @@ For prerequisite steps and post-installation recommendations, see the
 
       .. code-block:: bash
 
-         python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx110X-dgpu/ torch torchvision torchaudio
+         python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx110X-all/ torch torchvision torchaudio
 
    .. selected:: gpu=w6800 gpu=v620
 

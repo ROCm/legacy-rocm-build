@@ -445,7 +445,7 @@ For prerequisite steps and post-installation recommendations, see the
       .. code-block:: bash
 
          python -m pip install \
-           --extra-index-url https://repo.amd.com/rocm/whl/gfx110X-dgpu/ \
+           --extra-index-url https://repo.amd.com/rocm/whl/gfx110X-all/ \
            "jaxlib==0.8.2+rocm7.12.0" \
            "jax_rocm7_plugin==0.8.2+rocm7.12.0" \
            "jax_rocm7_pjrt==0.8.2+rocm7.12.0"
