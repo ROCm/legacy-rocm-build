@@ -2,16 +2,13 @@ html {
   --rocm-docs-selector-border-radius: 2px;
   --rocm-docs-selector-accent-color: var(--pst-color-primary);
   --rocm-docs-selector-bg-color: var(--pst-color-on-background);
-  --rocm-docs-selector-fg-color: var(--pst-color-primary-text);
+  --rocm-docs-selector-fg-color: var(--pst-color-text-base);
+  --rocm-docs-selector-selected-fg-color: var(--pst-color-primary-text);
   --rocm-docs-selector-group-heading-bg-color: var(--pst-color-surface);
   --rocm-docs-selector-option-hover-color: var(--pst-color-link-hover);
   --rocm-docs-selector-option-selected-color: var(--pst-color-primary);
   --rocm-docs-selector-tile-padding: 0.2rem;
   --rocm-docs-selector-tile-gap: 0.5rem;
-  --rocm-docs-selector-focus-ring: 2px solid var(
-    --rocm-docs-selector-accent-color
-  );
-  --rocm-docs-selector-focus-offset: 2px;
 }
 
 html[data-theme="light"] {
@@ -105,15 +102,9 @@ html[data-theme="dark"] {
 /* Hover (not disabled) */
 .rocm-docs-selector-option:hover:not(.rocm-docs-disabled) {
   background-color: var(--rocm-docs-selector-option-hover-color);
-  color: var(--rocm-docs-selector-fg-color);
+  color: var(--rocm-docs-selector-selected-fg-color);
   transform: translateY(-2px);
   box-shadow: var(--rocm-docs-selector-shadow-hover);
-}
-
-/* Accessible keyboard focus */
-.rocm-docs-selector-option:focus-visible:not(.rocm-docs-disabled) {
-  outline: var(--rocm-docs-selector-focus-ring);
-  outline-offset: var(--rocm-docs-selector-focus-offset);
 }
 
 /* Keep it above neighbors if it gets an outline/box-shadow */
@@ -125,7 +116,7 @@ html[data-theme="dark"] {
 /* Selected */
 .rocm-docs-selector-option.rocm-docs-selected {
   background-color: var(--rocm-docs-selector-option-selected-color);
-  color: var(--rocm-docs-selector-fg-color);
+  color: var(--rocm-docs-selector-selected-fg-color);
 }
 
 /* Prevent hover lift on selected (keeps it steady) */
@@ -136,7 +127,7 @@ html[data-theme="dark"] {
 /* Disabled */
 .rocm-docs-selector-option.rocm-docs-disabled {
   background-color: var(--rocm-docs-selector-border-color);
-  color: var(--rocm-docs-selector-fg-color);
+  color: var(--rocm-docs-selector-selected-fg-color);
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.75;
@@ -200,4 +191,55 @@ html[data-theme="dark"] {
   .rocm-docs-selector-option:hover:not(.rocm-docs-disabled) {
     transform: none;
   }
+}
+
+/* Tom Select */
+.ts-dropdown {
+  border: solid 2px var(--rocm-docs-selector-border-color);
+}
+
+.ts-dropdown-content {
+  background-color: var(--rocm-docs-selector-bg-color);
+  color: var(--rocm-docs-selector-fg-color);
+  border: solid 1px var(--rocm-docs-selector-border-color);
+}
+
+.ts-dropdown-content .option {
+  font-size: 0.9rem;
+  padding-top: 0.33rem;
+  padding-bottom: 0.33rem;
+}
+
+.ts-dropdown-content div[aria-selected="true"] {
+  background-color: var(--rocm-docs-selector-group-heading-bg-color);
+  color: var(--rocm-docs-selector-fg-color);
+}
+
+.dropdown-input-wrap {
+  background-color: var(--rocm-docs-selector-bg-color);
+  border: solid 2px var(--rocm-docs-selector-border-color);
+}
+
+.ts-dropdown-input {
+  background-color: var(--rocm-docs-selector-bg-color);
+  color: var(--rocm-docs-selector-fg-color);
+}
+
+.ts-wrapper {
+  background-color: var(--rocm-docs-selector-bg-color);
+  border: solid 2px var(--rocm-docs-selector-border-color);
+  border-radius: var(--rocm-docs-selector-border-radius);
+}
+
+.ts-wrapper .item {
+  color: var(--rocm-docs-selector-fg-color);
+  font-size: 0.9rem
+}
+
+.sidebar-secondary-item {
+  width: 100%;
+}
+
+.bd-sidebar-secondary {
+  height: 100%;
 }

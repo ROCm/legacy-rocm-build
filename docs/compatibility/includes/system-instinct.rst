@@ -27,6 +27,11 @@
 
          `AMD Instinct MI200 Series <https://www.amd.com/en/products/accelerators/instinct/mi200.html>`__
 
+      .. matrix-cell::
+         :show-when: gpu=mi100
+
+         `AMD Instinct MI100 Series <https://www.amd.com/en/products/accelerators/instinct/mi100.html>`__
+
    .. matrix-row::
 
       .. matrix-cell:: Architecture
@@ -41,6 +46,9 @@
       .. matrix-cell:: CDNA 2
          :show-when: gpu=mi250x gpu=mi250 gpu=mi210
 
+      .. matrix-cell:: CDNA
+         :show-when: gpu=mi100
+
    .. matrix-row::
 
       .. matrix-cell:: LLVM target
@@ -54,6 +62,9 @@
 
       .. matrix-cell:: gfx90a
          :show-when: gpu=mi250x gpu=mi250 gpu=mi210
+
+      .. matrix-cell:: gfx908
+         :show-when: gpu=mi100
 
    .. matrix-row::
       :show-when: os=ubuntu
@@ -74,20 +85,7 @@
          :header:
 
       .. matrix-cell::
-         :show-when: gpu=mi325x
-
-         RHEL 10.1 (kernel: 6.12.0-124)
-
-         RHEL 10.0 (kernel: 6.12.0-55)
-
-         RHEL 9.7 (kernel: 5.14.0-611)
-
-         RHEL 9.6 (kernel: 5.14.0-570)
-
-         RHEL 9.4 (kernel: 5.14.0-427)
-
-      .. matrix-cell::
-         :show-when: gpu=mi355x gpu=mi350x gpu=mi300x gpu=mi300a gpu=mi250x gpu=mi250 gpu=mi210
+         :show-when: gpu=mi355x gpu=mi350x gpu=mi300x gpu=mi300a gpu=mi250x gpu=mi250 gpu=mi210 gpu=mi100
 
          RHEL 10.1 (kernel: 6.12.0-124)
 
@@ -101,13 +99,34 @@
 
          RHEL 8.10 (kernel: 4.18.0-553)
 
+      .. matrix-cell::
+         :show-when: gpu=mi325x
+
+         RHEL 10.1 (kernel: 6.12.0-124)
+
+         RHEL 10.0 (kernel: 6.12.0-55)
+
+         RHEL 9.7 (kernel: 5.14.0-611)
+
+         RHEL 9.6 (kernel: 5.14.0-570)
+
+         RHEL 9.4 (kernel: 5.14.0-427)
+
    .. matrix-row::
       :show-when: os=debian
 
       .. matrix-cell:: Supported Debian version
          :header:
 
-      .. matrix-cell:: Debian 13 (kernel: 6.12)
+      .. matrix-cell::
+         :show-when: gpu=mi355x gpu=mi350x gpu=mi325x gpu=mi300x
+
+         Debian 13 (kernel: 6.12)
+
+         Debian 12 (kernel: 6.1.0)
+
+      .. matrix-cell:: Debian 12 (kernel: 6.1.0)
+         :show-when: gpu=mi300a gpu=mi250x gpu=mi250
 
    .. matrix-row::
       :show-when: os=oracle-linux
@@ -116,7 +135,7 @@
          :header:
 
       .. matrix-cell::
-         :show-when: gpu=mi355x gpu=mi350x gpu=mi325x gpu=mi300a gpu=mi250x gpu=mi250 gpu=mi210
+         :show-when: gpu=mi355x gpu=mi350x gpu=mi325x
 
          Oracle Linux 10 (kernel: UEK 8.1)
 
@@ -149,8 +168,14 @@
          :header:
 
       .. matrix-cell::
+         :show-when: gpu=mi355x gpu=mi350x gpu=mi325x gpu=mi300x gpu=mi300a gpu=mi250x gpu=mi250 gpu=mi210
 
          SLES 16.0 (kernel: 6.12)
+
+         SLES 15.7 (kernel: 6.4.0-150700.51)
+
+      .. matrix-cell::
+         :show-when: gpu=mi100
 
          SLES 15.7 (kernel: 6.4.0-150700.51)
 
@@ -160,6 +185,8 @@
          :header:
 
       .. matrix-cell::
+
+         `31.20.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.20.0-preview/documentation/release-notes.html>`__
 
          `31.10.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/documentation/release-notes.html>`__
 
@@ -180,6 +207,8 @@
 
       .. matrix-cell::
          :show-when: gpu=mi355x gpu=mi350x
+
+         01.25.17.07
 
          01.25.16.03
 
@@ -207,3 +236,8 @@
          :show-when: gpu=mi250 gpu=mi210
 
          Maintenance update 5 with IFWI 75 (or later)
+
+      .. matrix-cell::
+         :show-when: gpu=mi100
+
+         VBIOS D3430401-037

@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 ROCM_VERSION = "7.12.0"
-GA_DATE = "2026-02-11"
+GA_DATE = "2026-03-26"
 
 DOCS_DIR = Path(__file__).parent.resolve()
 ROOT_DIR = DOCS_DIR.parent
@@ -21,10 +21,6 @@ def copy_rtd_file(src_path: Path, dest_path: Path):
     shutil.copy2(src_path, dest_path)
     print(f"📁 Copied {src_path} → {dest_path}")
 
-
-# compat_matrix_src = DOCS_DIR / "compatibility" / "compatibility-matrix-historical-6.0.csv" # fmt: skip
-# compat_matrix_dest = ROOT_DIR / "_readthedocs" / "html" / "downloads" / "compatibility-matrix-historical-6.0.csv"  # fmt: skip
-# copy_rtd_file(compat_matrix_src, compat_matrix_dest)
 
 gh_release_path = ROOT_DIR / "RELEASE.md"
 rtd_release_path = DOCS_DIR / "about" / "release-notes.md"
@@ -161,7 +157,9 @@ html_theme_options = {
         "**": ["page-toc"],
         "compatibility/compatibility-matrix": ["selector-toc2"],
         "install/rocm": ["selector-toc2"],
-        "rocm-for-ai/pytorch-comfyui": ["selector-toc2"],
+        "rocm-for-ai/pytorch": ["selector-toc2"],
+        "rocm-for-ai/jax": ["selector-toc2"],
+        "rocm-for-ai/vllm": ["selector-toc2"],
     },
 }
 html_title = f"AMD ROCm {ROCM_VERSION} preview"
