@@ -2278,6 +2278,14 @@ On Windows with Ryzen 200 Series (gfx1103) APUs, the HIP unit test
 Recovery (TDR) event. This causes the GPU driver to reset during test execution.
 This issue will be fixed in a future release.
 
+### PyTorch TestNN and RNN tests might fail on Windows with gfx1103
+
+On Windows systems using Ryzen 200 Series (gfx1103) APUs, some PyTorch TestNN and RNN tests
+might fail at runtime due to MIOpen HIPRTC compilation errors in Composable Kernel
+(CK) reductions. The failure occurs because the required `CK_AMD_GPU_GFX*` macros
+are not defined for gfx1103, resulting in `HIPRTC_ERROR_COMPILATION` and
+`miopenStatusUnknownError`. This issue will be fixed in a future release.
+
 ### amd-smi reset -r help text is not updated
 
 The `amd-smi reset --reload-driver` (`-r`) command has been deprecated, but the
