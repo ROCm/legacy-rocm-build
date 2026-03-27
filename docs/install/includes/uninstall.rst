@@ -21,11 +21,17 @@ Uninstalling
 
                sudo apt autoremove amdrocm7.12-gfx94x
 
-         .. selected:: gpu=mi250x gpu=mi250 gpu=mi210 gpu=mi100
+         .. selected:: gpu=mi250x gpu=mi250 gpu=mi210
 
             .. code-block:: bash
 
                sudo apt autoremove amdrocm7.12-gfx90a
+
+         .. selected:: gpu=mi100
+
+            .. code-block:: bash
+
+               sudo apt autoremove amdrocm7.12-gfx908
 
          .. selected:: gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
 
@@ -71,11 +77,17 @@ Uninstalling
 
                sudo dnf remove amdrocm7.12-gfx94x
 
-         .. selected:: gpu=mi250x gpu=mi250 gpu=mi210 gpu=mi100
+         .. selected:: gpu=mi250x gpu=mi250 gpu=mi210
 
             .. code-block:: bash
 
                sudo dnf remove amdrocm7.12-gfx90a
+
+         .. selected:: gpu=mi100
+
+            .. code-block:: bash
+
+               sudo dnf remove amdrocm7.12-gfx908
 
          .. selected:: gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
 

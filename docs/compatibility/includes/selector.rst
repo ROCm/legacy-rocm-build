@@ -381,7 +381,7 @@
          :width: 20%
 
       .. selector-option:: Debian
-         :value: ubuntu
+         :value: debian
          :width: 20%
 
       .. selector-option:: RHEL
@@ -407,7 +407,7 @@
          :width: 3
 
       .. selector-option:: Debian
-         :value: ubuntu
+         :value: debian
          :width: 3
 
       .. selector-option:: RHEL
@@ -442,7 +442,7 @@
 
    .. selector:: Operating system
       :key: os
-      :show-when: gpu=ai-r9700 gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=w6800
+      :show-when: gpu=ai-r9700 gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700
 
       .. selector-option:: Ubuntu
          :value: ubuntu
