@@ -2154,12 +2154,30 @@ If `AMD_COMGR_NAMESPACE=1` is not set:
 - Processes might crash during initialization
 
 Set the environment variable `AMD_COMGR_NAMESPACE=1` to isolate the ROCm
-compiler infrastructure’s symbol namespace and avoid these collisions.
+compiler infrastructure's symbol namespace and avoid these collisions.
+
+```bash
+export AMD_COMGR_NAMESPACE=1
+```
+
+(release-jax-path-known-issue)=
+### JAX fails to initialize due to missing ROCm shared libraries
+
+A path resolution issue in the JAX environment prevents the loader from
+locating required ROCm SDK shared libraries, causing JAX to fail.
+
+As a workaround, set `LD_LIBRARY_PATH` to include the ROCm SDK core library
+path before running JAX. Replace `<python_version>` with the Python version
+being used with JAX (3.14, 3.13, 3.12, or 3.11); for example:
+
+```bash
+export LD_LIBRARY_PATH=/opt/python/lib/<python_version>/site-packages/_rocm_sdk_core/lib:$LD_LIBRARY_PATH
+```
 
 (release-vllm-path-known-issue)=
 ### vLLM server fails to launch with ROCm 7.12 Docker image due to path failure
 
-A path resolution failure in the vLLM Docker environment prevents the loader
+A path resolution issue in the vLLM Docker environment prevents the loader
 from locating required ROCm SDK shared libraries. As a result, library lookups
 are redirected to an invalid or unexpected location, causing the vLLM server
 startup to fail.

@@ -484,19 +484,31 @@ For prerequisite steps and post-installation recommendations, see the
 
    .. important::
 
-      Set the environment variable ``AMD_COMGR_NAMESPACE=1``. See the known issue
-      :ref:`JAX GPU initialization might fail without AMD_COMGR_NAMESPACE set
-      <release-jax-known-issue>`.
+      * Set the environment variable ``AMD_COMGR_NAMESPACE=1``. See the known issue
+        :ref:`JAX GPU initialization might fail without AMD_COMGR_NAMESPACE set
+        <release-jax-known-issue>`.
 
-      If ``AMD_COMGR_NAMESPACE=1`` is not set:
+        If ``AMD_COMGR_NAMESPACE=1`` is not set:
 
-      * JAX might fail to initialize the GPU
+        * JAX might fail to initialize the GPU
 
-      * JAX workloads might unexpectedly run on the CPU instead of the GPU
+        * JAX workloads might unexpectedly run on the CPU instead of the GPU
 
-      * Processes might crash during initialization
+        * Processes might crash during initialization
+
+      * Set ``LD_LIBRARY_PATH`` to include the ROCm SDK core library path before
+        running JAX. See the known issue :ref:`JAX fails to initialize due to
+        missing ROCm shared libraries <release-jax-path-known-issue>`. Replace
+        ``python3.12`` with your actual Python version (3.14, 3.13, 3.12, or 3.11):
+
+        .. code-block:: shell
+
+           export LD_LIBRARY_PATH=/opt/python/lib/python3.12/site-packages/_rocm_sdk_core/lib:$LD_LIBRARY_PATH
 
    .. code-block:: shell
+
+      export AMD_COMGR_NAMESPACE=1
+      export LD_LIBRARY_PATH=/opt/python/lib/python3.12/site-packages/_rocm_sdk_core/lib:$LD_LIBRARY_PATH
 
       python -c "import jax; print(jax.devices())"
 
