@@ -37,42 +37,42 @@ see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
 
          For instructions on installing the AMD GPU Driver (amdgpu), see `Ubuntu native
          installation
-         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/install/detailed-install/package-manager/package-manager-ubuntu.html>`__
+         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.20.0-preview/install/detailed-install/package-manager/package-manager-ubuntu.html>`__
          in the AMD Instinct Data Center GPU Documentation.
 
       .. selected:: os=debian
 
          For instructions on installing the AMD GPU Driver (amdgpu), see `Debian native
          installation
-         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/install/detailed-install/package-manager/package-manager-debian.html>`__
+         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.20.0-preview/install/detailed-install/package-manager/package-manager-debian.html>`__
          in the AMD Instinct Data Center GPU Documentation.
 
       .. selected:: os=rhel
 
          For instructions on installing the AMD GPU Driver (amdgpu), see `RHEL native
          installation
-         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/install/detailed-install/package-manager/package-manager-rhel.html>`__
+         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.20.0-preview/install/detailed-install/package-manager/package-manager-rhel.html>`__
          in the AMD Instinct Data Center GPU Documentation.
 
       .. selected:: os=oracle-linux
 
          For instructions on installing the AMD GPU Driver (amdgpu), see `Oracle Linux native
          installation
-         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/install/detailed-install/package-manager/package-manager-ol.html>`__
+         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.20.0-preview/install/detailed-install/package-manager/package-manager-ol.html>`__
          in the AMD Instinct Data Center GPU Documentation.
 
       .. selected:: os=rocky-linux
 
          For instructions on installing the AMD GPU Driver (amdgpu), see `Rocky Linux native
          installation
-         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/install/detailed-install/package-manager/package-manager-rl.html>`__
+         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.20.0-preview/install/detailed-install/package-manager/package-manager-rl.html>`__
          in the AMD Instinct Data Center GPU Documentation.
 
       .. selected:: os=sles
 
          For instructions on installing the AMD GPU Driver (amdgpu), see `SLES
          native installation
-         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.10.0-preview/install/detailed-install/package-manager/package-manager-sles.html>`__
+         <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.20.0-preview/install/detailed-install/package-manager/package-manager-sles.html>`__
          in the AMD Instinct Data Center GPU Documentation.
 
    .. selected:: fam=ryzen
@@ -763,17 +763,7 @@ Use the following instructions to install the ROCm on your system.
             python3.12 -m venv .venv
             source .venv/bin/activate
 
-      .. selected:: os-version=9.7 os-version=9.6
-
-         For example, to create and activate a Python 3.11 virtual environment,
-         run the following command:
-
-         .. code-block:: bash
-
-            python3.11 -m venv .venv
-            source .venv/bin/activate
-
-      .. selected:: os-version=8.10
+      .. selected:: os-version=9.7 os-version=9.6 os-version=9.4 os-version=9 os-version=8.10 os-version=8
 
          For example, to create and activate a Python 3.11 virtual environment,
          run the following command:

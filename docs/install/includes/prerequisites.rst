@@ -417,7 +417,7 @@ Prerequisites
 
    .. selected:: os=rhel os=oracle-linux os=rocky-linux
 
-      .. selected:: os-version=10.1 os-version=10.0
+      .. selected:: os-version=10.1 os-version=10.0 os-version=10
          :heading: Install Python
          :heading-level: 3
 
@@ -428,7 +428,7 @@ Prerequisites
 
             sudo dnf install python3.12 python3.12-pip
 
-      .. selected:: os-version=9.7 os-version=9.6 os-version=8
+      .. selected:: os-version=9.7 os-version=9.6 os-version=9.4 os-version=9 os-version=8.10 os-version=8
          :heading: Install Python
          :heading-level: 3
 
