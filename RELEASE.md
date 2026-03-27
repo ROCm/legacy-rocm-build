@@ -2145,13 +2145,6 @@ compiler infrastructure and other libraries. These collisions may prevent
 proper GPU initialization for JAX and can lead to crashes or cause JAX to
 silently fall back to CPU execution.
 
-If `AMD_COMGR_NAMESPACE=1` is not set:
-
-- JAX might fail to initialize the GPU
-
-- JAX workloads might unexpectedly run on the CPU instead of the GPU
-
-- Processes might crash during initialization
 
 Set the environment variable `AMD_COMGR_NAMESPACE=1` to isolate the ROCm
 compiler infrastructure's symbol namespace and avoid these collisions.
@@ -2164,7 +2157,8 @@ export AMD_COMGR_NAMESPACE=1
 ### JAX fails to initialize due to missing ROCm shared libraries
 
 A path resolution issue in the JAX environment prevents the loader from
-locating required ROCm SDK shared libraries, causing JAX to fail.
+locating required ROCm SDK shared libraries, causing JAX GPU initialization to
+fail.
 
 As a workaround, set `LD_LIBRARY_PATH` to include the ROCm SDK core library
 path before running JAX. Replace `<python_version>` with the Python version
@@ -2173,6 +2167,8 @@ being used with JAX (3.14, 3.13, 3.12, or 3.11); for example:
 ```bash
 export LD_LIBRARY_PATH=/opt/python/lib/<python_version>/site-packages/_rocm_sdk_core/lib:$LD_LIBRARY_PATH
 ```
+
+To ensure JAX does not silently fallback to CPU execution, set `JAX_PLATFORMS=rocm`.
 
 (release-vllm-path-known-issue)=
 ### vLLM server fails to launch with ROCm 7.12 Docker image due to path failure

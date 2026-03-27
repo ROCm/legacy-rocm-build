@@ -488,14 +488,6 @@ For prerequisite steps and post-installation recommendations, see the
         :ref:`JAX GPU initialization might fail without AMD_COMGR_NAMESPACE set
         <release-jax-known-issue>`.
 
-        If ``AMD_COMGR_NAMESPACE=1`` is not set:
-
-        * JAX might fail to initialize the GPU
-
-        * JAX workloads might unexpectedly run on the CPU instead of the GPU
-
-        * Processes might crash during initialization
-
       * Set ``LD_LIBRARY_PATH`` to include the ROCm SDK core library path before
         running JAX. See the known issue :ref:`JAX fails to initialize due to
         missing ROCm shared libraries <release-jax-path-known-issue>`. Replace
