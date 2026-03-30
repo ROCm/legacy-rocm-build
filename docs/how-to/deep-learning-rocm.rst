@@ -58,26 +58,6 @@ The table below summarizes information about ROCm-enabled deep learning framewor
 
           <a href="https://github.com/ROCm/jax"><i class="fab fa-github fa-lg"></i></a>
 
-    * - `verl <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/verl-compatibility.html>`__
-      - .. raw:: html
-
-          <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/verl-install.html"><i class="fas fa-link fa-lg"></i></a>
-      - 
-        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/verl-install.html#use-a-prebuilt-docker-image-with-verl-pre-installed>`__
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/verl"><i class="fab fa-github fa-lg"></i></a>
-
-    * - `Stanford Megatron-LM <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/stanford-megatron-lm-compatibility.html>`__
-      - .. raw:: html
-
-          <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/stanford-megatron-lm-install.html"><i class="fas fa-link fa-lg"></i></a>
-      - 
-        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/stanford-megatron-lm-install.html#use-a-prebuilt-docker-image-with-stanford-megatron-lm-pre-installed>`__
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/Stanford-Megatron-LM"><i class="fab fa-github fa-lg"></i></a>
-
     * - `DGL <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/dgl-compatibility.html>`__
       - .. raw:: html
 
@@ -87,38 +67,6 @@ The table below summarizes information about ROCm-enabled deep learning framewor
       - .. raw:: html
 
           <a href="https://github.com/ROCm/dgl"><i class="fab fa-github fa-lg"></i></a> 
-
-    * - `Megablocks <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/megablocks-compatibility.html>`__
-      - .. raw:: html
-
-          <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/megablocks-install.html"><i class="fas fa-link fa-lg"></i></a>
-      - 
-        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/megablocks-install.html#using-a-prebuilt-docker-image-with-megablocks-pre-installed>`__
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/megablocks"><i class="fab fa-github fa-lg"></i></a>
-
-    * - `Ray <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/ray-compatibility.html>`__
-      - .. raw:: html
-
-          <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/ray-install.html"><i class="fas fa-link fa-lg"></i></a>
-      - 
-        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/ray-install.html#using-a-prebuilt-docker-image-with-ray-pre-installed>`__
-        - `Wheels package <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/ray-install.html#install-ray-on-bare-metal-or-a-custom-container>`__
-        - `ROCm Base Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/ray-install.html#build-your-own-docker-image>`__
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/ray"><i class="fab fa-github fa-lg"></i></a>
-
-    * - `llama.cpp <https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/llama-cpp-compatibility.html>`__
-      - .. raw:: html
-
-          <a href="https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/llama-cpp-install.html"><i class="fas fa-link fa-lg"></i></a>
-      - 
-        - `Docker image <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/3rd-party/llama-cpp-install.html#use-a-prebuilt-docker-image-with-llama-cpp-pre-installed>`__
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/llama.cpp"><i class="fab fa-github fa-lg"></i></a>
 
 Learn how to use your ROCm deep learning environment for training, fine-tuning, inference, and performance optimization
 through the following guides.
