@@ -107,13 +107,7 @@ article_pages = [
     {"file": "compatibility/ml-compatibility/pytorch-compatibility", "os": ["linux"]},
     {"file": "compatibility/ml-compatibility/tensorflow-compatibility", "os": ["linux"]},
     {"file": "compatibility/ml-compatibility/jax-compatibility", "os": ["linux"]},
-    {"file": "compatibility/ml-compatibility/verl-compatibility", "os": ["linux"]},
-    {"file": "compatibility/ml-compatibility/stanford-megatron-lm-compatibility", "os": ["linux"]},
     {"file": "compatibility/ml-compatibility/dgl-compatibility", "os": ["linux"]},
-    {"file": "compatibility/ml-compatibility/megablocks-compatibility", "os": ["linux"]},
-    {"file": "compatibility/ml-compatibility/ray-compatibility", "os": ["linux"]},
-    {"file": "compatibility/ml-compatibility/llama-cpp-compatibility", "os": ["linux"]},
-    {"file": "compatibility/ml-compatibility/flashinfer-compatibility", "os": ["linux"]},
     {"file": "how-to/deep-learning-rocm", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/index", "os": ["linux"]},
