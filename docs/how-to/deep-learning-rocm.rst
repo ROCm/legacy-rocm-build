@@ -52,22 +52,6 @@ The table below summarizes information about ROCm-enabled deep learning framewor
 
           <a href="https://github.com/ROCm/jax"><i class="fab fa-github fa-lg"></i></a>
 
-    * - :doc:`verl <../compatibility/ml-compatibility/verl-compatibility>`
-      - :doc:`link <rocm-install-on-linux:install/3rd-party/verl-install>`
-      - 
-        - Docker image
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/verl"><i class="fab fa-github fa-lg"></i></a>
-
-    * - :doc:`Stanford Megatron-LM <../compatibility/ml-compatibility/stanford-megatron-lm-compatibility>`
-      - :doc:`link <rocm-install-on-linux:install/3rd-party/stanford-megatron-lm-install>`
-      - 
-        - Docker image
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/Stanford-Megatron-LM"><i class="fab fa-github fa-lg"></i></a>
-
     * - :doc:`DGL <../compatibility/ml-compatibility/dgl-compatibility>`
       - :doc:`link <rocm-install-on-linux:install/3rd-party/dgl-install>`
       - 
@@ -75,42 +59,6 @@ The table below summarizes information about ROCm-enabled deep learning framewor
       - .. raw:: html
 
           <a href="https://github.com/ROCm/dgl"><i class="fab fa-github fa-lg"></i></a> 
-
-    * - :doc:`Megablocks <../compatibility/ml-compatibility/megablocks-compatibility>`
-      - :doc:`link <rocm-install-on-linux:install/3rd-party/megablocks-install>`
-      - 
-        - Docker image
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/megablocks"><i class="fab fa-github fa-lg"></i></a>
-
-    * - :doc:`Ray <../compatibility/ml-compatibility/ray-compatibility>`
-      - :doc:`link <rocm-install-on-linux:install/3rd-party/ray-install>`
-      - 
-        - Docker image
-        - Wheels package
-        - ROCm Base Docker image
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/ray"><i class="fab fa-github fa-lg"></i></a>
-
-    * - :doc:`llama.cpp <../compatibility/ml-compatibility/llama-cpp-compatibility>`
-      - :doc:`link <rocm-install-on-linux:install/3rd-party/llama-cpp-install>`
-      - 
-        - Docker image
-        - ROCm Base Docker image
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/llama.cpp"><i class="fab fa-github fa-lg"></i></a>
-
-    * - :doc:`FlashInfer <../compatibility/ml-compatibility/flashinfer-compatibility>`
-      - :doc:`link <rocm-install-on-linux:install/3rd-party/flashinfer-install>`
-      - 
-        - Docker image
-        - ROCm Base Docker image
-      - .. raw:: html
-
-          <a href="https://github.com/ROCm/flashinfer"><i class="fab fa-github fa-lg"></i></a>
 
 Learn how to use your ROCm deep learning environment for training, fine-tuning, inference, and performance optimization
 through the following guides.
