@@ -173,6 +173,23 @@ Profiler (rocprofiler-compute) now support performance profiling and analysis
 in KVM (kernel-based virtual machine) environments, enabling developers to
 profile GPU workloads running on virtualized infrastructure.
 
+### ROCm Optiq (Beta): ROCm Compute Profiler and ROCm Systems Profiler support
+
+[ROCm Optiq (Beta)](https://github.com/ROCm/roc-optiq) now adds rich
+visualization support for ROCm Compute Profiler data, significantly expanding
+its analysis capabilities beyond the previously introduced ROCm Systems
+Profiler support (also in Beta). See the [ROCm Optiq release
+notes](https://rocm.docs.amd.com/projects/roc-optiq/en/latest/release.html#rocm-optiq-beta-release-history)
+and [0.3.0 Beta
+documentation](https://rocm.docs.amd.com/projects/roc-optiq/en/beta-0.3.0/) for
+details.
+
+New views include high‑level summaries, kernel tables and charts, roofline
+analyses, detailed kernel and memory breakdowns, and system speed‑of‑light
+metrics—enabling developers to quickly identify compute‑ or memory‑bound
+bottlenecks and deeply analyze kernel performance through an interactive GUI on
+Windows and Linux.
+
 ### ROCm Compute Profiler: introduced iteration multiplexing
 
 ROCm Compute Profiler (rocprofiler‑compute) now supports iteration multiplexing
