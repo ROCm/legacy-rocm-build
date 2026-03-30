@@ -334,13 +334,6 @@ ROCm 7.2.0 enables support for JAX 0.8.0. For more information, see [JAX compati
 
 ROCm 7.2.0 enables support for ONNX Runtime 1.23.2.
 
-#### verl
-
-Volcano Engine Reinforcement Learning (verl) is a reinforcement learning framework designed for large language models (LLMs). verl offers a scalable, open-source fine-tuning solution by using a hybrid programming model that makes it easy to define and run complex post-training dataflows efficiently. It is now supported on ROCm 7.0.0 (previously only supported on ROCm 6.2.0). For more information, see [verl compatibility](https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/verl-compatibility.html).
-
-#### Ray
-
-Ray is a unified framework for scaling AI and Python applications from your laptop to a full cluster, without changing your code. Ray consists of [a core distributed runtime](https://docs.ray.io/en/latest/ray-core/walkthrough.html) and a set of [AI libraries](https://docs.ray.io/en/latest/ray-air/getting-started.html) for simplifying machine learning computations. It is now supported on ROCm 7.0.0 (previously only supported on ROCm 6.4.1). For more information, see [Ray compatibility](https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/ray-compatibility.html).
 
 ### ROCm Offline Installer Creator updates
  
