@@ -233,7 +233,7 @@ provide different support levels.
      - Other distributions >= 6.18.4
      - Other distributions < 6.18.4
 
-   * - 7.11.0 or newer
+   * - 7.11.0 or 7.12.0
      - ✅
      - ✅
      - ⚠️
@@ -243,7 +243,7 @@ provide different support levels.
      - ❌
      - ⚠️
 
-   * - 7.2.1 or newer
+   * - 7.2.1
      - ✅
      - ✅
      - ⚠️
