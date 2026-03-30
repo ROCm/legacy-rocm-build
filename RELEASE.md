@@ -87,47 +87,6 @@ MI355X and MI350X GPUs.
 
 For details, see [GPU virtualization support](#release-virtualization-support).
 
-### Added GPU partitioning support
-
-ROCm 7.12.0 adds support for the following compute partition and NUMA-per-socket
-(NPS) configurations on AMD Instinct GPUs in bare metal deployments.
-
-<table class="rocm-docs-table table">
-  <thead>
-    <tr>
-      <th class="head"><p>Device</p></th>
-      <th class="head"><p>Compute partition mode</p></th>
-      <th class="head"><p>NPS mode</p></th>
-      <th class="head"><p>Deployment</p></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td rowspan="2" style="vertical-align: middle;">
-        <p>Instinct MI355X, MI350X</p>
-      </td>
-      <td><p>CPX</p></td>
-      <td><p>NPS 2</p></td>
-      <td rowspan="4" style="vertical-align: middle;"><p>Bare metal</p></td>
-    </tr>
-    <tr>
-      <td><p>DPX</p></td>
-      <td><p>NPS 2</p></td>
-    </tr>
-    <tr>
-      <td rowspan="2" style="vertical-align: middle;">
-        <p>Instinct MI300X</p>
-      </td>
-      <td><p>CPX</p></td>
-      <td><p>NPS 4</p></td>
-    </tr>
-    <tr>
-      <td><p>DPX</p></td>
-      <td><p>NPS 2</p></td>
-    </tr>
-  </tbody>
-</table>
-
 ### Added Runfile installation method
 
 The ROCm Runfile Installer can install ROCm and/or the AMD GPU Driver (amdgpu)
@@ -290,6 +249,18 @@ library to integrate into the attach and detach workflow. This functionality is
 now exposed as a public API, allowing ROCprofiler-SDK users to incorporate
 custom tool libraries into the attach and detach workflow without
 re-implementing this logic.
+
+### ROCm Optiq (beta): ROCm Compute Profiler and ROCm Systems Profiler support
+
+[ROCm Optiq](https://github.com/ROCm/roc-optiq) now supports visualizing ROCm
+Compute Profiler (rocprofiler-compute) data, significantly expanding its
+analysis capabilities beyond the [previously
+introduced](https://rocm.docs.amd.com/en/docs-7.2.0/about/release-notes.html#rocm-optiq-introduced)
+ROCm Systems Profiler support. New views include high-level summaries, kernel
+tables and charts, roofline analyses, detailed kernel and memory breakdowns,
+and system speed-of-light metrics. These additions enable developers to quickly
+identify compute- or memory-bound bottlenecks and deeply analyze kernel
+performance through an interactive GUI on Windows and Linux.
 
 ### Compatibility notices
 
