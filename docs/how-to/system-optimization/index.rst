@@ -14,7 +14,7 @@ optimize performance for specific types of workloads or use-cases. The contents 
 
   .. grid-item-card:: AMD RDNA
 
-    * :doc:`AMD RDNA3.5 system optimization <strixhalo>`
+    * :doc:`AMD RDNA3.5 system optimization <rdna3-5>`
     * :doc:`AMD RDNA2 system optimization <w6000-v620>`
 
   .. grid-item-card:: AMD Instinct
