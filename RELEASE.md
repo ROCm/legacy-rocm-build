@@ -239,9 +239,6 @@ ROCm 7.1.1 enables support for PyTorch 2.9. For more information, see [PyTorch c
 
 Deep Graph Library [(DGL)](https://www.dgl.ai/) is an easy-to-use, high-performance, and scalable Python package for deep learning on graphs. DGL is framework agnostic, meaning that if a deep graph model is a component in an end-to-end application, the rest of the logic is implemented using PyTorch. It's supported on ROCm 7.0.0, ROCm 6.4.3, and ROCm 6.4.0. For more information, see [DGL compatibility](https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/dgl-compatibility.html).
 
-#### llama.cpp
-
-llama.cpp is an open-source framework for Large Language Model (LLM) inference that runs on both central processing units (CPUs) and graphics processing units (GPUs). It is written in plain C/C++, providing a simple, dependency-free setup. It's supported on ROCm 7.0.0 and ROCm 6.4.x. For more information, see [llama.cpp compatibility](https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/llama-cpp-compatibility.html).
 
 ### ROCm Offline Installer Creator updates
  
