@@ -205,14 +205,6 @@ ROCm 7.0.0 introduces several newly supported versions of Deep learning and AI f
 
 ROCm 7.0.2 enables support for PyTorch 2.8.
 
-#### New frameworks
-
-AMD ROCm has officially added support for the following Deep learning and AI frameworks:
-
-* FlashInfer is a library and kernel generator for Large Language Models (LLMs) that provides a high-performance implementation of graphics processing units (GPUs) kernels. FlashInfer focuses on LLM serving and inference, as well as advanced performance across diverse scenarios. It is supported on ROCm 6.4.1. For more information, see [FlashInfer compatibility](https://rocm.docs.amd.com/en/latest/compatibility/ml-compatibility/flashinfer-compatibility.html).
-
-* llama.cpp is an open-source framework for Large Language Model (LLM) inference that runs on both central processing units (CPUs) and graphics processing units (GPUs). It is written in plain C/C++, providing a simple, dependency-free setup. It is now supported on ROCm 7.0.0 and 6.4.x. For more information, see [llama.cpp compatibility](https://rocm.docs.amd.com/en/docs-7.0.0/compatibility/ml-compatibility/llama-cpp-compatibility.html).
-
 ### ROCm Offline Installer Creator updates
 
 The ROCm Offline Installer Creator 7.0.2 includes the following features and improvements:
