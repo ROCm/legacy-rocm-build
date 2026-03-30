@@ -35,20 +35,8 @@ subtrees:
         title: TensorFlow compatibility
       - file: compatibility/ml-compatibility/jax-compatibility.rst
         title: JAX compatibility
-      - file: compatibility/ml-compatibility/verl-compatibility.rst
-        title: verl compatibility
-      - file: compatibility/ml-compatibility/stanford-megatron-lm-compatibility.rst
-        title: Stanford Megatron-LM compatibility
       - file: compatibility/ml-compatibility/dgl-compatibility.rst
         title: DGL compatibility
-      - file: compatibility/ml-compatibility/megablocks-compatibility.rst
-        title: Megablocks compatibility
-      - file: compatibility/ml-compatibility/ray-compatibility.rst
-        title: Ray compatibility
-      - file: compatibility/ml-compatibility/llama-cpp-compatibility.rst
-        title: llama.cpp compatibility
-      - file: compatibility/ml-compatibility/flashinfer-compatibility.rst
-        title: FlashInfer compatibility
   - file: how-to/build-rocm.rst
     title: Build ROCm from source
 

@@ -58,9 +58,6 @@ compatibility and system requirements.
       :doc:`PyTorch <../compatibility/ml-compatibility/pytorch-compatibility>`,"2.7, 2.6, 2.5","2.6, 2.5, 2.4, 2.3","2.4, 2.3, 2.2, 2.1, 2.0, 1.13"
       :doc:`TensorFlow <../compatibility/ml-compatibility/tensorflow-compatibility>`,"2.19.1, 2.18.1, 2.17.1 [#tf-mi350]_","2.18.1, 2.17.1, 2.16.2","2.17.0, 2.16.2, 2.15.1"
       :doc:`JAX <../compatibility/ml-compatibility/jax-compatibility>`,0.6.0,0.4.35,0.4.31
-      :doc:`Stanford Megatron-LM <../compatibility/ml-compatibility/stanford-megatron-lm-compatibility>` [#stanford-megatron-lm_compat]_,N/A,N/A,85f95ae
-      :doc:`Megablocks <../compatibility/ml-compatibility/megablocks-compatibility>` [#megablocks_compat]_,N/A,N/A,0.7.0
-      :doc:`llama.cpp <../compatibility/ml-compatibility/llama-cpp-compatibility>` [#llama-cpp_compat]_,b6356,b6356,N/A
       `ONNX Runtime <https://onnxruntime.ai/docs/build/eps.html#amd-migraphx>`_,1.22.0,1.20.0,1.17.3
       ,,,
       THIRD PARTY COMMS,.. _thirdpartycomms-support-compatibility-matrix:,,
@@ -175,9 +172,6 @@ compatibility and system requirements.
 .. [#mi100-os] **For ROCm 7.0.x** - AMD Instinct MI100 GPU (gfx908) is only supported on Ubuntu 24.04.3, Ubuntu 22.04.5, RHEL 9.6, RHEL 9.4, and RHEL 8.10.
 .. [#7700XT-OS] **Prior ROCm 7.0.0** - Radeon RX 7700 XT (gfx1101) is supported only on Ubuntu 24.04.2 and RHEL 9.6.
 .. [#tf-mi350] TensorFlow 2.17.1 is not supported on AMD Instinct MI350 series GPUs. Use TensorFlow 2.19.1 or 2.18.1 with MI350 series GPUs instead.
-.. [#stanford-megatron-lm_compat] Stanford Megatron-LM is only supported on ROCm 6.3.0.
-.. [#megablocks_compat] Megablocks is only supported on ROCm 6.3.0.
-.. [#llama-cpp_compat] llama.cpp is only supported on ROCm 7.0.0 and 6.4.x.
 .. [#driver_patch] AMD GPU Driver (amdgpu) 30.10.1 is a quality release that resolves an issue identified in the 30.10 release. There are no other significant changes or feature additions in ROCm 7.0.1 from ROCm 7.0.0. AMD GPU Driver (amdgpu) 30.10.1 is compatible with ROCm 7.0.1 and ROCm 7.0.0.
 .. [#kfd_support] As of ROCm 6.4.0, forward and backward compatibility between the AMD GPU Driver (amdgpu) and its user space software is provided up to a year apart. For earlier ROCm releases, the compatibility is provided for +/- 2 releases. The supported user space versions on this page were accurate as of the time of initial ROCm release. For the most up-to-date information, see the latest version of this information at `User and AMD GPU Driver support matrix <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/user-kernel-space-compat-matrix.html>`_.
 .. [#ROCT-rocr] Starting from ROCm 6.3.0, the ROCT Thunk Interface is included as part of the ROCr runtime package.
@@ -280,13 +274,7 @@ Expand for full historical view of:
    .. [#mi300_602-past-60] **For ROCm 6.0.2** - MI300A (gfx942) is supported on Ubuntu 22.04.3, RHEL 8.9, and SLES 15 SP5. MI300X (gfx942) is only supported on Ubuntu 22.04.3.
    .. [#mi300_600-past-60] **For ROCm 6.0.0** - MI300A (gfx942) is supported on Ubuntu 22.04.3, RHEL 8.9, and SLES 15 SP5. MI300X (gfx942) is only supported on Ubuntu 22.04.3.
    .. [#tf-mi350-past-60] TensorFlow 2.17.1 is not supported on AMD Instinct MI350 series GPUs. Use TensorFlow 2.19.1 or 2.18.1 with MI350 series GPUs instead.
-   .. [#verl_compat-past-60] verl is only supported on ROCm 6.2.0.
-   .. [#stanford-megatron-lm_compat-past-60] Stanford Megatron-LM is only supported on ROCm 6.3.0.
    .. [#dgl_compat-past-60] DGL is only supported on ROCm 6.4.0.
-   .. [#megablocks_compat-past-60] Megablocks is only supported on ROCm 6.3.0.
-   .. [#ray_compat-past-60] Ray is only supported on ROCm 6.4.1.
-   .. [#llama-cpp_compat-past-60] llama.cpp is only supported on ROCm 7.0.0 and 6.4.x.
-   .. [#flashinfer_compat-past-60] FlashInfer is only supported on ROCm 6.4.1.
    .. [#driver_patch-past-60] AMD GPU Driver (amdgpu) 30.10.1 is a quality release that resolves an issue identified in the 30.10 release. There are no other significant changes or feature additions in ROCm 7.0.1 from ROCm 7.0.0. AMD GPU Driver (amdgpu) 30.10.1 is compatible with ROCm 7.0.1 and ROCm 7.0.0.
    .. [#kfd_support-past-60] As of ROCm 6.4.0, forward and backward compatibility between the AMD GPU Driver (amdgpu) and its user space software is provided up to a year apart. For earlier ROCm releases, the compatibility is provided for +/- 2 releases. The supported user space versions on this page were accurate as of the time of initial ROCm release. For the most up-to-date information, see the latest version of this information at `User and AMD GPU Driver support matrix <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/user-kernel-space-compat-matrix.html>`_.
    .. [#ROCT-rocr-past-60] Starting from ROCm 6.3.0, the ROCT Thunk Interface is included as part of the ROCr runtime package.
