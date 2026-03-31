@@ -56,7 +56,7 @@ installation.
 
                         # Configure ROCm PATH. Make sure you're in the therock-tarball directory before proceeding.
                         ROCM_INSTALL_PATH=$(pwd)/install
-                        sudo tee --append ~/.bashrc << EOF
+                        tee --append ~/.bashrc << EOF
 
                         # BEGIN ROCm environment configuration
                         export ROCM_PATH=$ROCM_INSTALL_PATH
@@ -72,7 +72,7 @@ installation.
 
                         # Configure ROCm PATH. Make sure you're in the therock-tarball directory before proceeding.
                         ROCM_INSTALL_PATH=$(pwd)/install
-                        sudo tee --append ~/.profile << EOF
+                        tee --append ~/.profile << EOF
 
                         # BEGIN ROCm environment configuration
                         export ROCM_PATH=$ROCM_INSTALL_PATH
