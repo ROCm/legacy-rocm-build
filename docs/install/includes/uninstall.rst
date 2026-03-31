@@ -200,13 +200,28 @@ Uninstalling
 
             sudo rm -rf therock-tarball
 
-      2. If you opted for a :ref:`system-wide setup
-         <rocm-post-install-system-wide>` during the installation process,
-         remove the ROCm environment variables.
+      2. Remove your ROCm environment configuration from your system.
 
-         .. code-block:: bash
+         .. tab-set::
 
-            sudo rm -f /etc/profile.d/set-rocm-env.sh
+            .. tab-item:: System-wide 
+               :sync: tarball-system-setup
+
+               If you opted for a :ref:`system-wide setup
+               <rocm-post-install-system-wide>` during the installation
+               process, remove the ROCm environment variables.
+
+               .. code-block:: bash
+
+                  sudo rm -f /etc/profile.d/set-rocm-env.sh
+
+            .. tab-item:: User
+               :sync: tarball-user-setup
+
+               If you opted for a :ref:`user-specific setup
+               <rocm-post-install-system-wide>` during the installation
+               process, remove the ROCm environment configuration block from
+               your shell configuration file (``~/.bashrc`` or ``~/.profile``).
 
    .. selected:: os=windows
 

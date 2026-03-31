@@ -19,6 +19,7 @@ installation.
       .. tab-set::
 
          .. tab-item:: System-wide setup
+            :sync: tarball-system-setup
 
             Create a profile script so that all users inherit the ROCm
             environment variables when they start a shell session. Make sure
@@ -37,20 +38,48 @@ installation.
                source /etc/profile.d/set-rocm-env.sh
 
          .. tab-item:: User setup
+            :sync: tarball-user-setup
 
             Configure the ROCm environment for your user by updating your shell
-            configuration file.
+            startup configuration file.
 
-            1. Add the following to your shell configuration file
-               (``~/.bashrc``, ``~/.profile``). Make sure you're in the
-               ``therock-tarball`` directory before proceeding.
+            1. Use the following commands to update your shell configuration file
+               (``~/.bashrc`` or ``~/.profile``) and add ROCm to your PATH. Before proceeding, make sure you're in the
+               ``therock-tarball`` directory so the install path resolves correctly.
 
-               .. code-block:: bash
+               .. tab-set::
 
-                  # Configure ROCm PATH. Make sure you're in the therock-tarball directory before proceeding.
-                  export ROCM_PATH=$PWD/install
-                  export PATH=$PATH:$ROCM_PATH/bin
-                  export LD_LIBRARY_PATH=$ROCM_PATH/lib
+                  .. tab-item:: .bashrc
+                     :sync: bashrc
+
+                     .. code-block:: bash
+
+                        # Configure ROCm PATH. Make sure you're in the therock-tarball directory before proceeding.
+                        ROCM_INSTALL_PATH=$(pwd)/install
+                        tee --append ~/.bashrc << EOF
+
+                        # BEGIN ROCm environment configuration
+                        export ROCM_PATH=$ROCM_INSTALL_PATH
+                        export PATH=\$PATH:\$ROCM_PATH/bin
+                        export LD_LIBRARY_PATH=\$ROCM_PATH/lib
+                        # END ROCm environment configuration
+                        EOF
+
+                  .. tab-item:: .profile
+                     :sync: profile
+
+                     .. code-block:: bash
+
+                        # Configure ROCm PATH. Make sure you're in the therock-tarball directory before proceeding.
+                        ROCM_INSTALL_PATH=$(pwd)/install
+                        tee --append ~/.profile << EOF
+
+                        # BEGIN ROCm environment configuration
+                        export ROCM_PATH=$ROCM_INSTALL_PATH
+                        export PATH=\$PATH:\$ROCM_PATH/bin
+                        export LD_LIBRARY_PATH=\$ROCM_PATH/lib
+                        # END ROCm environment configuration
+                        EOF
 
             2. After modifying your shell configuration, apply the change to
                your current session by sourcing your updated shell
@@ -59,12 +88,14 @@ installation.
                .. tab-set::
 
                   .. tab-item:: .bashrc
+                     :sync: bashrc
 
                      .. code-block:: bash
 
                         source ~/.bashrc
 
                   .. tab-item:: .profile
+                     :sync: profile
 
                      .. code-block:: bash
 
