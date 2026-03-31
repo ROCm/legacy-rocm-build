@@ -312,27 +312,6 @@ Prerequisites
 
          sudo crb enable
 
-.. selected:: os=sles
-   :heading: Add additional package repositories
-   :heading-level: 3
-
-   .. selected:: os-version=16.0
-
-      .. code-block:: bash
-
-         sudo SUSEConnect -p sle-module-desktop-applications/16.0/x86_64
-         sudo SUSEConnect -p sle-module-development-tools/16.0/x86_64
-         sudo SUSEConnect -p PackageHub/16.0/x86_64
-
-   .. selected:: os-version=15.7
-
-      .. code-block:: bash
-
-         sudo SUSEConnect -p sle-module-desktop-applications/15.7/x86_64
-         sudo SUSEConnect -p sle-module-development-tools/15.7/x86_64
-         sudo SUSEConnect -p PackageHub/15.7/x86_64
-
-
 .. ============================================== INSTALL ADDITIONAL PACKAGES ==
 
 .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
