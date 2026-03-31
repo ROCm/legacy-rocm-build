@@ -138,7 +138,7 @@ not needed for installation as long as dependencies for ROCm and/or AMD GPU driv
 post-installation configuration, and offers an interactive command-line GUI for
 guided setup.
 
-For details, see the [ROCm installation instructions](/install/rocm).
+For details, see the <a href="/install/rocm.html?i=runfile">ROCm installation instructions</a>.
 
 ### Added rocSHMEM library to TheRock
 
