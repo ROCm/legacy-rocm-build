@@ -53,6 +53,13 @@ in ROCm |ROCM_VERSION|, see the :doc:`Release notes </about/release-notes>`.
       .. selector-option:: 12
          :width: 6
 
+   .. selector:: Debian version
+      :show-when: gpu=mi300a gpu=mi250x gpu=mi250
+      :key: os-version
+
+      .. selector-option:: 12
+         :width: 12
+
 
 .. ============================================================= RHEL VERSION ==
 
