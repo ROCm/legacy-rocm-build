@@ -203,7 +203,8 @@ Get started
                --device /dev/dri \
                -v <path/to/your/models>:/app/models \
                -e HF_HOME="/app/models" \
-               rocm/vllm:rocm7.12.0_gfx950-dcgpu_ubuntu24.04_py3.12_pytorch_2.9.1_vllm_0.16.0
+               rocm/vllm:rocm7.12.0_gfx950-dcgpu_ubuntu24.04_py3.12_pytorch_2.9.1_vllm_0.16.0 \
+               bash
 
    .. selected:: gpu=mi325x gpu=mi300x gpu=mi300a
 
@@ -227,7 +228,8 @@ Get started
                --device /dev/dri \
                -v <path/to/your/models>:/app/models \
                -e HF_HOME="/app/models" \
-               rocm/vllm:rocm7.12.0_gfx94X-dcgpu_ubuntu24.04_py3.12_pytorch_2.9.1_vllm_0.16.0
+               rocm/vllm:rocm7.12.0_gfx94X-dcgpu_ubuntu24.04_py3.12_pytorch_2.9.1_vllm_0.16.0 \
+               bash
 
    .. selected:: fam=radeon-pro fam=radeon
 
@@ -251,7 +253,8 @@ Get started
                --device /dev/dri \
                -v <path/to/your/models>:/app/models \
                -e HF_HOME="/app/models" \
-               rocm/vllm:rocm7.12.0_gfx120X-all_ubuntu24.04_py3.12_pytorch_2.9.1_vllm_0.16.0
+               rocm/vllm:rocm7.12.0_gfx120X-all_ubuntu24.04_py3.12_pytorch_2.9.1_vllm_0.16.0 \
+               bash
 
    .. selected:: fam=ryzen
 
@@ -275,7 +278,8 @@ Get started
                --device /dev/dri \
                -v <path/to/your/models>:/app/models \
                -e HF_HOME="/app/models" \
-               rocm/vllm:rocm7.12.0_gfx1151_ubuntu24.04_py3.12_pytorch_2.9.1_vllm_0.16.0
+               rocm/vllm:rocm7.12.0_gfx1151_ubuntu24.04_py3.12_pytorch_2.9.1_vllm_0.16.0 \
+               bash
 
    .. seealso::
 
