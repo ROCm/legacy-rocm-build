@@ -305,7 +305,7 @@ Get started
 
    3. Install ROCm |ROCM_VERSION| and PyTorch 2.9.1 in your virtual environment using pip.
 
-      ..selected:: gpu=mi355x gpu=mi350x
+      .. selected:: gpu=mi355x gpu=mi350x
 
          .. code-block:: bash
 
@@ -315,7 +315,7 @@ Get started
               "torchvision==2.9.0+rocm7.12.0" \
               "torchaudio==0.24.0+rocm7.12.0"
 
-      ..selected:: gpu=mi325x gpu=mi300x gpu=mi300a
+      .. selected:: gpu=mi325x gpu=mi300x gpu=mi300a
 
          .. code-block:: bash
 
@@ -325,7 +325,7 @@ Get started
               "torchvision==2.9.0+rocm7.12.0" \
               "torchaudio==0.24.0+rocm7.12.0"
 
-      ..selected:: fam=radeon-pro fam=radeon
+      .. selected:: fam=radeon-pro fam=radeon
 
          .. code-block:: bash
 
@@ -335,7 +335,7 @@ Get started
               "torchvision==2.9.0+rocm7.12.0" \
               "torchaudio==0.24.0+rocm7.12.0"
 
-      ..selected:: fam=ryzen
+      .. selected:: fam=ryzen
 
          .. code-block:: bash
 
@@ -379,7 +379,7 @@ Get started
               --extra-index-url https://rocm.frameworks.amd.com/whl/gfx1151/ \
               "vllm==0.16.1.dev10+g11515110f.d20260323.rocm712"
 
-   5. Apply the following environment variables to prevent errors when running vLLM.
+   5. Set the following environment variables to prevent errors related ROCm platform and Flash Attention availability when running vLLM.
 
       .. code-block:: bash
 

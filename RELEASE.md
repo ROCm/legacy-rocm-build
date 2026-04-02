@@ -1881,7 +1881,7 @@ libraries, their compatible operating systems, and validated versions.
 				<p>Linux</p>
 			</td>
 			<td>
-				<p>3.12</p>
+				<p>3.12<br>(requires PyTorch 2.9.1)</p>
 			</td>
 		</tr>
     </tbody>
