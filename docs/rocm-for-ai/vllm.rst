@@ -303,7 +303,47 @@ Get started
 
          source .venv/bin/activate
 
-   3. Install ROCm |ROCM_VERSION| and PyTorch using pip. See :ref:`pip-install-pytorch` for details.
+   3. Install ROCm |ROCM_VERSION| and PyTorch 2.9.1 in your virtual environment using pip.
+
+      .. selected:: gpu=mi355x gpu=mi350x
+
+         .. code-block:: bash
+
+            python -m pip install \
+              --index-url https://repo.amd.com/rocm/whl/gfx950-dcgpu/ \
+              "torch==2.9.1+rocm7.12.0" \
+              "torchaudio==2.9.0+rocm7.12.0" \
+              "torchvision==0.24.0+rocm7.12.0"
+
+      .. selected:: gpu=mi325x gpu=mi300x gpu=mi300a
+
+         .. code-block:: bash
+
+            python -m pip install \
+              --index-url https://repo.amd.com/rocm/whl/gfx94X-dcgpu/ \
+              "torch==2.9.1+rocm7.12.0" \
+              "torchaudio==2.9.0+rocm7.12.0" \
+              "torchvision==0.24.0+rocm7.12.0"
+
+      .. selected:: fam=radeon-pro fam=radeon
+
+         .. code-block:: bash
+
+            python -m pip install \
+              --index-url https://repo.amd.com/rocm/whl/gfx120X-all/ \
+              "torch==2.9.1+rocm7.12.0" \
+              "torchaudio==2.9.0+rocm7.12.0" \
+              "torchvision==0.24.0+rocm7.12.0"
+
+      .. selected:: fam=ryzen
+
+         .. code-block:: bash
+
+            python -m pip install \
+              --index-url https://repo.amd.com/rocm/whl/gfx1151/ \
+              "torch==2.9.1+rocm7.12.0" \
+              "torchaudio==2.9.0+rocm7.12.0" \
+              "torchvision==0.24.0+rocm7.12.0"
 
    4. Install the appropriate vLLM 0.16.0 build for your GFX architecture from the ROCm package repository.
 
@@ -339,6 +379,21 @@ Get started
               --extra-index-url https://rocm.frameworks.amd.com/whl/gfx1151/ \
               "vllm==0.16.1.dev10+g11515110f.d20260323.rocm712"
 
+   5. Set the following environment variables to prevent errors related ROCm platform and Flash Attention availability when running vLLM.
+
+      .. code-block:: bash
+
+         export PYTHONPATH=.venv/lib/python3.12/site-packages/_rocm_sdk_core/share/amd_smi
+         export FLASH_ATTENTION_TRITON_AMD_ENABLE=TRUE
+
+   6. Check your installation.
+
+      .. code-block:: bash
+
+         echo "=== vLLM ===" && python -c "import vllm; print('vLLM version:', vllm.__version__)"
+         echo "=== PyTorch ===" && python -c "import torch; print('PyTorch:', torch.__version__); print('HIP available:', torch.cuda.is_available()); print('HIP built:', torch.backends.hip.is_built() if hasattr(torch.backends, 'hip') else 'N/A')"
+         echo "=== flash-attn ===" && python -c "import flash_attn; print('flash-attn:', flash_attn.__version__)"
+
    .. seealso::
 
       `Set up using Python (vLLM docs) <https://docs.vllm.ai/en/v0.16.0/getting_started/installation/gpu/#amd-rocm_3>`__
@@ -349,7 +404,7 @@ vLLM <https://docs.vllm.ai/en/v0.16.0/usage/>`__.
 Known issues
 ============
 
-- vLLM server startup might fail due to a path resolution issue. See
+- vLLM server startup in Docker containers might fail due to a path resolution issue. See
   :ref:`release-vllm-path-known-issue`.
 
   As a workaround, before starting the vLLM server inside the ROCm 7.12 vLLM

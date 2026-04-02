@@ -195,7 +195,7 @@ installation.
 
          .. code-block:: shell-session
 
-            AMDSMI Tool: 26.2.1+7b886380f9 | AMDSMI Library version: 26.2.1 | ROCm version: 7.11.0 | amdgpu version: 6.18.4 | hsmp version: N/A
+            AMDSMI Tool: 26.3.0+2bd1678d3d | AMDSMI Library version: 26.3.0 | ROCm version: 7.12.0 | amdgpu version: 6.16.13 | hsmp version: N/A | AINIC version: N/A
 
    .. selected:: i=pip
 
