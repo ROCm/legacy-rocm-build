@@ -312,8 +312,8 @@ Get started
             python -m pip install \
               --index-url https://repo.amd.com/rocm/whl/gfx950-dcgpu/ \
               "torch==2.9.1+rocm7.12.0" \
-              "torchvision==2.9.0+rocm7.12.0" \
-              "torchaudio==0.24.0+rocm7.12.0"
+              "torchaudio==2.9.0+rocm7.12.0" \
+              "torchvision==0.24.0+rocm7.12.0"
 
       .. selected:: gpu=mi325x gpu=mi300x gpu=mi300a
 
@@ -322,8 +322,8 @@ Get started
             python -m pip install \
               --index-url https://repo.amd.com/rocm/whl/gfx94X-dcgpu/ \
               "torch==2.9.1+rocm7.12.0" \
-              "torchvision==2.9.0+rocm7.12.0" \
-              "torchaudio==0.24.0+rocm7.12.0"
+              "torchaudio==2.9.0+rocm7.12.0" \
+              "torchvision==0.24.0+rocm7.12.0"
 
       .. selected:: fam=radeon-pro fam=radeon
 
@@ -332,8 +332,8 @@ Get started
             python -m pip install \
               --index-url https://repo.amd.com/rocm/whl/gfx120X-all/ \
               "torch==2.9.1+rocm7.12.0" \
-              "torchvision==2.9.0+rocm7.12.0" \
-              "torchaudio==0.24.0+rocm7.12.0"
+              "torchaudio==2.9.0+rocm7.12.0" \
+              "torchvision==0.24.0+rocm7.12.0"
 
       .. selected:: fam=ryzen
 
@@ -342,8 +342,8 @@ Get started
             python -m pip install \
               --index-url https://repo.amd.com/rocm/whl/gfx1151/ \
               "torch==2.9.1+rocm7.12.0" \
-              "torchvision==2.9.0+rocm7.12.0" \
-              "torchaudio==0.24.0+rocm7.12.0"
+              "torchaudio==2.9.0+rocm7.12.0" \
+              "torchvision==0.24.0+rocm7.12.0"
 
    4. Install the appropriate vLLM 0.16.0 build for your GFX architecture from the ROCm package repository.
 
