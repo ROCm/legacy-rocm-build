@@ -17,6 +17,7 @@ benchmarking, see the version-specific documentation.
 
    * - ``rocm/pytorch-xdit:v26.4`` (latest)
      -
+       * `ROCm 7.12.0 preview <https://rocm.docs.amd.com/en/7.12.0-preview/about/release-notes.html>`__
        * TheRock e40a6da
      -
        * :doc:`Documentation </how-to/rocm-for-ai/inference/xdit-diffusion-inference>`
@@ -24,6 +25,7 @@ benchmarking, see the version-specific documentation.
 
    * - ``rocm/pytorch-xdit:v26.3``
      -
+       * `ROCm 7.12.0 preview <https://rocm.docs.amd.com/en/7.12.0-preview/about/release-notes.html>`__
        * TheRock e40a6da
      -
        * :doc:`Documentation <xdit-26.3>`
