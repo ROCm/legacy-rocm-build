@@ -1,6 +1,6 @@
 docker:
   pull_tag: rocm/pytorch-xdit:v26.4
-  docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.4/images/sha256-b4296a638eb8dc7ebcafc808e180b78a3c44177580c21986082ec9539496067c
   ROCm: 7.12.0
   whats_new:
     - "Qwen-Image-2512 support"
