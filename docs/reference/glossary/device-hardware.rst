@@ -28,7 +28,7 @@ features of AMD GPUs.
     ALU
         Arithmetic logic units (ALUs) are the primary arithmetic engines that
         execute mathematical and logical operations within
-        :term:`compute units <Compute units>`. See :ref:`hip:valu` for details. 
+        :term:`compute units <Compute units>`. See :ref:`hip:valu` for details.
 
     SALU
         Scalar :term:`ALUs <ALU>` (SALUs) operate on a single value per
@@ -77,8 +77,8 @@ features of AMD GPUs.
     Wavefront size
         The wavefront size is the number of
         :term:`work-items <Work-item (Thread)>` that execute together in a
-        single :term:`wavefront <Wavefront (Warp)>`. For AMD Instinct GPUs, the
-        wavefront size is 64 threads, while AMD Radeon GPUs have a wavefront
+        single :term:`wavefront <Wavefront (Warp)>`. For AMD Instinct™ GPUs, the
+        wavefront size is 64 threads, while AMD Radeon™ GPUs have a wavefront
         size of 32 threads. See :ref:`hip:wavefront` for details.
 
     SIMD core
@@ -108,7 +108,7 @@ features of AMD GPUs.
     GFX IP major version
         The :term:`GFX IP <GFX IP>` major version represents the GPU's core
         instruction set and architecture. For example, a GFX IP `11` major
-        version corresponds to the RDNA3 architecture, influencing driver
+        version corresponds to the RDNA™ 3 architecture, influencing driver
         support and available compute features. See :ref:`hip:gfx_ip` for
         versioning information.
 
@@ -119,7 +119,7 @@ features of AMD GPUs.
         major version can have unique capabilities, impacting performance and
         supported instructions. See :ref:`hip:gfx_ip` for versioning
         information.
-    
+
     Compute unit versioning
         :term:`Compute units <Compute units>` are versioned with
         :term:`GFX IP <GFX IP>` identifiers that define their microarchitectural
@@ -135,7 +135,7 @@ features of AMD GPUs.
         The :term:`SGPR <SGPR>` file is the
         :term:`register file <Register file>` that holds data used by the
         :term:`scalar ALU <SALU>`.
-    
+
     VGPR file
         The :term:`VGPR <VGPR>` file is the
         :term:`register file <Register file>` that holds data used by the
@@ -155,7 +155,7 @@ features of AMD GPUs.
         :term:`compute units <Compute units>`. It provides the
         :term:`scalar ALU <SALU>` with fast access to recently used data.
 
-    L0 vector cache 
+    L0 vector cache
         On AMD Radeon GPUs, the level 0 (L0) vector data cache is local to each
         :term:`WGP <WGP>` and thus shared between the WGP's
         :term:`compute units <Compute units>`. It provides the
@@ -170,7 +170,7 @@ features of AMD GPUs.
 
     L1 scalar cache
         On AMD Instinct GPUs, the level 1 (L1) scalar data cache is local to
-        each :term:`compute unit <Compute units>`, providing the 
+        each :term:`compute unit <Compute units>`, providing the
         :term:`scalar ALU <SALU>` with fast access to recently used data. On AMD
         Radeon GPUs, the L1 scalar cache does not exist as a separate cache
         level, and recently used scalar data is stored in the
@@ -178,7 +178,7 @@ features of AMD GPUs.
 
     L1 vector cache
         On AMD Instinct GPUs, the level 1 (L1) vector data cache is local to
-        each :term:`compute unit <Compute units>`, providing the 
+        each :term:`compute unit <Compute units>`, providing the
         :term:`vector ALU <VALU>` with fast access to recently used data. On AMD
         Radeon GPUs, the L1 vector cache does not exist as a separate cache
         level, and recently used vector data is stored in the
@@ -238,13 +238,13 @@ features of AMD GPUs.
     XCD
         On AMD Instinct MI300 and MI350 series GPUs, the Accelerator Complex Die
         (XCD) contains the GPU's computational elements and lower levels of the
-        cache hierarchy. See :doc:`../../conceptual/gpu-arch/mi300` for details.
+        cache hierarchy. See :doc:`../gpu-arch/mi300` for details.
 
     GCD
         On AMD Instinct MI100 and MI250 series GPUs and AMD Radeon GPUs, the
         Graphics Compute Die (GCD) contains the GPU's computational elements
         and lower levels of the cache hierarchy. See
-        :doc:`../../conceptual/gpu-arch/mi250` for details.
+        :doc:`../gpu-arch/mi250` for details.
 
     WGP
         A Workgroup Processor (WGP) is a hardware unit on AMD Radeon GPUs that

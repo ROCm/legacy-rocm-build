@@ -1,0 +1,20 @@
+.. meta::
+   :description: AMD Instinct MI350 Series microarchitecture reference.
+   :keywords: Instinct, MI350X, MI355X, CDNA4, microarchitecture, AMD, ROCm
+
+**************************************************
+AMD Instinct MI350 Series microarchitecture
+**************************************************
+
+This section covers the AMD Instinct MI350 Series GPU architecture based on AMD
+CDNA4. It includes the following topics:
+
+* `AMD CDNA 4 (Instinct MI350 Series) ISA reference <https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/instruction-set-architectures/amd-instinct-cdna4-instruction-set-architecture.pdf>`_ --
+  Instruction set architecture reference for the AMD Instinct MI350 Series.
+
+* `White paper <https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-4-architecture-whitepaper.pdf>`_ --
+  Architectural overview of the AMD CDNA 4 design.
+
+* :doc:`MI350 Series performance counters <mi350-performance-counters>` --
+  Hardware performance counters and derived metrics available for profiling
+  MI350 Series GPUs using ROCprofiler-SDK and ROCm Compute Profiler.

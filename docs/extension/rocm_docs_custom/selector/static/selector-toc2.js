@@ -6,6 +6,7 @@ const HIDDEN_CLASS = "rocm-docs-hidden";
 const TOC2_OPTIONS_LIST_QUERY = ".rocm-docs-selector-toc2-options";
 const TOC2_CONTENTS_LIST_QUERY = ".rocm-docs-selector-toc2-contents";
 const HEADING_QUERY = "h2,h3,h4,h5,h6";
+const HEADING_TEXT_QUERY = ".rocm-docs-selector-group-heading-text";
 
 const TOC_ITEM_CLASS = "rocm-docs-selector-toc2-item";
 const EMPTY_ITEM_CLASS = "empty";
@@ -13,26 +14,25 @@ const EMPTY_ITEM_CLASS = "empty";
 const DROPDOWN_INPUT_CLASS = "rocm-docs-selector-dropdown-input";
 const DROPDOWN_INPUT_LABEL_CLASS = "rocm-docs-selector-dropdown-input-label";
 
-const TOM_SELECT_CONFIG = {
-  plugins: ["dropdown_input"],
-};
+const tomSelectInstances = [];
+let contentsTocInitialized = false;
 
 function isVisible(el) {
   return !!(el && el.offsetParent !== null);
 }
 
+function getGroupHeadingText(group) {
+  const span = group.querySelector(HEADING_TEXT_QUERY);
+  return span ? span.textContent.trim() : "(Unnamed Selector)";
+}
+
 function getUniqueGroups(groups) {
   const seen = new Set();
   return groups.filter((group) => {
-    // Use group ID as primary identity; fallback to heading text
-    const headingSpan = group.querySelector(
-      ".rocm-docs-selector-group-heading-text",
-    );
-    const headingText = headingSpan
-      ? headingSpan.textContent.trim()
-      : "(Unnamed Selector)";
-    const identifier = group.id ? `id:${group.id}` : `heading:${headingText}`;
-
+    // Use group ID as primary identity; fallback to heading text.
+    const identifier = group.id
+      ? `id:${group.id}`
+      : `heading:${getGroupHeadingText(group)}`;
     if (seen.has(identifier)) return false;
     seen.add(identifier);
     return true;
@@ -48,9 +48,8 @@ export function updateTOC2OptionsList() {
   );
   visibleGroups = getUniqueGroups(visibleGroups);
 
-  // Always rebuild fresh (simpler, avoids state drift)
   tomSelectInstances.forEach((ts) => ts.destroy());
-  tomSelectInstances = [];
+  tomSelectInstances.length = 0;
   tocOptionsList.innerHTML = "";
 
   if (visibleGroups.length === 0) {
@@ -65,12 +64,7 @@ export function updateTOC2OptionsList() {
   }
 
   visibleGroups.forEach((group) => {
-    const headingSpan = group.querySelector(
-      ".rocm-docs-selector-group-heading-text",
-    );
-    const headingText = headingSpan
-      ? headingSpan.textContent.trim()
-      : "(Unnamed Selector)";
+    const headingText = getGroupHeadingText(group);
 
     const liEl = document.createElement("li");
     liEl.className = `nav-item toc-entry toc-h3 ${TOC_ITEM_CLASS}`;
@@ -122,8 +116,16 @@ export function updateTOC2OptionsList() {
     liEl.appendChild(selectEl);
 
     const ts = new TomSelect(selectEl, {
-      ...TOM_SELECT_CONFIG,
+      plugins: ["dropdown_input"],
       onChange(value) {
+        // For dropdown groups on the main page, drive via TomSelect so its
+        // change event fires and selector.js handles the update. Calling
+        // .click() on a native <option> element is unreliable across browsers.
+        const mainSelect = group.querySelector(`.${DROPDOWN_INPUT_CLASS}`);
+        if (mainSelect?.tomselect) {
+          mainSelect.tomselect.setValue(value);
+          return;
+        }
         const target = group.querySelector(
           `${OPTION_QUERY}[data-selector-value="${CSS.escape(value)}"]`,
         );
@@ -137,9 +139,6 @@ export function updateTOC2OptionsList() {
     tocOptionsList.appendChild(liEl);
   });
 }
-
-let tomSelectInstances = [];
-let contentsTocInitialized = false;
 
 function initTOC2ContentsList() {
   const tocContentsList = document.querySelector(TOC2_CONTENTS_LIST_QUERY);
@@ -226,12 +225,10 @@ export function updateTOC2ContentsList() {
     .querySelectorAll(`li.toc-entry.${TOC_ITEM_CLASS}`)
     .forEach((li) => {
       const targetId = li.dataset.targetId;
-      if (!targetId) {
-        li.style.display = "none";
-        return;
-      }
-      const target = document.getElementById(targetId);
-      const visible = target && target.offsetParent !== null;
-      li.style.display = visible ? "" : "none";
+      const visible =
+        !!targetId &&
+        !!(document.getElementById(targetId)?.offsetParent);
+      const next = visible ? "" : "none";
+      if (li.style.display !== next) li.style.display = next;
     });
 }

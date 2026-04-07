@@ -1,0 +1,20 @@
+.. meta::
+   :description: AMD ROCm control and monitoring tools for inspecting and managing AMD GPU hardware state.
+   :keywords: monitoring, AMD SMI, rocminfo, RDC, GPU, management, ROCm
+
+****************************************
+ROCm system control and monitoring tools
+****************************************
+
+ROCm control and monitoring tools provide interfaces for inspecting and
+managing AMD GPU hardware state in workstation and data center environments.
+
+* :doc:`AMD SMI <amdsmi:index>` -- System management interface to control AMD
+  GPU settings, monitor performance, and retrieve device and process
+  information.
+
+* :doc:`ROCm Data Center Tool <rdc:index>` (RDC) -- Simplifies administration
+  and addresses key infrastructure challenges in AMD GPUs in cluster and
+  data-center environments.
+
+* :doc:`rocminfo <rocminfo:index>` -- Reports system information.

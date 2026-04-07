@@ -91,7 +91,7 @@ portable across Ubuntu and other Linux distributions. To learn more about what
 a ROCm ManyLinux build entails, see `ManyLinux builds
 <https://github.com/ROCm/TheRock/blob/main/docs/design/manylinux_builds.md>`__.
 Refer to `ManyLinux x86_84
-<https://github.com/ROCm/TheRock/blob/main/docs/environment_setup_guide.md#manylinux-x84-64>`__
+<https://github.com/ROCm/TheRock/blob/main/docs/environment_setup_guide.md#manylinux-x86-64>`__
 in the environment setup guide.
 
 Ubuntu 24.04

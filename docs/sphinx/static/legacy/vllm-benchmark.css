@@ -1,0 +1,74 @@
+/* ------------------ Compatibility options grid ------------------ */
+html {
+  --compat-border-radius: 2px;
+  --compat-accent-color: var(--pst-color-primary);
+  --compat-bg-color: var(--pst-color-on-background);
+  --compat-fg-color: var(--pst-color-primary-text);
+  --compat-head-color: var(--pst-color-surface);
+  --compat-param-hover-color: var(--pst-color-link-hover);
+  --compat-param-selected-color: var(--pst-color-primary);
+  --compat-border-color: var(--pst-color-border);
+}
+
+html[data-theme="light"] {
+  --compat-param-disabled-color: var(--pst-gray-300);
+}
+
+html[data-theme="dark"] {
+  --compat-param-disabled-color: var(--pst-gray-600);
+}
+
+div#vllm-benchmark-ud-params-picker.container-fluid {
+  padding: 0 0 1rem 0;
+}
+
+div[data-param-k="model-group"],
+div[data-param-k="model"] {
+  background-color: var(--compat-bg-color);
+  padding: 2px;
+  border: solid 1px var(--compat-border-color);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+div[data-param-k="model-group"][data-param-state="selected"],
+div[data-param-k="model"][data-param-state="selected"] {
+  background-color: var(--compat-param-selected-color);
+  color: var(--compat-fg-color);
+}
+
+div[data-param-k="model-group"]:hover,
+div[data-param-k="model"]:hover {
+  background-color: var(--compat-param-hover-color);
+  color: var(--compat-fg-color);
+}
+
+/*
+div[data-param-k="model-group"][data-param-state="latest-version"] {
+  background-color: var(--compat-param-selected-color);
+  color: var(--compat-fg-color);
+}
+
+div[data-param-k="model-group"][data-param-state="disabled"] {
+  background-color: var(--compat-param-disabled-color);
+  text-decoration: line-through;
+  text-decoration-color: var(--pst-color-danger);
+  cursor: auto;
+}
+*/
+
+.model-param-head {
+  background-color: var(--compat-head-color);
+  padding: 0.15rem 0.15rem 0.15rem 0.67rem;
+  border-right: solid 3px var(--compat-accent-color);
+  font-weight: 600;
+}
+
+.model-param {
+  border: solid 1px var(--compat-border-color);
+  font-weight: 500;
+}
+
+.hidden {
+  display: none !important;
+}

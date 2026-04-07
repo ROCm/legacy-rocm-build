@@ -4,23 +4,21 @@
 version: 2
 
 sphinx:
-   configuration: docs/conf.py
+  configuration: docs/conf.py
 
 formats: []
 
 python:
-   install:
-   - requirements: docs/sphinx/requirements.txt
+  install:
+    - requirements: docs/sphinx/requirements.txt
 
 build:
-   os: ubuntu-22.04
-   tools:
-      python: "3.10"
-   apt_packages:
-     - "doxygen"
-     - "gfortran" # For pre-processing fortran sources
-     - "graphviz" # For dot graphs in doxygen
+  os: ubuntu-24.04
+  tools:
+    python: "3.10"
 
 search:
   ignore:
-    - "**/previous-versions/**"
+    - "**/archive/**"
+    - "**/include/**"
+    - "**/redirect/**"

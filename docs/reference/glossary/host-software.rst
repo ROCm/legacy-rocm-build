@@ -18,7 +18,7 @@ libraries, and runtime environments for programming AMD GPUs.
     ROCm software platform
         ROCm is AMD's GPU software stack, providing compiler
         toolchains, runtime environments, and performance libraries for HPC and
-        AI applications. See :doc:`../../what-is-rocm` for a complete component
+        AI applications. See :ref:`what-is-rocm` for a complete component
         overview.
 
     HIP C++ language extension

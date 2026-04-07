@@ -1,0 +1,451 @@
+gpus:
+  # ROCM-2521
+  - marketing_name: AMD Radeon PRO W6800
+    marketing_series: AMD Radeon PRO W6000 Series
+    gfx: gfx1030
+    os:
+      - Ubuntu 26.04
+      - Ubuntu 24.04.4
+      - Ubuntu 22.04.5
+      - RHEL 10.1
+      - RHEL 9.7
+  # ROCM-2521
+  - marketing_name: AMD Radeon PRO V620
+    marketing_series: AMD Radeon PRO V Series
+    gfx: gfx1030
+    os:
+      - Ubuntu 26.04
+      - Ubuntu 24.04.4
+      - Ubuntu 22.04.5
+      - RHEL 10.1
+      - RHEL 9.7
+  # ROCM-455
+  - marketing_name: AMD Ryzen AI 7 PRO 360
+    marketing_series: AMD Ryzen AI PRO 300 Series
+    gfx: gfx1152
+    igpu: AMD Radeon 880M
+    os: *ryzen_os_support
+  # ROCM-455
+  - marketing_name: AMD Ryzen AI 7 PRO 350
+    marketing_series: AMD Ryzen AI PRO 300 Series
+    gfx: gfx1152
+    igpu: AMD Radeon 860M
+    os: *ryzen_os_support
+  # ROCM-455
+  - marketing_name: AMD Ryzen AI 5 PRO 340
+    marketing_series: AMD Ryzen AI PRO 300 Series
+    gfx: gfx1152
+    igpu: AMD Radeon 840M
+    os: *ryzen_os_support
+  # ROCM-455
+  - marketing_name: AMD Ryzen AI 7 350
+    marketing_series: AMD Ryzen AI 300 Series
+    gfx: gfx1152
+    igpu: AMD Radeon 860M
+    os: *ryzen_os_support
+  # ROCM-455
+  - marketing_name: AMD Ryzen AI 7 345
+    marketing_series: AMD Ryzen AI 300 Series
+    gfx: gfx1152
+    igpu: AMD Radeon 840M
+    os: *ryzen_os_support
+  # ROCM-455
+  - marketing_name: AMD Ryzen AI 5 340
+    marketing_series: AMD Ryzen AI 300 Series
+    gfx: gfx1152
+    igpu: AMD Radeon 840M
+    os: *ryzen_os_support
+  # ROCM-455
+  - marketing_name: AMD Ryzen AI 5 330
+    marketing_series: AMD Ryzen AI 300 Series
+    igpu: AMD Radeon 820M
+    gfx: gfx1152
+    os: *ryzen_os_support
+  # ROCM-403 NOTE: no marketing/unannounced
+  - marketing_name: AMD Instinct MI350P
+    marketing_series: AMD Instinct MI350 Series
+    gfx: gfx950
+    os:
+      - Ubuntu 26.04
+      - Ubuntu 24.04.4
+      - RHEL 9.6
+  # ROCM-576 NOTE: no marketing/unannounced
+  - marketing_name: AMD Ryzen AI Max+ PRO 495
+    gfx: gfx1151
+    os: *ryzen_os_support
+  # ROCM-742 NOTE: no marketing/unannounced
+  - marketing_name: AMD Ryzen AI Max PRO 490
+    gfx: gfx1151
+    os: *ryzen_os_support
+  # ROCM-748 NOTE: no marketing/unannounced
+  - marketing_name: AMD Ryzen AI Max PRO 485
+    gfx: gfx1151
+    os: *ryzen_os_support
+  # ROCM-754 NOTE: no marketing/unannounced
+  - marketing_name: AMD Ryzen AI Max PRO 480
+    gfx: gfx1151
+    os: *ryzen_os_support
+  # ROCM-740 NOTE: no marketing/unannounced
+  - marketing_name: AMD Ryzen AI Max+ 492
+    gfx: gfx1151
+    os: *ryzen_os_support
+  # ROCM-746 NOTE: no marketing/unannounced
+  - marketing_name: AMD Ryzen AI Max+ 488
+    gfx: gfx1151
+    os: *ryzen_os_support
+  # ROCM-744 NOTE: no marketing/unannounced
+  - marketing_name: AMD Ryzen AI Max 490
+    gfx: gfx1151
+    os: *ryzen_os_support
+  # ROCM-750 NOTE: no marketing/unannounced
+  - marketing_name: AMD Ryzen AI Max 485
+    gfx: gfx1151
+    os: *ryzen_os_support
+  #
+  #
+  # ROCM-720 TODO find marketing names for GORGON POINT 2
+
+
+
+
+
+
+
+
+
+
+
+amd_gpus:
+  # AMD Instinct
+  - marketing_name: AMD Instinct MI355X
+    short_name: MI355X
+    marketing_series: AMD Instinct MI350 Series
+    gfx: gfx950
+    docs_metadata:
+      show-cond:
+        - fam: instinct
+          gfx: gfx950
+      set:
+        - gpu: mi355x
+    selector_id: mi355x
+  - marketing_name: AMD Instinct MI350X
+    short_name: MI350X
+    marketing_series: AMD Instinct MI350 Series
+    gfx: gfx950
+    family: instinct
+    selector_id: mi350x
+  - marketing_name: AMD Instinct MI325X
+    short_name: MI325X
+    marketing_series: AMD Instinct MI300 Series
+    gfx: gfx942
+    family: instinct
+    selector_id: mi325x
+  - marketing_name: AMD Instinct MI300X
+    short_name: MI300X
+    marketing_series: AMD Instinct MI300 Series
+    gfx: gfx942
+    family: instinct
+    selector_id: mi300x
+  - marketing_name: AMD Instinct MI300A
+    short_name: MI300A
+    marketing_series: AMD Instinct MI300 Series
+    gfx: gfx942
+    family: instinct
+    selector_id: mi300a
+  - marketing_name: AMD Instinct MI250X
+    short_name: MI250X
+    marketing_series: AMD Instinct MI200 Series
+    gfx: gfx90a
+    family: instinct
+    selector_id: mi250x
+  - marketing_name: AMD Instinct MI250
+    short_name: MI250
+    marketing_series: AMD Instinct MI200 Series
+    gfx: gfx90a
+    family: instinct
+    selector_id: mi250
+  - marketing_name: AMD Instinct MI210
+    short_name: MI210
+    marketing_series: AMD Instinct MI200 Series
+    gfx: gfx90a
+    family: instinct
+    selector_id: mi210
+  - marketing_name: AMD Instinct MI100
+    short_name: MI100
+    marketing_series: AMD Instinct MI100 Series
+    gfx: gfx908
+    family: instinct
+    selector_id: mi100
+  # AMD Radeon PRO
+  - marketing_name: AMD Radeon AI PRO R9700
+    short_name: AI PRO R9700
+    marketing_series: AMD Radeon AI PRO Series
+    gfx: gfx1201
+    family: radeon-pro
+    selector_id: ai-r9700
+  - marketing_name: AMD Radeon AI PRO R9600D
+    short_name: AI PRO R9600D
+    marketing_series: AMD Radeon AI PRO Series
+    gfx: gfx1201
+    family: radeon-pro
+    selector_id: ai-r9600d
+  - marketing_name: AMD Radeon PRO W7900 Dual Slot
+    short_name: W7900 Dual Slot
+    marketing_series: AMD Radeon PRO W7000 Series
+    gfx: gfx1100
+    family: radeon-pro
+    selector_id: w7900-dual-slot
+  - marketing_name: AMD Radeon PRO W7900
+    short_name: W7900
+    marketing_series: AMD Radeon PRO W7000 Series
+    gfx: gfx1100
+    family: radeon-pro
+    selector_id: w7900
+  - marketing_name: AMD Radeon PRO W7800 48GB
+    short_name: W7800 48GB
+    marketing_series: AMD Radeon PRO W7000 Series
+    gfx: gfx1100
+    family: radeon-pro
+    selector_id: w7800-48gb
+  - marketing_name: AMD Radeon PRO W7800
+    short_name: W7800
+    marketing_series: AMD Radeon PRO W7000 Series
+    gfx: gfx1100
+    family: radeon-pro
+    selector_id: w7800
+  - marketing_name: AMD Radeon PRO W7700
+    short_name: W7700
+    marketing_series: AMD Radeon PRO W7000 Series
+    gfx: gfx1101
+    family: radeon-pro
+    selector_id: w7700
+  - marketing_name: AMD Radeon PRO V710
+    short_name: V710
+    marketing_series: AMD Radeon PRO V700 Series
+    gfx: gfx1101
+    family: radeon-pro
+    selector_id: v710
+  # AMD Radeon
+  - marketing_name: AMD Radeon RX 9070 XT
+    short_name: RX 9070 XT
+    marketing_series: AMD Radeon RX 9000 Series
+    gfx: gfx1201
+    family: radeon
+    selector_id: rx-9070-xt
+  - marketing_name: AMD Radeon RX 9070 GRE
+    short_name: RX 9070 GRE
+    marketing_series: AMD Radeon RX 9000 Series
+    gfx: gfx1201
+    family: radeon
+    selector_id: rx-9070-gre
+  - marketing_name: AMD Radeon RX 9070
+    short_name: RX 9070
+    marketing_series: AMD Radeon RX 9000 Series
+    gfx: gfx1201
+    family: radeon
+    selector_id: rx-9070
+  - marketing_name: AMD Radeon RX 9060 XT LP
+    short_name: RX 9060 XT LP
+    marketing_series: AMD Radeon RX 9000 Series
+    gfx: gfx1200
+    family: radeon
+    selector_id: rx-9060-xt-lp
+  - marketing_name: AMD Radeon RX 9060 XT
+    short_name: RX 9060 XT
+    marketing_series: AMD Radeon RX 9000 Series
+    gfx: gfx1200
+    family: radeon
+    selector_id: rx-9060-xt
+  - marketing_name: AMD Radeon RX 9060
+    short_name: RX 9060
+    marketing_series: AMD Radeon RX 9000 Series
+    gfx: gfx1200
+    family: radeon
+    selector_id: rx-9060
+  - marketing_name: AMD Radeon RX 7900 XTX
+    short_name: RX 7900 XTX
+    marketing_series: AMD Radeon RX 7000 Series
+    gfx: gfx1100
+    family: radeon
+    selector_id: rx-7900-xtx
+  - marketing_name: AMD Radeon RX 7900 XT
+    short_name: RX 7900 XT
+    marketing_series: AMD Radeon RX 7000 Series
+    gfx: gfx1100
+    family: radeon
+    selector_id: rx-7900-xt
+  - marketing_name: AMD Radeon RX 7900 GRE
+    short_name: RX 7900 GRE
+    marketing_series: AMD Radeon RX 7000 Series
+    gfx: gfx1100
+    family: radeon
+    selector_id: rx-7900-gre
+  - marketing_name: AMD Radeon RX 7800 XT
+    short_name: RX 7800 XT
+    marketing_series: AMD Radeon RX 7000 Series
+    gfx: gfx1101
+    family: radeon
+    selector_id: rx-7800-xt
+  - marketing_name: AMD Radeon RX 7700 XT
+    short_name: RX 7700 XT
+    marketing_series: AMD Radeon RX 7000 Series
+    gfx: gfx1101
+    family: radeon
+    selector_id: rx-7700-xt
+  - marketing_name: AMD Radeon RX 7700 XE
+    short_name: RX 7700 XE
+    marketing_series: AMD Radeon RX 7000 Series
+    gfx: gfx1101
+    family: radeon
+    selector_id: rx-7700-xe
+  - marketing_name: AMD Radeon RX 7700
+    short_name: RX 7700
+    marketing_series: AMD Radeon RX 7000 Series
+    gfx: gfx1101
+    family: radeon
+    selector_id: rx-7700
+  - marketing_name: AMD Radeon RX 7600
+    short_name: RX 7600
+    marketing_series: AMD Radeon RX 7000 Series
+    gfx: gfx1102
+    family: radeon
+    selector_id: rx-7600
+  # AMD Ryzen
+  - marketing_name: AMD Ryzen AI Max+ PRO 395
+    short_name: AI Max+ PRO 395
+    marketing_series: AMD Ryzen AI Max PRO Series
+    gfx: gfx1151
+    family: ryzen
+    selector_id: max-pro-395
+  - marketing_name: AMD Ryzen AI Max PRO 390
+    short_name: AI Max PRO 390
+    marketing_series: AMD Ryzen AI Max PRO Series
+    gfx: gfx1151
+    family: ryzen
+    selector_id: max-pro-390
+  - marketing_name: AMD Ryzen AI Max PRO 385
+    short_name: AI Max PRO 385
+    marketing_series: AMD Ryzen AI Max PRO Series
+    gfx: gfx1151
+    family: ryzen
+    selector_id: max-pro-385
+  - marketing_name: AMD Ryzen AI Max PRO 380
+    short_name: AI Max PRO 380
+    marketing_series: AMD Ryzen AI Max PRO Series
+    gfx: gfx1151
+    family: ryzen
+    selector_id: max-pro-380
+  - marketing_name: AMD Ryzen AI Max+ 395
+    short_name: AI Max+ 395
+    marketing_series: AMD Ryzen AI Max Series
+    gfx: gfx1151
+    family: ryzen
+    selector_id: max-395
+  - marketing_name: AMD Ryzen AI Max 390
+    short_name: AI Max 390
+    marketing_series: AMD Ryzen AI Max Series
+    gfx: gfx1151
+    family: ryzen
+    selector_id: max-390
+  - marketing_name: AMD Ryzen AI Max 385
+    short_name: AI Max 385
+    marketing_series: AMD Ryzen AI Max Series
+    gfx: gfx1151
+    family: ryzen
+    selector_id: max-385
+  - marketing_name: AMD Ryzen AI 9 HX PRO 475
+    short_name: AI 9 HX PRO 475
+    marketing_series: AMD Ryzen AI PRO Series
+    gfx: gfx1150
+    family: ryzen
+    selector_id: 9-hx-pro-475
+  - marketing_name: AMD Ryzen AI 9 HX PRO 470
+    short_name: AI 9 HX PRO 470
+    marketing_series: AMD Ryzen AI PRO Series
+    gfx: gfx1150
+    family: ryzen
+    selector_id: 9-hx-pro-470
+  - marketing_name: AMD Ryzen AI 9 PRO 465
+    short_name: AI 9 PRO 465
+    marketing_series: AMD Ryzen AI PRO Series
+    gfx: gfx1150
+    family: ryzen
+    selector_id: 9-pro-465
+  - marketing_name: AMD Ryzen AI 7 PRO 450
+    short_name: AI 7 PRO 450
+    marketing_series: AMD Ryzen AI PRO Series
+    gfx: gfx1150
+    family: ryzen
+    selector_id: 7-pro-450
+  - marketing_name: AMD Ryzen AI 5 PRO 440
+    short_name: AI 5 PRO 440
+    marketing_series: AMD Ryzen AI PRO Series
+    gfx: gfx1150
+    family: ryzen
+    selector_id: 5-pro-440
+  - marketing_name: AMD Ryzen AI 5 PRO 435
+    short_name: AI 5 PRO 435
+    marketing_series: AMD Ryzen AI PRO Series
+    gfx: gfx1150
+    family: ryzen
+    selector_id: 5-pro-435
+  - marketing_name: AMD Ryzen AI 9 HX 375
+    short_name: AI 9 HX 375
+    marketing_series: AMD Ryzen AI Series
+    gfx: gfx1150
+    family: ryzen
+    selector_id: 9-hx-375
+  - marketing_name: AMD Ryzen AI 9 HX 370
+    short_name: AI 9 HX 370
+    marketing_series: AMD Ryzen AI Series
+    gfx: gfx1150
+    family: ryzen
+    selector_id: 9-hx-370
+  - marketing_name: AMD Ryzen AI 9 365
+    short_name: AI 9 365
+    marketing_series: AMD Ryzen AI Series
+    gfx: gfx1150
+    family: ryzen
+    selector_id: 9-365
+  - marketing_name: AMD Ryzen 9 270
+    short_name: "9 270"
+    marketing_series: AMD Ryzen 9 Series
+    gfx: gfx1103
+    family: ryzen
+    selector_id: 9-270
+  - marketing_name: AMD Ryzen 7 260
+    short_name: "7 260"
+    marketing_series: AMD Ryzen 7 Series
+    gfx: gfx1103
+    family: ryzen
+    selector_id: 7-260
+  - marketing_name: AMD Ryzen 7 250
+    short_name: "7 250"
+    marketing_series: AMD Ryzen 7 Series
+    gfx: gfx1103
+    family: ryzen
+    selector_id: 7-250
+  - marketing_name: AMD Ryzen 5 240
+    short_name: "5 240"
+    marketing_series: AMD Ryzen 5 Series
+    gfx: gfx1103
+    family: ryzen
+    selector_id: 5-240
+  - marketing_name: AMD Ryzen 5 230
+    short_name: "5 230"
+    marketing_series: AMD Ryzen 5 Series
+    gfx: gfx1103
+    family: ryzen
+    selector_id: 5-230
+  - marketing_name: AMD Ryzen 5 220
+    short_name: "5 220"
+    marketing_series: AMD Ryzen 5 Series
+    gfx: gfx1103
+    family: ryzen
+    selector_id: 5-220
+  - marketing_name: AMD Ryzen 3 210
+    short_name: "3 210"
+    marketing_series: AMD Ryzen 3 Series
+    gfx: gfx1103
+    family: ryzen
+    selector_id: 3-210

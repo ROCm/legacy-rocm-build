@@ -4,7 +4,7 @@
   <meta name="keywords" content="license, licensing terms">
 </head>
 
-# ROCm license
+# ROCm licenses
 
 ```{include} ../../LICENSE
 ```

@@ -50,7 +50,7 @@ Floating-point types
 
 The floating-point types supported by ROCm are listed in the following table.
 
-.. image:: ../data/about/compatibility/floating-point-data-types.png
+.. image:: ./images/floating-point-data-types.png
     :alt: Supported floating-point types
 
 .. list-table::
@@ -820,33 +820,33 @@ page.
         - int32
         - int64
       *
-        - CDNA1
+        - CDNA 1
         - ❌
         - ❌
         - ✅
         - ✅
       *
-        - CDNA2
+        - CDNA 2
         - ❌
         - ❌
         - ✅
         - ✅
       *
-        - CDNA3
+        - CDNA 3
         - ❌
         - ❌
         - ✅
         - ✅
 
       *
-        - RDNA3
+        - RDNA 3
         - ❌
         - ❌
         - ✅
         - ✅
 
       *
-        - RDNA4
+        - RDNA 4
         - ❌
         - ❌
         - ✅
@@ -867,7 +867,7 @@ page.
         - float8 (E5M2)
 
       *
-        - CDNA1
+        - CDNA 1
         - ❌
         - ❌
         - ❌
@@ -875,7 +875,7 @@ page.
         - ❌
 
       *
-        - CDNA2
+        - CDNA 2
         - ❌
         - ❌
         - ❌
@@ -883,7 +883,7 @@ page.
         - ❌
 
       *
-        - CDNA3
+        - CDNA 3
         - ❌
         - ❌
         - ❌
@@ -891,7 +891,7 @@ page.
         - ❌
 
       *
-        - CDNA4
+        - CDNA 4
         - ❌
         - ❌
         - ❌
@@ -899,7 +899,7 @@ page.
         - ❌
 
       *
-        - RDNA2
+        - RDNA 2
         - ❌
         - ❌
         - ❌
@@ -907,7 +907,7 @@ page.
         - ❌
 
       *
-        - RDNA3
+        - RDNA 3
         - ❌
         - ❌
         - ❌
@@ -915,7 +915,7 @@ page.
         - ❌
 
       *
-        - RDNA4
+        - RDNA 4
         - ❌
         - ❌
         - ❌
@@ -937,7 +937,7 @@ page.
         - float64
 
       *
-        - CDNA1
+        - CDNA 1
         - ✅
         - ✅
         - ❌
@@ -945,7 +945,7 @@ page.
         - ❌
 
       *
-        - CDNA2
+        - CDNA 2
         - ✅
         - ✅
         - ❌
@@ -953,7 +953,7 @@ page.
         - ✅
 
       *
-        - CDNA3
+        - CDNA 3
         - ✅
         - ✅
         - ❌
@@ -961,7 +961,7 @@ page.
         - ✅
 
       *
-        - CDNA4
+        - CDNA 4
         - ✅
         - ✅
         - ❌
@@ -969,7 +969,7 @@ page.
         - ✅
 
       *
-        - RDNA2
+        - RDNA 2
         - ❌
         - ❌
         - ❌
@@ -977,7 +977,7 @@ page.
         - ❌
 
       *
-        - RDNA3
+        - RDNA 3
         - ❌
         - ❌
         - ❌
@@ -985,7 +985,7 @@ page.
         - ❌
 
       *
-        - RDNA4
+        - RDNA 4
         - ✅
         - ✅
         - ❌
@@ -994,9 +994,9 @@ page.
 
 .. note::
 
-  You can emulate atomic operations using software for cases that are not
-  natively supported. Software-emulated atomic operations have a high negative
-  performance impact when they frequently access the same memory address.
+   You can emulate atomic operations using software for cases that are not
+   natively supported. Software-emulated atomic operations have a high negative
+   performance impact when they frequently access the same memory address.
 
 Data type support in ROCm libraries
 ===================================

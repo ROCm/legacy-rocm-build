@@ -14,53 +14,53 @@ optimization techniques.
 
 .. glossary::
     :sorted:
-    
+
     Roofline model
         The roofline model is a visual performance model that determines whether
         a program is :term:`compute-bound <Compute-bound>` or
         :term:`memory-bound <Memory-bound>`. See :ref:`hip:roofline_model` for
         roofline analysis.
-    
+
     Compute-bound
         Compute-bound kernels are limited by the
         :term:`arithmetic bandwidth <Arithmetic bandwidth>` of the GPU's
         :term:`compute units <Compute units>` rather than
         :term:`memory bandwidth <Memory bandwidth>`. See
         :ref:`hip:compute_bound` for compute-bound analysis.
-    
+
     Memory-bound
         Memory-bound kernels are limited by
         :term:`memory bandwidth <Memory bandwidth>` rather than
         :term:`arithmetic bandwidth <Arithmetic bandwidth>`, typically due to
         low :term:`arithmetic intensity <Arithmetic intensity>`. See
         :ref:`hip:memory_bound` for memory-bound analysis.
-    
+
     Arithmetic intensity
         Arithmetic intensity is the ratio of arithmetic operations to memory
         operations in a kernel, and determines performance characteristics. See
         :ref:`hip:arithmetic_intensity` for intensity analysis.
-    
+
     Overhead
         Overhead latency is the time spent with no useful work being done, often
         due to CPU-side bottlenecks or kernel launch delays. See
         :ref:`hip:performance_bottlenecks` for details.
-    
+
     Little's Law
         Little's Law relates concurrency, latency, and throughput, determining
         how much independent work must be in flight to hide latency. See
         :ref:`hip:littles_law` for latency hiding details.
-    
+
     Memory bandwidth
         Memory bandwidth is the maximum rate at which data can be transferred
         between memory hierarchy levels, typically measured in bytes per
         second. See :ref:`hip:memory_bound` for details.
-    
+
     Arithmetic bandwidth
         Arithmetic bandwidth is the peak rate at which arithmetic work can be
         performed, defining the compute roof in
         :term:`roofline models <Roofline model>`. See :ref:`hip:compute_bound`
         for details.
-    
+
     Latency hiding
         Latency hiding masks long-latency operations by running many concurrent
         threads, keeping execution pipelines busy. See :ref:`hip:latency_hiding`

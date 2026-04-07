@@ -1,44 +1,264 @@
-# Anywhere {branch} is used, the branch name will be substituted.
+# Variables of the form ${<variable>} are substituted, currently the following
+# list is supported:
+#   - ${branch} (or {branch}) the name of the current branch
+#   - ${url} (or {url}) github url of the current project
+#   - ${project:<project_name>} base url of the documentation of <project_name>
+#     based on intersphinx_mapping.
 # These comments will also be removed.
 defaults:
-  numbered: False
-  maxdepth: 6
+    numbered: False
+    maxdepth: 6
 root: index.rst
 subtrees:
-  - entries:
-      - file: about/release-notes.md
-        title: Release notes
-      - file: compatibility/compatibility-matrix.rst
-        title: Compatibility matrix
-  - caption: Install
-    entries:
-      - file: install/rocm.rst
-        title: Install ROCm
-        entries:
-          # Dummy entries to point to install doc sections
-          - file: install/redirect/_prerequisites.rst
-            title: Prerequisites
-          - file: install/redirect/_install.rst
-            title: Installation
-          - file: install/redirect/_post-install.rst
-            title: Post-installation
-      - file: install/redirect/_uninstall.rst
-        title: Uninstall ROCm
-      - file: install/build-from-source.rst
-        title: Build from source
-  - caption: Deep learning frameworks
-    entries:
-      - file: rocm-for-ai/pytorch.rst
-        title: Install PyTorch
-      - file: rocm-for-ai/jax.rst
-        title: Install JAX
-  - caption: AI inference
-    entries:
-      - file: rocm-for-ai/comfyui.rst
-        title: ComfyUI image generation
-      - file: rocm-for-ai/vllm.rst
-        title: vLLM
-  - caption: Tutorials
-    entries:
-      - url: https://github.com/ROCm/rocm-examples/tree/release/therock-7.12
-        title: ROCm examples
+    - entries:
+          - file: about/release-notes.md
+            title: Release notes
+          - file: about/transition-guide-TheRock.md
+            title: Transition guide
+          - file: compatibility/compatibility-matrix.rst
+            title: Compatibility matrix
+    - caption: Install
+      entries:
+          - file: install/rocm.rst
+            title: Install ROCm
+            entries:
+                # HACK: `install/redirect/_*` entries are to create dummies in
+                # the TOC to be targeted by JS.
+                - file: install/redirect/_prerequisites.rst
+                  title: Prerequisites
+                - file: install/redirect/_install.rst
+                  title: Installation
+                - file: install/redirect/_post-install.rst
+                  title: Post-installation
+          - file: install/redirect/_uninstall.rst
+            title: Uninstall ROCm
+          - file: install/build-from-source.rst
+            title: Build ROCm from source
+    - caption: Components
+      entries:
+          - file: components/core.rst
+            title: ROCm Core SDK
+            entries:
+                - file: components/math-and-compute-libs.rst
+                  title: Math and compute libraries
+                  entries:
+                      - url: ${project:composable_kernel}
+                        title: Composable Kernel
+                      - url: ${project:hipblas}
+                        title: hipBLAS
+                      - url: ${project:hipblaslt}
+                        title: hipBLASLt
+                      - url: ${project:hipcub}
+                        title: hipCUB
+                      - url: ${project:hipfft}
+                        title: hipFFT
+                      - url: ${project:hiprand}
+                        title: hipRAND
+                      - url: ${project:hipsolver}
+                        title: hipSOLVER
+                      - url: ${project:hipsparse}
+                        title: hipSPARSE
+                      - url: ${project:hipsparselt}
+                        title: hipSPARSELt
+                      - url: ${project:miopen}
+                        title: MIOpen
+                      - url: ${project:rocblas}
+                        title: rocBLAS
+                      - url: ${project:rocfft}
+                        title: rocFFT
+                      - url: ${project:rocrand}
+                        title: rocRAND
+                      - url: ${project:rocsolver}
+                        title: rocSOLVER
+                      - url: ${project:rocsparse}
+                        title: rocSPARSE
+                      - url: ${project:rocprim}
+                        title: rocPRIM
+                      - url: ${project:rocthrust}
+                        title: rocThrust
+                      - url: ${project:rocwmma}
+                        title: rocWMMA
+                - file: components/communication-libs.rst
+                  title: Communication libraries
+                  entries:
+                      - url: ${project:rccl}
+                        title: RCCL
+                      - url: ${project:rocshmem}
+                        title: rocSHMEM
+                - file: components/media-libs.rst
+                  title: Media libraries
+                  entries:
+                      - url: ${project:rocdecode}
+                        title: rocDecode
+                      - url: ${project:rocjpeg}
+                        title: rocJPEG
+                - file: components/runtimes-and-compilers.rst
+                  title: Runtime and compilers
+                  entries:
+                      - url: ${project:hip}
+                        title: HIP
+                      - url: ${project:hipify}
+                        title: HIPIFY
+                      - url: ${project:llvm-project}
+                        title: LLVM
+                - file: components/profilers-and-debuggers.rst
+                  title: Profiling and debugging tools
+                  entries:
+                      - url: ${project:rocprofiler-compute}
+                        title: ROCm Compute Profiler (rocprofiler-compute)
+                      - url: ${project:rocprofiler-systems}
+                        title: ROCm Systems Profiler (rocprofiler-systems)
+                      - url: ${project:rocprofiler-sdk}
+                        title: ROCprofiler-SDK
+                      - url: ${project:rocdbgapi}
+                        title: ROCdbgapi
+                      - url: ${project:rocgdb}
+                        title: ROCm Debugger (ROCgdb)
+                      - url: ${project:rocr_debug_agent}
+                        title: ROCr Debug Agent
+                - file: components/control-and-monitoring-tools.rst
+                  title: Control and monitoring tools
+                  entries:
+                      - url: ${project:amdsmi}
+                        title: AMD SMI
+                      - url: ${project:rdc}
+                        title: ROCm Data Center Tool (RDC)
+                      - url: ${project:rocminfo}
+                        title: rocminfo
+          - file: components/extras.rst
+            title: ROCm Extras
+            entries:
+                - url: https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/docs-1.4.21/index.html
+                  title: ROCm Validation Suite (RVS)
+    - caption: Deep learning frameworks
+      entries:
+          - file: frameworks/pytorch/install.rst
+            title: Install PyTorch
+          - file: frameworks/jax/install.rst
+            title: Install JAX
+    - caption: AI inference
+      entries:
+          - file: ai-inference/vllm.rst
+            title: vLLM inference and serving
+          - file: ai-inference/comfyui.rst
+            title: ComfyUI image generation
+          - file: ai-inference/xdit.rst
+            title: xDiT diffusion inference
+          - file: ai-inference/conceptual/index.rst
+            title: Inference optimization
+            entries:
+                - file: ai-inference/conceptual/llm-inference-frameworks.rst
+                  title: LLM inference frameworks
+                - file: ai-inference/conceptual/hugging-face-models.rst
+                  title: Hugging Face models
+                - file: ai-inference/conceptual/model-quantization.rst
+                  title: Model quantization techniques
+                - file: ai-inference/conceptual/model-acceleration-libs.rst
+                  title: Model acceleration libraries
+                - file: ai-inference/conceptual/optimize-with-composable-kernel.md
+                  title: Optimize with Composable Kernel
+                - file: ai-inference/conceptual/optimize-triton-kernels.rst
+                  title: Optimize Triton kernels
+                - file: ai-inference/conceptual/workload-optimization.rst
+                  title: Workload optimization
+                - file: ai-inference/conceptual/vllm-v1-optimization.rst
+                  title: vLLM V1 performance optimization
+    - caption: Tutorials
+      entries:
+          - url: https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/
+            title: AI Developer Hub
+          - url: https://github.com/ROCm/rocm-examples/tree/release/therock-7.13
+            title: ROCm examples
+    - caption: Reference
+      entries:
+          - file: reference/gpu-specs.rst
+            title: AMD GPU specifications
+          - file: reference/gpu-arch/index.md
+            title: AMD GPU architectures
+            entries:
+                - file: reference/gpu-arch/mi350.rst
+                  title: MI350 microarchitecture
+                  entries:
+                      - url: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/instruction-set-architectures/amd-instinct-cdna4-instruction-set-architecture.pdf
+                        title: CDNA4 ISA reference
+                      - url: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-4-architecture-whitepaper.pdf
+                        title: CDNA4 white paper
+                      - file: reference/gpu-arch/mi350-performance-counters.rst
+                        title: Instinct MI350 Series performance counters
+                - file: reference/gpu-arch/mi300.md
+                  title: MI300 microarchitecture
+                  entries:
+                      - url: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/instruction-set-architectures/amd-instinct-mi300-cdna3-instruction-set-architecture.pdf
+                        title: CDNA3 ISA reference
+                      - url: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/white-papers/amd-cdna-3-white-paper.pdf
+                        title: CDNA3 white paper
+                      - file: reference/gpu-arch/mi300-mi200-performance-counters.rst
+                        title: Instinct MI300 and MI200 Series performance counters
+                - file: reference/gpu-arch/mi250.md
+                  title: MI250 microarchitecture
+                  entries:
+                      - url: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/instruction-set-architectures/instinct-mi200-cdna2-instruction-set-architecture.pdf
+                        title: CDNA2 ISA reference
+                      - url: https://www.amd.com/content/dam/amd/en/documents/instinct-business-docs/white-papers/amd-cdna2-white-paper.pdf
+                        title: CDNA2 white paper
+                - file: reference/gpu-arch/mi100.md
+                  title: MI100 microarchitecture
+                  entries:
+                      - url: https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/instruction-set-architectures/instinct-mi100-cdna1-shader-instruction-set-architecture.pdf
+                        title: CDNA1 ISA reference
+                      - url: https://www.amd.com/content/dam/amd/en/documents/instinct-business-docs/white-papers/amd-cdna-white-paper.pdf
+                        title: CDNA1 white paper
+          - file: reference/system-optimization/index.rst
+            title: AMD GPU system optimization
+            entries:
+                - file: reference/system-optimization/cdna.rst
+                  title: AMD Instinct GPUs
+                  entries:
+                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html
+                        title: Instinct MI300X
+                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300a.html
+                        title: Instinct MI300A
+                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi200.html
+                        title: Instinct MI200
+                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi100.html
+                        title: Instinct MI100
+                - file: reference/system-optimization/rdna.rst
+                  title: AMD Radeon and Ryzen GPUs
+                  entries:
+                      - file: reference/system-optimization/rdna3-5.rst
+                        title: RDNA3.5
+                      - file: reference/system-optimization/rdna2.md
+                        title: RDNA2
+                - file: reference/system-optimization/common.rst
+                  title: Common system settings
+                  entries:
+                      - file: reference/system-optimization/gpu-isolation.md
+                        title: GPU isolation techniques
+                      - file: reference/system-optimization/bar-access-limits.rst
+                        title: BAR access limits
+          - file: reference/precision-support.rst
+            title: AMD GPU and ROCm components data types and precision support
+          - file: reference/graph-safe-support.rst
+            title: ROCm libraries graph-safe support
+          - file: reference/gpu-atomics-operation.rst
+            title: AMD GPU atomics operation support
+          - file: reference/environment-variables/index.rst
+            title: ROCm environment variables
+            entries:
+                - file: reference/environment-variables/setting-cus.rst
+                  title: Set the number of CUs
+          - file: reference/hip-programming.rst
+            title: AMD GPU programming on ROCm
+
+    # - caption: About
+    #   entries:
+    #       - file: about/license.md
+    #       - file: about/contribute/contributing.md
+    #         entries:
+    #             - file: about/contribute/toolchain.md
+    #             - file: about/contribute/building.md
+    #             - url: https://github.com/ROCm/rocm-libraries/blob/develop/CONTRIBUTING.md
+    #               title: Contribute to ROCm Libraries
+    #             - url: https://github.com/ROCm/rocm-systems/blob/develop/CONTRIBUTING.md
+    #               title: Contribute to ROCm Systems
+    #       - file: about/contribute/feedback.md

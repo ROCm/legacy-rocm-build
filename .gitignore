@@ -17,6 +17,5 @@ __pycache__/
 
 # avoid duplicating contributing.md due to conf.py
 docs/contribute/index.md
-docs/about/release-notes.md
 docs/release/changelog.md
 .claude/settings.local.json

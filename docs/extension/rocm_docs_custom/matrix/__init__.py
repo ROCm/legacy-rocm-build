@@ -12,7 +12,7 @@ class CustomTable(nodes.General, nodes.Element):
 
     @staticmethod
     def visit_html(translator, node):
-        show_when_attr = kv_to_data_attr("show-when", node.get("show-when", ""))
+        show_cond_attr = kv_to_data_attr("show-cond", node.get("show-cond", ""))
 
         classes = ["rocm-docs-table", "table"]
         classes.extend(node.get("classes", []))
@@ -23,8 +23,8 @@ class CustomTable(nodes.General, nodes.Element):
         if table_id:
             attrs.append(f'id="{table_id}"')
         attrs.append(f'class="{class_attr}"')
-        if show_when_attr:
-            attrs.append(show_when_attr)
+        if show_cond_attr:
+            attrs.append(show_cond_attr)
 
         attrs_str = " ".join(attrs)
         translator.body.append(f"<!-- start custom-table --><table {attrs_str}>")
@@ -55,7 +55,7 @@ class CustomTableDirective(SphinxDirective):
     option_spec = {
         "id": directives.unchanged,
         "class": directives.class_option,
-        "show-when": directives.unchanged,
+        "show-cond": directives.unchanged,
     }
 
     def run(self):
@@ -63,7 +63,7 @@ class CustomTableDirective(SphinxDirective):
         node["caption"] = self.arguments[0] if self.arguments else ""
         node["id"] = self.options.get("id", "")
         node["classes"] = self.options.get("class", [])
-        node["show-when"] = self.options.get("show-when", "")
+        node["show-cond"] = self.options.get("show-cond", "")
         self.state.nested_parse(self.content, self.content_offset, node)
         return [node]
 
@@ -102,19 +102,19 @@ class CustomTableRow(nodes.General, nodes.Element):
                 translator.body.append("<!-- start tbody --><tbody>")
                 translator._in_matrix_body = True
 
-        show_when_attr = kv_to_data_attr("show-when", node.get("show-when", ""))
-        disable_when_attr = kv_to_data_attr(
-            "disable-when", node.get("disable-when", "")
+        show_cond_attr = kv_to_data_attr("show-cond", node.get("show-cond", ""))
+        disable_cond_attr = kv_to_data_attr(
+            "disable-cond", node.get("disable-cond", "")
         )
 
         classes = " ".join(node.get("classes", []))
         attrs = []
         if classes:
             attrs.append(f'class="{classes}"')
-        if show_when_attr:
-            attrs.append(show_when_attr)
-        if disable_when_attr:
-            attrs.append(disable_when_attr)
+        if show_cond_attr:
+            attrs.append(show_cond_attr)
+        if disable_cond_attr:
+            attrs.append(disable_cond_attr)
 
         attrs_str = "" if not attrs else " " + " ".join(attrs)
         translator.body.append(f"<!-- start custom-table row --><tr{attrs_str}>")
@@ -132,16 +132,16 @@ class CustomTableRowDirective(SphinxDirective):
     has_content = True
     option_spec = {
         "class": directives.class_option,
-        "show-when": directives.unchanged,
-        "disable-when": directives.unchanged,
+        "show-cond": directives.unchanged,
+        "disable-cond": directives.unchanged,
         "header": directives.flag,
     }
 
     def run(self):
         node = CustomTableRow()
         node["classes"] = self.options.get("class", [])
-        node["show-when"] = self.options.get("show-when", "")
-        node["disable-when"] = self.options.get("disable-when", "")
+        node["show-cond"] = self.options.get("show-cond", "")
+        node["disable-cond"] = self.options.get("disable-cond", "")
         node["header-row"] = self.options.get("header", False) is not False
 
         # Parse nested cells
@@ -187,7 +187,7 @@ class CustomTableCell(nodes.General, nodes.Element):
         classes = " ".join(node.get("classes", []))
         colspan = node.get("colspan", 1)
         rowspan = node.get("rowspan", 1)
-        show_when_attr = kv_to_data_attr("show-when", node.get("show-when", ""))
+        show_cond_attr = kv_to_data_attr("show-cond", node.get("show-cond", ""))
 
         attrs = []
         if classes:
@@ -196,8 +196,8 @@ class CustomTableCell(nodes.General, nodes.Element):
             attrs.append(f'colspan="{colspan}"')
         if rowspan and rowspan > 1:
             attrs.append(f'rowspan="{rowspan}"')
-        if show_when_attr:
-            attrs.append(show_when_attr)
+        if show_cond_attr:
+            attrs.append(show_cond_attr)
 
         attrs_str = "" if not attrs else " " + " ".join(attrs)
         translator.body.append(f"<{tag}{attrs_str}>")
@@ -220,7 +220,7 @@ class CustomTableCellDirective(SphinxDirective):
         "class": directives.class_option,
         "colspan": directives.nonnegative_int,
         "rowspan": directives.nonnegative_int,
-        "show-when": directives.unchanged,
+        "show-cond": directives.unchanged,
     }
 
     def run(self):
@@ -246,7 +246,7 @@ class CustomTableCellDirective(SphinxDirective):
         node["classes"] = self.options.get("class", [])
         node["colspan"] = self.options.get("colspan", 1)
         node["rowspan"] = self.options.get("rowspan", 1)
-        node["show-when"] = self.options.get("show-when", "")
+        node["show-cond"] = self.options.get("show-cond", "")
 
         if self.content:
             self.state.nested_parse(self.content, self.content_offset, node)

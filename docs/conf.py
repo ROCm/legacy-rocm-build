@@ -5,13 +5,14 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
+import re
 import shutil
 import sys
 from pathlib import Path
 from subprocess import run
 
-ROCM_VERSION = "7.12.0"
-GA_DATE = "2026-03-26"
+ROCM_VERSION = "7.13.0"
+GA_DATE = "2026-05-15"
 
 DOCS_DIR = Path(__file__).parent.resolve()
 ROOT_DIR = DOCS_DIR.parent
@@ -22,10 +23,6 @@ def copy_rtd_file(src_path: Path, dest_path: Path):
     shutil.copy2(src_path, dest_path)
     print(f"📁 Copied {src_path} → {dest_path}")
 
-
-gh_release_path = ROOT_DIR / "RELEASE.md"
-rtd_release_path = DOCS_DIR / "about" / "release-notes.md"
-copy_rtd_file(gh_release_path, rtd_release_path)
 
 gh_changelog_path = ROOT_DIR / "CHANGELOG.md"
 rtd_changelog_path = DOCS_DIR / "release" / "changelog.md"
@@ -39,52 +36,52 @@ with open(rtd_changelog_path, "r+", encoding="utf-8") as file:
     file.write(":orphan:\n" + content)
 
 # Replace GitHub-style [!ADMONITION]s with Sphinx-compatible ```{admonition} blocks
-with open(rtd_changelog_path, "r", encoding="utf-8") as file:
-    lines = file.readlines()
-
-    modified_lines = []
-    in_admonition_section = False
-
-    # Map for matching the specific admonition type to its corresponding Sphinx markdown syntax
-    admonition_types = {
-        "> [!NOTE]": "```{note}",
-        "> [!TIP]": "```{tip}",
-        "> [!IMPORTANT]": "```{important}",
-        "> [!WARNING]": "```{warning}",
-        "> [!CAUTION]": "```{caution}",
-    }
-
-    for line in lines:
-        if any(line.startswith(k) for k in admonition_types):
-            for key in admonition_types:
-                if line.startswith(key):
-                    modified_lines.append(admonition_types[key] + "\n")
-                    break
-            in_admonition_section = True
-        elif in_admonition_section:
-            if line.strip() == "":
-                # If we encounter an empty line, close the admonition section
-                modified_lines.append("```\n\n")  # Close the admonition block
-                in_admonition_section = False
-            else:
-                modified_lines.append(line.lstrip("> "))
-        else:
-            modified_lines.append(line)
-
-    # In case the file ended while still in a admonition section, close it
-    if in_admonition_section:
-        modified_lines.append("```")
-
-    file.close()
-
-    with open(rtd_changelog_path, "w", encoding="utf-8") as file:
-        file.writelines(modified_lines)
-
-matrix_path = os.path.join("compatibility", "compatibility-matrix-historical-6.0.csv")
-rtd_path = os.path.join("..", "_readthedocs", "html", "downloads")
-if not os.path.exists(rtd_path):
-    os.makedirs(rtd_path)
-shutil.copy2(matrix_path, rtd_path)
+# with open(rtd_changelog_path, "r", encoding="utf-8") as file:
+#     lines = file.readlines()
+#
+#     modified_lines = []
+#     in_admonition_section = False
+#
+#     # Map for matching the specific admonition type to its corresponding Sphinx markdown syntax
+#     admonition_types = {
+#         "> [!NOTE]": "```{note}",
+#         "> [!TIP]": "```{tip}",
+#         "> [!IMPORTANT]": "```{important}",
+#         "> [!WARNING]": "```{warning}",
+#         "> [!CAUTION]": "```{caution}",
+#     }
+#
+#     for line in lines:
+#         if any(line.startswith(k) for k in admonition_types):
+#             for key in admonition_types:
+#                 if line.startswith(key):
+#                     modified_lines.append(admonition_types[key] + "\n")
+#                     break
+#             in_admonition_section = True
+#         elif in_admonition_section:
+#             if line.strip() == "":
+#                 # If we encounter an empty line, close the admonition section
+#                 modified_lines.append("```\n\n")  # Close the admonition block
+#                 in_admonition_section = False
+#             else:
+#                 modified_lines.append(line.lstrip("> "))
+#         else:
+#             modified_lines.append(line)
+#
+#     # In case the file ended while still in a admonition section, close it
+#     if in_admonition_section:
+#         modified_lines.append("```")
+#
+#     file.close()
+#
+#     with open(rtd_changelog_path, "w", encoding="utf-8") as file:
+#         file.writelines(modified_lines)
+#
+# matrix_path = os.path.join("compatibility", "compatibility-matrix-historical-6.0.csv")
+# rtd_path = os.path.join("..", "_readthedocs", "html", "downloads")
+# if not os.path.exists(rtd_path):
+#     os.makedirs(rtd_path)
+# shutil.copy2(matrix_path, rtd_path)
 
 latex_engine = "xelatex"
 latex_elements = {
@@ -95,12 +92,6 @@ latex_elements = {
 """
 }
 
-html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "rocm.docs.amd.com")
-html_context = {}
-
-# Check if the branch is a docs/ branch
-official_branch = run(["git", "rev-parse", "--abbrev-ref", "HEAD"], capture_output=True, text=True).stdout.find("docs/")
-
 # configurations for PDF output by Read the Docs
 project = "ROCm documentation"
 project_path = str(DOCS_DIR).replace("\\", "/")
@@ -108,13 +99,14 @@ author = "Advanced Micro Devices, Inc."
 copyright = "Copyright (c) %Y Advanced Micro Devices, Inc. All rights reserved."
 version = ROCM_VERSION
 release = ROCM_VERSION
+
 setting_all_article_info = False
 all_article_info_os = ["linux", "windows"]
 all_article_info_author = ""
-
 # pages with specific settings
 article_pages = [
     {"file": "about/release-notes", "date": GA_DATE, "os": ["linux", "windows"]},
+    {"file": "compatibility/compatibility-matrix"},
 ]
 
 external_toc_path = "./sphinx/_toc.yml"
@@ -126,20 +118,24 @@ extensions = [
     "rocm_docs_custom.selector",
     "rocm_docs_custom.matrix",
     "rocm_docs_custom.icon",
-    # "sphinxcontrib.datatemplates",
+    "rocm_docs_custom.csv_list_to_table",
+    "rocm_docs_custom.remote_content",
+    "rocm_docs_custom.version_ref",
+    "sphinxcontrib.datatemplates",
+    "sphinx_substitution_extensions",
     # "sphinx_reredirects",
     # "sphinx_sitemap",
-    # "version-ref",
-    # "csv-to-list-table",
 ]
 templates_path = ["extension/rocm_docs_custom/selector/templates"]
 
 html_static_path = ["sphinx/static"]
-html_js_files = ["setup-toc-install-headings.js"]
+html_js_files = ["setup-toc-install-headings.js", "legacy/vllm-benchmark.js"]
+html_css_files = ["legacy/vllm-benchmark.css"]
 
-compatibility_matrix_file = str(
-    DOCS_DIR / "compatibility/compatibility-matrix-historical-6.0.csv"
-)
+# this is used for framework compat pages
+# compatibility_matrix_file = str(
+#     DOCS_DIR / "compatibility/compatibility-matrix-historical-6.0.csv"
+# )
 
 external_projects_current_project = "rocm"
 html_theme = "rocm_docs_theme"
@@ -147,8 +143,8 @@ html_theme_options = {
     "announcement": f"This is ROCm {ROCM_VERSION} technology preview release documentation. For the latest production stream release, refer to <a id='rocm-banner' href='https://rocm.docs.amd.com/en/latest/'>ROCm documentation</a>.",
     "flavor": "generic",
     "header_title": f"ROCm™ {ROCM_VERSION} Preview",
-    "header_link": f"https://rocm.docs.amd.com/en/{ROCM_VERSION}-preview/index.html",
-    "version_list_link": f"https://rocm.docs.amd.com/en/{ROCM_VERSION}-preview/release/versions.html",
+    "header_link": f"https://rocm.docs.amd.com/en/7.13.0-preview/index.html",
+    "version_list_link": f"https://rocm.docs.amd.com/en/7.13.0-preview/release/versions.html",
     "nav_secondary_items": {
         "GitHub": "https://github.com/ROCm/ROCm",
         "Community": "https://github.com/ROCm/ROCm/discussions",
@@ -157,26 +153,10 @@ html_theme_options = {
         "Support": "https://github.com/ROCm/ROCm/issues/new/choose",
     },
     "link_main_doc": False,
-    "secondary_sidebar_items": {
-        "**": ["page-toc"],
-        "compatibility/compatibility-matrix": ["selector-toc2"],
-        "install/rocm": ["selector-toc2"],
-        "rocm-for-ai/pytorch": ["selector-toc2"],
-        "rocm-for-ai/jax": ["selector-toc2"],
-        "rocm-for-ai/vllm": ["selector-toc2"],
-    },
 }
-html_title = f"AMD ROCm {ROCM_VERSION} preview"
+html_title = f"AMD ROCm {ROCM_VERSION} Preview"
 
-numfig = False
-rst_prolog = f"""
-.. |ROCM_VERSION| replace:: {ROCM_VERSION}
-"""
-
-exclude_patterns = ["**/includes/**"]
-suppress_warnings = ["autosectionlabel.*"]
-
-html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "https://rocm-stg.amd.com/")
+html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "rocm.docs.amd.com")
 html_context = {
     "project_path": {project_path},
     "gpu_type": [
@@ -200,4 +180,29 @@ html_context = {
 if os.environ.get("READTHEDOCS", "") == "True":
     html_context["READTHEDOCS"] = True
 
-external_projects_remote_repository = ""
+# For substitutions in MyST Markdown and rST files.
+# Usage:
+#   ```md              | ```rst
+#   {{ ROCM_VERSION }} | |ROCM_VERSION|
+#   ```                | ```
+myst_substitutions = {"ROCM_VERSION": ROCM_VERSION}
+rst_prolog = "\n".join(
+    f".. |{key}| replace:: {val}" for key, val in myst_substitutions.items()
+)
+
+numfig = False
+
+exclude_patterns = [
+    "exclude/**",
+    "**/include/**",
+    "**/extension/**",
+    "**/images/**",
+]
+# suppress_warnings = ["autosectionlabel.*"]
+
+# Check if the branch is a docs/ branch
+official_branch = run(
+    ["git", "rev-parse", "--abbrev-ref", "HEAD"], capture_output=True, text=True
+).stdout.find("docs/")
+
+

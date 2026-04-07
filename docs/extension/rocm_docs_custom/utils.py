@@ -11,11 +11,11 @@ def kv_to_data_attr(name, kv_str, separator="="):
     Format it as an HTML data attribute.
 
     Args:
-        name: Name of the data attribute; it will be prefixed with "data-".
+        name: Name of the data attribute; it will be prefixed with "data-" for conventional HTML.
         condition_str: String in format "key=value os=ubuntu".
 
     Example output:
-        'data-show-when="{"os": "ubuntu"}"'
+        'data-show-cond="{"os": "ubuntu"}"'
     """
     pairs = {}
     for token in kv_str.split():

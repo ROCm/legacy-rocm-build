@@ -6,7 +6,7 @@
 
 .. _hw_atomics_operation_support:
 
-Hardware atomics operation support
+AMD GPU atomics operation support
 ================================================================================
 
 :ref:`Atomic operations <atomic functions>` guarantee that the operation is

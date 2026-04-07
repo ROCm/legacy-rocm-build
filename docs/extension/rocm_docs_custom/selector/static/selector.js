@@ -6,8 +6,8 @@ import {
 
 const GROUP_QUERY = ".rocm-docs-selector-group";
 const OPTION_QUERY = ".rocm-docs-selector-option";
-// const DROPDOWN_INPUT_OPTION_QUERY = ".rocm-docs-selector-dropdown-input";
-const COND_QUERY = "[data-show-when],[data-disable-when]";
+const DROPDOWN_INPUT_QUERY = ".rocm-docs-selector-dropdown-input";
+const COND_QUERY = "[data-show-cond],[data-disable-cond]";
 
 const DEFAULT_OPTION_CLASS = "rocm-docs-selector-option-default";
 const DISABLED_CLASS = "rocm-docs-disabled";
@@ -15,6 +15,8 @@ const HIDDEN_CLASS = "rocm-docs-hidden";
 const SELECTED_CLASS = "rocm-docs-selected";
 
 const STORAGE_KEY = "rocm-docs-selector-state";
+// Guard against infinite reconciliation loops from circular state dependencies.
+const MAX_VISIBILITY_CYCLES = 5;
 
 // Toggle helpers -------------------------------------------------------------
 
@@ -55,29 +57,14 @@ const deselect = (elem) => {
 // URL synchronization --------------------------------------------------------
 
 function syncStateToURL() {
-  const params = new URLSearchParams();
-
-  for (const [key, value] of Object.entries(state)) {
-    params.set(key, value);
-  }
-
-  const newURL = params.toString()
-    ? `${window.location.pathname}?${params.toString()}${window.location.hash}`
-    : `${window.location.pathname}${window.location.hash}`;
-
+  const query = new URLSearchParams(state).toString();
+  const newURL = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
   window.history.replaceState({}, "", newURL);
   logDebug("URL updated:", newURL);
 }
 
 function getStateFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const urlState = {};
-
-  for (const [key, value] of params) {
-    urlState[key] = value;
-  }
-
-  return urlState;
+  return Object.fromEntries(new URLSearchParams(window.location.search));
 }
 
 // localStorage synchronization -----------------------------------------------
@@ -95,15 +82,11 @@ function getStateFromLocalStorage() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) return {};
-
     const parsed = JSON.parse(stored);
     logDebug("localStorage loaded:", parsed);
     return parsed;
   } catch (err) {
-    console.warn(
-      "[ROCmDocsSelector] Failed to read from localStorage:",
-      err,
-    );
+    console.warn("[ROCmDocsSelector] Failed to read from localStorage:", err);
     return {};
   }
 }
@@ -112,15 +95,35 @@ function getStateFromLocalStorage() {
 
 const state = {};
 
-function getState() {
-  return { ...state };
+// Keys introduced exclusively via extra bindings (not by any selector group's
+// primary key). Tracked so stale bindings can be cleared when the option that
+// produced them is no longer selected.
+const extraBindingKeys = new Set();
+
+// Keys owned by at least one selector group as a primary key. Extra-binding
+// cleanup must never delete these — reconcileGroupSelections manages them.
+const primarySelectorKeys = new Set();
+
+// True while updateVisibility is running; suppresses per-mutation URL/storage
+// syncs so exactly one sync happens per user interaction.
+let isBatchingState = false;
+
+function syncState() {
+  syncStateToURL();
+  syncStateToLocalStorage();
 }
 
 function setState(updates) {
   Object.assign(state, updates);
   logDebug("State updated:", state);
-  syncStateToURL();
-  syncStateToLocalStorage();
+  if (!isBatchingState) syncState();
+}
+
+function deleteStateKeys(keys) {
+  for (const key of keys) {
+    delete state[key];
+  }
+  if (!isBatchingState) syncState();
 }
 
 // Condition handling ---------------------------------------------------------
@@ -160,10 +163,7 @@ function parseConditions(attrName, raw) {
 function matchesConditions(conditions, currentState) {
   for (const [key, expected] of Object.entries(conditions)) {
     const actual = currentState[key];
-
-    // If no value yet, this condition does not match.
     if (actual === undefined) return false;
-
     if (Array.isArray(expected)) {
       if (!expected.includes(actual)) return false;
     } else if (actual !== expected) {
@@ -174,31 +174,122 @@ function matchesConditions(conditions, currentState) {
 }
 
 function shouldBeDisabled(elem) {
-  const raw = elem.dataset.disableWhen;
-  if (!raw) return false; // no conditions => never disabled
+  const raw = elem.dataset.disableCond;
+  if (!raw) return false;
 
-  const conditions = parseConditions("disable-when", raw);
+  const conditions = parseConditions("disable-cond", raw);
   if (!conditions) {
     console.warn(
-      "[ROCmDocsSelector] Invalid 'disable-when' conditions; not disabling affected element.",
+      "[ROCmDocsSelector] Invalid 'disable-cond' conditions; not disabling affected element.",
     );
     return false;
   }
-
   return matchesConditions(conditions, state);
 }
 
 function shouldBeShown(elem) {
-  const raw = elem.dataset.showWhen;
-  if (!raw) return true; // no conditions => always visible
+  const raw = elem.dataset.showCond;
+  if (!raw) return true;
 
-  const conditions = parseConditions("show-when", raw);
+  const conditions = parseConditions("show-cond", raw);
   if (!conditions) return true;
-
   return matchesConditions(conditions, state);
 }
 
 // Event handlers -------------------------------------------------------------
+
+/**
+ * Parse the data-selector-extra-bindings attribute into a plain object.
+ * Returns {} if absent or invalid.
+ */
+function getExtraBindings(option) {
+  const raw = option.dataset.selectorExtraBindings;
+  if (!raw) return {};
+  try {
+    const parsed = JSON.parse(raw);
+    return typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Select the option matching `value` for `key`, deselect all others.
+ * Updates ARIA/class state on every matching OPTION_QUERY element so that
+ * reconciliation, extra-binding logic, and TomSelect sync all see the
+ * correct selection.
+ */
+function applySelectionByKey(key, value) {
+  document
+    .querySelectorAll(`${OPTION_QUERY}[data-selector-key="${key}"]`)
+    .forEach((opt) => {
+      if (opt.dataset.selectorValue === value) {
+        select(opt);
+      } else {
+        deselect(opt);
+      }
+    });
+}
+
+/**
+ * Recompute extra bindings from all currently-selected options and sync state.
+ *
+ * Called inside the updateVisibility loop so that reconcileGroupSelections
+ * picking a new option (e.g. after a higher-level selector changes) also
+ * triggers a fresh evaluation of extra bindings.
+ *
+ * Returns true if state changed.
+ */
+function reapplyAllExtraBindings() {
+  // Collect desired extra bindings from every currently-selected option that
+  // is visible (not hidden, not inside a hidden ancestor). Hidden groups are
+  // skipped by reconcileGroupSelections, so their options may still carry
+  // SELECTED_CLASS; including them would let a stale binding overwrite the
+  // active one when multiple groups share the same key (e.g. "gpu").
+  const desired = {};
+  document.querySelectorAll(`${OPTION_QUERY}.${SELECTED_CLASS}`).forEach((opt) => {
+    if (!opt.classList.contains(HIDDEN_CLASS) && !opt.closest(`.${HIDDEN_CLASS}`)) {
+      Object.assign(desired, getExtraBindings(opt));
+    }
+  });
+
+  // Never delete a key that belongs to a primary selector group — those are
+  // managed by reconcileGroupSelections, not by extra-binding cleanup. Without
+  // this guard, switching families (e.g. Instinct → Radeon) would delete "w"
+  // from state because the Instinct option sets w=compute as an extra binding
+  // but the Radeon option does not, even though a visible Use case selector
+  // group owns "w" as its primary key.
+  const staleKeys = Array.from(extraBindingKeys).filter(
+    (k) => !(k in desired) && !primarySelectorKeys.has(k),
+  );
+
+  const updates = {};
+  for (const [k, v] of Object.entries(desired)) {
+    if (state[k] !== v) updates[k] = v;
+  }
+
+  // Rebuild tracking set to match current selections, excluding primary keys.
+  extraBindingKeys.clear();
+  for (const key of Object.keys(desired)) {
+    if (!primarySelectorKeys.has(key)) extraBindingKeys.add(key);
+  }
+
+  let changed = false;
+  if (staleKeys.length) {
+    deleteStateKeys(staleKeys);
+    changed = true;
+  }
+  if (Object.keys(updates).length) {
+    // Sync the DOM before setState so reconcileGroupSelections doesn't
+    // treat the stale DOM selection as authoritative on the next iteration.
+    for (const [k, v] of Object.entries(updates)) {
+      applySelectionByKey(k, v);
+    }
+    setState(updates);
+    changed = true;
+  }
+  return changed;
+}
 
 function handleOptionSelect(e) {
   const option = e.currentTarget;
@@ -214,23 +305,12 @@ function handleOptionSelect(e) {
   const { selectorKey: key, selectorValue: value } = option.dataset;
   if (!key || !value) return;
 
-  // Update all selectors sharing the same key
-  const allOptions = document.querySelectorAll(
-    `${OPTION_QUERY}[data-selector-key="${key}"]`,
-  );
+  applySelectionByKey(key, value);
 
-  allOptions.forEach((opt) => {
-    if (opt.dataset.selectorValue === value) {
-      select(opt);
-    } else {
-      deselect(opt);
-    }
-  });
-
-  // Update global state
+  // Update global state. Extra bindings are applied by reapplyAllExtraBindings
+  // inside the updateVisibility loop, so they are always derived from the
+  // current selection rather than applied imperatively here.
   setState({ [key]: value });
-
-  // Re-run visibility rules and TOC sync
   updateVisibility();
 }
 
@@ -247,24 +327,34 @@ function handleOptionKeydown(e) {
 // If the current selection becomes disabled/hidden due to another selector's
 // change, automatically pick a replacement.
 function reconcileGroupSelections() {
-  const currentState = getState();
+  const currentState = { ...state };
   const updates = {};
+  // Keys from hidden groups that may need to be cleared from state.
+  const hiddenGroupKeys = [];
+  // Keys owned by at least one visible group — used to protect against
+  // stale-key deletion even when the selected value didn't change (i.e. the
+  // key never entered `updates`).
+  const claimedKeys = new Set();
 
   document.querySelectorAll(GROUP_QUERY).forEach((group) => {
-    // Skip groups that are hidden OR inside a hidden parent
+    const options = Array.from(group.querySelectorAll(OPTION_QUERY));
+    const groupKey =
+      group.dataset.selectorKey || options[0]?.dataset.selectorKey;
+
+    // Skip groups that are hidden OR inside a hidden parent.
+    // Also remove the group's key from state so it doesn't persist in the URL.
     if (
       group.classList.contains(HIDDEN_CLASS) ||
       group.closest(`.${HIDDEN_CLASS}`)
     ) {
+      if (groupKey && groupKey in state) hiddenGroupKeys.push(groupKey);
       return;
     }
 
-    const options = Array.from(group.querySelectorAll(OPTION_QUERY));
     if (!options.length) return;
-
-    const groupKey = group.dataset.selectorKey ||
-      options[0].dataset.selectorKey;
     if (!groupKey) return;
+
+    claimedKeys.add(groupKey);
 
     // Options that are both enabled and visible
     const enabledVisible = options.filter(
@@ -274,19 +364,15 @@ function reconcileGroupSelections() {
     );
 
     if (!enabledVisible.length) {
-      // No valid options left; just clear visual selection.
       options.forEach(deselect);
       return;
     }
 
     const currentlySelected = options.find((opt) =>
-      opt.classList.contains(SELECTED_CLASS)
+      opt.classList.contains(SELECTED_CLASS),
     );
 
-    const selectedStillValid = currentlySelected &&
-      enabledVisible.includes(currentlySelected);
-
-    if (selectedStillValid) {
+    if (currentlySelected && enabledVisible.includes(currentlySelected)) {
       const selectedValue = currentlySelected.dataset.selectorValue;
       if (selectedValue && currentState[groupKey] !== selectedValue) {
         updates[groupKey] = selectedValue;
@@ -294,26 +380,12 @@ function reconcileGroupSelections() {
       return;
     }
 
-    // Need a new selection: prioritize current state value
-    let replacement;
-
-    // 1. Try to match the current global state value (if exists)
+    // Prefer: persisted state value → marked default → first available
     const stateValue = currentState[groupKey];
-    if (stateValue) {
-      replacement = enabledVisible.find(
-        (opt) => opt.dataset.selectorValue === stateValue,
-      );
-    }
-
-    // 2. If no match, prefer a default option
-    if (!replacement) {
-      replacement = enabledVisible.find(isDefaultOption);
-    }
-
-    // 3. Otherwise use the first enabled+visible option
-    if (!replacement) {
-      replacement = enabledVisible[0];
-    }
+    const replacement =
+      (stateValue && enabledVisible.find((opt) => opt.dataset.selectorValue === stateValue)) ||
+      enabledVisible.find(isDefaultOption) ||
+      enabledVisible[0];
 
     if (!replacement) return;
 
@@ -326,12 +398,79 @@ function reconcileGroupSelections() {
     }
   });
 
-  const changedKeys = Object.keys(updates);
-  if (changedKeys.length > 0) {
+  // Only delete a key if no visible group claimed it. Using claimedKeys (not
+  // just `updates`) covers the case where the selection was already correct —
+  // the key never enters `updates` but is still actively owned by a visible group.
+  const staleKeys = hiddenGroupKeys.filter((k) => !claimedKeys.has(k));
+
+  let changed = false;
+  if (Object.keys(updates).length) {
     setState(updates);
-    return true;
+    changed = true;
   }
-  return false;
+  if (staleKeys.length) {
+    deleteStateKeys(staleKeys);
+    changed = true;
+  }
+  return changed;
+}
+
+// TomSelect instances for dropdown-input groups, keyed by selector key.
+// Multiple groups can share the same key (e.g. "gpu" for Instinct/Radeon/Ryzen),
+// so each key maps to an array of instances.
+const dropdownInstances = new Map();
+
+function syncDropdownsToState() {
+  for (const [key, instances] of dropdownInstances) {
+    const val = state[key];
+    for (const ts of instances) {
+      // Only sync the TomSelect whose parent group is currently visible.
+      const groupElem = ts.input.closest(GROUP_QUERY);
+      if (groupElem && (groupElem.classList.contains(HIDDEN_CLASS) || groupElem.closest(`.${HIDDEN_CLASS}`))) {
+        continue;
+      }
+      if (val !== undefined && ts.getValue() !== val) {
+        ts.setValue(val, true); // silent: suppress change event
+      }
+    }
+  }
+}
+
+function flashNewlyVisible(condElems, hiddenBefore) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  // Collect elements that just became visible.
+  const newlyVisible = Array.from(condElems).filter(
+    (el) =>
+      el.dataset.showCond !== undefined &&
+      hiddenBefore.has(el) &&
+      !el.classList.contains(HIDDEN_CLASS),
+  );
+  if (newlyVisible.length === 0) return;
+
+  // Skip elements whose ancestor is also newly visible to avoid double-flashing.
+  const newlyVisibleSet = new Set(newlyVisible);
+  const toFlash = newlyVisible.filter((el) => {
+    let node = el.parentElement;
+    while (node) {
+      if (newlyVisibleSet.has(node)) return false;
+      node = node.parentElement;
+    }
+    return true;
+  });
+
+  // Batch all reads before any writes so the browser can compute layout once.
+  const accentColor = getComputedStyle(document.documentElement)
+    .getPropertyValue("--rocm-docs-selector-option-hover-color").trim();
+  const prevColors = toFlash.map((el) => getComputedStyle(el).color);
+
+  // Start all animations simultaneously — no per-element reflow needed.
+  toFlash.forEach((el, i) => {
+    el.animate(
+      [{ color: accentColor }, { color: prevColors[i] }],
+      { duration: 1000, easing: "ease-out", fill: "none" },
+    );
+  });
 }
 
 let isUpdatingVisibility = false;
@@ -341,42 +480,52 @@ function updateVisibility() {
   // while it is already running.
   if (isUpdatingVisibility) return;
   isUpdatingVisibility = true;
+  isBatchingState = true;
 
   try {
     let stateChanged = false;
     let iterations = 0;
 
+    // Hoist the conditional elements query outside the loop — the set of
+    // elements with show/disable conditions doesn't change between iterations,
+    // only their CSS classes and state do.
+    const condElems = document.querySelectorAll(COND_QUERY);
+
+    // Snapshot which show-cond elements are currently hidden before any changes.
+    const hiddenBefore = new Set(
+      Array.from(condElems).filter(
+        (el) => el.dataset.showCond !== undefined && el.classList.contains(HIDDEN_CLASS),
+      ),
+    );
+
     // We may need multiple passes: reconciling selections can change the
     // global state, which in turn affects show/disable conditions.
     do {
-      document.querySelectorAll(COND_QUERY).forEach((elem) => {
-        // Show/hide only if element has show-when
-        if (elem.dataset.showWhen !== undefined) {
-          if (shouldBeShown(elem)) {
-            show(elem);
-          } else {
-            hide(elem);
-          }
+      condElems.forEach((elem) => {
+        if (elem.dataset.showCond !== undefined) {
+          if (shouldBeShown(elem)) show(elem); else hide(elem);
         }
-
-        // Enable/disable only if element has disable-when
-        if (elem.dataset.disableWhen !== undefined) {
-          if (shouldBeDisabled(elem)) {
-            disable(elem);
-          } else {
-            enable(elem);
-          }
+        if (elem.dataset.disableCond !== undefined) {
+          if (shouldBeDisabled(elem)) disable(elem); else enable(elem);
         }
       });
 
       stateChanged = reconcileGroupSelections();
+      // Re-evaluate extra bindings after every reconciliation pass so that a
+      // newly-selected option's bindings take effect (and stale ones are cleared).
+      stateChanged = reapplyAllExtraBindings() || stateChanged;
       iterations += 1;
-      // Hard stop loops in case of conflicting rules.
-    } while (stateChanged && iterations < 5);
+    } while (stateChanged && iterations < MAX_VISIBILITY_CYCLES);
 
+    // Single URL + localStorage sync after all state mutations are settled.
+    syncState();
+
+    flashNewlyVisible(condElems, hiddenBefore);
     updateTOC2OptionsList();
     updateTOC2ContentsList();
+    syncDropdownsToState();
   } finally {
+    isBatchingState = false;
     isUpdatingVisibility = false;
   }
 }
@@ -385,7 +534,7 @@ function updateVisibility() {
 
 domReady(() => {
   const selectorOptions = document.querySelectorAll(OPTION_QUERY);
-  if (!selectorOptions?.length) {
+  if (!selectorOptions.length) {
     // Clear URLSearchParams if page does not have selector
     const url = new URL(window.location);
     url.search = "";
@@ -393,63 +542,90 @@ domReady(() => {
     return;
   }
 
-  document.querySelectorAll(".rocm-docs-selector-dropdown-input").forEach(
-    (elem) => {
-      const config = {
-        plugins: ["dropdown_input"],
-      };
-
-      const select = new TomSelect(elem, config);
-
-      select.on("change", (val) => {
-        console.log(val);
-      });
-    },
-  );
-
   const defaultState = {};
   const localStorageState = getStateFromLocalStorage();
   const urlState = getStateFromURL();
 
-  // Attach listeners and gather defaults
+  // Collect primary selector keys and extra binding keys separately.
+  // Used below to drop stale state and to pre-populate extraBindingKeys so
+  // that stale URL/localStorage extra-binding values are cleared on init.
+  const primaryPageKeys = new Set();
+  const extraBindingPageKeys = new Set();
+
   selectorOptions.forEach((option) => {
     option.addEventListener("click", handleOptionSelect);
     option.addEventListener("keydown", handleOptionKeydown);
 
+    const key = option.dataset.selectorKey;
+    if (key) primaryPageKeys.add(key);
+    for (const k of Object.keys(getExtraBindings(option))) extraBindingPageKeys.add(k);
+
     if (isDefaultOption(option)) {
-      const { selectorKey: key, selectorValue: value } = option.dataset;
-      if (key && value && defaultState[key] === undefined) {
+      const value = option.dataset.selectorValue;
+      if (key && value && !(key in defaultState)) {
         defaultState[key] = value;
+        // Extra bindings for default options are applied by reapplyAllExtraBindings
+        // inside the first updateVisibility() call below.
       }
     }
   });
 
-  // Merge with priority: URL > localStorage > defaults
-  const initialState = {
-    ...defaultState,
-    ...localStorageState,
-    ...urlState,
-  };
+  // Populate the module-level set so reapplyAllExtraBindings can guard against
+  // deleting keys that are owned by primary selector groups.
+  for (const key of primaryPageKeys) primarySelectorKeys.add(key);
 
-  // Apply initial selections from merged state
-  for (const [key, value] of Object.entries(initialState)) {
-    const allOptions = document.querySelectorAll(
-      `${OPTION_QUERY}[data-selector-key="${key}"]`,
-    );
+  const pageKeys = new Set([...primaryPageKeys, ...extraBindingPageKeys]);
 
-    allOptions.forEach((opt) => {
-      if (opt.dataset.selectorValue === value) {
-        select(opt);
-      } else {
-        deselect(opt);
-      }
+  // Merge with priority: URL > localStorage > defaults, then drop any key
+  // that has no corresponding selector on this page so stale URL params and
+  // localStorage entries from other pages are cleared immediately.
+  const initialState = Object.fromEntries(
+    Object.entries({ ...defaultState, ...localStorageState, ...urlState })
+      .filter(([key]) => pageKeys.has(key)),
+  );
+
+  // Pre-populate extraBindingKeys with any state keys that are only known as
+  // extra binding keys. This ensures reapplyAllExtraBindings() can identify
+  // and clear them on the first updateVisibility() pass if no currently-
+  // selected option requires them (e.g. gfx when fam=all is selected).
+  for (const key of Object.keys(initialState)) {
+    if (extraBindingPageKeys.has(key) && !primaryPageKeys.has(key)) {
+      extraBindingKeys.add(key);
+    }
+  }
+
+  // Initialize TomSelect dropdowns after initialState is known so each instance
+  // can be immediately synced to the persisted state (URL / localStorage /
+  // default) without waiting for the updateVisibility() pass.
+  document.querySelectorAll(DROPDOWN_INPUT_QUERY).forEach((elem) => {
+    const key = elem.dataset.selectorKey;
+    if (!key) return;
+
+    const ts = new TomSelect(elem, { plugins: ["dropdown_input"] });
+
+    const initVal = initialState[key];
+    if (initVal !== undefined && ts.getValue() !== initVal) {
+      ts.setValue(initVal, true); // silent: suppress change event
+    }
+
+    if (!dropdownInstances.has(key)) dropdownInstances.set(key, []);
+    dropdownInstances.get(key).push(ts);
+
+    ts.on("change", (val) => {
+      if (!val) return;
+      applySelectionByKey(key, val);
+      setState({ [key]: val });
+      updateVisibility();
     });
+  });
+
+  for (const [key, value] of Object.entries(initialState)) {
+    applySelectionByKey(key, value);
   }
 
   setState(initialState);
   updateVisibility();
 
-  // Mark all selector groups as initialized to make them visible
   document.querySelectorAll(GROUP_QUERY).forEach((group) => {
     group.classList.add("rocm-docs-selector-initialized");
   });
