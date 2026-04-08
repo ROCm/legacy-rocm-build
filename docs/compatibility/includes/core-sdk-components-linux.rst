@@ -228,7 +228,7 @@
 
       .. matrix-cell::
 
-         `ROCdbgapi <https://github.com/ROCm/ROCdbgapi/tree/release/therock-7.12>`__
+         `ROCdbgapi <https://github.com/ROCm/rocm-systems/tree/release/therock-7.12/projects/rocdbgapi>`__
 
    .. matrix-row::
       :show-when: fam=instinct fam=radeon-pro fam=radeon
@@ -242,7 +242,7 @@
 
       .. matrix-cell::
 
-         `ROCr Debug Agent <https://github.com/ROCm/rocr_debug_agent/tree/release/therock-7.12>`__
+         `ROCr Debug Agent <https://github.com/ROCm/rocm-systems/tree/release/therock-7.12/projects/rocr-debug-agent>`__
 
    .. matrix-row::
 
