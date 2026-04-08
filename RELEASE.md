@@ -2104,7 +2104,7 @@ support for your specific setup.
         </tr>
 		<tr>
 			<td>
-				<a href="https://github.com/ROCm/ROCdbgapi/tree/release/therock-7.12">ROCdbgapi</a>
+				<a href="https://github.com/ROCm/rocm-systems/tree/release/therock-7.12/projects/rocdbgapi">ROCdbgapi</a>
 			</td>
 			<td rowspan="3" style="vertical-align: middle;">
 				Linux only (Instinct, Radeon PRO, Radeon)
@@ -2117,7 +2117,7 @@ support for your specific setup.
         </tr>
         <tr>
 			<td>
-				<a href="https://github.com/ROCm/rocr_debug_agent/tree/release/therock-7.12">ROCr Debug Agent</a>
+				<a href="https://github.com/ROCm/rocm-systems/tree/release/therock-7.12/projects/rocr-debug-agent">ROCr Debug Agent</a>
 			</td>
         </tr>
 		<tr>
