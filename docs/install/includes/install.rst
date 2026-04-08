@@ -883,17 +883,6 @@ Use the following instructions to install the ROCm on your system.
 
          python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx110X-all/ "rocm[libraries,devel]"
 
-   .. selected:: gpu=w6800 gpu=v620
-
-      Use pip to install the ROCm Core SDK libraries and development tools for
-      your ``gfx1030`` GPU.
-
-      Run the following command:
-
-      .. code-block:: bash
-
-         python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx103X-dgpu/ "rocm[libraries,devel]"
-
    .. selected:: gpu=max-pro-395 gpu=max-pro-390 gpu=max-pro-385 gpu=max-pro-380 gpu=max-395 gpu=max-390 gpu=max-385
 
       Use pip to install the ROCm Core SDK libraries and development tools for
@@ -1021,16 +1010,6 @@ Use the following instructions to install the ROCm on your system.
             mkdir install
             tar -xf *.tar.gz -C install
 
-      .. selected:: gpu=w6800 gpu=v620
-
-         Use the following commands to download and untar the ROCm tarball.
-
-         .. code-block:: bash
-
-            wget https://repo.amd.com/rocm/tarball/therock-dist-linux-gfx103X-dgpu-7.12.0.tar.gz
-            mkdir install
-            tar -xf *.tar.gz -C install
-
       .. selected:: gpu=max-pro-395 gpu=max-pro-390 gpu=max-pro-385 gpu=max-pro-380 gpu=max-395 gpu=max-390 gpu=max-385
 
          Use the following commands to download and untar the ROCm tarball for
@@ -1079,17 +1058,6 @@ Use the following instructions to install the ROCm on your system.
 
          - Download link: `therock-dist-windows-gfx110X-all-7.12.0.tar.gz
            <https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx110X-all-7.12.0.tar.gz>`__
-
-      .. selected:: gpu=w6800 gpu=v620
-
-         .. code-block:: bat
-
-            cd C:\TheRock
-            curl -o therock-dist-windows-gfx103X-dgpu-7.12.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx103X-dgpu-7.12.0.tar.gz
-            tar -xzf therock-dist-windows-gfx103X-dgpu-7.12.0.tar.gz -C build --strip-components=1
-
-         - Download link: `therock-dist-windows-gfx103X-dgpu-7.12.0.tar.gz
-           <https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx103X-dgpu-7.12.0.tar.gz>`__
 
       .. selected:: gpu=max-pro-395 gpu=max-pro-390 gpu=max-pro-385 gpu=max-pro-380 gpu=max-395 gpu=max-390 gpu=max-385
 
