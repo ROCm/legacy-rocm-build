@@ -146,6 +146,7 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.4", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.5", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.6", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/xdit-diffusion-inference", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.7", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.8", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/training/benchmark-docker/previous-versions/pytorch-training-v25.9", "os": ["linux"]},
@@ -204,6 +205,7 @@ article_pages = [
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-25.13", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-26.1", "os": ["linux"]},
     {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-26.2", "os": ["linux"]},
+    {"file": "how-to/rocm-for-ai/inference/benchmark-docker/previous-versions/xdit-26.3", "os": ["linux"]},
 
     {"file": "how-to/rocm-for-ai/inference/deploy-your-model", "os": ["linux"]},
 

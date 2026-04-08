@@ -1,24 +1,24 @@
 docker:
-  pull_tag: rocm/pytorch-xdit:v26.4
-  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.4/images/sha256-b4296a638eb8dc7ebcafc808e180b78a3c44177580c21986082ec9539496067c
+  pull_tag: rocm/pytorch-xdit:v26.3
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.3/images/sha256-ac78a03d2911bf1b49c001d3be2e8bd745c1bc455cb49ae972825a7986880902
   ROCm: 7.12.0
   whats_new:
-    - "Qwen-Image-2512 support"
-    - "Z-Image support"
-    - "Parallel VAE decode support for Wan models"
-    - "Batch inference and data parallel support"
+    - "Qwen-Image support"
+    - "Qwen-Image-Edit support"
+    - "Aiter update to support Sage attention v2"
+    - "xDiT update to support MXFP4 GEMMs in Wan2.2, Wan2.1 and Flux.2"
   components:
     TheRock: 
-      version: 9b611c6
+      version: e40a6da
       url: https://github.com/ROCm/TheRock
     rocm-libraries:
-      version: 7567d83
+      version: 9e9e900
       url: https://github.com/ROCm/rocm-libraries
     rocm-systems:
-      version: 93bc019
+      version: ca89a1a
       url: https://github.com/ROCm/rocm-systems
     torch:
-      version: ff65f5b
+      version: 91be249
       url: https://github.com/ROCm/pytorch
     torchaudio:
       version: e3c6ee2
@@ -33,16 +33,13 @@ docker:
       version: 46ba481
       url: https://github.com/huggingface/accelerate
     aiter:
-      version: a169e14
+      version: 82d733f
       url: https://github.com/ROCm/aiter
     diffusers:
       version: a80b192
       url: https://github.com/huggingface/diffusers
-    distvae:
-      version: bf7531e
-      url: https://github.com/xdit-project/DistVAE
     xfuser:
-      version: 45c44e7
+      version: 2882027
       url: https://github.com/xdit-project/xDiT
     yunchang:
       version: 631bdfd
@@ -117,7 +114,6 @@ docker:
             - '--input_images /app/data/wan_input.jpg \'
             - '--num_frames 81 \'
             - '--ulysses_degree 8 \'
-            - '--use_parallel_vae \'
             - '--seed 42 \'
             - '--num_iterations 1 \'
             - '--num_inference_steps 40 \'
@@ -140,7 +136,6 @@ docker:
             - '--input_images /app/data/wan_input.jpg \'
             - '--num_frames 81 \'
             - '--ulysses_degree 8 \'
-            - '--use_parallel_vae \'
             - '--seed 42 \'
             - '--num_iterations 1 \'
             - '--num_inference_steps 40 \'
@@ -267,12 +262,12 @@ docker:
     - group: Z-Image
       js_tag: z_image
       models:
-        - model: Z-Image
-          model_repo: Tongyi-MAI/Z-Image
-          url: https://huggingface.co/Tongyi-MAI/Z-Image
+        - model: Z-Image Turbo
+          model_repo: Tongyi-MAI/Z-Image-Turbo
+          url: https://huggingface.co/Tongyi-MAI/Z-Image-Turbo
           github: https://github.com/Tongyi-MAI/Z-Image
-          mad_tag: pyt_xdit_z_image
-          js_tag: z_image_tag
+          mad_tag: pyt_xdit_z_image_turbo
+          js_tag: z_image_turbo_tag
           benchmark_command:
             - mkdir results
             - 'xdit \'
@@ -281,13 +276,11 @@ docker:
             - '--prompt "A crowded beach" \'
             - '--height 1088 \'
             - '--width 1920 \'
-            - '--num_inference_steps 50 \'
+            - '--num_inference_steps 9 \'
             - '--ulysses_degree 2 \'
-            - '--ring_degree 2 \'
-            - '--use_cfg_parallel \'
             - '--use_torch_compile \'
-            - '--guidance_scale 4.0 \'
-            - '--num_iterations 25 \'
+            - '--guidance_scale 0.0 \'
+            - '--num_iterations 50 \'
             - '--attention_backend aiter \'
             - '--output_directory results'
     - group: LTX
@@ -318,8 +311,8 @@ docker:
       js_tag: qwen_image
       models:
         - model: Qwen-Image
-          model_repo: Qwen/Qwen-Image-2512
-          url: https://huggingface.co/Qwen/Qwen-Image-2512
+          model_repo: Qwen/Qwen-Image
+          url: https://huggingface.co/Qwen/Qwen-Image
           github: https://github.com/QwenLM/Qwen-Image
           mad_tag: pyt_xdit_qwen_image
           js_tag: qwen_image_tag
