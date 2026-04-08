@@ -739,12 +739,6 @@ Learn more about TorchInductor environment variables and usage in the
    Triton is not used if regular :doc:`MIOpen <miopen:index>` or
    :doc:`rocBLAS <rocblas:index>` performs faster for a specific operation.
 
-.. note::
-
-   Experimental: TunableOp (see the :ref:`PyTorch TunableOp <mi300x-tunableop>` section) can also be used in combination
-   with ``TorchInductor`` ``max-autotune`` mode to boost ATen GEMM performance but will further increase tuning time.
-   The environment variable ``TORCHINDUCTOR_AUTOTUNE_MULTI_DEVICE=1`` can be useful in single GPU workloads to distribute Triton GEMM tuning.
-
 Triton backend
 --------------
 
