@@ -737,7 +737,8 @@ Learn more about TorchInductor environment variables and usage in the
 .. note::
 
    Triton is not used if regular :doc:`MIOpen <miopen:index>` or
-   :doc:`rocBLAS <rocblas:index>` performs faster for a specific operation.
+   a library kernel from :doc:`rocBLAS <rocblas:index>` and/or
+   :doc:`hipBLASLt <hipblaslt:index>` performs faster for a specific operation.
 
 Triton backend
 --------------
