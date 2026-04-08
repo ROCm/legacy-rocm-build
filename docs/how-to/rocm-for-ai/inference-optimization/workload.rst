@@ -732,7 +732,7 @@ convolution (``conv``) operations in PyTorch using ``inductor``, a part of the
 PyTorch compilation framework.
 
 Learn more about TorchInductor environment variables and usage in the
-`PyTorch documentation <https://pytorch.org/docs/2.3/torch.compiler_inductor_profiling.html>`_.
+`PyTorch documentation <https://docs.pytorch.org/docs/2.11/user_guide/torch_compiler/torch.compiler_inductor_profiling.html>`_.
 
 .. note::
 
