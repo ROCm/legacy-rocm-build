@@ -81,10 +81,6 @@ allocations using GTT (GTT-backed allocations), as described in the
 `torvalds/linux@759e764 <https://github.com/torvalds/linux/commit/759e764f7d587283b4e0b01ff930faca64370e59>`_
 GitHub commit.
 
-Because memory is physically shared, there is no performance distinction
-similar to discrete GPUs where dedicated VRAM is significantly faster than
-system memory. Firmware may optionally reserve some memory exclusively for GPU
-use, but this provides little benefit for most workloads while permanently
 Because memory is physically shared, there's no performance distinction
 like that of discrete GPUs where dedicated VRAM is significantly faster than
 system memory. Firmware may optionally reserve some memory exclusively for GPU
