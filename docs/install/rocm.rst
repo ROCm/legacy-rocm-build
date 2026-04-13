@@ -14,6 +14,15 @@ support information, see the :doc:`Compatibility matrix
 </compatibility/compatibility-matrix>`. To learn more about changes introduced
 in ROCm |ROCM_VERSION|, see the :doc:`Release notes </about/release-notes>`.
 
+.. note::
+
+   If your GPU is not listed, it might be community-enabled through TheRock
+   nightly builds. This enablement is not part of the official ROCm release. For
+   more information, see `TheRock supported GPUs
+   <https://github.com/ROCm/TheRock/blob/main/SUPPORTED_GPUS.md>`__. For
+   installation guidance, see `TheRock releases
+   <https://github.com/ROCm/TheRock/blob/main/RELEASES.md>`__.
+
 .. include:: /compatibility/includes/selector.rst
 
 .. =========================================================== UBUNTU VERSION ==

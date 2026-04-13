@@ -350,6 +350,15 @@ The following table lists supported AMD Instinct GPUs, Radeon GPUs, and Ryzen
 APUs. Each supported device is listed with its corresponding GPU
 microarchitecture and LLVM target.
 
+:::{note}
+
+If your GPU is not listed, it might be community-enabled through TheRock
+nightly builds. For more information, see [TheRock supported
+GPUs](https://github.com/ROCm/TheRock/blob/main/SUPPORTED_GPUS.md). For
+installation guidance, see [TheRock
+releases](https://github.com/ROCm/TheRock/blob/main/RELEASES.md).
+:::
+
 ::::{tab-set}
 :::{tab-item} Instinct
 :sync: instinct
