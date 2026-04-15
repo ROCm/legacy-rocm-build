@@ -189,7 +189,7 @@ installation.
                      # BEGIN ROCm environment configuration
                      export ROCM_PATH=$ROCM_INSTALL_PATH
                      export PATH=\$PATH:\$ROCM_PATH/bin
-                     export LD_LIBRARY_PATH=\$ROCM_PATH/lib/rocm_sysdeps/lib:\$ROCM_PATH/lib
+                     export LD_LIBRARY_PATH=\$ROCM_PATH/lib/rocm_sysdeps/lib:\$ROCM_PATH/lib:\$ROCM_PATH/llvm/lib:\$ROCM_PATH/lib/rocprofiler-systems
                      # END ROCm environment configuration
                      EOF
 
@@ -207,7 +207,7 @@ installation.
                      # BEGIN ROCm environment configuration
                      export ROCM_PATH=$ROCM_INSTALL_PATH
                      export PATH=\$PATH:\$ROCM_PATH/bin
-                     export LD_LIBRARY_PATH=\$ROCM_PATH/lib/rocm_sysdeps/lib:\$ROCM_PATH/lib
+                     export LD_LIBRARY_PATH=\$ROCM_PATH/lib/rocm_sysdeps/lib:\$ROCM_PATH/lib:\$ROCM_PATH/llvm/lib:\$ROCM_PATH/lib/rocprofiler-systems
                      # END ROCm environment configuration
                      EOF
 
