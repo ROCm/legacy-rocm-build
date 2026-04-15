@@ -146,6 +146,29 @@ Uninstalling
             sudo zypper clean --all
             sudo zypper refresh
 
+   3. Remove your ROCm environment configuration from your system.
+
+      .. tab-set::
+
+         .. tab-item:: System-wide 
+            :sync: env-system-setup
+
+            If you opted for a :ref:`system-wide setup
+            <rocm-post-install-env>` during the installation
+            process, remove the ROCm environment variables.
+
+            .. code-block:: bash
+
+               sudo rm -f /etc/profile.d/set-rocm-env.sh
+
+         .. tab-item:: User
+            :sync: env-user-setup
+
+            If you opted for a :ref:`user-specific setup
+            <rocm-post-install-env>` during the installation
+            process, remove the ROCm environment configuration block from
+            your shell configuration file (``~/.bashrc`` or ``~/.profile``).
+
 .. ====================================================================== PIP ==
 
 .. selected:: i=pip
@@ -180,6 +203,29 @@ Uninstalling
 
             rmdir /s /q .venv
 
+   3. Remove your ROCm environment configuration from your system.
+
+      .. tab-set::
+
+         .. tab-item:: System-wide 
+            :sync: env-system-setup
+
+            If you opted for a :ref:`system-wide setup
+            <rocm-post-install-env>` during the installation
+            process, remove the ROCm environment variables.
+
+            .. code-block:: bash
+
+               sudo rm -f /etc/profile.d/set-rocm-env.sh
+
+         .. tab-item:: User
+            :sync: env-user-setup
+
+            If you opted for a :ref:`user-specific setup
+            <rocm-post-install-env>` during the installation
+            process, remove the ROCm environment configuration block from
+            your shell configuration file (``~/.bashrc`` or ``~/.profile``).
+
 .. ================================================================== TARBALL ==
 
 .. selected:: i=tar
@@ -205,9 +251,26 @@ Uninstalling
          <rocm-post-install-system-wide>` during the installation process,
          remove the ROCm environment variables.
 
-         .. code-block:: bash
+         .. tab-set::
 
-            sudo rm -f /etc/profile.d/set-rocm-env.sh
+            .. tab-item:: System-wide 
+               :sync: env-system-setup
+
+               If you opted for a :ref:`system-wide setup
+               <rocm-post-install-env>` during the installation
+               process, remove the ROCm environment variables.
+
+               .. code-block:: bash
+
+                  sudo rm -f /etc/profile.d/set-rocm-env.sh
+
+            .. tab-item:: User
+               :sync: env-user-setup
+
+               If you opted for a :ref:`user-specific setup
+               <rocm-post-install-env>` during the installation
+               process, remove the ROCm environment configuration block from
+               your shell configuration file (``~/.bashrc`` or ``~/.profile``).
 
    .. selected:: os=windows
 
