@@ -20,7 +20,7 @@ see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
 
    .. code-block:: bash
 
-      wget https://repo.radeon.com/rocm/installer/rocm-runfile-installer/rocm-rel-7.12/rocm-installer-7.12.0-1.run
+      wget https://repo.radeon.com/rocm/installer/rocm-runfile-installer/rocm-rel-7.12/rocm-installer-7.12.0-2.run
 
 .. ==================================================== INSTALL KERNEL DRIVER ==
 
@@ -93,7 +93,7 @@ see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
 
    .. code-block:: bash
 
-      bash rocm-installer-7.12.0-1.run deps=install amdgpu
+      bash rocm-installer-7.12.0-2.run deps=install amdgpu
 
    .. note::
 
@@ -1092,55 +1092,55 @@ Use the following instructions to install the ROCm on your system.
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx950 gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx950 gpu-access=user
 
    .. selected:: gpu=mi325x gpu=mi300x gpu=mi300a
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx94x gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx94x gpu-access=user
 
    .. selected:: gpu=mi250x gpu=mi250 gpu=mi210
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx90a gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx90a gpu-access=user
 
    .. selected:: gpu=mi100
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx908 gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx908 gpu-access=user
 
    .. selected:: gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx120x gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx120x gpu-access=user
 
    .. selected:: gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=v710 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700 gpu=rx-7600 gpu=9-270 gpu=7-260 gpu=7-250 gpu=5-240 gpu=5-230 gpu=5-220 gpu=3-210
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx110x gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx110x gpu-access=user
 
    .. selected:: gpu=w6800 gpu=v620
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx103x gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx103x gpu-access=user
 
    .. selected:: gpu=max-pro-395 gpu=max-pro-390 gpu=max-pro-385 gpu=max-pro-380 gpu=max-395 gpu=max-390 gpu=max-385
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx1151 gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx1151 gpu-access=user
 
    .. selected:: gpu=9-hx-pro-475 gpu=9-hx-pro-470 gpu=9-pro-465 gpu=7-pro-450 gpu=5-pro-440 gpu=5-pro-435 gpu=9-hx-375 gpu=9-hx-370 gpu=9-365
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx1150 gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx1150 gpu-access=user
 
 .. selected:: i=runfile
    :heading: ROCm meta components
@@ -1242,52 +1242,52 @@ Use the following instructions to install the ROCm on your system.
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx950 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx950 compo=core,core-dev gpu-access=user
 
    .. selected:: gpu=mi325x gpu=mi300x gpu=mi300a
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx94x compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx94x compo=core,core-dev gpu-access=user
 
    .. selected:: gpu=mi250x gpu=mi250 gpu=mi210
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx90a compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx90a compo=core,core-dev gpu-access=user
 
    .. selected:: gpu=mi100
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx908 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx908 compo=core,core-dev gpu-access=user
 
    .. selected:: gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx120x compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx120x compo=core,core-dev gpu-access=user
 
    .. selected:: gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=v710 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700 gpu=rx-7600 gpu=9-270 gpu=7-260 gpu=7-250 gpu=5-240 gpu=5-230 gpu=5-220 gpu=3-210
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx110x compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx110x compo=core,core-dev gpu-access=user
 
    .. selected:: gpu=w6800 gpu=v620
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx103x compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx103x compo=core,core-dev gpu-access=user
 
    .. selected:: gpu=max-pro-395 gpu=max-pro-390 gpu=max-pro-385 gpu=max-pro-380 gpu=max-395 gpu=max-390 gpu=max-385
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx1151 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx1151 compo=core,core-dev gpu-access=user
 
    .. selected:: gpu=9-hx-pro-475 gpu=9-hx-pro-470 gpu=9-pro-465 gpu=7-pro-450 gpu=5-pro-440 gpu=5-pro-435 gpu=9-hx-375 gpu=9-hx-370 gpu=9-365
 
       .. code-block:: bash
 
-         bash rocm-installer-7.12.0-1.run deps=install rocm gfx=gfx1150 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.12.0-2.run deps=install rocm gfx=gfx1150 compo=core,core-dev gpu-access=user
