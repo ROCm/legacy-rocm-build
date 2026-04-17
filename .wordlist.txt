@@ -188,6 +188,8 @@ GL
 Glibc
 GLM
 GLXT
+Gloo
+Gluon
 GMI
 GNN
 GNNs

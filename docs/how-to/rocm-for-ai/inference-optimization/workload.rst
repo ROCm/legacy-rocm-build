@@ -2054,6 +2054,214 @@ Compute the occupancy of a kernel
 Find the full ``occ.sh`` at
 `<https://github.com/ROCm/triton/blob/triton-mlir/scripts/amd/occ.sh>`__.
 
+.. _mi300x-gluon-kernel-performance-optimization:
+
+Gluon kernel performance optimization
+=====================================
+
+`Gluon <https://github.com/triton-lang/triton/tree/main/python/triton/experimental/gluon>`_
+is a lower-level DSL that ships alongside Triton. It compiles through the same
+Triton IR stack and keeps Python ergonomics, but exposes hardware details that
+Triton hides: explicit tensor **layouts**, warp-level operations, explicit
+async-copy and barrier placement, and direct control over LDS usage. Use Gluon
+when the profiler shows Triton is bottlenecked on something you cannot express
+through autotune configs — typically layout conversions, suboptimal MFMA
+instruction selection, or pipelining depth.
+
+Triton vs. Gluon at a glance
+----------------------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 35 35
+
+   * - Aspect
+     - Triton
+     - Gluon
+   * - Abstraction level
+     - Block-level tiles
+     - Warp-level with explicit layouts
+   * - Tensor layouts
+     - Compiler-inferred
+     - User-specified (blocked, MFMA, dot-operand, shared)
+   * - Pipelining and barriers
+     - Compiler-scheduled (``num_stages``)
+     - User-scheduled (``async_copy``, ``commit_group``, ``wait_group``)
+   * - MFMA instruction choice
+     - Heuristic with ``matrix_instr_nonkdim`` hint
+     - Explicit via ``AMDMFMALayout``
+   * - LDS swizzle / padding
+     - Hidden
+     - Explicit via ``PaddedSharedLayout`` or swizzled layouts
+   * - Authoring cost
+     - Low
+     - High
+   * - Typical use
+     - Most kernels; start here
+     - Hot kernels where Triton leaves performance on the table
+
+**Rule of thumb:** start in Triton, autotune, profile with ``rocprof`` or
+``omniperf``. Drop to Gluon only for kernels where the profiler shows you are
+bottlenecked on something Triton will not let you fix.
+
+Layout selection
+----------------
+
+Gluon requires you to pick layouts explicitly. The three that matter most on
+MI300X / MI350X:
+
+``AMDMFMALayout``
+   Controls the output tile of MFMA instructions. Set ``transposed=True`` for
+   better accumulator register layout on CDNA. For a 256x256 tile with 4 waves,
+   ``warps_per_cta=[2, 2]`` balances MFMA distribution across M and N.
+
+``PaddedSharedLayout``
+   Preferred LDS layout for operand tiles. Padding eliminates bank conflicts
+   while preserving linear addressing and a single base VGPR. For a 256x64
+   FP16 operand, ``PaddedSharedLayout([[512, 16]], ...)`` is a good starting
+   point. For FP8 with ``kWidth=32``, use dual-pass padding such as
+   ``PaddedSharedLayout([[1024, 16], [2048, 32]], ...)``.
+
+``DotOperandLayout`` (``kWidth``)
+   Controls how operand tiles feed MFMA. Use ``kWidth=8`` for FP16,
+   ``kWidth=32`` for FP8 without scales, and ``kWidth=16`` for FP8 with scales
+   or MXFP4 (required for scale-layout compatibility).
+
+Avoid raw (unpadded, unswizzled) shared layouts. They trigger 2-way to 4-way
+LDS bank conflicts and reduce the effective LDS service rate from
+256 B/cycle down to 64-128 B/cycle.
+
+MFMA instruction selection
+--------------------------
+
+Match ``BLOCK_K`` to the MFMA K-dimension and aim for 1-2 MFMA instructions
+per K-step to amortize pipelining overhead.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 35 15 30
+
+   * - Data type
+     - MFMA instruction
+     - K-dim
+     - Recommended ``BLOCK_K``
+   * - FP16 / BF16
+     - ``v_mfma_f32_16x16x32``
+     - 32
+     - 64
+   * - FP8 / BF8
+     - ``v_mfma_f32_16x16x128``
+     - 128
+     - 128
+   * - MXFP4
+     - ``v_mfma_scale_f32_16x16x128_f8f6f4`` (``cbsz=4``, ``blgp=4``)
+     - 128
+     - 256
+
+A 256x256 output tile is a good default. It balances register footprint
+against the 512 VGPR budget on CDNA3/CDNA4.
+
+.. note::
+
+   MI350X's 160 KB LDS (vs. 64 KB on MI300X) allows larger input tiles and
+   deeper prefetch. When porting a Gluon kernel from MI300X to MI350X,
+   explore larger ``BLOCK_M/N/K`` and one additional pipeline stage before
+   retuning layouts.
+
+Global-memory loads and LDS staging
+-----------------------------------
+
+* **Use ``buffer_load_to_lds`` (direct HBM-to-LDS async copy) instead of
+  staging through registers.** It saves approximately 100 VGPR per wave and
+  removes an entire register-movement phase from the loop. In the
+  ``gfx9-gluon-tutorials`` reference GEMM this change moved performance from
+  697 to 1113 TFLOPS.
+
+* **Distribute ``buffer_load`` instructions across the loop body.** TCP (the
+  per-CU L1) is 32 KB with a 12-entry VMEM queue; once full, TCP capacity
+  gates issue. Spread loads across ~1500 cycles of MFMA rather than clustering
+  them at the top of the iteration.
+
+* **Bundle tile and scale loads with ``commit_group`` / ``wait_group``.**
+  Required for mixed ``buffer_load_to_lds`` and ``buffer_load`` traffic in
+  scaled-dtype kernels (FP8-with-scales, MXFP4).
+
+Pipelining and scheduling
+-------------------------
+
+Gluon lets you build the software pipeline explicitly. A 3-stage pipeline is
+typical for GEMM on CDNA:
+
+1. **Stage 0** - ``async_copy`` from HBM to LDS for iteration ``k+2``.
+2. **Stage 1** - ``ds_read`` from LDS to registers for iteration ``k+1``.
+3. **Stage 2** - MFMA on registers for iteration ``k``.
+
+Double-buffer LDS so stage 0 and stage 1 operate on separate buffers. Unroll
+the main loop by 2 to eliminate ``v_accvgpr_mov`` copies at iteration
+boundaries.
+
+Two environment variables enable AMD-specific scheduling passes that are
+critical for reaching peak MFMA efficiency:
+
+``TRITON_ENABLE_LLIR_SCHED=1``
+   Enables a post-Triton LLVM IR scheduler that interleaves MFMA with memory
+   operations based on the hardware issue-rate model: one MFMA per 16-cycle
+   ``ds_read_b128`` and four MFMAs per 64-cycle ``buffer_load_dwordx4``. In the
+   tutorial GEMM this lifted MFMA efficiency from 59% to 76%.
+
+``TRITON_ENABLE_AMDGCN_AS=1``
+   Enables an assembly post-processor that hoists address arithmetic out of
+   the loop (LICM), interleaves MFMA with scalar instructions, and removes
+   residual AGPR-to-VGPR copies. Combined with the LLIR scheduler, this takes
+   MFMA efficiency to ~98%.
+
+Register pressure
+-----------------
+
+For 4 waves per CU with a 256x256 tile and 2-stage prefetch, aim for a
+384-448 VGPR budget. When you exceed it, use the following techniques in order:
+
+1. **N-slicing.** Split the B tile along N into two halves and load each in
+   sequence within the same K-step. Halves B's register footprint without
+   doubling loop iterations.
+
+2. **M+N slicing.** Additionally split A along M, producing a 2x2 quadrant
+   structure per K-step. Further reduces A's footprint and, with careful load
+   ordering, removes boundary copies.
+
+3. **AGPR escape hatch.** As a last resort, set
+   ``amdgpu-mfma-vgpr-form=false`` and ``amdgpu-agpr-alloc=256`` to keep
+   accumulators in AGPRs. Costs approximately 5% of the loop to epilogue
+   AGPR-to-VGPR copies for compute-bound kernels with large K.
+
+XCD-aware workgroup scheduling
+------------------------------
+
+Both MI300X and MI350X expose eight XCDs. Remapping program IDs so
+consecutive tiles land on the same XCD, combined with a ``GROUP_SIZE_M``
+swizzle, reduces L2 misses significantly. In the tutorial kernel this dropped
+L2 misses from ~5M to ~3.1M and added ~67 TFLOPS on top of the pipelined
+baseline. For 32 workgroups per XCD, the optimal ``GROUP_SIZE_M`` minimizes
+:math:`\text{GROUP\_SIZE\_M} + \lceil P / \text{GROUP\_SIZE\_M} \rceil`
+where :math:`P` is workgroups per XCD; values of 4, 6, or 8 all hit the
+optimum for :math:`P = 32`.
+
+Epilogue overlap
+----------------
+
+At small K the whole grid finishes the main loop at nearly the same moment
+and saturates the L2/HBM write path. Break the accumulator into sub-tiles
+along M with ``extract_slice`` and overlap the store of sub-tile ``i`` with
+the final MFMAs of sub-tile ``i+1``. This staggers store traffic and
+recovers performance at small K.
+
+Further reading
+---------------
+
+* ``gfx9-gluon-tutorials`` - reference GEMM and documentation for LDS
+  throughput, memory-bandwidth modeling, and MFMA efficiency on CDNA.
+* `Gluon source and examples <https://github.com/triton-lang/triton/tree/main/python/triton/experimental/gluon>`_.
+
 Special considerations
 ======================
 
