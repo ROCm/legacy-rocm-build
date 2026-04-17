@@ -1,13 +1,13 @@
 .. meta::
-   :description: Learn about workload tuning on AMD Instinct MI300X and MI350X GPUs for optimal performance.
+   :description: Learn about workload tuning on AMD Instinct MI300X, MI325X, MI350X, and MI355X GPUs for optimal performance.
    :keywords: AMD, Instinct, MI300X, MI350X, MI325X, MI355X, CDNA3, CDNA4, gfx942, gfx950,
               HPC, tuning, ROCm, environment variable, performance, HIP, Triton,
               PyTorch TunableOp, vLLM, RCCL, MIOpen, GPU, resource utilization,
               FP8, MXFP4, MXFP6, MXFP8, sparsity, micro-scaling, HBM3E
 
-*****************************************************
-AMD Instinct MI300X / MI350X workload optimization
-*****************************************************
+**************************************************************
+AMD Instinct MI300 Series / MI350 Series workload optimization
+**************************************************************
 
 This document provides guidelines for optimizing the performance of AMD
 Instinct™ MI300X and MI350X GPUs, with a particular focus on GPU kernel
@@ -18,16 +18,16 @@ enhance efficiency.
 
 .. note::
 
-   Most guidance in this document applies to both MI300X (CDNA 3, gfx942) and
-   MI350X (CDNA 4, gfx950). Where the two GPU families differ, GPU-specific
+   Most guidance in this document applies to both MI300 Series (CDNA 3, gfx942, including MI300X and MI325X) and
+   MI350 Series (CDNA 4, gfx950, including MI350X and MI355X). Where the two GPU families differ, GPU-specific
    notes are provided. Key architectural differences include:
 
-   * **MI350X** uses TSMC N3P XCDs (vs N5), has 256 CUs (vs 304), 160 KB LDS
+   * **MI350 Series** uses TSMC N3P XCDs (vs N5), has 256 CUs (vs 304), 160 KB LDS
      per CU (vs 64 KB), doubled Matrix Core throughput for ≤16-bit types,
      native MXFP8/MXFP6/MXFP4 support, and 288 GB HBM3E at 8.0 TB/s.
-   * **MI350X** uses 2 IODs (vs 4) with a faster direct connection, and
+   * **MI350 Series** uses 2 IODs (vs 4) with a faster direct connection, and
      Infinity Fabric links run at 38.4 Gbps (vs 32 Gbps).
-   * **MI350X** uses OCP FP8 variants (vs FNUZ on MI300X) and moves TF32 from
+   * **MI350 Series** uses OCP FP8 variants (vs FNUZ on MI300 Series) and moves TF32 from
      hardware to software emulation via BF16.
 
 .. _mi300x-arch-comparison:
@@ -315,7 +315,7 @@ Workload tuning strategy
 
 By following a structured approach, you can systematically address
 performance issues and enhance the efficiency of your workloads on AMD Instinct
-MI300X and MI350X GPUs.
+MI300 Series and MI350 Series GPUs.
 
 Measure the current workload
 ----------------------------
@@ -909,27 +909,16 @@ for details.
 * Example 2: Benchmark forward epilogues and backward epilogues
 
   *  ``HIPBLASLT_EPILOGUE_RELU: "--activation_type relu";``
-
   *  ``HIPBLASLT_EPILOGUE_BIAS: "--bias_vector";``
-
   *  ``HIPBLASLT_EPILOGUE_RELU_BIAS: "--activation_type relu --bias_vector";``
-
   *  ``HIPBLASLT_EPILOGUE_GELU: "--activation_type gelu";``
-
-  *  ``HIPBLASLT_EPILOGUE_DGELU": --activation_type gelu --gradient";``
-
+  *  ``HIPBLASLT_EPILOGUE_DGELU: "--activation_type gelu --gradient";``
   *  ``HIPBLASLT_EPILOGUE_GELU_BIAS: "--activation_type gelu --bias_vector";``
-
   *  ``HIPBLASLT_EPILOGUE_GELU_AUX: "--activation_type gelu --use_e";``
-
   *  ``HIPBLASLT_EPILOGUE_GELU_AUX_BIAS: "--activation_type gelu --bias_vector --use_e";``
-
   *  ``HIPBLASLT_EPILOGUE_DGELU_BGRAD: "--activation_type gelu --bias_vector --gradient";``
-
   *  ``HIPBLASLT_EPILOGUE_BGRADA: "--bias_vector --gradient --bias_source a";``
-
   *  ``HIPBLASLT_EPILOGUE_BGRADB:  "--bias_vector --gradient --bias_source b";``
-
 
 hipBLASLt auto-tuning using hipblaslt-bench
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1226,9 +1215,8 @@ MI16x16 versus MI32x32
 
    .. note::
 
-      MI350X additionally supports xf32 MFMA instructions and has doubled Matrix
-      Core throughput for ≤16-bit types. Benchmark to verify optimal instruction
-      size for your workload.
+      MI350X has doubled Matrix Core throughput for ≤16-bit types. Benchmark to
+      verify optimal instruction size for your workload.
 
 Clock differences among XCDs
    There can be a clock speed variation of 3% to 10% among different XCDs.
@@ -1425,8 +1413,9 @@ you can only use a fraction of the potential bandwidth on the node.
 .. note::
 
    MI350X uses 2 IODs (vs 4 on MI300X) with a faster direct connection
-   (~14% improvement) and Infinity Fabric links at 38.4 Gbps (vs 32 Gbps),
-   yielding 1,075.2 GB/s P2P ring aggregate bandwidth (vs 896 GB/s).
+   and Infinity Fabric links at 38.4 Gbps (vs 32 Gbps), yielding
+   1,075.2 GB/s P2P ring aggregate bandwidth (vs 896 GB/s) — roughly 20%
+   higher.
 
 The following figure shows an
 :doc:`MI300X node-level architecture </conceptual/gpu-arch/mi300>` of a
@@ -1442,7 +1431,7 @@ low-latency AMD Infinity Fabric™ links (red lines) to form a fully connected
 
    MI300 Series node-level architecture showing 8 fully interconnected MI300X
    OAM modules connected to (optional) PCIe switches via re-timers and HGX
-   connectors.
+   connectors. MI350 Series systems use the same 8-GPU fully connected topology.
 
 .. _mi300x-rccl-disable-numa:
 
@@ -1467,7 +1456,7 @@ see `AMD Instinct MI300X system optimization
 Disable ACS for multi-node RCCL
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Check if ACS is disabled with ``sudo lspci -vvv \| grep -i "acsctl"``.
+Check if ACS is disabled with ``sudo lspci -vvv | grep -i "acsctl"``.
 This will print many lines. Check if there are any that show ``SrcValid+``
 
 If there are any ``SrcValid+``, then use the following ``disable_acs.sh`` script
@@ -1476,83 +1465,48 @@ to disable ACS (requires ``sudo``).
 .. code-block:: shell
 
    #!/bin/bash
-
    #
-
    # Disable ACS on every device that supports it
-
    #
-
    PLATFORM=$(dmidecode --string system-product-name)
-
    logger "PLATFORM=${PLATFORM}"
-
    # Enforce platform check here.
-
    #case "${PLATFORM}" in
-
    #"OAM"*)
-
    #logger "INFO: Disabling ACS is no longer necessary for ${PLATFORM}"
-
    #exit 0
-
    #;;
-
    #*)
-
    #;;
-
    #esac
 
    # must be root to access extended PCI config space
-
    if [ "$EUID" -ne 0 ]; then
-
    echo "ERROR: $0 must be run as root"
-
    exit 1
-
    fi
 
-   for BDF in \`lspci -d "*:*:*" \| awk '{print $1}'`; do
+   for BDF in $(lspci -d "*:*:*" | awk '{print $1}'); do
+       # skip if it doesn't support ACS
+       setpci -v -s ${BDF} ECAP_ACS+0x6.w > /dev/null 2>&1
+       if [ $? -ne 0 ]; then
+           #echo "${BDF} does not support ACS, skipping"
+           continue
+       fi
 
-   # skip if it doesn't support ACS
+       logger "Disabling ACS on $(lspci -s ${BDF})"
+       setpci -v -s ${BDF} ECAP_ACS+0x6.w=0000
+       if [ $? -ne 0 ]; then
+           logger "Error disabling directTrans ACS on ${BDF}"
+           continue
+       fi
 
-   setpci -v -s ${BDF} ECAP_ACS+0x6.w > /dev/null 2>&1
-
-   if [ $? -ne 0 ]; then
-
-   #echo "${BDF} does not support ACS, skipping"
-
-   continue
-
-   fi
-
-   logger "Disabling ACS on \`lspci -s ${BDF}`"
-
-   setpci -v -s ${BDF} ECAP_ACS+0x6.w=0000
-
-   if [ $? -ne 0 ]; then
-
-   logger "Error enabling directTrans ACS on ${BDF}"
-
-   continue
-
-   fi
-
-   NEW_VAL=`setpci -v -s ${BDF} ECAP_ACS+0x6.w \| awk '{print $NF}'\`
-
-   if [ "${NEW_VAL}" != "0000" ]; then
-
-   logger "Failed to enabling directTrans ACS on ${BDF}"
-
-   continue
-
-   fi
-
+       NEW_VAL=$(setpci -v -s ${BDF} ECAP_ACS+0x6.w | awk '{print $NF}')
+       if [ "${NEW_VAL}" != "0000" ]; then
+           logger "Failed to disable directTrans ACS on ${BDF}"
+           continue
+       fi
    done
-
    exit 0
 
 .. _mi300x-rccl-unittests:
@@ -1643,7 +1597,7 @@ Register access is the fastest yet smallest among the three.
 
 .. figure:: ../../../data/shared/compute-unit.png
 
-   Schematic representation of a CU in the CDNA2 or CDNA3 architecture.
+   Schematic representation of a CU in CDNA 2 / CDNA 3 / CDNA 4 architectures.
    MI350X (CDNA 4) CUs have 160 KB LDS (vs 64 KB), 256 bytes/clock read
    bandwidth, and support direct L1→LDS loading.
 
@@ -1741,7 +1695,6 @@ the number of CUs a kernel can distribute its task across.
 .. note::
 
    MI350X has 36 CUs per XCD (32 active), for a total of 256 active CUs.
-   Target a minimum of 768 thread blocks (~3 per CU) instead of 1024.
 
 .. figure:: ../../../data/shared/xcd-sys-arch.png
 
@@ -1756,9 +1709,7 @@ SIMD, and wavefront size using the following commands.
 .. code-block:: shell
 
    rocminfo | grep "Compute Unit"
-
    rocminfo | grep "SIMD"
-
    rocminfo | grep "Wavefront Size"
 
 For the MI300X, the goal is to have a minimum of 1024 thread
@@ -2001,7 +1952,6 @@ allocation.
 .. code-block:: text
 
    PYTORCH_NO_HIP_MEMORY_CACHING=1
-
    HSA_DISABLE_FRAGMENT_ALLOCATOR=1
 
 .. _mi300x-compute-kernel-occ:
@@ -2018,7 +1968,7 @@ Compute the occupancy of a kernel
 
    b. ``rm -rf ~/.triton/cache``
 
-   c. ``python kernel.py | | grep "triton_gpu.shared = " | tail -n 1``
+   c. ``python kernel.py | grep "triton_gpu.shared = " | tail -n 1``
 
    d. You should see something like ``triton_gpu.shared = 65536``, indicating
       65536 bytes of LDS are allocated for the kernel.
@@ -2029,7 +1979,7 @@ Compute the occupancy of a kernel
 
    b. ``rm -rf ~/.triton/cache``
 
-   c. ``python kernel.py | | grep "triton_gpu.num-warps " | tail -n 1``
+   c. ``python kernel.py | grep "triton_gpu.num-warps " | tail -n 1``
 
    d. You should see something like ``“triton_gpu.num-warps" = 8``, indicating 8
       waves per workgroup.
