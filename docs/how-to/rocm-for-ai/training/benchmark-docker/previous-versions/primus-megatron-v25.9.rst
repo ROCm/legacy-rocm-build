@@ -1,4 +1,5 @@
 :orphan:
+:nosearch:
 
 .. meta::
    :description: How to train a model using Megatron-LM for ROCm.

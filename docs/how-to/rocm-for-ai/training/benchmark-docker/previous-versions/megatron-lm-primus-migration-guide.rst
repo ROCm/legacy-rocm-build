@@ -1,4 +1,5 @@
 :orphan:
+:nosearch:
 
 *****************************************************************
 Migrating workloads to Primus (Megatron backend) from Megatron-LM
