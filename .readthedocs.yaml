@@ -20,3 +20,7 @@ build:
      - "doxygen"
      - "gfortran" # For pre-processing fortran sources
      - "graphviz" # For dot graphs in doxygen
+
+search:
+  ignore:
+    - "**/previous-versions/**"
