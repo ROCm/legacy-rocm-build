@@ -180,7 +180,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
 
                .. code-block:: shell
 
-                  huggingface-cli download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
+                  hf download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
 
             3. Launch the container with mounted cache.
 
@@ -237,7 +237,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
                .. code-block:: shell
 
                   export HF_HOME=/app/huggingface_models
-                  huggingface-cli download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
+                  hf download {{ model.model_repo }} {% if model.revision %} --revision {{ model.revision }} {% endif %}
 
                .. warning::
 

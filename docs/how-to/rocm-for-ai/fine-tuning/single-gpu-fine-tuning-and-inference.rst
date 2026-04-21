@@ -127,7 +127,7 @@ Download the base model and fine-tuning dataset
 
    .. code-block:: shell
 
-      huggingface-cli login
+      hf auth login
 
    .. note::
 

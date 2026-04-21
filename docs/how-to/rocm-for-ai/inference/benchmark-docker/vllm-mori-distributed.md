@@ -387,7 +387,7 @@ source ~/venvs/hf/bin/activate
 pip install huggingface_hub
 
 # Download the model to the shared NFS mount point
-huggingface-cli download --token <your_hf_token> \
+hf download --token <your_hf_token> \
     EmbeddedLLM/deepseek-r1-FP8-Dynamic \
     --local-dir /mount/point/models/EmbeddedLLM/deepseek-r1-FP8-Dynamic
 ```

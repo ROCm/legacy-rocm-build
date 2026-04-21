@@ -692,7 +692,7 @@ This performance test supports the following models:
 * [DeepSeek-R1-0528](https://huggingface.co/deepseek-ai/DeepSeek-R1-0528)
 
 To set up your environment and download the models using the Hugging Face CLI,
-use the following commands. Modify the `huggingface-cli download` command
+use the following commands. Modify the `hf download` command
 to download the desired model.
 
 ```bash
@@ -704,7 +704,7 @@ pip install huggingface_hub
 
 # Download the model to the shared NFS mount point
 # Replace 'deepseek-ai/DeepSeek-R1-0528' with your desired model
-huggingface-cli download --token <your_hf_token> \
+hf download --token <your_hf_token> \
     deepseek-ai/DeepSeek-R1-0528 \
     --local-dir /mount/point/models/DeepSeek-R1
 ```
