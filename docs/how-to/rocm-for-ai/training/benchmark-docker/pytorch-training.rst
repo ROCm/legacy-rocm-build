@@ -631,8 +631,8 @@ To launch the training job on a SLURM cluster for Llama 3.3 70B, run the followi
 
 .. code-block:: shell
 
-   huggingface-cli login # Get access to HF Llama model space
-   huggingface-cli download meta-llama/Llama-3.3-70B-Instruct --local-dir ./models/Llama-3.3-70B-Instruct # Download the Llama 3.3 model locally
+   hf auth login # Get access to HF Llama model space
+   hf download meta-llama/Llama-3.3-70B-Instruct --local-dir ./models/Llama-3.3-70B-Instruct # Download the Llama 3.3 model locally
    # In the MAD repository
    cd scripts/pytorch_train
    sbatch Torchtune_Multinode.sh
