@@ -13,10 +13,15 @@ compatibility with industry software frameworks. For more information, see
 [What is ROCm?](./what-is-rocm.rst)
 
 ROCm supports multiple programming languages and programming interfaces such as
-{doc}`HIP (Heterogeneous-Compute Interface for Portability)<hip:index>`, OpenCL,
-and OpenMP, as explained in the [Programming guide](./how-to/programming_guide.rst).
+{doc}`HIP <hip:index>`, OpenCL, and OpenMP, as explained in the [Programming guide](./how-to/programming_guide.rst).
 
-If you're using AMD Radeon GPUs or Ryzen APUs in a workstation setting with a display connected, review {doc}`ROCm on Radeon and Ryzen documentation<radeon:index>`.
+If you're using AMD Radeon™ GPUs or Ryzen™ APUs for graphics workloads, see the {doc}`ROCm on Radeon and Ryzen <radeon:index>` documentation.
+
+```{note}
+The [AMD ROCm Programming Guide](https://rocm-handbook.amd.com/projects/amd-rocm-programming-guide/en/latest/)
+presents key ROCm concepts in a structured, book-style format, a helpful
+starting point for those new to GPU programming.
+```
 
 ROCm documentation is organized into the following categories:
 
@@ -63,12 +68,13 @@ ROCm documentation is organized into the following categories:
 :class-body: rocm-card-banner rocm-hue-6
 <!-- markdownlint-disable MD051 -->
 * [ROCm libraries](./reference/api-libraries.md)
-* [ROCm tools, compilers, and runtimes](./reference/rocm-tools.md)
+* [ROCm tools, compilers, and runtime API](./reference/rocm-tools.md)
 * [GPU hardware specifications](./reference/gpu-arch-specs.rst)
 * [Hardware atomics operation support](./reference/gpu-atomics-operation.rst)
 * [Environment variables](./reference/env-variables.rst)
 * [Data types and precision support](./reference/precision-support.rst)
 * [Graph safe support](./reference/graph-safe-support.rst)
+* [ROCm glossary](./reference/glossary.rst)
 <!-- markdownlint-enable MD051 -->
 :::
 

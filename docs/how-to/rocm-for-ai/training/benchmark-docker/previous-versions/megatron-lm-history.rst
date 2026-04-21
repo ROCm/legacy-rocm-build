@@ -7,7 +7,7 @@ Megatron-LM training performance testing version history
 This table lists previous versions of the ROCm Megatron-LM training Docker image for
 inference performance testing. For detailed information about available models
 for benchmarking, see the version-specific documentation. You can find tagged
-previous releases of the ``ROCm/megatron-lm`` Docker image on `Docker Hub <https://hub.docker.com/r/rocm/megatron-lm/tags>`__.
+previous releases of the ``ROCm/primus`` Docker image on `Docker Hub <https://hub.docker.com/r/rocm/megatron-lm/tags>`__.
 
 .. list-table::
    :header-rows: 1
@@ -16,14 +16,48 @@ previous releases of the ``ROCm/megatron-lm`` Docker image on `Docker Hub <https
      - Components
      - Resources
 
-   * - v25.9 (latest)
+   * - v26.2 (latest)
+     -
+       * ROCm 7.2.0
+       * PyTorch 2.10.0+git94c6e04
+     -
+       * :doc:`Primus Megatron documentation <../primus-megatron>`
+       * `Docker Hub <https://hub.docker.com/layers/rocm/primus/v26.2/images/sha256-9148d1bfcd579bf92f44bd89090e0d8c958f149c134b4b34b9674ab559244585>`__
+
+   * - v26.1
+     -
+       * ROCm 7.1.0
+       * PyTorch 2.10.0.dev20251112+rocm7.1
+     -
+       * :doc:`Primus Megatron documentation <primus-megatron-v26.1>`
+       * `Docker Hub <https://hub.docker.com/layers/rocm/primus/v26.1/images/sha256-4fc8808bdb14117c6af7f38d79c809056e6fdbfd530c1fabbb61d097ddaf820d>`__
+
+   * - v25.11
+     -
+       * ROCm 7.1.0
+       * PyTorch 2.10.0.dev20251112+rocm7.1
+     -
+       * :doc:`Primus Megatron documentation <primus-megatron-v25.11>`
+       * :doc:`Megatron-LM (legacy) documentation <megatron-lm-v25.11>`
+       * `Docker Hub <https://hub.docker.com/layers/rocm/primus/v25.11/images/sha256-71aa65a9bfc8e9dd18bce5b68c81caff864f223e9afa75dc1b719671a1f4a3c3>`__
+
+   * - v25.10
+     -
+       * ROCm 7.1.0
+       * PyTorch 2.10.0.dev20251112+rocm7.1
+     -
+       * :doc:`Primus Megatron documentation <primus-megatron-v25.10>`
+       * :doc:`Megatron-LM (legacy) documentation <megatron-lm-v25.10>`
+       * `Docker Hub <https://hub.docker.com/layers/rocm/primus/v25.10/images/sha256-140c37cd2eeeb183759b9622543fc03cc210dc97cbfa18eeefdcbda84420c197>`__
+
+   * - v25.9
      -
        * ROCm 7.0.0
        * Primus 0.3.0
        * PyTorch 2.9.0.dev20250821+rocm7.0.0.lw.git125803b7
      -
-       * :doc:`Primus Megatron documentation <../primus-megatron>`
-       * :doc:`Megatron-LM (legacy) documentation <../megatron-lm>`
+       * :doc:`Primus Megatron documentation <primus-megatron-v25.9>`
+       * :doc:`Megatron-LM (legacy) documentation <megatron-lm-v25.9>`
        * `Docker Hub (gfx950) <https://hub.docker.com/layers/rocm/primus/v25.9_gfx950/images/sha256-1a198be32f49efd66d0ff82066b44bd99b3e6b04c8e0e9b36b2c481e13bff7b6>`__
        * `Docker Hub (gfx942) <https://hub.docker.com/layers/rocm/primus/v25.9_gfx942/images/sha256-df6ab8f45b4b9ceb100fb24e19b2019a364e351ee3b324dbe54466a1d67f8357>`__
 

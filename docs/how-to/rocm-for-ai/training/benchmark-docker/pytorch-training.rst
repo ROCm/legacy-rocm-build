@@ -27,12 +27,10 @@ training workloads:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
 
-   {% set dockers = data.dockers %}
    .. tab-set::
 
-   {% for supported_gpus, docker in dockers.items() %}
-      .. tab-item:: {{ supported_gpus }}
-         :sync: {{ supported_gpus }}
+      .. tab-item:: {{ data.docker.pull_tag }}
+         :sync: {{ data.docker.pull_tag }}
 
          .. list-table::
             :header-rows: 1
@@ -40,13 +38,12 @@ training workloads:
             * - Software component
               - Version
 
-            {% for component_name, component_version in docker.components.items() %}
+            {% for component_name, component_version in data.docker.components.items() %}
             * - {{ component_name }}
               - {{ component_version }}
             {% endfor %}
-   {% endfor %}
 
-.. _amd-pytorch-training-model-support-v259:
+.. _amd-pytorch-training-model-support-v26.01:
 
 Supported models
 ================
@@ -88,7 +85,7 @@ one to get started.
          </div>
       </div>
 
-.. _amd-pytorch-training-supported-training-modes-v259:
+.. _amd-pytorch-training-supported-training-modes-v26.01:
 
 The following table lists supported training modes per model.
 
@@ -123,7 +120,7 @@ The following table lists supported training modes per model.
          unlisted fine-tuning methods by using an existing file in the
          ``/workspace/torchtune/recipes/configs`` directory as a template.
 
-.. _amd-pytorch-training-performance-measurements-v259:
+.. _amd-pytorch-training-performance-measurements-v26.01:
 
 Performance measurements
 ========================
@@ -164,7 +161,7 @@ Run training
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/pytorch-training-benchmark-models.yaml
 
-   {% set dockers = data.dockers %}
+   {% set docker = data.docker %}
    {% set model_groups = data.model_groups %}
 
    Once the setup is complete, choose between two options to start benchmarking training:
@@ -179,7 +176,7 @@ Run training
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-pytorch-training-model-support-v259` to switch to another available model.
+            See :ref:`amd-pytorch-training-model-support-v26.01` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -217,7 +214,7 @@ Run training
          .. container:: model-doc {{ model.mad_tag }}
 
             The following commands are tailored to {{ model.model }}.
-            See :ref:`amd-pytorch-training-model-support-v259` to switch to another available model.
+            See :ref:`amd-pytorch-training-model-support-v26.01` to switch to another available model.
 
       {% endfor %}
    {% endfor %}
@@ -226,42 +223,28 @@ Run training
 
          1. Use the following command to pull the Docker image from Docker Hub.
 
-            .. tab-set::
+            .. code-block:: shell
 
-               {% for supported_gpus, docker in dockers.items() %}
-               .. tab-item:: {{ supported_gpus }}
-                  :sync: {{ supported_gpus }}
-
-                  .. code-block:: shell
-
-                     docker pull {{ docker.pull_tag }}
-               {% endfor %}
+               docker pull {{ docker.pull_tag }}
 
          2. Launch the Docker container.
 
-            .. tab-set::
+            .. code-block:: shell
 
-               {% for supported_gpus, docker in dockers.items() %}
-               .. tab-item:: {{ supported_gpus }}
-                  :sync: {{ supported_gpus }}
-
-                  .. code-block:: shell
-
-                     docker run -it \
-                         --device /dev/dri \
-                         --device /dev/kfd \
-                         --network host \
-                         --ipc host \
-                         --group-add video \
-                         --cap-add SYS_PTRACE \
-                         --security-opt seccomp=unconfined \
-                         --privileged \
-                         -v $HOME:$HOME \
-                         -v $HOME/.ssh:/root/.ssh \
-                         --shm-size 64G \
-                         --name training_env \
-                         {{ docker.pull_tag }}
-               {% endfor %}
+               docker run -it \
+                   --device /dev/dri \
+                   --device /dev/kfd \
+                   --network host \
+                   --ipc host \
+                   --group-add video \
+                   --cap-add SYS_PTRACE \
+                   --security-opt seccomp=unconfined \
+                   --privileged \
+                   -v $HOME:$HOME \
+                   -v $HOME/.ssh:/root/.ssh \
+                   --shm-size 64G \
+                   --name training_env \
+                   {{ docker.pull_tag }}
 
             Use these commands if you exit the ``training_env`` container and need to return to it.
 
@@ -419,10 +402,37 @@ Run training
 
          .. container:: model-doc {{ model.mad_tag }}
 
-            .. rubric:: Pre-training
+            .. rubric:: Pretraining
 
             To start the pre-training benchmark, use the following command with the
             appropriate options. See the following list of options and their descriptions.
+
+            {% if model.mad_tag == "pyt_train_dlrm" %}
+
+            .. note::
+
+               DLRM is supported on MI300X, MI325X, MI350X, and MI355X GPUs.
+
+            1. Go to the DLRM directory.
+
+               .. code-block:: shell
+
+                  cd /workspace/DLRMBenchmark
+
+            2. To run the single node training benchmark for DLRM-v2 with TF32 precision,
+               run the following script.
+
+               .. code-block:: shell
+
+                  ./launch_training_single_node.sh
+
+               To run with MAD within the Docker container, use the following command.
+
+               .. code-block:: shell
+
+                  ./pytorch_benchmark_report.sh -t pretrain -m DLRM
+
+            {% else %}
 
             .. code-block:: shell
 
@@ -466,6 +476,7 @@ Run training
                * - ``$sequence_length``
                  - Sequence length for the language model.
                  - Between 2048 and 8192. 8192 by default.
+            {% endif %}
          {% endif %}
 
          {% set training_modes = model.training_modes %}
@@ -525,7 +536,7 @@ Run training
 
             To start the fine-tuning benchmark, use the following command with the
             appropriate options. See the following list of options and their descriptions.
-            See :ref:`supported training modes <amd-pytorch-training-supported-training-modes-v259>`.
+            See :ref:`supported training modes <amd-pytorch-training-supported-training-modes-v26.01>`.
 
             .. code-block:: shell
 
@@ -590,7 +601,7 @@ Run training
 
             For examples of benchmarking commands, see `<https://github.com/ROCm/MAD/tree/develop/benchmark/pytorch_train#benchmarking-examples>`__.
 
-.. _amd-pytorch-training-multinode-examples-v259:
+.. _amd-pytorch-training-multinode-examples-v26.01:
 
 Multi-node training
 -------------------
@@ -620,8 +631,8 @@ To launch the training job on a SLURM cluster for Llama 3.3 70B, run the followi
 
 .. code-block:: shell
 
-   huggingface-cli login # Get access to HF Llama model space
-   huggingface-cli download meta-llama/Llama-3.3-70B-Instruct --local-dir ./models/Llama-3.3-70B-Instruct # Download the Llama 3.3 model locally
+   hf auth login # Get access to HF Llama model space
+   hf download meta-llama/Llama-3.3-70B-Instruct --local-dir ./models/Llama-3.3-70B-Instruct # Download the Llama 3.3 model locally
    # In the MAD repository
    cd scripts/pytorch_train
    sbatch Torchtune_Multinode.sh
@@ -638,11 +649,6 @@ To launch the training job on a SLURM cluster for Llama 3.3 70B, run the followi
    * Set the ``mounting_paths`` inside the SLURM script.
 
 Once the run is finished, you can find the log files in the ``result_torchtune/`` directory.
-
-Known issues
-============
-
-PyTorch Profiler may produce inaccurate traces when CPU activity profiling is enabled.
 
 Further reading
 ===============

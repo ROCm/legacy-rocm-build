@@ -74,7 +74,8 @@ Other useful variables
 ROCR-Runtime environment variables
 ==================================
 
-The following table lists the ROCR-Runtime environment variables:
+The following table lists the :doc:`ROCR-Runtime <rocr-runtime:index>`
+environment variables:
 
 .. remote-content::
    :repo: ROCm/rocm-systems
@@ -119,8 +120,11 @@ documentation.
       - Performance tuning, kernel selection, logging, and debugging for BLAS
         operations.
 
-    * - :doc:`rocSolver <rocsolver:reference/env_variables>`
-      - Control logging of rocSolver.
+    * - :doc:`rocSHMEM <rocshmem:api/env_variables>`
+      - Control the behavior of rocSHMEM.
+
+    * - :doc:`rocSOLVER <rocsolver:reference/env_variables>`
+      - Control logging of rocSOLVER.
 
     * - :doc:`rocSPARSE <rocsparse:reference/env_variables>`
       - Control logging of rocSPARSE.

@@ -349,7 +349,7 @@ with ROCm.
         you need to explicitly move audio data (waveform tensor) to GPU using
         ``.to('cuda')``.
 
-    * - `torchtune <https://docs.pytorch.org/torchtune/stable/index.html>`_
+    * - `torchtune <https://meta-pytorch.org/torchtune/stable/index.html>`_
       - PyTorch-native library designed for fine-tuning large language models
         (LLMs). Provides supports the full fine-tuning workflow and offers
         compatibility with popular production inference systems.
@@ -366,7 +366,7 @@ with ROCm.
         constructing flexible and performant data pipelines, with features still
         in prototype stage.
 
-    * - `torchrec <https://docs.pytorch.org/torchrec/>`_
+    * - `torchrec <https://meta-pytorch.org/torchrec/>`_
       - PyTorch domain library for common sparsity and parallelism primitives
         needed for large-scale recommender systems, enabling authors to train
         models with large embedding tables shared across many GPUs.
@@ -399,27 +399,41 @@ with ROCm.
 
         **Note:** Only official release exists.
 
+Key features and enhancements for PyTorch 2.9 with ROCm 7.2.1
+================================================================================
+- Added Triton 3.6.x performance optimization for reduction, POI, and GEMM kernels.
+
+- Updated native reduction kernel config for better performance on AMD GPUs.
+
+- Optimized single-block TopK kernels with warp-level compaction.
+
+- Optimized Radix Select by caching data on shared memory.
+
+- Optimized Flex-Attention occupancy for head_dim=128.
+
+- Enabled hipSOLVER path for linalg operations - cholesky, lstsq, and gels.
+
 Key features and enhancements for PyTorch 2.9 with ROCm 7.1.1
 ================================================================================
-- Scaled Dot Product Attention (SDPA) upgraded to use AOTriton version 0.11b
+- Scaled Dot Product Attention (SDPA) upgraded to use AOTriton version 0.11b.
 
-- Default hipBLASLt support enabled for gfx908 architecture on ROCm 6.3 and later
+- Default hipBLASLt support enabled for gfx908 architecture on ROCm 6.3 and later.
 
-- MIOpen now supports channels last memory format for 3D convolutions and batch normalization
+- MIOpen now supports channels last memory format for 3D convolutions and batch normalization.
 
-- NHWC convolution operations in MIOpen optimized by eliminating unnecessary transpose operations
+- NHWC convolution operations in MIOpen optimized by eliminating unnecessary transpose operations.
 
-- Improved tensor.item() performance by removing redundant synchronization
+- Improved tensor.item() performance by removing redundant synchronization.
 
-- Enhanced performance for element-wise operations and reduction kernels
+- Enhanced performance for element-wise operations and reduction kernels.
 
-- Added support for grouped GEMM operations through fbgemm_gpu generative AI components
+- Added support for grouped GEMM operations through fbgemm_gpu generative AI components.
 
-- Resolved device error in Inductor when using CUDA graph trees with HIP
+- Resolved device error in Inductor when using CUDA graph trees with HIP.
 
-- Corrected logsumexp scaling in AOTriton-based SDPA implementation
+- Corrected logsumexp scaling in AOTriton-based SDPA implementation.
 
-- Added stream graph capture status validation in memory copy synchronization functions
+- Added stream graph capture status validation in memory copy synchronization functions.
 
 Key features and enhancements for PyTorch 2.8 with ROCm 7.1
 ================================================================================

@@ -32,7 +32,7 @@ library_groups:
 
       - name: "MIGraphX"
         tag: "migraphx"
-        doc_link: "amdmigraphx:reference/cpp"
+        doc_link: "amdmigraphx:reference/MIGraphX-cpp"
         data_types:
           - type: "int8"
             support: "⚠️"
@@ -290,7 +290,7 @@ library_groups:
 
       - name: "Tensile"
         tag: "tensile"
-        doc_link: "tensile:reference/precision-support"
+        doc_link: "tensile:src/reference/precision-support"
         data_types:
           - type: "int8"
             support: "✅"

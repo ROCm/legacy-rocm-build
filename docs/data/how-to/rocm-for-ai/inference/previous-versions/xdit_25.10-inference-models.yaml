@@ -1,0 +1,55 @@
+xdit_diffusion_inference:
+  docker:
+    pull_tag: rocm/pytorch-xdit:v25.10
+    docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v25.10/images/sha256-d79715ff18a9470e3f907cec8a9654d6b783c63370b091446acffc0de4d7070e
+    ROCm: 7.9.0
+    components:
+      TheRock: 7afbe45
+      rccl: 9b04b2a
+      composable_kernel: b7a806f
+      rocm-libraries: f104555
+      rocm-systems: 25922d0
+      torch: 2.10.0a0+gite9c9017
+      torchvision: 0.22.0a0+966da7e
+      triton: 3.5.0+git52e49c12
+      accelerate: 1.11.0.dev0
+      aiter: 0.1.5.post4.dev20+ga25e55e79
+      diffusers: 0.36.0.dev0
+      xfuser: 0.4.4
+      yunchang: 0.6.3.post1
+
+  model_groups:
+    - group: Hunyuan Video
+      tag: hunyuan
+      models:
+        - model: Hunyuan Video
+          model_name: hunyuanvideo
+          model_repo: tencent/HunyuanVideo
+          revision: refs/pr/18
+          url: https://huggingface.co/tencent/HunyuanVideo
+          github: https://github.com/Tencent-Hunyuan/HunyuanVideo
+          mad_tag: pyt_xdit_hunyuanvideo
+    - group: Wan-AI
+      tag: wan
+      models:
+        - model: Wan2.1
+          model_name: wan2_1-i2v-14b-720p
+          model_repo: Wan-AI/Wan2.1-I2V-14B-720P
+          url: https://huggingface.co/Wan-AI/Wan2.1-I2V-14B-720P
+          github: https://github.com/Wan-Video/Wan2.1
+          mad_tag: pyt_xdit_wan_2_1
+        - model: Wan2.2
+          model_name: wan2_2-i2v-a14b
+          model_repo: Wan-AI/Wan2.2-I2V-A14B
+          url: https://huggingface.co/Wan-AI/Wan2.2-I2V-A14B
+          github: https://github.com/Wan-Video/Wan2.2
+          mad_tag: pyt_xdit_wan_2_2
+    - group: FLUX
+      tag: flux
+      models:
+        - model: FLUX.1
+          model_name: FLUX.1-dev
+          model_repo: black-forest-labs/FLUX.1-dev
+          url: https://huggingface.co/black-forest-labs/FLUX.1-dev
+          github: https://github.com/black-forest-labs/flux
+          mad_tag: pyt_xdit_flux

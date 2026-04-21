@@ -10,13 +10,13 @@ ROCm is a software stack, composed primarily of open-source software, that
 provides the tools for programming AMD Graphics Processing Units (GPUs), from
 low-level kernels to high-level end-user applications.
 
-.. image:: data/rocm-software-stack-7_0_0.jpg
+.. image:: data/rocm-software-stack-7_2_1.png
   :width: 800
   :alt: AMD's ROCm software stack and enabling technologies.
   :align: center
 
 Specifically, ROCm provides the tools for
-:doc:`HIP (Heterogeneous-computing Interface for Portability) <hip:index>`,
+:doc:`HIP <hip:index>`,
 OpenCL and OpenMP. These include compilers, libraries for high-level
 functions, debuggers, profilers and runtimes.
 
@@ -123,8 +123,7 @@ Performance
 
 .. note::
 
-  `ROCprof Compute Viewer <https://rocm.docs.amd.com/projects/rocprof-compute-viewer/en/amd-mainline/>`_ is a tool for visualizing and analyzing GPU thread trace data collected using :doc:`rocprofv3 <rocprofiler-sdk:index>`.
-  Note that `ROCprof Compute Viewer <https://rocm.docs.amd.com/projects/rocprof-compute-viewer/en/amd-mainline/>`_ is in an early access state. Running production workloads is not recommended.
+  `ROCprof Compute Viewer <https://rocm.docs.amd.com/projects/rocprof-compute-viewer/en/amd-mainline/>`_ is a tool for visualizing and analyzing GPU thread trace data collected using :doc:`rocprofv3 <rocprofiler-sdk:index>`. Note that `ROCprof Compute Viewer <https://rocm.docs.amd.com/projects/rocprof-compute-viewer/en/amd-mainline/>`_ is in an early access state. Running production workloads is not recommended.
 
 Development
 ^^^^^^^^^^^
@@ -144,16 +143,14 @@ Compilers
 .. csv-table::
   :header: "Component", "Description"
 
-  ":doc:`HIPCC <hipcc:index>`", "Compiler driver utility that calls Clang or NVCC and passes the appropriate include and library options for the target compiler and HIP infrastructure"
+  ":doc:`HIPCC <hipcc:index>`", "Compiler driver utility that calls Clang and passes the appropriate include and library options for the target compiler and HIP infrastructure"
   ":doc:`ROCm compilers <llvm-project:index>`", "ROCm LLVM compiler infrastructure"
   "`FLANG <https://github.com/ROCm/flang/>`_", "An out-of-tree Fortran compiler targeting LLVM"
 
-Runtimes
+Runtime API
 -----------------------------------------------
 
 .. csv-table::
   :header: "Component", "Description"
 
-  ":doc:`AMD Compute Language Runtime (CLR) <hip:understand/amd_clr>`", "Contains source code for AMD's compute language runtimes: HIP and OpenCL"
-  ":doc:`HIP <hip:index>`", "AMD's GPU programming language extension and the GPU runtime"
-  ":doc:`ROCR-Runtime <rocr-runtime:index>`", "User-mode API interfaces and libraries necessary for host applications to launch compute kernels on available HSA ROCm kernel agents"
+  ":doc:`HIP <hip:index>`", "HIP is a C++ runtime API and kernel language for AMD GPUs"

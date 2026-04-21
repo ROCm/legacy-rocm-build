@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd ~/projects/ROCm-internal/tools/autotag && python3 precision_fetch.py*)",
+      "Read(/tmp/precision_*)",
+      "Edit(docs/data/reference/precision-support/precision-support.yaml)",
+      "Write(tools/autotag/precision-update-log/*)",
+      "Write(precision-update-log/*)",
+      "Bash(date +%Y%m%d-%H%M%S)"
+    ]
+  }
+}

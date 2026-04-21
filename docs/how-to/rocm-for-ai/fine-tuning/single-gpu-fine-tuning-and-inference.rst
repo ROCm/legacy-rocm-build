@@ -44,20 +44,19 @@ Setting up the base implementation environment
 
    .. code-block:: shell
 
-      rocm-smi --showproductname
+      amd-smi static --board
 
    Your output should look like this:
 
    .. code-block:: shell
 
-      ============================ ROCm System Management Interface ============================
-      ====================================== Product Info ======================================
-      GPU[0]          : Card Series:          AMD Instinct MI300X OAM
-      GPU[0]          : Card model:           0x74a1
-      GPU[0]          : Card vendor:          Advanced Micro Devices, Inc. [AMD/ATI]
-      GPU[0]          : Card SKU:             MI3SRIOV
-      ==========================================================================================
-      ================================== End of ROCm SMI Log ===================================
+      GPU: 0
+         BOARD:
+            MODEL_NUMBER: 102-G39203-0B
+            PRODUCT_SERIAL: PCB079220-1150
+            FRU_ID: 113-AMDG392030B04-100-300000097H
+            PRODUCT_NAME: AMD Instinct MI325 OAM
+            MANUFACTURER_NAME: AMD
 
 #. Check that your GPUs are available to PyTorch.
 
@@ -94,13 +93,13 @@ Setting up the base implementation environment
       pip install -r requirements-dev.txt
       cmake -DBNB_ROCM_ARCH="gfx942" -DCOMPUTE_BACKEND=hip -S .
       python setup.py install
-      
+
       # To leverage the SFTTrainer in TRL for model fine-tuning.
       pip install trl
-      
+
       # To leverage PEFT for efficiently adapting pre-trained language models .
       pip install peft
-      
+
       # Install the other dependencies.
       pip install transformers datasets huggingface-hub scipy
 
@@ -128,11 +127,11 @@ Download the base model and fine-tuning dataset
 
    .. code-block:: shell
 
-      huggingface-cli login
+      hf auth login
 
    .. note::
 
-      You can also use the `NousResearch Llama-2-7b-chat-hf <https://huggingface.co/NousResearch/Llama-2-7b-chat-hf>`_ 
+      You can also use the `NousResearch Llama-2-7b-chat-hf <https://huggingface.co/NousResearch/Llama-2-7b-chat-hf>`_
       as a substitute. It has the same model weights as the original.
 
 #. Run the following code to load the base model and tokenizer.
@@ -141,14 +140,14 @@ Download the base model and fine-tuning dataset
 
       # Base model and tokenizer names.
       base_model_name = "meta-llama/Llama-2-7b-chat-hf"
-      
+
       # Load base model to GPU memory.
       device = "cuda:0"
       base_model = AutoModelForCausalLM.from_pretrained(base_model_name, trust_remote_code = True).to(device)
-      
+
       # Load tokenizer.
       tokenizer = AutoTokenizer.from_pretrained(
-              base_model_name, 
+              base_model_name,
               trust_remote_code = True)
       tokenizer.pad_token = tokenizer.eos_token
       tokenizer.padding_side = "right"
@@ -162,10 +161,10 @@ Download the base model and fine-tuning dataset
       # Dataset for fine-tuning.
       training_dataset_name = "mlabonne/guanaco-llama2-1k"
       training_dataset = load_dataset(training_dataset_name, split = "train")
-      
+
       # Check the data.
       print(training_dataset)
-      
+
       # Dataset 11 is a QA sample in English.
       print(training_dataset[11])
 
@@ -252,8 +251,8 @@ Compare the number of trainable parameters and training time under the two diffe
                     dataset_text_field = "text",
                     tokenizer = tokenizer,
                     args = training_arguments
-            ) 
-            
+            )
+
             # Run the trainer.
             sft_trainer.train()
 
@@ -286,7 +285,7 @@ Compare the number of trainable parameters and training time under the two diffe
                     if param.requires_grad:
                         trainable_params += param.numel()
                 print(f"trainable params: {trainable_params} || all params: {all_param} || trainable%: {100 * trainable_params / all_param:.2f}")
-            
+
             sft_trainer.peft_config = None
             print_trainable_parameters(sft_trainer.model)
 
@@ -309,8 +308,8 @@ Compare the number of trainable parameters and training time under the two diffe
                     dataset_text_field = "text",
                     tokenizer = tokenizer,
                     args = training_arguments
-            ) 
-            
+            )
+
             # Training.
             trainer_full.train()
 
@@ -349,7 +348,7 @@ store, and load.
 
          # PEFT adapter name.
          adapter_name = "llama-2-7b-enhanced-adapter"
-         
+
          # Save PEFT adapter.
          sft_trainer.model.save_pretrained(adapter_name)
 
@@ -359,21 +358,21 @@ store, and load.
 
          # Access adapter directory.
          cd llama-2-7b-enhanced-adapter
-         
+
          # List all adapter files.
          README.md  adapter_config.json  adapter_model.safetensors
 
    .. tab-item:: Saving a fully fine-tuned model
       :sync: without
 
-      If you're not using LoRA and PEFT so there is no PEFT LoRA configuration used for training, use the following code 
+      If you're not using LoRA and PEFT so there is no PEFT LoRA configuration used for training, use the following code
       to save your fine-tuned model to your system.
 
       .. code-block:: python
 
          # Fully fine-tuned model name.
          new_model_name = "llama-2-7b-enhanced"
-         
+
          # Save the fully fine-tuned model.
          full_trainer.model.save_pretrained(new_model_name)
 
@@ -383,7 +382,7 @@ store, and load.
 
          # Access new model directory.
          cd llama-2-7b-enhanced
-         
+
          # List all model files.
          config.json                       model-00002-of-00006.safetensors  model-00005-of-00006.safetensors
          generation_config.json            model-00003-of-00006.safetensors  model-00006-of-00006.safetensors
@@ -412,26 +411,26 @@ Let's look at achieving model inference using these types of models.
 
    .. tab-item:: Inference using PEFT adapters
 
-      To use PEFT adapters like a normal transformer model, you can run the generation by loading a base model along with PEFT 
+      To use PEFT adapters like a normal transformer model, you can run the generation by loading a base model along with PEFT
       adapters as follows.
 
       .. code-block:: python
 
          from peft import PeftModel
          from transformers import AutoModelForCausalLM
-         
+
          # Set the path of the model or the name on Hugging face hub
          base_model_name = "meta-llama/Llama-2-7b-chat-hf"
-         
+
          # Set the path of the adapter
          adapter_name = "Llama-2-7b-enhanced-adpater"
-         
-         # Load base model 
+
+         # Load base model
          base_model = AutoModelForCausalLM.from_pretrained(base_model_name)
-         
-         # Adapt the base model with the adapter 
+
+         # Adapt the base model with the adapter
          new_model = PeftModel.from_pretrained(base_model, adapter_name)
-         
+
          # Then, run generation as the same with a normal model outlined in 2.1
 
       The PEFT library provides a ``merge_and_unload`` method, which merges the adapter layers into the base model. This is
@@ -439,13 +438,13 @@ Let's look at achieving model inference using these types of models.
 
       .. code-block:: python
 
-         # Load base model 
+         # Load base model
          base_model = AutoModelForCausalLM.from_pretrained(base_model_name)
-         
-         # Adapt the base model with the adapter 
+
+         # Adapt the base model with the adapter
          new_model = PeftModel.from_pretrained(base_model, adapter_name)
-         
-         # Merge adapter 
+
+         # Merge adapter
          model = model.merge_and_unload()
 
          # Save the merged model into local
@@ -461,25 +460,25 @@ Let's look at achieving model inference using these types of models.
 
          # Import relevant class for loading model and tokenizer
          from transformers import AutoTokenizer, AutoModelForCausalLM
-         
+
          # Set the pre-trained model name on Hugging face hub
          model_name = "meta-llama/Llama-2-7b-chat-hf"
-         
-         # Set device type 
+
+         # Set device type
          device = "cuda:0"
-         
-         # Load model and tokenizer 
+
+         # Load model and tokenizer
          model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
          tokenizer = AutoTokenizer.from_pretrained(model_name)
-         
-         # Input prompt encoding 
+
+         # Input prompt encoding
          query = "What is a large language model?"
          inputs = tokenizer.encode(query, return_tensors="pt").to(device)
-         
-         # Token generation  
-         outputs = model.generate(inputs) 
-         
-         # Outputs decoding 
+
+         # Token generation
+         outputs = model.generate(inputs)
+
+         # Outputs decoding
          print(tokenizer.decode(outputs[0]))
 
       In addition, pipelines from Transformers offer simple APIs to use pre-trained models for different tasks, including
@@ -490,14 +489,14 @@ Let's look at achieving model inference using these types of models.
 
          # Import relevant class for loading model and tokenizer
          from transformers import pipeline
-         
+
          # Set the path of your model or the name on Hugging face hub
          model_name_or_path = "meta-llama/Llama-2-7b-chat-hf"
-         
-         # Set pipeline 
+
+         # Set pipeline
          # A positive device value will run the model on associated CUDA device id
          pipe = pipeline("text-generation", model=model_name_or_path, device=0)
-         
+
          # Token generation
          print(pipe("What is a large language model?")[0]["generated_text"])
 

@@ -5,9 +5,15 @@
 GPU hardware specifications
 ===========================================
 
-The following tables provide an overview of the hardware specifications for AMD Instinct™ GPUs, and AMD Radeon™ PRO and Radeon™ GPUs.
+The following tables provide an overview of the hardware specifications for AMD Instinct™ GPUs, AMD Radeon™ PRO and Radeon™ GPUs, and AMD Ryzen™ APUs.
 
 For more information about ROCm hardware compatibility, see the ROCm `Compatibility matrix <https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html>`_.
+
+For a description of the terms used in the table, see the
+:ref:`ROCm glossary <glossary>`, or for more detailed information about GPU
+architecture and programming models, see the
+:ref:`specific documents and guides <gpu-arch-documentation>`, or
+:doc:`Understanding the HIP programming model<hip:understand/programming_model>`.
 
 .. tab-set::
 
@@ -18,7 +24,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
         :name: instinct-arch-spec-table
 
         *
-          - Model
+          - Name
           - Architecture
           - LLVM target name
           - VRAM (GiB)
@@ -297,7 +303,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
         :name: radeon-pro-arch-spec-table
 
         *
-          - Model
+          - Name
           - Architecture
           - LLVM target name
 
@@ -324,6 +330,24 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 32 or 64
           - 128
           - 64
+          - 8
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0
+        *
+          - Radeon AI PRO R9600D
+          - RDNA4
+          - gfx1201
+          - 32
+          - 48
+          - 32 or 64
+          - 128
+          - 48
           - 8
           - N/A
           - 32
@@ -539,7 +563,7 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
         :name: radeon-arch-spec-table
 
         *
-          - Model
+          - Name
           - Architecture
           - LLVM target name
           - VRAM (GiB)
@@ -610,6 +634,24 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 32
           - 12
           - 0
+        *
+          - Radeon RX 9060 XT LP
+          - RDNA4
+          - gfx1200
+          - 16
+          - 32
+          - 32 or 64
+          - 128
+          - 32
+          - 4
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0 
         *
           - Radeon RX 9060 XT
           - RDNA4
@@ -718,6 +760,24 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 32
           - 11
           - 0
+        *
+          - Radeon RX 7700
+          - RDNA3
+          - gfx1101
+          - 16
+          - 40
+          - 32 or 64
+          - 128
+          - 64
+          - 4
+          - 256
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 11
+          - 0 
         *
           - Radeon RX 7700 XT
           - RDNA3
@@ -953,124 +1013,123 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 9
           - 0
 
-Glossary
-========
+  .. tab-item:: AMD Ryzen APUs
 
-For more information about the terms used, see the
-:ref:`specific documents and guides <gpu-arch-documentation>`, or
-:doc:`Understanding the HIP programming model<hip:understand/programming_model>`.
+    .. list-table::
+        :header-rows: 1
+        :name: ryzen-arch-spec-table
 
-**LLVM target name**
-
-Argument to pass to clang in ``--offload-arch`` to compile code for the given
-architecture.
-
-**VRAM**
-
-Amount of memory available on the GPU.
-
-**Compute Units**
-
-Number of compute units on the GPU.
-
-**Wavefront Size**
-
-Amount of work items that execute in parallel on a single compute unit. This
-is equivalent to the warp size in HIP.
-
-**LDS**
-
-The Local Data Share (LDS) is a low-latency, high-bandwidth scratch pad
-memory. It is local to the compute units, and can be shared by all work items
-in a work group. In HIP, the LDS can be used for shared memory, which is
-shared by all threads in a block.
-
-**L3 Cache (CDNA/GCN only)**
-
-Size of the level 3 cache. Shared by all compute units on the same GPU. Caches
-data and instructions. Similar to the Infinity Cache on RDNA architectures.
-
-**Infinity Cache (RDNA only)**
-
-Size of the infinity cache. Shared by all compute units on the same GPU. Caches
-data and instructions. Similar to the L3 Cache on CDNA/GCN architectures.
-
-**L2 Cache**
-
-Size of the level 2 cache. Shared by all compute units on the same GCD. Caches
-data and instructions.
-
-**Graphics L1 Cache (RDNA only)**
-
-An additional cache level that only exists in RDNA architectures. Local to a
-shader array.
-
-**L1 Vector Cache (CDNA/GCN only)**
-
-Size of the level 1 vector data cache. Local to a compute unit. This is the L0
-vector cache in RDNA architectures.
-
-**L1 Scalar Cache (CDNA/GCN only)**
-
-Size of the level 1 scalar data cache. Usually shared by several compute
-units. This is the L0 scalar cache in RDNA architectures.
-
-**L1 Instruction Cache (CDNA/GCN only)**
-
-Size of the level 1 instruction cache. Usually shared by several compute
-units. This is the L0 instruction cache in RDNA architectures.
-
-**L0 Vector Cache (RDNA only)**
-
-Size of the level 0 vector data cache. Local to a compute unit. This is the L1
-vector cache in CDNA/GCN architectures.
-
-**L0 Scalar Cache (RDNA only)**
-
-Size of the level 0 scalar data cache. Usually shared by several compute
-units. This is the L1 scalar cache in CDNA/GCN architectures.
-
-**L0 Instruction Cache (RDNA only)**
-
-Size of the level 0 instruction cache. Usually shared by several compute
-units. This is the L1 instruction cache in CDNA/GCN architectures.
-
-**VGPR File**
-
-Size of the Vector General Purpose Register (VGPR) file and. It holds data used in
-vector instructions.
-GPUs with matrix cores also have AccVGPRs, which are Accumulation General
-Purpose Vector Registers, used specifically in matrix instructions.
-
-**SGPR File**
-
-Size of the Scalar General Purpose Register (SGPR) file. Holds data used in
-scalar instructions.
-
-**GFXIP**
-
-GFXIP (Graphics IP) is a versioning system used by AMD to identify the GPU
-architecture and its instruction set. It helps categorize different generations
-of GPUs and their feature sets.
-
-**GFXIP major version**
-
-Defines the GPU's core instruction set and architecture, which determines
-compatibility with software stacks such as HIP and OpenCL. For example, a GFXIP
-11 major version corresponds to the RDNA 3 (Navi 3x) architecture, influencing
-driver support and available compute features.
-
-**GFXIP minor version**
-
-Represents specific variations within a GFXIP major version and affects feature sets,
-optimizations, and driver behavior in software stacks such as HIP and OpenCL. Different
-GPU models within the same major version can have unique capabilities, impacting
-performance and supported instructions.
-
-**GCD**
-
-Graphics Compute Die.
-
-**XCD**
-
-Accelerator Complex Die.
+        *
+          - Name
+          - Graphics model
+          - Architecture
+          - LLVM target name
+          - VRAM (GiB)
+          - Compute Units
+          - Wavefront Size
+          - LDS (KiB)
+          - Infinity Cache (MiB)
+          - L2 Cache (MiB)
+          - Graphics L1 Cache (KiB)
+          - L0 Vector Cache (KiB)
+          - L0 Scalar Cache (KiB)
+          - L0 Instruction Cache (KiB)
+          - VGPR File (KiB)
+          - SGPR File (KiB)
+          - GFXIP Major version
+          - GFXIP Minor version
+        *
+          - AMD Ryzen 7 7840U
+          - Radeon 780M
+          - RDNA3
+          - gfx1103
+          - Dynamic + carveout
+          - 12
+          - 32 or 64
+          - 128
+          - N/A
+          - 2
+          - 256
+          - 32
+          - 16
+          - 32
+          - 512
+          - 32
+          - 11
+          - 0
+        *
+          - AMD Ryzen 9 270
+          - Radeon 780M
+          - RDNA3
+          - gfx1103
+          - Dynamic + carveout
+          - 12
+          - 32 or 64
+          - 128
+          - N/A
+          - 2
+          - 256
+          - 32
+          - 16
+          - 32
+          - 512
+          - 32
+          - 11
+          - 0
+        *
+          - AMD Ryzen AI 9 HX 375
+          - Radeon 890M
+          - RDNA3.5
+          - gfx1150
+          - Dynamic + carveout
+          - 16
+          - 32 or 64
+          - 128
+          - N/A
+          - 2
+          - 256
+          - 32
+          - 16
+          - 32
+          - 512
+          - 32
+          - 11
+          - 5
+        *
+          - AMD Ryzen AI Max+ PRO 395
+          - Radeon 8060S
+          - RDNA3.5
+          - gfx1151
+          - Dynamic + carveout
+          - 40
+          - 32 or 64
+          - 128
+          - 32
+          - 2
+          - 256
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 11
+          - 5
+        *
+          - AMD Ryzen Al 7 350
+          - Radeon 860M
+          - RDNA3.5
+          - gfx1152
+          - Dynamic + carveout
+          - 8
+          - 32 or 64
+          - 128
+          - N/A
+          - 1
+          - 256
+          - 32
+          - 16
+          - 32
+          - 512
+          - 32
+          - 11
+          - 5

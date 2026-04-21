@@ -24,7 +24,7 @@ provides a prebuilt environment for training on AMD Instinct MI300X and MI325X G
 including essential components like JAX, XLA, ROCm libraries, and MaxText utilities.
 It includes the following software components:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.7-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
    .. tab-set::
@@ -80,7 +80,7 @@ series GPUs. Some instructions, commands, and available training
 configurations in this documentation might vary by model -- select one to get
 started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.7-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    .. raw:: html
@@ -144,7 +144,7 @@ Pull the Docker image
 
 Use the following command to pull the Docker image from Docker Hub.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.7-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
    .. tab-set::
@@ -177,7 +177,7 @@ Benchmarking
 Once the setup is complete, choose between two options to reproduce the
 benchmark results:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v25.7-benchmark-models.yaml
 
    .. _vllm-benchmark-mad:
 

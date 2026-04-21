@@ -31,7 +31,7 @@ additional licenses. Please review individual repositories for more information.
 | [aomp-extras](https://github.com/ROCm/aomp-extras/) | [MIT](https://github.com/ROCm/aomp-extras/blob/aomp-dev/LICENSE) |
 | [AQLprofile](https://github.com/ROCm/rocm-systems/tree/develop/projects/aqlprofile/) | [MIT](https://github.com/ROCm/rocm-systems/blob/develop/projects/aqlprofile/LICENSE.md) |
 | [Code Object Manager (Comgr)](https://github.com/ROCm/llvm-project/tree/amd-staging/amd/comgr) | [The University of Illinois/NCSA](https://github.com/ROCm/llvm-project/blob/amd-staging/amd/comgr/LICENSE.txt) |
-| [Composable Kernel](https://github.com/ROCm/composable_kernel) | [MIT](https://github.com/ROCm/composable_kernel/blob/develop/LICENSE) |
+| [Composable Kernel](https://github.com/ROCm/rocm-libraries/tree/develop/projects/composablekernel) | [MIT](https://github.com/ROCm/rocm-libraries/tree/develop/projects/composablekernel/LICENSE) |
 | [half](https://github.com/ROCm/half/) | [MIT](https://github.com/ROCm/half/blob/rocm/LICENSE.txt) |
 | [HIP](https://github.com/ROCm/rocm-systems/tree/develop/projects/hip/) | [MIT](https://github.com/ROCm/rocm-systems/blob/develop/projects/hip/LICENSE.md) |
 | [hipamd](https://github.com/ROCm/rocm-systems/tree/develop/projects/clr/hipamd/) | [MIT](https://github.com/ROCm/rocm-systems/blob/develop/projects/clr/hipamd/LICENSE.md) |
@@ -56,10 +56,10 @@ additional licenses. Please review individual repositories for more information.
 | [rocALUTION](https://github.com/ROCm/rocALUTION/) | [MIT](https://github.com/ROCm/rocALUTION/blob/develop/LICENSE.md) |
 | [rocBLAS](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocblas/) | [MIT](https://github.com/ROCm/rocm-libraries/blob/develop/projects/rocblas/LICENSE.md) |
 | [ROCdbgapi](https://github.com/ROCm/ROCdbgapi/) | [MIT](https://github.com/ROCm/ROCdbgapi/blob/amd-staging/LICENSE.txt) |
-| [rocDecode](https://github.com/ROCm/rocDecode) | [MIT](https://github.com/ROCm/rocDecode/blob/develop/LICENSE) |
+| [rocDecode](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocdecode) | [MIT](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocdecode/LICENSE) |
 | [rocFFT](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocfft/) | [MIT](https://github.com/ROCm/rocm-libraries/blob/develop/projects/rocfft/LICENSE.md) |
 | [ROCgdb](https://github.com/ROCm/ROCgdb/) | [GNU General Public License v3.0](https://github.com/ROCm/ROCgdb/blob/amd-staging/COPYING3) |
-| [rocJPEG](https://github.com/ROCm/rocJPEG/) | [MIT](https://github.com/ROCm/rocJPEG/blob/develop/LICENSE) |
+| [rocJPEG](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocjpeg) | [MIT](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocjpeg/LICENSE) |
 | [ROCK-Kernel-Driver](https://github.com/ROCm/ROCK-Kernel-Driver/) | [GPL 2.0 WITH Linux-syscall-note](https://github.com/ROCm/ROCK-Kernel-Driver/blob/master/COPYING) |
 | [rocminfo](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocminfo/) | [The University of Illinois/NCSA](https://github.com/ROCm/rocm-systems/blob/develop/projects/rocminfo/License.txt) |
 | [ROCm Bandwidth Test](https://github.com/ROCm/rocm_bandwidth_test/) | [MIT](https://github.com/ROCm/rocm_bandwidth_test/blob/master/LICENSE.txt) |

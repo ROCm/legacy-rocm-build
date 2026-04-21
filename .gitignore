@@ -19,3 +19,4 @@ __pycache__/
 docs/contribute/index.md
 docs/about/release-notes.md
 docs/release/changelog.md
+.claude/settings.local.json

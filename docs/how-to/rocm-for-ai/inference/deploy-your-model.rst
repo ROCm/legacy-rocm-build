@@ -22,7 +22,7 @@ See the `GitHub repository <https://github.com/vllm-project/vllm>`_ and `officia
 <https://docs.vllm.ai/>`_ for more information.
 
 For guidance on using vLLM with ROCm, refer to `Installation with ROCm
-<https://docs.vllm.ai/en/latest/getting_started/amd-installation.html>`_.
+<https://docs.vllm.ai/en/stable/getting_started/installation/gpu.html#amd-rocm>`__.
 
 vLLM installation
 -----------------

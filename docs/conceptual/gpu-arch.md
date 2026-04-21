@@ -66,7 +66,7 @@ architecture.
 * [AMD Instinct MI50/Vega 7nm ISA](https://www.amd.com/system/files/TechDocs/vega-7nm-shader-instruction-set-architecture.pdf)
 * [AMD Instinct MI25/Vega ISA](https://www.amd.com/system/files/TechDocs/vega-shader-instruction-set-architecture.pdf)
 * [AMD GCN3 ISA](https://www.amd.com/system/files/TechDocs/gcn3-instruction-set-architecture.pdf)
-* [AMD Vega Architecture White Paper](https://en.wikichip.org/w/images/a/a1/vega-whitepaper.pdf)
+* AMD Vega Architecture White Paper
 
 :::
 

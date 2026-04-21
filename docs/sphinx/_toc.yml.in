@@ -12,20 +12,20 @@ subtrees:
   - file: compatibility/compatibility-matrix.rst
     title: Compatibility matrix
     entries:
-    - url: https://rocm.docs.amd.com/projects/install-on-linux-internal/en/latest/reference/system-requirements.html
+    - url: https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html
       title: Linux system requirements
     - url: https://rocm.docs.amd.com/projects/install-on-windows/en/${branch}/reference/system-requirements.html
       title: Windows system requirements
 
 - caption: Install
   entries:
-  - url: https://rocm.docs.amd.com/projects/install-on-linux-internal/en/latest/
+  - url: https://rocm.docs.amd.com/projects/install-on-linux/en/${branch}/
     title: ROCm on Linux
   - url: https://rocm.docs.amd.com/projects/install-on-windows/en/latest/
     title: HIP SDK on Windows
   - url: https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/index.html
     title: ROCm on Radeon and Ryzen
-  - file: how-to/deep-learning-rocm.md
+  - file: how-to/deep-learning-rocm
     title: Deep learning frameworks
     subtrees:
     - entries:
@@ -35,22 +35,8 @@ subtrees:
         title: TensorFlow compatibility
       - file: compatibility/ml-compatibility/jax-compatibility.rst
         title: JAX compatibility
-      - file: compatibility/ml-compatibility/verl-compatibility.rst
-        title: verl compatibility
-      - file: compatibility/ml-compatibility/stanford-megatron-lm-compatibility.rst
-        title: Stanford Megatron-LM compatibility
       - file: compatibility/ml-compatibility/dgl-compatibility.rst
         title: DGL compatibility
-      - file: compatibility/ml-compatibility/megablocks-compatibility.rst
-        title: Megablocks compatibility
-      - file: compatibility/ml-compatibility/taichi-compatibility.rst
-        title: Taichi compatibility
-      - file: compatibility/ml-compatibility/ray-compatibility.rst
-        title: Ray compatibility
-      - file: compatibility/ml-compatibility/llama-cpp-compatibility.rst
-        title: llama.cpp compatibility
-      - file: compatibility/ml-compatibility/flashinfer-compatibility.rst
-        title: FlashInfer compatibility
   - file: how-to/build-rocm.rst
     title: Build ROCm from source
 
@@ -77,10 +63,16 @@ subtrees:
         - entries:
           - file: how-to/rocm-for-ai/training/benchmark-docker/primus-megatron.rst
             title: Train a model with Primus and Megatron-LM
+            entries:
+            - file: how-to/rocm-for-ai/training/benchmark-docker/megatron-lm.rst
+              title: Train a model with Megatron-LM (legacy)
           - file: how-to/rocm-for-ai/training/benchmark-docker/primus-pytorch.rst
             title: Train a model with Primus and PyTorch
+            entries:
+            - file: how-to/rocm-for-ai/training/benchmark-docker/pytorch-training.rst
+              title: Train a model with PyTorch (legacy)
           - file: how-to/rocm-for-ai/training/benchmark-docker/jax-maxtext.rst
-            title: Train a model with JAX MaxText
+            title: Train a model with Primus and JAX MaxText
           - file: how-to/rocm-for-ai/training/benchmark-docker/mpt-llm-foundry
             title: Train a model with LLM Foundry
           - file: how-to/rocm-for-ai/training/scale-model-training.rst
@@ -110,13 +102,19 @@ subtrees:
           - file: how-to/rocm-for-ai/inference/llm-inference-frameworks.rst
             title: LLM inference frameworks
           - file: how-to/rocm-for-ai/inference/benchmark-docker/vllm.rst
-            title: vLLM inference performance testing
+            title: vLLM inference
           - file: how-to/rocm-for-ai/inference/benchmark-docker/pytorch-inference.rst
             title: PyTorch inference performance testing
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang.rst
             title: SGLang inference performance testing
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/vllm-mori-distributed.md
+            title: vLLM distributed inference with MoRI
+          - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-mori-distributed.md
+            title: SGLang distributed inference with MoRI
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-distributed.rst
             title: SGLang distributed inference with Mooncake
+          - file: how-to/rocm-for-ai/inference/xdit-diffusion-inference.rst
+            title: xDiT diffusion inference
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst
             title: Deploy your model
 
@@ -213,7 +211,7 @@ subtrees:
   - file: reference/api-libraries.md
     title: ROCm libraries
   - file: reference/rocm-tools.md
-    title: ROCm tools, compilers, and runtimes
+    title: ROCm tools, compilers, and runtime API
   - file: reference/gpu-arch-specs.rst
   - file: reference/gpu-atomics-operation.rst
   - file: reference/env-variables.rst
@@ -222,6 +220,18 @@ subtrees:
     title: Data types and precision support
   - file: reference/graph-safe-support.rst
     title: Graph safe support
+  - file: reference/glossary.rst
+    title: ROCm glossary
+    subtrees:
+    - entries:
+      - file: reference/glossary/device-hardware.rst
+        title: Device hardware
+      - file: reference/glossary/device-software.rst
+        title: Device software
+      - file: reference/glossary/host-software.rst
+        title: Host software
+      - file: reference/glossary/performance.rst
+        title: Performance
 
 - caption: Contribute
   entries:

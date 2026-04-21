@@ -1,22 +1,15 @@
-dockers:
-  MI355X and MI350X:
-    pull_tag: rocm/primus:v25.9_gfx950
-    docker_hub_url: https://hub.docker.com/layers/rocm/primus/v25.9_gfx950/images/sha256-1a198be32f49efd66d0ff82066b44bd99b3e6b04c8e0e9b36b2c481e13bff7b6
-    components: &docker_components
-      ROCm: 7.0.0
-      Primus: 0.3.0
-      Primus Turbo: 0.1.1
-      PyTorch: 2.9.0.dev20250821+rocm7.0.0.lw.git125803b7
-      Python: "3.10"
-      Transformer Engine: 2.2.0.dev0+54dd2bdc
-      Flash Attention: 2.8.3
-      hipBLASLt: 911283acd1
-      Triton: 3.4.0+rocm7.0.0.git56765e8c
-      RCCL: 2.26.6
-  MI325X and MI300X:
-    pull_tag: rocm/primus:v25.9_gfx942
-    docker_hub_url: https://hub.docker.com/layers/rocm/primus/v25.9_gfx942/images/sha256-df6ab8f45b4b9ceb100fb24e19b2019a364e351ee3b324dbe54466a1d67f8357
-    components: *docker_components
+docker:
+  pull_tag: rocm/primus:v26.2
+  docker_hub_url: https://hub.docker.com/layers/rocm/primus/v26.2/images/sha256-9148d1bfcd579bf92f44bd89090e0d8c958f149c134b4b34b9674ab559244585
+  components:
+    ROCm: 7.2.0
+    PyTorch: 2.10.0a0+git449b176
+    Python: "3.12.3"
+    Transformer Engine: 2.8.0.dev0+51f74fa7
+    Flash Attention: 2.8.3
+    hipBLASLt: 1.2.0-de5c1aebb6
+    Triton: 3.6.0
+    RCCL: 2.27.7
 model_groups:
   - group: Meta Llama
     tag: llama
@@ -24,18 +17,30 @@ model_groups:
       - model: Llama 3.3 70B
         mad_tag: primus_pyt_megatron_lm_train_llama-3.3-70b
         config_name: llama3.3_70B-pretrain.yaml
-      - model: Llama 3.1 70B
-        mad_tag: primus_pyt_megatron_lm_train_llama-3.1-70b
-        config_name: llama3.1_70B-pretrain.yaml
       - model: Llama 3.1 8B
         mad_tag: primus_pyt_megatron_lm_train_llama-3.1-8b
         config_name: llama3.1_8B-pretrain.yaml
+      - model: Llama 3.1 70B
+        mad_tag: primus_pyt_megatron_lm_train_llama-3.1-70b
+        config_name: llama3.1_70B-pretrain.yaml
       - model: Llama 2 7B
         mad_tag: primus_pyt_megatron_lm_train_llama-2-7b
         config_name: llama2_7B-pretrain.yaml
       - model: Llama 2 70B
         mad_tag: primus_pyt_megatron_lm_train_llama-2-70b
         config_name: llama2_70B-pretrain.yaml
+  - group: AMD Zebra-Llama
+    tag: zebra-llama
+    models:
+      - model: Zebra-Llama 1B
+        mad_tag: primus_pyt_megatron_lm_train_zebra-llama-1b
+        config_name: zebra_llama_1b-pretrain.yaml
+      - model: Zebra-Llama 3B
+        mad_tag: primus_pyt_megatron_lm_train_zebra-llama-3b
+        config_name: zebra_llama_3b-pretrain.yaml
+      - model: Zebra-Llama 8B
+        mad_tag: primus_pyt_megatron_lm_train_zebra-llama-8b
+        config_name: zebra_llama_8b-pretrain.yaml
   - group: DeepSeek
     tag: deepseek
     models:
@@ -57,6 +62,11 @@ model_groups:
   - group: Qwen
     tag: qwen
     models:
+      - model: Qwen 3 32B SFT
+        mad_tag: primus_pyt_megatron_lm_train_qwen3-32b-sft
+      - model: Qwen 3 32B LoRA
+        mad_tag: primus_pyt_megatron_lm_train_qwen3-32b-lora
+        config_name: primus_qwen2.5_7B-pretrain.yaml
       - model: Qwen 2.5 7B
         mad_tag: primus_pyt_megatron_lm_train_qwen2.5-7b
         config_name: primus_qwen2.5_7B-pretrain.yaml

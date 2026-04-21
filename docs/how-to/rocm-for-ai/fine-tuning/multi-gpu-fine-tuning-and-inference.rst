@@ -44,7 +44,7 @@ Setting up the base implementation environment
 
    .. code-block:: shell
 
-      rocm-smi --showproductname
+      amd-smi static --board
 
 #. Check that your GPUs are available to PyTorch.
 
@@ -65,8 +65,8 @@ Setting up the base implementation environment
 
 .. tip::
 
-   During training and inference, you can check the memory usage by running the ``rocm-smi`` command in your terminal.
-   This tool helps you see shows which GPUs are involved.
+   During training and inference, you can check the memory usage by running the ``amd-smi`` command in your terminal.
+   This tool helps you see which GPUs are involved.
 
 
 .. _fine-tuning-llms-multi-gpu-hugging-face-accelerate:
@@ -91,10 +91,10 @@ Now, it's important to adjust how you load the model. Add the ``device_map`` par
 
    ...
    base_model_name = "meta-llama/Llama-2-7b-chat-hf"
-   
+
    # Load base model to GPU memory
    base_model = AutoModelForCausalLM.from_pretrained(
-           base_model_name, 
+           base_model_name,
            device_map = "auto",
            trust_remote_code = True)
    ...
@@ -130,7 +130,7 @@ After loading the model in this way, the model is fully ready to use the resourc
 torchtune for fine-tuning and inference
 =============================================
 
-`torchtune <https://pytorch.org/torchtune/main/>`_ is a PyTorch-native library for easy single and multi-GPU 
+`torchtune <https://meta-pytorch.org/torchtune/main/>`_ is a PyTorch-native library for easy single and multi-GPU 
 model fine-tuning and inference with LLMs.
 
 #. Install torchtune using pip.
@@ -139,7 +139,7 @@ model fine-tuning and inference with LLMs.
 
       # Install torchtune with PyTorch release 2.2.2+
       pip install torchtune
-      
+
       # To confirm that the package is installed correctly
       tune --help
 
@@ -148,12 +148,12 @@ model fine-tuning and inference with LLMs.
    .. code-block:: shell
 
       usage: tune [-h] {download,ls,cp,run,validate} ...
-      
+
       Welcome to the TorchTune CLI!
-      
+
       options:
         -h, --help            show this help message and exit
-      
+
       subcommands:
         {download,ls,cp,run,validate}
 
@@ -194,11 +194,11 @@ model fine-tuning and inference with LLMs.
         apply_lora_to_output: False
         lora_rank: 8
         lora_alpha: 16
-      
+
       tokenizer:
         _component_: torchtune.models.llama2.llama2_tokenizer
         path: /tmp/Llama-2-7b-hf/tokenizer.model
-      
+
       # Dataset and sampler
       dataset:
         _component_: torchtune.datasets.alpaca_cleaned_dataset
