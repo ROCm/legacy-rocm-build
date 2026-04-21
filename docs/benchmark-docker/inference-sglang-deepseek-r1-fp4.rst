@@ -32,11 +32,11 @@ accelerators.
 
 .. code-block:: shell
 
-   pip install huggingface_hub[cli] hf_transfer hf_xet
+   pip install huggingface_hub hf_transfer hf_xet
    HF_HUB_ENABLE_HF_TRANSFER=1 \
    HF_HOME=/data/huggingface-cache \
    HF_TOKEN="<HF_TOKEN>" \
-   huggingface-cli download amd/DeepSeek-R1-0528-MXFP4-Preview --exclude "original/*"
+   hf download amd/DeepSeek-R1-0528-MXFP4-Preview --exclude "original/*"
 
 Run the inference benchmark
 ===========================

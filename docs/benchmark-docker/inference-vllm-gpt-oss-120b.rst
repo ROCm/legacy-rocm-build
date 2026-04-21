@@ -39,11 +39,11 @@ See the model card on Hugging Face at
 
    model=openai/gpt-oss-120b
 
-   pip install huggingface_hub[cli] hf_transfer hf_xet
+   pip install huggingface_hub hf_transfer hf_xet
    HF_HUB_ENABLE_HF_TRANSFER=1 \
    HF_HOME=/data/huggingface-cache \
    HF_TOKEN="<HF_TOKEN>" \ # Replace with your HF_TOKEN Hugging Face access token.
-   huggingface-cli download ${model} --exclude "original/*"
+   hf download ${model} --exclude "original/*"
 
 Run the inference benchmark
 ===========================

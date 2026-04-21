@@ -1,4 +1,4 @@
-git+https://github.com/ROCm/rocm-docs-core.git@develop#egg=rocm-docs-core
+rocm-docs-core==1.33.1
 sphinx-reredirects
 sphinx-sitemap
 sphinxcontrib.datatemplates==0.11.0
