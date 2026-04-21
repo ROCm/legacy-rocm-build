@@ -46,11 +46,11 @@ download ahead of time. You will need:
 
          model=amd/Llama-3.3-70B-Instruct-MXFP4-Preview
 
-         pip install huggingface_hub[cli] hf_transfer hf_xet
+         pip install huggingface_hub hf_transfer hf_xet
          HF_HUB_ENABLE_HF_TRANSFER=1 \
          HF_HOME=/data/huggingface-cache \
          HF_TOKEN="<HF_TOKEN>" \ # Replace with your HF_TOKEN Hugging Face access token.
-         huggingface-cli download ${model} --exclude "original/*"
+         hf download ${model} --exclude "original/*"
 
    .. tab-item:: Llama 3.1 405B MXFP4
       :sync: Llama-3.1-405B-Instruct-MXFP4-Preview
@@ -65,11 +65,11 @@ download ahead of time. You will need:
 
          model=amd/Llama-3.1-405B-Instruct-MXFP4-Preview
 
-         pip install huggingface_hub[cli] hf_transfer hf_xet
+         pip install huggingface_hub hf_transfer hf_xet
          HF_HUB_ENABLE_HF_TRANSFER=1 \
          HF_HOME=/data/huggingface-cache \
          HF_TOKEN="<HF_TOKEN>" \ # Replace with your HF_TOKEN Hugging Face access token.
-         huggingface-cli download ${model} --exclude "original/*"
+         hf download ${model} --exclude "original/*"
 
 Run the inference benchmark
 ===========================

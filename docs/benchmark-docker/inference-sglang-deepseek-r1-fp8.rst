@@ -40,11 +40,11 @@ See the model card on Hugging Face at `deepseek-ai/DeepSeek-R1-0528
 
 .. code-block:: shell
 
-   pip install huggingface_hub[cli] hf_transfer hf_xet
+   pip install huggingface_hub hf_transfer hf_xet
    HF_HUB_ENABLE_HF_TRANSFER=1 \
    HF_HOME=/data/huggingface-cache \
    HF_TOKEN="<HF_TOKEN>" \
-   huggingface-cli download deepseek-ai/DeepSeek-R1-0528 --exclude "original/*"
+   hf download deepseek-ai/DeepSeek-R1-0528 --exclude "original/*"
 
 Run the inference benchmark
 ===========================
