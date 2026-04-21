@@ -1,5 +1,5 @@
 :orphan:
-:nosearch:
+:no-search:
 
 .. meta::
    :description: How to train a model using JAX MaxText for ROCm.

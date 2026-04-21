@@ -1,5 +1,5 @@
 :orphan:
-:nosearch:
+:no-search:
 
 .. meta::
    :description: Learn to validate diffusion model video generation on MI300X, MI350X and MI355X accelerators using
