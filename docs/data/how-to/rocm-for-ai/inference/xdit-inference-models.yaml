@@ -1,12 +1,11 @@
 docker:
   pull_tag: rocm/pytorch-xdit:v26.5
   docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
-  ROCm: 7.12.0
+  ROCm: 7.13.0 (preview)
   whats_new:
-    - "Qwen-Image-2512 support"
-    - "Z-Image support"
-    - "Parallel VAE decode support for Wan models"
-    - "Batch inference and data parallel support"
+    - "Hunyuan Video 1.5 sparse attention (SSTA) support"
+    - "Support fp8 MLA for MI355"
+    - "Block wise sparsity support for AMD triton FAv3 Sage attention"
   components:
     TheRock: 
       version: cbff3d1
