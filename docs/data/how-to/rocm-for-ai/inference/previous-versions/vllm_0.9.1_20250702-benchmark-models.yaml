@@ -110,7 +110,7 @@ vllm_benchmark:
       - model: DBRX Instruct
         mad_tag: pyt_vllm_dbrx-instruct
         model_repo: databricks/dbrx-instruct
-        url: https://huggingface.co/databricks/dbrx-instruct
+        url: https://huggingface.co/docs/transformers/model_doc/dbrx
         precision: float16
       - model: DBRX Instruct FP8
         mad_tag: pyt_vllm_dbrx_fp8

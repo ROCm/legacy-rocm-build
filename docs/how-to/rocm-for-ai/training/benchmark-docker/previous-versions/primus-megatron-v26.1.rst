@@ -26,12 +26,12 @@ model training. Performance acceleration is powered by `Primus Turbo
    <https://hub.docker.com/r/rocm/megatron-lm/>`__ Docker Hub registry will be
    deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
    The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
-   including Megatron-LM and :doc:`torchtitan <primus-pytorch>`.
+   including Megatron-LM and :doc:`torchtitan <../primus-pytorch>`.
 
    Primus with Megatron is designed to replace the :doc:`ROCm Megatron-LM
-   training <megatron-lm>` workflow. To learn how to migrate workloads from
+   training <../megatron-lm>` workflow. To learn how to migrate workloads from
    Megatron-LM to Primus with Megatron, see
-   :doc:`previous-versions/megatron-lm-primus-migration-guide`.
+   :doc:`megatron-lm-primus-migration-guide`.
 
 AMD provides a ready-to-use Docker images for MI355X, MI350X,
 MI325X, and MI300X GPUs containing essential components for Primus, ROCm, and
