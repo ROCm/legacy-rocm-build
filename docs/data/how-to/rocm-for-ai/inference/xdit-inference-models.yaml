@@ -9,13 +9,13 @@ docker:
     - "Batch inference and data parallel support"
   components:
     TheRock: 
-      version: 9b611c6
+      version: cbff3d1
       url: https://github.com/ROCm/TheRock
     rocm-libraries:
-      version: 7567d83
+      version: a668483b
       url: https://github.com/ROCm/rocm-libraries
     rocm-systems:
-      version: 93bc019
+      version: c76140fa
       url: https://github.com/ROCm/rocm-systems
     torch:
       version: ff65f5b
@@ -33,16 +33,16 @@ docker:
       version: 46ba481
       url: https://github.com/huggingface/accelerate
     aiter:
-      version: a169e14
+      version: bc5ea32c
       url: https://github.com/ROCm/aiter
     diffusers:
-      version: a80b192
+      version: 447e571a
       url: https://github.com/huggingface/diffusers
     distvae:
-      version: bf7531e
+      version: 5a0fcbb
       url: https://github.com/xdit-project/DistVAE
     xfuser:
-      version: 45c44e7
+      version: 051db68f
       url: https://github.com/xdit-project/xDiT
     yunchang:
       version: 631bdfd
