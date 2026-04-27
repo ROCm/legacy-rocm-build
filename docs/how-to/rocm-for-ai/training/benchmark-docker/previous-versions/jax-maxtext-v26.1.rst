@@ -377,5 +377,5 @@ Further reading
 Previous versions
 =================
 
-See :doc:`previous-versions/jax-maxtext-history` to find documentation for previous releases
+See :doc:`jax-maxtext-history` to find documentation for previous releases
 of the ``ROCm/jax-training`` Docker image.
