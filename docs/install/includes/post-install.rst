@@ -87,7 +87,7 @@ installation.
                ROCM_INSTALL_PATH=$(rocm-sdk path --root)
                sudo tee /etc/profile.d/set-rocm-env.sh << EOF
                export ROCM_PATH=$ROCM_INSTALL_PATH
-               export LD_LIBRARY_PATH=\$ROCM_PATH/lib/rocm_sysdeps/lib:\$ROCM_PATH/lib:\$LD_LIBRARY_PATH/
+               export LD_LIBRARY_PATH=\$ROCM_PATH/lib/rocm_sysdeps/lib:\$ROCM_PATH/lib:\$LD_LIBRARY_PATH
                EOF
                sudo chmod +x /etc/profile.d/set-rocm-env.sh
 
@@ -115,7 +115,7 @@ installation.
 
                      # BEGIN ROCm environment configuration
                      export ROCM_PATH=$ROCM_INSTALL_PATH
-                     export LD_LIBRARY_PATH=\$ROCM_PATH/lib/rocm_sysdeps/lib:\$ROCM_PATH/lib:\$LD_LIBRARY_PATH/
+                     export LD_LIBRARY_PATH=\$ROCM_PATH/lib/rocm_sysdeps/lib:\$ROCM_PATH/lib:\$LD_LIBRARY_PATH
                      # END ROCm environment configuration
                      EOF
 
@@ -131,7 +131,7 @@ installation.
 
                      # BEGIN ROCm environment configuration
                      export ROCM_PATH=$ROCM_INSTALL_PATH
-                     export LD_LIBRARY_PATH=\$ROCM_PATH/lib/rocm_sysdeps/lib:\$ROCM_PATH/lib:\$LD_LIBRARY_PATH/
+                     export LD_LIBRARY_PATH=\$ROCM_PATH/lib/rocm_sysdeps/lib:\$ROCM_PATH/lib:\$LD_LIBRARY_PATH
                      # END ROCm environment configuration
                      EOF
 
