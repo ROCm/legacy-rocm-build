@@ -1,7 +1,7 @@
 docker:
   pull_tag: rocm/pytorch-xdit:v26.5
   docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
-  ROCm: 7.13.0 (preview)
+  ROCm: 7.13.0
   whats_new:
     - "Hunyuan Video 1.5 sparse attention (SSTA) support"
     - "Support fp8 MLA for MI355"
