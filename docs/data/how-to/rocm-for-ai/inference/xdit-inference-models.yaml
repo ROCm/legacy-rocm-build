@@ -1,6 +1,6 @@
 docker:
   pull_tag: rocm/pytorch-xdit:v26.5
-  docker_hub_url: https://hub.docker.com/r/rocm/pytorch-xdit
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.5/images/sha256-b8ad9fd4b41bc116ac2aff07c1066bf369cf7fc110b1a323f6302191985a51fd
   ROCm: 7.13.0
   whats_new:
     - "Hunyuan Video 1.5 sparse attention (SSTA) support"
