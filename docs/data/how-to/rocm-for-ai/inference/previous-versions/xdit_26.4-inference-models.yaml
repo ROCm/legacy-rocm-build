@@ -1,20 +1,21 @@
 docker:
-  pull_tag: rocm/pytorch-xdit:v26.5
-  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.5/images/sha256-b8ad9fd4b41bc116ac2aff07c1066bf369cf7fc110b1a323f6302191985a51fd
-  ROCm: 7.13.0
+  pull_tag: rocm/pytorch-xdit:v26.4
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.4/images/sha256-b4296a638eb8dc7ebcafc808e180b78a3c44177580c21986082ec9539496067c
+  ROCm: 7.12.0
   whats_new:
-    - "Hunyuan Video 1.5 sparse attention (SSTA) support"
-    - "Support fp8 MLA for MI355"
-    - "Block wise sparsity support for AMD triton FAv3 Sage attention"
+    - "Qwen-Image-2512 support"
+    - "Z-Image support"
+    - "Parallel VAE decode support for Wan models"
+    - "Batch inference and data parallel support"
   components:
     TheRock: 
-      version: cbff3d1
+      version: 9b611c6
       url: https://github.com/ROCm/TheRock
     rocm-libraries:
-      version: a668483b
+      version: 7567d83
       url: https://github.com/ROCm/rocm-libraries
     rocm-systems:
-      version: c76140fa
+      version: 93bc019
       url: https://github.com/ROCm/rocm-systems
     torch:
       version: ff65f5b
@@ -32,16 +33,16 @@ docker:
       version: 46ba481
       url: https://github.com/huggingface/accelerate
     aiter:
-      version: bc5ea32c
+      version: a169e14
       url: https://github.com/ROCm/aiter
     diffusers:
-      version: 447e571a
+      version: a80b192
       url: https://github.com/huggingface/diffusers
     distvae:
-      version: 5a0fcbb
+      version: bf7531e
       url: https://github.com/xdit-project/DistVAE
     xfuser:
-      version: 051db68f
+      version: 45c44e7
       url: https://github.com/xdit-project/xDiT
     yunchang:
       version: 631bdfd
@@ -118,7 +119,6 @@ docker:
             - '--ulysses_degree 8 \'
             - '--use_parallel_vae \'
             - '--seed 42 \'
-            - '--guidance_scale 3.0 \'
             - '--num_iterations 1 \'
             - '--num_inference_steps 40 \'
             - '--use_torch_compile \'
@@ -334,8 +334,7 @@ docker:
             - '--num_inference_steps 50 \'
             - '--ulysses_degree 8 \'
             - '--use_torch_compile \'
-            - '--guidance_scale 0.0 \'
-            - '--num_iterations 25 \'
+            - '--num_iterations 1 \'
             - '--attention_backend aiter \'
             - '--output_directory results'
         - model: Qwen-Image-Edit
@@ -357,7 +356,6 @@ docker:
             - '--num_inference_steps 50 \'
             - '--ulysses_degree 8 \'
             - '--use_torch_compile \'
-            - '--guidance_scale 4.0 \'
-            - '--num_iterations 25 \'
+            - '--num_iterations 1 \'
             - '--attention_backend aiter \'
             - '--output_directory results'
