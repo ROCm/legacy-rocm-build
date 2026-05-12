@@ -1,0 +1,116 @@
+﻿name: ROCm bug report (reproducible)
+description: Report a reproducible ROCm issue with environment and logs for faster triage.
+title: "[ROCm] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill this template completely. Missing fields are skipped and will delay triage.
+
+  - type: input
+    id: rocm-version
+    attributes:
+      label: ROCm version
+      description: Output of `rocminfo --support`, `rocm-smi`, and installed package versions.
+      placeholder: e.g. 6.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: gpu-model
+    attributes:
+      label: GPU model
+      placeholder: e.g. AMD Radeon RX 7900 XTX, MI300A
+    validations:
+      required: true
+
+  - type: input
+    id: kernel-version
+    attributes:
+      label: Kernel version
+      placeholder: e.g. 6.5.0-1029-azure
+    validations:
+      required: true
+
+  - type: input
+    id: os-distro
+    attributes:
+      label: OS / distribution
+      placeholder: e.g. Ubuntu 22.04, Rocky 9, WSL2 Ubuntu 24.04
+    validations:
+      required: true
+
+  - type: input
+    id: driver-version
+    attributes:
+      label: Radeon driver version
+      placeholder: e.g. 6.1.0, `/dev/kfd` present
+    validations:
+      required: true
+
+  - type: input
+    id: toolkit-versions
+    attributes:
+      label: Toolkit / framework versions
+      description: Include Python, compilers, and ML framework versions.
+      placeholder: e.g. Python 3.10, PyTorch 2.2.2+rocm6.1, clang++ 16
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro-steps
+    attributes:
+      label: Reproduction steps
+      description: Minimal commands or code snippet that reproduce the issue.
+      value: |
+        1. Step one
+        2. Step two
+        3. Observe the failure
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-vs-actual
+    attributes:
+      label: Expected vs actual behavior
+      placeholder: |
+        Expected:
+        Actual:
+        Error output:
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error logs / crash output
+      description: Paste relevant logs and stack traces.
+      placeholder: Paste logs here.
+    validations:
+      required: true
+
+  - type: textarea
+    id: env-capture
+    attributes:
+      label: Environment capture
+      description: Paste output from the commands below.
+      value: |
+        uname -a
+        rocm-smi
+        lspci | grep -i amd
+        dpkg -l | grep -i rocm | head
+    validations:
+      required: true
+
+  - type: dropdown
+    id: fallback
+    attributes:
+      label: Fallback behavior
+      description: What happens in fallback mode?
+      options:
+        - "GPU reproduction only"
+        - "CPU fallback works"
+        - "Fails on fallback as well"
+    validations:
+      required: true
