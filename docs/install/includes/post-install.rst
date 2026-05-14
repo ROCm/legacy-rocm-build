@@ -14,7 +14,7 @@ installation.
    Configure environment variables so that ROCm libraries and tools are
    available either to all users on the system or only to your user account.
 
-   .. selected:: i=pkgman
+   .. selected:: i=pkgman i=runfile
 
       .. tab-set::
 
