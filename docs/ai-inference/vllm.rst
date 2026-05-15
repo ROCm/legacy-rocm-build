@@ -262,7 +262,7 @@ Prerequisites
       - Ensure your system has the AMD GPU Driver (amdgpu) installed. See the
         :ref:`compat-matrix` for driver support information. For installation
         instructions, see the `AMD GPU Driver documentation
-        <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.30.0-preview/install/detailed-install/package-manager/package-manager-index.html>`__.
+        <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.30.0-preview/index.html>`__.
 
       - Ensure the host system has `Docker Engine
         <https://docs.docker.com/engine/install/>`__ and the AMD GPU Driver
@@ -280,7 +280,7 @@ Prerequisites
       - Ensure your system has the AMD GPU Driver (amdgpu) installed. See the
         :ref:`compat-matrix` for driver support information. For installation
         instructions, see the `AMD GPU Driver documentation
-        <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.30.0-preview/install/detailed-install/package-manager/package-manager-index.html>`__.
+        <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.30.0-preview/index.html>`__.
 
    - Ensure your system has :ref:`Python 3.13 <rocm-compat-python>` installed and
      accessible. Review the :ref:`compat-matrix` for more support details.

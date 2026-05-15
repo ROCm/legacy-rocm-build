@@ -249,18 +249,7 @@ subtrees:
                   title: Set the number of CUs
           - file: reference/hip-programming.rst
             title: AMD GPU programming on ROCm
-          - file: reference/glossary.rst
-            title: ROCm glossary
-            subtrees:
-            - entries:
-              - file: reference/glossary/device-hardware.rst
-                title: Device hardware
-              - file: reference/glossary/device-software.rst
-                title: Device software
-              - file: reference/glossary/host-software.rst
-                title: Host software
-              - file: reference/glossary/performance.rst
-                title: Performance
+
     # - caption: About
     #   entries:
     #       - file: about/license.md

@@ -83,7 +83,7 @@ Prerequisites
    - Ensure your system has the AMD GPU Driver (amdgpu) installed. See the
      :ref:`compat-matrix` for driver support information. For installation
      instructions, see the `AMD GPU Driver documentation
-     <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.30.0-preview/install/detailed-install/package-manager/package-manager-index.html>`__.
+     <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.30.0-preview/index.html>`__.
 
 - Ensure your system has a :ref:`supported Python version
   <rocm-compat-python>` installed and accessible: 3.11, 3.12, 3.13, or 3.14.

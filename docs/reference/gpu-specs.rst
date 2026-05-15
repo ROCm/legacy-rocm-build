@@ -12,8 +12,6 @@ The following tables provide an overview of the hardware specifications for AMD 
 
 For more information about ROCm hardware compatibility, see the ROCm `Compatibility matrix <https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html>`_.
 
-For a description of the terms used in the table, see the :ref:`ROCm glossary <glossary>`.
-
 .. seealso::
 
    * :doc:`AMD GPU architectures <gpu-arch/index>` -- microarchitecture

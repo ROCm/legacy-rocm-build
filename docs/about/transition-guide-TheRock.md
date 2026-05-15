@@ -1,6 +1,6 @@
 # Transition guide from legacy ROCm release stream
 
-[ROCm Core SDK 7.13.0](https://rocm-stg.amd.com/en/docs-7.13.0/index.html#rocm-core-sdk) marks a step change from the ROCm legacy release stream. It is a preview release built on our new build system, TheRock.
+[ROCm Core SDK 7.13.0](https://rocm.docs.amd.com/en/7.13.0-preview/index.html#rocm-core-sdk) marks a step change from the ROCm legacy release stream. It is a preview release built on our new build system, TheRock.
 
 ## Major changes
 
