@@ -204,28 +204,30 @@ Uninstalling
 
             rmdir /s /q .venv
 
-   3. Remove your ROCm environment configuration from your system.
+   .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 
-      .. tab-set::
+      3. Remove your ROCm environment configuration from your system.
 
-         .. tab-item:: System-wide 
-            :sync: env-system-setup
+         .. tab-set::
 
-            If you opted for a :ref:`system-wide setup
-            <rocm-post-install-env>` during the installation
-            process, remove the ROCm environment variables.
+            .. tab-item:: System-wide 
+               :sync: env-system-setup
 
-            .. code-block:: bash
+               If you opted for a :ref:`system-wide setup
+               <rocm-post-install-env>` during the installation
+               process, remove the ROCm environment variables.
 
-               sudo rm -f /etc/profile.d/set-rocm-env.sh
+               .. code-block:: bash
 
-         .. tab-item:: User
-            :sync: env-user-setup
+                  sudo rm -f /etc/profile.d/set-rocm-env.sh
 
-            If you opted for a :ref:`user-specific setup
-            <rocm-post-install-env>` during the installation
-            process, remove the ROCm environment configuration block from
-            your shell configuration file (``~/.bashrc`` or ``~/.profile``).
+            .. tab-item:: User
+               :sync: env-user-setup
+
+               If you opted for a :ref:`user-specific setup
+               <rocm-post-install-env>` during the installation
+               process, remove the ROCm environment configuration block from
+               your shell configuration file (``~/.bashrc`` or ``~/.profile``).
 
 .. ================================================================== TARBALL ==
 
