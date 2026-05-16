@@ -1,6 +1,6 @@
 .. meta::
    :description: Learn about workload tuning on AMD Instinct MI300X, MI325X, MI350X, and MI355X GPUs for optimal performance.
-   :keywords: AMD, Instinct, MI300X, MI350X, MI325X, MI355X, CDNA3, CDNA4, gfx942, gfx950,
+   :keywords: AMD, Instinct, MI300X, MI325X, MI350X, MI355X, CDNA3, CDNA4, gfx942, gfx950,
               HPC, tuning, ROCm, environment variable, performance, HIP, Triton,
               PyTorch TunableOp, vLLM, RCCL, MIOpen, GPU, resource utilization,
               FP8, MXFP4, MXFP6, MXFP8, sparsity, micro-scaling, HBM3E
@@ -18,8 +18,8 @@ enhance efficiency.
 
 .. note::
 
-   Most guidance in this document applies to both MI300 Series (CDNA 3, gfx942, including MI300X and MI325X) and
-   MI350 Series (CDNA 4, gfx950, including MI350X and MI355X). Where the two GPU families differ, GPU-specific
+   Most guidance in this document applies to both MI300 Series (CDNA3, gfx942, including MI300X and MI325X) and
+   MI350 Series (CDNA4, gfx950, including MI350X and MI355X). Where the two GPU families differ, GPU-specific
    notes are provided. Key architectural differences include:
 
    * **MI350 Series** uses TSMC N3P XCDs (vs N5), has 256 CUs (vs 304), 160 KB LDS
@@ -35,8 +35,8 @@ enhance efficiency.
 Architecture comparison
 ========================
 
-The following tables compare the AMD Instinct MI300X, MI325X (CDNA 3, gfx942)
-and MI350X, MI355X (CDNA 4, gfx950) GPUs. Understanding these differences is
+The following tables compare the AMD Instinct MI300X, MI325X (CDNA3, gfx942)
+and MI350X, MI355X (CDNA4, gfx950) GPUs. Understanding these differences is
 essential for effective workload tuning.
 
 .. tab-set::
@@ -53,10 +53,10 @@ essential for effective workload tuning.
            - MI350X
            - MI355X
          * - Architecture
-           - CDNA 3
-           - CDNA 3
-           - CDNA 4
-           - CDNA 4
+           - CDNA3
+           - CDNA3
+           - CDNA4
+           - CDNA4
          * - LLVM target
            - gfx942
            - gfx942
@@ -254,8 +254,8 @@ essential for effective workload tuning.
          :widths: 40 30 30
 
          * - Data type
-           - MI300X / MI325X (CDNA 3)
-           - MI350X / MI355X (CDNA 4)
+           - MI300X / MI325X (CDNA3)
+           - MI350X / MI355X (CDNA4)
          * - FP64, FP32, FP16, BF16, INT8
            - Yes
            - Yes
@@ -1597,9 +1597,11 @@ Register access is the fastest yet smallest among the three.
 
 .. figure:: ../../../data/shared/compute-unit.png
 
-   Schematic representation of a CU in CDNA 2 / CDNA 3 / CDNA 4 architectures.
-   MI350X (CDNA 4) CUs have 160 KB LDS (vs 64 KB), 256 bytes/clock read
-   bandwidth, and support direct L1→LDS loading.
+   Schematic representation of a CU in CDNA2 / CDNA3 / CDNA4 architectures.
+   Each CU has 4 SIMDs, which are grouped into 2 SIMD pairs (SP). 
+   Each SP has a 128 bytes/clock bus to LDS. But 2 SP cannot access LDS at the same time. 
+   So the actual read bandwidth of LDS is 128 bytes/clock.
+   MI300X also has direct L1->LDS. MI350's direct L1->LDS has larger vectorization.
 
 The following is a list of kernel arguments used for tuning performance and
 resource allocation on AMD GPUs, which helps in optimizing the
@@ -2010,9 +2012,9 @@ Gluon kernel performance optimization
 =====================================
 
 `Gluon <https://github.com/triton-lang/triton/tree/main/python/triton/experimental/gluon>`_
-is a lower-level DSL that ships alongside Triton. It compiles through the same
+is a block-level programming language that ships alongside Triton. It compiles through the same
 Triton IR stack and keeps Python ergonomics, but exposes hardware details that
-Triton hides: explicit tensor **layouts**, warp-level operations, explicit
+Triton hides: explicit tensor **layouts**, explicit
 async-copy and barrier placement, and direct control over LDS usage. Use Gluon
 when the profiler shows Triton is bottlenecked on something you cannot express
 through autotune configs — typically layout conversions, suboptimal MFMA
@@ -2030,7 +2032,7 @@ Triton vs. Gluon at a glance
      - Gluon
    * - Abstraction level
      - Block-level tiles
-     - Warp-level with explicit layouts
+     - Block-level tiles
    * - Tensor layouts
      - Compiler-inferred
      - User-specified (blocked, MFMA, dot-operand, shared)
@@ -2116,12 +2118,13 @@ against the 512 VGPR budget on CDNA3/CDNA4.
    MI350X's 160 KB LDS (vs. 64 KB on MI300X) allows larger input tiles and
    deeper prefetch. When porting a Gluon kernel from MI300X to MI350X,
    explore larger ``BLOCK_M/N/K`` and one additional pipeline stage before
-   retuning layouts.
+   retuning layouts. However, For compute bound gemm kernels, MI300X and MI350X should use the same tile size. 
+   This is limited by the 512 VGPRs for both CDNA3 and CDNA4.
 
 Global-memory loads and LDS staging
 -----------------------------------
 
-* **Use ``buffer_load_to_lds`` (direct HBM-to-LDS async copy) instead of
+* **Use ``buffer_load_to_lds`` (direct L1-to-LDS async copy) instead of
   staging through registers.** It saves approximately 100 VGPR per wave and
   removes an entire register-movement phase from the loop. In the
   ``gfx9-gluon-tutorials`` reference GEMM this change moved performance from
@@ -2149,21 +2152,6 @@ typical for GEMM on CDNA:
 Double-buffer LDS so stage 0 and stage 1 operate on separate buffers. Unroll
 the main loop by 2 to eliminate ``v_accvgpr_mov`` copies at iteration
 boundaries.
-
-Two environment variables enable AMD-specific scheduling passes that are
-critical for reaching peak MFMA efficiency:
-
-``TRITON_ENABLE_LLIR_SCHED=1``
-   Enables a post-Triton LLVM IR scheduler that interleaves MFMA with memory
-   operations based on the hardware issue-rate model: one MFMA per 16-cycle
-   ``ds_read_b128`` and four MFMAs per 64-cycle ``buffer_load_dwordx4``. In the
-   tutorial GEMM this lifted MFMA efficiency from 59% to 76%.
-
-``TRITON_ENABLE_AMDGCN_AS=1``
-   Enables an assembly post-processor that hoists address arithmetic out of
-   the loop (LICM), interleaves MFMA with scalar instructions, and removes
-   residual AGPR-to-VGPR copies. Combined with the LLIR scheduler, this takes
-   MFMA efficiency to ~98%.
 
 Register pressure
 -----------------
@@ -2195,15 +2183,6 @@ baseline. For 32 workgroups per XCD, the optimal ``GROUP_SIZE_M`` minimizes
 :math:`\text{GROUP\_SIZE\_M} + \lceil P / \text{GROUP\_SIZE\_M} \rceil`
 where :math:`P` is workgroups per XCD; values of 4, 6, or 8 all hit the
 optimum for :math:`P = 32`.
-
-Epilogue overlap
-----------------
-
-At small K the whole grid finishes the main loop at nearly the same moment
-and saturates the L2/HBM write path. Break the accumulator into sub-tiles
-along M with ``extract_slice`` and overlap the store of sub-tile ``i`` with
-the final MFMAs of sub-tile ``i+1``. This staggers store traffic and
-recovers performance at small K.
 
 Further reading
 ---------------
