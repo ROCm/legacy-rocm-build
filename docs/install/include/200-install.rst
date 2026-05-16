@@ -855,6 +855,12 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
             sudo dnf install amdrocm7.13-gfx110x
 
+      .. selected:: gfx=gfx1030
+
+         .. code-block:: bash
+
+            sudo dnf install amdrocm7.13-gfx103x
+
       .. selected:: gfx=gfx1151
 
          .. code-block:: bash
