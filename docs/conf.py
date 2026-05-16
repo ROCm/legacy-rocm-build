@@ -142,8 +142,8 @@ html_theme_options = {
     "announcement": f"This is ROCm {ROCM_VERSION} technology preview release documentation. For the latest production stream release, refer to <a id='rocm-banner' href='https://rocm.docs.amd.com/en/latest/'>ROCm documentation</a>.",
     "flavor": "generic",
     "header_title": f"ROCm™ {ROCM_VERSION} Preview",
-    "header_link": f"https://rocm-stg.amd.com/en/docs-7.13.0/index.html",
-    "version_list_link": f"https://rocm-stg.amd.com/en/docs-7.13.0/release/versions.html",
+    "header_link": f"https://rocm.docs.amd.com/en/7.13.0-preview/index.html",
+    "version_list_link": f"https://rocm.docs.amd.com/en/7.13.0-preview/release/versions.html",
     "nav_secondary_items": {
         "GitHub": "https://github.com/ROCm/ROCm",
         "Community": "https://github.com/ROCm/ROCm/discussions",
