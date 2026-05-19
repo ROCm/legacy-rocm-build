@@ -633,43 +633,43 @@ Prerequisites
 
          .. code-block:: bash
 
-            uv pip install https://rocm.frameworks.amd.com/whl/gfx950-dcgpu/vllm-0.19.1.dev3%2Brocm7.13.0.g24efb8904.d20260514-cp313-cp313-linux_x86_64.whl
+            uv pip install https://rocm.frameworks.amd.com/whl/gfx950-dcgpu/vllm-0.19.1.dev3%2Brocm7.13.0.g72ed2b398.d20260513-cp313-cp313-linux_x86_64.whl
 
       .. selected:: gfx=gfx942
 
          .. code-block:: bash
 
-            uv pip install https://rocm.frameworks.amd.com/whl/gfx94X-dcgpu/vllm-0.19.1.dev3%2Brocm7.13.0.g24efb8904.d20260514-cp313-cp313-linux_x86_64.whl
+            uv pip install https://rocm.frameworks.amd.com/whl/gfx94X-dcgpu/vllm-0.19.1.dev3%2Brocm7.13.0.g72ed2b398.d20260513-cp313-cp313-linux_x86_64.whl
 
       .. selected:: gfx=gfx1201 gfx=gfx1200
 
          .. code-block:: bash
 
-            uv pip install https://rocm.frameworks.amd.com/whl/gfx120X-all/vllm-0.19.1.dev3%2Brocm7.13.0.g24efb8904.d20260514-cp313-cp313-linux_x86_64.whl
+            uv pip install https://rocm.frameworks.amd.com/whl/gfx120X-all/vllm-0.19.1.dev3%2Brocm7.13.0.g72ed2b398.d20260513-cp313-cp313-linux_x86_64.whl
 
       .. selected:: gfx=gfx1100 gfx=gfx1101 gfx=gfx1102
 
          .. code-block:: bash
 
-            uv pip install https://rocm.frameworks.amd.com/whl/gfx110X-all/vllm-0.19.1.dev3%2Brocm7.13.0.g24efb8904.d20260514-cp313-cp313-linux_x86_64.whl
+            uv pip install https://rocm.frameworks.amd.com/whl/gfx110X-all/vllm-0.19.1.dev3%2Brocm7.13.0.g72ed2b398.d20260513-cp313-cp313-linux_x86_64.whl
 
       .. selected:: gfx=gfx1151
 
          .. code-block:: bash
 
-            uv pip install https://rocm.frameworks.amd.com/whl/gfx1151/vllm-0.19.1.dev3%2Brocm7.13.0.g24efb8904.d20260514-cp313-cp313-linux_x86_64.whl
+            uv pip install https://rocm.frameworks.amd.com/whl/gfx1151/vllm-0.19.1.dev3%2Brocm7.13.0.g72ed2b398.d20260513-cp313-cp313-linux_x86_64.whl
 
       .. selected:: gfx=gfx1150
 
          .. code-block:: bash
 
-            uv pip install https://rocm.frameworks.amd.com/whl/gfx1150/vllm-0.19.1.dev3%2Brocm7.13.0.g24efb8904.d20260514-cp313-cp313-linux_x86_64.whl
+            uv pip install https://rocm.frameworks.amd.com/whl/gfx1150/vllm-0.19.1.dev3%2Brocm7.13.0.g72ed2b398.d20260513-cp313-cp313-linux_x86_64.whl
 
       .. selected:: gfx=gfx1152
 
          .. code-block:: bash
 
-            uv pip install https://rocm.frameworks.amd.com/whl/gfx1152/vllm-0.19.1.dev3%2Brocm7.13.0.g24efb8904.d20260514-cp313-cp313-linux_x86_64.whl
+            uv pip install https://rocm.frameworks.amd.com/whl/gfx1152/vllm-0.19.1.dev3%2Brocm7.13.0.g72ed2b398.d20260513-cp313-cp313-linux_x86_64.whl
 
    6. Set the following environment variables to prevent errors related to ROCm platform and Flash Attention availability when running vLLM.
 
