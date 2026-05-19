@@ -52,7 +52,7 @@ MaxText with on ROCm provides the following key features to train large language
 
 - NANOO FP8 (for MI300X series GPUs) and FP8 (for MI355X and MI350X) quantization support
 
-.. _amd-maxtext-model-support-v26.2:
+.. _amd-maxtext-model-support-v26.3:
 
 Supported models
 ================
@@ -134,7 +134,7 @@ Use the following command to pull the Docker image from Docker Hub.
 
       docker pull {{ docker.pull_tag }}
 
-.. _amd-maxtext-multi-node-setup-v26.2:
+.. _amd-maxtext-multi-node-setup-v26.3:
 
 Multi-node configuration
 ------------------------
@@ -142,7 +142,7 @@ Multi-node configuration
 See :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your
 environment for multi-node training.
 
-.. _amd-maxtext-get-started-v26.2:
+.. _amd-maxtext-get-started-v26.3:
 
 Benchmarking
 ============
@@ -169,7 +169,7 @@ benchmark results:
             .. container:: model-doc {{ model.mad_tag }}
 
                The following run commands are tailored to {{ model.model }}.
-               See :ref:`amd-maxtext-model-support-v26.2` to switch to another available model.
+               See :ref:`amd-maxtext-model-support-v26.3` to switch to another available model.
 
                .. rubric:: Download the Docker image and required packages
 
@@ -214,7 +214,7 @@ benchmark results:
 
                      git clone https://github.com/AMD-AIG-AIMA/Primus.git
                      cd Primus
-                     git checkout dev/fuyuajin/maxtext-backend-test
+                     git checkout main
                      git submodule update --init third_party/maxtext/
 
                .. rubric:: Run the training job with primus-cli
@@ -265,7 +265,7 @@ benchmark results:
 
                        .. code-block:: shell
 
-                          ./primus-cli container --image rocm/jax-training:maxtext-v26.2 \
+                          ./primus-cli container --image rocm/jax-training:maxtext-v26.3 \
                             -- train pretrain \
                             --config examples/maxtext/configs/MI300X/{{ model.primus_config_name }}
 
@@ -301,7 +301,7 @@ benchmark results:
          .. tab-item:: MAD-integrated benchmarking
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-maxtext-model-support-v26.2` to switch to another available model.
+            See :ref:`amd-maxtext-model-support-v26.3` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -332,7 +332,7 @@ benchmark results:
          .. tab-item:: Standalone benchmarking
 
             The following commands are optimized for {{ model.model }}. See
-            :ref:`amd-maxtext-model-support-v26.2` to switch to another
+            :ref:`amd-maxtext-model-support-v26.3` to switch to another
             available model. Some instructions and resources might not be
             available for all models and configurations.
 
@@ -452,7 +452,7 @@ benchmark results:
 
             [docker_image] (optional)
                The Docker image to use. If not specified, it defaults to
-               ``rocm/jax-training:maxtext-v26.2``.
+               ``rocm/jax-training:maxtext-v26.3``.
 
             For example, to run a multi-node training benchmark on {{ model.model }}:
 
@@ -477,7 +477,7 @@ benchmark results:
          {% else %}
             .. rubric:: Multi-node training
 
-            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v26.2`
+            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v26.3`
             with an available `multi-node training script <https://github.com/ROCm/MAD/tree/develop/scripts/jax-maxtext/env_scripts>`__.
          {% endif %}
       {% endfor %}
@@ -486,9 +486,28 @@ benchmark results:
 Known issues
 ============
 
-- You might see NaNs in the losses when setting ``packing=True``. As
-  a workaround, turn off input sequence packing (``packing=False``).
-  This will be fixed in a future release.
+- You might see NaNs in the losses while using real data (not synthetic
+  data) when setting ``packing=True`` and ``NVTE_CK_IS_V3_ATOMIC_FP32=0``.
+  Set ``NVTE_CK_IS_V3_ATOMIC_FP32=1`` for production training when using
+  real data and input sequence packing (``packing=True``).
+
+- There is a known slight performance regression for DeepSeek-V2-lite
+  (16B) in v26.3. This is being tracked and will be addressed in a future
+  release.
+
+- **JAX 0.9.1 Early Access known issues:**
+
+  - There is a known performance regression for MoE models
+    (DeepSeek-V2-lite and Mixtral-8x7B).
+
+  - The trace viewer in profiling may be missing some information in the
+    flame graph.
+
+- Shardy is a new config in JAX 0.6.0. You might get related errors if
+  it's not configured correctly. To disable it, set ``shardy=False``
+  during the training run. See the `Shardy migration guide
+  <https://docs.jax.dev/en/latest/shardy_jax_migration.html>`__ to
+  enable it.
 
 Further reading
 ===============
