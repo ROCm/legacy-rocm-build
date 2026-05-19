@@ -64,7 +64,7 @@ gitpython==3.1.50
     # via rocm-docs-core
 greenlet==3.3.0
     # via sqlalchemy
-idna==3.11
+idna==3.15
     # via requests
 imagesize==1.4.1
     # via sphinx
