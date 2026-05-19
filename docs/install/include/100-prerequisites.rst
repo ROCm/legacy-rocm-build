@@ -439,21 +439,23 @@ Prerequisites
 
          .. selected:: fam=all
 
-            .. dropdown:: Install the OEM kernel for Ryzen APUs
-               :animate: fade-in-slide-down
-               :color: info
-               :icon: tools
-               :chevron: down-up
-               :open:
+            .. selected:: ubuntu-ver=24.04
 
-               Ryzen APUs require the OEM kernel 6.14 for Ubuntu 24.04. Use the
-               following command to install it using ``apt``.
+               .. dropdown:: Install the OEM kernel for Ryzen APUs
+                  :animate: fade-in-slide-down
+                  :color: info
+                  :icon: tools
+                  :chevron: down-up
+                  :open:
 
-               .. code-block:: bash
+                  Ryzen APUs require the OEM kernel 6.14 for Ubuntu 24.04. Use the
+                  following command to install it using ``apt``.
 
-                  sudo apt update && sudo apt install linux-image-6.14.0-1018-oem
+                  .. code-block:: bash
 
-               Reboot your system after installing the OEM kernel.
+                     sudo apt update && sudo apt install linux-image-6.14.0-1018-oem
+
+                  Reboot your system after installing the OEM kernel.
 
       .. selected:: os=rhel os=oracle-linux os=rocky-linux
 
