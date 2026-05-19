@@ -1437,7 +1437,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
       .. code-block:: bash
 
-         python -m pip install --index-url https://repo.amd.com/rocm/whl-multi-arch/ "rocm[libraries,devel]"
+         python -m pip install --index-url https://repo.amd.com/rocm/whl-multi-arch/ "rocm[libraries,devel,device-all]"
 
    .. selected:: gfx=gfx950
 
