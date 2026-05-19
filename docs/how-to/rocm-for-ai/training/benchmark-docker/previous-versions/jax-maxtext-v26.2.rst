@@ -496,7 +496,6 @@ Known issues
 
 - You might see NaNs in the losses when setting ``packing=True``. As
   a workaround, turn off input sequence packing (``packing=False``).
-  This will be fixed in a future release.
 
 Further reading
 ===============
