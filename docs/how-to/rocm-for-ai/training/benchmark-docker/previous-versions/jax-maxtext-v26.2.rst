@@ -1,3 +1,6 @@
+:orphan:
+:no-search:
+
 .. meta::
    :description: How to train a model using JAX MaxText for ROCm.
    :keywords: ROCm, AI, LLM, train, jax, torch, Llama, flux, tutorial, docker
@@ -5,6 +8,11 @@
 ********************************************
 Training a model with Primus and JAX MaxText
 ********************************************
+
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm JAX MaxText
+   training performance documentation. See :doc:`../jax-maxtext` for the latest version.
 
 The JAX MaxText for ROCm training Docker image provides a prebuilt environment
 for training on AMD Instinct MI355X, MI350X, MI325X, and MI300X GPUs, with
@@ -16,7 +24,7 @@ the unified ``primus-cli`` to run training jobs using the JAX MaxText backend.
 
 It includes the following software components:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v26.2-benchmark-models.yaml
 
    {% set dockers = data.dockers %}
    .. tab-set::
@@ -52,7 +60,7 @@ MaxText with on ROCm provides the following key features to train large language
 
 - NANOO FP8 (for MI300X series GPUs) and FP8 (for MI355X and MI350X) quantization support
 
-.. _amd-maxtext-model-support-v26.3:
+.. _amd-maxtext-model-support-v26.2:
 
 Supported models
 ================
@@ -62,7 +70,7 @@ GPUs. Some instructions, commands, and available training
 configurations in this documentation might vary by model -- select one to get
 started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v26.2-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    .. raw:: html
@@ -72,7 +80,7 @@ started.
             <div class="col-2 me-1 px-2 model-param-head">Model</div>
             <div class="row col-10 pe-0">
       {% for model_group in model_groups %}
-               <div class="col-3 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
       {% endfor %}
             </div>
          </div>
@@ -126,7 +134,7 @@ Pull the Docker image
 
 Use the following command to pull the Docker image from Docker Hub.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v26.2-benchmark-models.yaml
 
    {% set docker = data.dockers[0] %}
 
@@ -134,7 +142,7 @@ Use the following command to pull the Docker image from Docker Hub.
 
       docker pull {{ docker.pull_tag }}
 
-.. _amd-maxtext-multi-node-setup-v26.3:
+.. _amd-maxtext-multi-node-setup-v26.2:
 
 Multi-node configuration
 ------------------------
@@ -142,7 +150,7 @@ Multi-node configuration
 See :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your
 environment for multi-node training.
 
-.. _amd-maxtext-get-started-v26.3:
+.. _amd-maxtext-get-started-v26.2:
 
 Benchmarking
 ============
@@ -150,7 +158,7 @@ Benchmarking
 Once the setup is complete, choose between two options to reproduce the
 benchmark results:
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/jax-maxtext-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/jax-maxtext-v26.2-benchmark-models.yaml
 
    .. _vllm-benchmark-mad:
 
@@ -169,7 +177,7 @@ benchmark results:
             .. container:: model-doc {{ model.mad_tag }}
 
                The following run commands are tailored to {{ model.model }}.
-               See :ref:`amd-maxtext-model-support-v26.3` to switch to another available model.
+               See :ref:`amd-maxtext-model-support-v26.2` to switch to another available model.
 
                .. rubric:: Download the Docker image and required packages
 
@@ -214,7 +222,7 @@ benchmark results:
 
                      git clone https://github.com/AMD-AIG-AIMA/Primus.git
                      cd Primus
-                     git checkout main
+                     git checkout dev/fuyuajin/maxtext-backend-test
                      git submodule update --init third_party/maxtext/
 
                .. rubric:: Run the training job with primus-cli
@@ -265,7 +273,7 @@ benchmark results:
 
                        .. code-block:: shell
 
-                          ./primus-cli container --image rocm/jax-training:maxtext-v26.3 \
+                          ./primus-cli container --image rocm/jax-training:maxtext-v26.2 \
                             -- train pretrain \
                             --config examples/maxtext/configs/MI300X/{{ model.primus_config_name }}
 
@@ -301,7 +309,7 @@ benchmark results:
          .. tab-item:: MAD-integrated benchmarking
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-maxtext-model-support-v26.3` to switch to another available model.
+            See :ref:`amd-maxtext-model-support-v26.2` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -332,7 +340,7 @@ benchmark results:
          .. tab-item:: Standalone benchmarking
 
             The following commands are optimized for {{ model.model }}. See
-            :ref:`amd-maxtext-model-support-v26.3` to switch to another
+            :ref:`amd-maxtext-model-support-v26.2` to switch to another
             available model. Some instructions and resources might not be
             available for all models and configurations.
 
@@ -452,7 +460,7 @@ benchmark results:
 
             [docker_image] (optional)
                The Docker image to use. If not specified, it defaults to
-               ``rocm/jax-training:maxtext-v26.3``.
+               ``rocm/jax-training:maxtext-v26.2``.
 
             For example, to run a multi-node training benchmark on {{ model.model }}:
 
@@ -477,192 +485,18 @@ benchmark results:
          {% else %}
             .. rubric:: Multi-node training
 
-            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v26.3`
+            For multi-node training examples, choose a model from :ref:`amd-maxtext-model-support-v26.2`
             with an available `multi-node training script <https://github.com/ROCm/MAD/tree/develop/scripts/jax-maxtext/env_scripts>`__.
          {% endif %}
       {% endfor %}
    {% endfor %}
 
-Profiling with JAX XPlane Profiler
-===================================
-
-MaxText has built-in XPlane profiling support via JAX's profiler. Traces
-capture GPU kernel timelines, RCCL collectives, HLO graphs, and more. The
-output can be viewed in TensorBoard's Trace Viewer or analyzed with
-TraceLens.
-
-Key MaxText profiler flags
---------------------------
-
-The following MaxText config keys control profiling:
-
-.. code-block:: text
-
-   profiler=xplane                    # Use xplane format (produces .xplane.pb files)
-   skip_first_n_steps_for_profiler=2  # Skip compilation/warmup steps
-   profiler_steps=5                   # Number of steps to profile
-   upload_all_profiler_results=True   # Save all GPU profiles (not just GPU0)
-
-``steps`` should be greater than ``skip_first_n_steps_for_profiler`` +
-``profiler_steps`` (for example, ``steps=12`` with ``skip=2`` and
-``profile=5`` gives 5 warmup + 5 profiled + 2 cooldown).
-``skip_first_n_steps_for_profiler=2`` skips step 0 (compilation) and step
-1 (warmup). ``profiler_steps=5`` is typically sufficient; more steps
-produce larger ``.xplane.pb`` files.
-
-Profiling with MAD or madengine
--------------------------------
-
-The model YAML configs under ``scripts/jax-maxtext/env_scripts/`` include
-a ``profiler`` key (set to ``""`` by default). To enable profiling when
-running through MAD or madengine, edit the YAML config for your model and
-set the profiler fields:
-
-.. code-block:: yaml
-
-   profiler: "xplane"
-   skip_first_n_steps_for_profiler: 2
-   profiler_steps: 5
-   upload_all_profiler_results: True
-   steps: 12
-
-Then run the benchmark as usual:
-
-.. code-block:: shell
-
-   export MAD_SECRETS_HFTOKEN="your personal Hugging Face token to access gated models"
-   madengine run \
-       --tags jax_maxtext_train_llama-3.1-8b \
-       --keep-model-dir \
-       --live-output \
-       --timeout 28800
-
-Use ``--keep-model-dir`` so the container's output directory is preserved
-after the run. Profile output is written under the ``base_output_directory``
-specified in the YAML.
-
-Example: Profile a model standalone in Docker
-----------------------------------------------
-
-.. code-block:: shell
-
-   #!/bin/bash
-   set -e
-
-   IMAGE="$1"       # Docker image, e.g. rocm/jax-training:maxtext-v26.3
-   TAG="$2"         # Short tag for output folder, e.g. v26.3_llama2_7b
-   PROFILE_DIR="/path/to/profiles/${TAG}"
-
-   mkdir -p "${PROFILE_DIR}"
-
-   docker run --rm --privileged --network=host \
-     --device=/dev/dri --device=/dev/kfd --ipc=host \
-     -v "${PROFILE_DIR}:/mnt/profile" \
-     "${IMAGE}" bash -c '
-   export XLA_PYTHON_CLIENT_MEM_FRACTION=.97
-   export LD_LIBRARY_PATH=/usr/local/lib/:/opt/rocm/lib:$LD_LIBRARY_PATH
-   export XLA_FLAGS="--xla_gpu_enable_latency_hiding_scheduler=True --xla_gpu_enable_command_buffer= <your other XLA flags>"
-   export GPU_MAX_HW_QUEUES=2
-
-   cd /workspace/maxtext
-
-   python3 -m MaxText.train src/MaxText/configs/base.yml \
-     run_name=profile \
-     base_output_directory=/mnt/profile \
-     hardware=gpu \
-     steps=12 \
-     model_name=<your-model> \
-     dataset_type=synthetic \
-     enable_checkpointing=False \
-     enable_goodput_recording=False \
-     monitor_goodput=False \
-     <your model-specific flags> \
-     profiler=xplane \
-     skip_first_n_steps_for_profiler=2 \
-     profiler_steps=5 \
-     upload_all_profiler_results=True
-   ' 2>&1 | tee "${PROFILE_DIR}/run.log"
-
-   echo "Profile files:"
-   find "${PROFILE_DIR}" -name "*.xplane.pb" -o -name "*.trace.json.gz" 2>/dev/null
-
-Output structure
-----------------
-
-MaxText writes profiles in TensorBoard format:
-
-.. code-block:: text
-
-   <base_output_directory>/
-   └── profile/
-       └── tensorboard/
-           └── plugins/
-               └── profile/
-                   └── <YYYY_MM_DD_HH_MM_SS>/
-                       ├── <hostname>.xplane.pb          # Raw XPlane proto (GPU timelines)
-                       ├── <hostname>.trace.json.gz       # Trace viewer data
-                       └── *.hlo_proto.pb                 # HLO graphs for each compiled module
-
-Viewing traces in TensorBoard
------------------------------
-
-.. code-block:: shell
-
-   pip install tensorboard tensorboard-plugin-profile
-
-   # Point --logdir at the directory containing the tensorboard/ folder
-   tensorboard --logdir /path/to/profiles/<TAG>/profile --port 6006
-
-Navigate to **Profile > Trace Viewer** in the TensorBoard UI. Zoom into a
-single training step (skip the first profiled step as it may have residual
-warmup) and look at individual GPU streams to see compute/RCCL overlap.
-
-To keep profile files small, use ``profiler_steps=5`` to keep
-``.xplane.pb`` files under approximately 100 MB. Too many steps can produce
-files over 500 MB that TensorBoard struggles to load. Use
-``enable_checkpointing=False`` to avoid checkpoint I/O noise in the trace,
-and ``dataset_type=synthetic`` to eliminate data loading variability.
-
-Profiling with rocprofv3
-========================
-
-If you need to collect a trace without the JAX profiler, use ``rocprofv3``:
-
-.. code-block:: shell
-
-   rocprofv3 --hip-trace --kernel-trace --memory-copy-trace --rccl-trace \
-       --output-format pftrace -d ./v3_traces -- <command>
-
-Replace ``<command>`` with the command you want to profile, such as
-``./jax-maxtext_benchmark_report.sh -m Llama-2-7B``. Use ``-d
-<TRACE_DIRECTORY>`` to specify where the ``.json`` traces are saved. The
-resulting traces can be opened in `Perfetto <https://ui.perfetto.dev/>`__.
-
 Known issues
 ============
 
-- You might see NaNs in the losses while using real data (not synthetic
-  data) when setting ``packing=True`` and ``NVTE_CK_IS_V3_ATOMIC_FP32=0``.
-  Set ``NVTE_CK_IS_V3_ATOMIC_FP32=1`` for production training when using
-  real data and input sequence packing (``packing=True``).
-
-- There is a known slight performance regression for DeepSeek-V2-lite
-  (16B) in v26.3. This is being tracked and will be addressed in a future
-  release.
-
-- **JAX 0.9.1 Early Access known issues:**
-
-  - There is a known performance regression for MoE models
-    (DeepSeek-V2-lite and Mixtral-8x7B).
-
-  - The trace viewer in profiling may be missing some information in the
-    flame graph.
-
-- Shardy is a new config in JAX 0.6.0. You might get related errors if
-  it's not configured correctly. To disable it, set ``shardy=False``
-  during the training run. See the `Shardy migration guide
-  <https://docs.jax.dev/en/latest/shardy_jax_migration.html>`__ to
-  enable it.
+- You might see NaNs in the losses when setting ``packing=True``. As
+  a workaround, turn off input sequence packing (``packing=False``).
+  This will be fixed in a future release.
 
 Further reading
 ===============
@@ -678,5 +512,5 @@ Further reading
 Previous versions
 =================
 
-See :doc:`previous-versions/jax-maxtext-history` to find documentation for previous releases
+See :doc:`jax-maxtext-history` to find documentation for previous releases
 of the ``ROCm/jax-training`` Docker image.
