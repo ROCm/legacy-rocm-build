@@ -16,12 +16,20 @@ previous releases of the ``ROCm/primus`` Docker image on `Docker Hub <https://hu
      - Components
      - Resources
 
-   * - v26.2 (latest)
+   * - v26.3 (latest)
+     -
+       * ROCm 7.2.1
+       * PyTorch 2.10.0+git94c6e04
+     -
+       * :doc:`Primus PyTorch training documentation <../primus-pytorch>`
+       * `Docker Hub <https://hub.docker.com/layers/rocm/primus/v26.3/images/sha256-da50bfe9dc4bb70ad683d3ee4a176dccb66f596f48d30e8e52323b41892759b1>`__
+
+   * - v26.2
      -
        * ROCm 7.2.0
        * PyTorch 2.10.0+git94c6e04
      -
-       * :doc:`Primus PyTorch training documentation <../primus-pytorch>`
+       * :doc:`Primus PyTorch training documentation <primus-pytorch-v26.2>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/primus/v26.2/images/sha256-9148d1bfcd579bf92f44bd89090e0d8c958f149c134b4b34b9674ab559244585>`__
 
    * - v26.1

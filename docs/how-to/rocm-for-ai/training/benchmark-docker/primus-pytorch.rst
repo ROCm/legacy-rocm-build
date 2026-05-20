@@ -45,7 +45,7 @@ with Primus Turbo optimizations.
               - {{ component_version }}
             {% endfor %}
 
-.. _amd-primus-pytorch-model-support-v26.2:
+.. _amd-primus-pytorch-model-support-v26.3:
 
 Supported models
 ================
@@ -91,7 +91,7 @@ vary by model -- select one to get started.
    For additional workloads, including Llama 3.3, Llama 3.2, Llama 2, GPT OSS, Qwen, and Flux models,
    see the documentation :doc:`pytorch-training` (without Primus)
 
-.. _amd-primus-pytorch-performance-measurements-v26.2:
+.. _amd-primus-pytorch-performance-measurements-v26.3:
 
 System validation
 =================
@@ -146,7 +146,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run commands are tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v26.2` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
 
             .. rubric:: Download the Docker image and required packages
 
@@ -182,10 +182,10 @@ tweak some configurations (such as batch sizes).
                   docker start training_env
                   docker exec -it training_env bash
 
-               The Docker container hosts verified commit ``9c529cd4`` of the `Primus
-               <https://github.com/AMD-AGI/Primus/tree/9c529cd4a934a68a880ede036c3e97b792e38167/>`__ repository.
+               The Docker container hosts verified commit ``e16b27b`` of the `Primus
+               <https://github.com/AMD-AGI/Primus/tree/e16b27bf6c1b2798f38848fc574fee60d9a9b902/>`__ repository.
 
-            .. rubric:: Prepare training datasets and dependencies
+            .. rubric:: Setup
 
             The following benchmarking examples require downloading models and datasets
             from Hugging Face. To ensure successful access to gated repos, set your
@@ -194,8 +194,6 @@ tweak some configurations (such as batch sizes).
             .. code-block:: shell
 
                export HF_TOKEN=$your_personal_hugging_face_access_token
-
-            .. rubric:: Pretraining
 
             To get started, navigate to the ``Primus`` directory in your container.
 
@@ -206,7 +204,7 @@ tweak some configurations (such as batch sizes).
             Now, to start the pretraining benchmark, use the ``run_pretrain.sh`` script
             included with Primus with the appropriate options.
 
-            .. rubric:: Benchmarking examples
+            .. rubric:: Pretraining examples
 
             .. container:: model-doc primus_pyt_train_llama-3.1-8b
 
@@ -344,7 +342,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v26.2` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
