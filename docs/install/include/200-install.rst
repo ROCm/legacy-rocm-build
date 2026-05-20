@@ -1719,6 +1719,17 @@ Use the following instructions to install the ROCm Core SDK on your system.
       Download the tarball and extract the contents to ``C:\TheRock\build``.
       Run the following commands in your command prompt:
 
+      .. selected:: fam=all
+
+         .. code-block:: bat
+
+            cd C:\TheRock
+            curl -o therock-dist-windows-multiarch-7.13.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-multiarch-7.13.0.tar.gz
+            tar -xzf therock-dist-windows-multiarch-7.13.0.tar.gz -C build --strip-components=1
+
+         - Download link: `therock-dist-windows-multiarch-7.13.0.tar.gz
+           <https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-multiarch-7.13.0.tar.gz>`__
+
       .. selected:: gfx=gfx1201 gfx=gfx1200
 
          .. code-block:: bat

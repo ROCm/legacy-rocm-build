@@ -233,25 +233,25 @@
 
    .. selected:: fam=all
 
-      .. selector:: Linux distribution
+      .. selector:: Operating system
          :key: os
 
          .. selector-option:: Ubuntu
             :value: ubuntu
-            :width: 4
+            :width: 3
 
          .. selector-option:: Debian
             :value: debian
-            :width: 4
+            :width: 3
 
          .. selector-option:: RHEL
             :value: rhel
-            :width: 4
+            :width: 3
             :toc-label: Red Hat Enterprise Linux
 
          .. selector-option:: Oracle Linux
             :value: oracle-linux
-            :width: 4
+            :width: 3
 
          .. selector-option:: Rocky Linux
             :value: rocky-linux
@@ -261,6 +261,10 @@
             :value: sles
             :width: 4
             :toc-label: SUSE Linux Enterprise Server
+
+         .. selector-option:: Windows
+            :value: windows
+            :width: 4
 
 .. selected:: w=graphics
 
