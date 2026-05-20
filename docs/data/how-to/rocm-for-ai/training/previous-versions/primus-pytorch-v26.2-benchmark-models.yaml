@@ -1,0 +1,34 @@
+docker:
+  pull_tag: rocm/primus:v26.2
+  docker_hub_url: https://hub.docker.com/layers/rocm/primus/v26.2/images/sha256-9148d1bfcd579bf92f44bd89090e0d8c958f149c134b4b34b9674ab559244585
+  components:
+    ROCm: 7.2.0
+    PyTorch: 2.10.0a0+git449b176
+    Python: "3.12.3"
+    Transformer Engine: 2.8.0.dev0+51f74fa7
+    Flash Attention: 2.8.3
+    hipBLASLt: 1.2.0-de5c1aebb6
+    Triton: 3.6.0
+    RCCL: 2.27.7
+model_groups:
+  - group: Meta Llama
+    tag: llama
+    models:
+      - model: Llama 3.1 8B
+        mad_tag: primus_pyt_train_llama-3.1-8b
+        model_repo: Llama-3.1-8B
+        url: https://huggingface.co/meta-llama/Llama-3.1-8B
+        precision: BF16
+      - model: Llama 3.1 70B
+        mad_tag: primus_pyt_train_llama-3.1-70b
+        model_repo: Llama-3.1-70B
+        url: https://huggingface.co/meta-llama/Llama-3.1-70B
+        precision: BF16
+  - group: DeepSeek
+    tag: deepseek
+    models:
+      - model: DeepSeek V3 16B
+        mad_tag: primus_pyt_train_deepseek-v3-16b
+        model_repo: DeepSeek-V3
+        url: https://huggingface.co/deepseek-ai/DeepSeek-V3
+        precision: BF16
