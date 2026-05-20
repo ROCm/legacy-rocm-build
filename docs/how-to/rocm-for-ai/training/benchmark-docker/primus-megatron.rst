@@ -156,8 +156,8 @@ Pull the Docker image
          docker start primus_training_env
          docker exec -it primus_training_env bash
 
-The Docker container hosts verified commit ``e16b27b`` of the `Primus
-<https://github.com/AMD-AGI/Primus/tree/e16b27bf6c1b2798f38848fc574fee60d9a9b902>`__ repository.
+The Docker container hosts verified commit ``43a6e00`` of the `Primus
+<https://github.com/AMD-AGI/Primus/tree/43a6e006c419697208295c5523b99070e8198ad9>`__ repository.
 
 .. _amd-primus-megatron-lm-environment-setup-v26.3:
 
@@ -165,7 +165,7 @@ Configuration
 =============
 
 Primus defines a training configuration in YAML for each model in
-`examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/e16b27bf6c1b2798f38848fc574fee60d9a9b902/examples/megatron/configs>`__.
+`examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/43a6e006c419697208295c5523b99070e8198ad9/examples/megatron/configs>`__.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
@@ -1100,7 +1100,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
       git clone --recurse-submodules https://github.com/AMD-AGI/Primus.git
       cd Primus/
-      git checkout 44f780d
+      git checkout 43a6e006c419697208295c5523b99070e8198ad9
       git submodule update --init --recursive
       export DOCKER_IMAGE={{ docker.pull_tag }}
       export HF_TOKEN=<your_HF_token>

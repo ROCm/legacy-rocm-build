@@ -182,8 +182,8 @@ tweak some configurations (such as batch sizes).
                   docker start training_env
                   docker exec -it training_env bash
 
-               The Docker container hosts verified commit ``e16b27b`` of the `Primus
-               <https://github.com/AMD-AGI/Primus/tree/e16b27bf6c1b2798f38848fc574fee60d9a9b902/>`__ repository.
+               The Docker container hosts verified commit ``43a6e00`` of the `Primus
+               <https://github.com/AMD-AGI/Primus/tree/43a6e006c419697208295c5523b99070e8198ad9>`__ repository.
 
             .. rubric:: Setup
 
