@@ -162,7 +162,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx950-dcgpu/ "torch==2.10.0+rocm7.13.0" "torchvision==0.25.0+rocm7.13.0" "torchaudio==2.10.0+rocm7.13.0"
 
@@ -179,7 +179,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx950-dcgpu/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
 
@@ -198,7 +198,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx94X-dcgpu/ "torch==2.11.0+rocm7.13.0" "torchvision==0.26.0+rocm7.13.0" "torchaudio==2.11.0+rocm7.13.0"
 
@@ -215,7 +215,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx94X-dcgpu/ "torch==2.10.0+rocm7.13.0" "torchvision==0.25.0+rocm7.13.0" "torchaudio==2.10.0+rocm7.13.0"
 
@@ -232,7 +232,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx94X-dcgpu/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
 
@@ -251,7 +251,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx90a/ "torch==2.11.0+rocm7.13.0" "torchvision==0.26.0+rocm7.13.0" "torchaudio==2.11.0+rocm7.13.0"
 
@@ -268,7 +268,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx90a/ "torch==2.10.0+rocm7.13.0" "torchvision==0.25.0+rocm7.13.0" "torchaudio==2.10.0+rocm7.13.0"
 
@@ -285,7 +285,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx90a/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
 
@@ -304,7 +304,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx908/ "torch==2.11.0+rocm7.13.0" "torchvision==0.26.0+rocm7.13.0" "torchaudio==2.11.0+rocm7.13.0"
 
@@ -319,6 +319,12 @@ Install PyTorch using pip
                    "torchvision==0.25.0+rocm7.13.0" \
                    "torchaudio==2.10.0+rocm7.13.0"
 
+         .. selected:: os=windows
+
+            .. code-block:: bat
+
+               python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx908/ "torch==2.10.0+rocm7.13.0" "torchvision==0.25.0+rocm7.13.0" "torchaudio==2.10.0+rocm7.13.0"
+
       .. selected:: pytorch-ver=2.9.1
 
          .. selected:: os=linux
@@ -332,7 +338,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx908/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
 
@@ -379,7 +385,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx120X-all/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
 
@@ -426,7 +432,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx110X-all/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
 
@@ -462,7 +468,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx103X-all/ "torch==2.10.0+rocm7.13.0" "torchvision==0.25.0+rocm7.13.0" "torchaudio==2.10.0+rocm7.13.0"
 
@@ -479,7 +485,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx103X-all/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
 
@@ -526,7 +532,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx1151/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
 
@@ -562,7 +568,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx1150/ "torch==2.10.0+rocm7.13.0" "torchvision==0.25.0+rocm7.13.0" "torchaudio==2.10.0+rocm7.13.0"
 
@@ -576,6 +582,12 @@ Install PyTorch using pip
                    "torch==2.9.1+rocm7.13.0" \
                    "torchvision==0.24.0+rocm7.13.0" \
                    "torchaudio==2.9.0+rocm7.13.0"
+
+         .. selected:: os=windows
+
+            .. code-block:: bat
+
+               python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx1150/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
 
    .. selected:: gfx=gfx1152
 
@@ -609,7 +621,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx1152/ "torch==2.10.0+rocm7.13.0" "torchvision==0.25.0+rocm7.13.0" "torchaudio==2.10.0+rocm7.13.0"
 
@@ -626,13 +638,7 @@ Install PyTorch using pip
 
          .. selected:: os=windows
 
-            .. code-block:: bash
-
-               python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx1152/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
-
-         .. selected:: os=windows
-
-            .. code-block:: bash
+            .. code-block:: bat
 
                python -m pip install --index-url https://repo.amd.com/rocm/whl/gfx1152/ "torch==2.9.1+rocm7.13.0" "torchvision==0.24.0+rocm7.13.0" "torchaudio==2.9.0+rocm7.13.0"
 
