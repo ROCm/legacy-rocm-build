@@ -14,9 +14,8 @@ model training. Performance acceleration is powered by `Primus Turbo
 
 .. note::
 
-   For a unified training solution on AMD GPUs with ROCm, the `rocm/megatron-lm
-   <https://hub.docker.com/r/rocm/megatron-lm/>`__ Docker Hub registry will be
-   deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
+   The ``rocm/pytorch-training`` Docker Hub registry will be deprecated soon in
+   favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
    The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
    including Megatron-LM and :doc:`torchtitan <primus-pytorch>`.
 
@@ -47,7 +46,7 @@ Megatron-LM.
               - {{ component_version }}
             {% endfor %}
 
-.. _amd-primus-megatron-lm-model-support-v26.2:
+.. _amd-primus-megatron-lm-model-support-v26.3:
 
 Supported models
 ================
@@ -65,21 +64,9 @@ might vary by model -- select one to get started.
          <div class="row gx-0">
             <div class="col-2 me-1 px-2 model-param-head">Model</div>
             <div class="row col-10 pe-0">
-               {% set tag = "llama" %}
-               {% set group = "Meta Llama" %}
-               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ tag }}" tabindex="0">{{ group }}</div>
-               {% set tag = "zebra-llama" %}
-               {% set group = "AMD Zebra-Llama" %}
-               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ tag }}" tabindex="0">{{ group }}</div>
-               {% set tag = "deepseek" %}
-               {% set group = "DeepSeek" %}
-               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ tag }}" tabindex="0">{{ group }}</div>
-               {% set tag = "mistral" %}
-               {% set group = "Mistral AI" %}
-               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ tag }}" tabindex="0">{{ group }}</div>
-               {% set tag = "qwen" %}
-               {% set group = "Qwen" %}
-               <div class="col-4 px-2 model-param" data-param-k="model-group" data-param-v="{{ tag }}" tabindex="0">{{ group }}</div>
+      {% for model_group in model_groups %}
+               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.tag }}" tabindex="0">{{ model_group.group }}</div>
+      {% endfor %}
             </div>
          </div>
 
@@ -120,7 +107,7 @@ To test for optimal performance, consult the recommended :ref:`System health ben
 <rocm-for-ai-system-health-bench>`. This suite of tests will help you verify and fine-tune your
 system's configuration.
 
-.. _mi300x-amd-primus-megatron-lm-training-v26.2:
+.. _mi300x-amd-primus-megatron-lm-training-v26.3:
 
 Environment setup
 =================
@@ -130,7 +117,7 @@ Environment setup
    Use the following instructions to set up the environment, configure the script to train models, and
    reproduce the benchmark results on AMD Instinct GPUs.
 
-.. _amd-primus-megatron-lm-requirements-v26.2:
+.. _amd-primus-megatron-lm-requirements-v26.3:
 
 Pull the Docker image
 
@@ -169,16 +156,16 @@ Pull the Docker image
          docker start primus_training_env
          docker exec -it primus_training_env bash
 
-The Docker container hosts verified commit ``9c529cd4`` of the `Primus
-<https://github.com/AMD-AGI/Primus/tree/9c529cd4a934a68a880ede036c3e97b792e38167>`__ repository.
+The Docker container hosts verified commit ``e16b27b`` of the `Primus
+<https://github.com/AMD-AGI/Primus/tree/e16b27bf6c1b2798f38848fc574fee60d9a9b902>`__ repository.
 
-.. _amd-primus-megatron-lm-environment-setup-v26.2:
+.. _amd-primus-megatron-lm-environment-setup-v26.3:
 
 Configuration
 =============
 
 Primus defines a training configuration in YAML for each model in
-`examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/9c529cd4a934a68a880ede036c3e97b792e38167/examples/megatron/configs>`__.
+`examples/megatron/configs <https://github.com/AMD-AGI/Primus/tree/e16b27bf6c1b2798f38848fc574fee60d9a9b902/examples/megatron/configs>`__.
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
 
@@ -219,7 +206,7 @@ You can use either mock data or real data for training.
 
   Ensure that the files are accessible inside the Docker container.
 
-.. _amd-primus-megatron-lm-tokenizer-v26.2:
+.. _amd-primus-megatron-lm-tokenizer-v26.3:
 
 Tokenizer
 ---------
@@ -232,7 +219,7 @@ right permissions to access the tokenizer for each model.
    # Export your HF_TOKEN in the workspace
    export HF_TOKEN=<your_hftoken>
 
-.. _amd-primus-megatron-lm-run-training-v26.2:
+.. _amd-primus-megatron-lm-run-training-v26.3:
 
 Run training
 ============
@@ -254,7 +241,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.3 70B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run pre-training for Llama 3.3 70B BF16, run:
 
@@ -289,7 +276,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.1 8B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run pre-training for Llama 3.1 8B FP8, run:
 
@@ -353,7 +340,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.1 70B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run pre-training for Llama 3.1 70B BF16, run:
 
@@ -429,7 +416,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 2 7B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run pre-training for Llama 2 7B FP8, run:
 
@@ -493,7 +480,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 2 70B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run pre-training for Llama 2 70B BF16, run:
 
@@ -528,7 +515,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to DeepSeek-V3.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run training on a single node for DeepSeek-V3 (MoE with expert parallel) BF16 with 3-layer proxy,
    use the following command:
@@ -576,7 +563,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to DeepSeek-V2-Lite.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run training on a single node for DeepSeek-V2-Lite (MoE with expert parallel) BF16,
    use the following command:
@@ -616,7 +603,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Mixtral 8x7B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run training on a single node for Mixtral 8x7B (MoE with expert parallel),
    use the following command:
@@ -652,7 +639,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Mixtral 8x22B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run training on a single node for Mixtral 8x22B BF16 (MoE with expert parallel) 4-layer proxy,
    use the following command:
@@ -693,7 +680,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to post-training Qwen 3 32B (LoRA).
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run training on a single node for Qwen 3 32B BF16 (SFT), use the following
    command:
@@ -729,7 +716,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to post-training Qwen 3 32B (SFT).
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run training on a single node for Qwen 3 32B BF16 (SFT), use the following
    command:
@@ -765,7 +752,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Qwen 2.5 7B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run training on a single node for Qwen 2.5 7B BF16, use the following
    command:
@@ -830,7 +817,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Qwen 2.5 72B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run the training on a single node for Qwen 2.5 72B BF16, use the following command.
 
@@ -865,7 +852,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Zebra-Llama 1B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run the training on a single node for AMD Zebra-Llama 1B BF16, use the following command.
 
@@ -900,7 +887,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Zebra-Llama 3B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run the training on a single node for AMD Zebra-Llama 3B BF16, use the following command.
 
@@ -935,7 +922,7 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Zebra Llama 8B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To run the training on a single node for AMD Zebra-Llama 8B BF16, use the following command.
 
@@ -966,7 +953,135 @@ To run training on a single node, navigate to ``/workspace/Primus`` and use the 
               -- train pretrain \
               --config examples/megatron/configs/MI300X/zebra_llama_8B-pretrain.yaml
 
-.. _amd-primus-megatron-multi-node-examples-v26.2:
+.. container:: model-doc primus_pyt_megatron_lm_train_qwen3-30b-a3b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Qwen 3 30B (A3B).
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
+
+   To run training on a single node for Qwen 3 30B (A3B) BF16, use the following command:
+
+   .. tab-set::
+
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen3_30B_A3B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/qwen3_30B_A3B-BF16-pretrain.yaml
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            # Set the variables for better performance
+            # only on MI325X and MI300X
+            export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
+            export NVTE_CK_IS_V3_ATOMIC_FP32=1
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen3_30B_A3B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/qwen3_30B_A3B-BF16-pretrain.yaml
+
+   For FP8, use the following command.
+
+   .. tab-set::
+
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen3_30B_A3B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/qwen3_30B_A3B-FP8-pretrain.yaml
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            # Set the variables for better performance
+            # only on MI325X and MI300X
+            export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
+            export NVTE_CK_IS_V3_ATOMIC_FP32=1
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_qwen3_30B_A3B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/qwen3_30B_A3B-FP8-pretrain.yaml
+
+.. container:: model-doc primus_pyt_megatron_lm_train_gpt-oss-20b
+
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to GPT-OSS-20B.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
+
+   To run training on a single node for GPT-OSS-20B BF16, use the following command:
+
+   .. tab-set::
+
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_gpt_oss_20B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/gpt_oss_20B-BF16-pretrain.yaml
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            # Set the variables for better performance
+            # only on MI325X and MI300X
+            export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
+            export NVTE_CK_IS_V3_ATOMIC_FP32=1
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_gpt_oss_20B.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/gpt_oss_20B-BF16-pretrain.yaml
+
+   For FP8, use the following command.
+
+   .. tab-set::
+
+      .. tab-item:: MI355X and MI350X
+         :sync: MI355X and MI350X
+
+         .. code-block:: shell
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_gpt_oss_20B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI355X/gpt_oss_20B-FP8-pretrain.yaml
+
+      .. tab-item:: MI300X
+         :sync: MI325X and MI300X
+
+         .. code-block:: shell
+
+            # Set the variables for better performance
+            # only on MI325X and MI300X
+            export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
+            export NVTE_CK_IS_V3_ATOMIC_FP32=1
+
+            bash runner/primus-cli direct \
+              --log_file /tmp/primus_gpt_oss_20B_fp8.log \
+              -- train pretrain \
+              --config examples/megatron/configs/MI300X/gpt_oss_20B-FP8-pretrain.yaml
+
+.. _amd-primus-megatron-multi-node-examples-v26.3:
 
 Multi-node training examples
 ----------------------------
@@ -975,7 +1090,7 @@ Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure y
 training.
 
 To run training on multiple nodes, you can use the
-`run_slurm_pretrain.sh <https://github.com/AMD-AGI/Primus/blob/9c529cd4a934a68a880ede036c3e97b792e38167/examples/run_slurm_pretrain.sh>`__
+`run_slurm_pretrain.sh <https://github.com/AMD-AGI/Primus/blob/main/examples/run_slurm_pretrain.sh>`__
 to launch the multi-node workload. Use the following steps to setup your environment:
 
 .. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-megatron-benchmark-models.yaml
@@ -1005,13 +1120,13 @@ to launch the multi-node workload. Use the following steps to setup your environ
    * If ``NCCL_IB_HCA`` and ``NCCL_SOCKET_IFNAME`` are not set, Primus will try to auto-detect. However, since NICs can vary accross different cluster, it is encouraged to explicitly export your NCCL parameters for the cluster.
    * To find your network interface, you can use ``ip a``.
    * To find RDMA interfaces, you can use ``ibv_devices`` to get the list of all the RDMA/IB  devices.
-   * Remember to set ``DOCKER_IMAGE`` and ``HF_TOKEN`` (see :ref:`amd-primus-megatron-lm-tokenizer-v26.2`) as appropriate.
+   * Remember to set ``DOCKER_IMAGE`` and ``HF_TOKEN`` (see :ref:`amd-primus-megatron-lm-tokenizer-v26.3`) as appropriate.
 
 .. container:: model-doc primus_pyt_megatron_lm_train_llama-3.1-8b
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.1 8B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To train Llama 3.1 8B FP8 on 8 nodes, run:
 
@@ -1028,7 +1143,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 2 7B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To train Llama 2 7B FP8 on 8 nodes, run:
 
@@ -1045,7 +1160,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.1 70B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To train Llama 3.1 70B FP8 on 8 nodes, run:
 
@@ -1075,7 +1190,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 2 70B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To train Llama 2 70B FP8 on 8 nodes, run:
 
@@ -1105,7 +1220,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.3 70B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To train Llama 3.3 70B FP8 on 8 nodes, run:
 
@@ -1135,7 +1250,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 2 70B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To train Mixtral 8x7B BF16 on 8 nodes, run:
 
@@ -1153,7 +1268,7 @@ to launch the multi-node workload. Use the following steps to setup your environ
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 2 70B.
-   See :ref:`amd-primus-megatron-lm-model-support-v26.2` to switch to another available model.
+   See :ref:`amd-primus-megatron-lm-model-support-v26.3` to switch to another available model.
 
    To train Qwen2.5 72B FP8 on 8 nodes, run:
 
@@ -1162,13 +1277,13 @@ to launch the multi-node workload. Use the following steps to setup your environ
       # Adjust the training parameters.
       # For example, `global_batch_size: 8 * #single_node_bs` for 8 nodes in this case
       NNODES=8 \
-      EXP=examples/megatron/configs/qwen2.5_72B-FP8-pretrain.yaml \
+      EXP=examples/megatron/configs/MI300X/qwen2.5_72B-FP8-pretrain.yaml \
       bash examples/run_slurm_pretrain.sh \
           --micro_batch_size 8 \
           --global_batch_size 512 \
           --recompute_num_layers 80 \
 
-.. _amd-primus-megatron-lm-benchmark-test-vars-v26.2:
+.. _amd-primus-megatron-lm-benchmark-test-vars-v26.3:
 
 Key options
 -----------
