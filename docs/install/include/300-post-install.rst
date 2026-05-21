@@ -1,11 +1,11 @@
 Post-installation
 =================
 
-.. _rocm-post-install-env:
-
 After installing the ROCm Core SDK |ROCM_VERSION|, complete these
 post-installation steps to complete your system configuration and validate the
 installation.
+
+.. _rocm-post-install-env:
 
 .. selected:: w=compute
 
@@ -263,6 +263,115 @@ installation.
             multiProcessorCount:              20
 
             ... [output truncated]
+
+.. selected:: os=wsl
+   :heading: Verify your installation
+   :heading-level: 3
+
+   Use ``rocminfo`` to verify that the ROCm Core SDK is correctly
+   installed and that your AMD devices are visible to the system.
+
+   .. code-block:: bash
+
+      rocminfo
+
+   .. dropdown:: Example output of ``rocminfo``
+      :animate: fade-in-slide-down
+      :color: success
+      :icon: note
+      :chevron: down-up
+
+      .. code-block:: shell-session
+
+         WSL environment detected.
+         =====================
+         HSA System Attributes
+         =====================
+         Runtime Version:         1.21
+         Runtime Ext Version:     1.21
+         System Timestamp Freq.:  1000.000000MHz
+         Sig. Max Wait Duration:  18446744073709551615 (0xFFFFFFFFFFFFFFFF) (timestamp count)
+         Machine Model:           LARGE
+         System Endianness:       LITTLE
+         Mwaitx:                  DISABLED
+         XNACK enabled:           NO
+         DMAbuf Support:          YES
+         VMM Support:             YES
+
+         ==========
+         HSA Agents
+         ==========
+         *******
+         Agent 1
+         *******
+           Name:                    AMD RYZEN AI MAX+ 395 w/ Radeon 8060S
+           Uuid:                    CPU-XX
+           Marketing Name:          AMD RYZEN AI MAX+ 395 w/ Radeon 8060S
+           Vendor Name:             CPU
+           Feature:                 None specified
+           Profile:                 FULL_PROFILE
+           Float Round Mode:        NEAR
+           Max Queue Number:        0(0x0)
+           Queue Min Size:          0(0x0)
+           Queue Max Size:          0(0x0)
+           Queue Type:              MULTI
+           Node:                    0
+           Device Type:             CPU
+           Cache Info:
+             L1:                      49152(0xc000) KB
+           Chip ID:                 0(0x0)
+           Cacheline Size:          64(0x40)
+           BDFID:                   0
+           Internal Node ID:        0
+           Compute Unit:            32
+           SIMDs per CU:            0
+           Shader Engines:          0
+           Shader Arrs. per Eng.:   0
+           Memory Properties:
+           Features:                None
+           Pool Info:
+             Pool 1
+               Segment:                 GLOBAL; FLAGS: FINE GRAINED
+               Size:                    14123020(0xd7800c) KB
+               Allocatable:             TRUE
+               Alloc Granule:           4KB
+               Alloc Recommended Granule:4KB
+               Alloc Alignment:         4KB
+               Accessible by all:       TRUE
+             Pool 2
+               Segment:                 GLOBAL; FLAGS: EXTENDED FINE GRAINED
+               Size:                    14123020(0xd7800c) KB
+               Allocatable:             TRUE
+               Alloc Granule:           4KB
+               Alloc Recommended Granule:4KB
+               Alloc Alignment:         4KB
+               Accessible by all:       TRUE
+             Pool 3
+               Segment:                 GLOBAL; FLAGS: KERNARG, FINE GRAINED
+               Size:                    14123020(0xd7800c) KB
+               Allocatable:             TRUE
+               Alloc Granule:           4KB
+               Alloc Recommended Granule:4KB
+               Alloc Alignment:         4KB
+               Accessible by all:       TRUE
+             Pool 4
+               Segment:                 GLOBAL; FLAGS: COARSE GRAINED
+               Size:                    14123020(0xd7800c) KB
+               Allocatable:             TRUE
+               Alloc Granule:           4KB
+               Alloc Recommended Granule:4KB
+               Alloc Alignment:         4KB
+               Accessible by all:       TRUE
+           ISA Info:
+         *******
+         Agent 2
+         *******
+           Name:                    gfx1151
+           Uuid:                    GPU-ffffffffffffffff
+           Marketing Name:          AMD Radeon(TM) 8060S Graphics
+           Vendor Name:             AMD
+
+         ... [output truncated]
 
 .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 

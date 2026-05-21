@@ -3,5 +3,6 @@
    .. selector:: Windows version
       :key: windows-ver
 
-      .. selector-option:: 11 25H2
-         :width: 12
+      .. selector-option:: Windows 11 25H2
+         :value: 11
+         :width: 100%

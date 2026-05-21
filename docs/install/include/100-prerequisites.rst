@@ -88,6 +88,8 @@ Prerequisites
 
                zypper install sudo wget
 
+.. ================================================================== WINDOWS ==
+
 
 .. selected:: os=windows
    :heading: Prepare Windows for ROCm installation
@@ -121,13 +123,53 @@ Prerequisites
    download link, see `AMD Software: Adrenalin Edition 26.5.1
    <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-5-1.html#Downloads>`__.
 
+.. selected:: os=wsl
+   :heading: Install AMD Software: Adrenalin Edition
+   :heading-level: 3
+
+   Install AMD Software: Adrenalin Edition for Windows. For details and the
+   download link, see `AMD Software: Adrenalin Edition 26.5.2
+   <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-5-2.html#Downloads>`__.
+
+.. selected:: os=wsl
+
+   .. selected:: ubuntu-ver=26.04
+      :heading: Install WSL 2 and Ubuntu 26.04
+      :heading-level: 3
+
+      Install WSL 2 and Ubuntu 26.04 on your Windows system. See `How to install Linux on Windows
+      with WSL (Microsoft Learn)
+      <https://learn.microsoft.com/en-us/windows/wsl/install>`__ for instructions.
+
+      Complete the following instructions in your WSL environment.
+
+   .. selected:: ubuntu-ver=24.04
+      :heading: Install WSL 2 and Ubuntu 24.04
+      :heading-level: 3
+
+      Install WSL 2 and Ubuntu 24.04 on your Windows system. See `How to install Linux on Windows
+      with WSL (Microsoft Learn)
+      <https://learn.microsoft.com/en-us/windows/wsl/install>`__ for instructions.
+
+      Complete the following instructions in your WSL environment.
+
+   .. selected:: ubuntu-ver=22.04
+      :heading: Install WSL 2 and Ubuntu 22.04
+      :heading-level: 3
+
+      Install WSL 2 and Ubuntu 22.04 on your Windows system. See `How to install Linux on Windows
+      with WSL (Microsoft Learn)
+      <https://learn.microsoft.com/en-us/windows/wsl/install>`__ for instructions.
+
+      Complete the following instructions in your WSL environment.
+
 .. =============================================================== OEM KERNEL ==
 
 .. selected:: fam=ryzen
 
    .. selected:: i=pkgman i=pip i=tar
 
-      .. selected:: os=ubuntu
+      .. selected:: os=ubuntu os=wsl
 
          .. selected:: ubuntu-ver=24.04
             :heading: Install the OEM kernel
@@ -403,7 +445,7 @@ Prerequisites
 
 .. ============================================== INSTALL ADDITIONAL PACKAGES ==
 
-.. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
+.. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles os=wsl
 
    .. selected:: w=graphics
       :heading: Install additional packages
@@ -456,6 +498,15 @@ Prerequisites
                      sudo apt update && sudo apt install linux-image-6.14.0-1018-oem
 
                   Reboot your system after installing the OEM kernel.
+
+      .. selected:: os=wsl
+
+         To build the ROCDXG library for WSL, you'll need GCC 11.4 or later and
+         CMake 3.15 or later.
+
+         .. code-block:: bash
+
+            sudo apt install libatomic1 libquadmath0 gcc g++ cmake
 
       .. selected:: os=rhel os=oracle-linux os=rocky-linux
 
@@ -626,7 +677,7 @@ Prerequisites
 
 .. selected:: i=pkgman i=pip i=tar
 
-   .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
+   .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles os=wsl
       :heading: Configure permissions for GPU access
       :heading-level: 3
 
