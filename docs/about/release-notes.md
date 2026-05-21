@@ -87,8 +87,11 @@ details, see [GPU virtualization support](#gpu-virtualization-support).
 
 #### Expanded Instinct GPU partitioning support
 
-ROCm 7.13.0 enables the QPX compute + NPS 2 memory partition combination in
-bare metal deployments.
+ROCm 7.13.0 enables the following GPU partitioning configurations in bare metal deployments:
+
+* On MI355X and MI350X: QPX compute partitioning with NPS 2 memory partitioning
+
+* On MI350P: CPX compute partitioning with NPS 1 memory partitioning
 
 For details, see [GPU partitioning support](#gpu-partitioning-support).
 
