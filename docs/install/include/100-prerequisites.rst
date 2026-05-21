@@ -496,7 +496,7 @@ Prerequisites
 
          .. code-block:: bash
 
-            sudo apt install libatomic1 libquadmath0 gcc cmake
+            sudo apt install libatomic1 libquadmath0 gcc g++ cmake
 
       .. selected:: os=rhel os=oracle-linux os=rocky-linux
 

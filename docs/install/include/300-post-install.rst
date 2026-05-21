@@ -283,7 +283,7 @@ installation.
 
       .. code-block:: shell-session
 
-         ROCk module version 6.16.6 is loaded
+         WSL environment detected.
          =====================
          HSA System Attributes
          =====================
@@ -293,7 +293,7 @@ installation.
          Sig. Max Wait Duration:  18446744073709551615 (0xFFFFFFFFFFFFFFFF) (timestamp count)
          Machine Model:           LARGE
          System Endianness:       LITTLE
-         Mwaitx:                  ENABLED
+         Mwaitx:                  DISABLED
          XNACK enabled:           NO
          DMAbuf Support:          YES
          VMM Support:             YES
@@ -304,9 +304,71 @@ installation.
          *******
          Agent 1
          *******
-           Name:                    gfx950
-           Uuid:                    GPU-5b920922d0067ea9
-           Marketing Name:          AMD Instinct MI350X
+           Name:                    AMD RYZEN AI MAX+ 395 w/ Radeon 8060S
+           Uuid:                    CPU-XX
+           Marketing Name:          AMD RYZEN AI MAX+ 395 w/ Radeon 8060S
+           Vendor Name:             CPU
+           Feature:                 None specified
+           Profile:                 FULL_PROFILE
+           Float Round Mode:        NEAR
+           Max Queue Number:        0(0x0)
+           Queue Min Size:          0(0x0)
+           Queue Max Size:          0(0x0)
+           Queue Type:              MULTI
+           Node:                    0
+           Device Type:             CPU
+           Cache Info:
+             L1:                      49152(0xc000) KB
+           Chip ID:                 0(0x0)
+           Cacheline Size:          64(0x40)
+           BDFID:                   0
+           Internal Node ID:        0
+           Compute Unit:            32
+           SIMDs per CU:            0
+           Shader Engines:          0
+           Shader Arrs. per Eng.:   0
+           Memory Properties:
+           Features:                None
+           Pool Info:
+             Pool 1
+               Segment:                 GLOBAL; FLAGS: FINE GRAINED
+               Size:                    14123020(0xd7800c) KB
+               Allocatable:             TRUE
+               Alloc Granule:           4KB
+               Alloc Recommended Granule:4KB
+               Alloc Alignment:         4KB
+               Accessible by all:       TRUE
+             Pool 2
+               Segment:                 GLOBAL; FLAGS: EXTENDED FINE GRAINED
+               Size:                    14123020(0xd7800c) KB
+               Allocatable:             TRUE
+               Alloc Granule:           4KB
+               Alloc Recommended Granule:4KB
+               Alloc Alignment:         4KB
+               Accessible by all:       TRUE
+             Pool 3
+               Segment:                 GLOBAL; FLAGS: KERNARG, FINE GRAINED
+               Size:                    14123020(0xd7800c) KB
+               Allocatable:             TRUE
+               Alloc Granule:           4KB
+               Alloc Recommended Granule:4KB
+               Alloc Alignment:         4KB
+               Accessible by all:       TRUE
+             Pool 4
+               Segment:                 GLOBAL; FLAGS: COARSE GRAINED
+               Size:                    14123020(0xd7800c) KB
+               Allocatable:             TRUE
+               Alloc Granule:           4KB
+               Alloc Recommended Granule:4KB
+               Alloc Alignment:         4KB
+               Accessible by all:       TRUE
+           ISA Info:
+         *******
+         Agent 2
+         *******
+           Name:                    gfx1151
+           Uuid:                    GPU-ffffffffffffffff
+           Marketing Name:          AMD Radeon(TM) 8060S Graphics
            Vendor Name:             AMD
 
          ... [output truncated]
