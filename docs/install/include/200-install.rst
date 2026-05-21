@@ -20,7 +20,7 @@ see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
 
    .. code-block:: bash
 
-      wget https://repo.radeon.com/rocm/installer/rocm-runfile-installer/rocm-rel-7.13/rocm-installer-7.13.0-2.run
+      wget https://repo.radeon.com/rocm/installer/rocm-runfile-installer/rocm-rel-7.13/rocm-installer-7.13.0-3.run
 
 .. selected:: w=graphics
 
@@ -211,7 +211,7 @@ see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install amdgpu
+         bash rocm-installer-7.13.0-3.run deps=install amdgpu
 
       .. note::
 
@@ -1807,61 +1807,61 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx950 gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx950 gpu-access=user
 
    .. selected:: gfx=gfx942
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx94x gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx94x gpu-access=user
 
    .. selected:: gfx=gfx90a
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx90a gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx90a gpu-access=user
 
    .. selected:: gfx=gfx908
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx908 gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx908 gpu-access=user
 
    .. selected:: gfx=gfx1201 gfx=gfx1200
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx120x gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx120x gpu-access=user
 
    .. selected:: gfx=gfx1100 gfx=gfx1101 gfx=gfx1102 gfx=gfx1103
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx110x gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx110x gpu-access=user
 
    .. selected:: gfx=gfx1030
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx103x gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx103x gpu-access=user
 
    .. selected:: gfx=gfx1151
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx1151 gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx1151 gpu-access=user
 
    .. selected:: gfx=gfx1150
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx1150 gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx1150 gpu-access=user
 
    .. selected:: gfx=gfx1152
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx1152 gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx1152 gpu-access=user
 
 .. selected:: i=runfile
    :heading: ROCm meta components
@@ -1963,58 +1963,58 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx950 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx950 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx942
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx94x compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx94x compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx90a
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx90a compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx90a compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx908
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx908 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx908 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1201 gfx=gfx1200
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx120x compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx120x compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1100 gfx=gfx1101 gfx=gfx1102 gfx=gfx1103
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx110x compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx110x compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1030
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx103x compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx103x compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1151
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx1151 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx1151 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1150
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx1150 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx1150 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1152
 
       .. code-block:: bash
 
-         bash rocm-installer-7.13.0-2.run deps=install rocm gfx=gfx1152 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx1152 compo=core,core-dev gpu-access=user
