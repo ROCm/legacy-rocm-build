@@ -7,7 +7,7 @@ Uninstalling
 
    1. Use your package manager to remove the :ref:`installed packages <rocm-install-rocm>`.
 
-      .. selected:: os=ubuntu os=debian
+      .. selected:: os=ubuntu os=debian os=wsl
 
          .. selected:: fam=all
 
@@ -151,7 +151,7 @@ Uninstalling
 
    2. Remove ROCm repositories.
 
-      .. selected:: os=ubuntu os=debian
+      .. selected:: os=ubuntu os=debian os=wsl
 
          .. code-block:: bash
 

@@ -1,11 +1,11 @@
 Installation
 ============
 
-Before getting started, make sure you've completed the :ref:`rocm-prerequisites`.
-For information about supported operating systems and compatible AMD devices,
-see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
-
 .. selected:: os=windows
+
+   Before getting started, make sure you've completed the :ref:`rocm-prerequisites`.
+   For information about supported operating systems and compatible AMD devices,
+   see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
 
    .. caution::
 
@@ -37,24 +37,24 @@ see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
             .. code-block:: bash
 
                sudo apt update
-               wget https://repo.radeon.com/amdgpu-install/31.30/ubuntu/resolute/amdgpu-install_26.12.261200-1_all.deb
-               sudo apt install ./amdgpu-install_26.12.261200-1_all.deb
+               wget https://repo.radeon.com/amdgpu-install/31.30/ubuntu/resolute/amdgpu-install_31.30.313000-1_all.deb
+               sudo apt install ./amdgpu-install_31.30.313000-1_all.deb
 
          .. selected:: ubuntu-ver=24.04
 
             .. code-block:: bash
 
                sudo apt update
-               wget https://repo.radeon.com/amdgpu-install/31.30/ubuntu/noble/amdgpu-install_26.12.261200-1_all.deb
-               sudo apt install ./amdgpu-install_26.12.261200-1_all.deb
+               wget https://repo.radeon.com/amdgpu-install/31.30/ubuntu/noble/amdgpu-install_31.30.313000-1_all.deb
+               sudo apt install ./amdgpu-install_31.30.313000-1_all.deb
 
          .. selected:: ubuntu-ver=22.04
 
             .. code-block:: bash
 
                sudo apt update
-               wget https://repo.radeon.com/amdgpu-install/31.30/ubuntu/jammy/amdgpu-install_26.12.261200-1_all.deb
-               sudo apt install ./amdgpu-install_26.12.261200-1_all.deb
+               wget https://repo.radeon.com/amdgpu-install/31.30/ubuntu/jammy/amdgpu-install_31.30.313000-1_all.deb
+               sudo apt install ./amdgpu-install_31.30.313000-1_all.deb
 
       .. selected:: os=rhel
 
@@ -62,15 +62,15 @@ see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
 
             .. code-block:: bash
 
-               wget https://repo.radeon.com/amdgpu-install/31.30/rhel/10.1/amdgpu-install-26.12.261200-1.el10.noarch.rpm
-               sudo dnf install ./amdgpu-install-26.12.261200-1.el10.noarch.rpm
+               wget https://repo.radeon.com/amdgpu-install/31.30/rhel/10.1/amdgpu-install-31.30.313000-1.el10.noarch.rpm
+               sudo dnf install ./amdgpu-install-31.30.313000-1.el10.noarch.rpm
 
          .. selected:: rhel-ver=9.7
 
             .. code-block:: bash
 
-               wget https://repo.radeon.com/amdgpu-install/31.30/rhel/9.7/amdgpu-install-26.12.261200-1.el9.noarch.rpm
-               sudo dnf install ./amdgpu-install-26.12.261200-1.el9.noarch.rpm
+               wget https://repo.radeon.com/amdgpu-install/31.30/rhel/9.7/amdgpu-install-31.30.313000-1.el9.noarch.rpm
+               sudo dnf install ./amdgpu-install-31.30.313000-1.el9.noarch.rpm
 
 .. ==================================================== INSTALL KERNEL DRIVER ==
 
@@ -217,11 +217,41 @@ see the :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
 
          Reboot your system after installing the AMD GPU Driver.
 
+.. selected:: os=wsl
+   :heading: Build and install the AMD ROCDXG library
+   :heading-level: 3
+
+   1. In your host Windows environment, download and install the `Windows SDK
+      <https://learn.microsoft.com/en-us/windows/apps/windows-sdk/>`__ for
+      Windows 11. Make sure you have the necessary permissions to access the
+      Windows SDK installation files from your WSL environment.
+
+   2. In your WSL environment, clone the ROCDXG library.
+
+      .. code-block:: bash
+
+         git clone https://github.com/ROCm/librocdxg.git
+         cd librocdxg
+
+   3. Build the ROCDXG library using CMake. Set ``WIN_SDK_PATH`` to the Windows SDK
+      include directory for your installed version.
+
+      .. code-block:: bash
+
+         # Set the Windows SDK path (adjust version number if different)
+         export WIN_SDK_PATH="/mnt/c/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0"
+
+         # Build the library
+         mkdir -p build
+         cd build
+         cmake .. -DWIN_SDK="${WIN_SDK_PATH}/shared"
+         make
+         sudo make install
 
 .. _rocm-install-rocm:
 
-Install ROCm
-------------
+Install the ROCm Core SDK
+-------------------------
 
 Use the following instructions to install the ROCm Core SDK on your system.
 
@@ -231,7 +261,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
    :heading: Register ROCm repositories
    :heading-level: 4
 
-   .. selected:: os=ubuntu
+   .. selected:: os=ubuntu os=wsl
 
       Register the ROCm repository with your system's package manager. This lets you install and update
       ROCm packages using ``apt``.
@@ -735,7 +765,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
    :heading: Install ROCm packages
    :heading-level: 4
 
-   .. selected:: os=ubuntu os=debian
+   .. selected:: os=ubuntu os=debian os=wsl
 
       Use ``apt`` to install the core ROCm packages. See :ref:`ROCm meta
       packages <rocm-install-meta-packages>` for additional installation
@@ -1005,7 +1035,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
       .. matrix-row::
 
          .. matrix-cell::
-            :show-cond: os=ubuntu os=debian
+            :show-cond: os=ubuntu os=debian os=wsl
 
             .. selected:: gfx=gfx950
 

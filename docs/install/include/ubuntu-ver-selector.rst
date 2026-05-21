@@ -64,3 +64,23 @@
          .. selector-option:: 24.04.4
             :value: 24.04
             :width: 50%
+
+.. selected:: os=wsl
+
+   .. selector:: WSL Linux distro
+      :key: ubuntu-ver
+
+      .. selector-option:: Ubuntu 24.04
+         :show-cond: fam=radeon
+         :value: 24.04
+         :width: 50%
+
+      .. selector-option:: Ubuntu 22.04
+         :show-cond: fam=radeon
+         :value: 22.04
+         :width: 50%
+
+      .. selector-option:: Ubuntu 24.04
+         :show-cond: fam=ryzen
+         :value: 24.04
+         :width: 100%

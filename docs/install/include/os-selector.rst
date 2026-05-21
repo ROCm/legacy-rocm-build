@@ -163,16 +163,20 @@
 
          .. selector-option:: Ubuntu
             :value: ubuntu
-            :width: 4
+            :width: 3
 
          .. selector-option:: RHEL
             :value: rhel
-            :width: 4
+            :width: 3
             :toc-label: Red Hat Enterprise Linux
 
          .. selector-option:: Windows
             :value: windows
-            :width: 4
+            :width: 3
+
+         .. selector-option:: WSL
+            :value: wsl i=pkgman
+            :width: 3
 
       .. selected:: gfx=gfx1101
 
@@ -195,16 +199,20 @@
 
             .. selector-option:: Ubuntu
                :value: ubuntu
-               :width: 4
+               :width: 3
 
             .. selector-option:: RHEL
                :value: rhel
-               :width: 4
+               :width: 3
                :toc-label: Red Hat Enterprise Linux
 
             .. selector-option:: Windows
                :value: windows
-               :width: 4
+               :width: 3
+
+            .. selector-option:: WSL
+               :value: wsl i=pkgman
+               :width: 3
 
       .. selector:: Operating system
          :key: os
@@ -225,11 +233,15 @@
 
       .. selector-option:: Ubuntu
          :value: ubuntu
-         :width: 50%
+         :width: 4
 
       .. selector-option:: Windows
          :value: windows
-         :width: 50%
+         :width: 4
+
+      .. selector-option:: WSL
+         :value: wsl i=pkgman
+         :width: 4
 
    .. selected:: fam=all
 
@@ -291,8 +303,8 @@
 
       .. selector-option:: Ubuntu
          :value: ubuntu
-         :width: 50%
+         :width: 6
 
       .. selector-option:: Windows
          :value: windows
-         :width: 50%
+         :width: 6

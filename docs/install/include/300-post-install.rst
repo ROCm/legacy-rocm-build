@@ -1,11 +1,11 @@
 Post-installation
 =================
 
-.. _rocm-post-install-env:
-
 After installing the ROCm Core SDK |ROCM_VERSION|, complete these
 post-installation steps to complete your system configuration and validate the
 installation.
+
+.. _rocm-post-install-env:
 
 .. selected:: w=compute
 
@@ -263,6 +263,53 @@ installation.
             multiProcessorCount:              20
 
             ... [output truncated]
+
+.. selected:: os=wsl
+   :heading: Verify your installation
+   :heading-level: 3
+
+   Use ``rocminfo`` to verify that the ROCm Core SDK is correctly
+   installed and that your AMD devices are visible to the system.
+
+   .. code-block:: bash
+
+      rocminfo
+
+   .. dropdown:: Example output of ``rocminfo``
+      :animate: fade-in-slide-down
+      :color: success
+      :icon: note
+      :chevron: down-up
+
+      .. code-block:: shell-session
+
+         ROCk module version 6.16.6 is loaded
+         =====================
+         HSA System Attributes
+         =====================
+         Runtime Version:         1.21
+         Runtime Ext Version:     1.21
+         System Timestamp Freq.:  1000.000000MHz
+         Sig. Max Wait Duration:  18446744073709551615 (0xFFFFFFFFFFFFFFFF) (timestamp count)
+         Machine Model:           LARGE
+         System Endianness:       LITTLE
+         Mwaitx:                  ENABLED
+         XNACK enabled:           NO
+         DMAbuf Support:          YES
+         VMM Support:             YES
+
+         ==========
+         HSA Agents
+         ==========
+         *******
+         Agent 1
+         *******
+           Name:                    gfx950
+           Uuid:                    GPU-5b920922d0067ea9
+           Marketing Name:          AMD Instinct MI350X
+           Vendor Name:             AMD
+
+         ... [output truncated]
 
 .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 

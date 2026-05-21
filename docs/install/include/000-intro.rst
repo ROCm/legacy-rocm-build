@@ -66,6 +66,12 @@
    post-installation configuration, and offers an interactive command line TUI for
    guided setup.
 
+.. selected:: os=wsl
+
+   Installing ROCm in a Windows Subsystem for Linux (WSL) environment requires
+   building the AMD ROCDXG library from source. See
+   `<https://github.com/ROCm/librocdxg>`__ for more information.
+
 .. selected:: w=graphics
 
    .. selected:: os=ubuntu os=rhel
