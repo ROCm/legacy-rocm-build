@@ -70,17 +70,27 @@
    .. selector:: WSL Linux distro
       :key: ubuntu-ver
 
+      .. selector-option:: Ubuntu 26.04
+         :show-cond: fam=radeon
+         :value: 26.04
+         :width: 4
+
       .. selector-option:: Ubuntu 24.04
          :show-cond: fam=radeon
          :value: 24.04
-         :width: 50%
+         :width: 4
 
       .. selector-option:: Ubuntu 22.04
          :show-cond: fam=radeon
          :value: 22.04
-         :width: 50%
+         :width: 4
+
+      .. selector-option:: Ubuntu 26.04
+         :show-cond: fam=ryzen
+         :value: 26.04
+         :width: 6
 
       .. selector-option:: Ubuntu 24.04
          :show-cond: fam=ryzen
          :value: 24.04
-         :width: 100%
+         :width: 6
