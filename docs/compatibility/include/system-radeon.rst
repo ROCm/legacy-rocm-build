@@ -7,7 +7,7 @@
          :header:
 
       .. matrix-cell::
-         :show-cond: gpu=ai-r9700 gpu=ai-r9600d
+         :show-cond: gpu=ai-r9700s gpu=ai-r9700 gpu=ai-r9600d
 
          `AMD Radeon AI PRO R9000 Series <https://www.amd.com/en/products/graphics/workstations/radeon-ai-pro.html#tabs-95fa144b96-item-b95ec9e1ca-tab>`__
 
@@ -42,7 +42,7 @@
          :header:
 
       .. matrix-cell:: RDNA 4
-         :show-cond: gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
+         :show-cond: gpu=ai-r9700s gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
 
       .. matrix-cell:: RDNA 3
          :show-cond: gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=v710 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700 gpu=rx-7600
@@ -56,7 +56,7 @@
          :header:
 
       .. matrix-cell:: gfx1201
-         :show-cond: gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070 gpu=rx-9070-gre gpu=rx-9070-xt
+         :show-cond: gpu=ai-r9700s gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070 gpu=rx-9070-gre gpu=rx-9070-xt
 
       .. matrix-cell:: gfx1200
          :show-cond: gpu=rx-9060 gpu=rx-9060-xt gpu=rx-9060-xt-lp

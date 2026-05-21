@@ -131,6 +131,9 @@
       </td>
       <td>
         <p><a
+            href="https://www.amd.com/en/products/graphics/workstations/radeon-ai-pro/ai-9000-series/amd-radeon-ai-pro-r9700s.html"
+            target="_blank">Radeon AI PRO R9700S</a></p>
+        <p><a
             href="https://www.amd.com/en/products/graphics/workstations/radeon-ai-pro/ai-9000-series/amd-radeon-ai-pro-r9700.html"
             target="_blank">Radeon AI PRO R9700</a></p>
         <p><a

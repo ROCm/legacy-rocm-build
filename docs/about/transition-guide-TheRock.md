@@ -228,7 +228,7 @@ When redistributing software built on the ROCm Core SDK (for example, via contai
     <tr>
       <td>RDNA4</td>
       <td>-gfx120x</td>
-      <td>AMD Radeon RX 9070 / AMD Radeon RX 9060 / AMD Radeon RX 9070 XT / AMD Radeon RX 9060 XT / AMD Radeon RX 9070 GRE / AMD Radeon AI PRO R9700 / AMD Radeon AI PRO R9600D / AMD Radeon RX 9060 XT LP</td>
+      <td>AMD Radeon RX 9070 / AMD Radeon RX 9060 / AMD Radeon RX 9070 XT / AMD Radeon RX 9060 XT / AMD Radeon RX 9070 GRE / AMD Radeon AI PRO R9700S / AMD Radeon AI PRO R9700 / AMD Radeon AI PRO R9600D / AMD Radeon RX 9060 XT LP</td>
     </tr>
     <tr>
       <td>RDNA3.5</td>
