@@ -43,6 +43,7 @@ This release expands GPU, operating system, virtualization, and partitioning sup
 ROCm 7.13.0 adds support for the following AMD GPUs and APUs:
 
 * AMD Instinct MI350P (gfx950)
+* AMD Radeon AI PRO R9700S (gfx1201)
 * AMD Radeon PRO W6800 (gfx1030)
 * AMD Radeon PRO V620 (gfx1030)
 * AMD Ryzen AI 7 PRO 360 (gfx1152)

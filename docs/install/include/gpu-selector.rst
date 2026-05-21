@@ -40,6 +40,9 @@
          :key: gpu
          :show-cond: fam=radeon
 
+         .. selector-option:: AMD Radeon AI PRO R9700S (gfx1201)
+            :value: ai-r9700s gfx=gfx1201
+
          .. selector-option:: AMD Radeon AI PRO R9700 (gfx1201)
             :value: ai-r9700 gfx=gfx1201
 
