@@ -489,6 +489,7 @@ RMW
 RNN
 RNNs
 ROC
+ROCDXG
 ROCProfiler
 ROCT
 ROCTracer
@@ -662,6 +663,7 @@ WDAG
 WGP
 WGPs
 WR
+WSL
 WX
 WikiText
 Winograd
@@ -1285,6 +1287,7 @@ workgroups
 writeback
 writebacks
 wrreq
+wsl
 wzo
 xDiT
 xGMI
