@@ -134,7 +134,7 @@ Prerequisites
 .. selected:: os=wsl
 
    .. selected:: ubuntu-ver=26.04
-      :heading: Install WSL 2 and Ubuntu 24.04
+      :heading: Install WSL 2 and Ubuntu 26.04
       :heading-level: 3
 
       Install WSL 2 and Ubuntu 26.04 on your Windows system. See `How to install Linux on Windows
