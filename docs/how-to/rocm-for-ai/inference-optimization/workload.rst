@@ -2052,8 +2052,8 @@ Triton vs. Gluon at a glance
      - Most kernels; start here
      - Hot kernels where Triton leaves performance on the table
 
-**Rule of thumb:** start in Triton, autotune, profile with ``rocprof`` or
-``omniperf``. Drop to Gluon only for kernels where the profiler shows you are
+**Rule of thumb:** start in Triton, autotune, profile with ``rocprofv3`` or
+ROCm Compute Profiler. Drop to Gluon only for kernels where the profiler shows you are
 bottlenecked on something Triton will not let you fix.
 
 Layout selection
