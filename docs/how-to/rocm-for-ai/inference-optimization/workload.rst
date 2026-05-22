@@ -831,7 +831,7 @@ Composable Kernel backend
 You can enable the Composable Kernel (``CK``) backend by appending ``CK`` to the comma-separated list of backends. This allows the
 auto-tuning process to use kernels from the Composable Kernel library.
 
-``torch._inductor.max_autotune_gemm_backends`` or ``TORCHINDUCTOR_MAX_AUTOTUNE_GEMM_BACKENDS``.
+``torch._inductor.config.max_autotune_gemm_backends`` or ``TORCHINDUCTOR_MAX_AUTOTUNE_GEMM_BACKENDS``.
 
 Install the Composable Kernel library's Python wrapper via pip using the following command:
 
@@ -2075,9 +2075,10 @@ MI300X / MI350X:
    ``PaddedSharedLayout([[1024, 16], [2048, 32]], ...)``.
 
 ``DotOperandLayout`` (``kWidth``)
-   Controls how operand tiles feed MFMA. Use ``kWidth=8`` for FP16,
-   ``kWidth=32`` for FP8 without scales, and ``kWidth=16`` for FP8 with scales
-   or MXFP4 (required for scale-layout compatibility).
+   Controls how operand tiles feed MFMA. Use ``kWidth=8`` for FP16. For FP8
+   without scales, use either ``kWidth=16`` or ``kWidth=32`` (both are valid;
+   both A and B operands must use the same value). For FP8 with scales or MXFP4,
+   use ``kWidth=16`` (required for scale-layout compatibility).
 
 Avoid raw (unpadded, unswizzled) shared layouts. They trigger 2-way to 4-way
 LDS bank conflicts and reduce the effective LDS service rate from
@@ -2127,8 +2128,8 @@ Global-memory loads and LDS staging
 * **Use ``buffer_load_to_lds`` (direct L1-to-LDS async copy) instead of
   staging through registers.** It saves approximately 100 VGPR per wave and
   removes an entire register-movement phase from the loop. In the
-  ``gfx9-gluon-tutorials`` reference GEMM this change moved performance from
-  697 to 1113 TFLOPS.
+  `gfx950-gluon-tutorials <https://github.com/ROCm/gfx950-gluon-tutorials>`_
+  reference GEMM this change moved performance from 697 to 1113 TFLOPS.
 
 * **Distribute ``buffer_load`` instructions across the loop body.** TCP (the
   per-CU L1) is 32 KB with a 12-entry VMEM queue; once full, TCP capacity
@@ -2187,8 +2188,9 @@ optimum for :math:`P = 32`.
 Further reading
 ---------------
 
-* ``gfx9-gluon-tutorials`` - reference GEMM and documentation for LDS
-  throughput, memory-bandwidth modeling, and MFMA efficiency on CDNA.
+* `gfx950-gluon-tutorials <https://github.com/ROCm/gfx950-gluon-tutorials>`_ -
+  reference GEMM and documentation for LDS throughput, memory-bandwidth
+  modeling, and MFMA efficiency on CDNA.
 * `Gluon source and examples <https://github.com/triton-lang/triton/tree/main/python/triton/experimental/gluon>`_.
 
 Special considerations
