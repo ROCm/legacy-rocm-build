@@ -2118,7 +2118,7 @@ against the 512 VGPR budget on CDNA3/CDNA4.
    MI350X's 160 KB LDS (vs. 64 KB on MI300X) allows larger input tiles and
    deeper prefetch. When porting a Gluon kernel from MI300X to MI350X,
    explore larger ``BLOCK_M/N/K`` and one additional pipeline stage before
-   retuning layouts. However, For compute bound gemm kernels, MI300X and MI350X should use the same tile size. 
+   retuning layouts. However, for compute-bound gemm kernels, MI300X and MI350X should use the same tile size. 
    This is limited by the 512 VGPRs for both CDNA3 and CDNA4.
 
 Global-memory loads and LDS staging
