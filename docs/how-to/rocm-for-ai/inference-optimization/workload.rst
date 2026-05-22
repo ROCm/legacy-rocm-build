@@ -1999,7 +1999,7 @@ Compute the occupancy of a kernel
       per CU.
 
    b. ``floor(occ_vgpr * 4 / nW)`` gives the occupancy of workgroups per CU
-      regrading VGPR usage.
+      regarding VGPR usage.
 
    c. The true ``occ`` is the minimum of the two.
 
