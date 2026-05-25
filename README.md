@@ -136,7 +136,7 @@ For a complete list of ROCm components and version information, see the
 ## Release notes
 
 - [Latest version of ROCm](https://rocm.docs.amd.com/en/latest/about/release-notes.html) - production
-- [ROCm 7.12.0](https://rocm.docs.amd.com/en/7.12.0-preview/about/release-notes.html) – preview stream
+- [ROCm 7.13.0](https://rocm.docs.amd.com/en/7.13.0-preview/about/release-notes.html) – preview stream
 
 ---
 
