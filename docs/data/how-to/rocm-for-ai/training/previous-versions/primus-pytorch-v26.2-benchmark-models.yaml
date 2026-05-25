@@ -1,13 +1,13 @@
 docker:
-  pull_tag: rocm/primus:v26.3
-  docker_hub_url: https://hub.docker.com/layers/rocm/primus/v26.3/images/sha256-da50bfe9dc4bb70ad683d3ee4a176dccb66f596f48d30e8e52323b41892759b1
+  pull_tag: rocm/primus:v26.2
+  docker_hub_url: https://hub.docker.com/layers/rocm/primus/v26.2/images/sha256-9148d1bfcd579bf92f44bd89090e0d8c958f149c134b4b34b9674ab559244585
   components:
-    ROCm: 7.2.1
-    PyTorch: 2.10.0+git94c6e04
+    ROCm: 7.2.0
+    PyTorch: 2.10.0a0+git449b176
     Python: "3.12.3"
-    Transformer Engine: 2.12.0.dev0+40434cf6
+    Transformer Engine: 2.8.0.dev0+51f74fa7
     Flash Attention: 2.8.3
-    hipBLASLt: 1.3.0-c4b2dc9869
+    hipBLASLt: 1.2.0-de5c1aebb6
     Triton: 3.6.0
     RCCL: 2.27.7
 model_groups:

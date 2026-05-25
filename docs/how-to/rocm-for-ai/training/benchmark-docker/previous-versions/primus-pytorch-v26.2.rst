@@ -1,3 +1,6 @@
+:orphan:
+:no-search:
+
 .. meta::
    :description: How to train a model using PyTorch for ROCm.
    :keywords: ROCm, AI, LLM, train, PyTorch, torch, Llama, flux, tutorial, docker
@@ -5,6 +8,11 @@
 ****************************************
 Training a model with Primus and PyTorch
 ****************************************
+
+.. caution::
+
+   This documentation does not reflect the latest version of ROCm Primus PyTorch training
+   performance benchmark documentation. See :doc:`../primus-pytorch` for the latest version.
 
 `Primus <https://github.com/AMD-AGI/Primus>`__ is a unified and flexible
 LLM training framework designed to streamline training. It streamlines LLM
@@ -17,17 +25,17 @@ Primus now supports the PyTorch torchtitan backend.
    <https://hub.docker.com/r/rocm/pytorch-training/>`__ Docker Hub registry will be
    deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
    The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
-   including torchtitan and :doc:`Megatron-LM <primus-megatron>`.
+   including torchtitan and :doc:`Megatron-LM <../primus-megatron>`.
 
    Primus with the PyTorch torchtitan backend is designed to replace the
-   :doc:`ROCm PyTorch training <pytorch-training>` workflow. See
-   :doc:`pytorch-training` to see steps to run workloads without Primus.
+   :doc:`ROCm PyTorch training <../pytorch-training>` workflow. See
+   :doc:`../pytorch-training` to see steps to run workloads without Primus.
 
 AMD provides a ready-to-use Docker image for MI355X, MI350X, MI325X, and
 MI300X GPUs containing essential components for Primus and PyTorch training
 with Primus Turbo optimizations.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-pytorch-v26.2-benchmark-models.yaml
 
    .. tab-set::
 
@@ -45,7 +53,7 @@ with Primus Turbo optimizations.
               - {{ component_version }}
             {% endfor %}
 
-.. _amd-primus-pytorch-model-support-v26.3:
+.. _amd-primus-pytorch-model-support-v26.2:
 
 Supported models
 ================
@@ -54,7 +62,7 @@ The following models are pre-optimized for performance on the AMD Instinct MI325
 Some instructions, commands, and training recommendations in this documentation might
 vary by model -- select one to get started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-pytorch-v26.2-benchmark-models.yaml
 
    {% set model_groups = data.model_groups %}
    .. raw:: html
@@ -89,9 +97,9 @@ vary by model -- select one to get started.
 .. seealso::
 
    For additional workloads, including Llama 3.3, Llama 3.2, Llama 2, GPT OSS, Qwen, and Flux models,
-   see the documentation :doc:`pytorch-training` (without Primus)
+   see the documentation :doc:`../pytorch-training` (without Primus)
 
-.. _amd-primus-pytorch-performance-measurements-v26.3:
+.. _amd-primus-pytorch-performance-measurements-v26.2:
 
 System validation
 =================
@@ -115,7 +123,7 @@ doesn’t test configurations and run conditions outside those described.
 Pull the Docker image
 =====================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-pytorch-v26.2-benchmark-models.yaml
 
    Use the following command to pull the Docker image from Docker Hub.
 
@@ -127,11 +135,11 @@ Run training
 ============
 
 Once the setup is complete, choose between the following two workflows to start benchmarking training.
-For fine-tuning workloads and multi-node training examples, see :doc:`pytorch-training` (without Primus).
+For fine-tuning workloads and multi-node training examples, see :doc:`../pytorch-training` (without Primus).
 For best performance on MI325X, MI350X, and MI355X GPUs, you might need to
 tweak some configurations (such as batch sizes).
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/primus-pytorch-benchmark-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/training/previous-versions/primus-pytorch-v26.2-benchmark-models.yaml
 
    {% set docker = data.docker %}
    {% set model_groups = data.model_groups %}
@@ -146,7 +154,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run commands are tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v26.2` to switch to another available model.
 
             .. rubric:: Download the Docker image and required packages
 
@@ -182,10 +190,10 @@ tweak some configurations (such as batch sizes).
                   docker start training_env
                   docker exec -it training_env bash
 
-               The Docker container hosts verified commit ``43a6e00`` of the `Primus
-               <https://github.com/AMD-AGI/Primus/tree/43a6e006c419697208295c5523b99070e8198ad9>`__ repository.
+               The Docker container hosts verified commit ``9c529cd4`` of the `Primus
+               <https://github.com/AMD-AGI/Primus/tree/9c529cd4a934a68a880ede036c3e97b792e38167/>`__ repository.
 
-            .. rubric:: Setup
+            .. rubric:: Prepare training datasets and dependencies
 
             The following benchmarking examples require downloading models and datasets
             from Hugging Face. To ensure successful access to gated repos, set your
@@ -194,6 +202,8 @@ tweak some configurations (such as batch sizes).
             .. code-block:: shell
 
                export HF_TOKEN=$your_personal_hugging_face_access_token
+
+            .. rubric:: Pretraining
 
             To get started, navigate to the ``Primus`` directory in your container.
 
@@ -204,7 +214,7 @@ tweak some configurations (such as batch sizes).
             Now, to start the pretraining benchmark, use the ``run_pretrain.sh`` script
             included with Primus with the appropriate options.
 
-            .. rubric:: Pretraining examples
+            .. rubric:: Benchmarking examples
 
             .. container:: model-doc primus_pyt_train_llama-3.1-8b
 
@@ -342,7 +352,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v26.2` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -372,136 +382,6 @@ tweak some configurations (such as batch sizes).
       {% endfor %}
    {% endfor %}
 
-Multi-node training examples
-============================
-
-Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your environment for multi-node
-training.
-
-To run training on multiple nodes, use ``primus-cli`` to launch multi-node workloads. Use the following steps to set up your environment:
-
-.. important::
-
-   **Verify NCCL / network environment first.** The ``primus-cli`` launcher sets sensible
-   ``NCCL_*`` defaults via ``base_env.sh``, but auto-detection can pick the wrong device
-   on multi-NIC nodes. Always confirm ``NCCL_IB_HCA``, ``NCCL_IB_GID_INDEX``,
-   ``NCCL_SOCKET_IFNAME``, and ``GLOO_SOCKET_IFNAME`` (set to the same value as
-   ``NCCL_SOCKET_IFNAME``) are correct for your fabric. If necessary, export these
-   environment variables before running.
-
-.. code-block:: shell
-
-   git clone --recurse-submodules https://github.com/AMD-AGI/Primus.git
-   cd Primus/
-   git checkout release/v26.3
-   git submodule update --init --recursive
-   export DOCKER_IMAGE=rocm/primus:v26.3
-   export HF_TOKEN=<your_HF_token>
-   export NCCL_IB_HCA=<your_NCCL_IB_HCA> # specify which RDMA interfaces to use for communication
-   export NCCL_SOCKET_IFNAME=<your_NCCL_SOCKET_IFNAME> # your Network Interface
-   export GLOO_SOCKET_IFNAME=<your_GLOO_SOCKET_IFNAME> # your Network Interface
-   export NCCL_IB_GID_INDEX=3 # Set InfiniBand GID index for NCCL communication. Default is 3 for ROCE
-
-   # MI300/MI325X only -- for better performance
-   export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
-   export NVTE_CK_IS_V3_ATOMIC_FP32=1
-
-For clusters using AMD AINIC, also set the following:
-
-.. code-block:: shell
-
-   export USING_AINIC=1
-   export NCCL_PXN_DISABLE=0
-   export NCCL_IB_GID_INDEX=1
-
-.. note::
-
-   * Make sure correct network drivers are installed on the nodes. If inside a Docker, either install the drivers inside the Docker container or pass the network drivers from the host while creating the Docker container.
-   * If ``NCCL_IB_HCA`` and ``NCCL_SOCKET_IFNAME`` are not set, Primus will try to auto-detect. However, since NICs can vary across different clusters, it is encouraged to explicitly export your NCCL parameters for the cluster.
-   * To find your network interface, you can use ``ip a``.
-   * To find RDMA interfaces, you can use ``ibv_devices`` to get the list of all the RDMA/IB devices.
-
-.. container:: model-doc primus_pyt_train_llama-3.1-8b
-
-   Once setup is complete, run the appropriate training command.
-   The following run commands are tailored to Llama 3.1 8B.
-   See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
-
-   To train Llama 3.1 8B FP8 on 8 nodes, run:
-
-   .. code-block:: shell
-
-      ./primus-cli slurm srun -N 8 -- train pretrain \
-          --config examples/torchtitan/configs/MI300X/llama3.1_8B-FP8-pretrain.yaml
-
-   To train Llama 3.1 8B BF16 on 8 nodes, run:
-
-   .. code-block:: shell
-
-      ./primus-cli slurm srun -N 8 -- train pretrain \
-          --config examples/torchtitan/configs/MI300X/llama3.1_8B-BF16-pretrain.yaml
-
-.. container:: model-doc primus_pyt_train_llama-3.1-70b
-
-   Once setup is complete, run the appropriate training command.
-   The following run commands are tailored to Llama 3.1 70B.
-   See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
-
-   To train Llama 3.1 70B FP8 on 4 nodes using ``primus-cli`` (recommended), run:
-
-   .. code-block:: shell
-
-      # In the Primus directory
-      ./primus-cli slurm srun -N 4 -- train pretrain \
-          --config examples/torchtitan/configs/MI355X/llama3.1_70B-FP8-pretrain.yaml \
-          --training.local_batch_size 6 \
-          --training.global_batch_size 192 \
-          --training.mock_data True
-
-   Alternatively, using the legacy script:
-
-   .. code-block:: shell
-
-      NNODES=4 EXP=examples/torchtitan/configs/MI355X/llama3.1_70B-FP8-pretrain.yaml \
-      bash examples/run_slurm_pretrain.sh \
-          --training.local_batch_size 6 \
-          --training.global_batch_size 192 \
-          --training.mock_data True
-
-.. container:: model-doc primus_pyt_train_deepseek-v3-16b
-
-   Once setup is complete, run the appropriate training command.
-   The following run commands are tailored to DeepSeek V3 16B.
-   See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
-
-   To train DeepSeek V3 16B BF16 on 8 nodes, run:
-
-   .. code-block:: shell
-
-      ./primus-cli slurm srun -N 8 -- train pretrain \
-          --config examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml
-
-To train Llama 3.1 405B FP8 on 8 nodes using ``primus-cli`` (recommended), run:
-
-.. code-block:: shell
-
-   # In the Primus directory
-   ./primus-cli slurm srun -N 8 -- train pretrain \
-       --config examples/torchtitan/configs/MI355X/llama3.1_405B-FP8-pretrain.yaml \
-       --training.local_batch_size 3 \
-       --training.global_batch_size 192 \
-       --training.mock_data True
-
-Alternatively, using the legacy script:
-
-.. code-block:: shell
-
-   NNODES=8 EXP=examples/torchtitan/configs/MI355X/llama3.1_405B-FP8-pretrain.yaml \
-   bash examples/run_slurm_pretrain.sh \
-       --training.local_batch_size 3 \
-       --training.global_batch_size 192 \
-       --training.mock_data True
-
 Further reading
 ===============
 
@@ -519,5 +399,5 @@ Further reading
 Previous versions
 =================
 
-See :doc:`previous-versions/pytorch-training-history` to find documentation for previous releases
+See :doc:`pytorch-training-history` to find documentation for previous releases
 of the ``ROCm/pytorch-training`` Docker image.

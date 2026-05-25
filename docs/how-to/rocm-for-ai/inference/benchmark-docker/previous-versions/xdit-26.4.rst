@@ -55,7 +55,7 @@ What's new
    * {{ item }}
    {% endfor %}
 
-.. _xdit-video-diffusion-supported-models:
+.. _xdit-video-diffusion-supported-models-264:
 
 Supported models
 ================
@@ -156,7 +156,7 @@ Validate and benchmark
    .. container:: model-doc {{model.js_tag}}
 
       The following commands are written for {{ model.model }}.
-      See :ref:`xdit-video-diffusion-supported-models` to switch to another available model.
+      See :ref:`xdit-video-diffusion-supported-models-264` to switch to another available model.
 
      {% endfor %}
    {% endfor %}
