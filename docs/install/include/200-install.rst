@@ -217,37 +217,6 @@ Installation
 
          Reboot your system after installing the AMD GPU Driver.
 
-.. selected:: os=wsl
-   :heading: Build and install the AMD ROCDXG library
-   :heading-level: 3
-
-   1. In your host Windows environment, download and install the `Windows SDK
-      <https://learn.microsoft.com/en-us/windows/apps/windows-sdk/>`__ for
-      Windows 11. Make sure you have the necessary permissions to access the
-      Windows SDK installation files from your WSL environment.
-
-   2. In your WSL environment, clone the ROCDXG library.
-
-      .. code-block:: bash
-
-         git clone https://github.com/ROCm/librocdxg.git
-         cd librocdxg
-
-   3. Build the ROCDXG library using CMake. Set ``WIN_SDK_PATH`` to the Windows SDK
-      include directory for your installed version.
-
-      .. code-block:: bash
-
-         # Set the Windows SDK path (adjust version number if different)
-         export WIN_SDK_PATH="/mnt/c/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0"
-
-         # Build the library
-         mkdir -p build
-         cd build
-         cmake .. -DWIN_SDK="${WIN_SDK_PATH}/shared"
-         make
-         sudo make install
-
 .. _rocm-install-rocm:
 
 Install the ROCm Core SDK
@@ -2048,3 +2017,34 @@ Use the following instructions to install the ROCm Core SDK on your system.
       .. code-block:: bash
 
          bash rocm-installer-7.13.0-3.run deps=install rocm gfx=gfx1152 compo=core,core-dev gpu-access=user
+
+.. selected:: os=wsl
+   :heading: Build and install the AMD ROCDXG library
+   :heading-level: 3
+
+   1. In your host Windows environment, download and install the `Windows SDK
+      <https://learn.microsoft.com/en-us/windows/apps/windows-sdk/>`__ for
+      Windows 11. Make sure you have the necessary permissions to access the
+      Windows SDK installation files from your WSL environment.
+
+   2. In your WSL environment, clone the ROCDXG library.
+
+      .. code-block:: bash
+
+         git clone https://github.com/ROCm/librocdxg.git
+         cd librocdxg
+
+   3. Build the ROCDXG library using CMake. Set ``WIN_SDK_PATH`` to the Windows SDK
+      include directory for your installed version.
+
+      .. code-block:: bash
+
+         # Set the Windows SDK path (adjust version number if different)
+         export WIN_SDK_PATH="/mnt/c/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0"
+
+         # Build the library
+         mkdir -p build
+         cd build
+         cmake .. -DWIN_SDK="${WIN_SDK_PATH}/shared"
+         make
+         sudo make install
