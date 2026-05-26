@@ -333,6 +333,24 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - GFXIP Major version
           - GFXIP Minor version
         *
+          - Radeon AI PRO R9700S
+          - RDNA4
+          - gfx1201
+          - 32
+          - 64
+          - 32 or 64
+          - 128
+          - 64
+          - 8
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0
+        *
           - Radeon AI PRO R9700
           - RDNA4
           - gfx1201
