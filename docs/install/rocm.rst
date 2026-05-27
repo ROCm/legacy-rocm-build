@@ -31,6 +31,8 @@ in ROCm |ROCM_VERSION|, see the :doc:`Release notes </about/release-notes>`.
 
 .. include:: ./include/os-selector.rst
 
+.. include:: ./include/ror-gpu-selector.rst
+
 .. include:: ./include/ubuntu-ver-selector.rst
 
 .. include:: ./include/debian-ver-selector.rst
