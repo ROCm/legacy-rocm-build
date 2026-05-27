@@ -114,11 +114,11 @@
             .. selector-option:: AMD Ryzen AI Max 385 (gfx1151)
                :value: max-385 gfx=gfx1151
 
-            .. selector-option:: AMD Ryzen AI 9 PRO HX 475 (gfx1150)
-               :value: ai-9-pro-hx-475 gfx=gfx1150
+            .. selector-option:: AMD Ryzen AI 9 HX PRO 475 (gfx1150)
+               :value: ai-9-hx-pro-475 gfx=gfx1150
 
-            .. selector-option:: AMD Ryzen AI 9 PRO HX 470 (gfx1150)
-               :value: ai-9-pro-hx-470 gfx=gfx1150
+            .. selector-option:: AMD Ryzen AI 9 HX PRO 470 (gfx1150)
+               :value: ai-9-hx-pro-470 gfx=gfx1150
 
             .. selector-option:: AMD Ryzen AI 9 PRO 465 (gfx1150)
                :value: ai-9-pro-465 gfx=gfx1150
