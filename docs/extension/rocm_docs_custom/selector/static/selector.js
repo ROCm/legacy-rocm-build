@@ -533,23 +533,6 @@ domReady(() => {
     return;
   }
 
-  document.querySelectorAll(DROPDOWN_INPUT_QUERY).forEach((elem) => {
-    const key = elem.dataset.selectorKey;
-    if (!key) return;
-
-    const ts = new TomSelect(elem, { plugins: ["dropdown_input"] });
-    dropdownInstances.set(key, ts);
-
-    ts.on("change", (val) => {
-      if (!val) return;
-      // Sync ARIA/class state on the <option> elements so reconciliation
-      // and extra-binding logic see the correct selection.
-      applySelectionByKey(key, val);
-      setState({ [key]: val });
-      updateVisibility();
-    });
-  });
-
   const defaultState = {};
   const localStorageState = getStateFromLocalStorage();
   const urlState = getStateFromURL();
@@ -601,6 +584,26 @@ domReady(() => {
       extraBindingKeys.add(key);
     }
   }
+
+  // Initialize TomSelect dropdowns after initialState is known
+  document.querySelectorAll(DROPDOWN_INPUT_QUERY).forEach((elem) => {
+    const key = elem.dataset.selectorKey;
+    if (!key) return;
+
+    // Pre-set the <select> value so TomSelect picks up the persisted state
+    // (URL / localStorage / default) from the first render.
+    if (initialState[key] !== undefined) elem.value = initialState[key];
+
+    const ts = new TomSelect(elem, { plugins: ["dropdown_input"] });
+    dropdownInstances.set(key, ts);
+
+    ts.on("change", (val) => {
+      if (!val) return;
+      applySelectionByKey(key, val);
+      setState({ [key]: val });
+      updateVisibility();
+    });
+  });
 
   for (const [key, value] of Object.entries(initialState)) {
     applySelectionByKey(key, value);
