@@ -161,7 +161,7 @@
 
          .. selector:: Operating system
             :key: os
-            :show-cond: gpu=ai-r9700 gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt gpu=rx-9060
+            :show-cond: gpu=ai-r9700s gpu=ai-r9700 gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt gpu=rx-9060
 
             .. selector-option:: Ubuntu
                :value: ubuntu
