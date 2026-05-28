@@ -585,16 +585,20 @@ domReady(() => {
     }
   }
 
-  // Initialize TomSelect dropdowns after initialState is known
+  // Initialize TomSelect dropdowns after initialState is known so each instance
+  // can be immediately synced to the persisted state (URL / localStorage /
+  // default) without waiting for the updateVisibility() pass.
   document.querySelectorAll(DROPDOWN_INPUT_QUERY).forEach((elem) => {
     const key = elem.dataset.selectorKey;
     if (!key) return;
 
-    // Pre-set the <select> value so TomSelect picks up the persisted state
-    // (URL / localStorage / default) from the first render.
-    if (initialState[key] !== undefined) elem.value = initialState[key];
-
     const ts = new TomSelect(elem, { plugins: ["dropdown_input"] });
+
+    const initVal = initialState[key];
+    if (initVal !== undefined && ts.getValue() !== initVal) {
+      ts.setValue(initVal, true); // silent: suppress change event
+    }
+
     dropdownInstances.set(key, ts);
 
     ts.on("change", (val) => {
