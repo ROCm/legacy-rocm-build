@@ -416,13 +416,22 @@ function reconcileGroupSelections() {
 }
 
 // TomSelect instances for dropdown-input groups, keyed by selector key.
+// Multiple groups can share the same key (e.g. "gpu" for Instinct/Radeon/Ryzen),
+// so each key maps to an array of instances.
 const dropdownInstances = new Map();
 
 function syncDropdownsToState() {
-  for (const [key, ts] of dropdownInstances) {
+  for (const [key, instances] of dropdownInstances) {
     const val = state[key];
-    if (val !== undefined && ts.getValue() !== val) {
-      ts.setValue(val, true); // silent: suppress change event
+    for (const ts of instances) {
+      // Only sync the TomSelect whose parent group is currently visible.
+      const groupElem = ts.input.closest(GROUP_QUERY);
+      if (groupElem && (groupElem.classList.contains(HIDDEN_CLASS) || groupElem.closest(`.${HIDDEN_CLASS}`))) {
+        continue;
+      }
+      if (val !== undefined && ts.getValue() !== val) {
+        ts.setValue(val, true); // silent: suppress change event
+      }
     }
   }
 }
@@ -599,7 +608,8 @@ domReady(() => {
       ts.setValue(initVal, true); // silent: suppress change event
     }
 
-    dropdownInstances.set(key, ts);
+    if (!dropdownInstances.has(key)) dropdownInstances.set(key, []);
+    dropdownInstances.get(key).push(ts);
 
     ts.on("change", (val) => {
       if (!val) return;
