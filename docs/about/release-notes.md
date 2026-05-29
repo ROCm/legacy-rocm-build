@@ -452,10 +452,7 @@ for more information.
 
 ## GPU partitioning support
 
-The following compute partition and NUMA-per-socket (NPS) configurations are
-available on AMD Instinct GPUs in bare metal deployments.
-
-```{include} ./include/partitioning-support-table.html
+```{include} ./include/partitioning-support-table.md
 :parser: myst
 ```
 
