@@ -4,7 +4,7 @@ This cookbook provides an end-to-end guide for deploying vLLM with
 [MoRI (Modular RDMA Interface)](https://github.com/rocm/mori) on AMD Instinct MI355X
 clusters. It covers system preparation (firmware, drivers, ROCm, RDMA networking,
 QoS/DCQCN), container setup, inter-node MoRI validation, and launching a
-**prefill-decode (PD) disaggregated** serving cluster using vLLM with the MoRI-IO KV
+prefill-decode (PD) disaggregated serving cluster using vLLM with the MoRI-IO KV
 transfer backend and vllm-router. The serving example deploys `amd/Kimi-K2.5-MXFP4`
 in a 1P1D configuration across two nodes.
 
@@ -13,10 +13,10 @@ in a 1P1D configuration across two nodes.
 The following hardware configuration is required to implement this setup:
 
 * **Nodes**: A minimum of two GPU nodes (virtual machines or physical machines)
-  for wide EP evaluation.
-* **Accelerators**: 8x AMD Instinct MI355X GPU cards per node.
+  for prefill-decode (PD) disaggregated serving.
+* **GPUs**: 8x AMD Instinct MI355X GPU cards per node.
 * **Networking**: 8x RDMA-capable NICs per node (AMD Pensando Pollara 400, NVIDIA
-  Mellanox ConnectX-7, or Broadcom bnxt), providing a dedicated 1:1 mapping between
+  Mellanox ConnectX-7, or Broadcom Thor 2), providing a dedicated 1:1 mapping between
   GPUs and network interfaces for optimal inter-node communication.
 
 ## System configuration
@@ -32,7 +32,7 @@ environment.
 
 The following table outlines the validated software baseline. Ensure your
 environment satisfies the
-[ROCm compatibility matrix](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html)
+[ROCm 7.1.1 compatibility matrix](https://rocm.docs.amd.com/en/docs-7.1.1/compatibility/compatibility-matrix.html)
 for your specific GPU and OS combination. Use the provided commands to verify
 the environment on each node before proceeding.
 
@@ -93,10 +93,11 @@ thresholds, PCIe Gen5 link stability, and so on.
 #### AMD Pensando Pollara 400 AI NIC installation
 
 For detailed instructions on upgrading the firmware and installing drivers for
-the AMD Pensando Pollara 400 AI NIC, refer to the official
-[AMD Instinct System Acceptance Guide](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/network/nic-installation.html#amd-pensando-pollara-400-ai-nic).
+the AMD Pensando Pollara 400 AI NIC, refer to the [AMD Instinct System
+Acceptance Guide](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/network/nic-installation.html#amd-pensando-pollara-400-ai-nic).
 After installation, verify the active firmware version on all NICs to ensure it
-matches the software baseline. See [Verify baseline software](#verify-baseline-software).
+matches the software baseline. See [Verify baseline
+software](#verify-baseline-software).
 
 To display the current firmware version for all AI NICs, use the following
 command.
@@ -109,9 +110,10 @@ sudo nicctl show version firmware
 
 1. Download and install the `DOCA 2.9.3` driver following the instructions in
    [NVIDIA DOCA 2.9.3 Downloads](https://developer.nvidia.com/doca-downloads).
-2. Download the appropriate firmware for your hardware PSID from the [NVIDIA
-   official website](https://network.nvidia.com/support/firmware/connectx7/)
-   and flash the device.
+2. Download the appropriate firmware for your hardware PSID from the
+   [ConnectX-7 Firmware Download
+   Center](https://network.nvidia.com/support/firmware/connectx7/) and flash
+   the device.
 3. To verify driver and firmware versions, use the following command. Replace
    `IB Device` with your specific backend interface.
 
@@ -128,7 +130,7 @@ instructions specific to your NIC model.
 
 For systems equipped with 400G optics, standard fan profiles are often
 insufficient for maintaining stable operating temperatures. To prevent thermal
-throttling or optics failure, the system fans must be set to **FullSpeed**.
+throttling or optics failure, the system fans must be set to `FullSpeed`.
 
 * A fan speed of approximately 25,000 RPM is required to maintain the AI NIC
   modules at an optimal operating temperature of approximately 50°C.
@@ -163,7 +165,9 @@ each subnet for a given node. For example, one node would have the addresses
 
 ```{note}
 Ensure you identify the correct interface names for your system using `ip link`
-before applying this configuration.
+before applying this configuration. The `macaddress:` values in the example
+below are illustrative only and must be replaced with the actual MAC addresses
+of your NICs, which you can find using `ip link show <interface>`.
 ```
 
 For example, your `/etc/netplan/70-backend.yaml` might include something like
@@ -176,7 +180,7 @@ network:
       addresses:
       - 192.168.8.38/31
       match:
-        macaddress: 04:90:81:2a:34:08
+        macaddress: 04:90:81:00:00:08
       mtu: 9000
       routes:
       - table: 108
@@ -190,7 +194,7 @@ network:
       addresses:
       - 192.168.7.38/31
       match:
-        macaddress: 04:90:81:2b:82:40
+        macaddress: 04:90:81:00:00:07
       mtu: 9000
       routes:
       - table: 107
@@ -204,7 +208,7 @@ network:
       addresses:
       - 192.168.6.38/31
       match:
-        macaddress: 04:90:81:30:c9:30
+        macaddress: 04:90:81:00:00:06
       mtu: 9000
       routes:
       - table: 106
@@ -218,7 +222,7 @@ network:
       addresses:
       - 192.168.5.38/31
       match:
-        macaddress: 04:90:81:2a:23:40
+        macaddress: 04:90:81:00:00:05
       mtu: 9000
       routes:
       - table: 105
@@ -232,7 +236,7 @@ network:
       addresses:
       - 192.168.4.38/31
       match:
-        macaddress: 04:90:81:2d:69:60
+        macaddress: 04:90:81:00:00:04
       mtu: 9000
       routes:
       - table: 104
@@ -246,7 +250,7 @@ network:
       addresses:
       - 192.168.3.38/31
       match:
-        macaddress: 04:90:81:2a:2c:40
+        macaddress: 04:90:81:00:00:03
       mtu: 9000
       routes:
       - table: 103
@@ -260,7 +264,7 @@ network:
       addresses:
       - 192.168.2.38/31
       match:
-        macaddress: 04:90:81:30:d5:30
+        macaddress: 04:90:81:00:00:02
       mtu: 9000
       routes:
       - table: 102
@@ -274,7 +278,7 @@ network:
       addresses:
       - 192.168.1.38/31
       match:
-        macaddress: 04:90:81:30:e4:00
+        macaddress: 04:90:81:00:00:01
       mtu: 9000
       routes:
       - table: 101
@@ -392,9 +396,9 @@ sudo nicctl show qos
 Expected output:
 
 ```bash
-NIC  : 42424650-4c32-3531-3230-303443000000 (0000:f6:00.0)
+NIC  : 00000000-0000-0000-0000-000000000001 (0000:f6:00.0)
 
-Port : 04908130-a7a0-4242-4242-000011010000
+Port : 00000000-0001-4242-4242-000000000000
 
 Classification type         : DSCP
 
@@ -416,10 +420,10 @@ sudo nicctl show dcqcn
 Expected output:
 
 ```bash
-NIC : 42424650-4c32-3531-3230-303443000000 (0000:f6:00.0)
+NIC : 00000000-0000-0000-0000-000000000001 (0000:f6:00.0)
 ------------------------------------------------------------------------------------------
 
-Lif id                                     : 43000070-0100-0000-4242-04908130a7a0
+Lif id                                     : 00000000-0100-0000-4242-000000000000
 ROCE device                                : ionic_7
 DCQCN profile id                         : 1
 Status                                   : Enabled
@@ -487,7 +491,7 @@ sudo apt install rocm
 ```
 
 For detailed installation instructions, refer to the [ROCm 7.1.1
-documentation](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html#rocm-installation).
+documentation](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.1.1/install/quick-start.html#rocm-installation).
 
 ### Install AMD GPU Driver (amdgpu)
 
@@ -502,7 +506,7 @@ sudo apt install amdgpu-dkms
 ```
 
 For detailed installation instructions, refer to the [ROCm 7.1.1
-documentation](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html#amdgpu-driver-installation).
+documentation](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.1.1/install/quick-start.html#amdgpu-driver-installation).
 
 ## Network verification and testing
 
@@ -512,14 +516,14 @@ the cluster interconnects.
 ### Verify network connectivity
 
 Verify that all network interfaces are reachable across the cluster nodes.
-Assuming `eth0` is the management interface, `eth1` is for the VPC, and `eth2`
-through `eth9` are the dedicated RoCE backend interfaces, use the following
-loop to test reachability to a remote node (for instance, a target node with
-host IP suffix `.3`).
+Assuming `benic1p1` through `benic8p1` are the dedicated RoCE backend
+interfaces, use the following ping loop to verify reachability across the
+backend subnets (for instance, a target node at host IP suffix
+`.38`).
 
 ```bash
-# Test connectivity for RoCE subnets 192.168.50.x through 192.168.57.x
-for i in {0..7}; do ping -c 1 192.168.5${i}.3; done
+# Test connectivity across RoCE subnets 192.168.1.x through 192.168.8.x
+for i in {1..8}; do ping -c 1 192.168.${i}.38; done
 ```
 
 ### Validate your RDMA setup
@@ -535,9 +539,9 @@ Expected output:
 ```bash
 -------------------------------------------------------------------------------------
 
-NIC  : 42424650-4c32-3531-3530-314343000000 (0000:f6:00.0)
+NIC  : 00000000-0000-0000-0000-000000000002 (0000:f6:00.0)
 
-Port : 04908132-5d88-4242-4242-000011010000 (eth1/1)
+Port : 00000000-0002-4242-4242-000000000000 (eth1/1)
   Spec:
     Ifindex                                  : 0x11010000
     Type                                     : ETH
@@ -561,7 +565,7 @@ Port : 04908132-5d88-4242-4242-000011010000 (eth1/1)
     Auto negotiation                         : disabled
     MAC ID                                   : 0
     MAC channel                              : 0
-    MAC address                              : 04:90:81:32:5d:88
+    MAC address                              : 04:90:81:00:00:00
     Transceiver type                         : QSFP_CMIS
     Transceiver state                        : SPROM-READ
     Transceiver PID                          : QSFP-400G-DR4
@@ -582,7 +586,7 @@ ibv_devinfo -v | grep GID
 Expected output:
 
 ```bash
-      GID[  0]:               fe80::690:81ff:fe30:a7a0, RoCE v2
+      GID[  0]:               fe80::6a00:00ff:fe00:0001, RoCE v2
       GID[  1]:               ::ffff:192.168.7.36, RoCE v2
 ```
 
@@ -630,6 +634,7 @@ environments.
 
 ```bash
 sudo apt update && sudo apt install -y docker.io
+sudo usermod -aG docker "$USER"
 ```
 
 ### Download the model
@@ -681,19 +686,35 @@ inter-node communication backend is correctly configured.
 
 The key configuration variables are:
 
-* `GLOO_SOCKET_IFNAME`: The network interface used for backend initialization such as `benic1p1`.
+* `GLOO_SOCKET_IFNAME`: The network interface used for backend initialization (for example, `benic1p1`).
+* `MORI_SOCKET_IFNAME`: The network interface used by MoRI's own bootstrap. Set it to the same backend interface as `GLOO_SOCKET_IFNAME`.
+* `MORI_GPU_ARCHS`: The target GPU architecture. Set to `gfx950` for MI355X; otherwise the test may auto-select the wrong arch (for example, `gfx942`).
 * `<MASTER_IP>`: The IP address of the primary node's backend interface.
 
-```{note}
-You can find reference performance data in the [ROCm/MoRI
+Performance reference data can be found in the [ROCm/MoRI
 repository](https://github.com/ROCm/mori?tab=readme-ov-file#mori-ep).
+
+```{note}
+The `vllm/vllm-openai-rocm:nightly` image does not ship `/app/mori`, and the
+example test scripts (for example, `test_dispatch_combine_internode.py`) are not
+included in the `amd_mori` pip package. Clone the MoRI repository before running
+the unit test.
 ```
 
 ```bash
 # Set up environment inside the container
+
+# /app/mori and the example tests are not in the image — clone the repo:
+git clone https://github.com/ROCm/mori.git /app/mori
 cd /app/mori
+
+# prettytable is required to render the benchmark result table:
+pip install prettytable
+
 export PYTHONPATH=/app/mori:$PYTHONPATH
-export GLOO_SOCKET_IFNAME=<BACKEND_INTERFACE>
+export MORI_GPU_ARCHS=gfx950                    # MI355X arch; avoids auto-selecting gfx942
+export GLOO_SOCKET_IFNAME=<BACKEND_INTERFACE>   # e.g. benic1p1
+export MORI_SOCKET_IFNAME=<BACKEND_INTERFACE>   # MoRI bootstrap interface; same as GLOO_SOCKET_IFNAME
 
 # Node 0 (Primary)
 torchrun --nnodes=2 --node_rank=0 --nproc_per_node=1 \
@@ -737,10 +758,17 @@ Expected output:
 
 #### Create serving scripts
 
-Create the following scripts inside the container on each node. Node 0 serves
-as both the prefill node and the router, while Node 1 runs the decode service.
+Node 0 serves as both the prefill node and the router, while Node 1 runs the
+decode service. The router script runs on the **host** and launches a separate
+router container; the prefill and decode scripts run inside the vLLM serving
+container.
 
-* Node 0 (Router): `vllm_router.sh`
+* Node 0 (Router): `vllm_router.sh` — run on the host
+
+   ```{note}
+   Run this script on the host, not inside the vLLM container. It launches
+   `vllm/vllm-router:nightly` as a separate container.
+   ```
 
    ```bash
    ROUTER_IMAGE="${ROUTER_IMAGE:-vllm/vllm-router:nightly}"
