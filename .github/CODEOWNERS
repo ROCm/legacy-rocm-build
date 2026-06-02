@@ -1,8 +1,8 @@
-* @amd-aakash @jlgreathouse @samjwu @yhuiYH @ROCm/rocm-documentation
+* @ROCm/rocm-documentation
 # Documentation files
-docs/ @amd-aakash @jlgreathouse @samjwu @yhuiYH @ROCm/rocm-documentation
-*.md @amd-aakash @jlgreathouse @samjwu @yhuiYH @ROCm/rocm-documentation
-*.rst @amd-aakash @jlgreathouse @samjwu @yhuiYH @ROCm/rocm-documentation
+docs/ @ROCm/rocm-documentation
+*.md @ROCm/rocm-documentation
+*.rst @ROCm/rocm-documentation
 # External CI
 /.azuredevops/ @ROCm/external-ci
 tools/rocm-build/ @ROCm/rocm-devops
