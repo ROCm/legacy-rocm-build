@@ -683,7 +683,7 @@ Prerequisites
          :heading: Configure permissions for GPU access
          :heading-level: 3
 
-         There are two primary methods of configuring GPU access for ROCm: group
+         There are two primary methods for configuring GPU access for ROCm: group
          membership or udev rules. Each method has its own advantages. The choice
          depends on your specific requirements and system management preferences.
 
@@ -726,7 +726,7 @@ Prerequisites
       :heading: Configure permissions for GPU access
       :heading-level: 3
 
-      There are two primary methods of configuring GPU access for ROCm: group
+      There are two primary methods for configuring GPU access for ROCm: group
       membership or udev rules. Each method has its own advantages. The choice
       depends on your specific requirements and system management preferences.
 
@@ -771,7 +771,7 @@ Prerequisites
       :heading: Configure permissions for GPU access
       :heading-level: 3
 
-      There are two primary methods of configuring GPU access for ROCm: group
+      There are two primary methods for configuring GPU access for ROCm: group
       membership or udev rules. Each method has its own advantages. The choice
       depends on your specific requirements and system management preferences.
 
