@@ -15,9 +15,10 @@ The following configuration is required to implement this setup:
 * **Nodes:** A minimum of three GPU nodes (Virtual machines or Physical
     machines) for wide expert parallelism (EP) evaluation.
 * **GPUs** 8x AMD Instinct MI355X GPU cards per node.
-* **Networking:**   8x AMD Pensando™ Pollara 400 AI NICs per node, providing
-  a dedicated 1:1 mapping between GPUs and network interfaces for optimal
-  inter-node communication.
+* **Networking:** 8x RDMA-capable NICs per node (AMD Pensando Pollara 400,
+  NVIDIA Mellanox ConnectX-7, or Broadcom bnxt), providing a dedicated 1:1
+  mapping between GPUs and network interfaces for optimal inter-node
+  communication.
 * **Orchestration:** A Slurm cluster with at least three nodes -- one for
   prefill service and two for decode services (EP16)
 
@@ -85,20 +86,40 @@ Checks](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/
 Key requirements include specific kernel boot arguments, minimum system memory
 thresholds, PCIe Gen5 link stability, and so on.
 
-### Install AMD Pensando Pollara 400 AI NIC drivers
+### NIC installation
+
+#### AMD Pensando Pollara 400 AI NIC installation
 
 For detailed instructions on upgrading the firmware and installing drivers for
 the AMD Pensando Pollara 400 AI NIC, refer to the [AMD Instinct System
-Acceptance
-Guide](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/network/nic-installation.html#amd-pensando-pollara-400-ai-nic).
+Acceptance Guide](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/network/nic-installation.html#amd-pensando-pollara-400-ai-nic).
 After installation, verify the active firmware version on all NICs to ensure it
-matches the software baseline. See [Verify baseline software](#verify-best-known-configuration-bkc).
+matches the software baseline. See [Verify baseline software](#sglang-mori-verify-baseline).
 
 To display the current firmware version for all AI NICs, use the following command.
 
 ```bash
 sudo nicctl show version firmware
 ```
+
+#### CX7 driver and firmware installation
+
+1. Download and install the `DOCA 2.9.3` driver following the instructions in
+   [NVIDIA DOCA 2.9.3 Downloads](https://developer.nvidia.com/doca-downloads).
+2. Download the appropriate firmware for your hardware PSID from the [NVIDIA
+   official website](https://network.nvidia.com/support/firmware/connectx7/)
+   and flash the device.
+3. To verify driver and firmware versions, use the following command. Replace
+   `IB Device` with your specific backend interface.
+
+   ```bash
+   ethtool -i <IB Device>
+   ```
+
+#### Broadcom BNXT driver and firmware installation
+
+Refer to your Broadcom representative for driver and firmware installation
+instructions specific to your NIC model.
 
 ### Configure thermal management (fan speed)
 
@@ -601,10 +622,10 @@ appropriate IP.
 
 ```bash
 # On Server Node
-./ib_write_bw --use_rocm=0 -d mlx5_0 --report_gbits -a
+./ib_write_bw --use_rocm=0 -d ionic_0 --report_gbits -a
 
 # On Client Node
-./ib_write_bw --use_rocm=0 -d mlx5_0 --report_gbits -a <SERVER_IP>
+./ib_write_bw --use_rocm=0 -d ionic_0 --report_gbits -a <SERVER_IP>
 ```
 
 ## SGLang serving and MoRI unit tests
@@ -629,7 +650,7 @@ IMAGE_NAME=rocm/sgl-dev:sglang-0.5.6.post1-rocm700-mi35x-mori-0113
 
 docker run -it \
     --rm \
-    --device /dev/dri --device /dev/kfd --device=/dev/infiniBand \
+    --device /dev/dri --device /dev/kfd -v /dev/infiniband:/dev/infiniband \
     --network host --ipc host \
     --group-add video \
     --cap-add SYS_PTRACE \
@@ -650,7 +671,7 @@ MoRI unit test uses 2 nodes as a minimal validation before running the full
 
 The key configuration variables are:
 
-* `GLOO_SOCKET_IFNAME`: The network interface used for backend initialization such as `eth2`.
+* `GLOO_SOCKET_IFNAME`: The network interface used for backend initialization such as `benic1p1`.
 * `<MASTER_IP>`: The IP address of the primary node's backend interface.
 
 ```{note}
@@ -716,8 +737,8 @@ to the appropriate branch:
 
 ```bash
 git clone https://github.com/billishyahao/sglang_disagg.git
-git checkout 9n_cluster
 cd sglang_disagg
+git checkout 9n_cluster
 ```
 
 ```{note}
@@ -770,7 +791,7 @@ Identify and configure the available InfiniBand devices.
    # Model Configuration
    export MODEL_PATH="/nfsdata"     # Base directory where the model weights are stored
    export MODEL_NAME="DeepSeek-R1"  # Specific model directory name (joined with MODEL_PATH)
-   export CONTAINER_IMAGE="rocm/sgl-dev:sglang-0.5.6.post1-rocm700-mi35x-mori-1224" # Docker image to use for the environment
+   export CONTAINER_IMAGE="lmsysorg/sglang-rocm:v0.5.12.post1-rocm720-mi35x-20260529" # Docker image to use for the environment
 
    # Cluster Topology (Disaggregation Setup)
    export PREFILL_NODES=1           # Number of prefill nodes
@@ -863,7 +884,7 @@ Identify and configure the available InfiniBand devices.
 
 The following section outlines common issues and their solutions.
 
-### Bandwidth test fails with error
+### Bandwidth test failures
 
 1. Use ROCm-optimized `rdma-perftest`, not the generic `perftest`
 
