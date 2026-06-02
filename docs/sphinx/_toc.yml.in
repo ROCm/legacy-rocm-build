@@ -105,8 +105,6 @@ subtrees:
             title: vLLM distributed inference with MoRI
           - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-mori-distributed.md
             title: SGLang distributed inference with MoRI
-          - file: how-to/rocm-for-ai/inference/benchmark-docker/sglang-distributed.rst
-            title: SGLang distributed inference with Mooncake
           - file: how-to/rocm-for-ai/inference/xdit-diffusion-inference.rst
             title: xDiT diffusion inference
           - file: how-to/rocm-for-ai/inference/deploy-your-model.rst

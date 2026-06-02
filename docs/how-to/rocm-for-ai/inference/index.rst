@@ -30,8 +30,6 @@ training, fine-tuning, and inference. It leverages popular machine learning fram
 
 - :doc:`SGLang distributed inference with MoRI <benchmark-docker/sglang-mori-distributed>`
 
-- :doc:`SGLang distributed inference with Mooncake <benchmark-docker/sglang-distributed>`
-
 - :doc:`xDiT diffusion inference <xdit-diffusion-inference>`
 
 - :doc:`Deploying your model <deploy-your-model>`
