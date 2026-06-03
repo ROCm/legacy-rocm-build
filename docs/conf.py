@@ -223,3 +223,21 @@ exclude_patterns = [
 official_branch = run(
     ["git", "rev-parse", "--abbrev-ref", "HEAD"], capture_output=True, text=True
 ).stdout.find("docs/")
+
+
+def _patch_intersphinx_inventories(app, config):
+    """For non-release builds, child projects may not have a matching build
+    published. Keep the versioned URL as the link target but fall back to the
+    latest inventory so cross-references can still resolve."""
+    mapping = config.intersphinx_mapping
+    for key, (url, inv) in list(mapping.items()):
+        if inv is None and re.search(r"/en/\d+\.\d+\.\d+-.+/", url):
+            latest_inv = re.sub(r"/en/\d+\.\d+\.\d+-.+/", "/en/latest/", url) + "objects.inv"
+            mapping[key] = (url, latest_inv)
+
+
+def setup(app):
+    # rocm-docs-core sets intersphinx_mapping at config-inited priority 586.
+    # Run after it (priority 900) so the mapping exists, but before builder-inited
+    # when intersphinx fetches inventories.
+    app.connect("config-inited", _patch_intersphinx_inventories, priority=900)
