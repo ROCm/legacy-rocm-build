@@ -12,14 +12,15 @@ scripts.
 
 The following configuration is required to implement this setup:
 
-* **Nodes:** A minimum of three GPU nodes (Virtual machines or Physical
-    machines) for wide expert parallelism (EP) evaluation.
-* **GPUs** 8x AMD Instinct MI355X GPU cards per node.
-* **Networking:**   8x AMD Pensando™ Pollara 400 AI NICs per node, providing
-  a dedicated 1:1 mapping between GPUs and network interfaces for optimal
-  inter-node communication.
-* **Orchestration:** A Slurm cluster with at least three nodes -- one for
-  prefill service and two for decode services (EP16)
+* **Nodes**: A minimum of three GPU nodes (virtual machines or physical
+  machines) for wide expert parallelism (EP) evaluation.
+* **GPUs**: 8x AMD Instinct MI355X GPU cards per node.
+* **Networking**: 8x RDMA-capable NICs per node (AMD Pensando Pollara 400,
+  NVIDIA Mellanox ConnectX-7, or Broadcom Thor 2), providing a dedicated 1:1
+  mapping between GPUs and network interfaces for optimal inter-node
+  communication.
+* **Orchestration**: A Slurm cluster with at least three nodes — one for
+  prefill service and two for decode services (EP16).
 
 ## System configuration
 
@@ -28,8 +29,6 @@ Instinct MI355X cluster. It covers essential procedures for verifying software
 baselines and firmware versions, configuring the AMD Pensando Pollara 400 AI
 NICs for high-bandwidth networking, and applying thermal and Quality of Service
 (QoS) tunings to ensure a stable, lossless RDMA fabric.
-
-(sglang-mori-verify-baseline)=
 
 ### Verify baseline software
 
@@ -81,24 +80,45 @@ Redfish API:
 
 Before proceeding with software deployment, verify that all cluster nodes
 comply with the [MI355X Basic Health
-Checks](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi355x.html#basic-health-checks)
+Checks](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi355x.html#basic-health-checks).
 Key requirements include specific kernel boot arguments, minimum system memory
 thresholds, PCIe Gen5 link stability, and so on.
 
-### Install AMD Pensando Pollara 400 AI NIC drivers
+### NIC installation
+
+#### AMD Pensando Pollara 400 AI NIC installation
 
 For detailed instructions on upgrading the firmware and installing drivers for
 the AMD Pensando Pollara 400 AI NIC, refer to the [AMD Instinct System
-Acceptance
-Guide](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/network/nic-installation.html#amd-pensando-pollara-400-ai-nic).
+Acceptance Guide](https://instinct.docs.amd.com/projects/system-acceptance/en/latest/network/nic-installation.html#amd-pensando-pollara-400-ai-nic).
 After installation, verify the active firmware version on all NICs to ensure it
-matches the software baseline. See [Verify baseline software](#verify-best-known-configuration-bkc).
+matches the software baseline. See [Verify baseline software](#verify-baseline-software).
 
 To display the current firmware version for all AI NICs, use the following command.
 
 ```bash
 sudo nicctl show version firmware
 ```
+
+#### CX7 driver and firmware installation
+
+1. Download and install the `DOCA 2.9.3` driver following the instructions in
+   [NVIDIA DOCA 2.9.3 Downloads](https://developer.nvidia.com/doca-downloads).
+2. Download the appropriate firmware for your hardware PSID from the
+   [ConnectX-7 Firmware Download
+   Center](https://network.nvidia.com/support/firmware/connectx7/) and flash
+   the device.
+3. To verify driver and firmware versions, use the following command. Replace
+   `IB Device` with your specific backend interface.
+
+   ```bash
+   ethtool -i <IB Device>
+   ```
+
+#### Broadcom BNXT driver and firmware installation
+
+Refer to your Broadcom representative for driver and firmware installation
+instructions specific to your NIC model.
 
 ### Configure thermal management (fan speed)
 
@@ -140,8 +160,10 @@ the addresses `192.168.1.36`, `192.168.2.36`, and so on. Another node would
 have `192.168.1.37`, `192.168.2.37`, and so on. Ensure MTU is set to `9000`.
 
 ```{note}
-Ensure you identify the correct interface names for your system using ip link
-before applying this configuration.
+Ensure you identify the correct interface names for your system using `ip link`
+before applying this configuration. The `macaddress:` values in the example
+below are illustrative only and must be replaced with the actual MAC addresses
+of your NICs, which you can find using `ip link show <interface>`.
 ```
 
 For example, your `/etc/netplan/70-backend.yaml` should look like the
@@ -154,7 +176,7 @@ network:
       addresses:
       - 192.168.8.38/31
       match:
-        macaddress: 04:90:81:2a:34:08
+        macaddress: 04:90:81:00:00:08
       mtu: 9000
       routes:
       - table: 108
@@ -168,7 +190,7 @@ network:
       addresses:
       - 192.168.7.38/31
       match:
-        macaddress: 04:90:81:2b:82:40
+        macaddress: 04:90:81:00:00:07
       mtu: 9000
       routes:
       - table: 107
@@ -182,7 +204,7 @@ network:
       addresses:
       - 192.168.6.38/31
       match:
-        macaddress: 04:90:81:30:c9:30
+        macaddress: 04:90:81:00:00:06
       mtu: 9000
       routes:
       - table: 106
@@ -196,7 +218,7 @@ network:
       addresses:
       - 192.168.5.38/31
       match:
-        macaddress: 04:90:81:2a:23:40
+        macaddress: 04:90:81:00:00:05
       mtu: 9000
       routes:
       - table: 105
@@ -210,7 +232,7 @@ network:
       addresses:
       - 192.168.4.38/31
       match:
-        macaddress: 04:90:81:2d:69:60
+        macaddress: 04:90:81:00:00:04
       mtu: 9000
       routes:
       - table: 104
@@ -224,7 +246,7 @@ network:
       addresses:
       - 192.168.3.38/31
       match:
-        macaddress: 04:90:81:2a:2c:40
+        macaddress: 04:90:81:00:00:03
       mtu: 9000
       routes:
       - table: 103
@@ -238,7 +260,7 @@ network:
       addresses:
       - 192.168.2.38/31
       match:
-        macaddress: 04:90:81:30:d5:30
+        macaddress: 04:90:81:00:00:02
       mtu: 9000
       routes:
       - table: 102
@@ -252,7 +274,7 @@ network:
       addresses:
       - 192.168.1.38/31
       match:
-        macaddress: 04:90:81:30:e4:00
+        macaddress: 04:90:81:00:00:01
       mtu: 9000
       routes:
       - table: 101
@@ -276,17 +298,18 @@ To verify your configuration, use the following command.
 sudo apt install -y net-tools && ip -br a
 ```
 
-### Configure Quality of Service (QoS) and Congestion Control (DCQCN)
+### Configure quality of service (QoS) and congestion control (DCQCN)
 
 To ensure lossless communication and optimal performance for RDMA traffic, the
 network must be configured with specific QoS and Data Center Quantized
 Congestion Notification (DCQCN) settings.
 
-The following configuration achieves:
-• It enables RX and TX Pause frames on the ports
-• Maps DSCP 24 (Data) to Q3 and DSCP 46 (CNP) to Q6, all other DSCP to Q0
-• Enables PFC for Q3
-• Scheduling : 99% to Q3, 1% to Q0 and strict priority for Q6
+The following configuration:
+
+* Enables RX and TX pause frames on the ports.
+* Maps DSCP 24 (Data) to Q3 and DSCP 46 (CNP) to Q6, with all other DSCP to Q0.
+* Enables PFC for Q3.
+* Scheduling: 99% to Q3, 1% to Q0, and strict priority for Q6.
 
 #### Configure DCQCN
 
@@ -294,7 +317,7 @@ Create and run a `/nfsdata/enable_dcqcn.sh` script to initialize congestion
 control parameters.
 
 ``` bash
-# !/bin/bash
+#!/bin/bash
 
 TOKEN_BUCKET_SIZE=800000
 AI_RATE=160
@@ -361,7 +384,7 @@ sudo nicctl update qos pfc --priority $data_prio --no-drop enable
 sudo nicctl update qos scheduling --priority $data_prio,$default_prio,$cts_prio --dwrr 99,1,0 --rate-limit 0,0,10
 ```
 
-#### Verification your configuration
+#### Verify your configuration
 
 Verify the configuration using `nicctl`.
 
@@ -374,9 +397,9 @@ Verify the configuration using `nicctl`.
   Expected QoS output:
 
   ``` bash
-  NIC  : 42424650-4c32-3531-3230-303443000000 (0000:f6:00.0)
+  NIC  : 00000000-0000-0000-0000-000000000001 (0000:f6:00.0)
 
-  Port : 04908130-a7a0-4242-4242-000011010000
+  Port : 00000000-0001-4242-4242-000000000000
 
   Classification type         : DSCP
 
@@ -398,10 +421,10 @@ Verify the configuration using `nicctl`.
   Expected DCQCN and scheduling output:
 
   ``` bash
-  NIC : 42424650-4c32-3531-3230-303443000000 (0000:f6:00.0)
+  NIC : 00000000-0000-0000-0000-000000000001 (0000:f6:00.0)
   ------------------------------------------------------------------------------------------
 
-  Lif id                                     : 43000070-0100-0000-4242-04908130a7a0
+  Lif id                                     : 00000000-0100-0000-4242-000000000000
   ROCE device                                : ionic_7
   DCQCN profile id                         : 1
   Status                                   : Enabled
@@ -497,9 +520,10 @@ the cluster interconnects.
 ### Verify network connectivity
 
 Verify that all network interfaces are reachable across the cluster nodes.
-Assuming `eth0` is the management interface, and `benic1p1` through `benic8p1` are the
-dedicated RoCE backend interfaces, use the following loop to test reachability
-to a remote node (for instance, a target node with host IP suffix `.38`).
+Assuming `benic1p1` through `benic8p1` are the dedicated RoCE backend
+interfaces, use the following ping loop to verify reachability across the
+backend subnets (for instance, a target node at host IP suffix
+`.38`).
 
 ```bash
 # Test connectivity for RoCE subnets 192.168.x.38 (node B) through 192.168.x.37 (node A)
@@ -522,9 +546,9 @@ The output should look something like this:
 ```bash
 -------------------------------------------------------------------------------------
 
-NIC  : 42424650-4c32-3531-3530-314343000000 (0000:f6:00.0)
+NIC  : 00000000-0000-0000-0000-000000000002 (0000:f6:00.0)
 
-Port : 04908132-5d88-4242-4242-000011010000 (eth1/1)
+Port : 00000000-0002-4242-4242-000000000000 (eth1/1)
   Spec:
     Ifindex                                  : 0x11010000
     Type                                     : ETH
@@ -548,7 +572,7 @@ Port : 04908132-5d88-4242-4242-000011010000 (eth1/1)
     Auto negotiation                         : disabled
     MAC ID                                   : 0
     MAC channel                              : 0
-    MAC address                              : 04:90:81:32:5d:88
+    MAC address                              : 04:90:81:00:00:00
     Transceiver type                         : QSFP_CMIS
     Transceiver state                        : SPROM-READ
     Transceiver PID                          : QSFP-400G-DR4
@@ -569,7 +593,7 @@ ibv_devinfo -v | grep GID
 The output should look something like this:
 
 ```bash
-      GID[  0]:               fe80::690:81ff:fe30:a7a0, RoCE v2
+      GID[  0]:               fe80::6a00:00ff:fe00:0001, RoCE v2
       GID[  1]:               ::ffff:192.168.7.36, RoCE v2
 ```
 
@@ -601,17 +625,17 @@ appropriate IP.
 
 ```bash
 # On Server Node
-./ib_write_bw --use_rocm=0 -d mlx5_0 --report_gbits -a
+./ib_write_bw --use_rocm=0 -d ionic_0 --report_gbits -a
 
 # On Client Node
-./ib_write_bw --use_rocm=0 -d mlx5_0 --report_gbits -a <SERVER_IP>
+./ib_write_bw --use_rocm=0 -d ionic_0 --report_gbits -a <SERVER_IP>
 ```
 
 ## SGLang serving and MoRI unit tests
 
 ### Install Docker Engine
 
-Install the Docker engine to manage the containerized vLLM and MoRI serving
+Install the Docker engine to manage the containerized SGLang and MoRI serving
 environments.
 
 ```bash
@@ -629,7 +653,7 @@ IMAGE_NAME=rocm/sgl-dev:sglang-0.5.6.post1-rocm700-mi35x-mori-0113
 
 docker run -it \
     --rm \
-    --device /dev/dri --device /dev/kfd --device=/dev/infiniBand \
+    --device /dev/dri --device /dev/kfd -v /dev/infiniband:/dev/infiniband \
     --network host --ipc host \
     --group-add video \
     --cap-add SYS_PTRACE \
@@ -642,7 +666,7 @@ docker run -it \
 
 ### Run MoRI inter-node unit tests
 
-Before starting the vLLM service, run the MoRI unit test to verify that the
+Before starting the SGLang service, run the MoRI unit test to verify that the
 inter-node communication backend is correctly configured.
 
 MoRI unit test uses 2 nodes as a minimal validation before running the full
@@ -650,18 +674,34 @@ MoRI unit test uses 2 nodes as a minimal validation before running the full
 
 The key configuration variables are:
 
-* `GLOO_SOCKET_IFNAME`: The network interface used for backend initialization such as `eth2`.
+* `GLOO_SOCKET_IFNAME`: The network interface used for backend initialization (for example, `benic1p1`).
+* `MORI_SOCKET_IFNAME`: The network interface used by MoRI's own bootstrap. Set it to the same backend interface as `GLOO_SOCKET_IFNAME`.
+* `MORI_GPU_ARCHS`: The target GPU architecture. Set to `gfx950` for MI355X; otherwise the test may auto-select the wrong arch (for example, `gfx942`).
 * `<MASTER_IP>`: The IP address of the primary node's backend interface.
 
-```{note}
-You can find reference performance data in the [ROCm/MoRI
+Performance reference data can be found in the [ROCm/MoRI
 repository](https://github.com/ROCm/mori?tab=readme-ov-file#mori-ep).
+
+```{note}
+The `rocm/sgl-dev:sglang-0.5.6.post1-rocm700-mi35x-mori-0113` image ships MoRI
+under `/sgl-workspace/mori`. If `/sgl-workspace/mori` or the example test
+scripts (for example, `test_dispatch_combine_internode.py`) are missing, clone
+the repository:
+
+`git clone https://github.com/ROCm/mori.git /sgl-workspace/mori`
 ```
 
 ```bash
 # Set up environment inside the container
-export PYTHONPATH=/app/mori:$PYTHONPATH
-export GLOO_SOCKET_IFNAME=<BACKEND_INTERFACE>
+cd /sgl-workspace/mori
+
+# prettytable is required to render the benchmark result table:
+pip install prettytable
+
+export PYTHONPATH=/sgl-workspace/mori:$PYTHONPATH
+export MORI_GPU_ARCHS=gfx950                    # MI355X arch; avoids auto-selecting gfx942
+export GLOO_SOCKET_IFNAME=<BACKEND_INTERFACE>   # e.g. benic1p1
+export MORI_SOCKET_IFNAME=<BACKEND_INTERFACE>   # MoRI bootstrap interface; same as GLOO_SOCKET_IFNAME
 
 # Node 0 (Primary)
 torchrun --nnodes=2 --node_rank=0 --nproc_per_node=1 \
@@ -679,9 +719,7 @@ torchrun --nnodes=2 --node_rank=1 --nproc_per_node=1 \
 ## End-to-end 1P2D performance testing
 
 This section guides you through running distributed inference benchmarks using
-the SGLang disagg recipe. For detailed implementation details, refer to the
-[SGLang Disaggregation
-Recipe](https://github.com/billishyahao/sglang_disagg/blob/9n_cluster/README.md).
+the SGLang disagg recipe.
 
 ### Download the model and setup your run environment
 
@@ -711,13 +749,12 @@ hf download --token <your_hf_token> \
 
 ### Clone the SGLang disaggregation recipe
 
-Clone the SGLang disaggregation repository to the shared file system and switch
-to the appropriate branch:
+Clone the [ROCm/distributed_inference](https://github.com/ROCm/distributed_inference)
+repository to the shared file system:
 
 ```bash
-git clone https://github.com/billishyahao/sglang_disagg.git
-git checkout 9n_cluster
-cd sglang_disagg
+git clone https://github.com/ROCm/distributed_inference.git
+cd distributed_inference
 ```
 
 ```{note}
@@ -749,28 +786,54 @@ Identify and configure the available InfiniBand devices.
            ionic_7
    ```
 
-2. Update environment variables. Edit `set_env_vars.sh` and add the
-   comma-separated list of your system's IB devices. For example:
+2. Update environment variables. Edit `set_env_vars.sh` and set the
+   following variables:
 
    ```bash
    export IBDEVICES=ionic_0,ionic_1,ionic_2,ionic_3,ionic_4,ionic_5,ionic_6,ionic_7
+
+   # Must be >= chunked_prefill_size / dp_size.
+   # Default recipe: 262144 / 8 = 32768. set_env_vars.sh's value (16384) is
+   # too small and causes an AssertionError on prefill startup.
+   export SGLANG_MORI_NUM_MAX_DISPATCH_TOKENS_PER_RANK=32768
+
+   # Must be large enough for the dispatch buffer. The default 4 GB heap
+   # causes an out-of-memory error at first inference with a 32768-token budget.
+   export MORI_SHMEM_HEAP_SIZE=16G
    ```
 
 ### Configure the script and submit the job
+
+```{important}
+Two `set_env_vars.sh` variables must be set before submitting the job, or
+the prefill service crashes at startup:
+
+* `SGLANG_MORI_NUM_MAX_DISPATCH_TOKENS_PER_RANK` — SGLang asserts this value is
+  ≥ `chunked_prefill_size / dp_size`. For the default DeepSeek-R1 recipe
+  (262144 / 8 = 32768), `set_env_vars.sh`'s shipped value of 16384 triggers an
+  `AssertionError` on the prefill node only (decode is exempt). Raising this to
+  32768 fixes the crash.
+* `MORI_SHMEM_HEAP_SIZE` — Raising the dispatch budget to 32768 tokens exceeds
+  MoRI's default 4 GB static heap and causes an out-of-memory error at first
+  inference. Set this to `16G` (MoRI's own inter-node test default).
+
+These values are set in the preceding [Configure InfiniBand
+devices](#configure-infiniBand-devices) step.
+```
 
 1. To set the required configuration parameters, update the following
    environment variables in `run_submit_disagg.sh` to match your cluster setup:
 
    ```bash
    # SLURM Job Configuration
-   export SLURM_ACCOUNT="amd"       # The account name for SLURM job accounting and resource allocation
+   export SLURM_ACCOUNT="<your_slurm_account>"  # The account name for SLURM job accounting and resource allocation
    export SLURM_PARTITION="compute" # The specific cluster partition (queue) to submit the job to
    export TIME_LIMIT="24:00:00"     # Maximum wall time for the job (Hours:Minutes:Seconds)
 
    # Model Configuration
    export MODEL_PATH="/nfsdata"     # Base directory where the model weights are stored
    export MODEL_NAME="DeepSeek-R1"  # Specific model directory name (joined with MODEL_PATH)
-   export CONTAINER_IMAGE="rocm/sgl-dev:sglang-0.5.6.post1-rocm700-mi35x-mori-1224" # Docker image to use for the environment
+   export CONTAINER_IMAGE="lmsysorg/sglang-rocm:v0.5.12.post1-rocm720-mi35x-20260529" # Docker image to use for the environment
 
    # Cluster Topology (Disaggregation Setup)
    export PREFILL_NODES=1           # Number of prefill nodes
@@ -827,7 +890,7 @@ Identify and configure the available InfiniBand devices.
    ```{note}
    The following benchmark utility output is provided for reference only and
    should not be used to compare performance. See the
-   [InferenceMAX](https://inferencemax.semianalysis.com/) website for validated
+   [InferenceX](https://inferencex.semianalysis.com/) website for validated
    performance results.
    ```
 
@@ -863,7 +926,7 @@ Identify and configure the available InfiniBand devices.
 
 The following section outlines common issues and their solutions.
 
-### Bandwidth test fails with error
+### Bandwidth test failures
 
 1. Use ROCm-optimized `rdma-perftest`, not the generic `perftest`
 

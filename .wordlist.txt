@@ -44,6 +44,7 @@ BARs
 BKC
 BLAS
 BMC
+BNXT
 BabelStream
 Backported
 BatchNorm
@@ -1071,6 +1072,7 @@ submatrix
 submodule
 submodules
 subnet
+subnets
 supercomputing
 symlink
 symlinks
