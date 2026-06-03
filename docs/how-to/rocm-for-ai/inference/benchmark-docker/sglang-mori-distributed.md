@@ -1,6 +1,6 @@
 # SGLang distributed inference with MoRI
 
-This cookbook provides a comprehensive guide for deploying a high-performance
+This document provides a comprehensive guide for deploying a high-performance
 SGLang distributed inference serving environment on an AMD Instinct MI355X GPU
 cluster, utilizing the [MoRI (Modular RDMA
 Interface)](https://github.com/rocm/mori) communication backend for optimized

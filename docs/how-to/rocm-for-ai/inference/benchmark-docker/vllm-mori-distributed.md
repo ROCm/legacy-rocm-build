@@ -1,6 +1,6 @@
 # vLLM distributed inference with MoRI
 
-This cookbook provides an end-to-end guide for deploying vLLM with
+This document provides an end-to-end guide for deploying vLLM with
 [MoRI (Modular RDMA Interface)](https://github.com/rocm/mori) on AMD Instinct MI355X
 clusters. It covers system preparation (firmware, drivers, ROCm, RDMA networking,
 QoS/DCQCN), container setup, inter-node MoRI validation, and launching a
