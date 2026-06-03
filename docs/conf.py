@@ -17,18 +17,29 @@ from subprocess import run
 # Remove once rocm-docs-core ships native support.
 from rocm_docs import projects as _rdc_projects
 
-_rdc_orig_get_static_version = _rdc_projects._Project.get_static_version.__func__
+# Extend DOCS_VERSION_PATTERN to also match X.Y.Z-preview slugs that RTD uses
+# for docs/X.Y.Z branches (e.g. "7.13.0-preview" for branch "docs/7.13.0").
+# Without this, get_static_version() falls back to "latest" for these slugs.
+_rdc_projects.DOCS_VERSION_PATTERN = r"^(docs-\d+\.\d+\.\d+|\d+\.\d+\.\d+-preview)$"
+
+# HACK: Fall back to `latest` Intersphinx inventory for preview builds.
+# Intersphinx supports multiple inventory locations per project — it tries each
+# in order and stops on the first success.
+_rdc_orig_mapping_fget = _rdc_projects._Project.mapping.fget
 
 
-def _rdc_patched_get_static_version(cls, current_branch, current_project):
-    if re.match(r"^\d+\.\d+\.\d+-preview$", current_branch):
-        return current_branch
-    return _rdc_orig_get_static_version(cls, current_branch, current_project)
+@property
+def _rdc_patched_mapping(self):
+    url, inv = _rdc_orig_mapping_fget(self)
+    if re.search(r"/en/\d+\.\d+\.\d+-.+/", url):
+        latest_inv = re.sub(r"/en/\d+\.\d+\.\d+-.+/", "/en/latest/", url) + "objects.inv"
+        inv_list = list(inv) if isinstance(inv, tuple) else [inv]
+        inv_list.append(latest_inv)
+        return (url, tuple(inv_list))
+    return (url, inv)
 
 
-_rdc_projects._Project.get_static_version = classmethod(
-    _rdc_patched_get_static_version
-)
+_rdc_projects._Project.mapping = _rdc_patched_mapping
 
 ROCM_VERSION = "7.13.0"
 GA_DATE = "2026-05-15"
@@ -225,19 +236,3 @@ official_branch = run(
 ).stdout.find("docs/")
 
 
-def _patch_intersphinx_inventories(app, config):
-    """For non-release builds, child projects may not have a matching build
-    published. Keep the versioned URL as the link target but fall back to the
-    latest inventory so cross-references can still resolve."""
-    mapping = config.intersphinx_mapping
-    for key, (url, inv) in list(mapping.items()):
-        if inv is None and re.search(r"/en/\d+\.\d+\.\d+-.+/", url):
-            latest_inv = re.sub(r"/en/\d+\.\d+\.\d+-.+/", "/en/latest/", url) + "objects.inv"
-            mapping[key] = (url, latest_inv)
-
-
-def setup(app):
-    # rocm-docs-core sets intersphinx_mapping at config-inited priority 586.
-    # Run after it (priority 900) so the mapping exists, but before builder-inited
-    # when intersphinx fetches inventories.
-    app.connect("config-inited", _patch_intersphinx_inventories, priority=900)
