@@ -5,10 +5,30 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import os
+import re
 import shutil
 import sys
 from pathlib import Path
 from subprocess import run
+
+# Make rocm-docs-core recognize <X.Y.Z>-preview slugs (e.g. 7.13.0-preview) as
+# valid version identifiers so intersphinx URLs to sister projects resolve to
+# the matching preview build instead of falling back to /en/latest/.
+# Remove once rocm-docs-core ships native support.
+from rocm_docs import projects as _rdc_projects
+
+_rdc_orig_get_static_version = _rdc_projects._Project.get_static_version.__func__
+
+
+def _rdc_patched_get_static_version(cls, current_branch, current_project):
+    if re.match(r"^\d+\.\d+\.\d+-preview$", current_branch):
+        return current_branch
+    return _rdc_orig_get_static_version(cls, current_branch, current_project)
+
+
+_rdc_projects._Project.get_static_version = classmethod(
+    _rdc_patched_get_static_version
+)
 
 ROCM_VERSION = "7.13.0"
 GA_DATE = "2026-05-15"
