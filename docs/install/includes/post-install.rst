@@ -213,7 +213,9 @@ installation.
 
                      source ~/.profile
 
-   .. selected:: os=windows
+.. selected:: os=windows
+
+   .. selected:: i=tar
       :heading: Configure your environment
       :heading-level: 3
 
