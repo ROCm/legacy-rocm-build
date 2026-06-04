@@ -210,34 +210,36 @@ installation.
                      source ~/.profile
 
 .. selected:: os=windows
-   :heading: Configure your environment
-   :heading-level: 3
 
-   Configure environment variables so that ROCm libraries and tools are
-   available on your Windows system.
+   .. selected:: i=tar
+      :heading: Configure your environment
+      :heading-level: 3
 
-   1. **Run command prompt as an administrator** and set the following environment variables.
+      Configure environment variables so that ROCm libraries and tools are
+      available on your Windows system.
 
-      .. code-block:: bat
+      1. **Run command prompt as an administrator** and set the following environment variables.
 
-         setx HIP_DEVICE_LIB_PATH “C:\TheRock\build\lib\llvm\amdgcn\bitcode” /M
-         setx HIP_PATH “C:\TheRock\build” /M
-         setx HIP_PLATFORM “amd” /M
-         setx LLVM_PATH “C:\TheRock\build\lib\llvm” /M
+         .. code-block:: bat
 
-   2. Add the following paths into the PATH environment variable.
+            setx HIP_DEVICE_LIB_PATH “C:\TheRock\build\lib\llvm\amdgcn\bitcode” /M
+            setx HIP_PATH “C:\TheRock\build” /M
+            setx HIP_PLATFORM “amd” /M
+            setx LLVM_PATH “C:\TheRock\build\lib\llvm” /M
 
-      .. code-block:: bat
+      2. Add the following paths into the PATH environment variable.
 
-         setx PATH "%PATH%;C:\TheRock\build\bin" /M
-         setx PATH "%PATH%;C:\TheRock\build\lib\llvm\bin" /M
+         .. code-block:: bat
 
-   3. Open a new command prompt window for the environment variables to take effect. Run ``set``
-      to see the list of active variables.
+            setx PATH "%PATH%;C:\TheRock\build\bin" /M
+            setx PATH "%PATH%;C:\TheRock\build\lib\llvm\bin" /M
 
-      .. code-block:: bat
+      3. Open a new command prompt window for the environment variables to take effect. Run ``set``
+         to see the list of active variables.
 
-         set
+         .. code-block:: bat
+
+            set
 
 .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
    :heading: Verify your installation
