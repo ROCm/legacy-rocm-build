@@ -3,7 +3,7 @@ Prerequisites
 
 .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 
-   Before installing the ROCm Core SDK |ROCM_VERSION|, ensure your system meets
+   Before installing the ROCm |ROCM_VERSION|, ensure your system meets
    all prerequisites. This includes installing the required dependencies and
    configuring permissions for GPU access. To confirm that your system is
    supported, see the :doc:`Compatibility matrix
@@ -11,7 +11,7 @@ Prerequisites
 
 .. selected:: os=windows
 
-   Before installing the ROCm Core SDK |ROCM_VERSION|, ensure your system meets
+   Before installing the ROCm |ROCM_VERSION|, ensure your system meets
    all prerequisites. To confirm that your system is supported, see the
    :doc:`Compatibility matrix </compatibility/compatibility-matrix>`.
 

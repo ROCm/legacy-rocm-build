@@ -219,10 +219,10 @@ Installation
 
 .. _rocm-install-rocm:
 
-Install the ROCm Core SDK
--------------------------
+Install ROCm
+------------
 
-Use the following instructions to install the ROCm Core SDK on your system.
+Use the following instructions to install ROCm packages on your system.
 
 .. ========================================================== PACKAGE MANAGER ==
 
@@ -1430,7 +1430,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: fam=all
 
-      Use pip to install the ROCm Core SDK libraries and development tools.
+      Use pip to install the ROCm libraries and development tools.
 
       Run the following command:
 
@@ -1440,7 +1440,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx950
 
-      Use pip to install the ROCm Core SDK libraries and development tools for
+      Use pip to install the ROCm libraries and development tools for
       your ``gfx950`` GPU.
 
       Run the following command:
@@ -1451,7 +1451,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx942
 
-      Use pip to install the ROCm Core SDK libraries and development tools for
+      Use pip to install the ROCm libraries and development tools for
       your ``gfx942`` device.
 
       Run the following command:
@@ -1462,7 +1462,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx90a
 
-      Use pip to install the ROCm Core SDK libraries and development tools.
+      Use pip to install the ROCm libraries and development tools.
 
       Run the following command:
 
@@ -1472,7 +1472,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx908
 
-      Use pip to install the ROCm Core SDK libraries and development tools.
+      Use pip to install the ROCm libraries and development tools.
 
       Run the following command:
 
@@ -1482,7 +1482,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx1201
 
-      Use pip to install the ROCm Core SDK libraries and development tools for
+      Use pip to install the ROCm libraries and development tools for
       your ``gfx1201`` GPU.
 
       Run the following command:
@@ -1493,7 +1493,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx1200
 
-      Use pip to install the ROCm Core SDK libraries and development tools for
+      Use pip to install the ROCm libraries and development tools for
       your ``gfx1200`` GPU.
 
       Run the following command:
@@ -1504,7 +1504,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx1100 gfx=gfx1101 gfx=gfx1102 gfx=gfx1103
 
-      Use pip to install the ROCm Core SDK libraries and development tools.
+      Use pip to install the ROCm libraries and development tools.
 
       Run the following command:
 
@@ -1514,7 +1514,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx1030
 
-      Use pip to install the ROCm Core SDK libraries and development tools.
+      Use pip to install the ROCm libraries and development tools.
 
       Run the following command:
 
@@ -1524,7 +1524,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx1151
 
-      Use pip to install the ROCm Core SDK libraries and development tools for
+      Use pip to install the ROCm libraries and development tools for
       your ``gfx1151`` Ryzen APU.
 
       Run the following command:
@@ -1535,7 +1535,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx1150
 
-      Use pip to install the ROCm Core SDK libraries and development tools for
+      Use pip to install the ROCm libraries and development tools for
       your ``gfx1150`` Ryzen APU.
 
       Run the following command:
@@ -1546,7 +1546,7 @@ Use the following instructions to install the ROCm Core SDK on your system.
 
    .. selected:: gfx=gfx1152
 
-      Use pip to install the ROCm Core SDK libraries and development tools for
+      Use pip to install the ROCm libraries and development tools for
       your ``gfx1152`` Ryzen APU.
 
       Run the following command:

@@ -1,9 +1,8 @@
 Post-installation
 =================
 
-After installing the ROCm Core SDK |ROCM_VERSION|, complete these
-post-installation steps to complete your system configuration and validate the
-installation.
+After installing ROCm |ROCM_VERSION|, complete these post-installation steps to
+complete your system configuration and validate the installation.
 
 .. _rocm-post-install-env:
 
@@ -121,7 +120,7 @@ installation.
    :heading: Verify your installation
    :heading-level: 3
 
-   Use the following ROCm tools to verify that the ROCm Core SDK is correctly
+   Use the following ROCm tools to verify that the ROCm is correctly
    installed and that your AMD devices are visible to the system.
 
    1. Use ``rocminfo`` to list detected AMD GPUs and confirm that the ROCm
@@ -198,7 +197,7 @@ installation.
    :heading: Verify your installation
    :heading-level: 3
 
-   Use the following ROCm tools to verify that the ROCm Core SDK is correctly
+   Use the following ROCm tools to verify that the ROCm is correctly
    installed and that your AMD devices are visible to the system.
 
    .. selected:: i=pip
@@ -268,7 +267,7 @@ installation.
    :heading: Verify your installation
    :heading-level: 3
 
-   Use ``rocminfo`` to verify that the ROCm Core SDK is correctly
+   Use ``rocminfo`` to verify that the ROCm is correctly
    installed and that your AMD devices are visible to the system.
 
    .. code-block:: bash
