@@ -20,7 +20,7 @@ subtrees:
     - caption: Install
       entries:
           - file: install/rocm.rst
-            title: Install the ROCm Core SDK
+            title: Install ROCm
             entries:
                 # HACK: `install/redirect/_*` entries are to create dummies in
                 # the TOC to be targeted by JS.
