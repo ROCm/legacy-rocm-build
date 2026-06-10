@@ -128,7 +128,7 @@ subtrees:
           - file: components/extras.rst
             title: ROCm Extras
             entries:
-                - url: ${project:rocmvalidationsuite}
+                - url: https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/docs-1.4.21/index.html
                   title: ROCm Validation Suite (RVS)
     - caption: Deep learning frameworks
       entries:
