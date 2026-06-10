@@ -34,102 +34,102 @@ subtrees:
             title: Uninstall ROCm
           - file: install/build-from-source.rst
             title: Build ROCm from source
+    - caption: Components
+      entries:
+          - file: components/core.rst
+            title: ROCm Core SDK
+            entries:
+                - file: components/math-and-compute-libs.rst
+                  title: Math and compute libraries
+                  entries:
+                      - url: ${project:composable_kernel}
+                        title: Composable Kernel
+                      - url: ${project:hipblas}
+                        title: hipBLAS
+                      - url: ${project:hipblaslt}
+                        title: hipBLASLt
+                      - url: ${project:hipcub}
+                        title: hipCUB
+                      - url: ${project:hipfft}
+                        title: hipFFT
+                      - url: ${project:hiprand}
+                        title: hipRAND
+                      - url: ${project:hipsolver}
+                        title: hipSOLVER
+                      - url: ${project:hipsparse}
+                        title: hipSPARSE
+                      - url: ${project:hipsparselt}
+                        title: hipSPARSELt
+                      - url: ${project:miopen}
+                        title: MIOpen
+                      - url: ${project:rocblas}
+                        title: rocBLAS
+                      - url: ${project:rocfft}
+                        title: rocFFT
+                      - url: ${project:rocrand}
+                        title: rocRAND
+                      - url: ${project:rocsolver}
+                        title: rocSOLVER
+                      - url: ${project:rocsparse}
+                        title: rocSPARSE
+                      - url: ${project:rocprim}
+                        title: rocPRIM
+                      - url: ${project:rocthrust}
+                        title: rocThrust
+                      - url: ${project:rocwmma}
+                        title: rocWMMA
+                - file: components/communication-libs.rst
+                  title: Communication libraries
+                  entries:
+                      - url: ${project:rccl}
+                        title: RCCL
+                      - url: ${project:rocshmem}
+                        title: rocSHMEM
+                - file: components/media-libs.rst
+                  title: Media libraries
+                  entries:
+                      - url: ${project:rocdecode}
+                        title: rocDecode
+                      - url: ${project:rocjpeg}
+                        title: rocJPEG
+                - file: components/runtimes-and-compilers.rst
+                  title: Runtime and compilers
+                  entries:
+                      - url: ${project:hip}
+                        title: HIP
+                      - url: ${project:hipify}
+                        title: HIPIFY
+                      - url: ${project:llvm-project}
+                        title: LLVM
+                - file: components/profilers-and-debuggers.rst
+                  title: Profiling and debugging tools
+                  entries:
+                      - url: ${project:rocprofiler-compute}
+                        title: ROCm Compute Profiler (rocprofiler-compute)
+                      - url: ${project:rocprofiler-systems}
+                        title: ROCm Systems Profiler (rocprofiler-systems)
+                      - url: ${project:rocprofiler-sdk}
+                        title: ROCprofiler-SDK
+                      - url: ${project:rocdbgapi}
+                        title: ROCdbgapi
+                      - url: ${project:rocgdb}
+                        title: ROCm Debugger (ROCgdb)
+                      - url: ${project:rocr_debug_agent}
+                        title: ROCr Debug Agent
+                - file: components/control-and-monitoring-tools.rst
+                  title: Control and monitoring tools
+                  entries:
+                      - url: ${project:amdsmi}
+                        title: AMD SMI
+                      - url: ${project:rdc}
+                        title: ROCm Data Center Tool (RDC)
+                      - url: ${project:rocminfo}
+                        title: rocminfo
           - file: components/extras.rst
             title: ROCm Extras
             entries:
-                - url: https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/docs-1.4.21/install/installation.html
+                - url: ${project:rocmvalidationsuite}
                   title: ROCm Validation Suite (RVS)
-    # - caption: Components
-    #   entries:
-    #       - file: components/core.rst
-    #         title: ROCm Core SDK
-    #         entries:
-    #             - file: components/math-and-compute-libs.rst
-    #               title: Math and compute libraries
-    #               entries:
-    #                   - url: ${project:composable_kernel}
-    #                     title: Composable Kernel
-    #                   - url: ${project:hipblas}
-    #                     title: hipBLAS
-    #                   - url: ${project:hipblaslt}
-    #                     title: hipBLASLt
-    #                   - url: ${project:hipcub}
-    #                     title: hipCUB
-    #                   - url: ${project:hipfft}
-    #                     title: hipFFT
-    #                   - url: ${project:hiprand}
-    #                     title: hipRAND
-    #                   - url: ${project:hipsolver}
-    #                     title: hipSOLVER
-    #                   - url: ${project:hipsparse}
-    #                     title: hipSPARSE
-    #                   - url: ${project:hipsparselt}
-    #                     title: hipSPARSELt
-    #                   - url: ${project:miopen}
-    #                     title: MIOpen
-    #                   - url: ${project:rocblas}
-    #                     title: rocBLAS
-    #                   - url: ${project:rocfft}
-    #                     title: rocFFT
-    #                   - url: ${project:rocrand}
-    #                     title: rocRAND
-    #                   - url: ${project:rocsolver}
-    #                     title: rocSOLVER
-    #                   - url: ${project:rocsparse}
-    #                     title: rocSPARSE
-    #                   - url: ${project:rocprim}
-    #                     title: rocPRIM
-    #                   - url: ${project:rocthrust}
-    #                     title: rocThrust
-    #                   - url: ${project:rocwmma}
-    #                     title: rocWMMA
-    #             - file: components/communication-libs.rst
-    #               title: Communication libraries
-    #               entries:
-    #                   - url: ${project:rccl}
-    #                     title: RCCL
-    #                   - url: ${project:rocshmem}
-    #                     title: rocSHMEM
-    #             - file: components/media-libs.rst
-    #               title: Media libraries
-    #               entries:
-    #                   - url: ${project:rocdecode}
-    #                     title: rocDecode
-    #                   - url: ${project:rocjpeg}
-    #                     title: rocJPEG
-    #             - file: components/runtimes-and-compilers.rst
-    #               title: Runtime and compilers
-    #               entries:
-    #                   - url: ${project:hip}
-    #                     title: HIP
-    #                   - url: ${project:hipify}
-    #                     title: HIPIFY
-    #                   - url: ${project:llvm-project}
-    #                     title: LLVM
-    #             - file: components/profilers-and-debuggers.rst
-    #               title: Profiling and debugging tools
-    #               entries:
-    #                   - url: ${project:rocprofiler-compute}
-    #                     title: ROCm Compute Profiler (rocprofiler-compute)
-    #                   - url: ${project:rocprofiler-systems}
-    #                     title: ROCm Systems Profiler (rocprofiler-systems)
-    #                   - url: ${project:rocprofiler-sdk}
-    #                     title: ROCprofiler-SDK
-    #                   - url: ${project:rocdbgapi}
-    #                     title: ROCdbgapi
-    #                   - url: ${project:rocgdb}
-    #                     title: ROCm Debugger (ROCgdb)
-    #                   - url: ${project:rocr_debug_agent}
-    #                     title: ROCr Debug Agent
-    #             - file: components/control-and-monitoring-tools.rst
-    #               title: Control and monitoring tools
-    #               entries:
-    #                   - url: ${project:amdsmi}
-    #                     title: AMD SMI
-    #                   - url: ${project:rdc}
-    #                     title: ROCm Data Center Tool (RDC)
-    #                   - url: ${project:rocminfo}
-    #                     title: rocminfo
     - caption: Deep learning frameworks
       entries:
           - file: frameworks/pytorch/install.rst
