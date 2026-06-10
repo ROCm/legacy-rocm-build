@@ -11,36 +11,6 @@ import sys
 from pathlib import Path
 from subprocess import run
 
-# Make rocm-docs-core recognize <X.Y.Z>-preview slugs (e.g. 7.13.0-preview) as
-# valid version identifiers so intersphinx URLs to sister projects resolve to
-# the matching preview build instead of falling back to /en/latest/.
-# Remove once rocm-docs-core ships native support.
-from rocm_docs import projects as _rdc_projects
-
-# Extend DOCS_VERSION_PATTERN to also match X.Y.Z-preview slugs that RTD uses
-# for docs/X.Y.Z branches (e.g. "7.13.0-preview" for branch "docs/7.13.0").
-# Without this, get_static_version() falls back to "latest" for these slugs.
-_rdc_projects.DOCS_VERSION_PATTERN = r"^(docs-\d+\.\d+\.\d+|\d+\.\d+\.\d+-preview)$"
-
-# HACK: Fall back to `latest` Intersphinx inventory for preview builds.
-# Intersphinx supports multiple inventory locations per project — it tries each
-# in order and stops on the first success.
-_rdc_orig_mapping_fget = _rdc_projects._Project.mapping.fget
-
-
-@property
-def _rdc_patched_mapping(self):
-    url, inv = _rdc_orig_mapping_fget(self)
-    if re.search(r"/en/\d+\.\d+\.\d+-.+/", url):
-        latest_inv = re.sub(r"/en/\d+\.\d+\.\d+-.+/", "/en/latest/", url) + "objects.inv"
-        inv_list = list(inv) if isinstance(inv, tuple) else [inv]
-        inv_list.append(latest_inv)
-        return (url, tuple(inv_list))
-    return (url, inv)
-
-
-_rdc_projects._Project.mapping = _rdc_patched_mapping
-
 ROCM_VERSION = "7.13.0"
 GA_DATE = "2026-05-15"
 
