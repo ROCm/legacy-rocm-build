@@ -19,7 +19,7 @@ optimize performance for specific types of workloads or use-cases. The contents 
 
   .. grid-item-card:: AMD Instinct
 
-    * `AMD Instinct MI355X <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi355x.html>`
+    * `AMD Instinct MI355X <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi355x.html>`_
     * `AMD Instinct MI350X <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi350x.html>`_
     * `AMD Instinct MI325X <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi325x.html>`_
     * `AMD Instinct MI300X <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html>`_
