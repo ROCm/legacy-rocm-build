@@ -13,14 +13,51 @@ This page describes system settings for AMD RDNA4 GPUs (``gfx1200``,
 HPC applications. Gaming-specific settings, display configuration, and SR-IOV
 virtualization are out of scope.
 
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
+Overview
+========
 
-   * - System guide
-     - Architecture reference
-   * - :ref:`System BIOS settings <rdna4-bios-settings>`
-     - `AMD RDNA4 instruction set architecture <https://www.amd.com/content/dam/amd/en/documents/radeon-tech-docs/instruction-set-architectures/rdna4-instruction-set-architecture.pdf>`_
+AMD RDNA4 GPUs (LLVM targets ``gfx1200`` and ``gfx1201``) include the Radeon RX
+9000 series and Radeon AI PRO R9700. Use this page to configure and tune an
+RDNA4 GPU for ROCm compute workloads, then validate it with the
+:doc:`RDNA health checks <rdna-health-checks>` and
+:doc:`RDNA validation <rdna-validation>`.
+
+- `AMD RDNA4 instruction set architecture <https://www.amd.com/content/dam/amd/en/documents/radeon-tech-docs/instruction-set-architectures/rdna4-instruction-set-architecture.pdf>`_
+
+System requirements
+===================
+
+Operating system support
+------------------------
+
+For supported distributions and kernel versions, see the ROCm system
+requirements:
+
+- `System requirements (Linux) <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html>`_
+- `System requirements (Microsoft Windows) <https://rocm.docs.amd.com/projects/install-on-windows/en/latest/reference/system-requirements.html>`_
+
+No RDNA4-specific kernel version requirements beyond the standard ROCm support
+matrix are known at this time. This section will be updated if any are
+identified.
+
+GPU identification
+------------------
+
+Confirm the GPU is present on the PCIe bus. AMD GPUs use PCI vendor ID
+``1002``:
+
+.. code-block:: shell
+
+   lspci -d 1002: | grep -iE "VGA|Display"
+
+Confirm that ROCm recognizes the GPU and report its target architecture:
+
+.. code-block:: shell
+
+   amd-smi static --asic
+
+The ``TARGET_GRAPHICS_VERSION`` field reports ``gfx1200`` or ``gfx1201`` for
+RDNA4.
 
 .. _rdna4-bios-settings:
 
@@ -98,21 +135,6 @@ After editing the file, update GRUB and reboot:
    sudo reboot
 
 On Debian-based systems, use ``update-grub`` instead of ``grub2-mkconfig``.
-
-.. _rdna4-os-settings:
-
-Operating system settings
-=========================
-
-For supported distributions and kernel versions, see the ROCm system
-requirements:
-
-- `System requirements (Linux) <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html>`_
-- `System requirements (Microsoft Windows) <https://rocm.docs.amd.com/projects/install-on-windows/en/latest/reference/system-requirements.html>`_
-
-No RDNA4-specific kernel version requirements beyond the standard ROCm support
-matrix are known at this time. This section will be updated if any are
-identified.
 
 .. _rdna4-rocm-smi:
 

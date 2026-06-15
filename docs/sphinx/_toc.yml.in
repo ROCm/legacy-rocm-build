@@ -222,20 +222,23 @@ subtrees:
                         title: AMD data center GPU MI325X
                       - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html
                         title: AMD data center GPU MI300X
-                - file: reference/system-acceptance/rdna4.rst
-                  title: RDNA4 system acceptance
-                - file: reference/system-acceptance/rdna3.rst
-                  title: RDNA3 system acceptance
-                - file: reference/system-acceptance/rdna3-5.rst
-                  title: RDNA3.5 system acceptance
-                - file: reference/system-acceptance/rdna2.md
-                  title: RDNA2 system acceptance
-                - file: reference/system-acceptance/rdna-health-checks.rst
-                  title: RDNA health checks
-                - file: reference/system-acceptance/rdna-validation.rst
-                  title: RDNA validation
-                - file: reference/system-acceptance/rdna-benchmarks.rst
-                  title: RDNA benchmarks
+                - file: reference/system-acceptance/rdna.rst
+                  title: AMD Radeon and Ryzen GPUs
+                  entries:
+                      - file: reference/system-acceptance/rdna4.rst
+                        title: RDNA4 system acceptance
+                      - file: reference/system-acceptance/rdna3.rst
+                        title: RDNA3 system acceptance
+                      - file: reference/system-acceptance/rdna3-5.rst
+                        title: RDNA3.5 system acceptance
+                      - file: reference/system-acceptance/rdna2.md
+                        title: RDNA2 system acceptance
+                      - file: reference/system-acceptance/rdna-health-checks.rst
+                        title: RDNA health checks
+                      - file: reference/system-acceptance/rdna-validation.rst
+                        title: RDNA validation
+                      - file: reference/system-acceptance/rdna-benchmarks.rst
+                        title: RDNA benchmarks
                 - file: reference/system-acceptance/common.rst
                   title: Common system settings
                   entries:

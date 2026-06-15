@@ -13,14 +13,47 @@ This page describes system settings for AMD RDNA3 GPUs (``gfx1100``,
 inference and HPC applications. Gaming-specific settings, display configuration,
 and SR-IOV virtualization are out of scope.
 
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
+Overview
+========
 
-   * - System guide
-     - Architecture reference
-   * - :ref:`System BIOS settings <rdna3-bios-settings>`
-     - `AMD RDNA3 instruction set architecture <https://www.amd.com/system/files/TechDocs/rdna3-shader-instruction-set-architecture-feb-2023_0.pdf>`_
+AMD RDNA3 GPUs (LLVM targets ``gfx1100``, ``gfx1101``, and ``gfx1102``) include
+the Radeon RX 7000 series and Radeon PRO W7000 series. Use this page to
+configure and tune an RDNA3 GPU for ROCm compute workloads, then validate it
+with the :doc:`RDNA health checks <rdna-health-checks>` and
+:doc:`RDNA validation <rdna-validation>`.
+
+- `AMD RDNA3 instruction set architecture <https://www.amd.com/system/files/TechDocs/rdna3-shader-instruction-set-architecture-feb-2023_0.pdf>`_
+
+System requirements
+===================
+
+Operating system support
+------------------------
+
+For supported distributions and kernel versions, see the ROCm system
+requirements:
+
+- `System requirements (Linux) <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html>`_
+- `System requirements (Microsoft Windows) <https://rocm.docs.amd.com/projects/install-on-windows/en/latest/reference/system-requirements.html>`_
+
+GPU identification
+------------------
+
+Confirm the GPU is present on the PCIe bus. AMD GPUs use PCI vendor ID
+``1002``:
+
+.. code-block:: shell
+
+   lspci -d 1002: | grep -iE "VGA|Display"
+
+Confirm that ROCm recognizes the GPU and report its target architecture:
+
+.. code-block:: shell
+
+   amd-smi static --asic
+
+The ``TARGET_GRAPHICS_VERSION`` field reports ``gfx1100``, ``gfx1101``, or
+``gfx1102`` for RDNA3.
 
 .. _rdna3-bios-settings:
 
@@ -80,15 +113,6 @@ After editing the file, update GRUB and reboot:
 On Debian-based systems, use ``update-grub`` instead of ``grub2-mkconfig``.
 
 .. _rdna3-os-settings:
-
-Operating system settings
-=========================
-
-For supported distributions and kernel versions, see the ROCm system
-requirements:
-
-- `System requirements (Linux) <https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html>`_
-- `System requirements (Microsoft Windows) <https://rocm.docs.amd.com/projects/install-on-windows/en/latest/reference/system-requirements.html>`_
 
 .. _rdna3-rocm-smi:
 
