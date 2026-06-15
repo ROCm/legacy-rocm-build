@@ -3,7 +3,8 @@ docker:
   docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.6
   ROCm: 7.13.0
   whats_new:
-    - TODO
+    - Parallel VAE encoder support for Wan2.x
+    - Aiter graph-break fixes
   components:
     TheRock: 
       version: 64b9f0aeb
