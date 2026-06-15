@@ -5,7 +5,7 @@ myst:
     "keywords": "RDNA2, workstation, desktop, BIOS, installation, Radeon, pro, v620, w6000"
 ---
 
-# AMD RDNA2 system optimization
+# AMD RDNA2 system acceptance
 
 The topic covers specific software requirements and processes needed to use
 these GPUs for Single Root I/O Virtualization (SR-IOV) and machine learning

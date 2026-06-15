@@ -4,9 +4,9 @@
 
 .. _strix-halo-optimization:
 
-==========================================
-AMD RDNA3.5 system optimization
-==========================================
+=============================
+AMD RDNA3.5 system acceptance
+=============================
 
 This topic describes how to optimize systems powered by AMD Ryzen APUs with
 RDNA3.5 architecture. These APUs combine high-performance CPU cores with

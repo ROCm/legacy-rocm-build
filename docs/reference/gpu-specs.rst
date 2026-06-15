@@ -17,8 +17,9 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
    * :doc:`AMD GPU architectures <gpu-arch/index>` -- microarchitecture
      details, ISA references, and white papers for each GPU generation.
 
-   * :doc:`AMD GPU system optimization <system-optimization/index>` -- system
-     setup and tuning guides for AMD Instinct, Radeon, and Ryzen hardware.
+   * :doc:`AMD GPU system acceptance <system-acceptance/index>` -- system
+     setup, tuning, and validation guides for AMD Instinct, Radeon, and Ryzen
+     hardware.
 
    * :doc:`Data types and precision support <precision-support>` -- supported
      floating-point and integer data types across GPU architectures.

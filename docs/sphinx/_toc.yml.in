@@ -208,33 +208,40 @@ subtrees:
                         title: CDNA1 ISA reference
                       - url: https://www.amd.com/content/dam/amd/en/documents/instinct-business-docs/white-papers/amd-cdna-white-paper.pdf
                         title: CDNA1 white paper
-          - file: reference/system-optimization/index.rst
-            title: AMD GPU system optimization
+          - file: reference/system-acceptance/index.rst
+            title: AMD GPU system acceptance
             entries:
-                - file: reference/system-optimization/cdna.rst
-                  title: AMD Instinct GPUs
+                - file: reference/system-acceptance/cdna.rst
+                  title: AMD data center GPUs
                   entries:
-                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html
-                        title: Instinct MI300X
-                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300a.html
-                        title: Instinct MI300A
-                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi200.html
-                        title: Instinct MI200
-                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi100.html
-                        title: Instinct MI100
-                - file: reference/system-optimization/rdna.rst
-                  title: AMD Radeon and Ryzen GPUs
-                  entries:
-                      - file: reference/system-optimization/rdna3-5.rst
-                        title: RDNA3.5
-                      - file: reference/system-optimization/rdna2.md
-                        title: RDNA2
-                - file: reference/system-optimization/common.rst
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi355x.html
+                        title: AMD data center GPU MI355X
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi350x.html
+                        title: AMD data center GPU MI350X
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi325x.html
+                        title: AMD data center GPU MI325X
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html
+                        title: AMD data center GPU MI300X
+                - file: reference/system-acceptance/rdna4.rst
+                  title: RDNA4 system acceptance
+                - file: reference/system-acceptance/rdna3.rst
+                  title: RDNA3 system acceptance
+                - file: reference/system-acceptance/rdna3-5.rst
+                  title: RDNA3.5 system acceptance
+                - file: reference/system-acceptance/rdna2.md
+                  title: RDNA2 system acceptance
+                - file: reference/system-acceptance/rdna-health-checks.rst
+                  title: RDNA health checks
+                - file: reference/system-acceptance/rdna-validation.rst
+                  title: RDNA validation
+                - file: reference/system-acceptance/rdna-benchmarks.rst
+                  title: RDNA benchmarks
+                - file: reference/system-acceptance/common.rst
                   title: Common system settings
                   entries:
-                      - file: reference/system-optimization/gpu-isolation.md
+                      - file: reference/system-acceptance/gpu-isolation.md
                         title: GPU isolation techniques
-                      - file: reference/system-optimization/bar-access-limits.rst
+                      - file: reference/system-acceptance/bar-access-limits.rst
                         title: BAR access limits
           - file: reference/precision-support.rst
             title: AMD GPU and ROCm components data types and precision support
