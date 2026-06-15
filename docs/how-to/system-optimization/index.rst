@@ -23,9 +23,10 @@ optimize performance for specific types of workloads or use-cases. The contents 
     * `AMD Instinct MI350X <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi350x.html>`_
     * `AMD Instinct MI325X <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi325x.html>`_
     * `AMD Instinct MI300X <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html>`_
-    * `AMD Instinct MI300A <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300a.html>`_
-    * `AMD Instinct MI200 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi200.html>`_
-    * `AMD Instinct MI100 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi100.html>`_
+    * `AMD Instinct MI300A <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300a.html>`_
+    * `AMD Instinct MI250 / MI250X <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi250.html>`_
+    * `AMD Instinct MI210 <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi210.html>`_
+    * `AMD Instinct MI100 <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi100.html>`_
 
 
 
