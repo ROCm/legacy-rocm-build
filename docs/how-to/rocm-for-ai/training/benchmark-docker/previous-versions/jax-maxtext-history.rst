@@ -17,12 +17,28 @@ previous releases of the ``ROCm/jax-training`` Docker image on `Docker Hub <http
      - Components
      - Resources
 
-   * - 26.2 (latest)
+   * - 26.4 (latest)
+     -
+       * ROCm 7.14.0
+       * JAX 0.9.1
+     -
+       * :doc:`Documentation <../jax-maxtext>`
+       * `Docker Hub <https://hub.docker.com/layers/rocm/jax-training/maxtext-v26.4-jax0.9.1-te2.12.0/images/>`__
+
+   * - 26.3
+     -
+       * ROCm 7.2.1
+       * JAX 0.8.2
+     -
+       * :doc:`Documentation <jax-maxtext-v26.3>`
+       * `Docker Hub <https://hub.docker.com/layers/rocm/jax-training/maxtext-v26.3/images/sha256-548381e496fa1367772964341130cc014ee1a9a5ca715ff4ca3aa92960d162c3>`__
+
+   * - 26.2
      -
        * ROCm 7.1.1
        * JAX 0.8.2
      -
-       * :doc:`Documentation <../jax-maxtext>`
+       * :doc:`Documentation <jax-maxtext-v26.2>`
        * `Docker Hub <https://hub.docker.com/layers/rocm/jax-training/maxtext-v26.2/images/sha256-a89643388487b1e2fc6b6ef7bd3c44378c05d217309c977a1c18c72d05ebcaeb>`__
 
    * - 26.1
