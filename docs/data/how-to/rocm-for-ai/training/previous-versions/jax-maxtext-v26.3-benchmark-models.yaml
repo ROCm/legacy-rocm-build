@@ -1,12 +1,12 @@
 dockers:
-  - pull_tag: rocm/jax-training:maxtext-v26.4-jax0.9.1-te2.12.0
-    docker_hub_url: https://hub.docker.com/layers/rocm/jax-training/maxtext-v26.4-jax0.9.1-te2.12.0/images/
+  - pull_tag: rocm/jax-training:maxtext-v26.3
+    docker_hub_url: https://hub.docker.com/layers/rocm/jax-training/maxtext-v26.3/images/sha256-548381e496fa1367772964341130cc014ee1a9a5ca715ff4ca3aa92960d162c3
     components:
-      ROCm: 7.14.0a20260526
-      JAX: 0.9.1
-      Python: 3.12.3
-      Transformer Engine: 2.12.0.dev0+635d7c08
-      hipBLASLt: 1.4.0+807283e5
+      ROCm: 7.2.1
+      JAX: 0.8.2
+      Python: 3.12
+      Transformer Engine: 2.8.0.dev0+9b312832
+      hipBLASLt: 1.3.0+bfcf25fa18
 model_groups:
   - group: Meta Llama
     tag: llama
@@ -58,7 +58,7 @@ model_groups:
         model_repo: Llama-3.1-405B
         precision: bf16
         multinode_config:
-          gfx950: env_scripts/gfx950_llama3.1_405b.yml
+          gfx950: env_scripts/gfx950_llama3_405b.yml
         doc_options: ["multi-node"]
       - model: Llama 3.3 70B
         mad_tag: jax_maxtext_train_llama-3.3-70b
