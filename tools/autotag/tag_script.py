@@ -41,7 +41,6 @@ def get_token(
                     "No token was passed, and no stored token could be found."
                 )
             used_token = used_token_bytes.decode()
-            print(f"Using stored token: {used_token}")
         if isinstance(token_keys, str):
             db[token_keys] = used_token
         elif isinstance(token_keys, list):
