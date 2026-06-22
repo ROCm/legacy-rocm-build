@@ -1,3 +1,5 @@
+:orphan:
+:no-search:
 :selector-toc2: Model
 :selector-toc2-icon: fa-solid fa-robot
 
@@ -6,19 +8,25 @@
                  prebuilt and optimized docker images.
    :keywords: xDiT, diffusion, video, video generation, image, image generation, validate, benchmark
 
-************************
-xDiT diffusion inference
-************************
+*****************************
+xDiT diffusion inference 26.5
+*****************************
 
-.. _xdit-video-diffusion:
+.. caution::
 
-.. datatemplate:yaml:: ./data/xdit.yaml
+   This documentation does not reflect the latest version of the xDiT diffusion
+   inference performance documentation. See
+   :doc:`/ai-inference/archive/xdit-history` for the latest version.
+
+.. _xdit-video-diffusion-265:
+
+.. datatemplate:yaml:: ./data/xdit-26.5.yaml
 
    {% set docker = data.docker %}
 
    The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
    benchmarking diffusion model video and image generation on gfx942 and gfx950 series (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X) GPUs.
-   The image runs `ROCm {{docker.ROCm}} <https://rocm.docs.amd.com/en/7.13.0-preview/about/release-notes.html>`__ based on `TheRock <https://github.com/ROCm/TheRock>`_
+   The image runs `ROCm {{docker.ROCm}}` based on `TheRock <https://github.com/ROCm/TheRock>`_
    and includes the following components:
 
    .. dropdown:: Software components - {{ docker.pull_tag.split('-')|last }}
@@ -40,7 +48,7 @@ For preview and development releases, see `amdsiloai/pytorch-xdit <https://hub.d
 What's new
 ==========
 
-.. datatemplate:yaml:: ./data/xdit.yaml
+.. datatemplate:yaml:: ./data/xdit-26.5.yaml
 
    {% set docker = data.docker %}
 
@@ -48,7 +56,7 @@ What's new
    * {{ item }}
    {% endfor %}
 
-.. _xdit-video-diffusion-supported-models:
+.. _xdit-video-diffusion-265-supported-models:
 
 Supported models
 ================
@@ -57,37 +65,43 @@ The following models are supported for inference performance benchmarking.
 Some instructions, commands, and recommendations in this documentation might
 vary by model -- select one to get started.
 
-.. datatemplate:yaml:: ./data/xdit.yaml
+.. datatemplate:yaml:: ./data/xdit-26.5.yaml
 
    {% set docker = data.docker %}
 
-   .. selector:: Model
-      :key: model-group
+   .. raw:: html
 
-   {% for model_group in docker.supported_models %}
-      .. selector-option:: {{ model_group.group }}
-         :value: {{ model_group.js_tag }}
-         :width: 25%
+      <div id="vllm-benchmark-ud-params-picker" class="container-fluid">
+          <div class="row gx-0">
+              <div class="col-2 me-1 px-2 model-param-head">Model</div>
+              <div class="row col-10 pe-0">
+        {% for model_group in docker.supported_models %}
+               <div class="col-6 px-2 model-param" data-param-k="model-group" data-param-v="{{ model_group.js_tag }}" tabindex="0">{{ model_group.group }}</div>
+        {% endfor %}
+              </div>
+          </div>
 
-   {% endfor %}
-
-   {% for model_group in docker.supported_models %}
-   .. selector:: Variant
-      :key: model
-      :show-cond: model-group={{ model_group.js_tag }}
-
-      {% set models = model_group.models %}
-      {% for model in models %}
-      .. selector-option:: {{ model.model }}
-         :value: {{ model.js_tag }}
-
-      {% endfor %}
-   {% endfor %}
+          <div class="row gx-0 pt-1">
+              <div class="col-2 me-1 px-2 model-param-head">Variant</div>
+              <div class="row col-10 pe-0">
+        {% for model_group in docker.supported_models %}
+            {% set models = model_group.models %}
+            {% for model in models %}
+                {% if models|length % 3 == 0 %}
+                <div class="col-4 px-2 model-param" data-param-k="model" data-param-v="{{ model.js_tag }}" data-param-group="{{ model_group.js_tag }}" tabindex="0">{{ model.model }}</div>
+                {% else %}
+                <div class="col-6 px-2 model-param" data-param-k="model" data-param-v="{{ model.js_tag }}" data-param-group="{{ model_group.js_tag }}" tabindex="0">{{ model.model }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+              </div>
+          </div>
+      </div>
 
    {% for model_group in docker.supported_models %}
        {% for model in model_group.models %}
 
-   .. selected:: model={{ model.js_tag }}
+   .. container:: model-doc {{ model.js_tag }}
 
       .. note::
 
@@ -116,7 +130,7 @@ system's configuration.
 Pull the Docker image
 =====================
 
-.. datatemplate:yaml:: ./data/xdit.yaml
+.. datatemplate:yaml:: ./data/xdit-26.5.yaml
 
    {% set docker = data.docker %}
 
@@ -130,7 +144,7 @@ Pull the Docker image
 Validate and benchmark
 ======================
 
-.. datatemplate:yaml:: ./data/xdit.yaml
+.. datatemplate:yaml:: ./data/xdit-26.5.yaml
 
    {% set docker = data.docker %}
 
@@ -140,10 +154,10 @@ Validate and benchmark
    {% for model_group in docker.supported_models %}
      {% for model in model_group.models %}
 
-   .. selected:: model={{ model.js_tag }}
+   .. container:: model-doc {{model.js_tag}}
 
       The following commands are written for {{ model.model }}.
-      See :ref:`xdit-video-diffusion-supported-models` to switch to another available model.
+      See :ref:`xdit-video-diffusion-265-supported-models` to switch to another available model.
 
      {% endfor %}
    {% endfor %}
@@ -153,13 +167,13 @@ Choose your setup method
 
 You can either use an existing Hugging Face cache or download the model fresh inside the container.
 
-.. datatemplate:yaml:: ./data/xdit.yaml
+.. datatemplate:yaml:: ./data/xdit-26.5.yaml
 
    {% set docker = data.docker %}
 
    {% for model_group in docker.supported_models %}
      {% for model in model_group.models %}
-   .. selected:: model={{model.js_tag}}
+   .. container:: model-doc {{model.js_tag}}
 
       .. tab-set::
 
@@ -193,6 +207,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
                       --group-add video \
                       --ipc=host \
                       --network host \
+                      --privileged \
                       --shm-size 128G \
                       --name pytorch-xdit \
                       -e HSA_NO_SCRATCH_RECLAIM=1 \
@@ -220,6 +235,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
                       --group-add video \
                       --ipc=host \
                       --network host \
+                      --privileged \
                       --shm-size 128G \
                       --name pytorch-xdit \
                       -e HSA_NO_SCRATCH_RECLAIM=1 \
@@ -243,14 +259,14 @@ You can either use an existing Hugging Face cache or download the model fresh in
 Run inference
 =============
 
-.. datatemplate:yaml:: ./data/xdit.yaml
+.. datatemplate:yaml:: ./data/xdit-26.5.yaml
 
    {% set docker = data.docker %}
 
    {% for model_group in docker.supported_models %}
      {% for model in model_group.models %}
 
-   .. selected:: model={{ model.js_tag }}
+   .. container:: model-doc {{ model.js_tag }}
 
       .. tab-set::
 
