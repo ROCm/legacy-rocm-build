@@ -193,7 +193,6 @@ You can either use an existing Hugging Face cache or download the model fresh in
                       --group-add video \
                       --ipc=host \
                       --network host \
-                      --privileged \
                       --shm-size 128G \
                       --name pytorch-xdit \
                       -e HSA_NO_SCRATCH_RECLAIM=1 \
@@ -221,7 +220,6 @@ You can either use an existing Hugging Face cache or download the model fresh in
                       --group-add video \
                       --ipc=host \
                       --network host \
-                      --privileged \
                       --shm-size 128G \
                       --name pytorch-xdit \
                       -e HSA_NO_SCRATCH_RECLAIM=1 \
