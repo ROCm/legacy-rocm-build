@@ -15,7 +15,7 @@ xDiT diffusion inference
 
    The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
    benchmarking diffusion model video and image generation on gfx942 and gfx950 series (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X) GPUs.
-   The image runs `ROCm {{docker.ROCm}}` based on `TheRock <https://github.com/ROCm/TheRock>`_
+   The image runs `ROCm {{docker.ROCm}} <https://rocm.docs.amd.com/en/7.13.0-preview/>`_ based on `TheRock <https://github.com/ROCm/TheRock>`_
    and includes the following components:
 
    .. dropdown:: Software components - {{ docker.pull_tag.split('-')|last }}
