@@ -1,0 +1,363 @@
+docker:
+  pull_tag: rocm/pytorch-xdit:v26.5
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.5/images/sha256-b8ad9fd4b41bc116ac2aff07c1066bf369cf7fc110b1a323f6302191985a51fd
+  ROCm: 7.13.0
+  whats_new:
+    - "Hunyuan Video 1.5 sparse attention (SSTA) support"
+    - "Support fp8 MLA for MI355"
+    - "Block wise sparsity support for AMD triton FAv3 Sage attention"
+  components:
+    TheRock: 
+      version: cbff3d1
+      url: https://github.com/ROCm/TheRock
+    rocm-libraries:
+      version: a668483b
+      url: https://github.com/ROCm/rocm-libraries
+    rocm-systems:
+      version: c76140fa
+      url: https://github.com/ROCm/rocm-systems
+    torch:
+      version: ff65f5b
+      url: https://github.com/ROCm/pytorch
+    torchaudio:
+      version: e3c6ee2
+      url: https://github.com/pytorch/audio
+    torchvision:
+      version: b919bd0
+      url: https://github.com/pytorch/vision
+    triton:
+      version: a272dfa
+      url: https://github.com/ROCm/triton
+    accelerate:
+      version: 46ba481
+      url: https://github.com/huggingface/accelerate
+    aiter:
+      version: bc5ea32c
+      url: https://github.com/ROCm/aiter
+    diffusers:
+      version: 447e571a
+      url: https://github.com/huggingface/diffusers
+    distvae:
+      version: 5a0fcbb
+      url: https://github.com/xdit-project/DistVAE
+    xfuser:
+      version: 051db68f
+      url: https://github.com/xdit-project/xDiT
+    yunchang:
+      version: 631bdfd
+      url: https://github.com/feifeibear/long-context-attention
+  supported_models:
+    - group: Hunyuan Video
+      js_tag: hunyuan
+      models:
+        - model: Hunyuan Video
+          model_repo: tencent/HunyuanVideo
+          revision: refs/pr/18
+          url: https://huggingface.co/tencent/HunyuanVideo
+          github: https://github.com/Tencent-Hunyuan/HunyuanVideo
+          mad_tag: pyt_xdit_hunyuanvideo
+          js_tag: hunyuan_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--prompt "In the large cage, two puppies were wagging their tails at each other." \'
+            - '--batch_size 1 \'
+            - '--height 720 --width 1280 \'
+            - '--seed 1168860793 \'
+            - '--num_frames 129 \'
+            - '--num_inference_steps 50 \'
+            - '--warmup_calls 1 \'
+            - '--num_iterations 1 \'
+            - '--ulysses_degree 8 \'
+            - '--enable_tiling --enable_slicing \'
+            - '--guidance_scale 6.0 \'
+            - '--use_torch_compile \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+        - model: Hunyuan Video 1.5
+          model_repo: hunyuanvideo-community/HunyuanVideo-1.5-Diffusers-720p_t2v
+          url: https://huggingface.co/hunyuanvideo-community/HunyuanVideo-1.5-Diffusers-720p_t2v
+          github: https://github.com/Tencent-Hunyuan/HunyuanVideo-1.5
+          mad_tag: pyt_xdit_hunyuanvideo_1_5
+          js_tag: hunyuan_1_5_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--prompt "In the large cage, two puppies were wagging their tails at each other." \'
+            - '--task t2v \'
+            - '--height 720 --width 1280 \'
+            - '--seed 1168860793 \'
+            - '--num_frames 129 \'
+            - '--num_inference_steps 50 \'
+            - '--num_iterations 1 \'
+            - '--ulysses_degree 8 \'
+            - '--enable_tiling --enable_slicing \'
+            - '--use_torch_compile \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+    - group: Wan-AI
+      js_tag: wan
+      models:
+        - model: Wan2.1
+          model_repo: Wan-AI/Wan2.1-I2V-14B-720P-Diffusers
+          url: https://huggingface.co/Wan-AI/Wan2.1-I2V-14B-720P-Diffusers
+          github: https://github.com/Wan-Video/Wan2.1
+          mad_tag: pyt_xdit_wan_2_1
+          js_tag: wan_21_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline''s intricate details and the refreshing atmosphere of the seaside." \'
+            - '--height 720 \'
+            - '--width 1280 \'
+            - '--input_images /app/data/wan_input.jpg \'
+            - '--num_frames 81 \'
+            - '--ulysses_degree 8 \'
+            - '--use_parallel_vae \'
+            - '--seed 42 \'
+            - '--guidance_scale 3.0 \'
+            - '--num_iterations 1 \'
+            - '--num_inference_steps 40 \'
+            - '--use_torch_compile \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+        - model: Wan2.2
+          model_repo: Wan-AI/Wan2.2-I2V-A14B-Diffusers
+          url: https://huggingface.co/Wan-AI/Wan2.2-I2V-A14B-Diffusers
+          github: https://github.com/Wan-Video/Wan2.2
+          mad_tag: pyt_xdit_wan_2_2
+          js_tag: wan_22_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--prompt "Summer beach vacation style, a white cat wearing sunglasses sits on a surfboard. The fluffy-furred feline gazes directly at the camera with a relaxed expression. Blurred beach scenery forms the background featuring crystal-clear waters, distant green hills, and a blue sky dotted with white clouds. The cat assumes a naturally relaxed posture, as if savoring the sea breeze and warm sunlight. A close-up shot highlights the feline''s intricate details and the refreshing atmosphere of the seaside." \'
+            - '--height 720 \'
+            - '--width 1280 \'
+            - '--input_images /app/data/wan_input.jpg \'
+            - '--num_frames 81 \'
+            - '--ulysses_degree 8 \'
+            - '--use_parallel_vae \'
+            - '--seed 42 \'
+            - '--num_iterations 1 \'
+            - '--num_inference_steps 40 \'
+            - '--use_torch_compile \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+    - group: FLUX
+      js_tag: flux
+      models:
+        - model: FLUX.1
+          model_repo: black-forest-labs/FLUX.1-dev
+          url: https://huggingface.co/black-forest-labs/FLUX.1-dev
+          github: https://github.com/black-forest-labs/flux
+          mad_tag: pyt_xdit_flux
+          js_tag: flux_1_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "A small cat" \'
+            - '--height 1024 \'
+            - '--width 1024 \'
+            - '--num_inference_steps 25 \'
+            - '--max_sequence_length 256 \'
+            - '--warmup_calls 5 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--guidance_scale 0.0 \'
+            - '--num_iterations 50 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+        - model: FLUX.1 Kontext
+          model_repo: black-forest-labs/FLUX.1-Kontext-dev
+          url: https://huggingface.co/black-forest-labs/FLUX.1-Kontext-dev
+          github: https://github.com/black-forest-labs/flux
+          mad_tag: pyt_xdit_flux_kontext
+          js_tag: flux_1_kontext_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "Add a cool hat to the cat" \'
+            - '--height 1024 \'
+            - '--width 1024 \'
+            - '--num_inference_steps 30 \'
+            - '--max_sequence_length 512 \'
+            - '--warmup_calls 5 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--input_images /app/data/flux_cat.png \'
+            - '--guidance_scale 2.5 \'
+            - '--num_iterations 25 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+        - model: FLUX.2
+          model_repo: black-forest-labs/FLUX.2-dev
+          url: https://huggingface.co/black-forest-labs/FLUX.2-dev
+          github: https://github.com/black-forest-labs/flux2
+          mad_tag: pyt_xdit_flux_2
+          js_tag: flux_2_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "Add a cool hat to the cat" \'
+            - '--height 1024 \'
+            - '--width 1024 \'
+            - '--num_inference_steps 50 \'
+            - '--max_sequence_length 512 \'
+            - '--warmup_calls 5 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--input_images /app/data/flux_cat.png \'
+            - '--guidance_scale 4.0 \'
+            - '--num_iterations 25 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+        - model: FLUX.2 Klein
+          model_repo: black-forest-labs/FLUX.2-klein-9B
+          url: https://huggingface.co/black-forest-labs/FLUX.2-klein-9B
+          github: https://github.com/black-forest-labs/flux2
+          mad_tag: pyt_xdit_flux_2_klein
+          js_tag: flux_2_klein_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "A spectacular sunset over the ocean" \'
+            - '--height 2048 \'
+            - '--width 2048 \'
+            - '--num_inference_steps 4 \'
+            - '--warmup_calls 5 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--guidance_scale 1.0 \'
+            - '--num_iterations 25 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+    - group: StableDiffusion
+      js_tag: stablediffusion
+      models:
+        - model: stable-diffusion-3.5-large
+          model_repo: stabilityai/stable-diffusion-3.5-large
+          url: https://huggingface.co/stabilityai/stable-diffusion-3.5-large
+          github: https://github.com/Stability-AI/sd3.5
+          mad_tag: pyt_xdit_sd_3_5
+          js_tag: stable_diffusion_3_5_large_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--prompt "A capybara holding a sign that reads Hello World" \'
+            - '--num_iterations 50 \'
+            - '--num_inference_steps 28 \'
+            - '--pipefusion_parallel_degree 4 \'
+            - '--use_cfg_parallel \'
+            - '--use_torch_compile \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+    - group: Z-Image
+      js_tag: z_image
+      models:
+        - model: Z-Image
+          model_repo: Tongyi-MAI/Z-Image
+          url: https://huggingface.co/Tongyi-MAI/Z-Image
+          github: https://github.com/Tongyi-MAI/Z-Image
+          mad_tag: pyt_xdit_z_image
+          js_tag: z_image_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "A crowded beach" \'
+            - '--height 1088 \'
+            - '--width 1920 \'
+            - '--num_inference_steps 50 \'
+            - '--ulysses_degree 2 \'
+            - '--ring_degree 2 \'
+            - '--use_cfg_parallel \'
+            - '--use_torch_compile \'
+            - '--guidance_scale 4.0 \'
+            - '--num_iterations 25 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+    - group: LTX
+      js_tag: ltx
+      models:
+        - model: LTX-2
+          model_repo: Lightricks/LTX-2
+          url: https://huggingface.co/Lightricks/LTX-2
+          github: https://github.com/Lightricks/LTX-2
+          mad_tag: pyt_xdit_ltx2
+          js_tag: ltx2_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "Cinematic action packed shot. The man says silently: \"We need to run.\". The camera zooms in on his mouth then immediately screams: \"NOW!\". The camera zooms back out, he turns around and bolts it." \'
+            - '--height 1088 \'
+            - '--width 1920 \'
+            - '--num_inference_steps 40 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--guidance_scale 4.0 \'
+            - '--num_iterations 1 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+    - group: Qwen-Image
+      js_tag: qwen_image
+      models:
+        - model: Qwen-Image
+          model_repo: Qwen/Qwen-Image-2512
+          url: https://huggingface.co/Qwen/Qwen-Image-2512
+          github: https://github.com/QwenLM/Qwen-Image
+          mad_tag: pyt_xdit_qwen_image
+          js_tag: qwen_image_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "A cat holding a sign that says hello world" \'
+            - '--height 2048 \'
+            - '--width 2048 \'
+            - '--num_inference_steps 50 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--guidance_scale 0.0 \'
+            - '--num_iterations 25 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
+        - model: Qwen-Image-Edit
+          model_repo: Qwen/Qwen-Image-Edit
+          url: https://huggingface.co/Qwen/Qwen-Image-Edit
+          github: https://github.com/QwenLM/Qwen-Image
+          mad_tag: pyt_xdit_qwen_image_edit
+          js_tag: qwen_image_edit_tag
+          benchmark_command:
+            - mkdir results
+            - 'xdit \'
+            - '--model {model_repo} \'
+            - '--seed 42 \'
+            - '--prompt "Add a cool hat to the cat." \'
+            - '--negative_prompt "" \'
+            - '--input_images /app/data/flux_cat.png \'
+            - '--height 2048 \'
+            - '--width 2048 \'
+            - '--num_inference_steps 50 \'
+            - '--ulysses_degree 8 \'
+            - '--use_torch_compile \'
+            - '--guidance_scale 4.0 \'
+            - '--num_iterations 25 \'
+            - '--attention_backend aiter \'
+            - '--output_directory results'
