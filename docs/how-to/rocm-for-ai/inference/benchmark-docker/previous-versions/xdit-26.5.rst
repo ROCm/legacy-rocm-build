@@ -1,3 +1,6 @@
+:orphan:
+:no-search:
+
 .. meta::
    :description: Learn to validate diffusion model video generation on MI300X, MI350X and MI355X accelerators using
                  prebuilt and optimized docker images.
@@ -7,15 +10,22 @@
 xDiT diffusion inference
 ************************
 
-.. _xdit-video-diffusion:
+.. caution::
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+   This documentation does not reflect the latest version of the xDiT diffusion
+   inference performance documentation. See
+   :doc:`/how-to/rocm-for-ai/inference/xdit-diffusion-inference` for the latest
+   version.
+
+.. _xdit-video-diffusion-265:
+
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.5-inference-models.yaml
 
    {% set docker = data.docker %}
 
    The `rocm/pytorch-xdit <{{ docker.docker_hub_url }}>`_ Docker image offers a prebuilt, optimized environment based on `xDiT <https://github.com/xdit-project/xDiT>`_ for
    benchmarking diffusion model video and image generation on gfx942 and gfx950 series (AMD Instinct™ MI300X, MI325X, MI350X, and MI355X) GPUs.
-   The image runs `ROCm {{docker.ROCm}} <https://rocm.docs.amd.com/en/7.13.0-preview/>`_ based on `TheRock <https://github.com/ROCm/TheRock>`_
+   The image runs `ROCm {{docker.ROCm}}` based on `TheRock <https://github.com/ROCm/TheRock>`_
    and includes the following components:
 
    .. dropdown:: Software components - {{ docker.pull_tag.split('-')|last }}
@@ -37,7 +47,7 @@ For preview and development releases, see `amdsiloai/pytorch-xdit <https://hub.d
 What's new
 ==========
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.5-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -45,7 +55,7 @@ What's new
    * {{ item }}
    {% endfor %}
 
-.. _xdit-video-diffusion-supported-models:
+.. _xdit-video-diffusion-265-supported-models:
 
 Supported models
 ================
@@ -54,7 +64,7 @@ The following models are supported for inference performance benchmarking.
 Some instructions, commands, and recommendations in this documentation might
 vary by model -- select one to get started.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.5-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -119,7 +129,7 @@ system's configuration.
 Pull the Docker image
 =====================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.5-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -133,7 +143,7 @@ Pull the Docker image
 Validate and benchmark
 ======================
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.5-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -146,7 +156,7 @@ Validate and benchmark
    .. container:: model-doc {{model.js_tag}}
 
       The following commands are written for {{ model.model }}.
-      See :ref:`xdit-video-diffusion-supported-models` to switch to another available model.
+      See :ref:`xdit-video-diffusion-265-supported-models` to switch to another available model.
 
      {% endfor %}
    {% endfor %}
@@ -156,7 +166,7 @@ Choose your setup method
 
 You can either use an existing Hugging Face cache or download the model fresh inside the container.
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.5-inference-models.yaml
 
    {% set docker = data.docker %}
 
@@ -196,6 +206,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
                       --group-add video \
                       --ipc=host \
                       --network host \
+                      --privileged \
                       --shm-size 128G \
                       --name pytorch-xdit \
                       -e HSA_NO_SCRATCH_RECLAIM=1 \
@@ -223,6 +234,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
                       --group-add video \
                       --ipc=host \
                       --network host \
+                      --privileged \
                       --shm-size 128G \
                       --name pytorch-xdit \
                       -e HSA_NO_SCRATCH_RECLAIM=1 \
@@ -246,7 +258,7 @@ You can either use an existing Hugging Face cache or download the model fresh in
 Run inference
 =============
 
-.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/xdit-inference-models.yaml
+.. datatemplate:yaml:: /data/how-to/rocm-for-ai/inference/previous-versions/xdit_26.5-inference-models.yaml
 
    {% set docker = data.docker %}
 

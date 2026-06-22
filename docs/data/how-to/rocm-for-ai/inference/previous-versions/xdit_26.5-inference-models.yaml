@@ -1,19 +1,20 @@
 docker:
-  pull_tag: rocm/pytorch-xdit:v26.6
-  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.6
+  pull_tag: rocm/pytorch-xdit:v26.5
+  docker_hub_url: https://hub.docker.com/layers/rocm/pytorch-xdit/v26.5/images/sha256-b8ad9fd4b41bc116ac2aff07c1066bf369cf7fc110b1a323f6302191985a51fd
   ROCm: 7.13.0
   whats_new:
-    - Parallel VAE encoder support for Wan2.x
-    - Aiter graph-break fixes
+    - "Hunyuan Video 1.5 sparse attention (SSTA) support"
+    - "Support fp8 MLA for MI355"
+    - "Block wise sparsity support for AMD triton FAv3 Sage attention"
   components:
     TheRock: 
-      version: 64b9f0aeb
+      version: cbff3d1
       url: https://github.com/ROCm/TheRock
     rocm-libraries:
-      version: 2384d1b1
+      version: a668483b
       url: https://github.com/ROCm/rocm-libraries
     rocm-systems:
-      version: 986a18c9
+      version: c76140fa
       url: https://github.com/ROCm/rocm-systems
     torch:
       version: ff65f5b
@@ -27,17 +28,20 @@ docker:
     triton:
       version: a272dfa
       url: https://github.com/ROCm/triton
+    accelerate:
+      version: 46ba481
+      url: https://github.com/huggingface/accelerate
     aiter:
-      version: 3a526149
+      version: bc5ea32c
       url: https://github.com/ROCm/aiter
     diffusers:
       version: 447e571a
       url: https://github.com/huggingface/diffusers
     distvae:
-      version: 6d8025c9
+      version: 5a0fcbb
       url: https://github.com/xdit-project/DistVAE
     xfuser:
-      version: 0cf94215
+      version: 051db68f
       url: https://github.com/xdit-project/xDiT
     yunchang:
       version: 631bdfd
@@ -113,7 +117,7 @@ docker:
             - '--num_frames 81 \'
             - '--ulysses_degree 8 \'
             - '--use_parallel_vae \'
-            - '--seed 123456 \'
+            - '--seed 42 \'
             - '--guidance_scale 3.0 \'
             - '--num_iterations 1 \'
             - '--num_inference_steps 40 \'
@@ -278,7 +282,9 @@ docker:
             - '--height 1088 \'
             - '--width 1920 \'
             - '--num_inference_steps 50 \'
-            - '--ulysses_degree 8 \'
+            - '--ulysses_degree 2 \'
+            - '--ring_degree 2 \'
+            - '--use_cfg_parallel \'
             - '--use_torch_compile \'
             - '--guidance_scale 4.0 \'
             - '--num_iterations 25 \'
