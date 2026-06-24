@@ -1,0 +1,225 @@
+# Precision-support meta YAML.
+#
+# This is the human-edited file. Do NOT edit precision-support.yaml directly —
+# it is assembled at Sphinx build time by the remote_yaml extension from the
+# per-component precision-support.yaml files in each component's repository.
+#
+# Each library entry requires a `source` block with:
+#   repo           GitHub repo ("owner/name")
+#   path           Path to the component's precision-support.yaml in the repo
+#   default_branch Branch to fetch from in non-release builds
+#   tag_prefix     Prefix prepended to the version tag in release builds
+#
+# To update a library's data_types, edit its precision-support.yaml in the
+# component repo. To add/remove a library or update doc_links, edit here.
+
+library_groups:
+  - group: "ML & Computer Vision"
+    tag: "ml-cv"
+    libraries:
+      - name: "Composable Kernel"
+        tag: "composable-kernel"
+        doc_link: "composable_kernel:reference/Composable_Kernel_data_type_support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/composablekernel/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "MIGraphX"
+        tag: "migraphx"
+        doc_link: "amdmigraphx:reference/MIGraphX-data-type-support"
+        source:
+          repo: "ROCm/AMDMIGraphX"
+          path: "docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "MIOpen"
+        tag: "miopen"
+        doc_link: "miopen:reference/data_type_support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/miopen/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+  - group: "Communication"
+    tag: "communication"
+    libraries:
+      - name: "RCCL"
+        tag: "rccl"
+        doc_link: "rccl:api-reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-systems"
+          path: "projects/rccl/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+  - group: "Math Libraries"
+    tag: "math-libs"
+    libraries:
+      - name: "hipBLAS"
+        tag: "hipblas"
+        doc_link: "hipblas:reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/hipblas/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "hipBLASLt"
+        tag: "hipblaslt"
+        doc_link: "hipblaslt:reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/hipblaslt/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "hipFFT"
+        tag: "hipfft"
+        doc_link: "hipfft:reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/hipfft/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "hipRAND"
+        tag: "hiprand"
+        doc_link: "hiprand:api-reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/hiprand/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "hipSOLVER"
+        tag: "hipsolver"
+        doc_link: "hipsolver:reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/hipsolver/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "hipSPARSE"
+        tag: "hipsparse"
+        doc_link: "hipsparse:reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/hipsparse/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "hipSPARSELt"
+        tag: "hipsparselt"
+        doc_link: "hipsparselt:reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/hipsparselt/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "rocBLAS"
+        tag: "rocblas"
+        doc_link: "rocblas:reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/rocblas/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "rocFFT"
+        tag: "rocfft"
+        doc_link: "rocfft:reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/rocfft/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "rocRAND"
+        tag: "rocrand"
+        doc_link: "rocrand:api-reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/rocrand/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "rocSOLVER"
+        tag: "rocsolver"
+        doc_link: "rocsolver:reference/data_type_support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/rocsolver/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "rocSPARSE"
+        tag: "rocsparse"
+        doc_link: "rocsparse:reference/data_type_support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/rocsparse/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "rocWMMA"
+        tag: "rocwmma"
+        doc_link: "rocwmma:reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/rocwmma/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "Tensile"
+        tag: "tensile"
+        doc_link: "tensile:src/reference/precision-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "shared/tensile/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+  - group: "Primitives"
+    tag: "primitives"
+    libraries:
+      - name: "hipCUB"
+        tag: "hipcub"
+        doc_link: "hipcub:api-reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/hipcub/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "hipTensor"
+        tag: "hiptensor"
+        doc_link: "hiptensor:api-reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/hiptensor/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "rocPRIM"
+        tag: "rocprim"
+        doc_link: "rocprim:reference/data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/rocprim/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
+
+      - name: "rocThrust"
+        tag: "rocthrust"
+        doc_link: "rocthrust:reference/rocThrust-data-type-support"
+        source:
+          repo: "ROCm/rocm-libraries"
+          path: "projects/rocthrust/docs/data/reference/precision-support.yaml"
+          default_branch: "develop"
+          tag_prefix: "docs/"
