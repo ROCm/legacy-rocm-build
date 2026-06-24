@@ -677,52 +677,7 @@ Prerequisites
 
 .. selected:: i=pkgman i=pip i=tar
 
-   .. selected:: os=ubuntu
-
-      .. selected:: ubuntu-ver=24.04 ubuntu-ver=22.04
-         :heading: Configure permissions for GPU access
-         :heading-level: 3
-
-         There are two primary methods for configuring GPU access for ROCm: group
-         membership or udev rules. Each method has its own advantages. The choice
-         depends on your specific requirements and system management preferences.
-
-         .. tab-set::
-
-            .. tab-item:: Group membership
-
-               By default, GPU access is controlled by membership in the ``video`` and
-               ``render`` Linux system groups. The ``video`` group traditionally handles
-               video device access, while the ``render`` group manages GPU rendering
-               through DRM render nodes.
-
-               .. code-block:: bash
-
-                  # Add the current user to the render and video groups
-                  sudo usermod -a -G render,video $LOGNAME
-
-            .. tab-item:: udev rules
-
-               udev rules are a flexible, system-wide approach for managing device
-               permissions, eliminating the need for user group management while
-               allowing granular GPU access. To enable them and grant GPU access to
-               all users, run the following command:
-
-               .. code-block:: bash
-
-                  sudo tee /etc/udev/rules.d/70-amdgpu.rules << EOF
-                  KERNEL=="kfd", GROUP="render", MODE="0666"
-                  SUBSYSTEM=="drm", KERNEL=="renderD*", GROUP="render", MODE="0666"
-                  EOF
-
-                  sudo udevadm control --reload-rules
-                  sudo udevadm trigger
-
-         .. note::
-
-            To apply all settings, reboot your system.
-
-   .. selected:: os=debian os=rhel os=oracle-linux os=rocky-linux os=sles os=wsl
+   .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles os=wsl
       :heading: Configure permissions for GPU access
       :heading-level: 3
 
