@@ -214,14 +214,22 @@ subtrees:
                 - file: reference/system-optimization/cdna.rst
                   title: AMD Instinct GPUs
                   entries:
-                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html
-                        title: Instinct MI300X
-                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300a.html
-                        title: Instinct MI300A
-                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi200.html
-                        title: Instinct MI200
-                      - url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi100.html
-                        title: Instinct MI100
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi355x.html
+                        title: AMD MI355X
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi350x.html
+                        title: AMD MI350X
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi325x.html
+                        title: AMD MI325X
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html
+                        title: AMD MI300X
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300a.html
+                        title: AMD MI300A
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi250.html
+                        title: AMD MI250 / MI250X
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi210.html
+                        title: AMD MI210
+                      - url: https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi100.html
+                        title: AMD MI100
                 - file: reference/system-optimization/rdna.rst
                   title: AMD Radeon and Ryzen GPUs
                   entries:

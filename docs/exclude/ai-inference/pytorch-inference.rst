@@ -176,5 +176,5 @@ Further reading
 
 - To learn more about system settings and management practices to configure
   your system for AMD Instinct MI300X Series GPUs, see `AMD Instinct MI300X
-  system optimization
-  <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_.
+  Customer Acceptance Guide
+  <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html>`_.
