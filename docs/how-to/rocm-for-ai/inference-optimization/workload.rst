@@ -1448,8 +1448,8 @@ checking whether the output is ``0``.
 
 If the output is ``1``, you can disable NUMA auto-balancing by running the
 following command: ``sudo sysctl kernel.numa_balancing=0``. For more details,
-see `AMD Instinct MI300X system optimization
-<https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html#disable-numa-auto-balancing>`_.
+see `AMD Instinct MI300X Customer Acceptance Guide
+<https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html#disable-numa-auto-balancing>`_.
 
 .. _mi300x-rccl-disable-acs:
 

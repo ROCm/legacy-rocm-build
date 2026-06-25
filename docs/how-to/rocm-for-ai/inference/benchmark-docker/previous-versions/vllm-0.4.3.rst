@@ -329,7 +329,7 @@ Further reading
   see `<https://github.com/ROCm/vllm/tree/main/benchmarks>`_.
 
 - To learn more about system settings and management practices to configure your system for
-  MI300X Series GPUs, see `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
+  MI300X Series GPUs, see `AMD Instinct MI300X Customer Acceptance Guide <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html>`_
 
 - To learn how to run community models from Hugging Face on AMD GPUs, see
   :doc:`Running models from Hugging Face </how-to/rocm-for-ai/inference/hugging-face-models>`.

@@ -25,7 +25,7 @@ the output is ``1``, run the following command to disable NUMA auto-balancing.
 
    sudo sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'
 
-See `Disable NUMA auto-balancing <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html#disable-numa-auto-balancing>`_
+See `Disable NUMA auto-balancing <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html#disable-numa-auto-balancing>`_
 in the Instinct documentation for more information.
 
 Hardware verification with ROCm
@@ -42,7 +42,7 @@ Run the command:
 
    amd-smi set --perf-determinism 1900
 
-See `Hardware verfication for ROCm <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html#hardware-verification-with-rocm>`_
+See `Hardware verfication for ROCm <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html#hardware-verification-with-rocm>`_
 in the Instinct documentation for more information.
 
 RCCL Bandwidth Test for multi-node setups

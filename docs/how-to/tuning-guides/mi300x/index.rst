@@ -15,6 +15,6 @@ application tuning suggestions to help you fully leverage the capabilities of
 these GPUs, thereby achieving optimal performance.
 
 * :doc:`/how-to/rocm-for-ai/inference-optimization/workload`
-* `AMD Instinct MI300X system optimization <https://instinct.docs.amd.com/projects/amdgpu-docs/en/latest/system-optimization/mi300x.html>`_
+* `AMD Instinct MI300X Customer Acceptance Guide <https://instinct.docs.amd.com/projects/system-acceptance/en/latest/gpus/mi300x.html>`_
 
 
