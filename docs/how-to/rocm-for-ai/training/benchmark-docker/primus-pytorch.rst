@@ -306,6 +306,13 @@ tweak some configurations (such as batch sizes).
                           -- train pretrain \
                           --config examples/torchtitan/configs/MI300X/llama3.1_70B-FP8-pretrain.yaml
 
+            .. container:: model-doc primus_pyt_train_llama-3.1-405b
+
+               Only multi-node training configurations are currently available for Llama 3.1 405B.
+               See the
+               :ref:`multi-node training examples <amd-primus-pytorch-multi-node-examples-v26.4>`
+               for training instructions.
+
             .. container:: model-doc primus_pyt_train_deepseek-v3-16b
 
                Use the following command to run train DeepSeek V3 16B with BF16 precision using Primus torchtitan.
@@ -372,59 +379,63 @@ tweak some configurations (such as batch sizes).
       {% endfor %}
    {% endfor %}
 
+.. _amd-primus-pytorch-multi-node-examples-v26.4:
+
 Multi-node training examples
 ============================
 
-Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your environment for multi-node
-training.
+.. container:: model-doc primus_pyt_train_llama-3.1-8b primus_pyt_train_llama-3.1-70b primus_pyt_train_llama-3.1-405b primus_pyt_train_deepseek-v3-16b
 
-To run training on multiple nodes, use ``primus-cli`` to launch multi-node workloads. Use the following steps to set up your environment:
+   Refer to :doc:`/how-to/rocm-for-ai/system-setup/multi-node-setup` to configure your environment for multi-node
+   training.
 
-.. important::
+   To run training on multiple nodes, use ``primus-cli`` to launch multi-node workloads. Use the following steps to set up your environment:
 
-   **Verify NCCL / network environment first.** The ``primus-cli`` launcher sets sensible
-   ``NCCL_*`` defaults via ``base_env.sh``, but auto-detection can pick the wrong device
-   on multi-NIC nodes. Always confirm ``NCCL_IB_HCA``, ``NCCL_IB_GID_INDEX``,
-   ``NCCL_SOCKET_IFNAME``, and ``GLOO_SOCKET_IFNAME`` (set to the same value as
-   ``NCCL_SOCKET_IFNAME``) are correct for your fabric. If necessary, export these
-   environment variables before running.
+   .. important::
 
-.. code-block:: shell
+      **Verify NCCL / network environment first.** The ``primus-cli`` launcher sets sensible
+      ``NCCL_*`` defaults via ``base_env.sh``, but auto-detection can pick the wrong device
+      on multi-NIC nodes. Always confirm ``NCCL_IB_HCA``, ``NCCL_IB_GID_INDEX``,
+      ``NCCL_SOCKET_IFNAME``, and ``GLOO_SOCKET_IFNAME`` (set to the same value as
+      ``NCCL_SOCKET_IFNAME``) are correct for your fabric. If necessary, export these
+      environment variables before running.
 
-   git clone --recurse-submodules https://github.com/AMD-AGI/Primus.git
-   cd Primus/
-   git checkout release/v26.4
-   git submodule update --init --recursive
-   export DOCKER_IMAGE=rocm/primus:v26.4
-   export HF_TOKEN=<your_HF_token>
-   export NCCL_IB_HCA=<your_NCCL_IB_HCA> # specify which RDMA interfaces to use for communication
-   export NCCL_SOCKET_IFNAME=<your_NCCL_SOCKET_IFNAME> # your Network Interface
-   export GLOO_SOCKET_IFNAME=<your_GLOO_SOCKET_IFNAME> # your Network Interface
-   export NCCL_IB_GID_INDEX=3 # Set InfiniBand GID index for NCCL communication. Default is 3 for ROCE
+   .. code-block:: shell
 
-   # MI300/MI325X only -- for better performance
-   export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
-   export NVTE_CK_IS_V3_ATOMIC_FP32=1
+      git clone --recurse-submodules https://github.com/AMD-AGI/Primus.git
+      cd Primus/
+      git checkout release/v26.4
+      git submodule update --init --recursive
+      export DOCKER_IMAGE=rocm/primus:v26.4
+      export HF_TOKEN=<your_HF_token>
+      export NCCL_IB_HCA=<your_NCCL_IB_HCA> # specify which RDMA interfaces to use for communication
+      export NCCL_SOCKET_IFNAME=<your_NCCL_SOCKET_IFNAME> # your Network Interface
+      export GLOO_SOCKET_IFNAME=<your_GLOO_SOCKET_IFNAME> # your Network Interface
+      export NCCL_IB_GID_INDEX=3 # Set InfiniBand GID index for NCCL communication. Default is 3 for ROCE
 
-For clusters using AMD AINIC, also set the following:
+      # MI300/MI325X only -- for better performance
+      export PRIMUS_TURBO_ATTN_V3_ATOMIC_FP32=1
+      export NVTE_CK_IS_V3_ATOMIC_FP32=1
 
-.. code-block:: shell
+   For clusters using AMD AINIC, also set the following:
 
-   export USING_AINIC=1
-   export NCCL_PXN_DISABLE=0
-   export NCCL_IB_GID_INDEX=1
+   .. code-block:: shell
 
-.. note::
+      export USING_AINIC=1
+      export NCCL_PXN_DISABLE=0
+      export NCCL_IB_GID_INDEX=1
 
-   * Make sure correct network drivers are installed on the nodes. If inside a Docker, either install the drivers inside the Docker container or pass the network drivers from the host while creating the Docker container.
-   * If ``NCCL_IB_HCA`` and ``NCCL_SOCKET_IFNAME`` are not set, Primus will try to auto-detect. However, since NICs can vary across different clusters, it is encouraged to explicitly export your NCCL parameters for the cluster.
-   * To find your network interface, you can use ``ip a``.
-   * To find RDMA interfaces, you can use ``ibv_devices`` to get the list of all the RDMA/IB devices.
+   .. note::
+
+      * Make sure correct network drivers are installed on the nodes. If inside a Docker, either install the drivers inside the Docker container or pass the network drivers from the host while creating the Docker container.
+      * If ``NCCL_IB_HCA`` and ``NCCL_SOCKET_IFNAME`` are not set, Primus will try to auto-detect. However, since NICs can vary across different clusters, it is encouraged to explicitly export your NCCL parameters for the cluster.
+      * To find your network interface, you can use ``ip a``.
+      * To find RDMA interfaces, you can use ``ibv_devices`` to get the list of all the RDMA/IB devices.
 
 .. container:: model-doc primus_pyt_train_llama-3.1-8b
 
    Once setup is complete, run the appropriate training command.
-   The following run commands are tailored to Llama 3.1 8B.
+   The following run commands are tailored to **Llama 3.1 8B**.
    See :ref:`amd-primus-pytorch-model-support-v26.4` to switch to another available model.
 
    To train Llama 3.1 8B FP8 on 8 nodes, run:
@@ -444,7 +455,7 @@ For clusters using AMD AINIC, also set the following:
 .. container:: model-doc primus_pyt_train_llama-3.1-70b
 
    Once setup is complete, run the appropriate training command.
-   The following run commands are tailored to Llama 3.1 70B.
+   The following run commands are tailored to **Llama 3.1 70B**.
    See :ref:`amd-primus-pytorch-model-support-v26.4` to switch to another available model.
 
    To train Llama 3.1 70B FP8 on 4 nodes using ``primus-cli`` (recommended), run:
@@ -471,7 +482,7 @@ For clusters using AMD AINIC, also set the following:
 .. container:: model-doc primus_pyt_train_deepseek-v3-16b
 
    Once setup is complete, run the appropriate training command.
-   The following run commands are tailored to DeepSeek V3 16B.
+   The following run commands are tailored to **DeepSeek V3 16B**.
    See :ref:`amd-primus-pytorch-model-support-v26.4` to switch to another available model.
 
    To train DeepSeek V3 16B BF16 on 8 nodes, run:
@@ -481,26 +492,32 @@ For clusters using AMD AINIC, also set the following:
       ./primus-cli slurm srun -N 8 -- train pretrain \
           --config examples/torchtitan/configs/MI300X/deepseek_v3_16b-pretrain.yaml
 
-To train Llama 3.1 405B FP8 on 8 nodes using ``primus-cli`` (recommended), run:
+.. container:: model-doc primus_pyt_train_llama-3.1-405b
 
-.. code-block:: shell
+   Once setup is complete, run the appropriate training command.
+   The following run commands are tailored to Llama 3.1 405B.
+   See :ref:`amd-primus-pytorch-model-support-v26.4` to switch to another available model.
 
-   # In the Primus directory
-   ./primus-cli slurm srun -N 8 -- train pretrain \
-       --config examples/torchtitan/configs/MI355X/llama3.1_405B-FP8-pretrain.yaml \
-       --training.local_batch_size 3 \
-       --training.global_batch_size 192 \
-       --training.mock_data True
+   To train Llama 3.1 405B FP8 on 8 nodes using ``primus-cli`` (recommended), run:
 
-Alternatively, using the legacy script:
+   .. code-block:: shell
 
-.. code-block:: shell
+      # In the Primus directory
+      ./primus-cli slurm srun -N 8 -- train pretrain \
+          --config examples/torchtitan/configs/MI355X/llama3.1_405B-FP8-pretrain.yaml \
+          --training.local_batch_size 3 \
+          --training.global_batch_size 192 \
+          --training.mock_data True
 
-   NNODES=8 EXP=examples/torchtitan/configs/MI355X/llama3.1_405B-FP8-pretrain.yaml \
-   bash examples/run_slurm_pretrain.sh \
-       --training.local_batch_size 3 \
-       --training.global_batch_size 192 \
-       --training.mock_data True
+   Alternatively, using the legacy script:
+
+   .. code-block:: shell
+
+      NNODES=8 EXP=examples/torchtitan/configs/MI355X/llama3.1_405B-FP8-pretrain.yaml \
+      bash examples/run_slurm_pretrain.sh \
+          --training.local_batch_size 3 \
+          --training.global_batch_size 192 \
+          --training.mock_data True
 
 Further reading
 ===============
@@ -520,4 +537,4 @@ Previous versions
 =================
 
 See :doc:`previous-versions/pytorch-training-history` to find documentation for previous releases
-of the ``ROCm/pytorch-training`` Docker image.
+of the Primus with torchtitan training recipe.

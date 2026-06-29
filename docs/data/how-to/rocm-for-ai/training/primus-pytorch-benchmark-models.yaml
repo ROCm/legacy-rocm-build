@@ -24,6 +24,11 @@ model_groups:
         model_repo: Llama-3.1-70B
         url: https://huggingface.co/meta-llama/Llama-3.1-70B
         precision: BF16
+      - model: Llama 3.1 405B
+        mad_tag: primus_pyt_train_llama-3.1-405b
+        model_repo: Llama-3.1-405B
+        url: https://huggingface.co/meta-llama/Llama-3.1-405B
+        precision: FP8
   - group: DeepSeek
     tag: deepseek
     models:

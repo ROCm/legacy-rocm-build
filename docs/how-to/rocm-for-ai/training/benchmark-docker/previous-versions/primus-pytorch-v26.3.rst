@@ -25,7 +25,7 @@ Primus now supports the PyTorch torchtitan backend.
    <https://hub.docker.com/r/rocm/pytorch-training/>`__ Docker Hub registry will be
    deprecated soon in favor of `rocm/primus <https://hub.docker.com/r/rocm/primus>`__.
    The ``rocm/primus`` Docker containers will cover PyTorch training ecosystem frameworks,
-   including torchtitan and :doc:`Megatron-LM <primus-megatron>`.
+   including torchtitan and :doc:`Megatron-LM <../primus-megatron>`.
 
    Primus with the PyTorch torchtitan backend is designed to replace the
    :doc:`ROCm PyTorch training <../pytorch-training>` workflow. See
@@ -97,7 +97,7 @@ vary by model -- select one to get started.
 .. seealso::
 
    For additional workloads, including Llama 3.3, Llama 3.2, Llama 2, GPT OSS, Qwen, and Flux models,
-   see the documentation :doc:`pytorch-training` (without Primus)
+   see the documentation :doc:`../pytorch-training` (without Primus)
 
 .. _amd-primus-pytorch-performance-measurements-v26.3:
 
@@ -135,7 +135,7 @@ Run training
 ============
 
 Once the setup is complete, choose between the following two workflows to start benchmarking training.
-For fine-tuning workloads and multi-node training examples, see :doc:`pytorch-training` (without Primus).
+For fine-tuning workloads and multi-node training examples, see :doc:`../pytorch-training` (without Primus).
 For best performance on MI325X, MI350X, and MI355X GPUs, you might need to
 tweak some configurations (such as batch sizes).
 
@@ -528,4 +528,4 @@ Previous versions
 =================
 
 See :doc:`pytorch-training-history` to find documentation for previous releases
-of the ``ROCm/pytorch-training`` Docker image.
+of the Primus with torchtitan training recipe.

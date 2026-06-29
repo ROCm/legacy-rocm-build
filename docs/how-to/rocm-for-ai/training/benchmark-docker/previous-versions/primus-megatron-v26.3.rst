@@ -1316,7 +1316,7 @@ Previous versions
 =================
 
 See :doc:`megatron-lm-history` to find documentation for previous releases
-of the ``ROCm/megatron-lm`` Docker image.
+of the Primus with Megatron-LM training recipe.
 
 This training environment now uses Primus with Megatron as the primary
 configuration.

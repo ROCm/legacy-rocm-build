@@ -29,6 +29,9 @@ model_groups:
       - model: Llama 2 70B
         mad_tag: primus_pyt_megatron_lm_train_llama-2-70b
         config_name: llama2_70B-pretrain.yaml
+      - model: Llama 3.1 405B
+        mad_tag: primus_pyt_megatron_lm_train_llama-3.1-405b
+        config_name: llama3.1_405B-FP8-pretrain.yaml
   - group: AMD Zebra-Llama
     tag: zebra-llama
     models:
@@ -62,11 +65,15 @@ model_groups:
       - model: Mixtral 8x7B
         mad_tag: primus_pyt_megatron_lm_train_mixtral-8x7b
         config_name: mixtral_8x7B_v0.1-pretrain.yaml
+      - model: Mixtral 8x22B
+        mad_tag: primus_pyt_megatron_lm_train_mixtral-8x22b
+        config_name: mixtral_8x22B_v0.1-BF16-pretrain.yaml
   - group: Qwen
     tag: qwen
     models:
       - model: Qwen 3 32B SFT
         mad_tag: primus_pyt_megatron_lm_train_qwen3-32b-sft
+        config_name: qwen3_32b_sft_posttrain.yaml
       - model: Qwen 3 32B LoRA
         mad_tag: primus_pyt_megatron_lm_train_qwen3-32b-lora
         config_name: qwen3_32b_lora_posttrain.yaml

@@ -796,6 +796,7 @@ gemm
 getAttribute
 gfortran
 gfx
+gitd
 githooks
 github
 globals
@@ -886,6 +887,7 @@ logsumexp
 loopback
 lossy
 lstsq
+lw
 macOS
 matchers
 maxtext
