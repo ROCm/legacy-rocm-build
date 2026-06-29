@@ -45,7 +45,7 @@ with Primus Turbo optimizations.
               - {{ component_version }}
             {% endfor %}
 
-.. _amd-primus-pytorch-model-support-v26.3:
+.. _amd-primus-pytorch-model-support-v26.4:
 
 Supported models
 ================
@@ -91,7 +91,7 @@ vary by model -- select one to get started.
    For additional workloads, including Llama 3.3, Llama 3.2, Llama 2, GPT OSS, Qwen, and Flux models,
    see the documentation :doc:`pytorch-training` (without Primus)
 
-.. _amd-primus-pytorch-performance-measurements-v26.3:
+.. _amd-primus-pytorch-performance-measurements-v26.4:
 
 System validation
 =================
@@ -146,7 +146,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run commands are tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v26.4` to switch to another available model.
 
             .. rubric:: Download the Docker image and required packages
 
@@ -182,8 +182,8 @@ tweak some configurations (such as batch sizes).
                   docker start training_env
                   docker exec -it training_env bash
 
-               The Docker container hosts verified commit ``43a6e00`` of the `Primus
-               <https://github.com/AMD-AGI/Primus/tree/43a6e006c419697208295c5523b99070e8198ad9>`__ repository.
+               The Docker container hosts the `Primus
+               <https://github.com/AMD-AGI/Primus/tree/release/v26.4>`__ repository at tag ``release/v26.4``.
 
             .. rubric:: Setup
 
@@ -342,7 +342,7 @@ tweak some configurations (such as batch sizes).
          .. container:: model-doc {{ model.mad_tag }}
 
             The following run command is tailored to {{ model.model }}.
-            See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
+            See :ref:`amd-primus-pytorch-model-support-v26.4` to switch to another available model.
 
             1. Clone the ROCm Model Automation and Dashboarding (`<https://github.com/ROCm/MAD>`__) repository to a local
                directory and install the required packages on the host machine.
@@ -393,9 +393,9 @@ To run training on multiple nodes, use ``primus-cli`` to launch multi-node workl
 
    git clone --recurse-submodules https://github.com/AMD-AGI/Primus.git
    cd Primus/
-   git checkout release/v26.3
+   git checkout release/v26.4
    git submodule update --init --recursive
-   export DOCKER_IMAGE=rocm/primus:v26.3
+   export DOCKER_IMAGE=rocm/primus:v26.4
    export HF_TOKEN=<your_HF_token>
    export NCCL_IB_HCA=<your_NCCL_IB_HCA> # specify which RDMA interfaces to use for communication
    export NCCL_SOCKET_IFNAME=<your_NCCL_SOCKET_IFNAME> # your Network Interface
@@ -425,7 +425,7 @@ For clusters using AMD AINIC, also set the following:
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.1 8B.
-   See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
+   See :ref:`amd-primus-pytorch-model-support-v26.4` to switch to another available model.
 
    To train Llama 3.1 8B FP8 on 8 nodes, run:
 
@@ -445,7 +445,7 @@ For clusters using AMD AINIC, also set the following:
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to Llama 3.1 70B.
-   See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
+   See :ref:`amd-primus-pytorch-model-support-v26.4` to switch to another available model.
 
    To train Llama 3.1 70B FP8 on 4 nodes using ``primus-cli`` (recommended), run:
 
@@ -472,7 +472,7 @@ For clusters using AMD AINIC, also set the following:
 
    Once setup is complete, run the appropriate training command.
    The following run commands are tailored to DeepSeek V3 16B.
-   See :ref:`amd-primus-pytorch-model-support-v26.3` to switch to another available model.
+   See :ref:`amd-primus-pytorch-model-support-v26.4` to switch to another available model.
 
    To train DeepSeek V3 16B BF16 on 8 nodes, run:
 
