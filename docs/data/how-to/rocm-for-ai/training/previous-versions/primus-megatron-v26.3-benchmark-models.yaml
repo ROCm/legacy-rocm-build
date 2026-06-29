@@ -1,0 +1,78 @@
+docker:
+  pull_tag: rocm/primus:v26.3
+  docker_hub_url: https://hub.docker.com/layers/rocm/primus/v26.3/images/sha256-da50bfe9dc4bb70ad683d3ee4a176dccb66f596f48d30e8e52323b41892759b1
+  components:
+    ROCm: 7.2.1
+    PyTorch: 2.10.0+git94c6e04
+    Python: "3.12.3"
+    Transformer Engine: 2.12.0.dev0+40434cf6
+    Flash Attention: 2.8.3
+    hipBLASLt: 1.3.0-c4b2dc9869
+    Triton: 3.6.0
+    RCCL: 2.27.7
+model_groups:
+  - group: Meta Llama
+    tag: llama
+    models:
+      - model: Llama 3.3 70B
+        mad_tag: primus_pyt_megatron_lm_train_llama-3.3-70b
+        config_name: llama3.3_70B-pretrain.yaml
+      - model: Llama 3.1 8B
+        mad_tag: primus_pyt_megatron_lm_train_llama-3.1-8b
+        config_name: llama3.1_8B-pretrain.yaml
+      - model: Llama 3.1 70B
+        mad_tag: primus_pyt_megatron_lm_train_llama-3.1-70b
+        config_name: llama3.1_70B-pretrain.yaml
+      - model: Llama 2 7B
+        mad_tag: primus_pyt_megatron_lm_train_llama-2-7b
+        config_name: llama2_7B-pretrain.yaml
+      - model: Llama 2 70B
+        mad_tag: primus_pyt_megatron_lm_train_llama-2-70b
+        config_name: llama2_70B-pretrain.yaml
+  - group: AMD Zebra-Llama
+    tag: zebra-llama
+    models:
+      - model: Zebra-Llama 1B
+        mad_tag: primus_pyt_megatron_lm_train_zebra-llama-1b
+        config_name: zebra_llama_1b-pretrain.yaml
+      - model: Zebra-Llama 3B
+        mad_tag: primus_pyt_megatron_lm_train_zebra-llama-3b
+        config_name: zebra_llama_3b-pretrain.yaml
+      - model: Zebra-Llama 8B
+        mad_tag: primus_pyt_megatron_lm_train_zebra-llama-8b
+        config_name: zebra_llama_8b-pretrain.yaml
+  - group: OpenAI GPT-OSS
+    tag: gpt-oss
+    models:
+      - model: GPT-OSS-20B
+        mad_tag: primus_pyt_megatron_lm_train_gpt-oss-20b
+        config_name: gpt_oss_20B-BF16-pretrain.yaml
+  - group: DeepSeek
+    tag: deepseek
+    models:
+      - model: DeepSeek-V2-Lite
+        mad_tag: primus_pyt_megatron_lm_train_deepseek-v2-lite-16b
+        config_name: deepseek_v2_lite-pretrain.yaml
+  - group: Mistral AI
+    tag: mistral
+    models:
+      - model: Mixtral 8x7B
+        mad_tag: primus_pyt_megatron_lm_train_mixtral-8x7b
+        config_name: mixtral_8x7B_v0.1-pretrain.yaml
+  - group: Qwen
+    tag: qwen
+    models:
+      - model: Qwen 3 32B SFT
+        mad_tag: primus_pyt_megatron_lm_train_qwen3-32b-sft
+      - model: Qwen 3 32B LoRA
+        mad_tag: primus_pyt_megatron_lm_train_qwen3-32b-lora
+        config_name: primus_qwen2.5_7B-pretrain.yaml
+      - model: Qwen 3 30B A3B
+        mad_tag: primus_pyt_megatron_lm_train_qwen3-30b-a3b
+        config_name: qwen3_30B_A3B-pretrain.yaml
+      - model: Qwen 2.5 7B
+        mad_tag: primus_pyt_megatron_lm_train_qwen2.5-7b
+        config_name: primus_qwen2.5_7B-pretrain.yaml
+      - model: Qwen 2.5 72B
+        mad_tag: primus_pyt_megatron_lm_train_qwen2.5-72b
+        config_name: qwen2.5_72B-pretrain.yaml
