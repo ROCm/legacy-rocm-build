@@ -141,9 +141,9 @@ html_css_files = ["legacy/vllm-benchmark.css"]
 external_projects_current_project = "rocm"
 html_theme = "rocm_docs_theme"
 html_theme_options = {
-    "announcement": f"This is ROCm {ROCM_VERSION} technology preview release documentation. For the latest production stream release, refer to <a id='rocm-banner' href='https://rocm.docs.amd.com/en/latest/'>ROCm documentation</a>.",
+    "announcement": f"This is ROCm {ROCM_VERSION} latest production stream release documentation. For the ROCm 7.13.0 technology preview release documentation release, refer to <a id='rocm-banner' href='https://rocm.docs.amd.com/en/7.13.0-preview/'>ROCm documentation</a>.",
     "flavor": "generic",
-    "header_title": f"ROCm™ {ROCM_VERSION} Preview",
+    "header_title": f"ROCm™ {ROCM_VERSION}",
     "header_link": f"https://rocm.docs.amd.com/en/7.13.0-preview/index.html",
     "version_list_link": f"https://rocm.docs.amd.com/en/7.13.0-preview/release/versions.html",
     "nav_secondary_items": {
@@ -155,7 +155,7 @@ html_theme_options = {
     },
     "link_main_doc": False,
 }
-html_title = f"AMD ROCm {ROCM_VERSION} Preview"
+html_title = f"AMD ROCm {ROCM_VERSION}"
 
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "rocm.docs.amd.com")
 html_context = {
