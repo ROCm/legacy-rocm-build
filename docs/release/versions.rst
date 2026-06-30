@@ -14,6 +14,9 @@ ROCm preview release history
    * - Version
      - Release date
 
+   * - `7.14.0 <https://rocm.docs.amd.com/en/7.14.0>`__
+     - July 15, 2026
+
    * - `7.13.0 <https://rocm.docs.amd.com/en/7.13.0-preview>`__
      - May 15, 2026
 
