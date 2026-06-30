@@ -1,15 +1,15 @@
 docker:
-  pull_tag: rocm/primus:v26.4
-  docker_hub_url: https://hub.docker.com/layers/rocm/primus/v26.4/images/sha256-c3d9033c55440f3650a24b26377f3630a0b1bf1b48a6509a4b8fdd8900b2bbcb
+  pull_tag: rocm/primus:v26.3
+  docker_hub_url: https://hub.docker.com/layers/rocm/primus/v26.3/images/sha256-da50bfe9dc4bb70ad683d3ee4a176dccb66f596f48d30e8e52323b41892759b1
   components:
-    ROCm: 7.14.0a20260608
-    PyTorch: 2.12.0+git7e98855
+    ROCm: 7.2.1
+    PyTorch: 2.10.0+git94c6e04
     Python: "3.12.3"
-    Transformer Engine: 2.14.0.dev0+e6ede467
+    Transformer Engine: 2.12.0.dev0+40434cf6
     Flash Attention: 2.8.3
-    hipBLASLt: 1.4.0-c2fafc16
-    Triton: 3.7.0+gitb4e20bbe
-    RCCL: 2.28.9
+    hipBLASLt: 1.3.0-c4b2dc9869
+    Triton: 3.6.0
+    RCCL: 2.27.7
 model_groups:
   - group: Meta Llama
     tag: llama
@@ -24,11 +24,6 @@ model_groups:
         model_repo: Llama-3.1-70B
         url: https://huggingface.co/meta-llama/Llama-3.1-70B
         precision: BF16
-      - model: Llama 3.1 405B
-        mad_tag: primus_pyt_train_llama-3.1-405b
-        model_repo: Llama-3.1-405B
-        url: https://huggingface.co/meta-llama/Llama-3.1-405B
-        precision: FP8
   - group: DeepSeek
     tag: deepseek
     models:
