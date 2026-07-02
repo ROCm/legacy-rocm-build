@@ -169,7 +169,7 @@ depend on the specific implementation and operations performed.
       - :version-ref:`MIOpen rocm_version`
       - Optimized for deep learning primitives such as convolutions, pooling,
         normalization, and activation functions.
-    * - `RCCL <https://github.com/ROCm/rccl>`_
+    * - `RCCL <https://github.com/ROCm/rocm-systems/tree/develop/projects/rccl>`_
       - :version-ref:`RCCL rocm_version`
       - Optimized for multi-GPU communication for operations like  all-reduce,
         broadcast, and scatter.

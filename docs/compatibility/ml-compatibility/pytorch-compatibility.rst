@@ -13,7 +13,7 @@ PyTorch compatibility
 `PyTorch <https://pytorch.org/>`__ is an open-source tensor library designed for
 deep learning. PyTorch on ROCm provides mixed-precision and large-scale training
 using `MIOpen <https://github.com/ROCm/MIOpen>`__ and
-`RCCL <https://github.com/ROCm/rccl>`__ libraries.
+`RCCL <https://github.com/ROCm/rocm-systems/tree/develop/projects/rccl>`__ libraries.
 
 PyTorch provides two high-level features:
 
@@ -197,7 +197,7 @@ feature set available to developers.
         augmentation tasks. rocAL is part of MIVisionX.
       - Easy to integrate into PyTorch's ``torch.utils.data`` and
         ``torchvision`` data load workloads.
-    * - `RCCL <https://github.com/ROCm/rccl>`__
+    * - `RCCL <https://github.com/ROCm/rocm-systems/tree/develop/projects/rccl>`__
       - :version-ref:`RCCL rocm_version`
       - Optimizes for multi-GPU communication for operations like AllReduce and
         Broadcast.

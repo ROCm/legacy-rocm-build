@@ -115,7 +115,7 @@ are available in ROCm :version:`rocm_version`.
       - Speeds up convolutional neural networks (CNNs) and other layers. Used
         in TensorFlow for layers like ``tf.nn.conv2d``, ``tf.nn.relu``, and
         ``tf.nn.lstm_cell``.
-    * - `RCCL <https://github.com/ROCm/rccl>`__
+    * - `RCCL <https://github.com/ROCm/rocm-systems/tree/develop/projects/rccl>`__
       - :version-ref:`RCCL rocm_version`
       - Optimizes for multi-GPU communication for operations like AllReduce and
         Broadcast.

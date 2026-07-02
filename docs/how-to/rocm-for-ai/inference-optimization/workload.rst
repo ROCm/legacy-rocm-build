@@ -1515,7 +1515,7 @@ Run RCCL-Unittests
 
 In order to verify RCCL installation and test whether all parts and
 units of RCCL work as expected you can run the RCCL-Unittests which is
-explained in `<https://github.com/ROCm/rccl?tab=readme-ov-file#tests>`__.
+explained in `<https://github.com/ROCm/rocm-systems/tree/develop/projects/rccl#tests>`__.
 
 .. _mi300x-rccl-npkit:
 
@@ -1524,7 +1524,7 @@ NPKit profiler
 
 To collect fine-grained trace events in RCCL components, especially in
 giant collective GPU kernels you can use the NPKit profiler explained
-in `<https://github.com/ROCm/rccl?tab=readme-ov-file#npkit>`__.
+in `<https://github.com/ROCm/rocm-systems/tree/develop/projects/rccl>`__.
 
 .. _mi300x-rccl-tests:
 

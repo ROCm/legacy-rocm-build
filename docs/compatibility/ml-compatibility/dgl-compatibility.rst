@@ -235,7 +235,7 @@ If you prefer to build it yourself, ensure the following dependencies are instal
       - 2.2.0
       - Accelerates the data pipeline by offloading intensive preprocessing and
         augmentation tasks. rocAL is part of MIVisionX.
-    * - `RCCL <https://github.com/ROCm/rccl>`_
+    * - `RCCL <https://github.com/ROCm/rocm-systems/tree/develop/projects/rccl>`_
       - 2.26.6
       - 2.22.3
       - Optimizes for multi-GPU communication for operations like AllReduce and
