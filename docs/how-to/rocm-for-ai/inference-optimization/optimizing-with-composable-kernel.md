@@ -166,7 +166,7 @@ Second, consider whether the format of input data meets your actual calculation 
 
 Third, consider the platform for implementing CK instances. The instances suffixed with `xdl` only run on AMD Instinct GPUs after being compiled and cannot run on Radeon-Series GPUs. This is due to the underlying device-specific instruction sets for implementing these basic instances.
 
-Here, we use [DeviceBatchedGemmMultiD_Xdl](https://github.com/ROCm/composable_kernel/tree/develop/example/24_batched_gemm) as the fundamental instance to implement the functionalities in the previous table.
+Here, we use [DeviceBatchedGemmMultiD_Xdl](https://github.com/ROCm/rocm-libraries/tree/develop/projects/composablekernel/example/24_batched_gemm) as the fundamental instance to implement the functionalities in the previous table.
 
 <!-- 
 ================

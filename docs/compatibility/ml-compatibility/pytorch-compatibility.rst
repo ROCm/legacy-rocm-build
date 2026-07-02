@@ -112,7 +112,7 @@ feature set available to developers.
       - Version
       - Purpose
       - Used in
-    * - `Composable Kernel <https://github.com/ROCm/composable_kernel>`__
+    * - `Composable Kernel <https://github.com/ROCm/rocm-libraries/tree/develop/projects/composablekernel>`__
       - :version-ref:`"Composable Kernel" rocm_version`
       - Enables faster execution of core operations like matrix multiplication
         (GEMM), convolutions and transformations.

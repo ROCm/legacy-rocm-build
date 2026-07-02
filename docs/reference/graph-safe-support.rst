@@ -23,7 +23,7 @@ The following table shows whether a ROCm library is graph-safe.
       - ROCm library
       - Graph safe support
     * 
-      - `Composable Kernel <https://github.com/ROCm/composable_kernel>`_
+      - `Composable Kernel <https://github.com/ROCm/rocm-libraries/tree/develop/projects/composablekernel>`_
       - ❌
     * 
       - `hipBLAS <https://github.com/ROCm/hipBLAS>`_

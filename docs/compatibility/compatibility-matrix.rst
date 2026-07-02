@@ -111,7 +111,7 @@ compatibility and system requirements.
       ,,,
       SUPPORT LIBS,,,
       `hipother <https://github.com/ROCm/hipother>`_,7.2.53211,7.2.53211,7.1.25424
-      `rocm-core <https://github.com/ROCm/rocm-core>`_,7.2.4/7.2.3,7.2.2/7.2.1,7.1.0
+      `rocm-core <https://github.com/ROCm/rocm-systems/tree/develop/projects/rocm-core>`_,7.2.4/7.2.3,7.2.2/7.2.1,7.1.0
       `ROCT-Thunk-Interface <https://github.com/ROCm/ROCT-Thunk-Interface>`_,N/A [#ROCT-rocr]_,N/A [#ROCT-rocr]_,N/A [#ROCT-rocr]_
       ,,,
       SYSTEM MGMT TOOLS,.. _tools-support-compatibility-matrix:,,

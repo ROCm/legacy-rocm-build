@@ -167,7 +167,7 @@ If you prefer to build it yourself, ensure the following dependencies are instal
       - ROCm 7.0.0 Version
       - ROCm 6.4.x Version
       - Purpose
-    * - `Composable Kernel <https://github.com/ROCm/composable_kernel>`_
+    * - `Composable Kernel <https://github.com/ROCm/rocm-libraries/tree/develop/projects/composablekernel>`_
       - 1.1.0
       - 1.1.0
       - Enables faster execution of core operations like matrix multiplication

@@ -41,7 +41,7 @@ Installing Flash Attention 2
 
 `Flash Attention <https://github.com/Dao-AILab/flash-attention>`_ supports two backend implementations on AMD GPUs.
 
-*  `Composable Kernel (CK) <https://github.com/ROCm/composable_kernel>`__ - the default backend
+*  `Composable Kernel (CK) <https://github.com/ROCm/rocm-libraries/tree/develop/projects/composablekernel>`__ - the default backend
 *  `OpenAI Triton <https://github.com/triton-lang/triton>`__ - an alternative backend
 
 You can switch between these backends using the environment variable ``FLASH_ATTENTION_TRITON_AMD_ENABLE``:
