@@ -129,6 +129,9 @@ extensions = [
 ]
 templates_path = ["extension/rocm_docs_custom/selector/templates"]
 
+# Omit custom matrix/selector content from PDF (LaTeX) output.
+rocm_selector_pdf_generation = False
+
 html_static_path = ["sphinx/static"]
 html_js_files = ["setup-toc-install-headings.js", "legacy/vllm-benchmark.js"]
 html_css_files = ["legacy/vllm-benchmark.css"]

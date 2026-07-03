@@ -427,6 +427,23 @@ class SelectedContent(nodes.General, nodes.Element):
         translator.body.append(f"</{tag}>")
 
     @staticmethod
+    def visit_static(translator, node):
+        """Visit handler for static builders (LaTeX/text/man/texinfo).
+
+        Normally SelectorToSectionTransform rewrites every SelectedContent into
+        plain sections before the writer runs, so this handler sees nothing. But
+        when ``rocm_selector_pdf_generation`` is False that transform is skipped
+        for LaTeX, leaving raw SelectedContent nodes in the tree. A plain no-op
+        visit would still let the writer descend into and render all children;
+        skip the whole subtree instead so the conditional install content is
+        genuinely omitted from the PDF.
+        """
+        if not translator.config.rocm_selector_pdf_generation:
+            raise nodes.SkipNode
+        # PDF generation enabled (or a non-LaTeX static builder): let the
+        # already-transformed children render as before.
+
+    @staticmethod
     def visit_markdown(translator, node):
         # The Markdown translator (used to generate llms-full.txt) has no
         # visitor for selector nodes. Render the conditional content inline so
@@ -760,6 +777,55 @@ def _build_combos(sel_opts: dict) -> list:
     return combos
 
 
+def _combo_matches_spec(combo: dict, spec: dict) -> bool:
+    """Return True if *combo* satisfies every key in *spec* (a partial match).
+
+    Keys absent from *spec* act as wildcards. Keys and values are normalized so
+    specs can be written naturally (e.g. ``"Ubuntu"`` matches ``"ubuntu"``).
+
+    The OS-version dimension is stored in *combo* under the ``{os}-ver`` key
+    (e.g. ``ubuntu-ver``); a spec may target it with that exact key or with the
+    generic alias ``ver``, which is resolved against the combo's current OS.
+    """
+    for raw_key, raw_val in spec.items():
+        key = normalize_key(str(raw_key))
+        want = normalize_key(str(raw_val))
+
+        if key == "ver":
+            os_val = combo.get("os")
+            key = f"{os_val}-ver" if os_val is not None else "ver"
+
+        if key not in combo:
+            return False
+        if normalize_key(str(combo[key])) != want:
+            return False
+    return True
+
+
+def _filter_combos_for_pdf(all_combos: list, specs: list) -> list:
+    """Keep only combos matching at least one spec dict in *specs*.
+
+    Each entry of *specs* must be a dict of ``{dimension: value}`` constraints.
+    Non-dict entries are ignored with a warning so a malformed config value
+    degrades to "match nothing extra" rather than crashing the build.
+    """
+    valid_specs = []
+    for spec in specs:
+        if isinstance(spec, dict):
+            valid_specs.append(spec)
+        else:
+            logger.warning(
+                "rocm_selector_pdf_generation list entries must be dicts, "
+                "got %r; ignoring it.",
+                spec,
+            )
+    return [
+        (combo, labels)
+        for combo, labels in all_combos
+        if any(_combo_matches_spec(combo, spec) for spec in valid_specs)
+    ]
+
+
 class SelectorPDFReorganizeTransform(SphinxPostTransform):
     """Reorganize the install page for PDF/LaTeX output.
 
@@ -842,6 +908,25 @@ class SelectorPDFReorganizeTransform(SphinxPostTransform):
         # ------------------------------------------------------------------
         sel_opts = _collect_selector_options(chapter)
         all_combos = _build_combos(sel_opts)
+
+        # Tri-state rocm_selector_pdf_generation: a list value restricts output
+        # to the combos matching one of its spec dicts. (True generates all;
+        # False never reaches here — the early-return guard above handles it.)
+        pdf_setting = self.config.rocm_selector_pdf_generation
+        if isinstance(pdf_setting, list):
+            total = len(all_combos)
+            all_combos = _filter_combos_for_pdf(all_combos, pdf_setting)
+            logger.info(
+                "rocm_selector_pdf_generation filter: keeping %d of %d install "
+                "combinations for PDF.",
+                len(all_combos), total,
+            )
+            if not all_combos:
+                logger.warning(
+                    "rocm_selector_pdf_generation filter matched no install "
+                    "combinations; the install chapter will contain only its "
+                    "preamble. Check the dimension names/values in the filter."
+                )
 
         # ------------------------------------------------------------------
         # Build the new chapter contents: preamble + per-combo sections.
@@ -1048,10 +1133,10 @@ def setup(app):
         SelectedContent,
         html=(SelectedContent.visit_html, SelectedContent.depart_html),
         markdown=(SelectedContent.visit_markdown, noop),
-        latex=(noop, noop),
-        text=(noop, noop),
-        man=(noop, noop),
-        texinfo=(noop, noop),
+        latex=(SelectedContent.visit_static, noop),
+        text=(SelectedContent.visit_static, noop),
+        man=(SelectedContent.visit_static, noop),
+        texinfo=(SelectedContent.visit_static, noop),
     )
 
     app.add_directive("selector", SelectorGroupDirective)

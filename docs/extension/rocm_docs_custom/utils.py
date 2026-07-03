@@ -13,15 +13,22 @@ def register_output_flags(app):
     Both the matrix and selector extensions read these flags, and either may be
     loaded first, so registration must not fail if the value already exists:
 
-    - ``rocm_selector_pdf_generation``: when False, custom matrix/selector
-      content is omitted from PDF (LaTeX) output instead of being converted to
-      static tables/sections.
+    - ``rocm_selector_pdf_generation``: tri-state PDF (LaTeX) toggle.
+        * ``True``  — generate all install-page combinations (default).
+        * ``False`` — omit custom matrix/selector content from the PDF.
+        * ``list``  — generate only the install-page combinations matching one
+          of the given spec dicts (e.g. ``[{"os": "ubuntu", "i": "pkgman"}]``);
+          each dict is a partial match, unspecified keys act as wildcards.
     - ``rocm_selector_markdown_generation``: when False, custom matrix/selector
       content is dropped from Markdown (llms-full.txt) output.
     """
-    for name in ("rocm_selector_pdf_generation", "rocm_selector_markdown_generation"):
-        if name not in app.config:
-            app.add_config_value(name, True, "env")
+    if "rocm_selector_pdf_generation" not in app.config:
+        # Accept either a bool (all/none) or a list (subset of combos).
+        app.add_config_value(
+            "rocm_selector_pdf_generation", True, "env", types=(bool, list)
+        )
+    if "rocm_selector_markdown_generation" not in app.config:
+        app.add_config_value("rocm_selector_markdown_generation", True, "env")
 
 
 def noop(translator, node):

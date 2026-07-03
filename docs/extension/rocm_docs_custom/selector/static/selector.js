@@ -280,11 +280,6 @@ function reapplyAllExtraBindings() {
     changed = true;
   }
   if (Object.keys(updates).length) {
-    // Sync the DOM before setState so reconcileGroupSelections doesn't
-    // treat the stale DOM selection as authoritative on the next iteration.
-    for (const [k, v] of Object.entries(updates)) {
-      applySelectionByKey(k, v);
-    }
     setState(updates);
     changed = true;
   }
@@ -416,22 +411,13 @@ function reconcileGroupSelections() {
 }
 
 // TomSelect instances for dropdown-input groups, keyed by selector key.
-// Multiple groups can share the same key (e.g. "gpu" for Instinct/Radeon/Ryzen),
-// so each key maps to an array of instances.
 const dropdownInstances = new Map();
 
 function syncDropdownsToState() {
-  for (const [key, instances] of dropdownInstances) {
+  for (const [key, ts] of dropdownInstances) {
     const val = state[key];
-    for (const ts of instances) {
-      // Only sync the TomSelect whose parent group is currently visible.
-      const groupElem = ts.input.closest(GROUP_QUERY);
-      if (groupElem && (groupElem.classList.contains(HIDDEN_CLASS) || groupElem.closest(`.${HIDDEN_CLASS}`))) {
-        continue;
-      }
-      if (val !== undefined && ts.getValue() !== val) {
-        ts.setValue(val, true); // silent: suppress change event
-      }
+    if (val !== undefined && ts.getValue() !== val) {
+      ts.setValue(val, true); // silent: suppress change event
     }
   }
 }
@@ -542,6 +528,23 @@ domReady(() => {
     return;
   }
 
+  document.querySelectorAll(DROPDOWN_INPUT_QUERY).forEach((elem) => {
+    const key = elem.dataset.selectorKey;
+    if (!key) return;
+
+    const ts = new TomSelect(elem, { plugins: ["dropdown_input"] });
+    dropdownInstances.set(key, ts);
+
+    ts.on("change", (val) => {
+      if (!val) return;
+      // Sync ARIA/class state on the <option> elements so reconciliation
+      // and extra-binding logic see the correct selection.
+      applySelectionByKey(key, val);
+      setState({ [key]: val });
+      updateVisibility();
+    });
+  });
+
   const defaultState = {};
   const localStorageState = getStateFromLocalStorage();
   const urlState = getStateFromURL();
@@ -593,31 +596,6 @@ domReady(() => {
       extraBindingKeys.add(key);
     }
   }
-
-  // Initialize TomSelect dropdowns after initialState is known so each instance
-  // can be immediately synced to the persisted state (URL / localStorage /
-  // default) without waiting for the updateVisibility() pass.
-  document.querySelectorAll(DROPDOWN_INPUT_QUERY).forEach((elem) => {
-    const key = elem.dataset.selectorKey;
-    if (!key) return;
-
-    const ts = new TomSelect(elem, { plugins: ["dropdown_input"] });
-
-    const initVal = initialState[key];
-    if (initVal !== undefined && ts.getValue() !== initVal) {
-      ts.setValue(initVal, true); // silent: suppress change event
-    }
-
-    if (!dropdownInstances.has(key)) dropdownInstances.set(key, []);
-    dropdownInstances.get(key).push(ts);
-
-    ts.on("change", (val) => {
-      if (!val) return;
-      applySelectionByKey(key, val);
-      setState({ [key]: val });
-      updateVisibility();
-    });
-  });
 
   for (const [key, value] of Object.entries(initialState)) {
     applySelectionByKey(key, value);
