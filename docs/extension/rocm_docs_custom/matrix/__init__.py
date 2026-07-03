@@ -58,6 +58,24 @@ class CustomTable(nodes.General, nodes.Element):
         table.walkabout(translator)
         raise nodes.SkipNode
 
+    @staticmethod
+    def visit_static(translator, node):
+        """Visit handler for static builders (LaTeX/text/man/texinfo).
+
+        Normally MatrixToTableTransform rewrites every CustomTable into a plain
+        docutils table before the writer runs, so this handler sees nothing. But
+        when ``rocm_selector_pdf_generation`` is False that transform is skipped
+        for LaTeX, leaving raw CustomTable nodes in the tree. Their children
+        (rows/cells) have no non-HTML visitor, so a plain no-op visit would let
+        the writer descend and dump every cell's text as an unformatted run
+        (the mangled "amdrocm7.13-gfx950 …" output). Skip the whole subtree
+        instead so the matrix is genuinely omitted from the PDF.
+        """
+        if not translator.config.rocm_selector_pdf_generation:
+            raise nodes.SkipNode
+        # PDF generation enabled (or a non-LaTeX static builder): the transform
+        # already converted this node, so nothing to do here.
+
 
 class CustomTableDirective(SphinxDirective):
     """.. matrix:: Optional caption"""
@@ -70,6 +88,7 @@ class CustomTableDirective(SphinxDirective):
         "id": directives.unchanged,
         "class": directives.class_option,
         "show-cond": directives.unchanged,
+        "widths": directives.value_or(("auto",), directives.positive_int_list),
     }
 
     def run(self):
@@ -78,6 +97,11 @@ class CustomTableDirective(SphinxDirective):
         node["id"] = self.options.get("id", "")
         node["classes"] = self.options.get("class", [])
         node["show-cond"] = self.options.get("show-cond", "")
+        # Relative column widths. Given as integers (e.g. ":widths: 20 50 30"),
+        # they make the LaTeX writer emit fixed-ratio p-columns that wrap long
+        # unbreakable content (monospace package names) instead of the default
+        # auto-balanced tabulary columns, which clip such content in the PDF.
+        node["widths"] = self.options.get("widths", None)
         self.state.nested_parse(self.content, self.content_offset, node)
         return [node]
 
@@ -436,11 +460,27 @@ def _build_table(matrix_node):
     max_cols = _grid_width(rows)
 
     table = nodes.table()
+
+    # Explicit column widths (``:widths:``) make the LaTeX writer emit
+    # fixed-ratio p-columns that wrap long unbreakable content instead of the
+    # auto-balanced tabulary columns that clip it. The ``colwidths-given``
+    # class is Sphinx's signal to honour the colspec widths.
+    widths = matrix_node.get("widths")
+    colwidths = None
+    if isinstance(widths, (list, tuple)) and widths:
+        colwidths = list(widths)
+        # Pad or trim so there is exactly one width per column.
+        if len(colwidths) < max_cols:
+            colwidths += [colwidths[-1]] * (max_cols - len(colwidths))
+        else:
+            colwidths = colwidths[:max_cols]
+        table["classes"].append("colwidths-given")
+
     tgroup = nodes.tgroup(cols=max_cols)
     table += tgroup
 
-    for _ in range(max_cols):
-        tgroup += nodes.colspec(colwidth=1)
+    for i in range(max_cols):
+        tgroup += nodes.colspec(colwidth=colwidths[i] if colwidths else 1)
 
     header_rows = [r for r in rows if r.get("header-row", False)]
     body_rows = [r for r in rows if not r.get("header-row", False)]
@@ -509,10 +549,10 @@ def setup(app):
         CustomTable,
         html=(CustomTable.visit_html, CustomTable.depart_html),
         markdown=(CustomTable.visit_markdown, _noop),
-        latex=(_noop, _noop),
-        text=(_noop, _noop),
-        man=(_noop, _noop),
-        texinfo=(_noop, _noop),
+        latex=(CustomTable.visit_static, _noop),
+        text=(CustomTable.visit_static, _noop),
+        man=(CustomTable.visit_static, _noop),
+        texinfo=(CustomTable.visit_static, _noop),
     )
     app.add_node(
         CustomTableHead,

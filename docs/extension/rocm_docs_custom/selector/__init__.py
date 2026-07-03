@@ -514,8 +514,16 @@ class SelectedContentDirective(SphinxDirective):
 # Node types that are selector UI chrome — always skipped when gathering content
 _SELECTOR_UI = (SelectorGroup, SelectorOption, SelectorInfo)
 
-# Condition keys that are too granular to use for filtering (treat as always-match)
-_IGNORE_KEYS = {"gpu", "gfx", "arch"}
+# Condition keys to treat as always-match during PDF filtering.
+#
+# Empty by design: ``gfx``/``gpu``/``arch`` conditions must be *evaluated*, not
+# ignored. A PDF combo is keyed on (fam, os, os-ver, i) and carries no ``gfx``
+# entry, so a ``gfx=…`` condition falls through to ``_matches``'s "key absent
+# from combo" branch and is correctly excluded — collapsing the many
+# GPU-specific meta-package cells/blocks down to the single ``fam=all`` variant.
+# Previously ``gfx`` was ignored (always-match), which dumped every GPU variant
+# into the PDF (e.g. the 14-column meta-package table).
+_IGNORE_KEYS: set = set()
 
 # Docname prefixes for pages that are HTML-only redirect stubs.
 # These get inlined into the mega-doctree by the LaTeX builder but carry no
@@ -612,6 +620,55 @@ def _make_pdf_id(*parts: str) -> str:
     return id_ or "pdf-" + raw.replace(".", "-").replace(" ", "-").lower()
 
 
+def _iter_matrix_own(start, cls_name):
+    """Yield descendants of *start* whose class is *cls_name*, stopping at a
+    nested matrix table so an inner matrix's rows/cells are not pulled into the
+    outer grid.
+
+    The matrix nodes live in a sibling extension; they are matched by class
+    name rather than imported so this module stays decoupled from the matrix
+    package (the import path differs across repo layouts).
+    """
+    for child in start.children:
+        if type(child).__name__ == "CustomTable":
+            continue  # boundary: a nested matrix owns its own rows/cells
+        if type(child).__name__ == cls_name:
+            yield child
+        yield from _iter_matrix_own(child, cls_name)
+
+
+def _filter_matrix(table_node, combo: dict, id_prefix: str = ""):
+    """Return a deep copy of a matrix ``CustomTable`` filtered for *combo*.
+
+    In HTML, matrix rows/cells carrying a ``show-cond`` are shown or hidden by
+    JavaScript for the selected device. The PDF has no JavaScript, so without
+    filtering every conditional cell would render — e.g. all 11 GPU-specific
+    package-name cells exploding a 3-column table into 14 columns. This drops
+    rows and cells whose ``show-cond`` does not match *combo*, then filters any
+    ``SelectedContent`` nested inside a surviving cell (so its per-GPU variants
+    collapse to the matching one).
+    """
+    new_table = table_node.deepcopy()
+    for row in list(_iter_matrix_own(new_table, "CustomTableRow")):
+        row_cond = row.get("show-cond", "")
+        if row_cond and not _matches(row_cond, combo):
+            row.parent.remove(row)
+            continue
+        for cell in list(_iter_matrix_own(row, "CustomTableCell")):
+            cell_cond = cell.get("show-cond", "")
+            if cell_cond and not _matches(cell_cond, combo):
+                cell.parent.remove(cell)
+                continue
+            if list(cell.findall(SelectedContent)):
+                filtered: list = []
+                _gather_content(cell.children, combo, filtered, id_prefix)
+                cell.children = []
+                for c in filtered:
+                    c.parent = cell
+                    cell.children.append(c)
+    return new_table
+
+
 def _gather_content(children, combo: dict, into: list, id_prefix: str = ""):
     """Recursively collect content nodes that match *combo*.
 
@@ -674,6 +731,12 @@ def _gather_content(children, combo: dict, into: list, id_prefix: str = ""):
                 for item in inner:
                     new_section += item
                 into.append(new_section)
+        elif type(child).__name__ == "CustomTable":
+            # A matrix table: filter its rows/cells by show-cond for this combo
+            # (JavaScript does this in HTML; the PDF has no JS). Keep the custom
+            # node type intact — MatrixToTableTransform converts it to a docutils
+            # table later.
+            into.append(_filter_matrix(child, combo, id_prefix))
         elif list(child.findall(SelectedContent)):
             # Container (e.g. dropdown/admonition) wrapping SelectedContent nodes.
             # Deep-copy the container then replace its children with the filtered set

@@ -943,6 +943,7 @@ Use the following instructions to install ROCm packages on your system.
    describes available ROCm meta packages:
 
    .. matrix::
+      :widths: 30 40 30
 
       .. matrix-row::
          :header:
@@ -1890,6 +1891,7 @@ Use the following instructions to install ROCm packages on your system.
    The following table describes available ROCm meta components:
 
    .. matrix::
+      :widths: 25 45 30
 
       .. matrix-row::
          :header:
