@@ -141,18 +141,18 @@ html_css_files = ["legacy/vllm-benchmark.css"]
 external_projects_current_project = "rocm"
 html_theme = "rocm_docs_theme"
 html_theme_options = {
-    "announcement": f"This is ROCm {ROCM_VERSION} latest production stream release documentation. For the ROCm 7.13.0 technology preview release documentation release, refer to <a id='rocm-banner' href='https://rocm.docs.amd.com/en/7.13.0-preview/'>ROCm documentation</a>.",
-    "flavor": "generic",
-    "header_title": f"ROCm™ {ROCM_VERSION}",
-    "header_link": f"https://rocm.docs.amd.com/en/7.13.0-preview/index.html",
-    "version_list_link": f"https://rocm.docs.amd.com/en/7.13.0-preview/release/versions.html",
-    "nav_secondary_items": {
-        "GitHub": "https://github.com/ROCm/ROCm",
-        "Community": "https://github.com/ROCm/ROCm/discussions",
-        "Blogs": "https://rocm.blogs.amd.com/",
-        "System and Infra Docs": "https://instinct.docs.amd.com/",
-        "Support": "https://github.com/ROCm/ROCm/issues/new/choose",
-    },
+    # "announcement": f"This is ROCm {ROCM_VERSION} latest production stream release documentation. For the ROCm 7.13.0 technology preview release documentation release, refer to <a id='rocm-banner' href='https://rocm.docs.amd.com/en/7.13.0-preview/'>ROCm documentation</a>.",
+    "flavor": "instinct-design",
+    # "header_title": f"ROCm™ {ROCM_VERSION}",
+    # "header_link": f"https://rocm.docs.amd.com/en/7.13.0-preview/index.html",
+    # "version_list_link": f"https://rocm.docs.amd.com/en/7.13.0-preview/release/versions.html",
+    # "nav_secondary_items": {
+    #     "GitHub": "https://github.com/ROCm/ROCm",
+    #     "Community": "https://github.com/ROCm/ROCm/discussions",
+    #     "Blogs": "https://rocm.blogs.amd.com/",
+    #     "System and Infra Docs": "https://instinct.docs.amd.com/",
+    #     "Support": "https://github.com/ROCm/ROCm/issues/new/choose",
+    # },
     "link_main_doc": False,
 }
 html_title = f"AMD ROCm {ROCM_VERSION}"

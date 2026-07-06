@@ -1,10 +1,10 @@
 html {
   --rocm-docs-selector-border-radius: 2px;
   --rocm-docs-selector-accent-color: var(--pst-color-primary);
-  --rocm-docs-selector-bg-color: var(--pst-color-on-background);
+  --rocm-docs-selector-bg-color: var(--pst-color-surface);
   --rocm-docs-selector-fg-color: var(--pst-color-text-base);
-  --rocm-docs-selector-selected-fg-color: var(--pst-color-primary-text);
-  --rocm-docs-selector-group-heading-bg-color: var(--pst-color-surface);
+
+  --rocm-docs-selector-group-heading-bg-color: var(--pst-color-on-background);
   --rocm-docs-selector-option-hover-color: var(--pst-color-link-hover);
   --rocm-docs-selector-option-selected-color: var(--pst-color-primary);
   --rocm-docs-selector-tile-padding: 0.25rem 0.75rem;
@@ -12,12 +12,14 @@ html {
 }
 
 html[data-theme="light"] {
+  --rocm-docs-selector-selected-fg-color: var(--pst-color-dark-text);
   --rocm-docs-selector-border-color: var(--pst-gray-400);
   --rocm-docs-selector-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   --rocm-docs-selector-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 html[data-theme="dark"] {
+  --rocm-docs-selector-selected-fg-color: var(--pst-color-light-text);
   --rocm-docs-selector-border-color: var(--pst-color-border);
   --rocm-docs-selector-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   --rocm-docs-selector-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.4);
@@ -27,6 +29,7 @@ html[data-theme="dark"] {
 .rocm-docs-selector-group,
 .rocm-docs-selector-group * {
   box-sizing: border-box;
+  font-family: var(--id-font-display)
 }
 
 /* Hide selectors during initialization to prevent FOUC */
