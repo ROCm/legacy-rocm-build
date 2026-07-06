@@ -30,8 +30,8 @@ subtrees:
                   title: Installation
                 - file: install/redirect/_post-install.rst
                   title: Post-installation
-          - file: install/redirect/_uninstall.rst
-            title: Uninstall ROCm
+                - file: install/redirect/_uninstall.rst
+                  title: Uninstalling
           - file: install/build-from-source.rst
             title: Build ROCm from source
     - caption: Components

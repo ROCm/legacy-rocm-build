@@ -90,7 +90,6 @@ Prerequisites
 
 .. ================================================================== WINDOWS ==
 
-
 .. selected:: os=windows
    :heading: Prepare Windows for ROCm installation
    :heading-level: 3
@@ -114,22 +113,6 @@ Prerequisites
 
         * Settings > Privacy & security > Windows Security > App & browser
           control > Smart App Control settings > **Off**
-
-.. selected:: os=windows
-   :heading: Install AMD Software: Adrenalin Edition
-   :heading-level: 3
-
-   Install AMD Software: Adrenalin Edition for Windows. For details and the
-   download link, see `AMD Software: Adrenalin Edition 26.5.1
-   <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-5-1.html#Downloads>`__.
-
-.. selected:: os=wsl
-   :heading: Install AMD Software: Adrenalin Edition
-   :heading-level: 3
-
-   Install AMD Software: Adrenalin Edition for Windows. For details and the
-   download link, see `AMD Software: Adrenalin Edition 26.5.2
-   <https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-5-2.html#Downloads>`__.
 
 .. selected:: os=wsl
 
