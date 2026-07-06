@@ -176,11 +176,6 @@
       :width: 3
       :toc-label: AMD Radeon RX 7700 XT
 
-   .. selector-option:: RX 7700 XE
-      :value: rx-7700-xe
-      :width: 3
-      :toc-label: AMD Radeon RX 7700 XE
-
    .. selector-option:: RX 7700
       :value: rx-7700
       :width: 3
