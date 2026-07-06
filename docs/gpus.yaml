@@ -292,12 +292,6 @@ amd_gpus:
     gfx: gfx1101
     family: radeon
     selector_id: rx-7700-xt
-  - marketing_name: AMD Radeon RX 7700 XE
-    short_name: RX 7700 XE
-    marketing_series: AMD Radeon RX 7000 Series
-    gfx: gfx1101
-    family: radeon
-    selector_id: rx-7700-xe
   - marketing_name: AMD Radeon RX 7700
     short_name: RX 7700
     marketing_series: AMD Radeon RX 7000 Series
