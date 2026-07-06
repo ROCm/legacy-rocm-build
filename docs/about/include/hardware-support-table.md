@@ -233,7 +233,6 @@
             target="_blank">Radeon RX 7800 XT</a></p>
         <p><a href="https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700-xt.html"
             target="_blank">Radeon RX 7700 XT</a></p>
-        <p>Radeon RX 7700 XE</p>
         <p><a href="https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700.html"
             target="_blank">Radeon RX 7700</a></p>
       </td>
