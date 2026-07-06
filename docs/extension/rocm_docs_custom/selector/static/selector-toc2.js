@@ -118,6 +118,14 @@ export function updateTOC2OptionsList() {
     const ts = new TomSelect(selectEl, {
       plugins: ["dropdown_input"],
       onChange(value) {
+        // For dropdown groups on the main page, drive via TomSelect so its
+        // change event fires and selector.js handles the update. Calling
+        // .click() on a native <option> element is unreliable across browsers.
+        const mainSelect = group.querySelector(`.${DROPDOWN_INPUT_CLASS}`);
+        if (mainSelect?.tomselect) {
+          mainSelect.tomselect.setValue(value);
+          return;
+        }
         const target = group.querySelector(
           `${OPTION_QUERY}[data-selector-value="${CSS.escape(value)}"]`,
         );
