@@ -37,8 +37,6 @@ The ROCm 7.12.0 preview adds support for the following AMD GPUs and APUs:
 
 - AMD Instinct MI100
 
-- AMD Radeon RX 7700 XE
-
 - AMD Radeon RX 7600
 
 - AMD Ryzen AI 9 HX PRO 475
@@ -592,7 +590,6 @@ releases](https://github.com/ROCm/TheRock/blob/main/RELEASES.md).
       <td>
         <p><a href="https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7800-xt.html" target="_blank">Radeon RX 7800 XT</a></p>
         <p><a href="https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700-xt.html" target="_blank">Radeon RX 7700 XT</a></p>
-        <p>Radeon RX 7700 XE</p>
         <p><a href="https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700.html" target="_blank">Radeon RX 7700</a></p>
       </td>
       <td>
@@ -1434,7 +1431,7 @@ distributes.
       <td>
         <p>Radeon RX 7900 XTX</p>
       </td>
-      <td rowspan="6" style="vertical-align: middle">
+      <td rowspan="5" style="vertical-align: middle">
         <p>
           <strong>AMD Software: Adrenalin Edition</strong><br>
           <a
@@ -1461,11 +1458,6 @@ distributes.
     <tr>
       <td>
         <p>Radeon RX 7700 XT</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p>Radeon RX 7700 XE</p>
       </td>
     </tr>
     <tr>
