@@ -156,7 +156,7 @@
       <td>
         <p><a href="https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070xt.html"
             target="_blank">Radeon RX 9070 XT</a></p>
-        <p><a href="https://www.amd.com/en/support/downloads/drivers.html/graphics/radeon-rx/radeon-rx-9000-series/amd-radeon-rx-9070-gre.html"
+        <p><a href="https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070-gre.html"
             target="_blank">Radeon RX 9070 GRE</a></p>
         <p><a href="https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070.html"
             target="_blank">Radeon RX 9070</a></p>
