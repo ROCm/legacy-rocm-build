@@ -47,15 +47,13 @@ Full-stack documentation and recipes to deploy AI workloads on AMD
 GPUs using popular ROCm-enabled frameworks.
 
 - Deep learning frameworks
-  - [PyTorch](https://advanced-micro-devices-rocm-internal--802.com.readthedocs.build/en/802/frameworks/pytorch/install.html)
-  - [JAX](https://advanced-micro-devices-rocm-internal--802.com.readthedocs.build/en/802/frameworks/jax/install.html)
-- Training
-  - [Primus](https://advanced-micro-devices-rocm-internal--802.com.readthedocs.build/en/802/training/Primus/production_docs/index.html)
+  - [PyTorch](https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/frameworks/pytorch/install.html)
+  - [JAX](https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/frameworks/jax/install.html)
 - Inference
-  - [vLLM](https://advanced-micro-devices-rocm-internal--802.com.readthedocs.build/en/802/inference/vllm.html)
-  - [SGLang](https://advanced-micro-devices-rocm-internal--802.com.readthedocs.build/en/802/inference/sglang.html)
+  - [vLLM](https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/inference/vllm.html)
+  - [SGLang](https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/inference/sglang.html)
 +++
-[Go to AI Ecosystem docs](https://advanced-micro-devices-rocm-internal--802.com.readthedocs.build/en/802/)
+[Go to AI Ecosystem docs](https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/index.html)
 :::
 
 :::{grid-item-card} GPU Systems and Infrastructure
