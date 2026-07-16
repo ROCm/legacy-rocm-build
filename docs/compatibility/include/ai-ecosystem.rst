@@ -12,13 +12,24 @@
          .. matrix-cell:: Python versions
 
    .. matrix-row::
+      :show-cond: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 
       .. matrix-cell:: PyTorch
 
       .. matrix-cell:: 2.12.0, 2.11.0, 2.10.0
-         :show-cond: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
+         :show-cond: gfx=gfx950 gfx=gfx942 gfx=gfx90a gfx=gfx908
 
-      .. matrix-cell:: 2.11.0
+      .. matrix-cell:: 2.12.0, 2.11.0
+         :show-cond: fam=radeon fam=ryzen
+
+      .. matrix-cell:: 3.14, 3.13, 3.12, 3.11
+
+   .. matrix-row::
+      :show-cond: os=windows os=wsl
+
+      .. matrix-cell:: PyTorch
+
+      .. matrix-cell:: 2.12.0
          :show-cond: os=windows os=wsl
 
       .. matrix-cell:: 3.14, 3.13, 3.12, 3.11
