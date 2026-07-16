@@ -19,6 +19,6 @@ for verifying hardware health, measuring system performance, and managing GPU fl
   and AMD GPU hardware. Includes tests for GPU functionality, memory, power behavior, and
   peer-to-peer communication, helping diagnose installation issues and hardware faults.
 
-  * :doc:`TransferBench <https://rocm.docs.amd.com/projects/TransferBench/en/docs-1.66.02/index.html>` -- A utility for benchmarking simultaneous memory transfers between user-specified devices (CPUs, GPUs, and NICs). This component is part of the ROCmValidationSuite (RVS) and is installed with it.
+  * `TransferBench <https://rocm.docs.amd.com/projects/TransferBench/en/latest/index.html>`_ -- A utility for benchmarking simultaneous memory transfers between user-specified devices (CPUs, GPUs, and NICs). This component is part of the ROCmValidationSuite (RVS) and is installed with it.
 
 * More coming soon.
