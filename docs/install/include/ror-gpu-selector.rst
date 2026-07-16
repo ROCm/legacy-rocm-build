@@ -65,9 +65,6 @@
             .. selector-option:: AMD Radeon RX 7700 XT (gfx1101)
                :value: rx-7700-xt gfx=gfx1101
 
-            .. selector-option:: AMD Radeon RX 7700 XE (gfx1101)
-               :value: rx-7700-xe gfx=gfx1101
-
             .. selector-option:: AMD Radeon RX 7700 (gfx1101)
                :value: rx-7700 gfx=gfx1101
 
