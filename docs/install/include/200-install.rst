@@ -20,7 +20,7 @@ Installation
 
    .. code-block:: bash
 
-      wget https://repo.radeon.com/rocm/installer/rocm-runfile-installer/rocm-rel-7.14/rocm-installer-7.14.0-5.run
+      wget https://repo.radeon.com/rocm/installer/rocm-runfile-installer/rocm-rel-7.14/rocm-installer-7.14.0-6.run
 
 .. selected:: w=graphics
 
@@ -239,7 +239,7 @@ Installation
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install amdgpu
+         bash rocm-installer-7.14.0-6.run deps=install amdgpu
 
       .. note::
 
@@ -2117,97 +2117,97 @@ Use the following instructions to install ROCm packages on your system.
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=all gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=all gpu-access=user
 
    .. selected:: gfx=gfx950
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx950 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx950 gpu-access=user
 
    .. selected:: gfx=gfx942
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx942 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx942 gpu-access=user
 
    .. selected:: gfx=gfx90a
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx90a gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx90a gpu-access=user
 
    .. selected:: gfx=gfx908
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx908 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx908 gpu-access=user
 
    .. selected:: gfx=gfx1201
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1201 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1201 gpu-access=user
 
    .. selected:: gfx=gfx1200
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1200 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1200 gpu-access=user
 
    .. selected:: gfx=gfx1100
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1100 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1100 gpu-access=user
 
    .. selected:: gfx=gfx1101
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1101 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1101 gpu-access=user
 
    .. selected:: gfx=gfx1102
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1102 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1102 gpu-access=user
 
    .. selected:: gfx=gfx1103
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1103 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1103 gpu-access=user
 
    .. selected:: gfx=gfx1030
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1030 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1030 gpu-access=user
 
    .. selected:: gfx=gfx1151
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1151 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1151 gpu-access=user
 
    .. selected:: gfx=gfx1150
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1150 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1150 gpu-access=user
 
    .. selected:: gfx=gfx1152
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1152 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1152 gpu-access=user
 
    .. selected:: gfx=gfx1153
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-3.run deps=install rocm gfx=gfx1153 gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1153 gpu-access=user
 
 .. selected:: i=runfile
    :heading: ROCm meta components
@@ -2309,91 +2309,91 @@ Use the following instructions to install ROCm packages on your system.
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx950 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx950 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx942
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx942 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx942 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx90a
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx90a compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx90a compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx908
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx908 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx908 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1201
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1201 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1201 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1200
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1200 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1200 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1100
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1100 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1100 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1101
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1101 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1101 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1102
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1102 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1102 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1103
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1103 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1103 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1030
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1030 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1030 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1151
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1151 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1151 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1150
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1150 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1150 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1152
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-5.run deps=install rocm gfx=gfx1152 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1152 compo=core,core-dev gpu-access=user
 
    .. selected:: gfx=gfx1153
 
       .. code-block:: bash
 
-         bash rocm-installer-7.14.0-3.run deps=install rocm gfx=gfx1153 compo=core,core-dev gpu-access=user
+         bash rocm-installer-7.14.0-6.run deps=install rocm gfx=gfx1153 compo=core,core-dev gpu-access=user
 
 .. selected:: os=wsl
    :heading: Install ROCDXG and AMD SMI for WSL
