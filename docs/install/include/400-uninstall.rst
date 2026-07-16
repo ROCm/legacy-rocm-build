@@ -316,9 +316,101 @@ Uninstalling
 
    1. Use the following command to uninstall ROCm.
 
-      .. code-block:: bash
+      .. selected:: fam=all
 
-         bash rocm-installer-7.14.0-5.run uninstall-rocm
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=all
+
+      .. selected:: gfx=gfx950
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx950
+
+      .. selected:: gfx=gfx942
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx942
+
+      .. selected:: gfx=gfx90a
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx90a
+
+      .. selected:: gfx=gfx908
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx908
+
+      .. selected:: gfx=gfx1201
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1201
+
+      .. selected:: gfx=gfx1200
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1200
+
+      .. selected:: gfx=gfx1100
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1100
+
+      .. selected:: gfx=gfx1101
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1101
+
+      .. selected:: gfx=gfx1102
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1102
+
+      .. selected:: gfx=gfx1103
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1103
+
+      .. selected:: gfx=gfx1030
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1030
+
+      .. selected:: gfx=gfx1151
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1151
+
+      .. selected:: gfx=gfx1150
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1150
+
+      .. selected:: gfx=gfx1152
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1152
+
+      .. selected:: gfx=gfx1153
+
+         .. code-block:: bash
+
+            bash rocm-installer-7.14.0-5.run uninstall-rocm gfx=gfx1153
 
    2. Use the following command to uninstall the AMD GPU Driver (amdgpu).
 
