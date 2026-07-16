@@ -2103,7 +2103,7 @@ Use the following instructions to install ROCm packages on your system.
             curl -o therock-dist-windows-gfx1153-7.14.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1153-7.14.0.tar.gz
             tar -xzf therock-dist-windows-gfx1153-7.14.0.tar.gz -C build --strip-components=1
 
-         - Download link: `therock-dist-windows-gfx1153-all-7.14.0.tar.gz
+         - Download link: `therock-dist-windows-gfx1153-7.14.0.tar.gz
            <https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1153-7.14.0.tar.gz>`__
 
 .. ================================================================== RUNFILE ==
