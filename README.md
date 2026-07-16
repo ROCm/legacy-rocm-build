@@ -24,24 +24,17 @@
 
 # AMD ROCm™
 
-ROCm is an open-source software stack, composed primarily of open-source
-libraries and tools, designed for high-performance general purpose GPU (GPGPU)
-computing. ROCm consists of a collection of drivers, development tools, and
-APIs that enable GPU programming from low-level kernel to end-user
-applications.
-
-You can customize the ROCm software to meet your specific needs. You can develop,
-collaborate, test, and deploy your applications in a free, open-source, integrated, and secure software
-ecosystem. ROCm is particularly well-suited to GPU-accelerated high-performance computing (HPC),
+ROCm is an open-source software stack of drivers, development tools, and APIs
+that enable GPU programming from low-level kernels to end-user applications. It
+is particularly well-suited to GPU-accelerated high-performance computing (HPC),
 AI, scientific computing, and computer-aided design (CAD).
 
-ROCm is powered by [HIP](https://rocm.docs.amd.com/projects/HIP/en/latest/),
-a C++ runtime API and kernel language for AMD GPUs. HIP allows developers to create portable
-applications by providing a programming interface that is similar to NVIDIA CUDA™.
-
-ROCm supports programming models, such as OpenMP and OpenCL, and includes all necessary
-open-source software compilers, debuggers, and libraries. ROCm is fully integrated into machine learning
-(ML) frameworks, such as PyTorch and TensorFlow.
+ROCm is powered by [HIP](https://rocm.docs.amd.com/projects/HIP/en/latest/), a
+C++ runtime API and kernel language that lets developers write portable GPU code
+with an interface similar to NVIDIA CUDA™. It also supports OpenMP and OpenCL,
+and includes the compilers, debuggers, and libraries needed to build and run GPU
+workloads. ROCm integrates with machine learning frameworks such as PyTorch and
+TensorFlow.
 
 > [!IMPORTANT]
 > A new open-source build platform for ROCm is under development at
@@ -62,9 +55,9 @@ open-source software compilers, debuggers, and libraries. ROCm is fully integrat
   - [Control and monitoring tools](#control-and-monitoring-tools)
   - [Media libraries](#media-libraries)
   - [Storage](#storage)
+- [ROCm Extras](#rocm-extras)
 - [Release notes](#release-notes)
 - [Licenses](#licenses)
-- [ROCm release history](#rocm-release-history)
 - [Contribute](#contribute)
 
 ---
@@ -103,20 +96,15 @@ and [ROCm Systems](https://github.com/ROCm/rocm-systems/) super-repos by domain.
 ### Math and compute libraries
 
 - [Composable Kernel](https://github.com/ROCm/rocm-libraries/tree/develop/projects/composablekernel)
-- [hipBLAS](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblas)
+- [hipBLAS](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblas) and [rocBLAS](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocblas)
 - [hipBLASLt](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipblaslt)
 - [hipCUB](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipcub)
-- [hipFFT](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipfft)
-- [hipRAND](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hiprand)
-- [hipSOLVER](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsolver)
-- [hipSPARSE](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsparse)
+- [hipFFT](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipfft) and [rocFFT](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocfft)
+- [hipRAND](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hiprand) and [rocRAND](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocrand)
+- [hipSOLVER](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsolver) and [rocSOLVER](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsolver)
+- [hipSPARSE](https://github.com/ROCm/rocm-libraries/tree/develop/projects/hipsparse) and [rocSPARSE](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse)
 - [MIOpen](https://github.com/ROCm/rocm-libraries/tree/develop/projects/miopen)
-- [rocBLAS](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocblas)
-- [rocFFT](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocfft)
 - [rocPRIM](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocprim)
-- [rocRAND](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocrand)
-- [rocSOLVER](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsolver)
-- [rocSPARSE](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse)
 - [rocThrust](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocthrust)
 - [rocWMMA](https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocwmma)
 
@@ -135,11 +123,11 @@ and [ROCm Systems](https://github.com/ROCm/rocm-systems/) super-repos by domain.
 
 ### Profiling and debugging tools
 
-- [ROCdbgapi](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocdbgapi)
-- [ROCgdb](https://github.com/ROCm/ROCgdb)
 - [ROCm Compute Profiler (rocprofiler-compute)](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocprofiler-compute)
 - [ROCm Systems Profiler (rocprofiler-systems)](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocprofiler-systems)
 - [ROCprofiler-SDK](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocprofiler-sdk)
+- [ROCdbgapi](https://github.com/ROCm/rocm-systems/tree/develop/projects/rocdbgapi)
+- [ROCgdb](https://github.com/ROCm/ROCgdb)
 - [ROCr Debug Agent](https://github.com/ROCm/rocr_debug_agent)
 
 ### Control and monitoring tools
@@ -171,10 +159,6 @@ ROCm Extras include supplementary tools for benchmarking, validating, and managi
 ## Release notes
 
 - [Latest ROCm release](https://rocm.docs.amd.com/en/latest/about/release-notes.html)
-
----
-
-## ROCm release history
 
 For information on older ROCm releases, see the
 [ROCm release history](https://rocm.docs.amd.com/en/latest/release/versions.html).
