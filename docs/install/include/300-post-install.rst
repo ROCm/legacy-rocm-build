@@ -106,8 +106,7 @@ complete your system configuration and validate the installation.
 
          .. code-block:: bat
 
-            setx PATH "%PATH%;C:\TheRock\build\bin" /M
-            setx PATH "%PATH%;C:\TheRock\build\lib\llvm\bin" /M
+            setx PATH "%PATH%;C:\TheRock\build\bin;C:\TheRock\build\lib\llvm\bin" /M
 
       3. Open a new command prompt window for the environment variables to take effect. Run ``set``
          to see the list of active variables.
