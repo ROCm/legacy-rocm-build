@@ -254,9 +254,9 @@ subtrees:
           - file: reference/hip-programming.rst
             title: AMD GPU programming on ROCm
 
-    # - caption: About
-    #   entries:
-    #       - file: about/license.md
+    - caption: About
+      entries:
+          - file: about/license.md
     #       - file: about/contribute/contributing.md
     #         entries:
     #             - file: about/contribute/toolchain.md
