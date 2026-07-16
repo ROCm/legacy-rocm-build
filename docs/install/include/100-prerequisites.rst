@@ -67,7 +67,7 @@ Prerequisites
             .. code-block:: bash
 
                apt update
-               apt install sudo wget python3 rsync
+               apt install sudo wget curl python3 rsync
 
       .. selected:: os=rhel os=rocky-linux os=oracle-linux
 
