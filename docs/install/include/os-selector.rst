@@ -191,7 +191,7 @@
 
          .. selector:: Operating system
             :key: os
-            :show-cond: gpu=ai-r9600d gpu=rx-9060-xt-lp gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700 gpu=v710 gpu=rx-7600 gpu=w6800 gpu=v620
+            :show-cond: gpu=ai-r9600d gpu=rx-9060-xt-lp gpu=rx-7700-xt gpu=rx-7700 gpu=v710 gpu=rx-7600 gpu=w6800 gpu=v620
 
             .. selector-option:: Ubuntu
                :value: ubuntu
@@ -282,7 +282,7 @@
 
          .. selector:: Operating system
             :key: os
-            :show-cond: gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700
+            :show-cond: gpu=rx-7700-xt gpu=rx-7700
 
             .. selector-option:: Ubuntu
                :value: ubuntu

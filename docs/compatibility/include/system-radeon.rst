@@ -32,7 +32,7 @@
          `AMD Radeon RX 9000 Series <https://www.amd.com/en/products/graphics/desktops/radeon.html#tabs-ff9c5c3863-item-37fb38a236-tab>`__
 
       .. matrix-cell::
-         :show-cond: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700 gpu=rx-7600
+         :show-cond: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700 gpu=rx-7600
 
          `AMD Radeon RX 7000 Series <https://www.amd.com/en/products/graphics/desktops/radeon/7000-series.html>`__
 
@@ -45,7 +45,7 @@
          :show-cond: gpu=ai-r9700s gpu=ai-r9700 gpu=ai-r9600d gpu=rx-9070-xt gpu=rx-9070-gre gpu=rx-9070 gpu=rx-9060-xt-lp gpu=rx-9060-xt gpu=rx-9060
 
       .. matrix-cell:: RDNA 3
-         :show-cond: gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=v710 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700 gpu=rx-7600
+         :show-cond: gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800 gpu=w7700 gpu=v710 gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700 gpu=rx-7600
 
       .. matrix-cell:: RDNA 2
          :show-cond: gpu=w6800 gpu=v620
@@ -65,7 +65,7 @@
          :show-cond: gpu=rx-7900-xtx gpu=rx-7900-xt gpu=rx-7900-gre gpu=w7900-dual-slot gpu=w7900 gpu=w7800-48gb gpu=w7800
 
       .. matrix-cell:: gfx1101
-         :show-cond: gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700-xe gpu=rx-7700 gpu=w7700 gpu=v710
+         :show-cond: gpu=rx-7800-xt gpu=rx-7700-xt gpu=rx-7700 gpu=w7700 gpu=v710
 
       .. matrix-cell:: gfx1102
          :show-cond: gpu=rx-7600
