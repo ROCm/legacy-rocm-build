@@ -28,7 +28,7 @@ function getDocsRoot() {
   // HACK:
   // Look for version pattern: at least two dots (e.g., 6.4.3, 7.10.0-preview), or known aliases
   const versionIdx = parts.findIndex(part =>
-    (part.match(/\./g) || []).length >= 2 || /^\d+$/.test(part) || part === "latest"
+    (part.match(/\./g) || []).length >= 2 || /^\d+$/.test(part) || part === "latest" || part === "develop"
   );
 
   if (versionIdx !== -1) {
