@@ -2078,7 +2078,7 @@ Use the following instructions to install ROCm packages on your system.
          .. code-block:: bat
 
             cd C:\TheRock
-            curl -o therock-dist-windows-gfx1150-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1150-all-7.14.0.tar.gz
+            curl -o therock-dist-windows-gfx1150-7.14.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1150-7.14.0.tar.gz
             tar -xzf therock-dist-windows-gfx1150-all-7.14.0.tar.gz -C build --strip-components=1
 
          - Download link: `therock-dist-windows-gfx1150-all-7.14.0.tar.gz
