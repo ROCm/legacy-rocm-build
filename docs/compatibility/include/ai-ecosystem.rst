@@ -62,7 +62,7 @@
       :show-cond: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 
       .. matrix-cell:: SGLang
-         :show-cond: gfx=gfx950 gfx=gfx942 gfx=gfx1201 gfx=gfx1200 gfx=gfx1100 gfx=gfx1101 gfx=gfx1102 gfx=gfx1152 gfx=gfx1151 gfx=gfx1150
+         :show-cond: gfx=gfx950 gfx=gfx942 gfx=gfx1201 gfx=gfx1200 gfx=gfx1100 gfx=gfx1101 gfx=gfx1102
 
       .. matrix-cell:: 0.5.13
          :show-cond: gfx=gfx950 gfx=gfx942 gfx=gfx1201 gfx=gfx1200 gfx=gfx1100 gfx=gfx1101 gfx=gfx1102
