@@ -2034,77 +2034,77 @@ Use the following instructions to install ROCm packages on your system.
          .. code-block:: bat
 
             cd C:\TheRock
-            curl -o therock-dist-windows-gfx120X-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx120X-all-7.14.0.tar.gz
+            curl -o therock-dist-windows-gfx120X-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx120X-all-7.14.0.tar.gz
             tar -xzf therock-dist-windows-gfx120X-all-7.14.0.tar.gz -C build --strip-components=1
 
          - Download link: `therock-dist-windows-gfx120X-all-7.14.0.tar.gz
-           <https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx120X-all-7.14.0.tar.gz>`__
+           <https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx120X-all-7.14.0.tar.gz>`__
 
       .. selected:: gfx=gfx1100 gfx=gfx1101 gfx=gfx1102 gfx=gfx1103
 
          .. code-block:: bat
 
             cd C:\TheRock
-            curl -o therock-dist-windows-gfx110X-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx110X-all-7.14.0.tar.gz
+            curl -o therock-dist-windows-gfx110X-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx110X-all-7.14.0.tar.gz
             tar -xzf therock-dist-windows-gfx110X-all-7.14.0.tar.gz -C build --strip-components=1
 
          - Download link: `therock-dist-windows-gfx110X-all-7.14.0.tar.gz
-           <https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx110X-all-7.14.0.tar.gz>`__
+           <https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx110X-all-7.14.0.tar.gz>`__
 
       .. selected:: gfx=gfx1030
 
          .. code-block:: bat
 
             cd C:\TheRock
-            curl -o therock-dist-windows-gfx103X-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx103X-all-7.14.0.tar.gz
+            curl -o therock-dist-windows-gfx103X-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx103X-all-7.14.0.tar.gz
             tar -xzf therock-dist-windows-gfx103X-all-7.14.0.tar.gz -C build --strip-components=1
 
          - Download link: `therock-dist-windows-gfx103X-all-7.14.0.tar.gz
-           <https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx103X-all-7.14.0.tar.gz>`__
+           <https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx103X-all-7.14.0.tar.gz>`__
 
       .. selected:: gfx=gfx1151
 
          .. code-block:: bat
 
             cd C:\TheRock
-            curl -o therock-dist-windows-gfx1151-7.14.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx1151-7.14.0.tar.gz
-            tar -xzf therock-dist-windows-gfx1151-7.14.0.tar.gz -C build --strip-components=1
+            curl -o therock-dist-windows-gfx1151-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1151-all-7.14.0.tar.gz
+            tar -xzf therock-dist-windows-gfx1151-all-7.14.0.tar.gz -C build --strip-components=1
 
-         - Download link: `therock-dist-windows-gfx1151-7.14.0.tar.gz
-           <https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx1151-7.14.0.tar.gz>`__
+         - Download link: `therock-dist-windows-gfx1151-all-7.14.0.tar.gz
+           <https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1151-all-7.14.0.tar.gz>`__
 
       .. selected:: gfx=gfx1150
 
          .. code-block:: bat
 
             cd C:\TheRock
-            curl -o therock-dist-windows-gfx1150-7.14.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx1150-7.14.0.tar.gz
-            tar -xzf therock-dist-windows-gfx1150-7.14.0.tar.gz -C build --strip-components=1
+            curl -o therock-dist-windows-gfx1150-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1150-all-7.14.0.tar.gz
+            tar -xzf therock-dist-windows-gfx1150-all-7.14.0.tar.gz -C build --strip-components=1
 
-         - Download link: `therock-dist-windows-gfx1150-7.14.0.tar.gz
-           <https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx1150-7.14.0.tar.gz>`__
+         - Download link: `therock-dist-windows-gfx1150-all-7.14.0.tar.gz
+           <https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1150-all-7.14.0.tar.gz>`__
 
       .. selected:: gfx=gfx1152
 
          .. code-block:: bat
 
             cd C:\TheRock
-            curl -o therock-dist-windows-gfx1152-7.14.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx1152-7.14.0.tar.gz
-            tar -xzf therock-dist-windows-gfx1152-7.14.0.tar.gz -C build --strip-components=1
+            curl -o therock-dist-windows-gfx1152-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1152-all-7.14.0.tar.gz
+            tar -xzf therock-dist-windows-gfx1152-all-7.14.0.tar.gz -C build --strip-components=1
 
-         - Download link: `therock-dist-windows-gfx1152-7.14.0.tar.gz
-           <https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx1152-7.14.0.tar.gz>`__
+         - Download link: `therock-dist-windows-gfx1152-all-7.14.0.tar.gz
+           <https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1152-all-7.14.0.tar.gz>`__
 
       .. selected:: gfx=gfx1153
 
          .. code-block:: bat
 
             cd C:\TheRock
-            curl -o therock-dist-windows-gfx1153-7.14.0.tar.gz https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx1153-7.14.0.tar.gz
-            tar -xzf therock-dist-windows-gfx1153-7.14.0.tar.gz -C build --strip-components=1
+            curl -o therock-dist-windows-gfx1153-all-7.14.0.tar.gz https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1153-all-7.14.0.tar.gz
+            tar -xzf therock-dist-windows-gfx1153-all-7.14.0.tar.gz -C build --strip-components=1
 
-         - Download link: `therock-dist-windows-gfx1153-7.14.0.tar.gz
-           <https://repo.amd.com/rocm/tarball/therock-dist-windows-gfx1153-7.14.0.tar.gz>`__
+         - Download link: `therock-dist-windows-gfx1153-all-7.14.0.tar.gz
+           <https://repo.amd.com/rocm/tarball-multi-arch/therock-dist-windows-gfx1153-all-7.14.0.tar.gz>`__
 
 .. ================================================================== RUNFILE ==
 
