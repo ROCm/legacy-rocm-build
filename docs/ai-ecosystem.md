@@ -50,7 +50,6 @@ using MoRI (Modular RDMA Interface) on MI355X clusters.
 :::{grid-item-card} Optimization
 Improve throughput, latency, and memory efficiency for AI workloads on AMD Instinct GPUs.
 
-- [Transformer Engine](https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/optimization/transformer-engine.html)
 - [Workload optimization](https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/optimization/workload-optimization.html)
 - [vLLM V1 performance](https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/optimization/vllm-v1-optimization.html)
 - [Model quantization](https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/optimization/model-quantization.html)
