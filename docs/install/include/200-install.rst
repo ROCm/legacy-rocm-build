@@ -1033,11 +1033,11 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell:: Meta package name
 
-         .. matrix-cell:: What you are getting
+         .. matrix-cell:: Use case
 
          .. matrix-cell:: Contents
 
-         .. matrix-cell:: Use case
+         .. matrix-cell:: Description
 
       .. matrix-row::
 
@@ -1266,7 +1266,7 @@ Use the following instructions to install ROCm packages on your system.
 
                ``amdrocm-core-devel7.14``
 
-         .. matrix-cell:: ROCm Developer Essentials Package
+         .. matrix-cell:: ROCm Developer Essentials
 
          .. matrix-cell::
             :show-cond: gfx=gfx950
@@ -1359,7 +1359,7 @@ Use the following instructions to install ROCm packages on your system.
 
             ``amdrocm-developer-tools7.14``
 
-         .. matrix-cell:: ROCm Profiler Package
+         .. matrix-cell:: ROCm Profiler
 
          .. matrix-cell:: Profilers, debuggers, and related tools.
 
@@ -1371,7 +1371,7 @@ Use the following instructions to install ROCm packages on your system.
 
             ``amdrocm-opencl7.14``
 
-         .. matrix-cell:: ROCm OpenCL Package
+         .. matrix-cell:: ROCm OpenCL
 
          .. matrix-cell:: Components needed to run OpenCL.
 
