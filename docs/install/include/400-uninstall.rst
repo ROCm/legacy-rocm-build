@@ -433,7 +433,8 @@ Uninstalling
 
       .. selected:: fam=ryzen
 
-         1. Use ``amdgpu-uninstall`` to remove the installed packages.
+         1. Use ``amdgpu-uninstall`` to remove the :ref:`installed packages
+            <rocm-install-rocm>`.
 
             .. code-block:: bash
 
