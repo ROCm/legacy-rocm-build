@@ -10,11 +10,11 @@ Feedback about the ROCm documentation is welcome. You can provide feedback about
 
 ## Participating in discussions through GitHub Discussions
 
-You can ask questions, view announcements, suggest new features, and communicate with other members of the community through [GitHub Discussions](https://github.com/ROCm/ROCm/discussions).
+You can ask questions, view announcements, suggest new features, and communicate with other members of the community through [GitHub Discussions](https://github.com/ROCm/TheRock/discussions).
 
 ## Submitting issues through GitHub Issues
 
-You can submit issues through [GitHub Issues](https://github.com/ROCm/ROCm/issues).
+You can submit issues through [GitHub Issues](https://github.com/ROCm/TheRock/issues).
 
 When creating a new issue, follow the following guidelines:
 
