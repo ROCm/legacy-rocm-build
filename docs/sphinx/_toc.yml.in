@@ -255,17 +255,18 @@ subtrees:
             title: AMD GPU programming on ROCm
     - caption: Contribute
       entries:
-      - file: contribute/contributing.md
-        title: Contributing to the ROCm documentation
-        subtrees:
-        - entries:
-          - file: contribute/toolchain.md
-            title: ROCm documentation toolchain
-          - file: contribute/building.md
-      - file: contribute/feedback.md
-        title: Providing feedback about the ROCm documentation
-      - file: about/include/license.md
-        title: ROCm licenses
+          - file: contribute/contributing.md
+            title: Contributing to the ROCm documentation
+            subtrees:
+            - entries:
+                  - file: contribute/toolchain.md
+                    title: ROCm documentation toolchain
+                  - file: contribute/building.md
+                    title: Building documentation
+          - file: contribute/feedback.md
+            title: Providing feedback about the ROCm documentation
+          - file: about/include/license.md
+            title: ROCm licenses
    # - caption: About
    #   entries:
    #       - file: about/license.md
