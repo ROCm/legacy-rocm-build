@@ -1,7 +1,7 @@
-.. selected:: gpu=ai-r9700s gfx=gfx1201 gpu=v710 gfx=gfx1101
+.. selected:: gpu=ai-r9700s gpu=v710
    :heading: GPU virtualization support
 
-   .. selected:: gpu=ai-r9700s gfx=gfx1201 gpu=v710 gfx=gfx1101
+   .. selected:: gpu=ai-r9700s gpu=v710
 
       Supported SR-IOV configurations require the GPU-IOV Module (GIM) driver
       9.1.0.K -- see the `AMD Instinct Virtualization Driver documentation
@@ -25,7 +25,7 @@
          .. matrix-cell:: Guest OS
 
       .. matrix-row::
-         :show-cond: gpu=ai-r9700s gfx=gfx1201
+         :show-cond: gpu=ai-r9700s
 
          .. matrix-cell:: KVM
 
@@ -38,7 +38,7 @@
          .. matrix-cell:: Ubuntu 24.04
 
       .. matrix-row::
-         :show-cond: gpu=v710 gfx=gfx1101
+         :show-cond: gpu=v710
 
          .. matrix-cell:: KVM
 
