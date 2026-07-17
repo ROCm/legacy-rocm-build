@@ -1,9 +1,11 @@
 Installation
 ============
 
-.. note::
+.. selected:: ubuntu-ver=24.04 ubuntu-ver=22.04 rhel-ver=10.0 rhel-ver=9.6 rhel-ver=9.4 rhel-ver=8.10 sles-ver=15.7 os=debian os=oracle-linux os=rocky-linux os=windows
 
-   If you have an older version of ROCm installed, uninstall it before proceeding.
+   .. note::
+
+      If you have ROCm 7.2.4 or older installed, please uninstall it before proceeding.
 
 .. selected:: os=windows
 
