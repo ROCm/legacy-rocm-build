@@ -265,7 +265,7 @@ subtrees:
                     title: Building documentation
           - file: contribute/feedback.md
             title: Providing feedback about the ROCm documentation
-          - file: about/include/license.md
+          - file: about/license.md
             title: ROCm licenses
    # - caption: About
    #   entries:
