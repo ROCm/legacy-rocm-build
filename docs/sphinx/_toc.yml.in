@@ -14,7 +14,7 @@ subtrees:
     entries:
     - url: https://rocm.docs.amd.com/projects/install-on-linux/en/${branch}/reference/system-requirements.html
       title: Linux system requirements
-    - url: https://rocm.docs.amd.com/projects/install-on-windows/en/${branch}/reference/system-requirements.html
+    - url: https://rocm.docs.amd.com/projects/install-on-windows/en/latest/reference/system-requirements.html
       title: Windows system requirements
 
 - caption: Install
