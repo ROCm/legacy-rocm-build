@@ -1381,7 +1381,7 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell:: Install this to profile, debug, and optimize ROCm applications.
 
-         .. matrix-cell:: Profilers, debuggers, and related tools.
+         .. matrix-cell:: Profilers and related tools.
 
       .. matrix-row::
 
@@ -2319,7 +2319,7 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell::
 
-            Profilers, debuggers, and related tools.
+            Profilers and related tools.
 
       .. matrix-row::
 
