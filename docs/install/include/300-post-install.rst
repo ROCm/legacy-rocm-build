@@ -435,20 +435,30 @@ complete your system configuration and validate the installation.
 
 .. seealso::
 
-   To install deep learning frameworks, including `PyTorch
-   <https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/frameworks/pytorch/install.html>`__
-   and `JAX
-   <https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/frameworks/jax/install.html>`__,
-   and get started with AI training and inference, see the `AI Ecosystem
-   <https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/>`__
-   documentation portal.
+   .. selected:: fam=all fam=instinct
 
-   .. selected:: fam=instinct
+      To install deep learning frameworks, including `PyTorch
+      <https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/frameworks/pytorch/install.html>`__
+      and `JAX
+      <https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/frameworks/jax/install.html>`__,
+      and get started with AI training and inference, see the `AI Ecosystem
+      <https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/>`__
+      documentation portal.
+
+   .. selected:: fam=radeon fam=ryzen
+
+      To install deep learning frameworks, including `PyTorch
+      <https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/frameworks/pytorch/install.html>`__,
+      and get started with AI training and inference, see the `AI Ecosystem
+      <https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/>`__
+      documentation portal.
+
+   .. selected:: fam=all fam=instinct
 
       To learn about HPC libraries and applications, see
       :doc:`ROCm HPC SDK </components/hpc-sdk/index>`.
 
-   .. selected:: fam=radeon fam=ryzen
+   .. selected:: fam=all fam=instinct fam=radeon
 
       To learn about ROCm Extras, which include supplementary tools for
       benchmarking and validating, see :doc:`ROCm Extras </components/extras>`.
