@@ -1031,6 +1031,8 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell:: Meta package name
 
+         .. matrix-cell:: What you are getting
+
          .. matrix-cell:: Contents
 
          .. matrix-cell:: Use case
@@ -1116,6 +1118,8 @@ Use the following instructions to install ROCm packages on your system.
             :show-cond: fam=all
 
             ``amdrocm7.14``
+
+         .. matrix-cell:: ROCm Base
 
          .. matrix-cell:: Runtimes, libraries, system control and monitoring tools, and other essential components.
 
@@ -1260,6 +1264,8 @@ Use the following instructions to install ROCm packages on your system.
 
                ``amdrocm-core-devel7.14``
 
+         .. matrix-cell:: ROCm Developer Essentials Package
+
          .. matrix-cell::
             :show-cond: gfx=gfx950
 
@@ -1351,6 +1357,8 @@ Use the following instructions to install ROCm packages on your system.
 
             ``amdrocm-developer-tools7.14``
 
+         .. matrix-cell:: ROCm Profiler Package
+
          .. matrix-cell:: Profilers, debuggers, and related tools.
 
          .. matrix-cell:: Install this to profile, debug, and optimize ROCm applications.
@@ -1360,6 +1368,8 @@ Use the following instructions to install ROCm packages on your system.
          .. matrix-cell::
 
             ``amdrocm-opencl7.14``
+
+         .. matrix-cell:: ROCm OpenCL Package
 
          .. matrix-cell:: Components needed to run OpenCL.
 
@@ -1446,6 +1456,8 @@ Use the following instructions to install ROCm packages on your system.
             :show-cond: fam=all
 
             ``amdrocm-core-sdk7.14``
+
+         .. matrix-cell:: ROCm Full Suite
 
          .. matrix-cell:: The complete ROCm Core SDK including runtimes, compilers, development tools, and dependencies.
 
@@ -2235,8 +2247,6 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell:: Meta component name
 
-         .. matrix-cell:: What you are getting
-
          .. matrix-cell:: Contents
 
          .. matrix-cell:: Use case
@@ -2246,10 +2256,6 @@ Use the following instructions to install ROCm packages on your system.
          .. matrix-cell::
 
             ``core``
-
-         .. matrix-cell::
-
-            ROCm Base
 
          .. matrix-cell::
 
@@ -2267,10 +2273,6 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell::
 
-            ROCm Developer Essentials Package
-
-         .. matrix-cell::
-
             ``core`` plus compilers, CMake configurations, static library files, and headers.
 
          .. matrix-cell::
@@ -2282,10 +2284,6 @@ Use the following instructions to install ROCm packages on your system.
          .. matrix-cell::
 
             ``dev-tools``
-
-         .. matrix-cell::
-
-            ROCm Profiler Package
 
          .. matrix-cell::
 
@@ -2303,10 +2301,6 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell::
 
-            ROCm OpenCL Package
-
-         .. matrix-cell::
-
             Components needed to run OpenCL.
 
          .. matrix-cell::
@@ -2318,10 +2312,6 @@ Use the following instructions to install ROCm packages on your system.
          .. matrix-cell::
 
             ``core-sdk``
-
-         .. matrix-cell::
-
-            ROCm Full Suite
 
          .. matrix-cell::
 
