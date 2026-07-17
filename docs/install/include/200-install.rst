@@ -1455,7 +1455,7 @@ Use the following instructions to install ROCm packages on your system.
       .. selected:: fam=radeon
 
          Run the ``amdgpu-install`` script with the following ``--usecase`` arguments
-         to install ROCm and graphics packages.
+         to install ROCm, graphics and amdgpu driver packages.
 
          .. selected:: gfx=gfx1201
 
