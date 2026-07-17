@@ -2315,7 +2315,7 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell::
 
-            Install this to profile, debug, and optimize ROCm applications.
+            Install this to profile and optimize ROCm applications.
 
          .. matrix-cell::
 
