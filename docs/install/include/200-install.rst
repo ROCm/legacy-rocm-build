@@ -1457,9 +1457,41 @@ Use the following instructions to install ROCm packages on your system.
          Run the ``amdgpu-install`` script with the following ``--usecase`` arguments
          to install ROCm and graphics packages.
 
-         .. code-block:: bash
+         .. selected:: gfx=gfx1201
 
-            sudo amdgpu-install --usecase=rocm,graphics --gfxversion=auto
+            .. code-block:: bash
+
+               sudo amdgpu-install --usecase=rocm,graphics --gfxversion=gfx1201
+
+         .. selected:: gfx=gfx1200
+
+            .. code-block:: bash
+
+               sudo amdgpu-install --usecase=rocm,graphics --gfxversion=gfx1200
+
+         .. selected:: gfx=gfx1102
+
+            .. code-block:: bash
+
+               sudo amdgpu-install --usecase=rocm,graphics --gfxversion=gfx1102
+
+         .. selected:: gfx=gfx1101
+
+            .. code-block:: bash
+
+               sudo amdgpu-install --usecase=rocm,graphics --gfxversion=gfx1101
+
+         .. selected:: gfx=gfx1100
+
+            .. code-block:: bash
+
+               sudo amdgpu-install --usecase=rocm,graphics --gfxversion=gfx1100
+
+         .. selected:: gfx=gfx1030
+
+            .. code-block:: bash
+
+               sudo amdgpu-install --usecase=rocm,graphics --gfxversion=gfx1030
 
       .. selected:: fam=ryzen
 
