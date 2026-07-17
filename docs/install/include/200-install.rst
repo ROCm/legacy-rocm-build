@@ -2249,15 +2249,19 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell:: Meta component name
 
+         .. matrix-cell:: Use case
+
          .. matrix-cell:: Contents
 
-         .. matrix-cell:: Use case
+         .. matrix-cell:: Description
 
       .. matrix-row::
 
          .. matrix-cell::
 
             ``core``
+
+         .. matrix-cell:: ROCm Base
 
          .. matrix-cell::
 
@@ -2273,6 +2277,8 @@ Use the following instructions to install ROCm packages on your system.
 
             ``core-dev``
 
+         .. matrix-cell:: ROCm Developer Essentials
+
          .. matrix-cell::
 
             ``core`` plus compilers, CMake configurations, static library files, and headers.
@@ -2286,6 +2292,8 @@ Use the following instructions to install ROCm packages on your system.
          .. matrix-cell::
 
             ``dev-tools``
+
+         .. matrix-cell:: ROCm Profiler
 
          .. matrix-cell::
 
@@ -2301,6 +2309,8 @@ Use the following instructions to install ROCm packages on your system.
 
             ``opencl``
 
+         .. matrix-cell:: ROCm OpenCL
+
          .. matrix-cell::
 
             Components needed to run OpenCL.
@@ -2314,6 +2324,8 @@ Use the following instructions to install ROCm packages on your system.
          .. matrix-cell::
 
             ``core-sdk``
+
+         .. matrix-cell:: ROCm Full Suite
 
          .. matrix-cell::
 
