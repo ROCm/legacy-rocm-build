@@ -440,6 +440,15 @@ Uninstalling
 
                sudo amdgpu-uninstall
 
+      .. selected:: fam=all
+
+         1. Use ``amdgpu-uninstall`` to remove the :ref:`installed packages
+            <rocm-install-rocm>`.
+
+            .. code-block:: bash
+
+               sudo amdgpu-uninstall
+
       2. Remove ROCm repositories.
 
          .. selected:: os=ubuntu
