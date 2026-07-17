@@ -253,10 +253,22 @@ subtrees:
                   title: Set the number of CUs
           - file: reference/hip-programming.rst
             title: AMD GPU programming on ROCm
-
-    - caption: About
+    - caption: Contribute
       entries:
-          - file: about/license.md
+      - file: contribute/contributing.md
+        title: Contributing to the ROCm documentation
+        subtrees:
+        - entries:
+          - file: contribute/toolchain.md
+            title: ROCm documentation toolchain
+          - file: contribute/building.md
+      - file: contribute/feedback.md
+        title: Providing feedback about the ROCm documentation
+      - file: about/include/license.md
+        title: ROCm licenses
+   # - caption: About
+   #   entries:
+   #       - file: about/license.md
     #       - file: about/contribute/contributing.md
     #         entries:
     #             - file: about/contribute/toolchain.md
