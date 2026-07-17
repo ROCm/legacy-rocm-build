@@ -1,7 +1,7 @@
 .. selected:: os=debian
 
    .. selector:: Debian version
-      :show-cond: gpu=mi355x gpu=mi325x gpu=mi350x gpu=mi350p gpu=mi300x
+      :show-cond: gpu=mi355x gpu=mi325x gpu=mi350x gpu=mi300x
       :key: debian-ver
 
       .. selector-option:: 13
@@ -11,6 +11,14 @@
       .. selector-option:: 12
          :width: 6
          :value: 12
+
+   .. selector:: Debian version
+      :show-cond: gpu=mi350p
+      :key: debian-ver
+
+      .. selector-option:: 13
+         :width: 12
+         :value: 13
 
    .. selector:: Debian version
       :show-cond: gpu=mi300a gpu=mi250x gpu=mi250
