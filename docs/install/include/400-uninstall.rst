@@ -422,13 +422,22 @@ Uninstalling
 
    .. selected:: os=ubuntu os=rhel
 
-      1. The ``amdgpu-install`` script installs a command to uninstall ROCm packages.
-         Run the following command to uninstall the ROCm and Radeon Software for
-         Linux components:
+      .. selected:: fam=radeon
 
-         .. code-block:: bash
+         1. Use ``amdgpu-uninstall`` to remove the :ref:`installed packages
+            <rocm-install-rocm>`.
 
-            sudo amdgpu-uninstall
+            .. code-block:: bash
+
+               sudo amdgpu-uninstall
+
+      .. selected:: fam=ryzen
+
+         1. Use ``amdgpu-uninstall`` to remove the installed packages.
+
+            .. code-block:: bash
+
+               sudo amdgpu-uninstall
 
       2. Remove ROCm repositories.
 
