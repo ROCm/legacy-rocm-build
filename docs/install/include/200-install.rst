@@ -1,6 +1,10 @@
 Installation
 ============
 
+.. note::
+
+   If you have an older version of ROCm installed, uninstall it before proceeding.
+
 .. selected:: os=windows
 
    Before getting started, make sure you've completed the :ref:`rocm-prerequisites`.
@@ -2231,6 +2235,8 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell:: Meta component name
 
+         .. matrix-cell:: What you are getting
+
          .. matrix-cell:: Contents
 
          .. matrix-cell:: Use case
@@ -2240,6 +2246,10 @@ Use the following instructions to install ROCm packages on your system.
          .. matrix-cell::
 
             ``core``
+
+         .. matrix-cell::
+
+            ROCm Base
 
          .. matrix-cell::
 
@@ -2257,6 +2267,10 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell::
 
+            ROCm Developer Essentials Package
+
+         .. matrix-cell::
+
             ``core`` plus compilers, CMake configurations, static library files, and headers.
 
          .. matrix-cell::
@@ -2268,6 +2282,10 @@ Use the following instructions to install ROCm packages on your system.
          .. matrix-cell::
 
             ``dev-tools``
+
+         .. matrix-cell::
+
+            ROCm Profiler Package
 
          .. matrix-cell::
 
@@ -2285,6 +2303,10 @@ Use the following instructions to install ROCm packages on your system.
 
          .. matrix-cell::
 
+            ROCm OpenCL Package
+
+         .. matrix-cell::
+
             Components needed to run OpenCL.
 
          .. matrix-cell::
@@ -2296,6 +2318,10 @@ Use the following instructions to install ROCm packages on your system.
          .. matrix-cell::
 
             ``core-sdk``
+
+         .. matrix-cell::
+
+            ROCm Full Suite
 
          .. matrix-cell::
 
