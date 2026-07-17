@@ -2,7 +2,7 @@
    :key: fam
 
    .. selector-option:: All
-      :value: all w=compute
+      :value: all
       :width: 25%
 
    .. selector-option:: AMD Instinct™
