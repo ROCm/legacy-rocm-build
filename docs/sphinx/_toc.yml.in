@@ -129,6 +129,8 @@ subtrees:
 
       - url: https://rocm.docs.amd.com/projects/ai-developer-hub/en/latest/
         title: AI tutorials
+      - url: https://rocm.docs.amd.com/projects/hyperloom/en/latest/index.html
+        title: Hyperloom
 
   - file: how-to/rocm-for-hpc/index.rst
     title: Use ROCm for HPC
