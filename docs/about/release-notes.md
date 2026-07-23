@@ -97,6 +97,8 @@ The following are notable enhancements to HIP:
 
 * **Faster HIP graph replay for asynchronous memory allocations**: HIP graph replay now reduces overhead for graphs that interleave asynchronous memory allocations with compute. Allocation nodes no longer block during replay. Physical memory is reused across nodes instead of being mapped and unmapped on each launch, eliminating the gaps between kernels this pattern previously caused. For background on HIP graphs, see [Graph Management](https://rocm.docs.amd.com/projects/HIP/en/latest/reference/hip_runtime_api/modules/graph_management.html).
 
+*  **New HIP documentation topic on device properties**: The [HIP Device Properties and Topology on CDNA Architectures](https://rocm.docs.amd.com/projects/HIP/en/latest/how-to/hipDeviceProperties.html) provides an overview of the CDNA architecture topology and its key hardware characteristics, helping developers better understand the underlying architecture and optimize the performance of their HIP applications. 
+
 For more information, see the [HIP section](#hip-7-14) in the ROCm component changelogs.
 
 #### ROCprofiler-SDK feature highlights
