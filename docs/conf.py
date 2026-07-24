@@ -255,7 +255,6 @@ html_context["version"] = version
 html_context["release"] = release
 
 html_theme = "rocm_docs_theme"
-html_theme_options = {"flavor": "rocm-docs-home"}
 
 html_static_path = ["sphinx/static/css", "extension/how-to/rocm-for-ai/inference"]
 html_css_files = ["rocm_custom.css", "rocm_rn.css", "vllm-benchmark.css"]
@@ -263,7 +262,10 @@ html_js_files = ["vllm-benchmark.js"]
 
 html_title = "ROCm Documentation"
 
-html_theme_options = {"link_main_doc": False}
+html_theme_options = {
+    "announcement": f"This is the last release in the ROCm legacy release stream. ROCm Core SDK 7.14.0 introduces a new modular architecture built on TheRock. See <a id='rocm-banner' href='https://rocm.docs.amd.com/en/docs-7.14.0/'>ROCm Core SDK 7.14.0</a>."
+    "link_main_doc": False
+}
 
 redirects = {"reference/openmp/openmp": "../../about/compatibility/openmp.html"}
 
