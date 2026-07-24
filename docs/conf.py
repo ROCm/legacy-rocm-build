@@ -263,7 +263,7 @@ html_js_files = ["vllm-benchmark.js"]
 html_title = "ROCm Documentation"
 
 html_theme_options = {
-    "announcement": f"This is the last release in the ROCm legacy release stream. ROCm Core SDK 7.14.0 introduces a new modular architecture built on TheRock. See <a id='rocm-banner' href='https://rocm.docs.amd.com/en/docs-7.14.0/'>ROCm Core SDK 7.14.0</a>."
+    "announcement": f"This is the last release in the ROCm legacy release stream. ROCm Core SDK 7.14.0 introduces a new modular architecture built on TheRock. See <a id='rocm-banner' href='https://rocm.docs.amd.com/en/docs-7.14.0/'>ROCm Core SDK 7.14.0</a>.",
     "link_main_doc": False
 }
 
