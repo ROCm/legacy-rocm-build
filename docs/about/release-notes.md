@@ -547,6 +547,14 @@ scheduled for removal in the next major release.
 | `amdsmi_get_gpu_vram_vendor()` | `amdsmi_get_gpu_vram_info()` |
 | `amdsmi_gpu_driver_reload()` | No replacement; functionality removed |
 | `amdsmi_get_xgmi_plpd()` | Python: use the `policy` attribute instead of `plpds` |
+| `amdsmi_set_gpu_clk_range()` | `amdsmi_set_gpu_clk_limit()` |
+
+##### Types
+
+| Deprecated | Replacement |
+|---|---|
+| `amdsmi_fabric_info_ver_t` | Moved inside `amdsmi_fabric_info_t` |
+| `amdsmi_nic_fw_t` | `amdsmi_nic_fw_entry_t` |
 
 ##### Defines and enums
 
