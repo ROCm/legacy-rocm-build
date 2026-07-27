@@ -2,9 +2,10 @@ from pathlib import Path
 
 from docutils import nodes
 from docutils.parsers.rst import directives
+from sphinx.transforms.post_transforms import SphinxPostTransform
 from sphinx.util.docutils import SphinxDirective
 
-from ..utils import kv_to_data_attr, logger
+from ..utils import kv_to_data_attr, logger, noop as _noop, register_output_flags
 
 
 class CustomTable(nodes.General, nodes.Element):
@@ -44,6 +45,37 @@ class CustomTable(nodes.General, nodes.Element):
 
         translator.body.append("</table><!-- end custom-table -->")
 
+    @staticmethod
+    def visit_markdown(translator, node):
+        # The Markdown translator (used to generate llms-full.txt) has no
+        # visitor for the custom matrix nodes. Convert this matrix to a standard
+        # docutils table and render it with the translator's own table machinery
+        # so the output is a real Markdown table rather than dropped content.
+        # When Markdown generation is disabled, drop the matrix entirely.
+        if not translator.config.rocm_selector_markdown_generation:
+            raise nodes.SkipNode
+        table = _build_table(node)
+        table.walkabout(translator)
+        raise nodes.SkipNode
+
+    @staticmethod
+    def visit_static(translator, node):
+        """Visit handler for static builders (LaTeX/text/man/texinfo).
+
+        Normally MatrixToTableTransform rewrites every CustomTable into a plain
+        docutils table before the writer runs, so this handler sees nothing. But
+        when ``rocm_selector_pdf_generation`` is False that transform is skipped
+        for LaTeX, leaving raw CustomTable nodes in the tree. Their children
+        (rows/cells) have no non-HTML visitor, so a plain no-op visit would let
+        the writer descend and dump every cell's text as an unformatted run
+        (the mangled "amdrocm7.13-gfx950 …" output). Skip the whole subtree
+        instead so the matrix is genuinely omitted from the PDF.
+        """
+        if not translator.config.rocm_selector_pdf_generation:
+            raise nodes.SkipNode
+        # PDF generation enabled (or a non-LaTeX static builder): the transform
+        # already converted this node, so nothing to do here.
+
 
 class CustomTableDirective(SphinxDirective):
     """.. matrix:: Optional caption"""
@@ -56,6 +88,7 @@ class CustomTableDirective(SphinxDirective):
         "id": directives.unchanged,
         "class": directives.class_option,
         "show-cond": directives.unchanged,
+        "widths": directives.value_or(("auto",), directives.positive_int_list),
     }
 
     def run(self):
@@ -64,6 +97,11 @@ class CustomTableDirective(SphinxDirective):
         node["id"] = self.options.get("id", "")
         node["classes"] = self.options.get("class", [])
         node["show-cond"] = self.options.get("show-cond", "")
+        # Relative column widths. Given as integers (e.g. ":widths: 20 50 30"),
+        # they make the LaTeX writer emit fixed-ratio p-columns that wrap long
+        # unbreakable content (monospace package names) instead of the default
+        # auto-balanced tabulary columns, which clip such content in the PDF.
+        node["widths"] = self.options.get("widths", None)
         self.state.nested_parse(self.content, self.content_offset, node)
         return [node]
 
@@ -223,6 +261,22 @@ class CustomTableCellDirective(SphinxDirective):
         "show-cond": directives.unchanged,
     }
 
+    def _span_option(self, name):
+        """Return a colspan/rowspan value, warning on (and correcting) 0.
+
+        ``directives.nonnegative_int`` permits 0, which is almost always an
+        authoring error; treat it as 1 so the grid stays valid.
+        """
+        value = self.options.get(name, 1)
+        if value is not None and value < 1:
+            logger.warning(
+                "'.. matrix-cell::' at line %s has :%s: %s; using 1.",
+                self.lineno, name, value,
+                location=(self.env.docname, self.lineno),
+            )
+            return 1
+        return value
+
     def run(self):
         label = self.arguments[0] if self.arguments else ""
         node = CustomTableCell()
@@ -244,8 +298,8 @@ class CustomTableCellDirective(SphinxDirective):
                     break
         node["header"] = explicit_header or parent_header_row
         node["classes"] = self.options.get("class", [])
-        node["colspan"] = self.options.get("colspan", 1)
-        node["rowspan"] = self.options.get("rowspan", 1)
+        node["colspan"] = self._span_option("colspan")
+        node["rowspan"] = self._span_option("rowspan")
         node["show-cond"] = self.options.get("show-cond", "")
 
         if self.content:
@@ -267,23 +321,279 @@ class CustomTableCellDirective(SphinxDirective):
         return [node]
 
 
+def _ancestors(node):
+    """Yield *node*'s ancestors from immediate parent up to the document root."""
+    parent = node.parent
+    while parent is not None:
+        yield parent
+        parent = parent.parent
+
+
+def _iter_own(start, node_type):
+    """Yield descendant nodes of *node_type* that belong to *start*'s own table.
+
+    Unlike ``node.findall``, this stops descending at a nested ``CustomTable``
+    so an inner matrix's rows/cells are not pulled into the outer grid. The
+    nested table itself (and its subtree) is skipped; it is converted
+    independently by :class:`MatrixToTableTransform`.
+    """
+    for child in start.children:
+        if isinstance(child, CustomTable):
+            continue  # boundary: a nested matrix owns its own rows/cells
+        if isinstance(child, node_type):
+            yield child
+        yield from _iter_own(child, node_type)
+
+
+def _cell_span(cell_node, attr):
+    """Return a sane span (>= 1) for a cell's colspan/rowspan attribute."""
+    value = cell_node.get(attr, 1) or 1
+    return max(1, value)
+
+
+def _convert_nested_tables(root):
+    """Replace any ``CustomTable`` nodes within *root*'s subtree in place.
+
+    Used on cell content that was deep-copied from the source tree: a matrix
+    can be nested inside an arbitrary container (admonition, list, etc.) inside
+    a cell, and every such nested matrix must become a standard docutils table
+    so non-HTML writers — which have no visitor for the custom nodes — can
+    render it. Processes innermost matrices first so nesting at any depth is
+    fully converted.
+    """
+    while True:
+        nested = list(root.findall(CustomTable))
+        if not nested:
+            break
+        # Convert the deepest matrices first: a CustomTable with no CustomTable
+        # descendant of its own is innermost and safe to replace.
+        for table in reversed(nested):
+            if not any(True for _ in table.findall(CustomTable, include_self=False)):
+                table.replace_self(_build_table(table))
+
+
+def _grid_width(rows):
+    """Compute the true column count of a matrix, accounting for spans.
+
+    Walks the grid row by row tracking columns still occupied by a rowspan
+    from an earlier row, so that colspan/rowspan cells are placed in the same
+    positions docutils' own table parser would use.
+    """
+    pending: dict = {}  # column index -> rows still covered (incl. current)
+    width = 0
+    for row_node in rows:
+        col = 0
+        for cell in _iter_own(row_node, CustomTableCell):
+            while pending.get(col, 0) > 0:
+                col += 1
+            colspan = _cell_span(cell, "colspan")
+            rowspan = _cell_span(cell, "rowspan")
+            for c in range(col, col + colspan):
+                pending[c] = rowspan
+            col += colspan
+            width = max(width, col)
+        for c in list(pending):
+            if pending[c] > 0:
+                pending[c] -= 1
+    return width
+
+
+def _build_row(row_node, num_cols, pending):
+    """Build a docutils row, preserving spans and grid alignment.
+
+    *pending* maps column index -> number of rows still covered by a rowspan
+    that began in an earlier row; it is mutated across calls so vertical spans
+    are tracked over the whole table. Missing cells are padded only at columns
+    not already covered by a span, so ragged rows stay aligned and spanned
+    positions are not double-filled.
+    """
+    row = nodes.row()
+    col = 0
+    for cell_node in _iter_own(row_node, CustomTableCell):
+        while pending.get(col, 0) > 0:
+            col += 1
+        colspan = _cell_span(cell_node, "colspan")
+        rowspan = _cell_span(cell_node, "rowspan")
+        entry = nodes.entry()
+        if colspan > 1:
+            entry["morecols"] = colspan - 1
+        if rowspan > 1:
+            entry["morerows"] = rowspan - 1
+        for child in cell_node.children:
+            if isinstance(child, CustomTable):
+                # A matrix nested directly in a cell: convert it to a standard
+                # table here so the copied subtree contains no custom nodes
+                # (which have no non-HTML visitor).
+                entry += _build_table(child)
+            else:
+                copied = child.deepcopy()
+                _convert_nested_tables(copied)
+                entry += copied
+        row += entry
+        for c in range(col, col + colspan):
+            pending[c] = rowspan
+        col += colspan
+    # Pad only genuinely-empty trailing columns (skip those held by a rowspan).
+    while col < num_cols:
+        if pending.get(col, 0) > 0:
+            col += 1
+            continue
+        row += nodes.entry()
+        col += 1
+    for c in list(pending):
+        if pending[c] > 0:
+            pending[c] -= 1
+    return row
+
+
+def _build_table(matrix_node):
+    """Convert a CustomTable node into a standard docutils table node.
+
+    Shared by :class:`MatrixToTableTransform` (non-HTML builders such as LaTeX
+    and text) and the Markdown node handler (llms-full.txt generation), so a
+    single representation drives every non-HTML rendering path.
+    """
+    rows = list(_iter_own(matrix_node, CustomTableRow))
+    if not rows:
+        return nodes.paragraph()
+
+    max_cols = _grid_width(rows)
+
+    table = nodes.table()
+
+    # Explicit column widths (``:widths:``) make the LaTeX writer emit
+    # fixed-ratio p-columns that wrap long unbreakable content instead of the
+    # auto-balanced tabulary columns that clip it. The ``colwidths-given``
+    # class is Sphinx's signal to honour the colspec widths.
+    widths = matrix_node.get("widths")
+    colwidths = None
+    if isinstance(widths, (list, tuple)) and widths:
+        colwidths = list(widths)
+        # Pad or trim so there is exactly one width per column.
+        if len(colwidths) < max_cols:
+            colwidths += [colwidths[-1]] * (max_cols - len(colwidths))
+        else:
+            colwidths = colwidths[:max_cols]
+        table["classes"].append("colwidths-given")
+
+    tgroup = nodes.tgroup(cols=max_cols)
+    table += tgroup
+
+    for i in range(max_cols):
+        tgroup += nodes.colspec(colwidth=colwidths[i] if colwidths else 1)
+
+    header_rows = [r for r in rows if r.get("header-row", False)]
+    body_rows = [r for r in rows if not r.get("header-row", False)]
+
+    # Rowspans must be tracked across the whole grid (header into body), so a
+    # single pending map is threaded through every row in document order.
+    pending: dict = {}
+
+    if header_rows:
+        thead = nodes.thead()
+        tgroup += thead
+        for row in header_rows:
+            thead += _build_row(row, max_cols, pending)
+
+    # Always include tbody: Sphinx's LaTeX transform requires it.
+    tbody = nodes.tbody()
+    tgroup += tbody
+    for row in body_rows:
+        tbody += _build_row(row, max_cols, pending)
+
+    caption = matrix_node.get("caption", "")
+    if caption:
+        table.insert(0, nodes.title(text=caption))
+
+    return table
+
+
+class MatrixToTableTransform(SphinxPostTransform):
+    """Convert custom matrix nodes to standard docutils table nodes for non-HTML builders.
+
+    HTML rendering uses the custom Bootstrap-styled nodes unchanged. For all
+    other builders (LaTeX, text, man, etc.) each CustomTable is replaced with
+    a standard docutils table node so that Sphinx's built-in rendering handles
+    it correctly — no per-file workarounds needed.
+    """
+
+    default_priority = 500
+
+    def apply(self):
+        if self.app.builder.format == "html":
+            return
+
+        # PDF generation disabled: skip the LaTeX table conversion. Other
+        # non-HTML builders (text, man, etc.) still convert as normal.
+        if (
+            self.app.builder.format == "latex"
+            and not self.config.rocm_selector_pdf_generation
+        ):
+            return
+
+        # Collect upfront: replacing a node mid-traversal would invalidate the
+        # iterator. Only convert outermost matrices — _build_table recursively
+        # converts any matrix nested inside a cell, so a nested CustomTable is
+        # already handled by the time we would reach it (and would be detached).
+        all_tables = list(self.document.findall(CustomTable))
+        outermost = [
+            t for t in all_tables
+            if not any(isinstance(a, CustomTable) for a in _ancestors(t))
+        ]
+        for matrix_node in outermost:
+            matrix_node.replace_self(_build_table(matrix_node))
+
+
 def setup(app):
-    app.add_node(CustomTable, html=(CustomTable.visit_html, CustomTable.depart_html))
-    app.add_node(CustomTableHead, html=(CustomTableHead.visit_html, CustomTableHead.depart_html))
-    app.add_node(CustomTableRow, html=(CustomTableRow.visit_html, CustomTableRow.depart_html))
-    app.add_node(CustomTableCell, html=(CustomTableCell.visit_html, CustomTableCell.depart_html))
+    app.add_node(
+        CustomTable,
+        html=(CustomTable.visit_html, CustomTable.depart_html),
+        markdown=(CustomTable.visit_markdown, _noop),
+        latex=(CustomTable.visit_static, _noop),
+        text=(CustomTable.visit_static, _noop),
+        man=(CustomTable.visit_static, _noop),
+        texinfo=(CustomTable.visit_static, _noop),
+    )
+    app.add_node(
+        CustomTableHead,
+        html=(CustomTableHead.visit_html, CustomTableHead.depart_html),
+        latex=(_noop, _noop),
+        text=(_noop, _noop),
+        man=(_noop, _noop),
+        texinfo=(_noop, _noop),
+    )
+    app.add_node(
+        CustomTableRow,
+        html=(CustomTableRow.visit_html, CustomTableRow.depart_html),
+        latex=(_noop, _noop),
+        text=(_noop, _noop),
+        man=(_noop, _noop),
+        texinfo=(_noop, _noop),
+    )
+    app.add_node(
+        CustomTableCell,
+        html=(CustomTableCell.visit_html, CustomTableCell.depart_html),
+        latex=(_noop, _noop),
+        text=(_noop, _noop),
+        man=(_noop, _noop),
+        texinfo=(_noop, _noop),
+    )
 
     app.add_directive("matrix", CustomTableDirective)
     app.add_directive("matrix-head", CustomTableHeadDirective)
     app.add_directive("matrix-row", CustomTableRowDirective)
     app.add_directive("matrix-cell", CustomTableCellDirective)
 
+    app.add_post_transform(MatrixToTableTransform)
+
+    register_output_flags(app)
+
     static_assets_dir = Path(__file__).parent / "static"
     app.config.html_static_path.append(str(static_assets_dir))
     app.add_css_file("table.css")
 
     return {
-        "version": "1.1",
+        "version": "1.3",
         "parallel_read_safe": True,
         "parallel_write_safe": True,
     }

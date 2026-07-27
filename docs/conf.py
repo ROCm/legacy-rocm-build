@@ -130,6 +130,15 @@ extensions = [
 ]
 templates_path = ["extension/rocm_docs_custom/selector/templates"]
 
+# Omit custom matrix/selector content from PDF (LaTeX) output.
+rocm_selector_pdf_generation = False
+
+# Generate llms.txt and llms-full.txt (requires the rocm-docs-core[llms] extra).
+rocm_docs_generate_llms = True
+# The GPU atomics operation page is very large; keep it in the llms.txt index
+# but exclude its body from llms-full.txt.
+rocm_docs_llms_full_exclude = ["reference/gpu-atomics-operation"]
+
 html_static_path = ["sphinx/static"]
 html_js_files = ["setup-toc-install-headings.js", "legacy/vllm-benchmark.js"]
 html_css_files = ["legacy/vllm-benchmark.css"]
@@ -144,6 +153,7 @@ html_theme = "rocm_docs_theme"
 html_theme_options = {
     "announcement": f"Looking for an older ROCm release? See the <a id='rocm-banner' href='https://rocm.docs.amd.com/en/latest/release/versions.html'>ROCm release history</a>.",
     "flavor": "rocm",
+    "use_download_button": True,
     "link_main_doc": False,
     "repository_url": "https://github.com/ROCm/ROCm",
     "use_repository_button": True,

@@ -1,4 +1,4 @@
-rocm-docs-core==1.38.0
+rocm-docs-core[llms]==1.38.0
 sphinxcontrib.datatemplates==0.11.0
 sphinx_substitution_extensions
 sphinx-sitemap
