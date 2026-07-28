@@ -790,6 +790,7 @@ amdrocm
 amdsmi
 api
 aqlprofile
+asc
 async
 aten
 atmi
@@ -912,6 +913,7 @@ dequantization
 dequantized
 dequantizes
 dereference
+desc
 deserializers
 detections
 dev
