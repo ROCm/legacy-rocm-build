@@ -116,7 +116,6 @@ export function updateTOC2OptionsList() {
     liEl.appendChild(selectEl);
 
     const ts = new TomSelect(selectEl, {
-      plugins: ["dropdown_input"],
       onChange(value) {
         // For dropdown groups on the main page, drive via TomSelect so its
         // change event fires and selector.js handles the update. Calling
