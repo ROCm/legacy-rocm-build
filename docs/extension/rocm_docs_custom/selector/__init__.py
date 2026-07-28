@@ -178,6 +178,21 @@ class _SelectorGroupBase(SphinxDirective):
 
         option_nodes = list(node.findall(SelectorOption))
         if option_nodes:
+            sort_order = self.options.get("sort", "").lower()
+            if sort_order in ("asc", "desc"):
+                reverse = sort_order == "desc"
+                sorted_options = sorted(option_nodes, key=lambda opt: opt["label"], reverse=reverse)
+                # Reorder only SelectorOption children in-place, preserving non-option siblings
+                option_positions = [i for i, c in enumerate(node.children) if isinstance(c, SelectorOption)]
+                for pos, opt in zip(option_positions, sorted_options):
+                    node.children[pos] = opt
+                option_nodes = sorted_options
+            elif sort_order:
+                logger.warning(
+                    f"Invalid ':sort:' value '{sort_order}' — expected 'asc' or 'desc'",
+                    location=(self.env.docname, self.lineno),
+                )
+
             for opt in option_nodes:
                 opt["group_key"] = node["key"]
                 opt["dropdown-input"] = self._is_dropdown
@@ -202,6 +217,7 @@ class SelectorDropdownDirective(_SelectorGroupBase):
         "key": directives.unchanged,
         "show-cond": directives.unchanged,
         "heading-width": directives.nonnegative_int,
+        "sort": directives.unchanged,
     }
     _is_dropdown = True
 
