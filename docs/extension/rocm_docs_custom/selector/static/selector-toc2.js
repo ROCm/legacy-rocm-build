@@ -79,36 +79,57 @@ export function updateTOC2OptionsList() {
     selectEl.className = `form-select ${DROPDOWN_INPUT_CLASS}`;
     selectEl.name = headingText;
 
-    const options = Array.from(group.querySelectorAll(OPTION_QUERY)).filter(
-      (opt) =>
-        !opt.classList.contains(HIDDEN_CLASS) &&
-        !opt.classList.contains(DISABLED_CLASS),
-    );
+    const mainSelect = group.querySelector(`.${DROPDOWN_INPUT_CLASS}`);
+    const mainTs = mainSelect?.tomselect;
 
-    if (options.length === 0) {
+    let optionDescs;
+    if (mainTs) {
+      const selectedVal = mainTs.getValue();
+      optionDescs = Object.values(mainTs.options)
+        .filter((o) => {
+          const optEl = o.$option;
+          return (
+            !o.disabled &&
+            !optEl?.classList?.contains(HIDDEN_CLASS) &&
+            !optEl?.classList?.contains(DISABLED_CLASS)
+          );
+        })
+        .sort((a, b) => a.$order - b.$order)
+        .map((o) => ({ text: o.text, value: o.value, selected: o.value === selectedVal }));
+    } else {
+      optionDescs = Array.from(group.querySelectorAll(OPTION_QUERY))
+        .filter(
+          (opt) =>
+            !opt.classList.contains(HIDDEN_CLASS) &&
+            !opt.classList.contains(DISABLED_CLASS),
+        )
+        .map((optionEl) => {
+          const tocLabel = optionEl.getAttribute("data-toc-label");
+          let text;
+          if (tocLabel) {
+            text = tocLabel;
+          } else {
+            const clone = optionEl.cloneNode(true);
+            clone.querySelectorAll("i, svg").forEach((el) => el.remove());
+            text = clone.textContent.trim();
+          }
+          return {
+            text,
+            value: optionEl.dataset.selectorValue || "",
+            selected: optionEl.classList.contains(SELECTED_CLASS),
+          };
+        });
+    }
+
+    if (optionDescs.length === 0) {
       const opt = document.createElement("option");
       opt.textContent = "(none available)";
       opt.disabled = true;
       opt.selected = true;
       selectEl.appendChild(opt);
     } else {
-      options.forEach((optionEl) => {
-        const tocLabel = optionEl.getAttribute("data-toc-label");
-        let labelText;
-        if (tocLabel) {
-          labelText = tocLabel;
-        } else {
-          const clone = optionEl.cloneNode(true);
-          clone.querySelectorAll("i, svg").forEach((el) => el.remove());
-          labelText = clone.textContent.trim();
-        }
-        const opt = new Option(
-          labelText,
-          optionEl.dataset.selectorValue || "",
-          false,
-          optionEl.classList.contains(SELECTED_CLASS),
-        );
-        selectEl.appendChild(opt);
+      optionDescs.forEach(({ text, value, selected }) => {
+        selectEl.appendChild(new Option(text, value, false, selected));
       });
     }
 
@@ -121,9 +142,8 @@ export function updateTOC2OptionsList() {
         // For dropdown groups on the main page, drive via TomSelect so its
         // change event fires and selector.js handles the update. Calling
         // .click() on a native <option> element is unreliable across browsers.
-        const mainSelect = group.querySelector(`.${DROPDOWN_INPUT_CLASS}`);
-        if (mainSelect?.tomselect) {
-          mainSelect.tomselect.setValue(value);
+        if (mainTs) {
+          mainTs.setValue(value);
           return;
         }
         const target = group.querySelector(
