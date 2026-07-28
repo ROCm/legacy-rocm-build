@@ -5,6 +5,7 @@
       .. selector-dropdown:: Instinct GPU
          :key: gpu
          :show-cond: fam=instinct
+         :sort: desc
 
          .. selector-option:: AMD Instinct MI355X (gfx950)
             :value: mi355x gfx=gfx950
@@ -39,6 +40,7 @@
       .. selector-dropdown:: Radeon GPU
          :key: gpu
          :show-cond: fam=radeon
+         :sort: desc
 
          .. selector-option:: AMD Radeon AI PRO R9700S (gfx1201)
             :value: ai-r9700s gfx=gfx1201
@@ -115,6 +117,7 @@
       .. selector-dropdown:: Ryzen APU
          :key: gpu
          :show-cond: fam=ryzen
+         :sort: desc
 
          .. selector-option:: AMD Ryzen AI Max+ PRO 495 (gfx1151)
             :value: max-plus-pro-495 gfx=gfx1151
