@@ -7,24 +7,26 @@ Only checks libraries where the source file itself changed between the two relea
 ## Step 1 — Fetch source files
 
 ```bash
-cd ~/projects/ROCm-internal/tools/autotag && python3 precision_fetch.py -t "$GITHUB_TOKEN" --previous PREVIOUS --current CURRENT --sha-filter
+cd ~/projects/ROCm-internal/tools/precision-support && python3 precision_fetch.py -t "$GITHUB_TOKEN" --previous PREVIOUS --current CURRENT --sha-filter
 ```
 
-Replace PREVIOUS and CURRENT from $ARGUMENTS.
+Replace PREVIOUS and CURRENT from $ARGUMENTS. Record the `Output directory:`
+path printed by the command as `OUTPUT_DIR`.
 
 ## Step 2 — Read library list
 
-Read `/tmp/precision_libs.txt`.
+Read `OUTPUT_DIR/precision_libs.txt`.
 
 ## Step 3 — Parse each library
 
 For each library in the list:
 
-- Source file exists (`/tmp/precision_{lib}_source.txt`): read it and `/tmp/precision_{lib}_yaml.txt`, then compare.
-- URL file exists (`/tmp/precision_{lib}_url.txt`): read it — this is the GitHub link to the source file, used in the detail block Source field.
-- Skip file exists (`/tmp/precision_{lib}_skip.txt`): note the reason.
+- Source file exists (`OUTPUT_DIR/precision_{lib}_source.txt`): read it and `OUTPUT_DIR/precision_{lib}_yaml.txt`, then compare.
+- URL file exists (`OUTPUT_DIR/precision_{lib}_url.txt`): read it — this is the GitHub link to the source file, used in the detail block Source field.
+- Skip file exists (`OUTPUT_DIR/precision_{lib}_skip.txt`): note the reason.
 
-**Do not use GitHub MCP tools, WebFetch, or any network call.** All content is already in `/tmp/`. Use only the Read tool on those files.
+**Do not use GitHub MCP tools, WebFetch, or any network call.** All content is
+already in `OUTPUT_DIR`. Use only the Read tool on those files.
 
 You are the parser. Read the source file directly — do not infer from filenames or prior knowledge.
 
@@ -61,7 +63,7 @@ For each finding, decide **auto-update** or **flag**:
 
 For auto-update findings, add the missing types to `~/projects/ROCm-internal/docs/data/reference/precision-support/precision-support.yaml`. Match the existing format exactly (type + support fields).
 
-Then write a log to `~/projects/ROCm-internal/tools/autotag/precision-update-log/PREVIOUS-CURRENT-YYYYMMDD-HHMMSS.md` (replace PREVIOUS/CURRENT from $ARGUMENTS, timestamp from `date +%Y%m%d-%H%M%S`). Always create a new file — never read or overwrite an existing log. Log format:
+Then write a log to `~/projects/ROCm-internal/tools/precision-support/precision-update-log/PREVIOUS-CURRENT-YYYYMMDD-HHMMSS.md` (replace PREVIOUS/CURRENT from $ARGUMENTS, timestamp from `date +%Y%m%d-%H%M%S`). Always create a new file — never read or overwrite an existing log. Log format:
 
 ```markdown
 # Precision support audit: ROCm PREVIOUS → CURRENT
@@ -88,7 +90,7 @@ Then the summary table. **This MUST be a markdown table — no lists, no separat
 |---------|---------|--------|--------|
 | ... | ... | ... | filename.ext |
 
-Use the URL from `/tmp/precision_{lib}_url.txt`. In the Source column, write only the filename (last path segment, plain text — no markdown link). For skipped libraries, leave Source blank.
+Use the URL from `OUTPUT_DIR/precision_{lib}_url.txt`. In the Source column, write only the filename (last path segment, plain text — no markdown link). For skipped libraries, leave Source blank.
 
 Then, **for flagged libraries only**, a detail block:
 
@@ -98,7 +100,7 @@ Then, **for flagged libraries only**, a detail block:
 
 - Finding: ...
 - Details: ...
-- Source: [filename](url) — full clickable link using the URL from `/tmp/precision_{lib}_url.txt`.
+- Source: [filename](url) — full clickable link using the URL from `OUTPUT_DIR/precision_{lib}_url.txt`.
 - Recommended action: ...
 
 Clean and skipped libraries appear only in the table — no detail block.

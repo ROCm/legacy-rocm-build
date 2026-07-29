@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Fetch precision support source files and YAML for Claude to compare.
 
-Writes raw content to /tmp/ for the Claude precision-check command.
-Claude reads the files and does the comparison — no regex parsers used.
+Writes raw content to an isolated output directory for the Claude
+precision-check command. Claude reads the files and does the comparison — no
+regex parsers used.
 
 Usage (manifest-scoped — full audit):
     python3 precision_fetch.py -t $GITHUB_TOKEN --previous 7.1.1 --current 7.2.0
@@ -17,7 +18,9 @@ Usage (explicit library list):
 import argparse
 import base64
 import json
+import re
 import sys
+import tempfile
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -28,6 +31,37 @@ except ImportError:
     sys.exit("pyyaml is required: pip install pyyaml")
 
 from manifest_diff import fetch_manifest, diff_manifests
+
+
+# ---------------------------------------------------------------------------
+# Output files
+# ---------------------------------------------------------------------------
+
+_ARTIFACT_COMPONENT = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]*$")
+
+
+def prepare_output_dir(requested: Path | None) -> Path:
+    """Create and return the directory used for this run's artifacts."""
+    if requested is None:
+        return Path(tempfile.mkdtemp(prefix="rocm-precision-"))
+
+    output_dir = requested.expanduser().resolve()
+    try:
+        output_dir.mkdir(mode=0o700, parents=True, exist_ok=True)
+    except OSError as error:
+        raise SystemExit(f"Cannot create output directory {output_dir}: {error}") from error
+
+    if not output_dir.is_dir():
+        raise SystemExit(f"Output path is not a directory: {output_dir}")
+    return output_dir
+
+
+def artifact_path(output_dir: Path, library: str, kind: str) -> Path:
+    """Return a confined artifact path for a library and artifact kind."""
+    for label, value in (("library", library), ("artifact kind", kind)):
+        if not _ARTIFACT_COMPONENT.fullmatch(value):
+            raise ValueError(f"Invalid {label}: {value!r}")
+    return output_dir / f"precision_{library}_{kind}.txt"
 
 
 # ---------------------------------------------------------------------------
@@ -307,7 +341,12 @@ def load_yaml_types(yaml_data: dict) -> dict[str, dict[str, str]]:
 # Scoping
 # ---------------------------------------------------------------------------
 
-def sha_filter_scope(token: str, previous: str, current: str) -> list[str]:
+def sha_filter_scope(
+    token: str,
+    previous: str,
+    current: str,
+    output_dir: Path,
+) -> list[str]:
     """Return sorted list of library tags where the source file changed between two ROCm versions.
 
     Checks all tracked libraries — no manifest diff. Skips libraries where the
@@ -322,13 +361,13 @@ def sha_filter_scope(token: str, previous: str, current: str) -> list[str]:
         sha_prev = fetch_file_sha(token, org, repo, path, previous)
         sha_curr = fetch_file_sha(token, org, repo, path, current)
         if sha_prev is None and sha_curr is None:
-            Path(f"/tmp/precision_{lib}_skip.txt").write_text(
+            artifact_path(output_dir, lib, "skip").write_text(
                 f"Source file not found at either {previous} or {current}",
                 encoding="utf-8",
             )
             print(f"  {lib}: not found at either version — skip", file=sys.stderr)
         elif sha_prev == sha_curr:
-            Path(f"/tmp/precision_{lib}_skip.txt").write_text(
+            artifact_path(output_dir, lib, "skip").write_text(
                 f"Source file unchanged between {previous} and {current} (SHA match)",
                 encoding="utf-8",
             )
@@ -371,8 +410,8 @@ def scope_from_manifest(token: str, previous: str, current: str) -> list[str]:
 # Fetching
 # ---------------------------------------------------------------------------
 
-def fetch_library(token: str, lib: str, version: str) -> None:
-    """Fetch source file and YAML entry for one library, write to /tmp/."""
+def fetch_library(token: str, lib: str, version: str, output_dir: Path) -> None:
+    """Fetch source file and YAML entry for one library."""
     config = SOURCE_CONFIG.get(lib)
     if not config:
         print(f"  {lib}: no SOURCE_CONFIG entry — skipping", file=sys.stderr)
@@ -380,7 +419,7 @@ def fetch_library(token: str, lib: str, version: str) -> None:
 
     note = config.get("note")
     if note:
-        Path(f"/tmp/precision_{lib}_skip.txt").write_text(note, encoding="utf-8")
+        artifact_path(output_dir, lib, "skip").write_text(note, encoding="utf-8")
         print(f"  {lib}: skipped — {note}", file=sys.stderr)
         return
 
@@ -393,17 +432,17 @@ def fetch_library(token: str, lib: str, version: str) -> None:
     )
 
     if content is None:
-        Path(f"/tmp/precision_{lib}_skip.txt").write_text(
+        artifact_path(output_dir, lib, "skip").write_text(
             f"Source file not found: {config['path']}", encoding="utf-8"
         )
         print(f"  {lib}: source file not found", file=sys.stderr)
         return
 
-    Path(f"/tmp/precision_{lib}_source.txt").write_text(content, encoding="utf-8")
+    artifact_path(output_dir, lib, "source").write_text(content, encoding="utf-8")
 
     ref = _version_to_ref(version)
     gh_url = f"https://github.com/{config['org']}/{config['repo']}/blob/{ref}/{config['path']}"
-    Path(f"/tmp/precision_{lib}_url.txt").write_text(gh_url, encoding="utf-8")
+    artifact_path(output_dir, lib, "url").write_text(gh_url, encoding="utf-8")
 
     print(f"  {lib}: source written ({len(content):,} chars)", file=sys.stderr)
 
@@ -430,7 +469,14 @@ def main() -> None:
         help="Check all tracked libraries; skip those whose source file SHA is unchanged. "
              "Use with --previous/--current. No manifest diff is performed.",
     )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        help="Directory for generated artifacts. "
+             "Defaults to a new private directory under the system temporary directory.",
+    )
     args = parser.parse_args()
+    output_dir = prepare_output_dir(args.output_dir)
 
     # Resolve version and library list
     if args.previous:
@@ -438,7 +484,12 @@ def main() -> None:
             sys.exit("--current is required when using --previous")
         current_version = args.current
         if args.sha_filter:
-            libs = sha_filter_scope(args.token, args.previous, args.current)
+            libs = sha_filter_scope(
+                args.token,
+                args.previous,
+                args.current,
+                output_dir,
+            )
         else:
             libs = scope_from_manifest(args.token, args.previous, args.current)
     else:
@@ -457,23 +508,23 @@ def main() -> None:
     # Write YAML entries for all tracked libraries (not just changed ones —
     # Claude needs the full context for comparison)
     for lib, types in yaml_types.items():
-        Path(f"/tmp/precision_{lib}_yaml.txt").write_text(
+        artifact_path(output_dir, lib, "yaml").write_text(
             yaml.dump({lib: types}, allow_unicode=True, default_flow_style=False),
             encoding="utf-8",
         )
 
     # Write manifest-scoped library list so Claude knows what to check
-    libs_file = Path("/tmp/precision_libs.txt")
+    libs_file = output_dir / "precision_libs.txt"
     libs_file.write_text("\n".join(libs), encoding="utf-8")
     print(f"\nLibraries to check: {', '.join(libs)}", file=sys.stderr)
 
     # Fetch source files
     print("\nFetching source files...", file=sys.stderr)
     for lib in libs:
-        fetch_library(args.token, lib, current_version)
+        fetch_library(args.token, lib, current_version, output_dir)
 
-    print(f"\nDone. Files written to /tmp/precision_*", file=sys.stderr)
-    print(f"Library list: /tmp/precision_libs.txt", file=sys.stderr)
+    print(f"\nOutput directory: {output_dir}", file=sys.stderr)
+    print(f"Library list: {libs_file}", file=sys.stderr)
 
 
 if __name__ == "__main__":
