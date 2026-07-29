@@ -188,10 +188,7 @@ class _SelectorGroupBase(SphinxDirective):
                     node.children[pos] = opt
                 option_nodes = sorted_options
             elif sort_order:
-                logger.warning(
-                    f"Invalid ':sort:' value '{sort_order}' — expected 'asc' or 'desc'",
-                    location=(self.env.docname, self.lineno),
-                )
+                raise self.error(f"Invalid ':sort:' value '{sort_order}' — expected 'asc' or 'desc'")
 
             for opt in option_nodes:
                 opt["group_key"] = node["key"]
