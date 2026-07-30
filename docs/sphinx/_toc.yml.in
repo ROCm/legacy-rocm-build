@@ -110,6 +110,8 @@ subtrees:
                         title: HIPIFY
                       - url: ${project:llvm-project}
                         title: LLVM
+                      - url: https://github.com/ROCm/SPIRV-LLVM-Translator/tree/therock-7.14
+                        title: SPIRV-LLVM-Translator
                 - file: components/profilers-and-debuggers.rst
                   title: Profiling and debugging tools
                   entries:
@@ -267,15 +269,3 @@ subtrees:
             title: Providing feedback about the ROCm documentation
           - file: about/license.md
             title: ROCm licenses
-   # - caption: About
-   #   entries:
-   #       - file: about/license.md
-    #       - file: about/contribute/contributing.md
-    #         entries:
-    #             - file: about/contribute/toolchain.md
-    #             - file: about/contribute/building.md
-    #             - url: https://github.com/ROCm/rocm-libraries/blob/develop/CONTRIBUTING.md
-    #               title: Contribute to ROCm Libraries
-    #             - url: https://github.com/ROCm/rocm-systems/blob/develop/CONTRIBUTING.md
-    #               title: Contribute to ROCm Systems
-    #       - file: about/contribute/feedback.md

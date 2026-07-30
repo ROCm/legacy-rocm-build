@@ -182,8 +182,10 @@ rocm_core_sdk:
         github_repo: rocm-systems/projects/rocr-debug-agent
     ROCr Runtime:
       group: *runtimes
+      description:  An implementation of HSA runtime, which is a thin, user-mode API that exposes the necessary interfaces to access and interact with graphics hardware driven by the AMDGPU driver set and the ROCK kernel driver.
       xref:
-        rtd_project: rocm-libraries/projects/rocr-runtime
+        rtd_project: ROCR-Runtime
+        github_repo: rocm-systems/projects/rocr-runtime
     rocSHMEM:
       group: *comm_libs
       description: An intra-kernel networking library that provides GPU-centric networking througithub_repo an OpenSHMEM-like interface.
@@ -222,8 +224,9 @@ rocm_core_sdk:
         github_repo: rocm-libraries/projects/rocwmma
     SPIRV-LLVM-Translator:
       group: *compilers
+      description: A library and tool for translation between LLVM IR and SPIR-V.
       xref:
-        github_repo: SPIRV-LLVM-Translator
+        github_repo: https://github.com/ROCm/SPIRV-LLVM-Translator
 
 rocm_extras:
   - name: ROCm Validation Suite

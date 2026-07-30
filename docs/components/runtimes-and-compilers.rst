@@ -20,3 +20,7 @@ programming tools for GPU application development on AMD hardware.
 * :doc:`LLVM <llvm-project:index>` -- AMD's LLVM-based compiler
   infrastructure, including the ROCm device compiler (``amdclang``), which
   compiles HIP and OpenCL code for AMD GPUs.
+
+* `SPIRV-LLVM-Translator
+  <https://github.com/ROCm/SPIRV-LLVM-Translator/tree/therock-7.14>`__ --
+  A library and tool for translation between LLVM IR and SPIR-V.

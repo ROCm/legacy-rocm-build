@@ -619,6 +619,7 @@ SONAME
 SPARSELt
 SPI
 SPIR
+SPIRV
 SPM
 SPX
 SQTT
@@ -1043,6 +1044,7 @@ hpp
 href
 hsa
 hsakmt
+https
 hx
 hyperparameter
 hyperparameters
@@ -1317,6 +1319,7 @@ spdlog
 spmm
 src
 stanford
+startswith
 statx
 stochastically
 strided

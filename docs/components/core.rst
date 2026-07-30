@@ -14,6 +14,7 @@ applications on AMD hardware.
 
     {%- set components = data.rocm_core_sdk.components -%}
     {%- set version_slug = data.rocm_core_sdk.meta.rtd_version_slug -%}
+    {%- set release_tag = data.rocm_core_sdk.meta.release_tag -%}
     {%- set base_url = "https://rocm.docs.amd.com/projects" -%}
     {%- set group_order = [
         "Math and compute libraries",
@@ -60,15 +61,19 @@ applications on AMD hardware.
     {% endif %}
     {%- for name, comp in group_items | sort(attribute="0") -%}
     {%-     if comp.xref is defined and comp.xref.rtd_project is defined -%}
-    {%-         set doc_ref = comp.xref.rtd_project -%}
-    {%-     elif comp.xref is defined and comp.xref.docs is defined and "/" not in comp.xref.docs -%}
-    {%-         set doc_ref = comp.xref.docs | lower -%}
+    {%-         set link = base_url + "/" + comp.xref.rtd_project + "/en/" + version_slug -%}
+    {%-     elif comp.xref is defined and comp.xref.github_repo is defined -%}
+    {%-         if comp.xref.github_repo.startswith("https://") -%}
+    {%-             set link = comp.xref.github_repo + "/tree/" + release_tag -%}
+    {%-         else -%}
+    {%-             set link = "https://github.com/ROCm/" + comp.xref.github_repo + "/tree/" + release_tag -%}
+    {%-         endif -%}
     {%-     else -%}
-    {%-         set doc_ref = None -%}
+    {%-         set link = None -%}
     {%-     endif -%}
     {%-     set desc = " -- " + comp.description if comp.description is defined else "" -%}
-    {%-     if doc_ref %}
-    * `{{ name }} <{{ base_url }}/{{ doc_ref }}/en/{{ version_slug }}>`__{{ desc }}
+    {%-     if link %}
+    * `{{ name }} <{{ link }}>`__{{ desc }}
     {%-     else %}
     * {{ name }}{{ desc }}
     {%-     endif %}
