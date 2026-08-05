@@ -25,7 +25,7 @@ Uninstalling
 
             .. code-block:: bash
 
-               sudo apt autoremove amdrocm7.14-gfx94x
+               sudo apt autoremove amdrocm7.14-gfx942
 
          .. selected:: gfx=gfx90a
 
@@ -39,23 +39,47 @@ Uninstalling
 
                sudo apt autoremove amdrocm7.14-gfx908
 
-         .. selected:: gfx=gfx1201 gfx=gfx1200
+         .. selected:: gfx=gfx1201
 
             .. code-block:: bash
 
-               sudo apt autoremove amdrocm7.14-gfx120x
+               sudo apt autoremove amdrocm7.14-gfx1201
 
-         .. selected:: gfx=gfx1100 gfx=gfx1101 gfx=gfx1102 gfx=gfx1103
+         .. selected:: gfx=gfx1200
 
             .. code-block:: bash
 
-               sudo apt autoremove amdrocm7.14-gfx110x
+               sudo apt autoremove amdrocm7.14-gfx1200
+
+         .. selected:: gfx=gfx1100
+
+            .. code-block:: bash
+
+               sudo apt autoremove amdrocm7.14-gfx1100
+
+         .. selected:: gfx=gfx1101
+
+            .. code-block:: bash
+
+               sudo apt autoremove amdrocm7.14-gfx1101
+
+         .. selected:: gfx=gfx1102
+
+            .. code-block:: bash
+
+               sudo apt autoremove amdrocm7.14-gfx1102
+
+         .. selected:: gfx=gfx1103
+
+            .. code-block:: bash
+
+               sudo apt autoremove amdrocm7.14-gfx1103
 
          .. selected:: gfx=gfx1030
 
             .. code-block:: bash
 
-               sudo apt autoremove amdrocm7.14-gfx103x
+               sudo apt autoremove amdrocm7.14-gfx1030
 
          .. selected:: gfx=gfx1151
 
