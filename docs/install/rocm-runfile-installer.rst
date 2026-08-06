@@ -131,7 +131,7 @@ For example, to download ROCm 7.14 of the ROCm Runfile Installer:
 
 .. code-block:: shell
 
-   wget https://repo.radeon.com/rocm/installer/rocm-runfile-installer/rocm-rel-7.14/rocm-installer-7.14.0-6.run
+   wget https://repo.radeon.com/rocm/installer/rocm-runfile-installer/rocm-rel-7.14/rocm-installer-7.14.0-7.run
 
 Running the ROCm Runfile Installer
 ----------------------------------
@@ -143,11 +143,11 @@ You can obtain help, version, architecture, or component information using the f
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run help
-   bash rocm-installer-7.14.0-6.run version
-   bash rocm-installer-7.14.0-6.run buildinfo
-   bash rocm-installer-7.14.0-6.run gfx=list
-   bash rocm-installer-7.14.0-6.run compo=list
+   bash rocm-installer-7.14.0-7.run help
+   bash rocm-installer-7.14.0-7.run version
+   bash rocm-installer-7.14.0-7.run buildinfo
+   bash rocm-installer-7.14.0-7.run gfx=list
+   bash rocm-installer-7.14.0-7.run compo=list
 
 The ``help``, ``version``, ``buildinfo``, ``gfx=list``, and ``compo=list`` commands run without extracting the installer contents.
 For all other argument options, or if no arguments are specified, the installer ``.run`` file self-extracts
@@ -181,7 +181,7 @@ Launch the GUI-based installation of the ROCm Runfile Installer from the termina
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run
+   bash rocm-installer-7.14.0-7.run
 
 GUI
 ---
@@ -464,7 +464,7 @@ Run the ROCm Runfile Installer from the terminal command line as follows:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run <options>
+   bash rocm-installer-7.14.0-7.run <options>
 
 The ``<options>`` parameter can be set to these options:
 
@@ -575,20 +575,20 @@ This example demonstrates how to perform a basic ROCm installation with auto-det
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run rocm
+   bash rocm-installer-7.14.0-7.run rocm
 
 This example demonstrates how to perform a typical ROCm installation with dependencies installed, specific GPU architecture,
 and post-install configuration:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run deps=install gfx=gfx942 rocm
+   bash rocm-installer-7.14.0-7.run deps=install gfx=gfx942 rocm
 
 This example demonstrates how to install ROCm to a custom location with GPU access configuration:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run deps=install target="$HOME/myrocm" gfx=gfx942 rocm gpu-access=all
+   bash rocm-installer-7.14.0-7.run deps=install target="$HOME/myrocm" gfx=gfx942 rocm gpu-access=all
 
 Multi-architecture installation examples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -597,13 +597,13 @@ Install multiple GPU architectures:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run gfx=gfx942,gfx950,gfx1100 rocm
+   bash rocm-installer-7.14.0-7.run gfx=gfx942,gfx950,gfx1100 rocm
 
 Install all available architectures:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run gfx=all rocm
+   bash rocm-installer-7.14.0-7.run gfx=all rocm
 
 Component selection examples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -612,19 +612,19 @@ Install core components only (default):
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run gfx=gfx942 rocm
+   bash rocm-installer-7.14.0-7.run gfx=gfx942 rocm
 
 Install core SDK with dependencies:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run deps=install compo=core-sdk gfx=gfx942 rocm
+   bash rocm-installer-7.14.0-7.run deps=install compo=core-sdk gfx=gfx942 rocm
 
 Install multiple components:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run compo=core,dev-tools gfx=gfx942 rocm
+   bash rocm-installer-7.14.0-7.run compo=core,dev-tools gfx=gfx942 rocm
 
 Graphics support example
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -633,7 +633,7 @@ Install with graphics support for Mesa/OpenGL:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run deps=install gfx=gfx942 rocm graphics
+   bash rocm-installer-7.14.0-7.run deps=install gfx=gfx942 rocm graphics
 
 AMD GPU Driver installation examples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -642,13 +642,13 @@ Install AMD GPU Driver only:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run amdgpu
+   bash rocm-installer-7.14.0-7.run amdgpu
 
 Install AMD GPU Driver with dependencies:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run deps=install amdgpu
+   bash rocm-installer-7.14.0-7.run deps=install amdgpu
 
 Combined installation examples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -657,13 +657,13 @@ Install both ROCm and AMD GPU Driver:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run deps=install gfx=gfx942 rocm amdgpu gpu-access=all
+   bash rocm-installer-7.14.0-7.run deps=install gfx=gfx942 rocm amdgpu gpu-access=all
 
 Install to custom location with all components:
 
 .. code-block:: shell
 
-   bash rocm-installer-7.14.0-6.run deps=install target="$HOME/myrocm" gfx=gfx942 rocm amdgpu gpu-access=all
+   bash rocm-installer-7.14.0-7.run deps=install target="$HOME/myrocm" gfx=gfx942 rocm amdgpu gpu-access=all
 
 Runfile options
 ^^^^^^^^^^^^^^^^^^
@@ -691,12 +691,12 @@ Two command line options let you disable the ``.run`` cleanup process: ``noexec`
   All content will be maintained after the exit. You can then use the ``rocm-installer.sh`` script directly from the
   command line without specifying the ``.run`` file name.
 
-  For example, extract the ``.run`` file and then use ``rocm-installer.sh`` instead of ``rocm-installer-7.14.0-6.run``
+  For example, extract the ``.run`` file and then use ``rocm-installer.sh`` instead of ``rocm-installer-7.14.0-7.run``
   to install ROCm and the AMD GPU Driver separately:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run noexec
+     bash rocm-installer-7.14.0-7.run noexec
      cd rocm-installer
      bash rocm-installer.sh gfx=gfx942 rocm
      bash rocm-installer.sh amdgpu
@@ -738,10 +738,10 @@ graphics and compute support for Mesa/OpenGL workloads.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run deps=list rocm
-     bash rocm-installer-7.14.0-6.run deps=list amdgpu
-     bash rocm-installer-7.14.0-6.run deps=list graphics
-     bash rocm-installer-7.14.0-6.run deps=list rocm amdgpu graphics
+     bash rocm-installer-7.14.0-7.run deps=list rocm
+     bash rocm-installer-7.14.0-7.run deps=list amdgpu
+     bash rocm-installer-7.14.0-7.run deps=list graphics
+     bash rocm-installer-7.14.0-7.run deps=list rocm amdgpu graphics
 
   .. note::
 
@@ -760,10 +760,10 @@ graphics and compute support for Mesa/OpenGL workloads.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run deps=validate rocm
-     bash rocm-installer-7.14.0-6.run deps=validate amdgpu
-     bash rocm-installer-7.14.0-6.run deps=validate graphics
-     bash rocm-installer-7.14.0-6.run deps=validate rocm amdgpu graphics
+     bash rocm-installer-7.14.0-7.run deps=validate rocm
+     bash rocm-installer-7.14.0-7.run deps=validate amdgpu
+     bash rocm-installer-7.14.0-7.run deps=validate graphics
+     bash rocm-installer-7.14.0-7.run deps=validate rocm amdgpu graphics
 
   .. note::
 
@@ -782,25 +782,25 @@ graphics and compute support for Mesa/OpenGL workloads.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run deps=install rocm
+     bash rocm-installer-7.14.0-7.run deps=install rocm
 
   To install the dependencies and the AMD GPU Driver, the command line is as follows:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run deps=install amdgpu
+     bash rocm-installer-7.14.0-7.run deps=install amdgpu
 
   To install the dependencies for graphics support, the command line is as follows:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run deps=install graphics
+     bash rocm-installer-7.14.0-7.run deps=install graphics
 
   To install the dependencies for ROCm, AMD GPU Driver, and graphics support, the command line is as follows:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run deps=install rocm amdgpu graphics
+     bash rocm-installer-7.14.0-7.run deps=install rocm amdgpu graphics
 
   .. note::
 
@@ -808,10 +808,10 @@ graphics and compute support for Mesa/OpenGL workloads.
 
      .. code-block:: shell
 
-        bash rocm-installer-7.14.0-6.run deps=install-only rocm
-        bash rocm-installer-7.14.0-6.run deps=install-only amdgpu
-        bash rocm-installer-7.14.0-6.run deps=install-only graphics
-        bash rocm-installer-7.14.0-6.run deps=install-only rocm amdgpu graphics
+        bash rocm-installer-7.14.0-7.run deps=install-only rocm
+        bash rocm-installer-7.14.0-7.run deps=install-only amdgpu
+        bash rocm-installer-7.14.0-7.run deps=install-only graphics
+        bash rocm-installer-7.14.0-7.run deps=install-only rocm amdgpu graphics
 
 Install options
 ^^^^^^^^^^^^^^^
@@ -831,7 +831,7 @@ architectures, components, and installation locations.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run rocm
+     bash rocm-installer-7.14.0-7.run rocm
 
 * ``target=<directory>``
 
@@ -849,13 +849,13 @@ architectures, components, and installation locations.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run target="/opt" gfx=gfx942 rocm
+     bash rocm-installer-7.14.0-7.run target="/opt" gfx=gfx942 rocm
 
   To install ROCm to a directory called ``amd/myrocm`` in the ``$USER`` directory:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run target="$HOME/myrocm" gfx=gfx942 rocm
+     bash rocm-installer-7.14.0-7.run target="$HOME/myrocm" gfx=gfx942 rocm
 
 * ``gfx=<arch>``
 
@@ -866,35 +866,35 @@ architectures, components, and installation locations.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=gfx942 rocm
-     bash rocm-installer-7.14.0-6.run gfx=gfx1100 rocm
-     bash rocm-installer-7.14.0-6.run gfx=gfx950 rocm
+     bash rocm-installer-7.14.0-7.run gfx=gfx942 rocm
+     bash rocm-installer-7.14.0-7.run gfx=gfx1100 rocm
+     bash rocm-installer-7.14.0-7.run gfx=gfx950 rocm
 
   Multiple architecture installation (comma-separated):
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=gfx942,gfx950,gfx1100 rocm
+     bash rocm-installer-7.14.0-7.run gfx=gfx942,gfx950,gfx1100 rocm
 
   Install all available architectures:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=all rocm
+     bash rocm-installer-7.14.0-7.run gfx=all rocm
 
   Auto-detect GPU (default if ``gfx=`` not specified):
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run rocm
+     bash rocm-installer-7.14.0-7.run rocm
 
   Architecture information commands:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=show           # Detect and display GPU info
-     bash rocm-installer-7.14.0-6.run gfx=list           # List available architectures
-     bash rocm-installer-7.14.0-6.run gfx=list-installed # Show installed architectures
+     bash rocm-installer-7.14.0-7.run gfx=show           # Detect and display GPU info
+     bash rocm-installer-7.14.0-7.run gfx=list           # List available architectures
+     bash rocm-installer-7.14.0-7.run gfx=list-installed # Show installed architectures
 
 * ``compo=<component_list>``
 
@@ -913,21 +913,21 @@ architectures, components, and installation locations.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run compo=core gfx=gfx942 rocm
-     bash rocm-installer-7.14.0-6.run compo=core-sdk gfx=gfx942 rocm
+     bash rocm-installer-7.14.0-7.run compo=core gfx=gfx942 rocm
+     bash rocm-installer-7.14.0-7.run compo=core-sdk gfx=gfx942 rocm
 
   Multiple component installation (comma-separated):
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run compo=core,dev-tools gfx=gfx942 rocm
-     bash rocm-installer-7.14.0-6.run compo=core-sdk,opencl gfx=gfx942 rocm
+     bash rocm-installer-7.14.0-7.run compo=core,dev-tools gfx=gfx942 rocm
+     bash rocm-installer-7.14.0-7.run compo=core-sdk,opencl gfx=gfx942 rocm
 
   List available components:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run compo=list
+     bash rocm-installer-7.14.0-7.run compo=list
 
   If ``compo=`` is not specified, the installer defaults to installing the ``core`` component.
 
@@ -938,8 +938,8 @@ architectures, components, and installation locations.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=gfx942 rocm graphics
-     bash rocm-installer-7.14.0-6.run deps=install gfx=gfx942 rocm graphics
+     bash rocm-installer-7.14.0-7.run gfx=gfx942 rocm graphics
+     bash rocm-installer-7.14.0-7.run deps=install gfx=gfx942 rocm graphics
 
 * ``amdgpu``
 
@@ -955,7 +955,7 @@ architectures, components, and installation locations.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run amdgpu
+     bash rocm-installer-7.14.0-7.run amdgpu
 
   .. note::
 
@@ -964,7 +964,7 @@ architectures, components, and installation locations.
 
      .. code-block:: shell
 
-        bash rocm-installer-7.14.0-6.run gfx=gfx942 rocm amdgpu
+        bash rocm-installer-7.14.0-7.run gfx=gfx942 rocm amdgpu
 
 * ``force``
 
@@ -996,21 +996,21 @@ At the command line, add one or more of the post-installation options to the ``<
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=gfx942 rocm nopostrocm
-     bash rocm-installer-7.14.0-6.run postrocm
+     bash rocm-installer-7.14.0-7.run gfx=gfx942 rocm nopostrocm
+     bash rocm-installer-7.14.0-7.run postrocm
 
   The post-install takes into account the install location of ROCm, which you may specify with the addition of the ``target=`` option.
   By default, if ``target=`` is not provided, the default location of ``/opt`` will be used to apply the post-installation:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run postrocm
+     bash rocm-installer-7.14.0-7.run postrocm
 
   For installation locations other than ``/opt``, use the ``target=`` option:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run target=/custom/path postrocm
+     bash rocm-installer-7.14.0-7.run target=/custom/path postrocm
 
   ROCm installations using the Runfile installer can specify not only the location, but also the GPU architecture (``gfx=``)
   and ROCm components (``compo=``). Post-installation takes this into account and will auto-detect the architectures and
@@ -1021,13 +1021,13 @@ At the command line, add one or more of the post-installation options to the ``<
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=gfx942 postrocm
+     bash rocm-installer-7.14.0-7.run gfx=gfx942 postrocm
 
   Run post-install with a specific component:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run compo=core-sdk postrocm
+     bash rocm-installer-7.14.0-7.run compo=core-sdk postrocm
 
   .. note::
 
@@ -1041,7 +1041,7 @@ At the command line, add one or more of the post-installation options to the ``<
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=gfx942 rocm nopostrocm
+     bash rocm-installer-7.14.0-7.run gfx=gfx942 rocm nopostrocm
 
   You can run the post-install later using the ``postrocm`` option (see above).
 
@@ -1058,14 +1058,14 @@ At the command line, add one or more of the post-installation options to the ``<
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=gfx942 rocm gpu-access=user
+     bash rocm-installer-7.14.0-7.run gfx=gfx942 rocm gpu-access=user
 
   In cases where a system administrator is installing ROCm for multiple users, they might want to enable
   GPU access permission for all users. For this case, set the ``<access_type>`` for the ``gpu-access`` option to ``all``:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=gfx942 rocm gpu-access=all
+     bash rocm-installer-7.14.0-7.run gfx=gfx942 rocm gpu-access=all
 
   .. note::
 
@@ -1088,13 +1088,13 @@ These options configure the ROCm Runfile Installer to uninstall a previous ROCm 
 
     .. code-block:: shell
 
-       bash rocm-installer-7.14.0-6.run uninstall-rocm
+       bash rocm-installer-7.14.0-7.run uninstall-rocm
 
     To uninstall ROCm from a custom location:
 
     .. code-block:: shell
 
-       bash rocm-installer-7.14.0-6.run target="$HOME/myrocm/rocm-x.y.z" uninstall-rocm
+       bash rocm-installer-7.14.0-7.run target="$HOME/myrocm/rocm-x.y.z" uninstall-rocm
 
   * Uninstall with architecture selection:
 
@@ -1107,14 +1107,14 @@ These options configure the ROCm Runfile Installer to uninstall a previous ROCm 
 
     .. code-block:: shell
 
-       bash rocm-installer-7.14.0-6.run gfx=gfx1100 uninstall-rocm
-       bash rocm-installer-7.14.0-6.run target="$HOME/myrocm" gfx=gfx942 uninstall-rocm
+       bash rocm-installer-7.14.0-7.run gfx=gfx1100 uninstall-rocm
+       bash rocm-installer-7.14.0-7.run target="$HOME/myrocm" gfx=gfx942 uninstall-rocm
 
     To uninstall all architectures:
 
     .. code-block:: shell
 
-       bash rocm-installer-7.14.0-6.run gfx=all uninstall-rocm
+       bash rocm-installer-7.14.0-7.run gfx=all uninstall-rocm
 
   .. note::
 
@@ -1129,7 +1129,7 @@ These options configure the ROCm Runfile Installer to uninstall a previous ROCm 
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run uninstall-amdgpu
+     bash rocm-installer-7.14.0-7.run uninstall-amdgpu
 
   .. note::
 
@@ -1150,7 +1150,7 @@ The ROCm Runfile Installer command line interface includes options for informati
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run findrocm
+     bash rocm-installer-7.14.0-7.run findrocm
 
 * ``manifest``
 
@@ -1161,15 +1161,15 @@ The ROCm Runfile Installer command line interface includes options for informati
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run manifest
+     bash rocm-installer-7.14.0-7.run manifest
 
   To list components for a specific architecture:
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run manifest=gfx942
-     bash rocm-installer-7.14.0-6.run manifest=gfx1100
-     bash rocm-installer-7.14.0-6.run manifest=base
+     bash rocm-installer-7.14.0-7.run manifest=gfx942
+     bash rocm-installer-7.14.0-7.run manifest=gfx1100
+     bash rocm-installer-7.14.0-7.run manifest=base
 
 * ``buildinfo``
 
@@ -1180,7 +1180,7 @@ The ROCm Runfile Installer command line interface includes options for informati
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run buildinfo
+     bash rocm-installer-7.14.0-7.run buildinfo
 
 * ``prompt``
 
@@ -1194,7 +1194,7 @@ The ROCm Runfile Installer command line interface includes options for informati
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run deps=install gfx=gfx942 rocm assumeyes
+     bash rocm-installer-7.14.0-7.run deps=install gfx=gfx942 rocm assumeyes
 
 * ``verbose``
 
@@ -1204,7 +1204,7 @@ The ROCm Runfile Installer command line interface includes options for informati
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run target="/opt" gfx=gfx942 rocm prompt verbose
+     bash rocm-installer-7.14.0-7.run target="/opt" gfx=gfx942 rocm prompt verbose
 
 .. _log-files:
 
@@ -1235,7 +1235,7 @@ The following are common issues and solutions for the ROCm Runfile Installer.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run gfx=gfx942 rocm
+     bash rocm-installer-7.14.0-7.run gfx=gfx942 rocm
 
 * **Issue:** Post-install configuration was skipped
 
@@ -1243,20 +1243,20 @@ The following are common issues and solutions for the ROCm Runfile Installer.
 
   .. code-block:: shell
 
-     bash rocm-installer-7.14.0-6.run postrocm
+     bash rocm-installer-7.14.0-7.run postrocm
 
 * **Issue:** Cannot access GPU after installation
 
   **Solution:** Ensure GPU access permissions are set. Either:
 
-  * Add your user to the video/render groups: ``bash rocm-installer-7.14.0-6.run gpu-access=user``
-  * Grant access to all users: ``bash rocm-installer-7.14.0-6.run gpu-access=all``
+  * Add your user to the video/render groups: ``bash rocm-installer-7.14.0-7.run gpu-access=user``
+  * Grant access to all users: ``bash rocm-installer-7.14.0-7.run gpu-access=all``
   * Log out and log back in for group membership changes to take effect
 
 * **Issue:** Multi-architecture installation conflicts
 
   **Solution:**
 
-  * Check installed architectures: ``bash rocm-installer-7.14.0-6.run gfx=list-installed``
-  * Remove specific architecture if needed: ``bash rocm-installer-7.14.0-6.run gfx=gfx1100 uninstall-rocm``
+  * Check installed architectures: ``bash rocm-installer-7.14.0-7.run gfx=list-installed``
+  * Remove specific architecture if needed: ``bash rocm-installer-7.14.0-7.run gfx=gfx1100 uninstall-rocm``
   * Reinstall with correct architecture selection
