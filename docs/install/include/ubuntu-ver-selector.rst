@@ -47,11 +47,6 @@
             :value: 24.04
             :width: 4
 
-         .. selector-option:: 22.04.5
-            :show-cond: fam=instinct fam=radeon fam=all
-            :value: 22.04
-            :width: 4
-
    .. selected:: fam=ryzen
 
       .. selector:: Ubuntu version
