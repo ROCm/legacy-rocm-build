@@ -31,6 +31,10 @@
         <p>
           <strong>AMD GPU Driver (amdgpu)</strong><br>
           <a
+            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.40.1/documentation/release-notes.html"
+            target="_blank"
+          >31.40.1</a><br>
+          <a
             href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.40.0/documentation/release-notes.html"
             target="_blank"
           >31.40.0</a><br>
@@ -189,6 +193,10 @@
       <td style="vertical-align: middle">
         <p>
           <strong>AMD GPU Driver (amdgpu)</strong><br>
+          <a
+            href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.40.1/documentation/release-notes.html"
+            target="_blank"
+          >31.40.1</a><br>
           <a
             href="https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.40.0/documentation/release-notes.html"
             target="_blank"

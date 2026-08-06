@@ -115,6 +115,8 @@
 
       .. matrix-cell::
 
+         `31.40.1 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.40.1/documentation/release-notes.html>`__
+
          `31.40.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-31.40.0/documentation/release-notes.html>`__
 
          `31.30.0 <https://instinct.docs.amd.com/projects/amdgpu-docs/en/31.30.0-preview/documentation/release-notes.html>`__
