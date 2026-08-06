@@ -61,24 +61,24 @@ Installation
             .. code-block:: bash
 
                sudo apt update
-               wget https://repo.radeon.com/amdgpu-install/31.40/ubuntu/resolute/amdgpu-install_31.40.314000-1_all.deb
-               sudo apt install ./amdgpu-install_31.40.314000-1_all.deb
+               wget https://repo.radeon.com/amdgpu-install/31.40.1/ubuntu/resolute/amdgpu-install_31.40.1.314001-1_all.deb
+               sudo apt install ./amdgpu-install_31.40.1.314001-1_all.deb
 
          .. selected:: ubuntu-ver=24.04
 
             .. code-block:: bash
 
                sudo apt update
-               wget https://repo.radeon.com/amdgpu-install/31.40/ubuntu/noble/amdgpu-install_31.40.314000-1_all.deb
-               sudo apt install ./amdgpu-install_31.40.314000-1_all.deb
+               wget https://repo.radeon.com/amdgpu-install/31.40.1/ubuntu/noble/amdgpu-install_31.40.1.314001-1_all.deb
+               sudo apt install ./amdgpu-install_31.40.1.314001-1_all.deb
 
          .. selected:: ubuntu-ver=22.04
 
             .. code-block:: bash
 
                sudo apt update
-               wget https://repo.radeon.com/amdgpu-install/31.40/ubuntu/jammy/amdgpu-install_31.40.314000-1_all.deb
-               sudo apt install ./amdgpu-install_31.40.314000-1_all.deb
+               wget https://repo.radeon.com/amdgpu-install/31.40.1/ubuntu/jammy/amdgpu-install_31.40.1.314001-1_all.deb
+               sudo apt install ./amdgpu-install_31.40.1.314001-1_all.deb
 
       .. selected:: os=rhel
 
@@ -86,43 +86,43 @@ Installation
 
             .. code-block:: bash
 
-               wget https://repo.radeon.com/amdgpu-install/31.40/rhel/10.2/amdgpu-install-31.40.314000-1.el10.noarch.rpm
-               sudo dnf install ./amdgpu-install-31.40.314000-1.el10.noarch.rpm
+               wget https://repo.radeon.com/amdgpu-install/31.40.1/rhel/10.2/amdgpu-install-31.40.1.314001-1.el10.noarch.rpm
+               sudo dnf install ./amdgpu-install-31.40.1.314001-1.el10.noarch.rpm
 
          .. selected:: rhel-ver=10.0
 
             .. code-block:: bash
 
-               wget https://repo.radeon.com/amdgpu-install/31.40/rhel/10.0/amdgpu-install-31.40.314000-1.el10.noarch.rpm
-               sudo dnf install ./amdgpu-install-31.40.314000-1.el10.noarch.rpm
+               wget https://repo.radeon.com/amdgpu-install/31.40.1/rhel/10.0/amdgpu-install-31.40.1.314001-1.el10.noarch.rpm
+               sudo dnf install ./amdgpu-install-31.40.1.314001-1.el10.noarch.rpm
 
          .. selected:: rhel-ver=9.8
 
             .. code-block:: bash
 
-               wget https://repo.radeon.com/amdgpu-install/31.40/rhel/9.8/amdgpu-install-31.40.314000-1.el9.noarch.rpm
-               sudo dnf install ./amdgpu-install-31.40.314000-1.el9.noarch.rpm
+               wget https://repo.radeon.com/amdgpu-install/31.40.1/rhel/9.8/amdgpu-install-31.40.1.314001-1.el9.noarch.rpm
+               sudo dnf install ./amdgpu-install-31.40.1.314001-1.el9.noarch.rpm
 
          .. selected:: rhel-ver=9.6
 
             .. code-block:: bash
 
-               wget https://repo.radeon.com/amdgpu-install/31.40/rhel/9.6/amdgpu-install-31.40.314000-1.el9.noarch.rpm
-               sudo dnf install ./amdgpu-install-31.40.314000-1.el9.noarch.rpm
+               wget https://repo.radeon.com/amdgpu-install/31.40.1/rhel/9.6/amdgpu-install-31.40.1.314001-1.el9.noarch.rpm
+               sudo dnf install ./amdgpu-install-31.40.1.314001-1.el9.noarch.rpm
 
          .. selected:: rhel-ver=9.4
 
             .. code-block:: bash
 
-               wget https://repo.radeon.com/amdgpu-install/31.40/rhel/9.4/amdgpu-install-31.40.314000-1.el9.noarch.rpm
-               sudo dnf install ./amdgpu-install-31.40.314000-1.el9.noarch.rpm
+               wget https://repo.radeon.com/amdgpu-install/31.40.1/rhel/9.4/amdgpu-install-31.40.1.314001-1.el9.noarch.rpm
+               sudo dnf install ./amdgpu-install-31.40.1.314001-1.el9.noarch.rpm
 
          .. selected:: rhel-ver=8.10
 
             .. code-block:: bash
 
-               wget https://repo.radeon.com/amdgpu-install/31.40/rhel/8.10/amdgpu-install-31.40.314000-1.el8.noarch.rpm
-               sudo dnf install ./amdgpu-install-31.40.314000-1.el8.noarch.rpm
+               wget https://repo.radeon.com/amdgpu-install/31.40.1/rhel/8.10/amdgpu-install-31.40.1.314001-1.el8.noarch.rpm
+               sudo dnf install ./amdgpu-install-31.40.1.314001-1.el8.noarch.rpm
 
 .. ==================================================== INSTALL KERNEL DRIVER ==
 
