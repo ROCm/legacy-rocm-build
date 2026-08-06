@@ -40,12 +40,12 @@
 
          .. selector-option:: 26.04
             :value: 26.04
-            :width: 4
+            :width: 6
 
          .. selector-option:: 24.04.4
             :show-cond: fam=instinct fam=radeon fam=all
             :value: 24.04
-            :width: 4
+            :width: 6
 
    .. selected:: fam=ryzen
 
