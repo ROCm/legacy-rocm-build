@@ -1510,7 +1510,7 @@ Use the following instructions to install ROCm packages on your system.
 
          .. code-block:: bash
 
-            sudo amdgpu-install --usecase=rocm --no-dkms
+            sudo amdgpu-install --usecase=rocm --gfxversion=auto --no-dkms
 
       .. selected:: fam=all
 
