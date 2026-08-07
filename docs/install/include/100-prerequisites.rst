@@ -19,95 +19,90 @@ Prerequisites
 
 .. selected:: os=ubuntu os=debian os=rhel os=rocky-linux os=oracle-linux os=sles
 
-   .. dropdown:: Install essential packages for Docker containers
-      :animate: fade-in-slide-down
-      :color: info
-      :icon: tools
-      :chevron: down-up
+   .. selected:: i=pkgman i=pip i=tar i=runfile
 
-      Docker images often include only a minimal set of installations, so some
-      essential packages might be missing. When installing ROCm within a Docker
-      container, you might need to install additional packages for a successful
-      installation.
+      .. dropdown:: Install essential packages for Docker containers
+         :animate: fade-in-slide-down
+         :color: info
+         :icon: tools
+         :chevron: down-up
 
-      If applicable, run the following command to install essential packages:
+         Docker images often include only a minimal set of installations, so some
+         essential packages might be missing. When installing ROCm within a Docker
+         container, you might need to install additional packages for a successful
+         installation.
 
-      .. selected:: os=ubuntu os=debian
+         If applicable, run the following command to install essential packages:
 
-         .. selected:: i=pkgman
+         .. selected:: os=ubuntu os=debian
 
-            .. code-block:: bash
+            .. selected:: i=pkgman
 
-               apt update
-               apt install sudo wget gpg
+               .. code-block:: bash
 
-         .. selected:: w=graphics
+                  apt update
+                  apt install sudo wget gpg
 
-            .. code-block:: bash
+            .. selected:: i=pip
 
-               apt update
-               apt install sudo wget gpg
+               .. code-block:: bash
 
-         .. selected:: i=pip
+                  apt update
+                  apt install sudo cmake libgfortran5
 
-            .. code-block:: bash
+            .. selected:: i=tar
 
-               apt update
-               apt install sudo cmake libgfortran5
+               .. code-block:: bash
 
-         .. selected:: i=tar
+                  apt update
+                  apt install sudo wget python3
 
-            .. code-block:: bash
+            .. selected:: i=runfile
 
-               apt update
-               apt install sudo wget python3
+               .. code-block:: bash
 
-         .. selected:: i=runfile
+                  apt update
+                  apt install sudo wget curl python3 rsync
 
-            .. code-block:: bash
+         .. selected:: os=rhel os=rocky-linux os=oracle-linux
 
-               apt update
-               apt install sudo wget curl python3 rsync
+            .. selected:: i=pkgman i=pip i=tar
 
-      .. selected:: os=rhel os=rocky-linux os=oracle-linux
+               .. code-block:: bash
 
-         .. selected:: i=pkgman i=pip i=tar
+                  dnf install sudo wget
 
-            .. code-block:: bash
+            .. selected:: i=runfile
 
-               dnf install sudo wget
+               .. code-block:: bash
 
-         .. selected:: i=runfile
+                  dnf install sudo wget rsync
 
-            .. code-block:: bash
+         .. selected:: os=sles
 
-               dnf install sudo wget rsync
+            .. selected:: i=pkgman
 
-      .. selected:: os=sles
+               .. code-block:: bash
 
-         .. selected:: i=pkgman
+                  zypper install sudo wget SUSEConnect
 
-            .. code-block:: bash
+            .. selected:: i=pip
 
-               zypper install sudo wget SUSEConnect
+               .. code-block:: bash
 
-         .. selected:: i=pip
+                  zypper install sudo wget cmake libgfortran5
 
-            .. code-block:: bash
+            .. selected:: i=tar
 
-               zypper install sudo wget cmake libgfortran5
+               .. code-block:: bash
 
-         .. selected:: i=tar
+                  zypper install sudo wget
 
-            .. code-block:: bash
+            .. selected:: i=runfile
 
-               zypper install sudo wget
+               .. code-block:: bash
 
-         .. selected:: i=runfile
-
-            .. code-block:: bash
-
-               zypper install sudo wget rsync
+                  zypper install sudo wget rsync
 
 .. ================================================================== WINDOWS ==
 
