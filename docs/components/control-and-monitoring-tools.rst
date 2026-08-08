@@ -13,6 +13,12 @@ managing AMD GPU hardware state in workstation and data center environments.
   GPU settings, monitor performance, and retrieve device and process
   information.
 
+  For RAS ECC error injection on Instinct GPUs, use
+  ``rocm-smi --rasinject BLOCK ERRTYPE`` from the public ``rocm_smi_lib`` CLI.
+  Note: ``amdgpuras`` is not shipped in public ROCm releases; if you were
+  directed to that tool from internal documentation, please use the public
+  ``rocm-smi`` path or contact AMD support for enterprise deployment options.
+
 * :doc:`ROCm Data Center Tool <rdc:index>` (RDC) -- Simplifies administration
   and addresses key infrastructure challenges in AMD GPUs in cluster and
   data-center environments.
