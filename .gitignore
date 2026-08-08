@@ -1,6 +1,5 @@
 .cline_storage
 .venv
-.vscode
 build
 __pycache__
 
@@ -22,3 +21,7 @@ docs/release/changelog.md
 # assembled at Sphinx build time by remote_yaml extension — do not commit
 docs/data/reference/precision-support/precision-support.yaml
 .claude/settings.local.json
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
