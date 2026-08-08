@@ -1245,12 +1245,17 @@ Use the following instructions to install ROCm packages on your system.
 
       .. selected:: fam=radeon
 
+         .. warning::
+
+            Before proceeding, please enable "Above 4G Decoding" in your BIOS settings.
+
+
          Run the ``amdgpu-install`` script with the following ``--usecase`` arguments
          to install ROCm and graphics packages.
 
          .. code-block:: bash
 
-            sudo amdgpu-install --usecase=rocm,graphics
+            sudo amdgpu-install --usecase=rocm,graphics --gfxversion=auto
 
       .. selected:: fam=ryzen
 
@@ -1261,7 +1266,7 @@ Use the following instructions to install ROCm packages on your system.
 
          .. code-block:: bash
 
-            sudo amdgpu-install --usecase=rocm --no-dkms
+            sudo amdgpu-install --usecase=rocm --gfxversion=auto --no-dkms
 
       Reboot your system after installing.
 

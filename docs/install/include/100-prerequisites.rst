@@ -19,74 +19,69 @@ Prerequisites
 
 .. selected:: os=ubuntu os=debian os=rhel os=rocky-linux os=oracle-linux os=sles
 
-   .. dropdown:: Install essential packages for Docker containers
-      :animate: fade-in-slide-down
-      :color: info
-      :icon: tools
-      :chevron: down-up
+   .. selected:: i=pkgman i=pip i=tar i=runfile
 
-      Docker images often include only a minimal set of installations, so some
-      essential packages might be missing. When installing ROCm within a Docker
-      container, you might need to install additional packages for a successful
-      installation.
+      .. dropdown:: Install essential packages for Docker containers
+         :animate: fade-in-slide-down
+         :color: info
+         :icon: tools
+         :chevron: down-up
 
-      If applicable, run the following command to install essential packages:
+         Docker images often include only a minimal set of installations, so some
+         essential packages might be missing. When installing ROCm within a Docker
+         container, you might need to install additional packages for a successful
+         installation.
 
-      .. selected:: os=ubuntu os=debian
+         If applicable, run the following command to install essential packages:
 
-         .. selected:: i=pkgman
+         .. selected:: os=ubuntu os=debian
 
-            .. code-block:: bash
+            .. selected:: i=pkgman
 
-               apt update
-               apt install sudo wget
+               .. code-block:: bash
 
-         .. selected:: w=graphics
+                  apt update
+                  apt install sudo wget
 
-            .. code-block:: bash
+            .. selected:: i=pip
 
-               apt update
-               apt install sudo wget
+               .. code-block:: bash
 
-         .. selected:: i=pip
+                  apt update
+                  apt install sudo cmake libgfortran5
 
-            .. code-block:: bash
+            .. selected:: i=tar i=runfile
 
-               apt update
-               apt install sudo cmake libgfortran5
+               .. code-block:: bash
 
-         .. selected:: i=tar i=runfile
+                  apt update
+                  apt install sudo wget python3
 
-            .. code-block:: bash
-
-               apt update
-               apt install sudo wget python3
-
-      .. selected:: os=rhel os=rocky-linux os=oracle-linux
-
-         .. code-block:: bash
-
-            dnf install sudo wget
-
-      .. selected:: os=sles
-
-         .. selected:: i=pkgman
+         .. selected:: os=rhel os=rocky-linux os=oracle-linux
 
             .. code-block:: bash
 
-               zypper install sudo wget SUSEConnect
+               dnf install sudo wget
 
-         .. selected:: i=pip
+         .. selected:: os=sles
 
-            .. code-block:: bash
+            .. selected:: i=pkgman
 
-               zypper install sudo wget cmake libgfortran5
+               .. code-block:: bash
 
-         .. selected:: i=tar i=runfile
+                  zypper install sudo wget SUSEConnect
 
-            .. code-block:: bash
+            .. selected:: i=pip
 
-               zypper install sudo wget
+               .. code-block:: bash
+
+                  zypper install sudo wget cmake libgfortran5
+
+            .. selected:: i=tar i=runfile
+
+               .. code-block:: bash
+
+                  zypper install sudo wget
 
 .. ================================================================== WINDOWS ==
 
