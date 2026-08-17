@@ -115,7 +115,7 @@ external_toc_path = "./sphinx/_toc.yml"
 sys.path.append(str(DOCS_DIR / "extension"))
 extensions = [
     "rocm_docs",
-    "rocm_docs_custom.selector",
+    "rocm_docs.selector",
     "rocm_docs_custom.matrix",
     "rocm_docs_custom.icon",
     "rocm_docs_custom.csv_list_to_table",
