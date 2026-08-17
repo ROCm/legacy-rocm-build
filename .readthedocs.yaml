@@ -17,8 +17,3 @@ build:
   tools:
     python: "3.12"
 
-search:
-  ignore:
-    - "**/archive/**"
-    - "**/include/**"
-    - "**/redirect/**"
