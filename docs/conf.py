@@ -128,7 +128,6 @@ extensions = [
     # "sphinx_reredirects",
     # "sphinx_sitemap",
 ]
-templates_path = ["extension/rocm_docs_custom/selector/templates"]
 
 html_static_path = ["sphinx/static"]
 html_js_files = ["setup-toc-install-headings.js", "legacy/vllm-benchmark.js"]
