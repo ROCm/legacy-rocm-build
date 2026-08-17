@@ -1,0 +1,4 @@
+rocm-docs-core @ git+https://github.com/ROCm/rocm-docs-core.git@feat-selector
+sphinxcontrib.datatemplates==0.11.0
+sphinx_substitution_extensions
+sphinx-sitemap
