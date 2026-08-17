@@ -80,11 +80,6 @@ latex_elements = {
 """
 }
 
-html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "rocm.docs.amd.com")
-html_context = {"docs_header_version": "7.2.4"}
-if os.environ.get("READTHEDOCS", "") == "True":
-    html_context["READTHEDOCS"] = True
-
 # Check if the branch is a docs/ branch
 official_branch = run(["git", "rev-parse", "--abbrev-ref", "HEAD"], capture_output=True, text=True).stdout.find("docs/")
 
@@ -246,13 +241,22 @@ external_projects_current_project = "rocm"
 # external_projects_remote_repository = ""
 
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "https://rocm-stg.amd.com/")
-html_context = {"docs_header_version": "7.2.3"}
+
+html_context = {
+    "docs_header_version": "7.2.3",
+    "official_branch": official_branch,
+    "version": version,
+    "release": release,
+    "project_path" : project_path,
+    "gpu_type" : [('AMD Instinct GPUs', 'intrinsic'), ('AMD gfx families', 'gfx'), ('NVIDIA families', 'nvidia') ],
+    "atomics_type" : [('HW atomics', 'hw-atomics'), ('CAS emulation', 'cas-atomics')],
+    "pcie_type" : [('No PCIe atomics', 'nopcie'), ('PCIe atomics', 'pcie')],
+    "memory_type" : [('Device DRAM', 'device-dram'), ('Migratable Host DRAM', 'migratable-host-dram'), ('Pinned Host DRAM', 'pinned-host-dram')],
+    "granularity_type" : [('Coarse-grained', 'coarse-grained'), ('Fine-grained', 'fine-grained')],
+    "scope_type" : [('Device', 'device'), ('System', 'system')]
+}
 if os.environ.get("READTHEDOCS", "") == "True":
     html_context["READTHEDOCS"] = True
-
-html_context["official_branch"] = official_branch
-html_context["version"] = version
-html_context["release"] = release
 
 html_theme = "rocm_docs_theme"
 
@@ -269,18 +273,7 @@ html_theme_options = {
 
 redirects = {"reference/openmp/openmp": "../../about/compatibility/openmp.html"}
 
-numfig = False
 suppress_warnings = ["autosectionlabel.*"]
-
-html_context = {
-    "project_path" : {project_path},
-    "gpu_type" : [('AMD Instinct GPUs', 'intrinsic'), ('AMD gfx families', 'gfx'), ('NVIDIA families', 'nvidia') ],
-    "atomics_type" : [('HW atomics', 'hw-atomics'), ('CAS emulation', 'cas-atomics')],
-    "pcie_type" : [('No PCIe atomics', 'nopcie'), ('PCIe atomics', 'pcie')],
-    "memory_type" : [('Device DRAM', 'device-dram'), ('Migratable Host DRAM', 'migratable-host-dram'), ('Pinned Host DRAM', 'pinned-host-dram')],
-    "granularity_type" : [('Coarse-grained', 'coarse-grained'), ('Fine-grained', 'fine-grained')],
-    "scope_type" : [('Device', 'device'), ('System', 'system')]
-}
 
 # Disable figure and table numbering
 numfig = False
