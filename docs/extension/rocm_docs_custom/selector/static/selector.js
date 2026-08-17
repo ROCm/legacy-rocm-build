@@ -535,10 +535,6 @@ function updateVisibility() {
 domReady(() => {
   const selectorOptions = document.querySelectorAll(OPTION_QUERY);
   if (!selectorOptions.length) {
-    // Clear URLSearchParams if page does not have selector
-    const url = new URL(window.location);
-    url.search = "";
-    window.history.replaceState({}, "", url);
     return;
   }
 
