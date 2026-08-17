@@ -10,12 +10,20 @@ formats: []
 
 python:
   install:
-    - requirements: docs/sphinx/requirements.txt
+    # Install from the lockfile in the cloned rocm-docs-common (see the
+    # post_checkout job below), rather than downloading it over HTTPS.
+    - requirements: rocm-docs-common/env/sphinx/requirements.txt
 
 build:
   os: ubuntu-24.04
   tools:
     python: "3.12"
+  jobs:
+    # Clone the shared build-data repo before dependencies are installed so the
+    # pinned Sphinx lockfile (and the matching rocm-docs-core branch) is read
+    # from this checkout. rocm-docs-core also reuses this clone for its data.
+    post_checkout:
+      - git clone --depth 1 --branch main https://github.com/neon60/rocm-docs-common.git rocm-docs-common
 
 search:
   ignore:
