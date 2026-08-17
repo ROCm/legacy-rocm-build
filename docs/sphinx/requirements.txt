@@ -1,1 +1,8 @@
--r https://raw.githubusercontent.com/ROCm/rocm-docs-core/new_data/env/sphinx/requirements.txt
+# Pinned Sphinx build dependencies, sourced from the shared rocm-docs-common
+# repo. By default they are downloaded over HTTPS so a local build needs no
+# extra clone step.
+#
+# Local build against a rocm-docs-common clone: comment out the -r URL below
+# and uncomment the local path instead (adjust the path to your checkout):
+#   -r ../../../rocm-docs-common/env/sphinx/requirements.txt
+-r https://raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt
