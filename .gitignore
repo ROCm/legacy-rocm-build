@@ -22,3 +22,6 @@ docs/release/changelog.md
 # assembled at Sphinx build time by remote_yaml extension — do not commit
 docs/data/reference/precision-support/precision-support.yaml
 .claude/settings.local.json
+
+# rocm-docs-common is auto-cloned at build time by rocm-docs-core — do not commit
+/rocm-docs-common
