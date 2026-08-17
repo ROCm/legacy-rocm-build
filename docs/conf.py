@@ -167,7 +167,7 @@ html_title = f"AMD ROCm {ROCM_VERSION}"
 
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "rocm.docs.amd.com")
 html_context = {
-    "project_path": {project_path},
+    "project_path": project_path,
     "gpu_type": [
         ("AMD Instinct accelerators", "intrinsic"),
         ("AMD gfx families", "gfx"),
