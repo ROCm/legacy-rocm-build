@@ -375,6 +375,16 @@ complete your system configuration and validate the installation.
 .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 
    .. selected:: i=pip
+      :heading: Configure your environment
+      :heading-level: 3
+
+      Initialize the ROCm SDK.
+
+      .. code-block:: bash
+
+         rocm-sdk init
+
+   .. selected:: i=pip
       :heading: Test your installation
       :heading-level: 3
 
