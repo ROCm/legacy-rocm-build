@@ -25,12 +25,13 @@ build:
     # from this checkout. rocm-docs-core also reuses this clone for its data.
     post_checkout:
       - git clone --depth 1 --branch main https://github.com/neon60/rocm-docs-common.git rocm-docs-common
-      # If docs/sphinx/requirements.txt still holds the default HTTPS line,
-      # rewrite it to install from the local clone above (no HTTPS fetch on RTD).
-      # If it has been customized (URL line removed), leave it untouched.
-      # Kept on one line: Read the Docs runs each job step under dash, which
-      # mangles multi-line if...fi literal blocks.
-      - if grep -q 'raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt' docs/sphinx/requirements.txt; then sed -i 's#-r https://raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt#-r ../../rocm-docs-common/env/sphinx/requirements.txt#' docs/sphinx/requirements.txt; fi
+      # Rewrite the default HTTPS lockfile line in docs/sphinx/requirements.txt to
+      # install from the local clone above, so no HTTPS fetch happens on RTD.
+      # Plain sed (no if/fi): it is a no-op when the URL is absent, so a
+      # customized requirements.txt is left untouched. The delimiter is @ (not #)
+      # and the expression has no spaces, so RTD's shell runs it verbatim
+      # regardless of quoting.
+      - sed -i s@https://raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt@../../rocm-docs-common/env/sphinx/requirements.txt@ docs/sphinx/requirements.txt
 
 search:
   ignore:
