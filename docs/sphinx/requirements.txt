@@ -1,11 +1,17 @@
-# Sphinx build dependencies come from the shared rocm-docs-common lockfile,
-# downloaded over HTTPS (which also pins the matching rocm-docs-core branch).
-# A local build needs no extra clone step for dependencies.
+# Single entry point for Sphinx build dependencies, for both local and
+# Read the Docs builds.
 #
-# To diverge from the shared deps, comment out the -r URL below and either:
-#   - add your own pins here, e.g.
-#       sphinx==8.1.3
-#       rocm-docs-core[api-reference,llms]==1.38.0
-#   - or point -r at a local rocm-docs-common checkout instead of the URL:
-#       -r ../../../rocm-docs-common/env/sphinx/requirements.txt
+# Default (the -r URL below): download the shared rocm-docs-common lockfile
+# over HTTPS (which also pins the matching rocm-docs-core branch). A local
+# build uses this as-is and needs no extra clone step. On Read the Docs the
+# post_checkout job in .readthedocs.yaml detects this default line and rewrites
+# it to install from the cloned rocm-docs-common instead, avoiding the HTTPS
+# fetch.
+#
+# To customize: replace the -r URL line below with your own full set of pins,
+# e.g.
+#     sphinx==8.1.3
+#     rocm-docs-core[api-reference,llms]==1.38.0
+# Once the URL line is gone, this file is used verbatim everywhere (local and
+# Read the Docs) with no automatic rewrite.
 -r https://raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt

@@ -10,9 +10,10 @@ formats: []
 
 python:
   install:
-    # Install from the lockfile in the cloned rocm-docs-common (see the
-    # post_checkout job below), rather than downloading it over HTTPS.
-    - requirements: rocm-docs-common/env/sphinx/requirements.txt
+    # Single entry point: the repo's own docs/sphinx/requirements.txt, which
+    # pulls the pinned lockfile from the cloned rocm-docs-common (see the
+    # post_checkout job below) rather than downloading it over HTTPS.
+    - requirements: docs/sphinx/requirements.txt
 
 build:
   os: ubuntu-24.04
@@ -24,6 +25,13 @@ build:
     # from this checkout. rocm-docs-core also reuses this clone for its data.
     post_checkout:
       - git clone --depth 1 --branch main https://github.com/neon60/rocm-docs-common.git rocm-docs-common
+      # If docs/sphinx/requirements.txt still holds the default HTTPS line,
+      # rewrite it to install from the local clone above (no HTTPS fetch on RTD).
+      # If it has been customized (URL line removed), leave it untouched.
+      - |
+        if grep -q 'raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt' docs/sphinx/requirements.txt; then
+          sed -i 's#-r https://raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt#-r ../../rocm-docs-common/env/sphinx/requirements.txt#' docs/sphinx/requirements.txt
+        fi
 
 search:
   ignore:
