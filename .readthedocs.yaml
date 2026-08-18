@@ -28,10 +28,9 @@ build:
       # If docs/sphinx/requirements.txt still holds the default HTTPS line,
       # rewrite it to install from the local clone above (no HTTPS fetch on RTD).
       # If it has been customized (URL line removed), leave it untouched.
-      - |
-        if grep -q 'raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt' docs/sphinx/requirements.txt; then
-          sed -i 's#-r https://raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt#-r ../../rocm-docs-common/env/sphinx/requirements.txt#' docs/sphinx/requirements.txt
-        fi
+      # Kept on one line: Read the Docs runs each job step under dash, which
+      # mangles multi-line if...fi literal blocks.
+      - if grep -q 'raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt' docs/sphinx/requirements.txt; then sed -i 's#-r https://raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt#-r ../../rocm-docs-common/env/sphinx/requirements.txt#' docs/sphinx/requirements.txt; fi
 
 search:
   ignore:
