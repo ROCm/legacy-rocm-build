@@ -1,3 +1,9 @@
+> [!WARNING]
+> This repository will be deprecated soon. Use
+> [ROCm/TheRock](https://github.com/ROCm/TheRock) moving forward, including
+> for [issues](https://github.com/ROCm/TheRock/issues) and
+> [discussions](https://github.com/ROCm/TheRock/discussions).
+
 <div align="center">
   <img src="docs/images/amd-rocm-logo.png" width="200px" alt="ROCm logo">
   <h3 align="center">
@@ -35,11 +41,6 @@ with an interface similar to NVIDIA CUDA™. It also supports OpenMP and OpenCL,
 and includes the compilers, debuggers, and libraries needed to build and run GPU
 workloads. ROCm integrates with machine learning frameworks such as PyTorch and
 TensorFlow.
-
-> [!IMPORTANT]
-> A new open-source build platform for ROCm is under development at
-> https://github.com/ROCm/TheRock, featuring a unified CMake build with bundled
-> dependencies, Windows support, and more.
 
 ## Table of contents
 
