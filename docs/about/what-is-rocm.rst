@@ -14,7 +14,7 @@ performance and system utilities, and optimized math and compute libraries. The
 wider ROCm ecosystem includes ROCm‑enabled HPC applications and deep learning
 frameworks such as PyTorch.
 
-ROCm |ROCM_VERSION| is built through the `TheRock
+ROCm |ROCM_VERSION| is built through `TheRock
 <https://github.com/ROCm/TheRock>`__, AMD’s open build and release system.
 TheRock replaces the previous monolithic release process with a modular
 workflow that makes ROCm components easier to build, integrate, and distribute.
