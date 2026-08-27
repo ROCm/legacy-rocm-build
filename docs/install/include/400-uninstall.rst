@@ -132,221 +132,223 @@ Uninstalling
             sudo apt clean all
             sudo apt update
 
-   1. Use your package manager to remove the :ref:`installed packages <rocm-install-rocm>`.
+   .. selected:: os=ubuntu os=debian os=rhel os=oracle-linux os=rocky-linux os=sles
 
-      .. selected:: os=ubuntu os=debian
+      1. Use your package manager to remove the :ref:`installed packages <rocm-install-rocm>`.
 
-         .. selected:: fam=all
+         .. selected:: os=ubuntu os=debian
+
+            .. selected:: fam=all
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0
+
+            .. selected:: gfx=gfx950
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx950
+
+            .. selected:: gfx=gfx942
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx942
+
+            .. selected:: gfx=gfx90a
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx90a
+
+            .. selected:: gfx=gfx908
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx908
+
+            .. selected:: gfx=gfx1201
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1201
+
+            .. selected:: gfx=gfx1200
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1200
+
+            .. selected:: gfx=gfx1100
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1100
+
+            .. selected:: gfx=gfx1101
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1101
+
+            .. selected:: gfx=gfx1102
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1102
+
+            .. selected:: gfx=gfx1103
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1103
+
+            .. selected:: gfx=gfx1030
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1030
+
+            .. selected:: gfx=gfx1151
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1151
+
+            .. selected:: gfx=gfx1150
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1150
+
+            .. selected:: gfx=gfx1152
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1152
+
+            .. selected:: gfx=gfx1153
+
+               .. code-block:: bash
+
+                  sudo apt autoremove amdrocm10.0-gfx1153
+
+         .. selected:: os=rhel os=oracle-linux os=rocky-linux
+
+            .. selected:: fam=all
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0
+
+            .. selected:: gfx=gfx950
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx950
+
+            .. selected:: gfx=gfx942
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx94x
+
+            .. selected:: gfx=gfx90a
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx90a
+
+            .. selected:: gfx=gfx908
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx908
+
+            .. selected:: gfx=gfx1201 gfx=gfx1200
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx120x
+
+            .. selected:: gfx=gfx1100 gfx=gfx1101 gfx=gfx1102 gfx=gfx1103
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx110x
+
+            .. selected:: gfx=gfx1030
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx103x
+
+            .. selected:: gfx=gfx1151
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx1151
+
+            .. selected:: gfx=gfx1150
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx1150
+
+            .. selected:: gfx=gfx1152
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx1152
+
+            .. selected:: gfx=gfx1153
+
+               .. code-block:: bash
+
+                  sudo dnf remove amdrocm10.0-gfx1153
+
+         .. selected:: os=sles
 
             .. code-block:: bash
 
-               sudo apt autoremove amdrocm10.0
+               sudo zypper remove amdrocm*
 
-         .. selected:: gfx=gfx950
+      2. Remove ROCm repositories.
 
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx950
-
-         .. selected:: gfx=gfx942
+         .. selected:: os=ubuntu os=debian
 
             .. code-block:: bash
 
-               sudo apt autoremove amdrocm10.0-gfx942
+               # Remove ROCm repositories
+               sudo rm -f /etc/apt/sources.list.d/amdrocm-stable.sources
 
-         .. selected:: gfx=gfx90a
+               # Clear the cache and clean the system
+               sudo rm -rf /var/cache/apt/*
+               sudo apt clean all
+               sudo apt update
 
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx90a
-
-         .. selected:: gfx=gfx908
-
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx908
-
-         .. selected:: gfx=gfx1201
+         .. selected:: os=rhel os=oracle-linux os=rocky-linux
 
             .. code-block:: bash
 
-               sudo apt autoremove amdrocm10.0-gfx1201
+               # Remove ROCm repositories
+               sudo rm -f /etc/yum.repos.d/amdrocm-stable.repo*
 
-         .. selected:: gfx=gfx1200
+               # Clear the cache and clean the system
+               sudo rm -rf /var/cache/dnf
+               sudo dnf clean all
 
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx1200
-
-         .. selected:: gfx=gfx1100
-
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx1100
-
-         .. selected:: gfx=gfx1101
+         .. selected:: os=sles
 
             .. code-block:: bash
 
-               sudo apt autoremove amdrocm10.0-gfx1101
-
-         .. selected:: gfx=gfx1102
-
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx1102
-
-         .. selected:: gfx=gfx1103
-
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx1103
-
-         .. selected:: gfx=gfx1030
-
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx1030
-
-         .. selected:: gfx=gfx1151
-
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx1151
-
-         .. selected:: gfx=gfx1150
-
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx1150
-
-         .. selected:: gfx=gfx1152
-
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx1152
-
-         .. selected:: gfx=gfx1153
-
-            .. code-block:: bash
-
-               sudo apt autoremove amdrocm10.0-gfx1153
-
-      .. selected:: os=rhel os=oracle-linux os=rocky-linux
-
-         .. selected:: fam=all
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0
-
-         .. selected:: gfx=gfx950
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx950
-
-         .. selected:: gfx=gfx942
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx94x
-
-         .. selected:: gfx=gfx90a
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx90a
-
-         .. selected:: gfx=gfx908
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx908
-
-         .. selected:: gfx=gfx1201 gfx=gfx1200
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx120x
-
-         .. selected:: gfx=gfx1100 gfx=gfx1101 gfx=gfx1102 gfx=gfx1103
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx110x
-
-         .. selected:: gfx=gfx1030
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx103x
-
-         .. selected:: gfx=gfx1151
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx1151
-
-         .. selected:: gfx=gfx1150
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx1150
-
-         .. selected:: gfx=gfx1152
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx1152
-
-         .. selected:: gfx=gfx1153
-
-            .. code-block:: bash
-
-               sudo dnf remove amdrocm10.0-gfx1153
-
-      .. selected:: os=sles
-
-         .. code-block:: bash
-
-            sudo zypper remove amdrocm*
-
-   2. Remove ROCm repositories.
-
-      .. selected:: os=ubuntu os=debian
-
-         .. code-block:: bash
-
-            # Remove ROCm repositories
-            sudo rm -f /etc/apt/sources.list.d/amdrocm-stable.sources
-
-            # Clear the cache and clean the system
-            sudo rm -rf /var/cache/apt/*
-            sudo apt clean all
-            sudo apt update
-
-      .. selected:: os=rhel os=oracle-linux os=rocky-linux
-
-         .. code-block:: bash
-
-            # Remove ROCm repositories
-            sudo rm -f /etc/yum.repos.d/amdrocm-stable.repo*
-
-            # Clear the cache and clean the system
-            sudo rm -rf /var/cache/dnf
-            sudo dnf clean all
-
-      .. selected:: os=sles
-
-         .. code-block:: bash
-
-            # Remove ROCm repositories
-            sudo zypper removerepo "amdrocm-stable"
-
-            # Clear the cache and clean the system
-            sudo zypper clean --all
-            sudo zypper refresh
+               # Remove ROCm repositories
+               sudo zypper removerepo "amdrocm-stable"
+
+               # Clear the cache and clean the system
+               sudo zypper clean --all
+               sudo zypper refresh
 
 .. ====================================================================== PIP ==
 
