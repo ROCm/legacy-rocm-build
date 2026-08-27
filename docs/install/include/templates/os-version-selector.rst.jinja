@@ -110,39 +110,6 @@
 {%- endmacro -%}
 
 {#--
-  all_graphics_versions(distro_name, key, header)
-  Returns a single 0-indented .. selector:: with the union of all versions
-  that have graphics: true. Used for fam=all + w=graphics.
---#}
-{%- macro all_graphics_versions(distro_name, key, header) -%}
-{%- set ns = namespace(seen=[], vers=[]) -%}
-{%- for fam_name in data.keys() if not fam_name.startswith("_") -%}
-  {%- set family_os = os_data[fam_name] -%}
-  {%- for gpu_name in data[fam_name].keys() -%}
-    {%- if gpu_name in family_os and distro_name in family_os[gpu_name] -%}
-      {%- for v in family_os[gpu_name][distro_name]["versions"] -%}
-        {%- if v["version"] not in ns.seen and v.graphics -%}
-          {%- set _ = ns.vers.append(v["version"]) -%}
-          {%- set ns.seen = ns.seen + [v["version"]] -%}
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
-  {%- endfor -%}
-{%- endfor -%}
-{%- if ns.vers | length > 0 -%}
-{%- set w = col_width(ns.vers | length) %}
-.. selector:: {{ header }}
-   :key: {{ key }}
-
-{% for ver in ns.vers %}
-   .. selector-option:: {{ ver }}
-      :value: {{ ver }}
-      :width: {{ w }}
-{% endfor %}
-{%- endif -%}
-{%- endmacro -%}
-
-{#--
   all_versions(distro_name, key, header)
   Returns a single 0-indented .. selector:: with the union of all versions.
 --#}
@@ -200,12 +167,7 @@
 {{ family_all_versions("AMD Ryzen", "Ubuntu", "ubuntu-ver", "Ubuntu version") | indent(9) }}
    .. selected:: fam=all
 
-      .. selected:: w=compute
-
-{{ all_versions("Ubuntu", "ubuntu-ver", "Ubuntu version") | indent(9) }}
-      .. selected:: w=graphics
-
-{{ all_graphics_versions("Ubuntu", "ubuntu-ver", "Ubuntu version") | indent(9) }}
+{{ all_versions("Ubuntu", "ubuntu-ver", "Ubuntu version") | indent(6) }}
 
 {# ── Debian ──────────────────────────────────────────────────────────────── #}
 
@@ -235,12 +197,7 @@
 {{ family_all_versions("AMD Radeon", "Red Hat Enterprise Linux", "rhel-ver", "RHEL version") | indent(9) }}
    .. selected:: fam=all
 
-      .. selected:: w=compute
-
-{{ all_versions("Red Hat Enterprise Linux", "rhel-ver", "RHEL version") | indent(9) }}
-      .. selected:: w=graphics
-
-{{ all_graphics_versions("Red Hat Enterprise Linux", "rhel-ver", "RHEL version") | indent(9) }}
+{{ all_versions("Red Hat Enterprise Linux", "rhel-ver", "RHEL version") | indent(6) }}
 
 {# ── Oracle Linux ─────────────────────────────────────────────────────────── #}
 
