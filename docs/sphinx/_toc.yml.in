@@ -49,7 +49,7 @@ subtrees:
                   title: vLLM
                 - url: https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/inference/sglang.html
                   title: SGLang
-          - file: install/docker-containers.md
+          - file: install/docker-containers.rst
             title: Docker containers
     - caption: Components
       entries:

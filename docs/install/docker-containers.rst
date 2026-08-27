@@ -45,10 +45,10 @@ amd-container-runtime. Both require installing the toolkit first.
 
 .. _docker-manual:
 
-Without the AMD Container Toolkit
-=================================
+Without the AMD Container Runtime Toolkit
+=========================================
 
-If you prefer not to install the AMD Container Toolkit, or you're using older
+If you prefer not to install the AMD Container Runtime Toolkit, or you're using older
 versions of Docker Engine, you can pass GPU device nodes directly to the
 container using Docker's ``--device`` flag. This approach requires no
 additional software beyond Docker.
