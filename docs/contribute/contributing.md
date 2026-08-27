@@ -31,7 +31,7 @@ To edit or add to the documentation, first clone the appropriate repository, ens
 
 | Module | Repository |
 | --- | --- |
-| ROCm stack | [https://github.com/ROCm/ROCm](https://github.com/ROCm/ROCm) |
+| ROCm stack | [https://github.com/ROCm/legacy-rocm-build](https://github.com/ROCm/legacy-rocm-build) |
 | ROCm libraries | [https://github.com/ROCm/rocm-libraries](https://github.com/ROCm/rocm-libraries) |
 | ROCm systems projects | [https://github.com/ROCm/rocm-systems](https://github.com/ROCm/rocm-systems) |
 
