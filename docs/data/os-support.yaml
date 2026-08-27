@@ -24,7 +24,7 @@ _versions:
   - &rocky_9 { version: "9", kernel: "5.14.0-570" }
   - &sles_16_0 { version: "16.0", kernel: "6.12" }
   - &sles_15_7 { version: "15.7", kernel: "6.4.0-150700.51" }
-  - &windows_11 { version: "11 25H2" }
+  - &windows_11 { version: "11 25H2", graphics: true }
 # }}}
 
 AMD Instinct:
