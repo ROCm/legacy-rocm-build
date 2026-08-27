@@ -297,6 +297,83 @@
 {%- endif %}
 {%- endmacro -%}
 
+{%- macro render_sriov_combined(sections) -%}
+{#-- Build merged groups for every section up front so rowspans are known --#}
+{%- set all_sections = [] -%}
+{%- for sec in sections -%}
+  {%- set sr_gpus = [] -%}
+  {%- for gpu_name, gpu in instinct.items() -%}
+    {%- if gpu[sec[0]] is defined -%}
+      {%- set short = gpu_name | replace("AMD Instinct ", "Instinct ") -%}
+      {%- set _ = sr_gpus.append({"name": short, "entries": gpu[sec[0]]}) -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- set groups = [] -%}
+  {%- set ns = namespace(prev_key="", prev_idx=-1) -%}
+  {%- for gpu in sr_gpus -%}
+    {%- set k = configs_key(gpu.entries) | trim -%}
+    {%- if k == ns.prev_key and ns.prev_idx >= 0 -%}
+      {%- set last = groups[-1] -%}
+      {%- set new_names = last.names + [gpu.name] -%}
+      {%- set _ = groups.pop() -%}
+      {%- set _ = groups.append({"names": new_names, "entries": last.entries}) -%}
+    {%- else -%}
+      {%- set _ = groups.append({"names": [gpu.name], "entries": gpu.entries}) -%}
+    {%- endif -%}
+    {%- set ns.prev_key = k -%}
+    {%- set ns.prev_idx = loop.index0 -%}
+  {%- endfor -%}
+  {%- set ns_rows = namespace(n=0) -%}
+  {%- for g in groups -%}{%- set ns_rows.n = ns_rows.n + (g.entries | length) -%}{%- endfor -%}
+  {%- set _ = all_sections.append({"label": sec[1], "groups": groups, "total": ns_rows.n}) -%}
+{%- endfor -%}
+{%- set ns_fn = namespace(needed=false, count=0) -%}
+<table class="rocm-docs-table table">
+  <thead>
+    <tr>
+      <th class="head"><p>Deployment</p></th>
+      <th class="head"><p>Device</p></th>
+      <th class="head"><p>VFs per GPU</p></th>
+      <th class="head"><p>Compute partition mode</p></th>
+      <th class="head"><p>Memory partition mode</p></th>
+    </tr>
+  </thead>
+  <tbody>
+{%- for sec in all_sections %}
+{%- set g_first = namespace(deploy_written=false) %}
+{%- for group in sec.groups %}
+{%- set n_rows = group.entries | length %}
+{%- set dev_label = group.names | join(", ") %}
+{%- for entry in group.entries %}
+{%- set is_list = entry.vfs is iterable and entry.vfs is not string and entry.vfs is not number %}
+{%- set multi_vf = is_list or (entry.vfs is number and entry.vfs > 1) %}
+{%- if multi_vf %}{%- set ns_fn.needed = true %}{%- set ns_fn.count = ns_fn.count + 1 %}{%- endif %}
+    <tr>
+{%- if not g_first.deploy_written %}
+      <td rowspan="{{ sec.total }}" style="vertical-align: middle;"><p>{{ sec.label }}</p></td>
+{%- set g_first.deploy_written = true %}
+{%- endif %}
+{%- if loop.first %}
+      <td{% if n_rows > 1 %} rowspan="{{ n_rows }}" style="vertical-align: middle;"{% endif %}><p>{{ dev_label }}</p></td>
+{%- endif %}
+      <td><p>{{ vfs_display(entry) | trim }}{% if multi_vf %}<a id="sriov-fn-ref-{{ ns_fn.count }}" class="footnote-reference brackets" href="#partitioning-support-sriov-footnotes" role="doc-noteref"><span class="fn-bracket">[</span>*<span class="fn-bracket">]</span></a>{% endif %}</p></td>
+      <td><p>{{ entry.compute }}{% if entry.default is defined and entry.default %} (Default){% endif %}</p></td>
+      <td><p>{{ entry.memory }}</p></td>
+    </tr>
+{%- endfor %}
+{%- endfor %}
+{%- endfor %}
+  </tbody>
+</table>
+{%- if ns_fn.needed %}
+<aside class="footnote brackets" id="partitioning-support-sriov-footnotes" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>*<span class="fn-bracket">]</span></span>
+<span class="backrefs">({% for i in range(1, ns_fn.count + 1) %}<a role="doc-backlink" href="#sriov-fn-ref-{{ i }}">{{ i }}</a>{% if not loop.last %}, {% endif %}{% endfor %})</span>
+<p>Multi-VF support requires a compatible firmware. See <a href="#kernel-driver-and-firmware-bundle-support">Kernel driver and firmware bundle support</a> for the list of required firmware versions and supported configurations.</p>
+</aside>
+{%- endif %}
+{%- endmacro -%}
+
 The following compute partition and NUMA-per-socket (NPS) configurations are
 available on AMD Instinct GPUs in bare-metal deployments.
 
@@ -310,18 +387,10 @@ deployments.
 {{ render_passthrough() }}
 ```
 
-The following configurations are available on AMD Instinct GPUs in KVM SR-IOV
+The following configurations are available on AMD Instinct GPUs in SR-IOV
 deployments. See {ref}`release-virtualization-support` for driver support
 information.
 
 ```{raw} html
-{{ render_sriov("kvm-sriov", "KVM SR-IOV") }}
-```
-
-The following configurations are available on AMD Instinct GPUs in ESXi SR-IOV
-deployments. See {ref}`release-virtualization-support` for driver support
-information.
-
-```{raw} html
-{{ render_sriov("esxi-sriov", "ESXi SR-IOV") }}
+{{ render_sriov_combined([["kvm-sriov", "KVM SR-IOV"], ["esxi-sriov", "ESXi SR-IOV"]]) }}
 ```
