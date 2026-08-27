@@ -22,8 +22,8 @@
 
   Columns:
     bare-metal  → Compute partition mode | Memory partition mode
-    passthrough  → Deployment | Compute partition mode | Memory partition mode
-    kvm-sriov   → VFs per GPU | Compute partition mode | Memory partition mode
+    passthrough → Deployment | Compute partition mode | Memory partition mode
+    sriov       → Deployment | VFs per GPU | Compute partition mode | Memory partition mode
 
   If default: true, "(Default)" is appended to the compute mode label.
 #}
@@ -185,8 +185,9 @@
 
 {% if ns_bm.groups | length > 0 %}
    .. selected:: {{ bm_slugs }}
-      :heading: Bare-metal partitioning support
-      :heading-level: 3
+
+      The following compute partition and NUMA-per-socket (NPS) configurations are
+      available on AMD Instinct GPUs in bare-metal deployments.
 
       .. matrix::
 
@@ -211,8 +212,9 @@
 {% endif %}
 {% if ns_pt.groups | length > 0 or ns_ep.groups | length > 0 %}
    .. selected:: {{ pt_slugs }}
-      :heading: Passthrough partitioning support
-      :heading-level: 3
+
+      The following configurations are available on AMD Instinct GPUs in passthrough
+      deployments.
 
       .. matrix::
 
@@ -253,15 +255,20 @@
 {% endfor %}
 {% endif %}
 {%- set ns_fn = namespace(needed=false, mv_gpu_names=[]) -%}
-{% if ns_ks.groups | length > 0 %}
-   .. selected:: {{ ks_slugs }}
-      :heading: KVM SR-IOV partitioning support
-      :heading-level: 3
+{%- set sriov_slugs = gpu_slugs(ks_gpu_names + es_gpu_names) -%}
+{% if ns_ks.groups | length > 0 or ns_es.groups | length > 0 %}
+   .. selected:: {{ sriov_slugs }}
+
+      The following configurations are available on AMD Instinct GPUs in SR-IOV
+      deployments. See :ref:`release-virtualization-support` for driver support
+      information.
 
       .. matrix::
 
          .. matrix-row::
             :header:
+
+            .. matrix-cell:: Deployment
 
             .. matrix-cell:: VFs per GPU
 
@@ -284,9 +291,39 @@
          .. matrix-row::
             :show-cond: {{ gpu_slugs(group.gpus) }}
 
+            .. matrix-cell:: KVM SR-IOV
+
             .. matrix-cell::{% if not multi_vf %} {{ vfs_display(entry) | trim }}{% endif %}
 {% if multi_vf %}
-               {{ vfs_display(entry) | trim }} :ref:`[*] <kvm-sriov-multi-vf-note>`
+               {{ vfs_display(entry) | trim }} :ref:`[*] <sriov-multi-vf-note>`
+{% endif %}
+
+            .. matrix-cell:: {{ entry.compute }}{% if entry.default is defined and entry.default %} (Default){% endif %}
+
+            .. matrix-cell:: {{ entry.memory }}
+
+{% endfor %}
+{% endfor %}
+{% for group in ns_es.groups %}
+{% for entry in group.entries %}
+{%- set is_list = entry.vfs is iterable and entry.vfs is not string and entry.vfs is not number -%}
+{%- set multi_vf = is_list or (entry.vfs is number and entry.vfs > 1) -%}
+{%- if multi_vf -%}
+{%- set ns_fn.needed = true -%}
+{%- for gname in group.gpus -%}
+{%- if gname not in ns_fn.mv_gpu_names -%}
+{%- set ns_fn.mv_gpu_names = ns_fn.mv_gpu_names + [gname] -%}
+{%- endif -%}
+{%- endfor -%}
+{%- endif %}
+         .. matrix-row::
+            :show-cond: {{ gpu_slugs(group.gpus) }}
+
+            .. matrix-cell:: ESXi SR-IOV
+
+            .. matrix-cell::{% if not multi_vf %} {{ vfs_display(entry) | trim }}{% endif %}
+{% if multi_vf %}
+               {{ vfs_display(entry) | trim }} :ref:`[*] <sriov-multi-vf-note>`
 {% endif %}
 
             .. matrix-cell:: {{ entry.compute }}{% if entry.default is defined and entry.default %} (Default){% endif %}
@@ -301,63 +338,7 @@
 
          .. container::
 
-            .. _kvm-sriov-multi-vf-note:
-
-            [*] Multi-VF support requires a compatible firmware. See the
-            :ref:`release notes <release-virtualization-support>` for the list of
-            required firmware versions and supported configurations.
-{% endif %}
-{% endif %}
-{%- set ns_fn_es = namespace(needed=false, mv_gpu_names=[]) -%}
-{% if ns_es.groups | length > 0 %}
-   .. selected:: {{ es_slugs }}
-      :heading: ESXi SR-IOV partitioning support
-      :heading-level: 3
-
-      .. matrix::
-
-         .. matrix-row::
-            :header:
-
-            .. matrix-cell:: VFs per GPU
-
-            .. matrix-cell:: Compute partition mode
-
-            .. matrix-cell:: Memory partition mode
-
-{% for group in ns_es.groups %}
-{% for entry in group.entries %}
-{%- set is_list = entry.vfs is iterable and entry.vfs is not string and entry.vfs is not number -%}
-{%- set multi_vf = is_list or (entry.vfs is number and entry.vfs > 1) -%}
-{%- if multi_vf -%}
-{%- set ns_fn_es.needed = true -%}
-{%- for gname in group.gpus -%}
-{%- if gname not in ns_fn_es.mv_gpu_names -%}
-{%- set ns_fn_es.mv_gpu_names = ns_fn_es.mv_gpu_names + [gname] -%}
-{%- endif -%}
-{%- endfor -%}
-{%- endif %}
-         .. matrix-row::
-            :show-cond: {{ gpu_slugs(group.gpus) }}
-
-            .. matrix-cell::{% if not multi_vf %} {{ vfs_display(entry) | trim }}{% endif %}
-{% if multi_vf %}
-               {{ vfs_display(entry) | trim }} :ref:`[*] <esxi-sriov-multi-vf-note>`
-{% endif %}
-
-            .. matrix-cell:: {{ entry.compute }}{% if entry.default is defined and entry.default %} (Default){% endif %}
-
-            .. matrix-cell:: {{ entry.memory }}
-
-{% endfor %}
-{% endfor %}
-{%- if ns_fn_es.needed %}
-
-      .. selected:: {{ gpu_slugs(ns_fn_es.mv_gpu_names) }}
-
-         .. container::
-
-            .. _esxi-sriov-multi-vf-note:
+            .. _sriov-multi-vf-note:
 
             [*] Multi-VF support requires a compatible firmware. See the
             :ref:`release notes <release-virtualization-support>` for the list of
