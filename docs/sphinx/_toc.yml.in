@@ -142,7 +142,7 @@ subtrees:
           - file: components/extras.rst
             title: ROCm Extras
             entries:
-                - url: https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/docs-1.5.122/index.html
+                - url: https://rocm.docs.amd.com/projects/ROCmValidationSuite/en/docs-1.5/index.html
                   title: ROCm Validation Suite (RVS)
                 - url: https://rocm.docs.amd.com/projects/TransferBench/en/docs-1.66.02/index.html
                   title: TransferBench
