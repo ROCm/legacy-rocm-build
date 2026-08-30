@@ -46,8 +46,9 @@ python3 tag_script.py -t $GITHUB_ACCESS_TOKEN --no-release --no-pulls --compile_
 
 Audits data-type support across ROCm libraries between two releases. Uses a hybrid
 approach: `precision_fetch.py` fetches raw source files and YAML snapshots from
-GitHub to `/tmp/`, then Claude reads and compares them semantically via a slash
-command — no regex parsers.
+GitHub to a private, per-run directory under the system temporary directory,
+then Claude reads and compares them semantically via a slash command — no regex
+parsers. The fetcher prints the generated output directory at the end of each run.
 
 ### Commands
 
@@ -80,13 +81,18 @@ Open Claude Code in this repo and run:
 
 Claude will:
 
-1. Run `precision_fetch.py` to download source files and YAML snapshots to `/tmp/`.
+1. Run `precision_fetch.py` to download source files and YAML snapshots to an isolated output directory.
 2. Read and compare each library's source against `precision-support.yaml`.
 3. Auto-update the YAML for clear missing entries.
 4. Flag ambiguous findings (macro expansion, combination tables, support level mismatches) for human review.
-5. Write a timestamped log to `tools/autotag/precision-update-log/` (gitignored — local only).
+5. Write a timestamped log to `tools/precision-support/precision-update-log/` (gitignored — local only).
 
 Commit any YAML changes. The YAML being audited lives at `docs/data/reference/precision-support/precision-support.yaml`.
+
+To keep artifacts in a specific directory for automation or debugging, invoke the
+fetcher directly with `--output-dir PATH`. When this option is omitted, each run
+uses a newly created directory with a name such as
+`/tmp/rocm-precision-abc123`.
 
 ### Adding new libraries to precision support
 
