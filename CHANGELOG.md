@@ -1984,9 +1984,9 @@ for a complete overview of this release.
 
 ##### Optimized
 
-- Improved process attachment and updated the corresponding [documentation](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/how-to/using-rocprofv3-process-attachment.html).
-- Improved [Quick reference guide for rocprofv3](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/quick_guide.html).
-- Updated the [installation documentation](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/install/installation.html) with the links to the latest repository.
+- Improved process attachment and updated the corresponding [documentation](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/docs-7.2.0/how-to/using-rocprofv3-process-attachment.html).
+- Improved [Quick reference guide for rocprofv3](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/docs-7.2.0/quick_guide.html).
+- Updated the [installation documentation](https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/docs-7.2.0/install/installation.html) with the links to the latest repository.
 
 ##### Resolved issues
 
