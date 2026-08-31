@@ -414,6 +414,10 @@ The following table is a general overview of ROCm Core SDK components. Actual su
 
 The following sections describe key changes to ROCm Core SDK components.
 
+```{note}
+For a historical overview of ROCm component updates, see the {doc}`ROCm consolidated changelog </release/changelog>`.
+```
+
 ```{include} ./include/core-sdk-components-aggregated-changelog.md
 :parser: myst
 ```
