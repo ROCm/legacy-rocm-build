@@ -628,6 +628,42 @@ For more information about ROCm hardware compatibility, see the ROCm `Compatibil
           - 12
           - 0
         *
+          - Radeon RX 9050
+          - RDNA4
+          - gfx1200
+          - 8
+          - 16
+          - 32 or 64
+          - 128
+          - 32
+          - 2
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0
+        *
+          - Radeon RX 9050 (4GB)
+          - RDNA4
+          - gfx1200
+          - 4
+          - 16
+          - 32 or 64
+          - 128
+          - 16
+          - 2
+          - N/A
+          - 32
+          - 16
+          - 32
+          - 768
+          - 32
+          - 12
+          - 0
+        *
           - Radeon RX 7900 XTX
           - RDNA3
           - gfx1100
