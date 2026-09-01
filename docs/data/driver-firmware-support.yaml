@@ -50,15 +50,15 @@ _amdgpu_drivers:
     url: https://instinct.docs.amd.com/projects/amdgpu-docs/en/docs-30.10/documentation/release-notes.html
 
 _windows_drivers:
-  - &adrenalin_26_6_4
+  - &adrenalin_26_8_1
     name: "AMD Software: Adrenalin Edition"
     label: Adrenalin Driver
-    version: "26.6.4"
-    url: https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-6-4.html
-  - &windows_oem_26_10_28
-    name: Windows OEM Driver
-    label: Windows OEM Driver
-    version: "26.10.28"
+    version: "26.8.1"
+    url: https://www.amd.com/en/resources/support-articles/release-notes/RN-RAD-WIN-26-8-1.html
+  - &windows_oem_26_10_32
+    name: Windows CDE CPR driver
+    label: Windows CDE CPR driver
+    version: "26.10.32"
 # }}}
 
 AMD Instinct:
@@ -127,10 +127,10 @@ AMD Instinct:
 AMD Radeon:
   linux:
     amdgpu: [*amdgpu_31_50_0, *amdgpu_31_40_1, *amdgpu_31_40_0, *amdgpu_31_30_0, *amdgpu_31_20_0, *amdgpu_31_10_0, *amdgpu_30_30_3, *amdgpu_30_30_2, *amdgpu_30_30_1, *amdgpu_30_30_0, *amdgpu_30_20_1, *amdgpu_30_20_0, *amdgpu_30_10_2, *amdgpu_30_10_1, *amdgpu_30_10_0]
-  windows: [*adrenalin_26_6_4, *windows_oem_26_10_28]
+  windows: [*adrenalin_26_8_1, *windows_oem_26_10_32]
 
 AMD Ryzen:
   linux:
     - {os: "Ubuntu 26.04", driver: "Inbox kernel driver"}
     - {os: "Ubuntu 24.04", driver: "6.14.0-1018 OEM kernel or newer"}
-  windows: [*adrenalin_26_6_4, *windows_oem_26_10_28]
+  windows: [*adrenalin_26_8_1, *windows_oem_26_10_32]
