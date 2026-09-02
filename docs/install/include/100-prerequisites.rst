@@ -113,6 +113,8 @@ Prerequisites
 
                   zypper install sudo wget rsync perl
 
+         See :doc:`/install/docker-containers` for Docker-related guidance.
+
 .. ================================================================== WINDOWS ==
 
 .. selected:: os=windows
@@ -692,6 +694,8 @@ Prerequisites
       There are two primary methods for configuring GPU access for ROCm: group
       membership or udev rules. Each method has its own advantages. The choice
       depends on your specific requirements and system management preferences.
+      If you're working in a containerized environment, do this step on the
+      host system, outside of the container.
 
       .. tab-set::
 
