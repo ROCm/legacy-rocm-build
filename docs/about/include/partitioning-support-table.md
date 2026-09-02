@@ -73,7 +73,7 @@ available on AMD Instinct GPUs in bare metal deployments.
         <p>DPX</p>
       </td>
       <td>
-        <p>NPS2</p>
+        <p>NPS1</p>
       </td>
     </tr>
     <tr>
@@ -125,6 +125,52 @@ available on AMD Instinct GPUs in bare metal deployments.
   </tbody>
 </table>
 
+The following compute partition and NUMA-per-socket (NPS) configurations are
+available on AMD Instinct GPUs in passthrough deployments.
+
+<table class="rocm-docs-table table">
+  <thead>
+    <tr>
+      <th class="head">
+        <p>Deployment</p>
+      </th>
+      <th class="head">
+        <p>Device</p>
+      </th>
+      <th class="head">
+        <p>Compute partition mode</p>
+      </th>
+      <th class="head">
+        <p>Memory partition mode</p>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="vertical-align: middle;">
+        <p>KVM Passthrough</p>
+      </td>
+      <td style="vertical-align: middle;">
+        <p>Instinct MI355X, MI350X, MI325X, MI300X</p>
+      </td>
+      <td rowspan="2" style="vertical-align: middle;">
+        <p>SPX</p>
+      </td>
+      <td rowspan="2" style="vertical-align: middle;">
+        <p>NPS1</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;">
+        <p>ESXi Passthrough</p>
+      </td>
+      <td style="vertical-align: middle;">
+        <p>Instinct MI350P, MI300X</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 The following configurations are available on AMD Instinct GPUs in SR-IOV
 deployments. See {ref}`release-virtualization-support` for driver support
 information.
@@ -151,7 +197,7 @@ information.
   </thead>
   <tbody>
     <tr>
-      <td rowspan="7" style="vertical-align: middle;">
+      <td rowspan="6" style="vertical-align: middle;">
         <p>KVM SR-IOV</p>
       </td>
       <td rowspan="3" style="vertical-align: middle;">
@@ -219,14 +265,30 @@ information.
     </tr>
     <tr id="id1">
       <td>
-        <p>8
-        <a id="id2" class="footnote-reference brackets" href="#partitioning-support-footnotes" role="doc-noteref"><span class="fn-bracket">[</span>*<span class="fn-bracket">]</span></a></p>
+        <p>8<a id="id2" class="footnote-reference brackets" href="#partitioning-support-footnotes" role="doc-noteref"><span class="fn-bracket">[</span>*<span class="fn-bracket">]</span></a></p>
       </td>
       <td>
         <p>CPX</p>
       </td>
       <td>
         <p>NPS4</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;">
+        <p>ESXi SR-IOV</p>
+      </td>
+      <td style="vertical-align: middle;">
+        <p>Instinct MI355X, Instinct MI350X</p>
+      </td>
+      <td>
+        <p>1</p>
+      </td>
+      <td>
+        <p>SPX</p>
+      </td>
+      <td>
+        <p>NPS1</p>
       </td>
     </tr>
   </tbody>

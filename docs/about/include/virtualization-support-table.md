@@ -190,7 +190,7 @@
           <p>Debian 13</p>
         </td>
         <td style="vertical-align: middle">
-          <p>Ubuntu 26.04</p>
+          <p>Ubuntu 24.04</p>
         </td>
       </tr>
   <tr>
