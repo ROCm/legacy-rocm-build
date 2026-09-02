@@ -10,12 +10,28 @@ formats: []
 
 python:
   install:
+    # Single entry point: the repo's own docs/sphinx/requirements.txt, which
+    # pulls the pinned lockfile from the cloned rocm-docs-common (see the
+    # post_checkout job below) rather than downloading it over HTTPS.
     - requirements: docs/sphinx/requirements.txt
 
 build:
   os: ubuntu-24.04
   tools:
     python: "3.12"
+  jobs:
+    # Clone the shared build-data repo before dependencies are installed so the
+    # pinned Sphinx lockfile (and the matching rocm-docs-core branch) is read
+    # from this checkout. rocm-docs-core also reuses this clone for its data.
+    post_checkout:
+      - git clone --depth 1 --branch main https://github.com/neon60/rocm-docs-common.git rocm-docs-common
+      # Rewrite the default HTTPS lockfile line in docs/sphinx/requirements.txt to
+      # install from the local clone above, so no HTTPS fetch happens on RTD.
+      # Plain sed (no if/fi): it is a no-op when the URL is absent, so a
+      # customized requirements.txt is left untouched. The delimiter is @ (not #)
+      # and the expression has no spaces, so RTD's shell runs it verbatim
+      # regardless of quoting.
+      - sed -i s@https://raw.githubusercontent.com/neon60/rocm-docs-common/main/env/sphinx/requirements.txt@../../rocm-docs-common/env/sphinx/requirements.txt@ docs/sphinx/requirements.txt
 
 search:
   ignore:
