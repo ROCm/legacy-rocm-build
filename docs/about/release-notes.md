@@ -530,6 +530,19 @@ TensorFlow ROCm v2.21 workloads might fail to start with an `ImportError: libhip
 
 Intermittent segmentation faults or GPU hangs might be observed when running some vLLM or ComfyUI workloads on Ryzen AI systems using gfx1103 (RDNA3) GPUs. See [GitHub issue #7702](https://github.com/ROCm/TheRock/issues/7702).
 
+### Inaccurate output when running certain LLM models on AMD Radeon RX 9050 (8GB) GPUs
+
+Certain large language models (LLMs) might produce inaccurate output on [AMD Radeon RX 9050](https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9050.html) (8GB) GPUs .The issue has been observed across multiple LLMs. The issue is not observed on [AMD Radeon RX 9050 (4GB)](https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9050-4gb.html) GPUs, the 4 GB memory variant of the same GPU.
+
+### ComfyUI might crash or trigger a TDR on some AMD Ryzen AI processors when dynamic VRAM is enabled
+
+ComfyUI workloads on Windows with ROCm 10 might encounter an access violation error or a timeout detection and
+recovery (TDR) event on some AMD Ryzen AI processors, such as the [AMD Ryzen AI Max+ PRO 395](https://www.amd.com/en/products/processors/laptop/ryzen-pro/ai-max-pro-300-series/amd-ryzen-ai-max-plus-pro-395.html), causing the application to crash. This occurs because a recent ComfyUI update enabled dynamic VRAM by default, which triggers an access violation tied to the AIMDO component when loading most models (Z-Image is unaffected, as it doesn't use AIMDO). As a workaround, add the `--disable-dynamic-vram` flag to the ComfyUI launch command.
+
+###  PyTorch training with Apex FusedLayerNorm might see a slow first iteration on certain AMD Instinct GPUs
+
+PyTorch training workloads that use the Apex `FusedLayerNorm` extension, such as Megatron-BERT, might experience a significantly slower first training iteration. The issue has been observed on AMD Instinct MI300X, MI350X, and MI355X GPUs starting with ROCm 7.2.1 and later. This issue occurs because Apex's native extensions are no longer precompiled into the container image at build time; instead, lazy-loading JIT stubs trigger `hipcc` compilation the first time `FusedLayerNorm` is used, adding up to ~18 seconds of one-time compilation overhead. Steady-state kernel execution performance is unaffected once compilation completes. As a workaround, precompile the Apex native extensions when building the container image (rather than relying on the lazy JIT `op_builder` stubs) so the compilation cost is paid at build time instead of at the first use.
+
 ## ROCm resolved issues
 
 The following notable issues have been fixed in ROCm 10.0.0.
