@@ -3,13 +3,13 @@
 1. Clone this repository.
 
    ```bash
-   git clone https://github.com/ROCm/rocm-build.git
+   git clone https://github.com/ROCm/ROCm.git
    ```
 
-2. Go into the OS-specific Docker directory in build-infra.
+2. Go into the Ubuntu 24.04 Docker directory.
 
     ```bash
-    cd rocm-build/build/docker/ubuntu22
+    cd ROCm/tools/rocm-build/docker/ubuntu24
     ```
 
 3. Build the Docker image
