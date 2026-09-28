@@ -1,0 +1,18 @@
+# bandit minimal configuration
+# Reference: https://bandit.readthedocs.io/en/latest/config.html
+#
+# The default for repositories that ship no bandit config of their own.
+# A repository that ships one (`bandit.yaml` or `bandit.yml`) replaces
+# this file wholesale rather than layering onto it, so suppressions and
+# tuning that belong to a single repository (e.g. `skips: [...]`) belong
+# there. What goes here is what should hold for a repository that has
+# said nothing.
+
+exclude_dirs:
+  - .git
+  - .venv
+  - venv
+  - build
+  - dist
+  - node_modules
+  - __pycache__

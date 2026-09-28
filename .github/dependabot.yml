@@ -11,3 +11,20 @@ updates:
     schedule:
       interval: "daily"
     versioning-strategy: increase
+
+  # ── GitHub Actions: keep workflow action versions current ──────────────────
+  - package-ecosystem: "github-actions"
+    # "/" covers .github/workflows; composite actions keep their own `uses:`
+    # pins, so .github/actions has to be listed separately to get bumped.
+    directories:
+      - "/"
+      - "/.github/actions/*"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

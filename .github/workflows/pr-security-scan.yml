@@ -1,0 +1,38 @@
+# Copyright Advanced Micro Devices, Inc.
+# SPDX-License-Identifier: MIT
+#
+# Pre-commit security gate: fast, PR-side security scanners that run on
+# every pull request. The security counterpart to `pre-commit.yml`. The
+# set of scanners lives in `security-baseline.yml`, so scanners coming
+# online are picked up here without touching this file.
+#
+# Requests human-readable reports only: findings are uploaded as a build
+# artifact and printed to the job summary, never to the Security tab, so
+# fork PRs (which never receive elevated tokens) behave identically to
+# same-repo PRs. See the scheduled counterpart (weekly-security-scan.yml)
+# for the SARIF / code-scanning upload.
+
+name: Security scan (PR)
+
+on:
+  pull_request:
+    # Spelled out the default to avoid confusion.
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  security:
+    name: Security scan
+    uses: ROCm/rocm-security-gh/.github/workflows/security-baseline.yml@62c2c4f3effcd47711da28276815c90cb4aa6444 # v1.0.2
+    with:
+      report_formats: human
+      bandit_config_path: .github/scan_tools_configs/bandit.yml
+      gitleaks_config_path: .github/scan_tools_configs/gitleaks.toml
+      trivy_config_path: .github/scan_tools_configs/trivy.yml
+      zizmor_config_path: .github/scan_tools_configs/zizmor.yml

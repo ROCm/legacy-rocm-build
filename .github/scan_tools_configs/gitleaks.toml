@@ -1,0 +1,69 @@
+# gitleaks.toml
+# Reference: https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+#
+# The default for repositories that ship no gitleaks config of their
+# own. A repository that ships one replaces this file wholesale rather
+# than layering onto it, so suppressions that belong to a single
+# repository belong in that repository's `gitleaks.toml` and
+# `.gitleaksignore`, not here. What goes here is what should hold for a
+# repository that has said nothing.
+#
+# Within a scan, the layering is:
+#   * the `[[allowlists]]` below, applying to every rule.
+#   * `.gitleaksignore` at the scanned repo's root, carrying one-off
+#     fingerprint suppressions for historical findings that don't fit
+#     a structural rule. Keep that file shrinking; move recurring
+#     patterns up into a config when you see them.
+
+title = "gitleaks config"
+
+[extend]
+# Inherit gitleaks' built-in ruleset (rotations, AWS, GCP, Slack, ...).
+# Setting this to false would mean rolling our own detections, which
+# is almost never what you want.
+useDefault = true
+
+
+
+# Allowlist field-vs-target reference:
+#   stopwords         -> always matched against the SECRET value.
+#   regexes           -> matched against `regexTarget` (default: "secret").
+#   regexTarget       -> "secret" | "match" | "line".
+# Use "match" or "line" when the "tell" is the variable name or
+# surrounding syntax, not the value itself.
+
+[[allowlists]]
+# Allowlist by location only where a real first-party secret structurally
+# can't live. Dependency lock files qualify: their contents are generated
+# from a manifest, and the high-entropy strings they carry are artifact
+# digests rather than credentials. Add vendored third-party trees here as
+# callers bring them in, one explicit path per entry.
+description = "Generated dependency lock files"
+paths = [
+  '''.*\.lock$''',
+]
+
+[[allowlists]]
+description = "Test fixtures using well-known dummy variable names"
+# The "tell" here is the variable name on the same line, not the value
+# (the value is a random-looking string by design). Match against the
+# full rule match (variable + value) so we anchor on the identifier.
+regexTarget = "match"
+regexes = [
+  '''(?i)\bINVALID_TOKEN\s*=''',
+  '''(?i)\bwrong_secret\s*=''',
+  '''(?i)\bsecret\s*='''
+]
+
+[[allowlists]]
+description = "Public artifact digests (variable names ending in SHA256/512/MD5)"
+# SHA-256/512/MD5 hashes of public artifacts (tarballs, GPG keys,
+# mirrored binaries) are not secrets - they're one-way digests used
+# for integrity verification. Match by variable name (against the
+# whole line) so we don't broadly allowlist every 64-char hex string.
+regexTarget = "line"
+regexes = [
+  '''[A-Z][A-Z0-9_]*SHA256\s*[=:]''',
+  '''[A-Z][A-Z0-9_]*SHA512\s*[=:]''',
+  '''[A-Z][A-Z0-9_]*MD5\s*[=:]''',
+]

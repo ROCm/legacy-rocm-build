@@ -1,0 +1,39 @@
+# Copyright Advanced Micro Devices, Inc.
+# SPDX-License-Identifier: MIT
+#
+# Weekly security scan: runs on a fixed cadence and pushes SARIF findings
+# to the repository's code-scanning Security tab. Complements
+# `pr-security-scan.yml`, which scans only what changed in a PR and
+# uploads reviewer-readable artifacts for in-review browsing.
+#
+# `security-events: write` is granted on the `uses:` job itself, not just
+# the top-level `permissions:` block above it, since a `permissions:`
+# block (wherever declared) implicitly zeroes out anything it doesn't
+# list.
+
+name: Security scan (Weekly)
+
+on:
+  # Run every Saturday at 10:00 UTC.
+  schedule:
+    - cron: "0 10 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security:
+    name: Security scan
+    # Only the job that uploads SARIF gets write access to code scanning.
+    permissions:
+      contents: read
+      security-events: write
+    uses: ROCm/rocm-security-gh/.github/workflows/security-baseline.yml@62c2c4f3effcd47711da28276815c90cb4aa6444 # v1.0.2
+    with:
+      scan_mode: all
+      report_formats: sarif
+      bandit_config_path: .github/scan_tools_configs/bandit.yml
+      gitleaks_config_path: .github/scan_tools_configs/gitleaks.toml
+      trivy_config_path: .github/scan_tools_configs/trivy.yml
+      zizmor_config_path: .github/scan_tools_configs/zizmor.yml
