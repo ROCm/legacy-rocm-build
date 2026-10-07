@@ -550,6 +550,13 @@ Installing the ROCm Core SDK using `amdrocm-core-sdk` or `amdrocm-core-dev/devel
 sudo apt install amdrocm-*
 ```
 
+### Runtime failure might occur for certain inference workloads
+
+During model execution the following workloads might fail to complete when running:
+
+* GPT-OSS-20B inference workload using PyTorch with ROCm
+* Stable-Diffusion-3 inference workload using JAX with ROCm
+
 ### Issues related to AddressSanitizer
 
 Multiple issues associated with AddressSanitizer (ASAN) `-fsanitize=address` being enabled have been observed including:
