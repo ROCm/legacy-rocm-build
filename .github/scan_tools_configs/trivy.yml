@@ -1,0 +1,19 @@
+# trivy minimal configuration
+# Reference: https://trivy.dev/latest/docs/references/configuration/config-file/
+#
+# The default for repositories that ship no trivy config of their own.
+# A repository that ships one (`trivy.yaml` or `trivy.yml`) replaces this
+# file wholesale rather than layering onto it, so suppressions and tuning
+# that belong to a single repository (e.g. `vulnerability.ignore-unfixed`,
+# or a `.trivyignore`) belong there. What goes here is what should hold
+# for a repository that has said nothing.
+
+scan:
+  skip-dirs:
+    - .git
+    - .venv
+    - venv
+    - build
+    - dist
+    - node_modules
+    - __pycache__

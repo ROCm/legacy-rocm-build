@@ -1,0 +1,15 @@
+# zizmor minimal configuration
+# Reference: https://docs.zizmor.sh/configuration/
+#
+# The default for repositories that ship no zizmor config of their own.
+# A repository that ships one (`.github/zizmor.yml`, `.github/zizmor.yaml`,
+# `zizmor.yml` or `zizmor.yaml`) replaces this file wholesale rather than
+# layering onto it, so suppressions that belong to a single repository
+# belong there. What goes here is what should hold for a repository that
+# has said nothing.
+#
+# Per-rule ignore lists and tuning live under `rules:`, as
+# `<rule-id>: { ignore: [file.yml:line:col] }`, which keeps a suppression
+# reviewable in one place rather than scattered as inline comments
+# across workflows.
+rules: {}
