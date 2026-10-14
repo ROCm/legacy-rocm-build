@@ -1,17 +1,21 @@
-# bandit minimal configuration
-# Reference: https://bandit.readthedocs.io/en/latest/config.html
+# Copyright Advanced Micro Devices, Inc.
+# SPDX-License-Identifier: MIT
 #
-# The default for repositories that ship no bandit config of their own.
-# A repository that ships one (`bandit.yaml` or `bandit.yml`) replaces
-# this file wholesale rather than layering onto it, so suppressions and
-# tuning that belong to a single repository (e.g. `skips: [...]`) belong
-# there. What goes here is what should hold for a repository that has
-# said nothing.
+# bandit configuration
+# Reference: https://bandit.readthedocs.io/en/latest/config.html
+# Local scan: bandit --recursive . --configfile .github/scan_tools_configs/bandit.yml
+#
+# Bandit configuration for this repository's security scans.
+#
+# This file defines the complete scanner policy;
+# Keep repository-specific suppressions and tuning here.
 
+# Environment and generated-output exclusions support local scans; these
+# paths are absent from clean CI checkouts.
 exclude_dirs:
   - .git
-  - .venv
-  - venv
+  - .venv*
+  - venv*
   - build
   - dist
   - node_modules
